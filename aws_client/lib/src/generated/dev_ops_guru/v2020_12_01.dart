@@ -1510,20 +1510,29 @@ class AnomalyResource {
   }
 }
 
-enum AnomalySeverity {
-  low('LOW'),
-  medium('MEDIUM'),
-  high('HIGH'),
-  ;
+class AnomalySeverity {
+  static const low = AnomalySeverity._('LOW');
+  static const medium = AnomalySeverity._('MEDIUM');
+  static const high = AnomalySeverity._('HIGH');
 
   final String value;
 
-  const AnomalySeverity(this.value);
+  const AnomalySeverity._(this.value);
+
+  static const values = [low, medium, high];
 
   static AnomalySeverity fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum AnomalySeverity'));
+          orElse: () => AnomalySeverity._(value));
+
+  @override
+  bool operator ==(other) => other is AnomalySeverity && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Details about the source of the anomalous operational data that triggered
@@ -1608,19 +1617,28 @@ class AnomalySourceMetadata {
   }
 }
 
-enum AnomalyStatus {
-  ongoing('ONGOING'),
-  closed('CLOSED'),
-  ;
+class AnomalyStatus {
+  static const ongoing = AnomalyStatus._('ONGOING');
+  static const closed = AnomalyStatus._('CLOSED');
 
   final String value;
 
-  const AnomalyStatus(this.value);
+  const AnomalyStatus._(this.value);
+
+  static const values = [ongoing, closed];
 
   static AnomalyStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum AnomalyStatus'));
+          orElse: () => AnomalyStatus._(value));
+
+  @override
+  bool operator ==(other) => other is AnomalyStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A time range that specifies when the observed unusual behavior in an anomaly
@@ -1656,18 +1674,27 @@ class AnomalyTimeRange {
   }
 }
 
-enum AnomalyType {
-  causal('CAUSAL'),
-  contextual('CONTEXTUAL'),
-  ;
+class AnomalyType {
+  static const causal = AnomalyType._('CAUSAL');
+  static const contextual = AnomalyType._('CONTEXTUAL');
 
   final String value;
 
-  const AnomalyType(this.value);
+  const AnomalyType._(this.value);
 
-  static AnomalyType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum AnomalyType'));
+  static const values = [causal, contextual];
+
+  static AnomalyType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => AnomalyType._(value));
+
+  @override
+  bool operator ==(other) => other is AnomalyType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about Amazon Web Services CloudFormation stacks. You can use up
@@ -1808,20 +1835,31 @@ class CloudFormationHealth {
   }
 }
 
-enum CloudWatchMetricDataStatusCode {
-  complete('Complete'),
-  internalError('InternalError'),
-  partialData('PartialData'),
-  ;
+class CloudWatchMetricDataStatusCode {
+  static const complete = CloudWatchMetricDataStatusCode._('Complete');
+  static const internalError =
+      CloudWatchMetricDataStatusCode._('InternalError');
+  static const partialData = CloudWatchMetricDataStatusCode._('PartialData');
 
   final String value;
 
-  const CloudWatchMetricDataStatusCode(this.value);
+  const CloudWatchMetricDataStatusCode._(this.value);
+
+  static const values = [complete, internalError, partialData];
 
   static CloudWatchMetricDataStatusCode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum CloudWatchMetricDataStatusCode'));
+          orElse: () => CloudWatchMetricDataStatusCode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CloudWatchMetricDataStatusCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains information about the analyzed metrics that displayed anomalous
@@ -1978,25 +2016,44 @@ class CloudWatchMetricsDimension {
   }
 }
 
-enum CloudWatchMetricsStat {
-  sum('Sum'),
-  average('Average'),
-  sampleCount('SampleCount'),
-  minimum('Minimum'),
-  maximum('Maximum'),
-  p99('p99'),
-  p90('p90'),
-  p50('p50'),
-  ;
+class CloudWatchMetricsStat {
+  static const sum = CloudWatchMetricsStat._('Sum');
+  static const average = CloudWatchMetricsStat._('Average');
+  static const sampleCount = CloudWatchMetricsStat._('SampleCount');
+  static const minimum = CloudWatchMetricsStat._('Minimum');
+  static const maximum = CloudWatchMetricsStat._('Maximum');
+  static const p99 = CloudWatchMetricsStat._('p99');
+  static const p90 = CloudWatchMetricsStat._('p90');
+  static const p50 = CloudWatchMetricsStat._('p50');
 
   final String value;
 
-  const CloudWatchMetricsStat(this.value);
+  const CloudWatchMetricsStat._(this.value);
 
-  static CloudWatchMetricsStat fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum CloudWatchMetricsStat'));
+  static const values = [
+    sum,
+    average,
+    sampleCount,
+    minimum,
+    maximum,
+    p99,
+    p90,
+    p50
+  ];
+
+  static CloudWatchMetricsStat fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => CloudWatchMetricsStat._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CloudWatchMetricsStat && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about a filter used to specify which Amazon Web Services
@@ -2084,34 +2141,54 @@ class CostEstimationResourceCollectionFilter {
   }
 }
 
-enum CostEstimationServiceResourceState {
-  active('ACTIVE'),
-  inactive('INACTIVE'),
-  ;
+class CostEstimationServiceResourceState {
+  static const active = CostEstimationServiceResourceState._('ACTIVE');
+  static const inactive = CostEstimationServiceResourceState._('INACTIVE');
 
   final String value;
 
-  const CostEstimationServiceResourceState(this.value);
+  const CostEstimationServiceResourceState._(this.value);
+
+  static const values = [active, inactive];
 
   static CostEstimationServiceResourceState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum CostEstimationServiceResourceState'));
+          orElse: () => CostEstimationServiceResourceState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CostEstimationServiceResourceState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum CostEstimationStatus {
-  ongoing('ONGOING'),
-  completed('COMPLETED'),
-  ;
+class CostEstimationStatus {
+  static const ongoing = CostEstimationStatus._('ONGOING');
+  static const completed = CostEstimationStatus._('COMPLETED');
 
   final String value;
 
-  const CostEstimationStatus(this.value);
+  const CostEstimationStatus._(this.value);
 
-  static CostEstimationStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum CostEstimationStatus'));
+  static const values = [ongoing, completed];
+
+  static CostEstimationStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => CostEstimationStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CostEstimationStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The time range of a cost estimation.
@@ -2791,36 +2868,60 @@ class Event {
   }
 }
 
-enum EventClass {
-  infrastructure('INFRASTRUCTURE'),
-  deployment('DEPLOYMENT'),
-  securityChange('SECURITY_CHANGE'),
-  configChange('CONFIG_CHANGE'),
-  schemaChange('SCHEMA_CHANGE'),
-  ;
+class EventClass {
+  static const infrastructure = EventClass._('INFRASTRUCTURE');
+  static const deployment = EventClass._('DEPLOYMENT');
+  static const securityChange = EventClass._('SECURITY_CHANGE');
+  static const configChange = EventClass._('CONFIG_CHANGE');
+  static const schemaChange = EventClass._('SCHEMA_CHANGE');
 
   final String value;
 
-  const EventClass(this.value);
+  const EventClass._(this.value);
 
-  static EventClass fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum EventClass'));
+  static const values = [
+    infrastructure,
+    deployment,
+    securityChange,
+    configChange,
+    schemaChange
+  ];
+
+  static EventClass fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => EventClass._(value));
+
+  @override
+  bool operator ==(other) => other is EventClass && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum EventDataSource {
-  awsCloudTrail('AWS_CLOUD_TRAIL'),
-  awsCodeDeploy('AWS_CODE_DEPLOY'),
-  ;
+class EventDataSource {
+  static const awsCloudTrail = EventDataSource._('AWS_CLOUD_TRAIL');
+  static const awsCodeDeploy = EventDataSource._('AWS_CODE_DEPLOY');
 
   final String value;
 
-  const EventDataSource(this.value);
+  const EventDataSource._(this.value);
+
+  static const values = [awsCloudTrail, awsCodeDeploy];
 
   static EventDataSource fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum EventDataSource'));
+          orElse: () => EventDataSource._(value));
+
+  @override
+  bool operator ==(other) => other is EventDataSource && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The Amazon Web Services resource that emitted an event. Amazon Web Services
@@ -2862,19 +2963,29 @@ class EventResource {
   }
 }
 
-enum EventSourceOptInStatus {
-  enabled('ENABLED'),
-  disabled('DISABLED'),
-  ;
+class EventSourceOptInStatus {
+  static const enabled = EventSourceOptInStatus._('ENABLED');
+  static const disabled = EventSourceOptInStatus._('DISABLED');
 
   final String value;
 
-  const EventSourceOptInStatus(this.value);
+  const EventSourceOptInStatus._(this.value);
+
+  static const values = [enabled, disabled];
 
   static EventSourceOptInStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum EventSourceOptInStatus'));
+          orElse: () => EventSourceOptInStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is EventSourceOptInStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about the integration of DevOps Guru as consumer with another
@@ -3076,22 +3187,40 @@ class InsightFeedback {
   }
 }
 
-enum InsightFeedbackOption {
-  validCollection('VALID_COLLECTION'),
-  recommendationUseful('RECOMMENDATION_USEFUL'),
-  alertTooSensitive('ALERT_TOO_SENSITIVE'),
-  dataNoisyAnomaly('DATA_NOISY_ANOMALY'),
-  dataIncorrect('DATA_INCORRECT'),
-  ;
+class InsightFeedbackOption {
+  static const validCollection = InsightFeedbackOption._('VALID_COLLECTION');
+  static const recommendationUseful =
+      InsightFeedbackOption._('RECOMMENDATION_USEFUL');
+  static const alertTooSensitive =
+      InsightFeedbackOption._('ALERT_TOO_SENSITIVE');
+  static const dataNoisyAnomaly = InsightFeedbackOption._('DATA_NOISY_ANOMALY');
+  static const dataIncorrect = InsightFeedbackOption._('DATA_INCORRECT');
 
   final String value;
 
-  const InsightFeedbackOption(this.value);
+  const InsightFeedbackOption._(this.value);
 
-  static InsightFeedbackOption fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum InsightFeedbackOption'));
+  static const values = [
+    validCollection,
+    recommendationUseful,
+    alertTooSensitive,
+    dataNoisyAnomaly,
+    dataIncorrect
+  ];
+
+  static InsightFeedbackOption fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => InsightFeedbackOption._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is InsightFeedbackOption && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about the number of open reactive and proactive insights that
@@ -3137,35 +3266,53 @@ class InsightHealth {
   }
 }
 
-enum InsightSeverity {
-  low('LOW'),
-  medium('MEDIUM'),
-  high('HIGH'),
-  ;
+class InsightSeverity {
+  static const low = InsightSeverity._('LOW');
+  static const medium = InsightSeverity._('MEDIUM');
+  static const high = InsightSeverity._('HIGH');
 
   final String value;
 
-  const InsightSeverity(this.value);
+  const InsightSeverity._(this.value);
+
+  static const values = [low, medium, high];
 
   static InsightSeverity fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum InsightSeverity'));
+          orElse: () => InsightSeverity._(value));
+
+  @override
+  bool operator ==(other) => other is InsightSeverity && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum InsightStatus {
-  ongoing('ONGOING'),
-  closed('CLOSED'),
-  ;
+class InsightStatus {
+  static const ongoing = InsightStatus._('ONGOING');
+  static const closed = InsightStatus._('CLOSED');
 
   final String value;
 
-  const InsightStatus(this.value);
+  const InsightStatus._(this.value);
+
+  static const values = [ongoing, closed];
 
   static InsightStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum InsightStatus'));
+          orElse: () => InsightStatus._(value));
+
+  @override
+  bool operator ==(other) => other is InsightStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A time ranged that specifies when the observed behavior in an insight
@@ -3199,18 +3346,27 @@ class InsightTimeRange {
   }
 }
 
-enum InsightType {
-  reactive('REACTIVE'),
-  proactive('PROACTIVE'),
-  ;
+class InsightType {
+  static const reactive = InsightType._('REACTIVE');
+  static const proactive = InsightType._('PROACTIVE');
 
   final String value;
 
-  const InsightType(this.value);
+  const InsightType._(this.value);
 
-  static InsightType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum InsightType'));
+  static const values = [reactive, proactive];
+
+  static InsightType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => InsightType._(value));
+
+  @override
+  bool operator ==(other) => other is InsightType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about the KMS encryption used with DevOps Guru.
@@ -3830,27 +3986,48 @@ class ListRecommendationsResponse {
   }
 }
 
-enum Locale {
-  deDe('DE_DE'),
-  enUs('EN_US'),
-  enGb('EN_GB'),
-  esEs('ES_ES'),
-  frFr('FR_FR'),
-  itIt('IT_IT'),
-  jaJp('JA_JP'),
-  koKr('KO_KR'),
-  ptBr('PT_BR'),
-  zhCn('ZH_CN'),
-  zhTw('ZH_TW'),
-  ;
+class Locale {
+  static const deDe = Locale._('DE_DE');
+  static const enUs = Locale._('EN_US');
+  static const enGb = Locale._('EN_GB');
+  static const esEs = Locale._('ES_ES');
+  static const frFr = Locale._('FR_FR');
+  static const itIt = Locale._('IT_IT');
+  static const jaJp = Locale._('JA_JP');
+  static const koKr = Locale._('KO_KR');
+  static const ptBr = Locale._('PT_BR');
+  static const zhCn = Locale._('ZH_CN');
+  static const zhTw = Locale._('ZH_TW');
 
   final String value;
 
-  const Locale(this.value);
+  const Locale._(this.value);
+
+  static const values = [
+    deDe,
+    enUs,
+    enGb,
+    esEs,
+    frFr,
+    itIt,
+    jaJp,
+    koKr,
+    ptBr,
+    zhCn,
+    zhTw
+  ];
 
   static Locale fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum Locale'));
+      values.firstWhere((e) => e.value == value, orElse: () => Locale._(value));
+
+  @override
+  bool operator ==(other) => other is Locale && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about an anomalous log event found within a log group.
@@ -3951,25 +4128,43 @@ class LogAnomalyShowcase {
   }
 }
 
-enum LogAnomalyType {
-  keyword('KEYWORD'),
-  keywordToken('KEYWORD_TOKEN'),
-  format('FORMAT'),
-  httpCode('HTTP_CODE'),
-  blockFormat('BLOCK_FORMAT'),
-  numericalPoint('NUMERICAL_POINT'),
-  numericalNan('NUMERICAL_NAN'),
-  newFieldName('NEW_FIELD_NAME'),
-  ;
+class LogAnomalyType {
+  static const keyword = LogAnomalyType._('KEYWORD');
+  static const keywordToken = LogAnomalyType._('KEYWORD_TOKEN');
+  static const format = LogAnomalyType._('FORMAT');
+  static const httpCode = LogAnomalyType._('HTTP_CODE');
+  static const blockFormat = LogAnomalyType._('BLOCK_FORMAT');
+  static const numericalPoint = LogAnomalyType._('NUMERICAL_POINT');
+  static const numericalNan = LogAnomalyType._('NUMERICAL_NAN');
+  static const newFieldName = LogAnomalyType._('NEW_FIELD_NAME');
 
   final String value;
 
-  const LogAnomalyType(this.value);
+  const LogAnomalyType._(this.value);
+
+  static const values = [
+    keyword,
+    keywordToken,
+    format,
+    httpCode,
+    blockFormat,
+    numericalPoint,
+    numericalNan,
+    newFieldName
+  ];
 
   static LogAnomalyType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum LogAnomalyType'));
+          orElse: () => LogAnomalyType._(value));
+
+  @override
+  bool operator ==(other) => other is LogAnomalyType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about the integration of DevOps Guru with CloudWatch log groups
@@ -4226,22 +4421,40 @@ class NotificationFilterConfig {
   }
 }
 
-enum NotificationMessageType {
-  newInsight('NEW_INSIGHT'),
-  closedInsight('CLOSED_INSIGHT'),
-  newAssociation('NEW_ASSOCIATION'),
-  severityUpgraded('SEVERITY_UPGRADED'),
-  newRecommendation('NEW_RECOMMENDATION'),
-  ;
+class NotificationMessageType {
+  static const newInsight = NotificationMessageType._('NEW_INSIGHT');
+  static const closedInsight = NotificationMessageType._('CLOSED_INSIGHT');
+  static const newAssociation = NotificationMessageType._('NEW_ASSOCIATION');
+  static const severityUpgraded =
+      NotificationMessageType._('SEVERITY_UPGRADED');
+  static const newRecommendation =
+      NotificationMessageType._('NEW_RECOMMENDATION');
 
   final String value;
 
-  const NotificationMessageType(this.value);
+  const NotificationMessageType._(this.value);
+
+  static const values = [
+    newInsight,
+    closedInsight,
+    newAssociation,
+    severityUpgraded,
+    newRecommendation
+  ];
 
   static NotificationMessageType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum NotificationMessageType'));
+          orElse: () => NotificationMessageType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is NotificationMessageType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about whether DevOps Guru is configured to create an OpsItem in
@@ -4292,35 +4505,55 @@ class OpsCenterIntegrationConfig {
 
 /// Specifies if DevOps Guru is enabled to create an Amazon Web Services Systems
 /// Manager OpsItem for each created insight.
-enum OptInStatus {
-  enabled('ENABLED'),
-  disabled('DISABLED'),
-  ;
+class OptInStatus {
+  static const enabled = OptInStatus._('ENABLED');
+  static const disabled = OptInStatus._('DISABLED');
 
   final String value;
 
-  const OptInStatus(this.value);
+  const OptInStatus._(this.value);
 
-  static OptInStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum OptInStatus'));
+  static const values = [enabled, disabled];
+
+  static OptInStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => OptInStatus._(value));
+
+  @override
+  bool operator ==(other) => other is OptInStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum OrganizationResourceCollectionType {
-  awsCloudFormation('AWS_CLOUD_FORMATION'),
-  awsService('AWS_SERVICE'),
-  awsAccount('AWS_ACCOUNT'),
-  awsTags('AWS_TAGS'),
-  ;
+class OrganizationResourceCollectionType {
+  static const awsCloudFormation =
+      OrganizationResourceCollectionType._('AWS_CLOUD_FORMATION');
+  static const awsService = OrganizationResourceCollectionType._('AWS_SERVICE');
+  static const awsAccount = OrganizationResourceCollectionType._('AWS_ACCOUNT');
+  static const awsTags = OrganizationResourceCollectionType._('AWS_TAGS');
 
   final String value;
 
-  const OrganizationResourceCollectionType(this.value);
+  const OrganizationResourceCollectionType._(this.value);
+
+  static const values = [awsCloudFormation, awsService, awsAccount, awsTags];
 
   static OrganizationResourceCollectionType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum OrganizationResourceCollectionType'));
+          orElse: () => OrganizationResourceCollectionType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is OrganizationResourceCollectionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A logical grouping of Performance Insights metrics for a related subject
@@ -6488,75 +6721,145 @@ class ResourceCollectionFilter {
   }
 }
 
-enum ResourceCollectionType {
-  awsCloudFormation('AWS_CLOUD_FORMATION'),
-  awsService('AWS_SERVICE'),
-  awsTags('AWS_TAGS'),
-  ;
+class ResourceCollectionType {
+  static const awsCloudFormation =
+      ResourceCollectionType._('AWS_CLOUD_FORMATION');
+  static const awsService = ResourceCollectionType._('AWS_SERVICE');
+  static const awsTags = ResourceCollectionType._('AWS_TAGS');
 
   final String value;
 
-  const ResourceCollectionType(this.value);
+  const ResourceCollectionType._(this.value);
+
+  static const values = [awsCloudFormation, awsService, awsTags];
 
   static ResourceCollectionType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ResourceCollectionType'));
+          orElse: () => ResourceCollectionType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ResourceCollectionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ResourcePermission {
-  fullPermission('FULL_PERMISSION'),
-  missingPermission('MISSING_PERMISSION'),
-  ;
+class ResourcePermission {
+  static const fullPermission = ResourcePermission._('FULL_PERMISSION');
+  static const missingPermission = ResourcePermission._('MISSING_PERMISSION');
 
   final String value;
 
-  const ResourcePermission(this.value);
+  const ResourcePermission._(this.value);
 
-  static ResourcePermission fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ResourcePermission'));
+  static const values = [fullPermission, missingPermission];
+
+  static ResourcePermission fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ResourcePermission._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ResourcePermission && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ResourceTypeFilter {
-  logGroups('LOG_GROUPS'),
-  cloudfrontDistribution('CLOUDFRONT_DISTRIBUTION'),
-  dynamodbTable('DYNAMODB_TABLE'),
-  ec2NatGateway('EC2_NAT_GATEWAY'),
-  ecsCluster('ECS_CLUSTER'),
-  ecsService('ECS_SERVICE'),
-  eksCluster('EKS_CLUSTER'),
-  elasticBeanstalkEnvironment('ELASTIC_BEANSTALK_ENVIRONMENT'),
-  elasticLoadBalancerLoadBalancer('ELASTIC_LOAD_BALANCER_LOAD_BALANCER'),
-  elasticLoadBalancingV2LoadBalancer('ELASTIC_LOAD_BALANCING_V2_LOAD_BALANCER'),
-  elasticLoadBalancingV2TargetGroup('ELASTIC_LOAD_BALANCING_V2_TARGET_GROUP'),
-  elasticacheCacheCluster('ELASTICACHE_CACHE_CLUSTER'),
-  elasticsearchDomain('ELASTICSEARCH_DOMAIN'),
-  kinesisStream('KINESIS_STREAM'),
-  lambdaFunction('LAMBDA_FUNCTION'),
-  openSearchServiceDomain('OPEN_SEARCH_SERVICE_DOMAIN'),
-  rdsDbInstance('RDS_DB_INSTANCE'),
-  rdsDbCluster('RDS_DB_CLUSTER'),
-  redshiftCluster('REDSHIFT_CLUSTER'),
-  route53HostedZone('ROUTE53_HOSTED_ZONE'),
-  route53HealthCheck('ROUTE53_HEALTH_CHECK'),
-  s3Bucket('S3_BUCKET'),
-  sagemakerEndpoint('SAGEMAKER_ENDPOINT'),
-  snsTopic('SNS_TOPIC'),
-  sqsQueue('SQS_QUEUE'),
-  stepFunctionsActivity('STEP_FUNCTIONS_ACTIVITY'),
-  stepFunctionsStateMachine('STEP_FUNCTIONS_STATE_MACHINE'),
-  ;
+class ResourceTypeFilter {
+  static const logGroups = ResourceTypeFilter._('LOG_GROUPS');
+  static const cloudfrontDistribution =
+      ResourceTypeFilter._('CLOUDFRONT_DISTRIBUTION');
+  static const dynamodbTable = ResourceTypeFilter._('DYNAMODB_TABLE');
+  static const ec2NatGateway = ResourceTypeFilter._('EC2_NAT_GATEWAY');
+  static const ecsCluster = ResourceTypeFilter._('ECS_CLUSTER');
+  static const ecsService = ResourceTypeFilter._('ECS_SERVICE');
+  static const eksCluster = ResourceTypeFilter._('EKS_CLUSTER');
+  static const elasticBeanstalkEnvironment =
+      ResourceTypeFilter._('ELASTIC_BEANSTALK_ENVIRONMENT');
+  static const elasticLoadBalancerLoadBalancer =
+      ResourceTypeFilter._('ELASTIC_LOAD_BALANCER_LOAD_BALANCER');
+  static const elasticLoadBalancingV2LoadBalancer =
+      ResourceTypeFilter._('ELASTIC_LOAD_BALANCING_V2_LOAD_BALANCER');
+  static const elasticLoadBalancingV2TargetGroup =
+      ResourceTypeFilter._('ELASTIC_LOAD_BALANCING_V2_TARGET_GROUP');
+  static const elasticacheCacheCluster =
+      ResourceTypeFilter._('ELASTICACHE_CACHE_CLUSTER');
+  static const elasticsearchDomain =
+      ResourceTypeFilter._('ELASTICSEARCH_DOMAIN');
+  static const kinesisStream = ResourceTypeFilter._('KINESIS_STREAM');
+  static const lambdaFunction = ResourceTypeFilter._('LAMBDA_FUNCTION');
+  static const openSearchServiceDomain =
+      ResourceTypeFilter._('OPEN_SEARCH_SERVICE_DOMAIN');
+  static const rdsDbInstance = ResourceTypeFilter._('RDS_DB_INSTANCE');
+  static const rdsDbCluster = ResourceTypeFilter._('RDS_DB_CLUSTER');
+  static const redshiftCluster = ResourceTypeFilter._('REDSHIFT_CLUSTER');
+  static const route53HostedZone = ResourceTypeFilter._('ROUTE53_HOSTED_ZONE');
+  static const route53HealthCheck =
+      ResourceTypeFilter._('ROUTE53_HEALTH_CHECK');
+  static const s3Bucket = ResourceTypeFilter._('S3_BUCKET');
+  static const sagemakerEndpoint = ResourceTypeFilter._('SAGEMAKER_ENDPOINT');
+  static const snsTopic = ResourceTypeFilter._('SNS_TOPIC');
+  static const sqsQueue = ResourceTypeFilter._('SQS_QUEUE');
+  static const stepFunctionsActivity =
+      ResourceTypeFilter._('STEP_FUNCTIONS_ACTIVITY');
+  static const stepFunctionsStateMachine =
+      ResourceTypeFilter._('STEP_FUNCTIONS_STATE_MACHINE');
 
   final String value;
 
-  const ResourceTypeFilter(this.value);
+  const ResourceTypeFilter._(this.value);
 
-  static ResourceTypeFilter fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ResourceTypeFilter'));
+  static const values = [
+    logGroups,
+    cloudfrontDistribution,
+    dynamodbTable,
+    ec2NatGateway,
+    ecsCluster,
+    ecsService,
+    eksCluster,
+    elasticBeanstalkEnvironment,
+    elasticLoadBalancerLoadBalancer,
+    elasticLoadBalancingV2LoadBalancer,
+    elasticLoadBalancingV2TargetGroup,
+    elasticacheCacheCluster,
+    elasticsearchDomain,
+    kinesisStream,
+    lambdaFunction,
+    openSearchServiceDomain,
+    rdsDbInstance,
+    rdsDbCluster,
+    redshiftCluster,
+    route53HostedZone,
+    route53HealthCheck,
+    s3Bucket,
+    sagemakerEndpoint,
+    snsTopic,
+    sqsQueue,
+    stepFunctionsActivity,
+    stepFunctionsStateMachine
+  ];
+
+  static ResourceTypeFilter fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ResourceTypeFilter._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ResourceTypeFilter && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specifies values used to filter responses when searching for insights. You
@@ -6726,19 +7029,30 @@ class SearchOrganizationInsightsResponse {
   }
 }
 
-enum ServerSideEncryptionType {
-  customerManagedKey('CUSTOMER_MANAGED_KEY'),
-  awsOwnedKmsKey('AWS_OWNED_KMS_KEY'),
-  ;
+class ServerSideEncryptionType {
+  static const customerManagedKey =
+      ServerSideEncryptionType._('CUSTOMER_MANAGED_KEY');
+  static const awsOwnedKmsKey = ServerSideEncryptionType._('AWS_OWNED_KMS_KEY');
 
   final String value;
 
-  const ServerSideEncryptionType(this.value);
+  const ServerSideEncryptionType._(this.value);
+
+  static const values = [customerManagedKey, awsOwnedKmsKey];
 
   static ServerSideEncryptionType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ServerSideEncryptionType'));
+          orElse: () => ServerSideEncryptionType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ServerSideEncryptionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A collection of the names of Amazon Web Services services.
@@ -6899,41 +7213,76 @@ class ServiceIntegrationConfig {
   }
 }
 
-enum ServiceName {
-  apiGateway('API_GATEWAY'),
-  applicationElb('APPLICATION_ELB'),
-  autoScalingGroup('AUTO_SCALING_GROUP'),
-  cloudFront('CLOUD_FRONT'),
-  dynamoDb('DYNAMO_DB'),
-  ec2('EC2'),
-  ecs('ECS'),
-  eks('EKS'),
-  elasticBeanstalk('ELASTIC_BEANSTALK'),
-  elastiCache('ELASTI_CACHE'),
-  elb('ELB'),
-  es('ES'),
-  kinesis('KINESIS'),
-  lambda('LAMBDA'),
-  natGateway('NAT_GATEWAY'),
-  networkElb('NETWORK_ELB'),
-  rds('RDS'),
-  redshift('REDSHIFT'),
-  route_53('ROUTE_53'),
-  s3('S3'),
-  sageMaker('SAGE_MAKER'),
-  sns('SNS'),
-  sqs('SQS'),
-  stepFunctions('STEP_FUNCTIONS'),
-  swf('SWF'),
-  ;
+class ServiceName {
+  static const apiGateway = ServiceName._('API_GATEWAY');
+  static const applicationElb = ServiceName._('APPLICATION_ELB');
+  static const autoScalingGroup = ServiceName._('AUTO_SCALING_GROUP');
+  static const cloudFront = ServiceName._('CLOUD_FRONT');
+  static const dynamoDb = ServiceName._('DYNAMO_DB');
+  static const ec2 = ServiceName._('EC2');
+  static const ecs = ServiceName._('ECS');
+  static const eks = ServiceName._('EKS');
+  static const elasticBeanstalk = ServiceName._('ELASTIC_BEANSTALK');
+  static const elastiCache = ServiceName._('ELASTI_CACHE');
+  static const elb = ServiceName._('ELB');
+  static const es = ServiceName._('ES');
+  static const kinesis = ServiceName._('KINESIS');
+  static const lambda = ServiceName._('LAMBDA');
+  static const natGateway = ServiceName._('NAT_GATEWAY');
+  static const networkElb = ServiceName._('NETWORK_ELB');
+  static const rds = ServiceName._('RDS');
+  static const redshift = ServiceName._('REDSHIFT');
+  static const route_53 = ServiceName._('ROUTE_53');
+  static const s3 = ServiceName._('S3');
+  static const sageMaker = ServiceName._('SAGE_MAKER');
+  static const sns = ServiceName._('SNS');
+  static const sqs = ServiceName._('SQS');
+  static const stepFunctions = ServiceName._('STEP_FUNCTIONS');
+  static const swf = ServiceName._('SWF');
 
   final String value;
 
-  const ServiceName(this.value);
+  const ServiceName._(this.value);
 
-  static ServiceName fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum ServiceName'));
+  static const values = [
+    apiGateway,
+    applicationElb,
+    autoScalingGroup,
+    cloudFront,
+    dynamoDb,
+    ec2,
+    ecs,
+    eks,
+    elasticBeanstalk,
+    elastiCache,
+    elb,
+    es,
+    kinesis,
+    lambda,
+    natGateway,
+    networkElb,
+    rds,
+    redshift,
+    route_53,
+    s3,
+    sageMaker,
+    sns,
+    sqs,
+    stepFunctions,
+    swf
+  ];
+
+  static ServiceName fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ServiceName._(value));
+
+  @override
+  bool operator ==(other) => other is ServiceName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// An object that contains information about the estimated monthly cost to
@@ -7433,19 +7782,29 @@ class UpdateEventSourcesConfigResponse {
   }
 }
 
-enum UpdateResourceCollectionAction {
-  add('ADD'),
-  remove('REMOVE'),
-  ;
+class UpdateResourceCollectionAction {
+  static const add = UpdateResourceCollectionAction._('ADD');
+  static const remove = UpdateResourceCollectionAction._('REMOVE');
 
   final String value;
 
-  const UpdateResourceCollectionAction(this.value);
+  const UpdateResourceCollectionAction._(this.value);
+
+  static const values = [add, remove];
 
   static UpdateResourceCollectionAction fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum UpdateResourceCollectionAction'));
+          orElse: () => UpdateResourceCollectionAction._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is UpdateResourceCollectionAction && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains information used to update a collection of Amazon Web Services

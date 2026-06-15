@@ -1660,22 +1660,42 @@ class AssociateResourceError {
   }
 }
 
-enum AssociateResourceErrorReason {
-  invalidArn('INVALID_ARN'),
-  serviceLimitExceeded('SERVICE_LIMIT_EXCEEDED'),
-  illegalCustomlineitem('ILLEGAL_CUSTOMLINEITEM'),
-  internalServerException('INTERNAL_SERVER_EXCEPTION'),
-  invalidBillingPeriodRange('INVALID_BILLING_PERIOD_RANGE'),
-  ;
+class AssociateResourceErrorReason {
+  static const invalidArn = AssociateResourceErrorReason._('INVALID_ARN');
+  static const serviceLimitExceeded =
+      AssociateResourceErrorReason._('SERVICE_LIMIT_EXCEEDED');
+  static const illegalCustomlineitem =
+      AssociateResourceErrorReason._('ILLEGAL_CUSTOMLINEITEM');
+  static const internalServerException =
+      AssociateResourceErrorReason._('INTERNAL_SERVER_EXCEPTION');
+  static const invalidBillingPeriodRange =
+      AssociateResourceErrorReason._('INVALID_BILLING_PERIOD_RANGE');
 
   final String value;
 
-  const AssociateResourceErrorReason(this.value);
+  const AssociateResourceErrorReason._(this.value);
+
+  static const values = [
+    invalidArn,
+    serviceLimitExceeded,
+    illegalCustomlineitem,
+    internalServerException,
+    invalidBillingPeriodRange
+  ];
 
   static AssociateResourceErrorReason fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum AssociateResourceErrorReason'));
+          orElse: () => AssociateResourceErrorReason._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AssociateResourceErrorReason && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A resource association result for a percentage custom line item.
@@ -2075,19 +2095,30 @@ class BillingGroupListElement {
   }
 }
 
-enum BillingGroupStatus {
-  active('ACTIVE'),
-  primaryAccountMissing('PRIMARY_ACCOUNT_MISSING'),
-  ;
+class BillingGroupStatus {
+  static const active = BillingGroupStatus._('ACTIVE');
+  static const primaryAccountMissing =
+      BillingGroupStatus._('PRIMARY_ACCOUNT_MISSING');
 
   final String value;
 
-  const BillingGroupStatus(this.value);
+  const BillingGroupStatus._(this.value);
 
-  static BillingGroupStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum BillingGroupStatus'));
+  static const values = [active, primaryAccountMissing];
+
+  static BillingGroupStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => BillingGroupStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is BillingGroupStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A time range for which the margin summary is effective. The time range can
@@ -2265,19 +2296,27 @@ class CreateTieringInput {
   }
 }
 
-enum CurrencyCode {
-  usd('USD'),
-  cny('CNY'),
-  ;
+class CurrencyCode {
+  static const usd = CurrencyCode._('USD');
+  static const cny = CurrencyCode._('CNY');
 
   final String value;
 
-  const CurrencyCode(this.value);
+  const CurrencyCode._(this.value);
 
-  static CurrencyCode fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum CurrencyCode'));
+  static const values = [usd, cny];
+
+  static CurrencyCode fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => CurrencyCode._(value));
+
+  @override
+  bool operator ==(other) => other is CurrencyCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The billing period range in which the custom line item request will be
@@ -2491,34 +2530,54 @@ class CustomLineItemPercentageChargeDetails {
   }
 }
 
-enum CustomLineItemRelationship {
-  parent('PARENT'),
-  child('CHILD'),
-  ;
+class CustomLineItemRelationship {
+  static const parent = CustomLineItemRelationship._('PARENT');
+  static const child = CustomLineItemRelationship._('CHILD');
 
   final String value;
 
-  const CustomLineItemRelationship(this.value);
+  const CustomLineItemRelationship._(this.value);
+
+  static const values = [parent, child];
 
   static CustomLineItemRelationship fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum CustomLineItemRelationship'));
+          orElse: () => CustomLineItemRelationship._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CustomLineItemRelationship && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum CustomLineItemType {
-  credit('CREDIT'),
-  fee('FEE'),
-  ;
+class CustomLineItemType {
+  static const credit = CustomLineItemType._('CREDIT');
+  static const fee = CustomLineItemType._('FEE');
 
   final String value;
 
-  const CustomLineItemType(this.value);
+  const CustomLineItemType._(this.value);
 
-  static CustomLineItemType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum CustomLineItemType'));
+  static const values = [credit, fee];
+
+  static CustomLineItemType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => CustomLineItemType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CustomLineItemType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A representation of a custom line item version.
@@ -2868,19 +2927,29 @@ class GetBillingGroupCostReportOutput {
   }
 }
 
-enum GroupByAttributeName {
-  productName('PRODUCT_NAME'),
-  billingPeriod('BILLING_PERIOD'),
-  ;
+class GroupByAttributeName {
+  static const productName = GroupByAttributeName._('PRODUCT_NAME');
+  static const billingPeriod = GroupByAttributeName._('BILLING_PERIOD');
 
   final String value;
 
-  const GroupByAttributeName(this.value);
+  const GroupByAttributeName._(this.value);
 
-  static GroupByAttributeName fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum GroupByAttributeName'));
+  static const values = [productName, billingPeriod];
+
+  static GroupByAttributeName fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => GroupByAttributeName._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is GroupByAttributeName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A representation of the line item filter for your custom line item. You can
@@ -2909,9 +2978,10 @@ class LineItemFilter {
 
   factory LineItemFilter.fromJson(Map<String, dynamic> json) {
     return LineItemFilter(
-      attribute:
-          LineItemFilterAttributeName.fromString((json['Attribute'] as String)),
-      matchOption: MatchOption.fromString((json['MatchOption'] as String)),
+      attribute: LineItemFilterAttributeName.fromString(
+          (json['Attribute'] as String?) ?? ''),
+      matchOption:
+          MatchOption.fromString((json['MatchOption'] as String?) ?? ''),
       values: ((json['Values'] as List?) ?? const [])
           .nonNulls
           .map((e) => LineItemFilterValue.fromString((e as String)))
@@ -2931,32 +3001,53 @@ class LineItemFilter {
   }
 }
 
-enum LineItemFilterAttributeName {
-  lineItemType('LINE_ITEM_TYPE'),
-  ;
+class LineItemFilterAttributeName {
+  static const lineItemType = LineItemFilterAttributeName._('LINE_ITEM_TYPE');
 
   final String value;
 
-  const LineItemFilterAttributeName(this.value);
+  const LineItemFilterAttributeName._(this.value);
+
+  static const values = [lineItemType];
 
   static LineItemFilterAttributeName fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum LineItemFilterAttributeName'));
+          orElse: () => LineItemFilterAttributeName._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is LineItemFilterAttributeName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum LineItemFilterValue {
-  savingsPlanNegation('SAVINGS_PLAN_NEGATION'),
-  ;
+class LineItemFilterValue {
+  static const savingsPlanNegation =
+      LineItemFilterValue._('SAVINGS_PLAN_NEGATION');
 
   final String value;
 
-  const LineItemFilterValue(this.value);
+  const LineItemFilterValue._(this.value);
 
-  static LineItemFilterValue fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum LineItemFilterValue'));
+  static const values = [savingsPlanNegation];
+
+  static LineItemFilterValue fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => LineItemFilterValue._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is LineItemFilterValue && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The filter on the account ID of the linked account, or any of the following:
@@ -3214,7 +3305,7 @@ class ListCustomLineItemChargeDetails {
 
   factory ListCustomLineItemChargeDetails.fromJson(Map<String, dynamic> json) {
     return ListCustomLineItemChargeDetails(
-      type: CustomLineItemType.fromString((json['Type'] as String)),
+      type: CustomLineItemType.fromString((json['Type'] as String?) ?? ''),
       flat: json['Flat'] != null
           ? ListCustomLineItemFlatChargeDetails.fromJson(
               json['Flat'] as Map<String, dynamic>)
@@ -3789,17 +3880,26 @@ class ListTagsForResourceResponse {
   }
 }
 
-enum MatchOption {
-  notEqual('NOT_EQUAL'),
-  ;
+class MatchOption {
+  static const notEqual = MatchOption._('NOT_EQUAL');
 
   final String value;
 
-  const MatchOption(this.value);
+  const MatchOption._(this.value);
 
-  static MatchOption fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum MatchOption'));
+  static const values = [notEqual];
+
+  static MatchOption fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => MatchOption._(value));
+
+  @override
+  bool operator ==(other) => other is MatchOption && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A representation of a pricing plan.
@@ -3995,37 +4095,55 @@ class PricingRuleListElement {
   }
 }
 
-enum PricingRuleScope {
-  global('GLOBAL'),
-  service('SERVICE'),
-  billingEntity('BILLING_ENTITY'),
-  sku('SKU'),
-  ;
+class PricingRuleScope {
+  static const global = PricingRuleScope._('GLOBAL');
+  static const service = PricingRuleScope._('SERVICE');
+  static const billingEntity = PricingRuleScope._('BILLING_ENTITY');
+  static const sku = PricingRuleScope._('SKU');
 
   final String value;
 
-  const PricingRuleScope(this.value);
+  const PricingRuleScope._(this.value);
+
+  static const values = [global, service, billingEntity, sku];
 
   static PricingRuleScope fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum PricingRuleScope'));
+          orElse: () => PricingRuleScope._(value));
+
+  @override
+  bool operator ==(other) => other is PricingRuleScope && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum PricingRuleType {
-  markup('MARKUP'),
-  discount('DISCOUNT'),
-  tiering('TIERING'),
-  ;
+class PricingRuleType {
+  static const markup = PricingRuleType._('MARKUP');
+  static const discount = PricingRuleType._('DISCOUNT');
+  static const tiering = PricingRuleType._('TIERING');
 
   final String value;
 
-  const PricingRuleType(this.value);
+  const PricingRuleType._(this.value);
+
+  static const values = [markup, discount, tiering];
 
   static PricingRuleType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum PricingRuleType'));
+          orElse: () => PricingRuleType._(value));
+
+  @override
+  bool operator ==(other) => other is PricingRuleType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class TagResourceResponse {

@@ -1676,19 +1676,29 @@ class AccessConfiguration {
   }
 }
 
-enum AccessType {
-  s3Sigv4('S3_SIGV4'),
-  secretsManagerAccessToken('SECRETS_MANAGER_ACCESS_TOKEN'),
-  autodetectSigv4('AUTODETECT_SIGV4'),
-  ;
+class AccessType {
+  static const s3Sigv4 = AccessType._('S3_SIGV4');
+  static const secretsManagerAccessToken =
+      AccessType._('SECRETS_MANAGER_ACCESS_TOKEN');
+  static const autodetectSigv4 = AccessType._('AUTODETECT_SIGV4');
 
   final String value;
 
-  const AccessType(this.value);
+  const AccessType._(this.value);
 
-  static AccessType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum AccessType'));
+  static const values = [s3Sigv4, secretsManagerAccessToken, autodetectSigv4];
+
+  static AccessType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => AccessType._(value));
+
+  @override
+  bool operator ==(other) => other is AccessType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Ad break configuration parameters.
@@ -1830,19 +1840,27 @@ class AdMarkerPassthrough {
   }
 }
 
-enum AdMarkupType {
-  daterange('DATERANGE'),
-  scte35Enhanced('SCTE35_ENHANCED'),
-  ;
+class AdMarkupType {
+  static const daterange = AdMarkupType._('DATERANGE');
+  static const scte35Enhanced = AdMarkupType._('SCTE35_ENHANCED');
 
   final String value;
 
-  const AdMarkupType(this.value);
+  const AdMarkupType._(this.value);
 
-  static AdMarkupType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum AdMarkupType'));
+  static const values = [daterange, scte35Enhanced];
+
+  static AdMarkupType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => AdMarkupType._(value));
+
+  @override
+  bool operator ==(other) => other is AdMarkupType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Alert configuration parameters.
@@ -1908,20 +1926,29 @@ class Alert {
   }
 }
 
-enum AlertCategory {
-  schedulingError('SCHEDULING_ERROR'),
-  playbackWarning('PLAYBACK_WARNING'),
-  info('INFO'),
-  ;
+class AlertCategory {
+  static const schedulingError = AlertCategory._('SCHEDULING_ERROR');
+  static const playbackWarning = AlertCategory._('PLAYBACK_WARNING');
+  static const info = AlertCategory._('INFO');
 
   final String value;
 
-  const AlertCategory(this.value);
+  const AlertCategory._(this.value);
+
+  static const values = [schedulingError, playbackWarning, info];
 
   static AlertCategory fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum AlertCategory'));
+          orElse: () => AlertCategory._(value));
+
+  @override
+  bool operator ==(other) => other is AlertCategory && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A playlist of media (VOD and/or live) to be played instead of the default
@@ -2070,7 +2097,7 @@ class AvailMatchingCriteria {
   factory AvailMatchingCriteria.fromJson(Map<String, dynamic> json) {
     return AvailMatchingCriteria(
       dynamicVariable: (json['DynamicVariable'] as String?) ?? '',
-      operator: Operator.fromString((json['Operator'] as String)),
+      operator: Operator.fromString((json['Operator'] as String?) ?? ''),
     );
   }
 
@@ -2345,19 +2372,27 @@ class Channel {
   }
 }
 
-enum ChannelState {
-  running('RUNNING'),
-  stopped('STOPPED'),
-  ;
+class ChannelState {
+  static const running = ChannelState._('RUNNING');
+  static const stopped = ChannelState._('STOPPED');
 
   final String value;
 
-  const ChannelState(this.value);
+  const ChannelState._(this.value);
 
-  static ChannelState fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ChannelState'));
+  static const values = [running, stopped];
+
+  static ChannelState fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ChannelState._(value));
+
+  @override
+  bool operator ==(other) => other is ChannelState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Clip range configuration for the VOD source associated with the program.
@@ -3808,18 +3843,27 @@ class DescribeVodSourceResponse {
   }
 }
 
-enum FillPolicy {
-  fullAvailOnly('FULL_AVAIL_ONLY'),
-  partialAvail('PARTIAL_AVAIL'),
-  ;
+class FillPolicy {
+  static const fullAvailOnly = FillPolicy._('FULL_AVAIL_ONLY');
+  static const partialAvail = FillPolicy._('PARTIAL_AVAIL');
 
   final String value;
 
-  const FillPolicy(this.value);
+  const FillPolicy._(this.value);
 
-  static FillPolicy fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum FillPolicy'));
+  static const values = [fullAvailOnly, partialAvail];
+
+  static FillPolicy fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => FillPolicy._(value));
+
+  @override
+  bool operator ==(other) => other is FillPolicy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class GetChannelPolicyResponse {
@@ -4306,7 +4350,7 @@ class HttpPackageConfiguration {
     return HttpPackageConfiguration(
       path: (json['Path'] as String?) ?? '',
       sourceGroup: (json['SourceGroup'] as String?) ?? '',
-      type: Type.fromString((json['Type'] as String)),
+      type: Type.fromString((json['Type'] as String?) ?? ''),
     );
   }
 
@@ -4324,19 +4368,28 @@ class HttpPackageConfiguration {
 
 /// Insertion Mode controls whether players can use stitched or guided ad
 /// insertion.
-enum InsertionMode {
-  stitchedOnly('STITCHED_ONLY'),
-  playerSelect('PLAYER_SELECT'),
-  ;
+class InsertionMode {
+  static const stitchedOnly = InsertionMode._('STITCHED_ONLY');
+  static const playerSelect = InsertionMode._('PLAYER_SELECT');
 
   final String value;
 
-  const InsertionMode(this.value);
+  const InsertionMode._(this.value);
+
+  static const values = [stitchedOnly, playerSelect];
 
   static InsertionMode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum InsertionMode'));
+          orElse: () => InsertionMode._(value));
+
+  @override
+  bool operator ==(other) => other is InsertionMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// For <code>SCTE35_ENHANCED</code> output, defines a key and corresponding
@@ -4811,17 +4864,26 @@ class LogConfigurationForChannel {
   }
 }
 
-enum LogType {
-  asRun('AS_RUN'),
-  ;
+class LogType {
+  static const asRun = LogType._('AS_RUN');
 
   final String value;
 
-  const LogType(this.value);
+  const LogType._(this.value);
 
-  static LogType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum LogType'));
+  static const values = [asRun];
+
+  static LogType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => LogType._(value));
+
+  @override
+  bool operator ==(other) => other is LogType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The configuration for manifest processing rules. Manifest processing rules
@@ -4860,61 +4922,98 @@ class ManifestProcessingRules {
   }
 }
 
-enum MessageType {
-  spliceInsert('SPLICE_INSERT'),
-  timeSignal('TIME_SIGNAL'),
-  ;
+class MessageType {
+  static const spliceInsert = MessageType._('SPLICE_INSERT');
+  static const timeSignal = MessageType._('TIME_SIGNAL');
 
   final String value;
 
-  const MessageType(this.value);
+  const MessageType._(this.value);
 
-  static MessageType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum MessageType'));
+  static const values = [spliceInsert, timeSignal];
+
+  static MessageType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => MessageType._(value));
+
+  @override
+  bool operator ==(other) => other is MessageType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum Mode {
-  off('OFF'),
-  behindLiveEdge('BEHIND_LIVE_EDGE'),
-  afterLiveEdge('AFTER_LIVE_EDGE'),
-  ;
+class Mode {
+  static const off = Mode._('OFF');
+  static const behindLiveEdge = Mode._('BEHIND_LIVE_EDGE');
+  static const afterLiveEdge = Mode._('AFTER_LIVE_EDGE');
 
   final String value;
 
-  const Mode(this.value);
+  const Mode._(this.value);
+
+  static const values = [off, behindLiveEdge, afterLiveEdge];
 
   static Mode fromString(String value) =>
+      values.firstWhere((e) => e.value == value, orElse: () => Mode._(value));
+
+  @override
+  bool operator ==(other) => other is Mode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class Operator {
+  static const equals = Operator._('EQUALS');
+
+  final String value;
+
+  const Operator._(this.value);
+
+  static const values = [equals];
+
+  static Operator fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Operator._(value));
+
+  @override
+  bool operator ==(other) => other is Operator && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class OriginManifestType {
+  static const singlePeriod = OriginManifestType._('SINGLE_PERIOD');
+  static const multiPeriod = OriginManifestType._('MULTI_PERIOD');
+
+  final String value;
+
+  const OriginManifestType._(this.value);
+
+  static const values = [singlePeriod, multiPeriod];
+
+  static OriginManifestType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum Mode'));
-}
+          orElse: () => OriginManifestType._(value));
 
-enum Operator {
-  equals('EQUALS'),
-  ;
+  @override
+  bool operator ==(other) =>
+      other is OriginManifestType && other.value == value;
 
-  final String value;
+  @override
+  int get hashCode => value.hashCode;
 
-  const Operator(this.value);
-
-  static Operator fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum Operator'));
-}
-
-enum OriginManifestType {
-  singlePeriod('SINGLE_PERIOD'),
-  multiPeriod('MULTI_PERIOD'),
-  ;
-
-  final String value;
-
-  const OriginManifestType(this.value);
-
-  static OriginManifestType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum OriginManifestType'));
+  @override
+  String toString() => value;
 }
 
 /// A playback configuration. For information about MediaTailor configurations,
@@ -5164,19 +5263,27 @@ class PlaybackConfiguration {
   }
 }
 
-enum PlaybackMode {
-  loop('LOOP'),
-  linear('LINEAR'),
-  ;
+class PlaybackMode {
+  static const loop = PlaybackMode._('LOOP');
+  static const linear = PlaybackMode._('LINEAR');
 
   final String value;
 
-  const PlaybackMode(this.value);
+  const PlaybackMode._(this.value);
 
-  static PlaybackMode fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum PlaybackMode'));
+  static const values = [loop, linear];
+
+  static PlaybackMode fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => PlaybackMode._(value));
+
+  @override
+  bool operator ==(other) => other is PlaybackMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A complex type that contains settings that determine how and when that
@@ -5608,19 +5715,28 @@ class PutPlaybackConfigurationResponse {
   }
 }
 
-enum RelativePosition {
-  beforeProgram('BEFORE_PROGRAM'),
-  afterProgram('AFTER_PROGRAM'),
-  ;
+class RelativePosition {
+  static const beforeProgram = RelativePosition._('BEFORE_PROGRAM');
+  static const afterProgram = RelativePosition._('AFTER_PROGRAM');
 
   final String value;
 
-  const RelativePosition(this.value);
+  const RelativePosition._(this.value);
+
+  static const values = [beforeProgram, afterProgram];
 
   static RelativePosition fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum RelativePosition'));
+          orElse: () => RelativePosition._(value));
+
+  @override
+  bool operator ==(other) => other is RelativePosition && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The output configuration for this channel.
@@ -5897,20 +6013,29 @@ class ScheduleEntry {
   }
 }
 
-enum ScheduleEntryType {
-  program('PROGRAM'),
-  fillerSlate('FILLER_SLATE'),
-  alternateMedia('ALTERNATE_MEDIA'),
-  ;
+class ScheduleEntryType {
+  static const program = ScheduleEntryType._('PROGRAM');
+  static const fillerSlate = ScheduleEntryType._('FILLER_SLATE');
+  static const alternateMedia = ScheduleEntryType._('ALTERNATE_MEDIA');
 
   final String value;
 
-  const ScheduleEntryType(this.value);
+  const ScheduleEntryType._(this.value);
+
+  static const values = [program, fillerSlate, alternateMedia];
 
   static ScheduleEntryType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ScheduleEntryType'));
+          orElse: () => ScheduleEntryType._(value));
+
+  @override
+  bool operator ==(other) => other is ScheduleEntryType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// AWS Secrets Manager access token configuration parameters. For information
@@ -6324,18 +6449,27 @@ class StopChannelResponse {
   }
 }
 
-enum Tier {
-  basic('BASIC'),
-  standard('STANDARD'),
-  ;
+class Tier {
+  static const basic = Tier._('BASIC');
+  static const standard = Tier._('STANDARD');
 
   final String value;
 
-  const Tier(this.value);
+  const Tier._(this.value);
+
+  static const values = [basic, standard];
 
   static Tier fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum Tier'));
+      values.firstWhere((e) => e.value == value, orElse: () => Tier._(value));
+
+  @override
+  bool operator ==(other) => other is Tier && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The configuration for time-shifted viewing.
@@ -6468,18 +6602,27 @@ class Transition {
   }
 }
 
-enum Type {
-  dash('DASH'),
-  hls('HLS'),
-  ;
+class Type {
+  static const dash = Type._('DASH');
+  static const hls = Type._('HLS');
 
   final String value;
 
-  const Type(this.value);
+  const Type._(this.value);
+
+  static const values = [dash, hls];
 
   static Type fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum Type'));
+      values.firstWhere((e) => e.value == value, orElse: () => Type._(value));
+
+  @override
+  bool operator ==(other) => other is Type && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class UpdateChannelResponse {

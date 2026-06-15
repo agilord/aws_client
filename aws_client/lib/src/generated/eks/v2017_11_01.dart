@@ -3368,32 +3368,60 @@ class Eks {
   }
 }
 
-enum AMITypes {
-  al2X86_64('AL2_x86_64'),
-  al2X86_64Gpu('AL2_x86_64_GPU'),
-  al2Arm_64('AL2_ARM_64'),
-  custom('CUSTOM'),
-  bottlerocketArm_64('BOTTLEROCKET_ARM_64'),
-  bottlerocketX86_64('BOTTLEROCKET_x86_64'),
-  bottlerocketArm_64Nvidia('BOTTLEROCKET_ARM_64_NVIDIA'),
-  bottlerocketX86_64Nvidia('BOTTLEROCKET_x86_64_NVIDIA'),
-  windowsCore_2019X86_64('WINDOWS_CORE_2019_x86_64'),
-  windowsFull_2019X86_64('WINDOWS_FULL_2019_x86_64'),
-  windowsCore_2022X86_64('WINDOWS_CORE_2022_x86_64'),
-  windowsFull_2022X86_64('WINDOWS_FULL_2022_x86_64'),
-  al2023X86_64Standard('AL2023_x86_64_STANDARD'),
-  al2023Arm_64Standard('AL2023_ARM_64_STANDARD'),
-  al2023X86_64Neuron('AL2023_x86_64_NEURON'),
-  al2023X86_64Nvidia('AL2023_x86_64_NVIDIA'),
-  ;
+class AMITypes {
+  static const al2X86_64 = AMITypes._('AL2_x86_64');
+  static const al2X86_64Gpu = AMITypes._('AL2_x86_64_GPU');
+  static const al2Arm_64 = AMITypes._('AL2_ARM_64');
+  static const custom = AMITypes._('CUSTOM');
+  static const bottlerocketArm_64 = AMITypes._('BOTTLEROCKET_ARM_64');
+  static const bottlerocketX86_64 = AMITypes._('BOTTLEROCKET_x86_64');
+  static const bottlerocketArm_64Nvidia =
+      AMITypes._('BOTTLEROCKET_ARM_64_NVIDIA');
+  static const bottlerocketX86_64Nvidia =
+      AMITypes._('BOTTLEROCKET_x86_64_NVIDIA');
+  static const windowsCore_2019X86_64 = AMITypes._('WINDOWS_CORE_2019_x86_64');
+  static const windowsFull_2019X86_64 = AMITypes._('WINDOWS_FULL_2019_x86_64');
+  static const windowsCore_2022X86_64 = AMITypes._('WINDOWS_CORE_2022_x86_64');
+  static const windowsFull_2022X86_64 = AMITypes._('WINDOWS_FULL_2022_x86_64');
+  static const al2023X86_64Standard = AMITypes._('AL2023_x86_64_STANDARD');
+  static const al2023Arm_64Standard = AMITypes._('AL2023_ARM_64_STANDARD');
+  static const al2023X86_64Neuron = AMITypes._('AL2023_x86_64_NEURON');
+  static const al2023X86_64Nvidia = AMITypes._('AL2023_x86_64_NVIDIA');
 
   final String value;
 
-  const AMITypes(this.value);
+  const AMITypes._(this.value);
 
-  static AMITypes fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum AMITypes'));
+  static const values = [
+    al2X86_64,
+    al2X86_64Gpu,
+    al2Arm_64,
+    custom,
+    bottlerocketArm_64,
+    bottlerocketX86_64,
+    bottlerocketArm_64Nvidia,
+    bottlerocketX86_64Nvidia,
+    windowsCore_2019X86_64,
+    windowsFull_2019X86_64,
+    windowsCore_2022X86_64,
+    windowsFull_2022X86_64,
+    al2023X86_64Standard,
+    al2023Arm_64Standard,
+    al2023X86_64Neuron,
+    al2023X86_64Nvidia
+  ];
+
+  static AMITypes fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => AMITypes._(value));
+
+  @override
+  bool operator ==(other) => other is AMITypes && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The access configuration for the cluster.
@@ -3614,19 +3642,28 @@ class AccessScope {
   }
 }
 
-enum AccessScopeType {
-  cluster('cluster'),
-  namespace('namespace'),
-  ;
+class AccessScopeType {
+  static const cluster = AccessScopeType._('cluster');
+  static const namespace = AccessScopeType._('namespace');
 
   final String value;
 
-  const AccessScopeType(this.value);
+  const AccessScopeType._(this.value);
+
+  static const values = [cluster, namespace];
 
   static AccessScopeType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum AccessScopeType'));
+          orElse: () => AccessScopeType._(value));
+
+  @override
+  bool operator ==(other) => other is AccessScopeType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// An Amazon EKS add-on. For more information, see <a
@@ -3908,27 +3945,53 @@ class AddonIssue {
   }
 }
 
-enum AddonIssueCode {
-  accessDenied('AccessDenied'),
-  internalFailure('InternalFailure'),
-  clusterUnreachable('ClusterUnreachable'),
-  insufficientNumberOfReplicas('InsufficientNumberOfReplicas'),
-  configurationConflict('ConfigurationConflict'),
-  admissionRequestDenied('AdmissionRequestDenied'),
-  unsupportedAddonModification('UnsupportedAddonModification'),
-  k8sResourceNotFound('K8sResourceNotFound'),
-  addonSubscriptionNeeded('AddonSubscriptionNeeded'),
-  addonPermissionFailure('AddonPermissionFailure'),
-  ;
+class AddonIssueCode {
+  static const accessDenied = AddonIssueCode._('AccessDenied');
+  static const internalFailure = AddonIssueCode._('InternalFailure');
+  static const clusterUnreachable = AddonIssueCode._('ClusterUnreachable');
+  static const insufficientNumberOfReplicas =
+      AddonIssueCode._('InsufficientNumberOfReplicas');
+  static const configurationConflict =
+      AddonIssueCode._('ConfigurationConflict');
+  static const admissionRequestDenied =
+      AddonIssueCode._('AdmissionRequestDenied');
+  static const unsupportedAddonModification =
+      AddonIssueCode._('UnsupportedAddonModification');
+  static const k8sResourceNotFound = AddonIssueCode._('K8sResourceNotFound');
+  static const addonSubscriptionNeeded =
+      AddonIssueCode._('AddonSubscriptionNeeded');
+  static const addonPermissionFailure =
+      AddonIssueCode._('AddonPermissionFailure');
 
   final String value;
 
-  const AddonIssueCode(this.value);
+  const AddonIssueCode._(this.value);
+
+  static const values = [
+    accessDenied,
+    internalFailure,
+    clusterUnreachable,
+    insufficientNumberOfReplicas,
+    configurationConflict,
+    admissionRequestDenied,
+    unsupportedAddonModification,
+    k8sResourceNotFound,
+    addonSubscriptionNeeded,
+    addonPermissionFailure
+  ];
 
   static AddonIssueCode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum AddonIssueCode'));
+          orElse: () => AddonIssueCode._(value));
+
+  @override
+  bool operator ==(other) => other is AddonIssueCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A type of Pod Identity Association owned by an Amazon EKS Add-on.
@@ -3996,24 +4059,42 @@ class AddonPodIdentityConfiguration {
   }
 }
 
-enum AddonStatus {
-  creating('CREATING'),
-  active('ACTIVE'),
-  createFailed('CREATE_FAILED'),
-  updating('UPDATING'),
-  deleting('DELETING'),
-  deleteFailed('DELETE_FAILED'),
-  degraded('DEGRADED'),
-  updateFailed('UPDATE_FAILED'),
-  ;
+class AddonStatus {
+  static const creating = AddonStatus._('CREATING');
+  static const active = AddonStatus._('ACTIVE');
+  static const createFailed = AddonStatus._('CREATE_FAILED');
+  static const updating = AddonStatus._('UPDATING');
+  static const deleting = AddonStatus._('DELETING');
+  static const deleteFailed = AddonStatus._('DELETE_FAILED');
+  static const degraded = AddonStatus._('DEGRADED');
+  static const updateFailed = AddonStatus._('UPDATE_FAILED');
 
   final String value;
 
-  const AddonStatus(this.value);
+  const AddonStatus._(this.value);
 
-  static AddonStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum AddonStatus'));
+  static const values = [
+    creating,
+    active,
+    createFailed,
+    updating,
+    deleting,
+    deleteFailed,
+    degraded,
+    updateFailed
+  ];
+
+  static AddonStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => AddonStatus._(value));
+
+  @override
+  bool operator ==(other) => other is AddonStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about an add-on version.
@@ -4220,20 +4301,30 @@ class AssociatedAccessPolicy {
   }
 }
 
-enum AuthenticationMode {
-  api('API'),
-  apiAndConfigMap('API_AND_CONFIG_MAP'),
-  configMap('CONFIG_MAP'),
-  ;
+class AuthenticationMode {
+  static const api = AuthenticationMode._('API');
+  static const apiAndConfigMap = AuthenticationMode._('API_AND_CONFIG_MAP');
+  static const configMap = AuthenticationMode._('CONFIG_MAP');
 
   final String value;
 
-  const AuthenticationMode(this.value);
+  const AuthenticationMode._(this.value);
 
-  static AuthenticationMode fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum AuthenticationMode'));
+  static const values = [api, apiAndConfigMap, configMap];
+
+  static AuthenticationMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AuthenticationMode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AuthenticationMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// An Auto Scaling group that is associated with an Amazon EKS managed node
@@ -4261,33 +4352,51 @@ class AutoScalingGroup {
   }
 }
 
-enum CapacityTypes {
-  onDemand('ON_DEMAND'),
-  spot('SPOT'),
-  capacityBlock('CAPACITY_BLOCK'),
-  ;
+class CapacityTypes {
+  static const onDemand = CapacityTypes._('ON_DEMAND');
+  static const spot = CapacityTypes._('SPOT');
+  static const capacityBlock = CapacityTypes._('CAPACITY_BLOCK');
 
   final String value;
 
-  const CapacityTypes(this.value);
+  const CapacityTypes._(this.value);
+
+  static const values = [onDemand, spot, capacityBlock];
 
   static CapacityTypes fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum CapacityTypes'));
+          orElse: () => CapacityTypes._(value));
+
+  @override
+  bool operator ==(other) => other is CapacityTypes && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum Category {
-  upgradeReadiness('UPGRADE_READINESS'),
-  ;
+class Category {
+  static const upgradeReadiness = Category._('UPGRADE_READINESS');
 
   final String value;
 
-  const Category(this.value);
+  const Category._(this.value);
 
-  static Category fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum Category'));
+  static const values = [upgradeReadiness];
+
+  static Category fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Category._(value));
+
+  @override
+  bool operator ==(other) => other is Category && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// An object representing the <code>certificate-authority-data</code> for your
@@ -4652,55 +4761,100 @@ class ClusterIssue {
   }
 }
 
-enum ClusterIssueCode {
-  accessDenied('AccessDenied'),
-  clusterUnreachable('ClusterUnreachable'),
-  configurationConflict('ConfigurationConflict'),
-  internalFailure('InternalFailure'),
-  resourceLimitExceeded('ResourceLimitExceeded'),
-  resourceNotFound('ResourceNotFound'),
-  iamRoleNotFound('IamRoleNotFound'),
-  vpcNotFound('VpcNotFound'),
-  insufficientFreeAddresses('InsufficientFreeAddresses'),
-  ec2ServiceNotSubscribed('Ec2ServiceNotSubscribed'),
-  ec2SubnetNotFound('Ec2SubnetNotFound'),
-  ec2SecurityGroupNotFound('Ec2SecurityGroupNotFound'),
-  kmsGrantRevoked('KmsGrantRevoked'),
-  kmsKeyNotFound('KmsKeyNotFound'),
-  kmsKeyMarkedForDeletion('KmsKeyMarkedForDeletion'),
-  kmsKeyDisabled('KmsKeyDisabled'),
-  stsRegionalEndpointDisabled('StsRegionalEndpointDisabled'),
-  unsupportedVersion('UnsupportedVersion'),
-  other('Other'),
-  ;
+class ClusterIssueCode {
+  static const accessDenied = ClusterIssueCode._('AccessDenied');
+  static const clusterUnreachable = ClusterIssueCode._('ClusterUnreachable');
+  static const configurationConflict =
+      ClusterIssueCode._('ConfigurationConflict');
+  static const internalFailure = ClusterIssueCode._('InternalFailure');
+  static const resourceLimitExceeded =
+      ClusterIssueCode._('ResourceLimitExceeded');
+  static const resourceNotFound = ClusterIssueCode._('ResourceNotFound');
+  static const iamRoleNotFound = ClusterIssueCode._('IamRoleNotFound');
+  static const vpcNotFound = ClusterIssueCode._('VpcNotFound');
+  static const insufficientFreeAddresses =
+      ClusterIssueCode._('InsufficientFreeAddresses');
+  static const ec2ServiceNotSubscribed =
+      ClusterIssueCode._('Ec2ServiceNotSubscribed');
+  static const ec2SubnetNotFound = ClusterIssueCode._('Ec2SubnetNotFound');
+  static const ec2SecurityGroupNotFound =
+      ClusterIssueCode._('Ec2SecurityGroupNotFound');
+  static const kmsGrantRevoked = ClusterIssueCode._('KmsGrantRevoked');
+  static const kmsKeyNotFound = ClusterIssueCode._('KmsKeyNotFound');
+  static const kmsKeyMarkedForDeletion =
+      ClusterIssueCode._('KmsKeyMarkedForDeletion');
+  static const kmsKeyDisabled = ClusterIssueCode._('KmsKeyDisabled');
+  static const stsRegionalEndpointDisabled =
+      ClusterIssueCode._('StsRegionalEndpointDisabled');
+  static const unsupportedVersion = ClusterIssueCode._('UnsupportedVersion');
+  static const other = ClusterIssueCode._('Other');
 
   final String value;
 
-  const ClusterIssueCode(this.value);
+  const ClusterIssueCode._(this.value);
+
+  static const values = [
+    accessDenied,
+    clusterUnreachable,
+    configurationConflict,
+    internalFailure,
+    resourceLimitExceeded,
+    resourceNotFound,
+    iamRoleNotFound,
+    vpcNotFound,
+    insufficientFreeAddresses,
+    ec2ServiceNotSubscribed,
+    ec2SubnetNotFound,
+    ec2SecurityGroupNotFound,
+    kmsGrantRevoked,
+    kmsKeyNotFound,
+    kmsKeyMarkedForDeletion,
+    kmsKeyDisabled,
+    stsRegionalEndpointDisabled,
+    unsupportedVersion,
+    other
+  ];
 
   static ClusterIssueCode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ClusterIssueCode'));
+          orElse: () => ClusterIssueCode._(value));
+
+  @override
+  bool operator ==(other) => other is ClusterIssueCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ClusterStatus {
-  creating('CREATING'),
-  active('ACTIVE'),
-  deleting('DELETING'),
-  failed('FAILED'),
-  updating('UPDATING'),
-  pending('PENDING'),
-  ;
+class ClusterStatus {
+  static const creating = ClusterStatus._('CREATING');
+  static const active = ClusterStatus._('ACTIVE');
+  static const deleting = ClusterStatus._('DELETING');
+  static const failed = ClusterStatus._('FAILED');
+  static const updating = ClusterStatus._('UPDATING');
+  static const pending = ClusterStatus._('PENDING');
 
   final String value;
 
-  const ClusterStatus(this.value);
+  const ClusterStatus._(this.value);
+
+  static const values = [creating, active, deleting, failed, updating, pending];
 
   static ClusterStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ClusterStatus'));
+          orElse: () => ClusterStatus._(value));
+
+  @override
+  bool operator ==(other) => other is ClusterStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Compatibility information.
@@ -4743,26 +4897,46 @@ class Compatibility {
   }
 }
 
-enum ConnectorConfigProvider {
-  eksAnywhere('EKS_ANYWHERE'),
-  anthos('ANTHOS'),
-  gke('GKE'),
-  aks('AKS'),
-  openshift('OPENSHIFT'),
-  tanzu('TANZU'),
-  rancher('RANCHER'),
-  ec2('EC2'),
-  other('OTHER'),
-  ;
+class ConnectorConfigProvider {
+  static const eksAnywhere = ConnectorConfigProvider._('EKS_ANYWHERE');
+  static const anthos = ConnectorConfigProvider._('ANTHOS');
+  static const gke = ConnectorConfigProvider._('GKE');
+  static const aks = ConnectorConfigProvider._('AKS');
+  static const openshift = ConnectorConfigProvider._('OPENSHIFT');
+  static const tanzu = ConnectorConfigProvider._('TANZU');
+  static const rancher = ConnectorConfigProvider._('RANCHER');
+  static const ec2 = ConnectorConfigProvider._('EC2');
+  static const other = ConnectorConfigProvider._('OTHER');
 
   final String value;
 
-  const ConnectorConfigProvider(this.value);
+  const ConnectorConfigProvider._(this.value);
+
+  static const values = [
+    eksAnywhere,
+    anthos,
+    gke,
+    aks,
+    openshift,
+    tanzu,
+    rancher,
+    ec2,
+    other
+  ];
 
   static ConnectorConfigProvider fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ConnectorConfigProvider'));
+          orElse: () => ConnectorConfigProvider._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ConnectorConfigProvider && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The configuration sent to a cluster for configuration.
@@ -5840,37 +6014,64 @@ class EksAnywhereSubscription {
   }
 }
 
-enum EksAnywhereSubscriptionLicenseType {
-  cluster('Cluster'),
-  ;
+class EksAnywhereSubscriptionLicenseType {
+  static const cluster = EksAnywhereSubscriptionLicenseType._('Cluster');
 
   final String value;
 
-  const EksAnywhereSubscriptionLicenseType(this.value);
+  const EksAnywhereSubscriptionLicenseType._(this.value);
+
+  static const values = [cluster];
 
   static EksAnywhereSubscriptionLicenseType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum EksAnywhereSubscriptionLicenseType'));
+          orElse: () => EksAnywhereSubscriptionLicenseType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is EksAnywhereSubscriptionLicenseType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum EksAnywhereSubscriptionStatus {
-  creating('CREATING'),
-  active('ACTIVE'),
-  updating('UPDATING'),
-  expiring('EXPIRING'),
-  expired('EXPIRED'),
-  deleting('DELETING'),
-  ;
+class EksAnywhereSubscriptionStatus {
+  static const creating = EksAnywhereSubscriptionStatus._('CREATING');
+  static const active = EksAnywhereSubscriptionStatus._('ACTIVE');
+  static const updating = EksAnywhereSubscriptionStatus._('UPDATING');
+  static const expiring = EksAnywhereSubscriptionStatus._('EXPIRING');
+  static const expired = EksAnywhereSubscriptionStatus._('EXPIRED');
+  static const deleting = EksAnywhereSubscriptionStatus._('DELETING');
 
   final String value;
 
-  const EksAnywhereSubscriptionStatus(this.value);
+  const EksAnywhereSubscriptionStatus._(this.value);
+
+  static const values = [
+    creating,
+    active,
+    updating,
+    expiring,
+    expired,
+    deleting
+  ];
 
   static EksAnywhereSubscriptionStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum EksAnywhereSubscriptionStatus'));
+          orElse: () => EksAnywhereSubscriptionStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is EksAnywhereSubscriptionStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// An object representing the term duration and term unit type of your
@@ -5908,18 +6109,28 @@ class EksAnywhereSubscriptionTerm {
   }
 }
 
-enum EksAnywhereSubscriptionTermUnit {
-  months('MONTHS'),
-  ;
+class EksAnywhereSubscriptionTermUnit {
+  static const months = EksAnywhereSubscriptionTermUnit._('MONTHS');
 
   final String value;
 
-  const EksAnywhereSubscriptionTermUnit(this.value);
+  const EksAnywhereSubscriptionTermUnit._(this.value);
+
+  static const values = [months];
 
   static EksAnywhereSubscriptionTermUnit fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum EksAnywhereSubscriptionTermUnit'));
+          orElse: () => EksAnywhereSubscriptionTermUnit._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is EksAnywhereSubscriptionTermUnit && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The encryption configuration for the cluster.
@@ -5958,33 +6169,63 @@ class EncryptionConfig {
   }
 }
 
-enum ErrorCode {
-  subnetNotFound('SubnetNotFound'),
-  securityGroupNotFound('SecurityGroupNotFound'),
-  eniLimitReached('EniLimitReached'),
-  ipNotAvailable('IpNotAvailable'),
-  accessDenied('AccessDenied'),
-  operationNotPermitted('OperationNotPermitted'),
-  vpcIdNotFound('VpcIdNotFound'),
-  unknown('Unknown'),
-  nodeCreationFailure('NodeCreationFailure'),
-  podEvictionFailure('PodEvictionFailure'),
-  insufficientFreeAddresses('InsufficientFreeAddresses'),
-  clusterUnreachable('ClusterUnreachable'),
-  insufficientNumberOfReplicas('InsufficientNumberOfReplicas'),
-  configurationConflict('ConfigurationConflict'),
-  admissionRequestDenied('AdmissionRequestDenied'),
-  unsupportedAddonModification('UnsupportedAddonModification'),
-  k8sResourceNotFound('K8sResourceNotFound'),
-  ;
+class ErrorCode {
+  static const subnetNotFound = ErrorCode._('SubnetNotFound');
+  static const securityGroupNotFound = ErrorCode._('SecurityGroupNotFound');
+  static const eniLimitReached = ErrorCode._('EniLimitReached');
+  static const ipNotAvailable = ErrorCode._('IpNotAvailable');
+  static const accessDenied = ErrorCode._('AccessDenied');
+  static const operationNotPermitted = ErrorCode._('OperationNotPermitted');
+  static const vpcIdNotFound = ErrorCode._('VpcIdNotFound');
+  static const unknown = ErrorCode._('Unknown');
+  static const nodeCreationFailure = ErrorCode._('NodeCreationFailure');
+  static const podEvictionFailure = ErrorCode._('PodEvictionFailure');
+  static const insufficientFreeAddresses =
+      ErrorCode._('InsufficientFreeAddresses');
+  static const clusterUnreachable = ErrorCode._('ClusterUnreachable');
+  static const insufficientNumberOfReplicas =
+      ErrorCode._('InsufficientNumberOfReplicas');
+  static const configurationConflict = ErrorCode._('ConfigurationConflict');
+  static const admissionRequestDenied = ErrorCode._('AdmissionRequestDenied');
+  static const unsupportedAddonModification =
+      ErrorCode._('UnsupportedAddonModification');
+  static const k8sResourceNotFound = ErrorCode._('K8sResourceNotFound');
 
   final String value;
 
-  const ErrorCode(this.value);
+  const ErrorCode._(this.value);
 
-  static ErrorCode fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum ErrorCode'));
+  static const values = [
+    subnetNotFound,
+    securityGroupNotFound,
+    eniLimitReached,
+    ipNotAvailable,
+    accessDenied,
+    operationNotPermitted,
+    vpcIdNotFound,
+    unknown,
+    nodeCreationFailure,
+    podEvictionFailure,
+    insufficientFreeAddresses,
+    clusterUnreachable,
+    insufficientNumberOfReplicas,
+    configurationConflict,
+    admissionRequestDenied,
+    unsupportedAddonModification,
+    k8sResourceNotFound
+  ];
+
+  static ErrorCode fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ErrorCode._(value));
+
+  @override
+  bool operator ==(other) => other is ErrorCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// An object representing an error when an asynchronous operation fails.
@@ -6227,21 +6468,38 @@ class FargateProfileIssue {
   }
 }
 
-enum FargateProfileIssueCode {
-  podExecutionRoleAlreadyInUse('PodExecutionRoleAlreadyInUse'),
-  accessDenied('AccessDenied'),
-  clusterUnreachable('ClusterUnreachable'),
-  internalFailure('InternalFailure'),
-  ;
+class FargateProfileIssueCode {
+  static const podExecutionRoleAlreadyInUse =
+      FargateProfileIssueCode._('PodExecutionRoleAlreadyInUse');
+  static const accessDenied = FargateProfileIssueCode._('AccessDenied');
+  static const clusterUnreachable =
+      FargateProfileIssueCode._('ClusterUnreachable');
+  static const internalFailure = FargateProfileIssueCode._('InternalFailure');
 
   final String value;
 
-  const FargateProfileIssueCode(this.value);
+  const FargateProfileIssueCode._(this.value);
+
+  static const values = [
+    podExecutionRoleAlreadyInUse,
+    accessDenied,
+    clusterUnreachable,
+    internalFailure
+  ];
 
   static FargateProfileIssueCode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum FargateProfileIssueCode'));
+          orElse: () => FargateProfileIssueCode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is FargateProfileIssueCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// An object representing an Fargate profile selector.
@@ -6277,22 +6535,38 @@ class FargateProfileSelector {
   }
 }
 
-enum FargateProfileStatus {
-  creating('CREATING'),
-  active('ACTIVE'),
-  deleting('DELETING'),
-  createFailed('CREATE_FAILED'),
-  deleteFailed('DELETE_FAILED'),
-  ;
+class FargateProfileStatus {
+  static const creating = FargateProfileStatus._('CREATING');
+  static const active = FargateProfileStatus._('ACTIVE');
+  static const deleting = FargateProfileStatus._('DELETING');
+  static const createFailed = FargateProfileStatus._('CREATE_FAILED');
+  static const deleteFailed = FargateProfileStatus._('DELETE_FAILED');
 
   final String value;
 
-  const FargateProfileStatus(this.value);
+  const FargateProfileStatus._(this.value);
 
-  static FargateProfileStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum FargateProfileStatus'));
+  static const values = [
+    creating,
+    active,
+    deleting,
+    createFailed,
+    deleteFailed
+  ];
+
+  static FargateProfileStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => FargateProfileStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is FargateProfileStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// An object representing an identity provider.
@@ -6597,21 +6871,31 @@ class InsightStatus {
   }
 }
 
-enum InsightStatusValue {
-  passing('PASSING'),
-  warning('WARNING'),
-  error('ERROR'),
-  unknown('UNKNOWN'),
-  ;
+class InsightStatusValue {
+  static const passing = InsightStatusValue._('PASSING');
+  static const warning = InsightStatusValue._('WARNING');
+  static const error = InsightStatusValue._('ERROR');
+  static const unknown = InsightStatusValue._('UNKNOWN');
 
   final String value;
 
-  const InsightStatusValue(this.value);
+  const InsightStatusValue._(this.value);
 
-  static InsightStatusValue fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum InsightStatusValue'));
+  static const values = [passing, warning, error, unknown];
+
+  static InsightStatusValue fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => InsightStatusValue._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is InsightStatusValue && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The summarized description of the insight.
@@ -6723,18 +7007,27 @@ class InsightsFilter {
   }
 }
 
-enum IpFamily {
-  ipv4('ipv4'),
-  ipv6('ipv6'),
-  ;
+class IpFamily {
+  static const ipv4 = IpFamily._('ipv4');
+  static const ipv6 = IpFamily._('ipv6');
 
   final String value;
 
-  const IpFamily(this.value);
+  const IpFamily._(this.value);
 
-  static IpFamily fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum IpFamily'));
+  static const values = [ipv4, ipv6];
+
+  static IpFamily fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => IpFamily._(value));
+
+  @override
+  bool operator ==(other) => other is IpFamily && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// An object representing an issue with an Amazon EKS resource.
@@ -7624,21 +7917,36 @@ class LogSetup {
   }
 }
 
-enum LogType {
-  api('api'),
-  audit('audit'),
-  authenticator('authenticator'),
-  controllerManager('controllerManager'),
-  scheduler('scheduler'),
-  ;
+class LogType {
+  static const api = LogType._('api');
+  static const audit = LogType._('audit');
+  static const authenticator = LogType._('authenticator');
+  static const controllerManager = LogType._('controllerManager');
+  static const scheduler = LogType._('scheduler');
 
   final String value;
 
-  const LogType(this.value);
+  const LogType._(this.value);
 
-  static LogType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum LogType'));
+  static const values = [
+    api,
+    audit,
+    authenticator,
+    controllerManager,
+    scheduler
+  ];
+
+  static LogType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => LogType._(value));
+
+  @override
+  bool operator ==(other) => other is LogType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// An object representing the logging configuration for resources in your
@@ -7963,55 +8271,123 @@ class NodegroupHealth {
   }
 }
 
-enum NodegroupIssueCode {
-  autoScalingGroupNotFound('AutoScalingGroupNotFound'),
-  autoScalingGroupInvalidConfiguration('AutoScalingGroupInvalidConfiguration'),
-  ec2SecurityGroupNotFound('Ec2SecurityGroupNotFound'),
-  ec2SecurityGroupDeletionFailure('Ec2SecurityGroupDeletionFailure'),
-  ec2LaunchTemplateNotFound('Ec2LaunchTemplateNotFound'),
-  ec2LaunchTemplateVersionMismatch('Ec2LaunchTemplateVersionMismatch'),
-  ec2SubnetNotFound('Ec2SubnetNotFound'),
-  ec2SubnetInvalidConfiguration('Ec2SubnetInvalidConfiguration'),
-  iamInstanceProfileNotFound('IamInstanceProfileNotFound'),
-  ec2SubnetMissingIpv6Assignment('Ec2SubnetMissingIpv6Assignment'),
-  iamLimitExceeded('IamLimitExceeded'),
-  iamNodeRoleNotFound('IamNodeRoleNotFound'),
-  nodeCreationFailure('NodeCreationFailure'),
-  asgInstanceLaunchFailures('AsgInstanceLaunchFailures'),
-  instanceLimitExceeded('InstanceLimitExceeded'),
-  insufficientFreeAddresses('InsufficientFreeAddresses'),
-  accessDenied('AccessDenied'),
-  internalFailure('InternalFailure'),
-  clusterUnreachable('ClusterUnreachable'),
-  amiIdNotFound('AmiIdNotFound'),
-  autoScalingGroupOptInRequired('AutoScalingGroupOptInRequired'),
-  autoScalingGroupRateLimitExceeded('AutoScalingGroupRateLimitExceeded'),
-  ec2LaunchTemplateDeletionFailure('Ec2LaunchTemplateDeletionFailure'),
-  ec2LaunchTemplateInvalidConfiguration(
-      'Ec2LaunchTemplateInvalidConfiguration'),
-  ec2LaunchTemplateMaxLimitExceeded('Ec2LaunchTemplateMaxLimitExceeded'),
-  ec2SubnetListTooLong('Ec2SubnetListTooLong'),
-  iamThrottling('IamThrottling'),
-  nodeTerminationFailure('NodeTerminationFailure'),
-  podEvictionFailure('PodEvictionFailure'),
-  sourceEc2LaunchTemplateNotFound('SourceEc2LaunchTemplateNotFound'),
-  limitExceeded('LimitExceeded'),
-  unknown('Unknown'),
-  autoScalingGroupInstanceRefreshActive(
-      'AutoScalingGroupInstanceRefreshActive'),
-  kubernetesLabelInvalid('KubernetesLabelInvalid'),
-  ec2LaunchTemplateVersionMaxLimitExceeded(
-      'Ec2LaunchTemplateVersionMaxLimitExceeded'),
-  ;
+class NodegroupIssueCode {
+  static const autoScalingGroupNotFound =
+      NodegroupIssueCode._('AutoScalingGroupNotFound');
+  static const autoScalingGroupInvalidConfiguration =
+      NodegroupIssueCode._('AutoScalingGroupInvalidConfiguration');
+  static const ec2SecurityGroupNotFound =
+      NodegroupIssueCode._('Ec2SecurityGroupNotFound');
+  static const ec2SecurityGroupDeletionFailure =
+      NodegroupIssueCode._('Ec2SecurityGroupDeletionFailure');
+  static const ec2LaunchTemplateNotFound =
+      NodegroupIssueCode._('Ec2LaunchTemplateNotFound');
+  static const ec2LaunchTemplateVersionMismatch =
+      NodegroupIssueCode._('Ec2LaunchTemplateVersionMismatch');
+  static const ec2SubnetNotFound = NodegroupIssueCode._('Ec2SubnetNotFound');
+  static const ec2SubnetInvalidConfiguration =
+      NodegroupIssueCode._('Ec2SubnetInvalidConfiguration');
+  static const iamInstanceProfileNotFound =
+      NodegroupIssueCode._('IamInstanceProfileNotFound');
+  static const ec2SubnetMissingIpv6Assignment =
+      NodegroupIssueCode._('Ec2SubnetMissingIpv6Assignment');
+  static const iamLimitExceeded = NodegroupIssueCode._('IamLimitExceeded');
+  static const iamNodeRoleNotFound =
+      NodegroupIssueCode._('IamNodeRoleNotFound');
+  static const nodeCreationFailure =
+      NodegroupIssueCode._('NodeCreationFailure');
+  static const asgInstanceLaunchFailures =
+      NodegroupIssueCode._('AsgInstanceLaunchFailures');
+  static const instanceLimitExceeded =
+      NodegroupIssueCode._('InstanceLimitExceeded');
+  static const insufficientFreeAddresses =
+      NodegroupIssueCode._('InsufficientFreeAddresses');
+  static const accessDenied = NodegroupIssueCode._('AccessDenied');
+  static const internalFailure = NodegroupIssueCode._('InternalFailure');
+  static const clusterUnreachable = NodegroupIssueCode._('ClusterUnreachable');
+  static const amiIdNotFound = NodegroupIssueCode._('AmiIdNotFound');
+  static const autoScalingGroupOptInRequired =
+      NodegroupIssueCode._('AutoScalingGroupOptInRequired');
+  static const autoScalingGroupRateLimitExceeded =
+      NodegroupIssueCode._('AutoScalingGroupRateLimitExceeded');
+  static const ec2LaunchTemplateDeletionFailure =
+      NodegroupIssueCode._('Ec2LaunchTemplateDeletionFailure');
+  static const ec2LaunchTemplateInvalidConfiguration =
+      NodegroupIssueCode._('Ec2LaunchTemplateInvalidConfiguration');
+  static const ec2LaunchTemplateMaxLimitExceeded =
+      NodegroupIssueCode._('Ec2LaunchTemplateMaxLimitExceeded');
+  static const ec2SubnetListTooLong =
+      NodegroupIssueCode._('Ec2SubnetListTooLong');
+  static const iamThrottling = NodegroupIssueCode._('IamThrottling');
+  static const nodeTerminationFailure =
+      NodegroupIssueCode._('NodeTerminationFailure');
+  static const podEvictionFailure = NodegroupIssueCode._('PodEvictionFailure');
+  static const sourceEc2LaunchTemplateNotFound =
+      NodegroupIssueCode._('SourceEc2LaunchTemplateNotFound');
+  static const limitExceeded = NodegroupIssueCode._('LimitExceeded');
+  static const unknown = NodegroupIssueCode._('Unknown');
+  static const autoScalingGroupInstanceRefreshActive =
+      NodegroupIssueCode._('AutoScalingGroupInstanceRefreshActive');
+  static const kubernetesLabelInvalid =
+      NodegroupIssueCode._('KubernetesLabelInvalid');
+  static const ec2LaunchTemplateVersionMaxLimitExceeded =
+      NodegroupIssueCode._('Ec2LaunchTemplateVersionMaxLimitExceeded');
 
   final String value;
 
-  const NodegroupIssueCode(this.value);
+  const NodegroupIssueCode._(this.value);
 
-  static NodegroupIssueCode fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum NodegroupIssueCode'));
+  static const values = [
+    autoScalingGroupNotFound,
+    autoScalingGroupInvalidConfiguration,
+    ec2SecurityGroupNotFound,
+    ec2SecurityGroupDeletionFailure,
+    ec2LaunchTemplateNotFound,
+    ec2LaunchTemplateVersionMismatch,
+    ec2SubnetNotFound,
+    ec2SubnetInvalidConfiguration,
+    iamInstanceProfileNotFound,
+    ec2SubnetMissingIpv6Assignment,
+    iamLimitExceeded,
+    iamNodeRoleNotFound,
+    nodeCreationFailure,
+    asgInstanceLaunchFailures,
+    instanceLimitExceeded,
+    insufficientFreeAddresses,
+    accessDenied,
+    internalFailure,
+    clusterUnreachable,
+    amiIdNotFound,
+    autoScalingGroupOptInRequired,
+    autoScalingGroupRateLimitExceeded,
+    ec2LaunchTemplateDeletionFailure,
+    ec2LaunchTemplateInvalidConfiguration,
+    ec2LaunchTemplateMaxLimitExceeded,
+    ec2SubnetListTooLong,
+    iamThrottling,
+    nodeTerminationFailure,
+    podEvictionFailure,
+    sourceEc2LaunchTemplateNotFound,
+    limitExceeded,
+    unknown,
+    autoScalingGroupInstanceRefreshActive,
+    kubernetesLabelInvalid,
+    ec2LaunchTemplateVersionMaxLimitExceeded
+  ];
+
+  static NodegroupIssueCode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => NodegroupIssueCode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is NodegroupIssueCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// An object representing the resources associated with the node group, such as
@@ -8115,24 +8491,41 @@ class NodegroupScalingConfig {
   }
 }
 
-enum NodegroupStatus {
-  creating('CREATING'),
-  active('ACTIVE'),
-  updating('UPDATING'),
-  deleting('DELETING'),
-  createFailed('CREATE_FAILED'),
-  deleteFailed('DELETE_FAILED'),
-  degraded('DEGRADED'),
-  ;
+class NodegroupStatus {
+  static const creating = NodegroupStatus._('CREATING');
+  static const active = NodegroupStatus._('ACTIVE');
+  static const updating = NodegroupStatus._('UPDATING');
+  static const deleting = NodegroupStatus._('DELETING');
+  static const createFailed = NodegroupStatus._('CREATE_FAILED');
+  static const deleteFailed = NodegroupStatus._('DELETE_FAILED');
+  static const degraded = NodegroupStatus._('DEGRADED');
 
   final String value;
 
-  const NodegroupStatus(this.value);
+  const NodegroupStatus._(this.value);
+
+  static const values = [
+    creating,
+    active,
+    updating,
+    deleting,
+    createFailed,
+    deleteFailed,
+    degraded
+  ];
 
   static NodegroupStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum NodegroupStatus'));
+          orElse: () => NodegroupStatus._(value));
+
+  @override
+  bool operator ==(other) => other is NodegroupStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The node group update configuration.
@@ -8817,34 +9210,52 @@ class RemoteAccessConfig {
   }
 }
 
-enum ResolveConflicts {
-  overwrite('OVERWRITE'),
-  none('NONE'),
-  preserve('PRESERVE'),
-  ;
+class ResolveConflicts {
+  static const overwrite = ResolveConflicts._('OVERWRITE');
+  static const none = ResolveConflicts._('NONE');
+  static const preserve = ResolveConflicts._('PRESERVE');
 
   final String value;
 
-  const ResolveConflicts(this.value);
+  const ResolveConflicts._(this.value);
+
+  static const values = [overwrite, none, preserve];
 
   static ResolveConflicts fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ResolveConflicts'));
+          orElse: () => ResolveConflicts._(value));
+
+  @override
+  bool operator ==(other) => other is ResolveConflicts && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum SupportType {
-  standard('STANDARD'),
-  extended('EXTENDED'),
-  ;
+class SupportType {
+  static const standard = SupportType._('STANDARD');
+  static const extended = SupportType._('EXTENDED');
 
   final String value;
 
-  const SupportType(this.value);
+  const SupportType._(this.value);
 
-  static SupportType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum SupportType'));
+  static const values = [standard, extended];
+
+  static SupportType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => SupportType._(value));
+
+  @override
+  bool operator ==(other) => other is SupportType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class TagResourceResponse {
@@ -8899,19 +9310,28 @@ class Taint {
   }
 }
 
-enum TaintEffect {
-  noSchedule('NO_SCHEDULE'),
-  noExecute('NO_EXECUTE'),
-  preferNoSchedule('PREFER_NO_SCHEDULE'),
-  ;
+class TaintEffect {
+  static const noSchedule = TaintEffect._('NO_SCHEDULE');
+  static const noExecute = TaintEffect._('NO_EXECUTE');
+  static const preferNoSchedule = TaintEffect._('PREFER_NO_SCHEDULE');
 
   final String value;
 
-  const TaintEffect(this.value);
+  const TaintEffect._(this.value);
 
-  static TaintEffect fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum TaintEffect'));
+  static const values = [noSchedule, noExecute, preferNoSchedule];
+
+  static TaintEffect fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => TaintEffect._(value));
+
+  @override
+  bool operator ==(other) => other is TaintEffect && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class UntagResourceResponse {
@@ -9228,46 +9648,91 @@ class UpdateParam {
   }
 }
 
-enum UpdateParamType {
-  version('Version'),
-  platformVersion('PlatformVersion'),
-  endpointPrivateAccess('EndpointPrivateAccess'),
-  endpointPublicAccess('EndpointPublicAccess'),
-  clusterLogging('ClusterLogging'),
-  desiredSize('DesiredSize'),
-  labelsToAdd('LabelsToAdd'),
-  labelsToRemove('LabelsToRemove'),
-  taintsToAdd('TaintsToAdd'),
-  taintsToRemove('TaintsToRemove'),
-  maxSize('MaxSize'),
-  minSize('MinSize'),
-  releaseVersion('ReleaseVersion'),
-  publicAccessCidrs('PublicAccessCidrs'),
-  launchTemplateName('LaunchTemplateName'),
-  launchTemplateVersion('LaunchTemplateVersion'),
-  identityProviderConfig('IdentityProviderConfig'),
-  encryptionConfig('EncryptionConfig'),
-  addonVersion('AddonVersion'),
-  serviceAccountRoleArn('ServiceAccountRoleArn'),
-  resolveConflicts('ResolveConflicts'),
-  maxUnavailable('MaxUnavailable'),
-  maxUnavailablePercentage('MaxUnavailablePercentage'),
-  configurationValues('ConfigurationValues'),
-  securityGroups('SecurityGroups'),
-  subnets('Subnets'),
-  authenticationMode('AuthenticationMode'),
-  podIdentityAssociations('PodIdentityAssociations'),
-  upgradePolicy('UpgradePolicy'),
-  ;
+class UpdateParamType {
+  static const version = UpdateParamType._('Version');
+  static const platformVersion = UpdateParamType._('PlatformVersion');
+  static const endpointPrivateAccess =
+      UpdateParamType._('EndpointPrivateAccess');
+  static const endpointPublicAccess = UpdateParamType._('EndpointPublicAccess');
+  static const clusterLogging = UpdateParamType._('ClusterLogging');
+  static const desiredSize = UpdateParamType._('DesiredSize');
+  static const labelsToAdd = UpdateParamType._('LabelsToAdd');
+  static const labelsToRemove = UpdateParamType._('LabelsToRemove');
+  static const taintsToAdd = UpdateParamType._('TaintsToAdd');
+  static const taintsToRemove = UpdateParamType._('TaintsToRemove');
+  static const maxSize = UpdateParamType._('MaxSize');
+  static const minSize = UpdateParamType._('MinSize');
+  static const releaseVersion = UpdateParamType._('ReleaseVersion');
+  static const publicAccessCidrs = UpdateParamType._('PublicAccessCidrs');
+  static const launchTemplateName = UpdateParamType._('LaunchTemplateName');
+  static const launchTemplateVersion =
+      UpdateParamType._('LaunchTemplateVersion');
+  static const identityProviderConfig =
+      UpdateParamType._('IdentityProviderConfig');
+  static const encryptionConfig = UpdateParamType._('EncryptionConfig');
+  static const addonVersion = UpdateParamType._('AddonVersion');
+  static const serviceAccountRoleArn =
+      UpdateParamType._('ServiceAccountRoleArn');
+  static const resolveConflicts = UpdateParamType._('ResolveConflicts');
+  static const maxUnavailable = UpdateParamType._('MaxUnavailable');
+  static const maxUnavailablePercentage =
+      UpdateParamType._('MaxUnavailablePercentage');
+  static const configurationValues = UpdateParamType._('ConfigurationValues');
+  static const securityGroups = UpdateParamType._('SecurityGroups');
+  static const subnets = UpdateParamType._('Subnets');
+  static const authenticationMode = UpdateParamType._('AuthenticationMode');
+  static const podIdentityAssociations =
+      UpdateParamType._('PodIdentityAssociations');
+  static const upgradePolicy = UpdateParamType._('UpgradePolicy');
 
   final String value;
 
-  const UpdateParamType(this.value);
+  const UpdateParamType._(this.value);
+
+  static const values = [
+    version,
+    platformVersion,
+    endpointPrivateAccess,
+    endpointPublicAccess,
+    clusterLogging,
+    desiredSize,
+    labelsToAdd,
+    labelsToRemove,
+    taintsToAdd,
+    taintsToRemove,
+    maxSize,
+    minSize,
+    releaseVersion,
+    publicAccessCidrs,
+    launchTemplateName,
+    launchTemplateVersion,
+    identityProviderConfig,
+    encryptionConfig,
+    addonVersion,
+    serviceAccountRoleArn,
+    resolveConflicts,
+    maxUnavailable,
+    maxUnavailablePercentage,
+    configurationValues,
+    securityGroups,
+    subnets,
+    authenticationMode,
+    podIdentityAssociations,
+    upgradePolicy
+  ];
 
   static UpdateParamType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum UpdateParamType'));
+          orElse: () => UpdateParamType._(value));
+
+  @override
+  bool operator ==(other) => other is UpdateParamType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class UpdatePodIdentityAssociationResponse {
@@ -9296,21 +9761,29 @@ class UpdatePodIdentityAssociationResponse {
   }
 }
 
-enum UpdateStatus {
-  inProgress('InProgress'),
-  failed('Failed'),
-  cancelled('Cancelled'),
-  successful('Successful'),
-  ;
+class UpdateStatus {
+  static const inProgress = UpdateStatus._('InProgress');
+  static const failed = UpdateStatus._('Failed');
+  static const cancelled = UpdateStatus._('Cancelled');
+  static const successful = UpdateStatus._('Successful');
 
   final String value;
 
-  const UpdateStatus(this.value);
+  const UpdateStatus._(this.value);
 
-  static UpdateStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum UpdateStatus'));
+  static const values = [inProgress, failed, cancelled, successful];
+
+  static UpdateStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => UpdateStatus._(value));
+
+  @override
+  bool operator ==(other) => other is UpdateStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// An object representing the details of an update to a taints payload. For
@@ -9339,27 +9812,51 @@ class UpdateTaintsPayload {
   }
 }
 
-enum UpdateType {
-  versionUpdate('VersionUpdate'),
-  endpointAccessUpdate('EndpointAccessUpdate'),
-  loggingUpdate('LoggingUpdate'),
-  configUpdate('ConfigUpdate'),
-  associateIdentityProviderConfig('AssociateIdentityProviderConfig'),
-  disassociateIdentityProviderConfig('DisassociateIdentityProviderConfig'),
-  associateEncryptionConfig('AssociateEncryptionConfig'),
-  addonUpdate('AddonUpdate'),
-  vpcConfigUpdate('VpcConfigUpdate'),
-  accessConfigUpdate('AccessConfigUpdate'),
-  upgradePolicyUpdate('UpgradePolicyUpdate'),
-  ;
+class UpdateType {
+  static const versionUpdate = UpdateType._('VersionUpdate');
+  static const endpointAccessUpdate = UpdateType._('EndpointAccessUpdate');
+  static const loggingUpdate = UpdateType._('LoggingUpdate');
+  static const configUpdate = UpdateType._('ConfigUpdate');
+  static const associateIdentityProviderConfig =
+      UpdateType._('AssociateIdentityProviderConfig');
+  static const disassociateIdentityProviderConfig =
+      UpdateType._('DisassociateIdentityProviderConfig');
+  static const associateEncryptionConfig =
+      UpdateType._('AssociateEncryptionConfig');
+  static const addonUpdate = UpdateType._('AddonUpdate');
+  static const vpcConfigUpdate = UpdateType._('VpcConfigUpdate');
+  static const accessConfigUpdate = UpdateType._('AccessConfigUpdate');
+  static const upgradePolicyUpdate = UpdateType._('UpgradePolicyUpdate');
 
   final String value;
 
-  const UpdateType(this.value);
+  const UpdateType._(this.value);
 
-  static UpdateType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum UpdateType'));
+  static const values = [
+    versionUpdate,
+    endpointAccessUpdate,
+    loggingUpdate,
+    configUpdate,
+    associateIdentityProviderConfig,
+    disassociateIdentityProviderConfig,
+    associateEncryptionConfig,
+    addonUpdate,
+    vpcConfigUpdate,
+    accessConfigUpdate,
+    upgradePolicyUpdate
+  ];
+
+  static UpdateType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => UpdateType._(value));
+
+  @override
+  bool operator ==(other) => other is UpdateType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The support policy to use for the cluster. Extended support allows you to
@@ -9601,20 +10098,28 @@ class VpcConfigResponse {
   }
 }
 
-enum ConfigStatus {
-  creating('CREATING'),
-  deleting('DELETING'),
-  active('ACTIVE'),
-  ;
+class ConfigStatus {
+  static const creating = ConfigStatus._('CREATING');
+  static const deleting = ConfigStatus._('DELETING');
+  static const active = ConfigStatus._('ACTIVE');
 
   final String value;
 
-  const ConfigStatus(this.value);
+  const ConfigStatus._(this.value);
 
-  static ConfigStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ConfigStatus'));
+  static const values = [creating, deleting, active];
+
+  static ConfigStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ConfigStatus._(value));
+
+  @override
+  bool operator ==(other) => other is ConfigStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class AccessDeniedException extends _s.GenericAwsException {

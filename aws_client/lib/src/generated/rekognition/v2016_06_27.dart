@@ -6434,30 +6434,54 @@ class AssociatedFace {
   }
 }
 
-enum Attribute {
-  $default('DEFAULT'),
-  all('ALL'),
-  ageRange('AGE_RANGE'),
-  beard('BEARD'),
-  emotions('EMOTIONS'),
-  eyeDirection('EYE_DIRECTION'),
-  eyeglasses('EYEGLASSES'),
-  eyesOpen('EYES_OPEN'),
-  gender('GENDER'),
-  mouthOpen('MOUTH_OPEN'),
-  mustache('MUSTACHE'),
-  faceOccluded('FACE_OCCLUDED'),
-  smile('SMILE'),
-  sunglasses('SUNGLASSES'),
-  ;
+class Attribute {
+  static const $default = Attribute._('DEFAULT');
+  static const all = Attribute._('ALL');
+  static const ageRange = Attribute._('AGE_RANGE');
+  static const beard = Attribute._('BEARD');
+  static const emotions = Attribute._('EMOTIONS');
+  static const eyeDirection = Attribute._('EYE_DIRECTION');
+  static const eyeglasses = Attribute._('EYEGLASSES');
+  static const eyesOpen = Attribute._('EYES_OPEN');
+  static const gender = Attribute._('GENDER');
+  static const mouthOpen = Attribute._('MOUTH_OPEN');
+  static const mustache = Attribute._('MUSTACHE');
+  static const faceOccluded = Attribute._('FACE_OCCLUDED');
+  static const smile = Attribute._('SMILE');
+  static const sunglasses = Attribute._('SUNGLASSES');
 
   final String value;
 
-  const Attribute(this.value);
+  const Attribute._(this.value);
 
-  static Attribute fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum Attribute'));
+  static const values = [
+    $default,
+    all,
+    ageRange,
+    beard,
+    emotions,
+    eyeDirection,
+    eyeglasses,
+    eyesOpen,
+    gender,
+    mouthOpen,
+    mustache,
+    faceOccluded,
+    smile,
+    sunglasses
+  ];
+
+  static Attribute fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Attribute._(value));
+
+  @override
+  bool operator ==(other) => other is Attribute && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Metadata information about an audio stream. An array of
@@ -6622,20 +6646,29 @@ class BlackFrame {
   }
 }
 
-enum BodyPart {
-  face('FACE'),
-  head('HEAD'),
-  leftHand('LEFT_HAND'),
-  rightHand('RIGHT_HAND'),
-  ;
+class BodyPart {
+  static const face = BodyPart._('FACE');
+  static const head = BodyPart._('HEAD');
+  static const leftHand = BodyPart._('LEFT_HAND');
+  static const rightHand = BodyPart._('RIGHT_HAND');
 
   final String value;
 
-  const BodyPart(this.value);
+  const BodyPart._(this.value);
 
-  static BodyPart fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum BodyPart'));
+  static const values = [face, head, leftHand, rightHand];
+
+  static BodyPart fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => BodyPart._(value));
+
+  @override
+  bool operator ==(other) => other is BodyPart && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Identifies the bounding box around the label, face, text, object of
@@ -6877,19 +6910,29 @@ class CelebrityRecognition {
   }
 }
 
-enum CelebrityRecognitionSortBy {
-  id('ID'),
-  timestamp('TIMESTAMP'),
-  ;
+class CelebrityRecognitionSortBy {
+  static const id = CelebrityRecognitionSortBy._('ID');
+  static const timestamp = CelebrityRecognitionSortBy._('TIMESTAMP');
 
   final String value;
 
-  const CelebrityRecognitionSortBy(this.value);
+  const CelebrityRecognitionSortBy._(this.value);
+
+  static const values = [id, timestamp];
 
   static CelebrityRecognitionSortBy fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum CelebrityRecognitionSortBy'));
+          orElse: () => CelebrityRecognitionSortBy._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CelebrityRecognitionSortBy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Provides information about a face in a target image that matches the source
@@ -7216,35 +7259,57 @@ class ConnectedHomeSettingsForUpdate {
   }
 }
 
-enum ContentClassifier {
-  freeOfPersonallyIdentifiableInformation(
-      'FreeOfPersonallyIdentifiableInformation'),
-  freeOfAdultContent('FreeOfAdultContent'),
-  ;
+class ContentClassifier {
+  static const freeOfPersonallyIdentifiableInformation =
+      ContentClassifier._('FreeOfPersonallyIdentifiableInformation');
+  static const freeOfAdultContent = ContentClassifier._('FreeOfAdultContent');
 
   final String value;
 
-  const ContentClassifier(this.value);
+  const ContentClassifier._(this.value);
+
+  static const values = [
+    freeOfPersonallyIdentifiableInformation,
+    freeOfAdultContent
+  ];
 
   static ContentClassifier fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ContentClassifier'));
+          orElse: () => ContentClassifier._(value));
+
+  @override
+  bool operator ==(other) => other is ContentClassifier && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ContentModerationAggregateBy {
-  timestamps('TIMESTAMPS'),
-  segments('SEGMENTS'),
-  ;
+class ContentModerationAggregateBy {
+  static const timestamps = ContentModerationAggregateBy._('TIMESTAMPS');
+  static const segments = ContentModerationAggregateBy._('SEGMENTS');
 
   final String value;
 
-  const ContentModerationAggregateBy(this.value);
+  const ContentModerationAggregateBy._(this.value);
+
+  static const values = [timestamps, segments];
 
   static ContentModerationAggregateBy fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ContentModerationAggregateBy'));
+          orElse: () => ContentModerationAggregateBy._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ContentModerationAggregateBy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about an inappropriate, unwanted, or offensive content label
@@ -7320,19 +7385,29 @@ class ContentModerationDetection {
   }
 }
 
-enum ContentModerationSortBy {
-  name('NAME'),
-  timestamp('TIMESTAMP'),
-  ;
+class ContentModerationSortBy {
+  static const name = ContentModerationSortBy._('NAME');
+  static const timestamp = ContentModerationSortBy._('TIMESTAMP');
 
   final String value;
 
-  const ContentModerationSortBy(this.value);
+  const ContentModerationSortBy._(this.value);
+
+  static const values = [name, timestamp];
 
   static ContentModerationSortBy fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ContentModerationSortBy'));
+          orElse: () => ContentModerationSortBy._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ContentModerationSortBy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains information regarding the confidence and name of a detected content
@@ -7664,19 +7739,29 @@ class CustomLabel {
   }
 }
 
-enum CustomizationFeature {
-  contentModeration('CONTENT_MODERATION'),
-  customLabels('CUSTOM_LABELS'),
-  ;
+class CustomizationFeature {
+  static const contentModeration = CustomizationFeature._('CONTENT_MODERATION');
+  static const customLabels = CustomizationFeature._('CUSTOM_LABELS');
 
   final String value;
 
-  const CustomizationFeature(this.value);
+  const CustomizationFeature._(this.value);
 
-  static CustomizationFeature fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum CustomizationFeature'));
+  static const values = [contentModeration, customLabels];
+
+  static CustomizationFeature fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => CustomizationFeature._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CustomizationFeature && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Feature specific configuration for the training job. Configuration provided
@@ -8044,54 +8129,90 @@ class DatasetStats {
   }
 }
 
-enum DatasetStatus {
-  createInProgress('CREATE_IN_PROGRESS'),
-  createComplete('CREATE_COMPLETE'),
-  createFailed('CREATE_FAILED'),
-  updateInProgress('UPDATE_IN_PROGRESS'),
-  updateComplete('UPDATE_COMPLETE'),
-  updateFailed('UPDATE_FAILED'),
-  deleteInProgress('DELETE_IN_PROGRESS'),
-  ;
+class DatasetStatus {
+  static const createInProgress = DatasetStatus._('CREATE_IN_PROGRESS');
+  static const createComplete = DatasetStatus._('CREATE_COMPLETE');
+  static const createFailed = DatasetStatus._('CREATE_FAILED');
+  static const updateInProgress = DatasetStatus._('UPDATE_IN_PROGRESS');
+  static const updateComplete = DatasetStatus._('UPDATE_COMPLETE');
+  static const updateFailed = DatasetStatus._('UPDATE_FAILED');
+  static const deleteInProgress = DatasetStatus._('DELETE_IN_PROGRESS');
 
   final String value;
 
-  const DatasetStatus(this.value);
+  const DatasetStatus._(this.value);
+
+  static const values = [
+    createInProgress,
+    createComplete,
+    createFailed,
+    updateInProgress,
+    updateComplete,
+    updateFailed,
+    deleteInProgress
+  ];
 
   static DatasetStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum DatasetStatus'));
+          orElse: () => DatasetStatus._(value));
+
+  @override
+  bool operator ==(other) => other is DatasetStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum DatasetStatusMessageCode {
-  success('SUCCESS'),
-  serviceError('SERVICE_ERROR'),
-  clientError('CLIENT_ERROR'),
-  ;
+class DatasetStatusMessageCode {
+  static const success = DatasetStatusMessageCode._('SUCCESS');
+  static const serviceError = DatasetStatusMessageCode._('SERVICE_ERROR');
+  static const clientError = DatasetStatusMessageCode._('CLIENT_ERROR');
 
   final String value;
 
-  const DatasetStatusMessageCode(this.value);
+  const DatasetStatusMessageCode._(this.value);
+
+  static const values = [success, serviceError, clientError];
 
   static DatasetStatusMessageCode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum DatasetStatusMessageCode'));
+          orElse: () => DatasetStatusMessageCode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DatasetStatusMessageCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum DatasetType {
-  train('TRAIN'),
-  test('TEST'),
-  ;
+class DatasetType {
+  static const train = DatasetType._('TRAIN');
+  static const test = DatasetType._('TEST');
 
   final String value;
 
-  const DatasetType(this.value);
+  const DatasetType._(this.value);
 
-  static DatasetType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum DatasetType'));
+  static const values = [train, test];
+
+  static DatasetType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => DatasetType._(value));
+
+  @override
+  bool operator ==(other) => other is DatasetType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class DeleteCollectionResponse {
@@ -8616,19 +8737,29 @@ class DetectFacesResponse {
   }
 }
 
-enum DetectLabelsFeatureName {
-  generalLabels('GENERAL_LABELS'),
-  imageProperties('IMAGE_PROPERTIES'),
-  ;
+class DetectLabelsFeatureName {
+  static const generalLabels = DetectLabelsFeatureName._('GENERAL_LABELS');
+  static const imageProperties = DetectLabelsFeatureName._('IMAGE_PROPERTIES');
 
   final String value;
 
-  const DetectLabelsFeatureName(this.value);
+  const DetectLabelsFeatureName._(this.value);
+
+  static const values = [generalLabels, imageProperties];
 
   static DetectLabelsFeatureName fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum DetectLabelsFeatureName'));
+          orElse: () => DetectLabelsFeatureName._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DetectLabelsFeatureName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The background of the image with regard to image quality and dominant
@@ -9339,25 +9470,44 @@ class Emotion {
   }
 }
 
-enum EmotionName {
-  happy('HAPPY'),
-  sad('SAD'),
-  angry('ANGRY'),
-  confused('CONFUSED'),
-  disgusted('DISGUSTED'),
-  surprised('SURPRISED'),
-  calm('CALM'),
-  unknown('UNKNOWN'),
-  fear('FEAR'),
-  ;
+class EmotionName {
+  static const happy = EmotionName._('HAPPY');
+  static const sad = EmotionName._('SAD');
+  static const angry = EmotionName._('ANGRY');
+  static const confused = EmotionName._('CONFUSED');
+  static const disgusted = EmotionName._('DISGUSTED');
+  static const surprised = EmotionName._('SURPRISED');
+  static const calm = EmotionName._('CALM');
+  static const unknown = EmotionName._('UNKNOWN');
+  static const fear = EmotionName._('FEAR');
 
   final String value;
 
-  const EmotionName(this.value);
+  const EmotionName._(this.value);
 
-  static EmotionName fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum EmotionName'));
+  static const values = [
+    happy,
+    sad,
+    angry,
+    confused,
+    disgusted,
+    surprised,
+    calm,
+    unknown,
+    fear
+  ];
+
+  static EmotionName fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => EmotionName._(value));
+
+  @override
+  bool operator ==(other) => other is EmotionName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about an item of Personal Protective Equipment (PPE) detected by
@@ -9618,19 +9768,28 @@ class Face {
   }
 }
 
-enum FaceAttributes {
-  $default('DEFAULT'),
-  all('ALL'),
-  ;
+class FaceAttributes {
+  static const $default = FaceAttributes._('DEFAULT');
+  static const all = FaceAttributes._('ALL');
 
   final String value;
 
-  const FaceAttributes(this.value);
+  const FaceAttributes._(this.value);
+
+  static const values = [$default, all];
 
   static FaceAttributes fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum FaceAttributes'));
+          orElse: () => FaceAttributes._(value));
+
+  @override
+  bool operator ==(other) => other is FaceAttributes && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Structure containing attributes of the face that the algorithm detected.
@@ -10036,19 +10195,28 @@ class FaceSearchSettings {
   }
 }
 
-enum FaceSearchSortBy {
-  $index('INDEX'),
-  timestamp('TIMESTAMP'),
-  ;
+class FaceSearchSortBy {
+  static const $index = FaceSearchSortBy._('INDEX');
+  static const timestamp = FaceSearchSortBy._('TIMESTAMP');
 
   final String value;
 
-  const FaceSearchSortBy(this.value);
+  const FaceSearchSortBy._(this.value);
+
+  static const values = [$index, timestamp];
 
   static FaceSearchSortBy fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum FaceSearchSortBy'));
+          orElse: () => FaceSearchSortBy._(value));
+
+  @override
+  bool operator ==(other) => other is FaceSearchSortBy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The predicted gender of a detected face.
@@ -10096,18 +10264,27 @@ class Gender {
   }
 }
 
-enum GenderType {
-  male('Male'),
-  female('Female'),
-  ;
+class GenderType {
+  static const male = GenderType._('Male');
+  static const female = GenderType._('Female');
 
   final String value;
 
-  const GenderType(this.value);
+  const GenderType._(this.value);
 
-  static GenderType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum GenderType'));
+  static const values = [male, female];
+
+  static GenderType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => GenderType._(value));
+
+  @override
+  bool operator ==(other) => other is GenderType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains filters for the object labels returned by DetectLabels. Filters can
@@ -10586,7 +10763,8 @@ class GetFaceLivenessSessionResultsResponse {
       Map<String, dynamic> json) {
     return GetFaceLivenessSessionResultsResponse(
       sessionId: (json['SessionId'] as String?) ?? '',
-      status: LivenessSessionStatus.fromString((json['Status'] as String)),
+      status:
+          LivenessSessionStatus.fromString((json['Status'] as String?) ?? ''),
       auditImages: (json['AuditImages'] as List?)
           ?.nonNulls
           .map((e) => AuditImage.fromJson(e as Map<String, dynamic>))
@@ -10913,7 +11091,8 @@ class GetMediaAnalysisJobResponse {
       outputConfig: MediaAnalysisOutputConfig.fromJson(
           (json['OutputConfig'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
-      status: MediaAnalysisJobStatus.fromString((json['Status'] as String)),
+      status:
+          MediaAnalysisJobStatus.fromString((json['Status'] as String?) ?? ''),
       completionTimestamp: timeStampFromJson(json['CompletionTimestamp']),
       failureDetails: json['FailureDetails'] != null
           ? MediaAnalysisJobFailureDetails.fromJson(
@@ -11710,21 +11889,30 @@ class KnownGender {
 }
 
 /// A list of enum string of possible gender values that Celebrity returns.
-enum KnownGenderType {
-  male('Male'),
-  female('Female'),
-  nonbinary('Nonbinary'),
-  unlisted('Unlisted'),
-  ;
+class KnownGenderType {
+  static const male = KnownGenderType._('Male');
+  static const female = KnownGenderType._('Female');
+  static const nonbinary = KnownGenderType._('Nonbinary');
+  static const unlisted = KnownGenderType._('Unlisted');
 
   final String value;
 
-  const KnownGenderType(this.value);
+  const KnownGenderType._(this.value);
+
+  static const values = [male, female, nonbinary, unlisted];
 
   static KnownGenderType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum KnownGenderType'));
+          orElse: () => KnownGenderType._(value));
+
+  @override
+  bool operator ==(other) => other is KnownGenderType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Structure containing details about the detected label, including the name,
@@ -11909,33 +12097,53 @@ class LabelDetection {
   }
 }
 
-enum LabelDetectionAggregateBy {
-  timestamps('TIMESTAMPS'),
-  segments('SEGMENTS'),
-  ;
+class LabelDetectionAggregateBy {
+  static const timestamps = LabelDetectionAggregateBy._('TIMESTAMPS');
+  static const segments = LabelDetectionAggregateBy._('SEGMENTS');
 
   final String value;
 
-  const LabelDetectionAggregateBy(this.value);
+  const LabelDetectionAggregateBy._(this.value);
+
+  static const values = [timestamps, segments];
 
   static LabelDetectionAggregateBy fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum LabelDetectionAggregateBy'));
+          orElse: () => LabelDetectionAggregateBy._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is LabelDetectionAggregateBy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum LabelDetectionFeatureName {
-  generalLabels('GENERAL_LABELS'),
-  ;
+class LabelDetectionFeatureName {
+  static const generalLabels = LabelDetectionFeatureName._('GENERAL_LABELS');
 
   final String value;
 
-  const LabelDetectionFeatureName(this.value);
+  const LabelDetectionFeatureName._(this.value);
+
+  static const values = [generalLabels];
 
   static LabelDetectionFeatureName fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum LabelDetectionFeatureName'));
+          orElse: () => LabelDetectionFeatureName._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is LabelDetectionFeatureName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains the specified filters that should be applied to a list of returned
@@ -11955,19 +12163,29 @@ class LabelDetectionSettings {
   }
 }
 
-enum LabelDetectionSortBy {
-  name('NAME'),
-  timestamp('TIMESTAMP'),
-  ;
+class LabelDetectionSortBy {
+  static const name = LabelDetectionSortBy._('NAME');
+  static const timestamp = LabelDetectionSortBy._('TIMESTAMP');
 
   final String value;
 
-  const LabelDetectionSortBy(this.value);
+  const LabelDetectionSortBy._(this.value);
 
-  static LabelDetectionSortBy fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum LabelDetectionSortBy'));
+  static const values = [name, timestamp];
+
+  static LabelDetectionSortBy fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => LabelDetectionSortBy._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is LabelDetectionSortBy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Indicates the location of the landmark on the face.
@@ -12013,47 +12231,86 @@ class Landmark {
   }
 }
 
-enum LandmarkType {
-  eyeLeft('eyeLeft'),
-  eyeRight('eyeRight'),
-  nose('nose'),
-  mouthLeft('mouthLeft'),
-  mouthRight('mouthRight'),
-  leftEyeBrowLeft('leftEyeBrowLeft'),
-  leftEyeBrowRight('leftEyeBrowRight'),
-  leftEyeBrowUp('leftEyeBrowUp'),
-  rightEyeBrowLeft('rightEyeBrowLeft'),
-  rightEyeBrowRight('rightEyeBrowRight'),
-  rightEyeBrowUp('rightEyeBrowUp'),
-  leftEyeLeft('leftEyeLeft'),
-  leftEyeRight('leftEyeRight'),
-  leftEyeUp('leftEyeUp'),
-  leftEyeDown('leftEyeDown'),
-  rightEyeLeft('rightEyeLeft'),
-  rightEyeRight('rightEyeRight'),
-  rightEyeUp('rightEyeUp'),
-  rightEyeDown('rightEyeDown'),
-  noseLeft('noseLeft'),
-  noseRight('noseRight'),
-  mouthUp('mouthUp'),
-  mouthDown('mouthDown'),
-  leftPupil('leftPupil'),
-  rightPupil('rightPupil'),
-  upperJawlineLeft('upperJawlineLeft'),
-  midJawlineLeft('midJawlineLeft'),
-  chinBottom('chinBottom'),
-  midJawlineRight('midJawlineRight'),
-  upperJawlineRight('upperJawlineRight'),
-  ;
+class LandmarkType {
+  static const eyeLeft = LandmarkType._('eyeLeft');
+  static const eyeRight = LandmarkType._('eyeRight');
+  static const nose = LandmarkType._('nose');
+  static const mouthLeft = LandmarkType._('mouthLeft');
+  static const mouthRight = LandmarkType._('mouthRight');
+  static const leftEyeBrowLeft = LandmarkType._('leftEyeBrowLeft');
+  static const leftEyeBrowRight = LandmarkType._('leftEyeBrowRight');
+  static const leftEyeBrowUp = LandmarkType._('leftEyeBrowUp');
+  static const rightEyeBrowLeft = LandmarkType._('rightEyeBrowLeft');
+  static const rightEyeBrowRight = LandmarkType._('rightEyeBrowRight');
+  static const rightEyeBrowUp = LandmarkType._('rightEyeBrowUp');
+  static const leftEyeLeft = LandmarkType._('leftEyeLeft');
+  static const leftEyeRight = LandmarkType._('leftEyeRight');
+  static const leftEyeUp = LandmarkType._('leftEyeUp');
+  static const leftEyeDown = LandmarkType._('leftEyeDown');
+  static const rightEyeLeft = LandmarkType._('rightEyeLeft');
+  static const rightEyeRight = LandmarkType._('rightEyeRight');
+  static const rightEyeUp = LandmarkType._('rightEyeUp');
+  static const rightEyeDown = LandmarkType._('rightEyeDown');
+  static const noseLeft = LandmarkType._('noseLeft');
+  static const noseRight = LandmarkType._('noseRight');
+  static const mouthUp = LandmarkType._('mouthUp');
+  static const mouthDown = LandmarkType._('mouthDown');
+  static const leftPupil = LandmarkType._('leftPupil');
+  static const rightPupil = LandmarkType._('rightPupil');
+  static const upperJawlineLeft = LandmarkType._('upperJawlineLeft');
+  static const midJawlineLeft = LandmarkType._('midJawlineLeft');
+  static const chinBottom = LandmarkType._('chinBottom');
+  static const midJawlineRight = LandmarkType._('midJawlineRight');
+  static const upperJawlineRight = LandmarkType._('upperJawlineRight');
 
   final String value;
 
-  const LandmarkType(this.value);
+  const LandmarkType._(this.value);
 
-  static LandmarkType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum LandmarkType'));
+  static const values = [
+    eyeLeft,
+    eyeRight,
+    nose,
+    mouthLeft,
+    mouthRight,
+    leftEyeBrowLeft,
+    leftEyeBrowRight,
+    leftEyeBrowUp,
+    rightEyeBrowLeft,
+    rightEyeBrowRight,
+    rightEyeBrowUp,
+    leftEyeLeft,
+    leftEyeRight,
+    leftEyeUp,
+    leftEyeDown,
+    rightEyeLeft,
+    rightEyeRight,
+    rightEyeUp,
+    rightEyeDown,
+    noseLeft,
+    noseRight,
+    mouthUp,
+    mouthDown,
+    leftPupil,
+    rightPupil,
+    upperJawlineLeft,
+    midJawlineLeft,
+    chinBottom,
+    midJawlineRight,
+    upperJawlineRight
+  ];
+
+  static LandmarkType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => LandmarkType._(value));
+
+  @override
+  bool operator ==(other) => other is LandmarkType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class ListCollectionsResponse {
@@ -12402,22 +12659,32 @@ class LivenessOutputConfig {
   }
 }
 
-enum LivenessSessionStatus {
-  created('CREATED'),
-  inProgress('IN_PROGRESS'),
-  succeeded('SUCCEEDED'),
-  failed('FAILED'),
-  expired('EXPIRED'),
-  ;
+class LivenessSessionStatus {
+  static const created = LivenessSessionStatus._('CREATED');
+  static const inProgress = LivenessSessionStatus._('IN_PROGRESS');
+  static const succeeded = LivenessSessionStatus._('SUCCEEDED');
+  static const failed = LivenessSessionStatus._('FAILED');
+  static const expired = LivenessSessionStatus._('EXPIRED');
 
   final String value;
 
-  const LivenessSessionStatus(this.value);
+  const LivenessSessionStatus._(this.value);
 
-  static LivenessSessionStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum LivenessSessionStatus'));
+  static const values = [created, inProgress, succeeded, failed, expired];
+
+  static LivenessSessionStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => LivenessSessionStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is LivenessSessionStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains metadata for a UserID matched with a given face.
@@ -12576,7 +12843,8 @@ class MediaAnalysisJobDescription {
       outputConfig: MediaAnalysisOutputConfig.fromJson(
           (json['OutputConfig'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
-      status: MediaAnalysisJobStatus.fromString((json['Status'] as String)),
+      status:
+          MediaAnalysisJobStatus.fromString((json['Status'] as String?) ?? ''),
       completionTimestamp: timeStampFromJson(json['CompletionTimestamp']),
       failureDetails: json['FailureDetails'] != null
           ? MediaAnalysisJobFailureDetails.fromJson(
@@ -12626,26 +12894,51 @@ class MediaAnalysisJobDescription {
   }
 }
 
-enum MediaAnalysisJobFailureCode {
-  internalError('INTERNAL_ERROR'),
-  invalidS3Object('INVALID_S3_OBJECT'),
-  invalidManifest('INVALID_MANIFEST'),
-  invalidOutputConfig('INVALID_OUTPUT_CONFIG'),
-  invalidKmsKey('INVALID_KMS_KEY'),
-  accessDenied('ACCESS_DENIED'),
-  resourceNotFound('RESOURCE_NOT_FOUND'),
-  resourceNotReady('RESOURCE_NOT_READY'),
-  throttled('THROTTLED'),
-  ;
+class MediaAnalysisJobFailureCode {
+  static const internalError = MediaAnalysisJobFailureCode._('INTERNAL_ERROR');
+  static const invalidS3Object =
+      MediaAnalysisJobFailureCode._('INVALID_S3_OBJECT');
+  static const invalidManifest =
+      MediaAnalysisJobFailureCode._('INVALID_MANIFEST');
+  static const invalidOutputConfig =
+      MediaAnalysisJobFailureCode._('INVALID_OUTPUT_CONFIG');
+  static const invalidKmsKey = MediaAnalysisJobFailureCode._('INVALID_KMS_KEY');
+  static const accessDenied = MediaAnalysisJobFailureCode._('ACCESS_DENIED');
+  static const resourceNotFound =
+      MediaAnalysisJobFailureCode._('RESOURCE_NOT_FOUND');
+  static const resourceNotReady =
+      MediaAnalysisJobFailureCode._('RESOURCE_NOT_READY');
+  static const throttled = MediaAnalysisJobFailureCode._('THROTTLED');
 
   final String value;
 
-  const MediaAnalysisJobFailureCode(this.value);
+  const MediaAnalysisJobFailureCode._(this.value);
+
+  static const values = [
+    internalError,
+    invalidS3Object,
+    invalidManifest,
+    invalidOutputConfig,
+    invalidKmsKey,
+    accessDenied,
+    resourceNotFound,
+    resourceNotReady,
+    throttled
+  ];
 
   static MediaAnalysisJobFailureCode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum MediaAnalysisJobFailureCode'));
+          orElse: () => MediaAnalysisJobFailureCode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is MediaAnalysisJobFailureCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Details about the error that resulted in failure of the job.
@@ -12679,22 +12972,32 @@ class MediaAnalysisJobFailureDetails {
   }
 }
 
-enum MediaAnalysisJobStatus {
-  created('CREATED'),
-  queued('QUEUED'),
-  inProgress('IN_PROGRESS'),
-  succeeded('SUCCEEDED'),
-  failed('FAILED'),
-  ;
+class MediaAnalysisJobStatus {
+  static const created = MediaAnalysisJobStatus._('CREATED');
+  static const queued = MediaAnalysisJobStatus._('QUEUED');
+  static const inProgress = MediaAnalysisJobStatus._('IN_PROGRESS');
+  static const succeeded = MediaAnalysisJobStatus._('SUCCEEDED');
+  static const failed = MediaAnalysisJobStatus._('FAILED');
 
   final String value;
 
-  const MediaAnalysisJobStatus(this.value);
+  const MediaAnalysisJobStatus._(this.value);
+
+  static const values = [created, queued, inProgress, succeeded, failed];
 
   static MediaAnalysisJobStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum MediaAnalysisJobStatus'));
+          orElse: () => MediaAnalysisJobStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is MediaAnalysisJobStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Summary that provides statistics on input manifest and errors identified in
@@ -12990,21 +13293,31 @@ class NotificationChannel {
   }
 }
 
-enum OrientationCorrection {
-  rotate_0('ROTATE_0'),
-  rotate_90('ROTATE_90'),
-  rotate_180('ROTATE_180'),
-  rotate_270('ROTATE_270'),
-  ;
+class OrientationCorrection {
+  static const rotate_0 = OrientationCorrection._('ROTATE_0');
+  static const rotate_90 = OrientationCorrection._('ROTATE_90');
+  static const rotate_180 = OrientationCorrection._('ROTATE_180');
+  static const rotate_270 = OrientationCorrection._('ROTATE_270');
 
   final String value;
 
-  const OrientationCorrection(this.value);
+  const OrientationCorrection._(this.value);
 
-  static OrientationCorrection fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum OrientationCorrection'));
+  static const values = [rotate_0, rotate_90, rotate_180, rotate_270];
+
+  static OrientationCorrection fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => OrientationCorrection._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is OrientationCorrection && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The S3 bucket and folder location where training output is placed.
@@ -13192,19 +13505,29 @@ class PersonMatch {
   }
 }
 
-enum PersonTrackingSortBy {
-  $index('INDEX'),
-  timestamp('TIMESTAMP'),
-  ;
+class PersonTrackingSortBy {
+  static const $index = PersonTrackingSortBy._('INDEX');
+  static const timestamp = PersonTrackingSortBy._('TIMESTAMP');
 
   final String value;
 
-  const PersonTrackingSortBy(this.value);
+  const PersonTrackingSortBy._(this.value);
 
-  static PersonTrackingSortBy fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum PersonTrackingSortBy'));
+  static const values = [$index, timestamp];
+
+  static PersonTrackingSortBy fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => PersonTrackingSortBy._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is PersonTrackingSortBy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The X and Y coordinates of a point on an image or video frame. The X and Y
@@ -13283,19 +13606,28 @@ class Pose {
   }
 }
 
-enum ProjectAutoUpdate {
-  enabled('ENABLED'),
-  disabled('DISABLED'),
-  ;
+class ProjectAutoUpdate {
+  static const enabled = ProjectAutoUpdate._('ENABLED');
+  static const disabled = ProjectAutoUpdate._('DISABLED');
 
   final String value;
 
-  const ProjectAutoUpdate(this.value);
+  const ProjectAutoUpdate._(this.value);
+
+  static const values = [enabled, disabled];
 
   static ProjectAutoUpdate fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ProjectAutoUpdate'));
+          orElse: () => ProjectAutoUpdate._(value));
+
+  @override
+  bool operator ==(other) => other is ProjectAutoUpdate && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A description of an Amazon Rekognition Custom Labels project. For more
@@ -13427,20 +13759,29 @@ class ProjectPolicy {
   }
 }
 
-enum ProjectStatus {
-  creating('CREATING'),
-  created('CREATED'),
-  deleting('DELETING'),
-  ;
+class ProjectStatus {
+  static const creating = ProjectStatus._('CREATING');
+  static const created = ProjectStatus._('CREATED');
+  static const deleting = ProjectStatus._('DELETING');
 
   final String value;
 
-  const ProjectStatus(this.value);
+  const ProjectStatus._(this.value);
+
+  static const values = [creating, created, deleting];
 
   static ProjectStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ProjectStatus'));
+          orElse: () => ProjectStatus._(value));
+
+  @override
+  bool operator ==(other) => other is ProjectStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A description of a version of a Amazon Rekognition project version.
@@ -13626,31 +13967,58 @@ class ProjectVersionDescription {
   }
 }
 
-enum ProjectVersionStatus {
-  trainingInProgress('TRAINING_IN_PROGRESS'),
-  trainingCompleted('TRAINING_COMPLETED'),
-  trainingFailed('TRAINING_FAILED'),
-  starting('STARTING'),
-  running('RUNNING'),
-  failed('FAILED'),
-  stopping('STOPPING'),
-  stopped('STOPPED'),
-  deleting('DELETING'),
-  copyingInProgress('COPYING_IN_PROGRESS'),
-  copyingCompleted('COPYING_COMPLETED'),
-  copyingFailed('COPYING_FAILED'),
-  deprecated('DEPRECATED'),
-  expired('EXPIRED'),
-  ;
+class ProjectVersionStatus {
+  static const trainingInProgress =
+      ProjectVersionStatus._('TRAINING_IN_PROGRESS');
+  static const trainingCompleted = ProjectVersionStatus._('TRAINING_COMPLETED');
+  static const trainingFailed = ProjectVersionStatus._('TRAINING_FAILED');
+  static const starting = ProjectVersionStatus._('STARTING');
+  static const running = ProjectVersionStatus._('RUNNING');
+  static const failed = ProjectVersionStatus._('FAILED');
+  static const stopping = ProjectVersionStatus._('STOPPING');
+  static const stopped = ProjectVersionStatus._('STOPPED');
+  static const deleting = ProjectVersionStatus._('DELETING');
+  static const copyingInProgress =
+      ProjectVersionStatus._('COPYING_IN_PROGRESS');
+  static const copyingCompleted = ProjectVersionStatus._('COPYING_COMPLETED');
+  static const copyingFailed = ProjectVersionStatus._('COPYING_FAILED');
+  static const deprecated = ProjectVersionStatus._('DEPRECATED');
+  static const expired = ProjectVersionStatus._('EXPIRED');
 
   final String value;
 
-  const ProjectVersionStatus(this.value);
+  const ProjectVersionStatus._(this.value);
 
-  static ProjectVersionStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ProjectVersionStatus'));
+  static const values = [
+    trainingInProgress,
+    trainingCompleted,
+    trainingFailed,
+    starting,
+    running,
+    failed,
+    stopping,
+    stopped,
+    deleting,
+    copyingInProgress,
+    copyingCompleted,
+    copyingFailed,
+    deprecated,
+    expired
+  ];
+
+  static ProjectVersionStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ProjectVersionStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ProjectVersionStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about a body part detected by <a>DetectProtectiveEquipment</a>
@@ -13874,20 +14242,30 @@ class ProtectiveEquipmentSummary {
   }
 }
 
-enum ProtectiveEquipmentType {
-  faceCover('FACE_COVER'),
-  handCover('HAND_COVER'),
-  headCover('HEAD_COVER'),
-  ;
+class ProtectiveEquipmentType {
+  static const faceCover = ProtectiveEquipmentType._('FACE_COVER');
+  static const handCover = ProtectiveEquipmentType._('HAND_COVER');
+  static const headCover = ProtectiveEquipmentType._('HEAD_COVER');
 
   final String value;
 
-  const ProtectiveEquipmentType(this.value);
+  const ProtectiveEquipmentType._(this.value);
+
+  static const values = [faceCover, handCover, headCover];
 
   static ProtectiveEquipmentType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ProtectiveEquipmentType'));
+          orElse: () => ProtectiveEquipmentType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ProtectiveEquipmentType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class PutProjectPolicyResponse {
@@ -13912,41 +14290,67 @@ class PutProjectPolicyResponse {
   }
 }
 
-enum QualityFilter {
-  none('NONE'),
-  auto('AUTO'),
-  low('LOW'),
-  medium('MEDIUM'),
-  high('HIGH'),
-  ;
+class QualityFilter {
+  static const none = QualityFilter._('NONE');
+  static const auto = QualityFilter._('AUTO');
+  static const low = QualityFilter._('LOW');
+  static const medium = QualityFilter._('MEDIUM');
+  static const high = QualityFilter._('HIGH');
 
   final String value;
 
-  const QualityFilter(this.value);
+  const QualityFilter._(this.value);
+
+  static const values = [none, auto, low, medium, high];
 
   static QualityFilter fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum QualityFilter'));
+          orElse: () => QualityFilter._(value));
+
+  @override
+  bool operator ==(other) => other is QualityFilter && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum Reason {
-  exceedsMaxFaces('EXCEEDS_MAX_FACES'),
-  extremePose('EXTREME_POSE'),
-  lowBrightness('LOW_BRIGHTNESS'),
-  lowSharpness('LOW_SHARPNESS'),
-  lowConfidence('LOW_CONFIDENCE'),
-  smallBoundingBox('SMALL_BOUNDING_BOX'),
-  lowFaceQuality('LOW_FACE_QUALITY'),
-  ;
+class Reason {
+  static const exceedsMaxFaces = Reason._('EXCEEDS_MAX_FACES');
+  static const extremePose = Reason._('EXTREME_POSE');
+  static const lowBrightness = Reason._('LOW_BRIGHTNESS');
+  static const lowSharpness = Reason._('LOW_SHARPNESS');
+  static const lowConfidence = Reason._('LOW_CONFIDENCE');
+  static const smallBoundingBox = Reason._('SMALL_BOUNDING_BOX');
+  static const lowFaceQuality = Reason._('LOW_FACE_QUALITY');
 
   final String value;
 
-  const Reason(this.value);
+  const Reason._(this.value);
+
+  static const values = [
+    exceedsMaxFaces,
+    extremePose,
+    lowBrightness,
+    lowSharpness,
+    lowConfidence,
+    smallBoundingBox,
+    lowFaceQuality
+  ];
 
   static Reason fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum Reason'));
+      values.firstWhere((e) => e.value == value, orElse: () => Reason._(value));
+
+  @override
+  bool operator ==(other) => other is Reason && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class RecognizeCelebritiesResponse {
@@ -14545,18 +14949,27 @@ class SegmentDetection {
   }
 }
 
-enum SegmentType {
-  technicalCue('TECHNICAL_CUE'),
-  shot('SHOT'),
-  ;
+class SegmentType {
+  static const technicalCue = SegmentType._('TECHNICAL_CUE');
+  static const shot = SegmentType._('SHOT');
 
   final String value;
 
-  const SegmentType(this.value);
+  const SegmentType._(this.value);
 
-  static SegmentType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum SegmentType'));
+  static const values = [technicalCue, shot];
+
+  static SegmentType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => SegmentType._(value));
+
+  @override
+  bool operator ==(other) => other is SegmentType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about the type of a segment requested in a call to
@@ -15264,19 +15677,31 @@ class StreamProcessorOutput {
   }
 }
 
-enum StreamProcessorParameterToDelete {
-  connectedHomeMinConfidence('ConnectedHomeMinConfidence'),
-  regionsOfInterest('RegionsOfInterest'),
-  ;
+class StreamProcessorParameterToDelete {
+  static const connectedHomeMinConfidence =
+      StreamProcessorParameterToDelete._('ConnectedHomeMinConfidence');
+  static const regionsOfInterest =
+      StreamProcessorParameterToDelete._('RegionsOfInterest');
 
   final String value;
 
-  const StreamProcessorParameterToDelete(this.value);
+  const StreamProcessorParameterToDelete._(this.value);
+
+  static const values = [connectedHomeMinConfidence, regionsOfInterest];
 
   static StreamProcessorParameterToDelete fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum StreamProcessorParameterToDelete'));
+          orElse: () => StreamProcessorParameterToDelete._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is StreamProcessorParameterToDelete && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Input parameters used in a streaming video analyzed by a Amazon Rekognition
@@ -15337,23 +15762,40 @@ class StreamProcessorSettingsForUpdate {
   }
 }
 
-enum StreamProcessorStatus {
-  stopped('STOPPED'),
-  starting('STARTING'),
-  running('RUNNING'),
-  failed('FAILED'),
-  stopping('STOPPING'),
-  updating('UPDATING'),
-  ;
+class StreamProcessorStatus {
+  static const stopped = StreamProcessorStatus._('STOPPED');
+  static const starting = StreamProcessorStatus._('STARTING');
+  static const running = StreamProcessorStatus._('RUNNING');
+  static const failed = StreamProcessorStatus._('FAILED');
+  static const stopping = StreamProcessorStatus._('STOPPING');
+  static const updating = StreamProcessorStatus._('UPDATING');
 
   final String value;
 
-  const StreamProcessorStatus(this.value);
+  const StreamProcessorStatus._(this.value);
 
-  static StreamProcessorStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum StreamProcessorStatus'));
+  static const values = [
+    stopped,
+    starting,
+    running,
+    failed,
+    stopping,
+    updating
+  ];
+
+  static StreamProcessorStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => StreamProcessorStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is StreamProcessorStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The S3 bucket that contains the training summary. The training summary
@@ -15460,24 +15902,41 @@ class TechnicalCueSegment {
   }
 }
 
-enum TechnicalCueType {
-  colorBars('ColorBars'),
-  endCredits('EndCredits'),
-  blackFrames('BlackFrames'),
-  openingCredits('OpeningCredits'),
-  studioLogo('StudioLogo'),
-  slate('Slate'),
-  content('Content'),
-  ;
+class TechnicalCueType {
+  static const colorBars = TechnicalCueType._('ColorBars');
+  static const endCredits = TechnicalCueType._('EndCredits');
+  static const blackFrames = TechnicalCueType._('BlackFrames');
+  static const openingCredits = TechnicalCueType._('OpeningCredits');
+  static const studioLogo = TechnicalCueType._('StudioLogo');
+  static const slate = TechnicalCueType._('Slate');
+  static const content = TechnicalCueType._('Content');
 
   final String value;
 
-  const TechnicalCueType(this.value);
+  const TechnicalCueType._(this.value);
+
+  static const values = [
+    colorBars,
+    endCredits,
+    blackFrames,
+    openingCredits,
+    studioLogo,
+    slate,
+    content
+  ];
 
   static TechnicalCueType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum TechnicalCueType'));
+          orElse: () => TechnicalCueType._(value));
+
+  @override
+  bool operator ==(other) => other is TechnicalCueType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The dataset used for testing. Optionally, if <code>AutoCreate</code> is set,
@@ -15676,18 +16135,27 @@ class TextDetectionResult {
   }
 }
 
-enum TextTypes {
-  line('LINE'),
-  word('WORD'),
-  ;
+class TextTypes {
+  static const line = TextTypes._('LINE');
+  static const word = TextTypes._('WORD');
 
   final String value;
 
-  const TextTypes(this.value);
+  const TextTypes._(this.value);
 
-  static TextTypes fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum TextTypes'));
+  static const values = [line, word];
+
+  static TextTypes fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => TextTypes._(value));
+
+  @override
+  bool operator ==(other) => other is TextTypes && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The dataset used for training.
@@ -15860,25 +16328,44 @@ class UnsearchedFace {
   }
 }
 
-enum UnsearchedFaceReason {
-  faceNotLargest('FACE_NOT_LARGEST'),
-  exceedsMaxFaces('EXCEEDS_MAX_FACES'),
-  extremePose('EXTREME_POSE'),
-  lowBrightness('LOW_BRIGHTNESS'),
-  lowSharpness('LOW_SHARPNESS'),
-  lowConfidence('LOW_CONFIDENCE'),
-  smallBoundingBox('SMALL_BOUNDING_BOX'),
-  lowFaceQuality('LOW_FACE_QUALITY'),
-  ;
+class UnsearchedFaceReason {
+  static const faceNotLargest = UnsearchedFaceReason._('FACE_NOT_LARGEST');
+  static const exceedsMaxFaces = UnsearchedFaceReason._('EXCEEDS_MAX_FACES');
+  static const extremePose = UnsearchedFaceReason._('EXTREME_POSE');
+  static const lowBrightness = UnsearchedFaceReason._('LOW_BRIGHTNESS');
+  static const lowSharpness = UnsearchedFaceReason._('LOW_SHARPNESS');
+  static const lowConfidence = UnsearchedFaceReason._('LOW_CONFIDENCE');
+  static const smallBoundingBox = UnsearchedFaceReason._('SMALL_BOUNDING_BOX');
+  static const lowFaceQuality = UnsearchedFaceReason._('LOW_FACE_QUALITY');
 
   final String value;
 
-  const UnsearchedFaceReason(this.value);
+  const UnsearchedFaceReason._(this.value);
 
-  static UnsearchedFaceReason fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum UnsearchedFaceReason'));
+  static const values = [
+    faceNotLargest,
+    exceedsMaxFaces,
+    extremePose,
+    lowBrightness,
+    lowSharpness,
+    lowConfidence,
+    smallBoundingBox,
+    lowFaceQuality
+  ];
+
+  static UnsearchedFaceReason fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => UnsearchedFaceReason._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is UnsearchedFaceReason && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains metadata like FaceId, UserID, and Reasons, for a face that was
@@ -15931,20 +16418,37 @@ class UnsuccessfulFaceAssociation {
   }
 }
 
-enum UnsuccessfulFaceAssociationReason {
-  faceNotFound('FACE_NOT_FOUND'),
-  associatedToADifferentUser('ASSOCIATED_TO_A_DIFFERENT_USER'),
-  lowMatchConfidence('LOW_MATCH_CONFIDENCE'),
-  ;
+class UnsuccessfulFaceAssociationReason {
+  static const faceNotFound =
+      UnsuccessfulFaceAssociationReason._('FACE_NOT_FOUND');
+  static const associatedToADifferentUser =
+      UnsuccessfulFaceAssociationReason._('ASSOCIATED_TO_A_DIFFERENT_USER');
+  static const lowMatchConfidence =
+      UnsuccessfulFaceAssociationReason._('LOW_MATCH_CONFIDENCE');
 
   final String value;
 
-  const UnsuccessfulFaceAssociationReason(this.value);
+  const UnsuccessfulFaceAssociationReason._(this.value);
+
+  static const values = [
+    faceNotFound,
+    associatedToADifferentUser,
+    lowMatchConfidence
+  ];
 
   static UnsuccessfulFaceAssociationReason fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum UnsuccessfulFaceAssociationReason'));
+          orElse: () => UnsuccessfulFaceAssociationReason._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is UnsuccessfulFaceAssociationReason && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains metadata like FaceId, UserID, and Reasons, for a face that was
@@ -15988,19 +16492,31 @@ class UnsuccessfulFaceDeletion {
   }
 }
 
-enum UnsuccessfulFaceDeletionReason {
-  associatedToAnExistingUser('ASSOCIATED_TO_AN_EXISTING_USER'),
-  faceNotFound('FACE_NOT_FOUND'),
-  ;
+class UnsuccessfulFaceDeletionReason {
+  static const associatedToAnExistingUser =
+      UnsuccessfulFaceDeletionReason._('ASSOCIATED_TO_AN_EXISTING_USER');
+  static const faceNotFound =
+      UnsuccessfulFaceDeletionReason._('FACE_NOT_FOUND');
 
   final String value;
 
-  const UnsuccessfulFaceDeletionReason(this.value);
+  const UnsuccessfulFaceDeletionReason._(this.value);
+
+  static const values = [associatedToAnExistingUser, faceNotFound];
 
   static UnsuccessfulFaceDeletionReason fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum UnsuccessfulFaceDeletionReason'));
+          orElse: () => UnsuccessfulFaceDeletionReason._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is UnsuccessfulFaceDeletionReason && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains metadata like FaceId, UserID, and Reasons, for a face that was
@@ -16045,19 +16561,31 @@ class UnsuccessfulFaceDisassociation {
   }
 }
 
-enum UnsuccessfulFaceDisassociationReason {
-  faceNotFound('FACE_NOT_FOUND'),
-  associatedToADifferentUser('ASSOCIATED_TO_A_DIFFERENT_USER'),
-  ;
+class UnsuccessfulFaceDisassociationReason {
+  static const faceNotFound =
+      UnsuccessfulFaceDisassociationReason._('FACE_NOT_FOUND');
+  static const associatedToADifferentUser =
+      UnsuccessfulFaceDisassociationReason._('ASSOCIATED_TO_A_DIFFERENT_USER');
 
   final String value;
 
-  const UnsuccessfulFaceDisassociationReason(this.value);
+  const UnsuccessfulFaceDisassociationReason._(this.value);
+
+  static const values = [faceNotFound, associatedToADifferentUser];
 
   static UnsuccessfulFaceDisassociationReason fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum UnsuccessfulFaceDisassociationReason'));
+          orElse: () => UnsuccessfulFaceDisassociationReason._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is UnsuccessfulFaceDisassociationReason && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class UntagResourceResponse {
@@ -16160,20 +16688,29 @@ class UserMatch {
   }
 }
 
-enum UserStatus {
-  active('ACTIVE'),
-  updating('UPDATING'),
-  creating('CREATING'),
-  created('CREATED'),
-  ;
+class UserStatus {
+  static const active = UserStatus._('ACTIVE');
+  static const updating = UserStatus._('UPDATING');
+  static const creating = UserStatus._('CREATING');
+  static const created = UserStatus._('CREATED');
 
   final String value;
 
-  const UserStatus(this.value);
+  const UserStatus._(this.value);
 
-  static UserStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum UserStatus'));
+  static const values = [active, updating, creating, created];
+
+  static UserStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => UserStatus._(value));
+
+  @override
+  bool operator ==(other) => other is UserStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains the Amazon S3 bucket location of the validation data for a model
@@ -16243,35 +16780,53 @@ class Video {
   }
 }
 
-enum VideoColorRange {
-  full('FULL'),
-  limited('LIMITED'),
-  ;
+class VideoColorRange {
+  static const full = VideoColorRange._('FULL');
+  static const limited = VideoColorRange._('LIMITED');
 
   final String value;
 
-  const VideoColorRange(this.value);
+  const VideoColorRange._(this.value);
+
+  static const values = [full, limited];
 
   static VideoColorRange fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum VideoColorRange'));
+          orElse: () => VideoColorRange._(value));
+
+  @override
+  bool operator ==(other) => other is VideoColorRange && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum VideoJobStatus {
-  inProgress('IN_PROGRESS'),
-  succeeded('SUCCEEDED'),
-  failed('FAILED'),
-  ;
+class VideoJobStatus {
+  static const inProgress = VideoJobStatus._('IN_PROGRESS');
+  static const succeeded = VideoJobStatus._('SUCCEEDED');
+  static const failed = VideoJobStatus._('FAILED');
 
   final String value;
 
-  const VideoJobStatus(this.value);
+  const VideoJobStatus._(this.value);
+
+  static const values = [inProgress, succeeded, failed];
 
   static VideoJobStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum VideoJobStatus'));
+          orElse: () => VideoJobStatus._(value));
+
+  @override
+  bool operator ==(other) => other is VideoJobStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about a video that Amazon Rekognition analyzed.

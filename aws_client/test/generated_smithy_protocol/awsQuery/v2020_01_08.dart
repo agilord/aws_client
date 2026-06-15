@@ -1409,21 +1409,30 @@ class GreetingStruct {
   }
 }
 
-enum FooEnum {
-  foo('Foo'),
-  baz('Baz'),
-  bar('Bar'),
-  $1('1'),
-  $0('0'),
-  ;
+class FooEnum {
+  static const foo = FooEnum._('Foo');
+  static const baz = FooEnum._('Baz');
+  static const bar = FooEnum._('Bar');
+  static const $1 = FooEnum._('1');
+  static const $0 = FooEnum._('0');
 
   final String value;
 
-  const FooEnum(this.value);
+  const FooEnum._(this.value);
 
-  static FooEnum fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum FooEnum'));
+  static const values = [foo, baz, bar, $1, $0];
+
+  static FooEnum fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => FooEnum._(value));
+
+  @override
+  bool operator ==(other) => other is FooEnum && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class StructureListMember {

@@ -3765,20 +3765,30 @@ class CloudWatch {
   }
 }
 
-enum ActionsSuppressedBy {
-  waitPeriod('WaitPeriod'),
-  extensionPeriod('ExtensionPeriod'),
-  alarm('Alarm'),
-  ;
+class ActionsSuppressedBy {
+  static const waitPeriod = ActionsSuppressedBy._('WaitPeriod');
+  static const extensionPeriod = ActionsSuppressedBy._('ExtensionPeriod');
+  static const alarm = ActionsSuppressedBy._('Alarm');
 
   final String value;
 
-  const ActionsSuppressedBy(this.value);
+  const ActionsSuppressedBy._(this.value);
 
-  static ActionsSuppressedBy fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ActionsSuppressedBy'));
+  static const values = [waitPeriod, extensionPeriod, alarm];
+
+  static ActionsSuppressedBy fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ActionsSuppressedBy._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ActionsSuppressedBy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Represents the history of a specific alarm.
@@ -3842,18 +3852,27 @@ class AlarmHistoryItem {
   }
 }
 
-enum AlarmType {
-  compositeAlarm('CompositeAlarm'),
-  metricAlarm('MetricAlarm'),
-  ;
+class AlarmType {
+  static const compositeAlarm = AlarmType._('CompositeAlarm');
+  static const metricAlarm = AlarmType._('MetricAlarm');
 
   final String value;
 
-  const AlarmType(this.value);
+  const AlarmType._(this.value);
 
-  static AlarmType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum AlarmType'));
+  static const values = [compositeAlarm, metricAlarm];
+
+  static AlarmType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => AlarmType._(value));
+
+  @override
+  bool operator ==(other) => other is AlarmType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// An anomaly detection model associated with a particular CloudWatch metric,
@@ -4015,56 +4034,101 @@ class AnomalyDetectorConfiguration {
   }
 }
 
-enum AnomalyDetectorStateValue {
-  pendingTraining('PENDING_TRAINING'),
-  trainedInsufficientData('TRAINED_INSUFFICIENT_DATA'),
-  trained('TRAINED'),
-  ;
+class AnomalyDetectorStateValue {
+  static const pendingTraining =
+      AnomalyDetectorStateValue._('PENDING_TRAINING');
+  static const trainedInsufficientData =
+      AnomalyDetectorStateValue._('TRAINED_INSUFFICIENT_DATA');
+  static const trained = AnomalyDetectorStateValue._('TRAINED');
 
   final String value;
 
-  const AnomalyDetectorStateValue(this.value);
+  const AnomalyDetectorStateValue._(this.value);
+
+  static const values = [pendingTraining, trainedInsufficientData, trained];
 
   static AnomalyDetectorStateValue fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum AnomalyDetectorStateValue'));
+          orElse: () => AnomalyDetectorStateValue._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AnomalyDetectorStateValue && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum AnomalyDetectorType {
-  singleMetric('SINGLE_METRIC'),
-  metricMath('METRIC_MATH'),
-  ;
+class AnomalyDetectorType {
+  static const singleMetric = AnomalyDetectorType._('SINGLE_METRIC');
+  static const metricMath = AnomalyDetectorType._('METRIC_MATH');
 
   final String value;
 
-  const AnomalyDetectorType(this.value);
+  const AnomalyDetectorType._(this.value);
 
-  static AnomalyDetectorType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum AnomalyDetectorType'));
+  static const values = [singleMetric, metricMath];
+
+  static AnomalyDetectorType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AnomalyDetectorType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AnomalyDetectorType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ComparisonOperator {
-  greaterThanOrEqualToThreshold('GreaterThanOrEqualToThreshold'),
-  greaterThanThreshold('GreaterThanThreshold'),
-  lessThanThreshold('LessThanThreshold'),
-  lessThanOrEqualToThreshold('LessThanOrEqualToThreshold'),
-  lessThanLowerOrGreaterThanUpperThreshold(
-      'LessThanLowerOrGreaterThanUpperThreshold'),
-  lessThanLowerThreshold('LessThanLowerThreshold'),
-  greaterThanUpperThreshold('GreaterThanUpperThreshold'),
-  ;
+class ComparisonOperator {
+  static const greaterThanOrEqualToThreshold =
+      ComparisonOperator._('GreaterThanOrEqualToThreshold');
+  static const greaterThanThreshold =
+      ComparisonOperator._('GreaterThanThreshold');
+  static const lessThanThreshold = ComparisonOperator._('LessThanThreshold');
+  static const lessThanOrEqualToThreshold =
+      ComparisonOperator._('LessThanOrEqualToThreshold');
+  static const lessThanLowerOrGreaterThanUpperThreshold =
+      ComparisonOperator._('LessThanLowerOrGreaterThanUpperThreshold');
+  static const lessThanLowerThreshold =
+      ComparisonOperator._('LessThanLowerThreshold');
+  static const greaterThanUpperThreshold =
+      ComparisonOperator._('GreaterThanUpperThreshold');
 
   final String value;
 
-  const ComparisonOperator(this.value);
+  const ComparisonOperator._(this.value);
 
-  static ComparisonOperator fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ComparisonOperator'));
+  static const values = [
+    greaterThanOrEqualToThreshold,
+    greaterThanThreshold,
+    lessThanThreshold,
+    lessThanOrEqualToThreshold,
+    lessThanLowerOrGreaterThanUpperThreshold,
+    lessThanLowerThreshold,
+    greaterThanUpperThreshold
+  ];
+
+  static ComparisonOperator fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ComparisonOperator._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ComparisonOperator && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The details about a composite alarm.
@@ -4773,18 +4837,27 @@ class EnableInsightRulesOutput {
   }
 }
 
-enum EvaluationState {
-  partialData('PARTIAL_DATA'),
-  ;
+class EvaluationState {
+  static const partialData = EvaluationState._('PARTIAL_DATA');
 
   final String value;
 
-  const EvaluationState(this.value);
+  const EvaluationState._(this.value);
+
+  static const values = [partialData];
 
   static EvaluationState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum EvaluationState'));
+          orElse: () => EvaluationState._(value));
+
+  @override
+  bool operator ==(other) => other is EvaluationState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class GetDashboardOutput {
@@ -5130,20 +5203,29 @@ class GetMetricWidgetImageOutput {
   }
 }
 
-enum HistoryItemType {
-  configurationUpdate('ConfigurationUpdate'),
-  stateUpdate('StateUpdate'),
-  action('Action'),
-  ;
+class HistoryItemType {
+  static const configurationUpdate = HistoryItemType._('ConfigurationUpdate');
+  static const stateUpdate = HistoryItemType._('StateUpdate');
+  static const action = HistoryItemType._('Action');
 
   final String value;
 
-  const HistoryItemType(this.value);
+  const HistoryItemType._(this.value);
+
+  static const values = [configurationUpdate, stateUpdate, action];
 
   static HistoryItemType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum HistoryItemType'));
+          orElse: () => HistoryItemType._(value));
+
+  @override
+  bool operator ==(other) => other is HistoryItemType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// This structure contains the definition for a Contributor Insights rule. For
@@ -6799,20 +6881,32 @@ class MetricStreamFilter {
   }
 }
 
-enum MetricStreamOutputFormat {
-  json('json'),
-  opentelemetry0_7('opentelemetry0.7'),
-  opentelemetry1_0('opentelemetry1.0'),
-  ;
+class MetricStreamOutputFormat {
+  static const json = MetricStreamOutputFormat._('json');
+  static const opentelemetry0_7 =
+      MetricStreamOutputFormat._('opentelemetry0.7');
+  static const opentelemetry1_0 =
+      MetricStreamOutputFormat._('opentelemetry1.0');
 
   final String value;
 
-  const MetricStreamOutputFormat(this.value);
+  const MetricStreamOutputFormat._(this.value);
+
+  static const values = [json, opentelemetry0_7, opentelemetry1_0];
 
   static MetricStreamOutputFormat fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum MetricStreamOutputFormat'));
+          orElse: () => MetricStreamOutputFormat._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is MetricStreamOutputFormat && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// By default, a metric stream always sends the <code>MAX</code>,
@@ -7123,32 +7217,50 @@ class Range {
   }
 }
 
-enum RecentlyActive {
-  pt3h('PT3H'),
-  ;
+class RecentlyActive {
+  static const pt3h = RecentlyActive._('PT3H');
 
   final String value;
 
-  const RecentlyActive(this.value);
+  const RecentlyActive._(this.value);
+
+  static const values = [pt3h];
 
   static RecentlyActive fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum RecentlyActive'));
+          orElse: () => RecentlyActive._(value));
+
+  @override
+  bool operator ==(other) => other is RecentlyActive && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ScanBy {
-  timestampDescending('TimestampDescending'),
-  timestampAscending('TimestampAscending'),
-  ;
+class ScanBy {
+  static const timestampDescending = ScanBy._('TimestampDescending');
+  static const timestampAscending = ScanBy._('TimestampAscending');
 
   final String value;
 
-  const ScanBy(this.value);
+  const ScanBy._(this.value);
+
+  static const values = [timestampDescending, timestampAscending];
 
   static ScanBy fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum ScanBy'));
+      values.firstWhere((e) => e.value == value, orElse: () => ScanBy._(value));
+
+  @override
+  bool operator ==(other) => other is ScanBy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Designates the CloudWatch metric and statistic that provides the time series
@@ -7228,44 +7340,80 @@ class SingleMetricAnomalyDetector {
   }
 }
 
-enum StandardUnit {
-  seconds('Seconds'),
-  microseconds('Microseconds'),
-  milliseconds('Milliseconds'),
-  bytes('Bytes'),
-  kilobytes('Kilobytes'),
-  megabytes('Megabytes'),
-  gigabytes('Gigabytes'),
-  terabytes('Terabytes'),
-  bits('Bits'),
-  kilobits('Kilobits'),
-  megabits('Megabits'),
-  gigabits('Gigabits'),
-  terabits('Terabits'),
-  percent('Percent'),
-  count('Count'),
-  bytesSecond('Bytes/Second'),
-  kilobytesSecond('Kilobytes/Second'),
-  megabytesSecond('Megabytes/Second'),
-  gigabytesSecond('Gigabytes/Second'),
-  terabytesSecond('Terabytes/Second'),
-  bitsSecond('Bits/Second'),
-  kilobitsSecond('Kilobits/Second'),
-  megabitsSecond('Megabits/Second'),
-  gigabitsSecond('Gigabits/Second'),
-  terabitsSecond('Terabits/Second'),
-  countSecond('Count/Second'),
-  none('None'),
-  ;
+class StandardUnit {
+  static const seconds = StandardUnit._('Seconds');
+  static const microseconds = StandardUnit._('Microseconds');
+  static const milliseconds = StandardUnit._('Milliseconds');
+  static const bytes = StandardUnit._('Bytes');
+  static const kilobytes = StandardUnit._('Kilobytes');
+  static const megabytes = StandardUnit._('Megabytes');
+  static const gigabytes = StandardUnit._('Gigabytes');
+  static const terabytes = StandardUnit._('Terabytes');
+  static const bits = StandardUnit._('Bits');
+  static const kilobits = StandardUnit._('Kilobits');
+  static const megabits = StandardUnit._('Megabits');
+  static const gigabits = StandardUnit._('Gigabits');
+  static const terabits = StandardUnit._('Terabits');
+  static const percent = StandardUnit._('Percent');
+  static const count = StandardUnit._('Count');
+  static const bytesSecond = StandardUnit._('Bytes/Second');
+  static const kilobytesSecond = StandardUnit._('Kilobytes/Second');
+  static const megabytesSecond = StandardUnit._('Megabytes/Second');
+  static const gigabytesSecond = StandardUnit._('Gigabytes/Second');
+  static const terabytesSecond = StandardUnit._('Terabytes/Second');
+  static const bitsSecond = StandardUnit._('Bits/Second');
+  static const kilobitsSecond = StandardUnit._('Kilobits/Second');
+  static const megabitsSecond = StandardUnit._('Megabits/Second');
+  static const gigabitsSecond = StandardUnit._('Gigabits/Second');
+  static const terabitsSecond = StandardUnit._('Terabits/Second');
+  static const countSecond = StandardUnit._('Count/Second');
+  static const none = StandardUnit._('None');
 
   final String value;
 
-  const StandardUnit(this.value);
+  const StandardUnit._(this.value);
 
-  static StandardUnit fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum StandardUnit'));
+  static const values = [
+    seconds,
+    microseconds,
+    milliseconds,
+    bytes,
+    kilobytes,
+    megabytes,
+    gigabytes,
+    terabytes,
+    bits,
+    kilobits,
+    megabits,
+    gigabits,
+    terabits,
+    percent,
+    count,
+    bytesSecond,
+    kilobytesSecond,
+    megabytesSecond,
+    gigabytesSecond,
+    terabytesSecond,
+    bitsSecond,
+    kilobitsSecond,
+    megabitsSecond,
+    gigabitsSecond,
+    terabitsSecond,
+    countSecond,
+    none
+  ];
+
+  static StandardUnit fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => StandardUnit._(value));
+
+  @override
+  bool operator ==(other) => other is StandardUnit && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class StartMetricStreamsOutput {
@@ -7281,36 +7429,54 @@ class StartMetricStreamsOutput {
   }
 }
 
-enum StateValue {
-  ok('OK'),
-  alarm('ALARM'),
-  insufficientData('INSUFFICIENT_DATA'),
-  ;
+class StateValue {
+  static const ok = StateValue._('OK');
+  static const alarm = StateValue._('ALARM');
+  static const insufficientData = StateValue._('INSUFFICIENT_DATA');
 
   final String value;
 
-  const StateValue(this.value);
+  const StateValue._(this.value);
 
-  static StateValue fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum StateValue'));
+  static const values = [ok, alarm, insufficientData];
+
+  static StateValue fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => StateValue._(value));
+
+  @override
+  bool operator ==(other) => other is StateValue && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum Statistic {
-  sampleCount('SampleCount'),
-  average('Average'),
-  sum('Sum'),
-  minimum('Minimum'),
-  maximum('Maximum'),
-  ;
+class Statistic {
+  static const sampleCount = Statistic._('SampleCount');
+  static const average = Statistic._('Average');
+  static const sum = Statistic._('Sum');
+  static const minimum = Statistic._('Minimum');
+  static const maximum = Statistic._('Maximum');
 
   final String value;
 
-  const Statistic(this.value);
+  const Statistic._(this.value);
 
-  static Statistic fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum Statistic'));
+  static const values = [sampleCount, average, sum, minimum, maximum];
+
+  static Statistic fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Statistic._(value));
+
+  @override
+  bool operator ==(other) => other is Statistic && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Represents a set of statistics that describes a specific metric.
@@ -7361,20 +7527,29 @@ class StatisticSet {
   }
 }
 
-enum StatusCode {
-  complete('Complete'),
-  internalError('InternalError'),
-  partialData('PartialData'),
-  forbidden('Forbidden'),
-  ;
+class StatusCode {
+  static const complete = StatusCode._('Complete');
+  static const internalError = StatusCode._('InternalError');
+  static const partialData = StatusCode._('PartialData');
+  static const forbidden = StatusCode._('Forbidden');
 
   final String value;
 
-  const StatusCode(this.value);
+  const StatusCode._(this.value);
 
-  static StatusCode fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum StatusCode'));
+  static const values = [complete, internalError, partialData, forbidden];
+
+  static StatusCode fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => StatusCode._(value));
+
+  @override
+  bool operator ==(other) => other is StatusCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class StopMetricStreamsOutput {

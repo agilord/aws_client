@@ -628,19 +628,29 @@ class ListRetainedMessagesResponse {
   }
 }
 
-enum PayloadFormatIndicator {
-  unspecifiedBytes('UNSPECIFIED_BYTES'),
-  utf8Data('UTF8_DATA'),
-  ;
+class PayloadFormatIndicator {
+  static const unspecifiedBytes = PayloadFormatIndicator._('UNSPECIFIED_BYTES');
+  static const utf8Data = PayloadFormatIndicator._('UTF8_DATA');
 
   final String value;
 
-  const PayloadFormatIndicator(this.value);
+  const PayloadFormatIndicator._(this.value);
+
+  static const values = [unspecifiedBytes, utf8Data];
 
   static PayloadFormatIndicator fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum PayloadFormatIndicator'));
+          orElse: () => PayloadFormatIndicator._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is PayloadFormatIndicator && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about a single retained message.

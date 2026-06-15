@@ -5154,32 +5154,50 @@ class AccountSettings {
   }
 }
 
-enum BlockerStatus {
-  active('ACTIVE'),
-  resolved('RESOLVED'),
-  ;
+class BlockerStatus {
+  static const active = BlockerStatus._('ACTIVE');
+  static const resolved = BlockerStatus._('RESOLVED');
 
   final String value;
 
-  const BlockerStatus(this.value);
+  const BlockerStatus._(this.value);
+
+  static const values = [active, resolved];
 
   static BlockerStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum BlockerStatus'));
+          orElse: () => BlockerStatus._(value));
+
+  @override
+  bool operator ==(other) => other is BlockerStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum BlockerType {
-  automated('AUTOMATED'),
-  ;
+class BlockerType {
+  static const automated = BlockerType._('AUTOMATED');
 
   final String value;
 
-  const BlockerType(this.value);
+  const BlockerType._(this.value);
 
-  static BlockerType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum BlockerType'));
+  static const values = [automated];
+
+  static BlockerType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => BlockerType._(value));
+
+  @override
+  bool operator ==(other) => other is BlockerType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class CancelComponentDeploymentOutput {
@@ -5415,8 +5433,8 @@ class Component {
     return Component(
       arn: (json['arn'] as String?) ?? '',
       createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
-      deploymentStatus:
-          DeploymentStatus.fromString((json['deploymentStatus'] as String)),
+      deploymentStatus: DeploymentStatus.fromString(
+          (json['deploymentStatus'] as String?) ?? ''),
       environmentName: (json['environmentName'] as String?) ?? '',
       lastModifiedAt: nonNullableTimeStampFromJson(json['lastModifiedAt'] ?? 0),
       name: (json['name'] as String?) ?? '',
@@ -5482,19 +5500,30 @@ class Component {
   }
 }
 
-enum ComponentDeploymentUpdateType {
-  none('NONE'),
-  currentVersion('CURRENT_VERSION'),
-  ;
+class ComponentDeploymentUpdateType {
+  static const none = ComponentDeploymentUpdateType._('NONE');
+  static const currentVersion =
+      ComponentDeploymentUpdateType._('CURRENT_VERSION');
 
   final String value;
 
-  const ComponentDeploymentUpdateType(this.value);
+  const ComponentDeploymentUpdateType._(this.value);
+
+  static const values = [none, currentVersion];
 
   static ComponentDeploymentUpdateType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ComponentDeploymentUpdateType'));
+          orElse: () => ComponentDeploymentUpdateType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ComponentDeploymentUpdateType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The detailed data about the current state of the component.
@@ -5612,8 +5641,8 @@ class ComponentSummary {
     return ComponentSummary(
       arn: (json['arn'] as String?) ?? '',
       createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
-      deploymentStatus:
-          DeploymentStatus.fromString((json['deploymentStatus'] as String)),
+      deploymentStatus: DeploymentStatus.fromString(
+          (json['deploymentStatus'] as String?) ?? ''),
       environmentName: (json['environmentName'] as String?) ?? '',
       lastModifiedAt: nonNullableTimeStampFromJson(json['lastModifiedAt'] ?? 0),
       name: (json['name'] as String?) ?? '',
@@ -6447,8 +6476,8 @@ class Deployment {
     return Deployment(
       arn: (json['arn'] as String?) ?? '',
       createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
-      deploymentStatus:
-          DeploymentStatus.fromString((json['deploymentStatus'] as String)),
+      deploymentStatus: DeploymentStatus.fromString(
+          (json['deploymentStatus'] as String?) ?? ''),
       environmentName: (json['environmentName'] as String?) ?? '',
       id: (json['id'] as String?) ?? '',
       lastModifiedAt: nonNullableTimeStampFromJson(json['lastModifiedAt'] ?? 0),
@@ -6456,7 +6485,7 @@ class Deployment {
       targetResourceCreatedAt:
           nonNullableTimeStampFromJson(json['targetResourceCreatedAt'] ?? 0),
       targetResourceType: DeploymentTargetResourceType.fromString(
-          (json['targetResourceType'] as String)),
+          (json['targetResourceType'] as String?) ?? ''),
       completedAt: timeStampFromJson(json['completedAt']),
       componentName: json['componentName'] as String?,
       deploymentStatusMessage: json['deploymentStatusMessage'] as String?,
@@ -6576,25 +6605,43 @@ class DeploymentState {
   }
 }
 
-enum DeploymentStatus {
-  inProgress('IN_PROGRESS'),
-  failed('FAILED'),
-  succeeded('SUCCEEDED'),
-  deleteInProgress('DELETE_IN_PROGRESS'),
-  deleteFailed('DELETE_FAILED'),
-  deleteComplete('DELETE_COMPLETE'),
-  cancelling('CANCELLING'),
-  cancelled('CANCELLED'),
-  ;
+class DeploymentStatus {
+  static const inProgress = DeploymentStatus._('IN_PROGRESS');
+  static const failed = DeploymentStatus._('FAILED');
+  static const succeeded = DeploymentStatus._('SUCCEEDED');
+  static const deleteInProgress = DeploymentStatus._('DELETE_IN_PROGRESS');
+  static const deleteFailed = DeploymentStatus._('DELETE_FAILED');
+  static const deleteComplete = DeploymentStatus._('DELETE_COMPLETE');
+  static const cancelling = DeploymentStatus._('CANCELLING');
+  static const cancelled = DeploymentStatus._('CANCELLED');
 
   final String value;
 
-  const DeploymentStatus(this.value);
+  const DeploymentStatus._(this.value);
+
+  static const values = [
+    inProgress,
+    failed,
+    succeeded,
+    deleteInProgress,
+    deleteFailed,
+    deleteComplete,
+    cancelling,
+    cancelled
+  ];
 
   static DeploymentStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum DeploymentStatus'));
+          orElse: () => DeploymentStatus._(value));
+
+  @override
+  bool operator ==(other) => other is DeploymentStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Summary data of the deployment.
@@ -6667,8 +6714,8 @@ class DeploymentSummary {
     return DeploymentSummary(
       arn: (json['arn'] as String?) ?? '',
       createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
-      deploymentStatus:
-          DeploymentStatus.fromString((json['deploymentStatus'] as String)),
+      deploymentStatus: DeploymentStatus.fromString(
+          (json['deploymentStatus'] as String?) ?? ''),
       environmentName: (json['environmentName'] as String?) ?? '',
       id: (json['id'] as String?) ?? '',
       lastModifiedAt: nonNullableTimeStampFromJson(json['lastModifiedAt'] ?? 0),
@@ -6676,7 +6723,7 @@ class DeploymentSummary {
       targetResourceCreatedAt:
           nonNullableTimeStampFromJson(json['targetResourceCreatedAt'] ?? 0),
       targetResourceType: DeploymentTargetResourceType.fromString(
-          (json['targetResourceType'] as String)),
+          (json['targetResourceType'] as String?) ?? ''),
       completedAt: timeStampFromJson(json['completedAt']),
       componentName: json['componentName'] as String?,
       lastAttemptedDeploymentId: json['lastAttemptedDeploymentId'] as String?,
@@ -6725,38 +6772,65 @@ class DeploymentSummary {
   }
 }
 
-enum DeploymentTargetResourceType {
-  environment('ENVIRONMENT'),
-  servicePipeline('SERVICE_PIPELINE'),
-  serviceInstance('SERVICE_INSTANCE'),
-  component('COMPONENT'),
-  ;
+class DeploymentTargetResourceType {
+  static const environment = DeploymentTargetResourceType._('ENVIRONMENT');
+  static const servicePipeline =
+      DeploymentTargetResourceType._('SERVICE_PIPELINE');
+  static const serviceInstance =
+      DeploymentTargetResourceType._('SERVICE_INSTANCE');
+  static const component = DeploymentTargetResourceType._('COMPONENT');
 
   final String value;
 
-  const DeploymentTargetResourceType(this.value);
+  const DeploymentTargetResourceType._(this.value);
+
+  static const values = [
+    environment,
+    servicePipeline,
+    serviceInstance,
+    component
+  ];
 
   static DeploymentTargetResourceType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum DeploymentTargetResourceType'));
+          orElse: () => DeploymentTargetResourceType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DeploymentTargetResourceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum DeploymentUpdateType {
-  none('NONE'),
-  currentVersion('CURRENT_VERSION'),
-  minorVersion('MINOR_VERSION'),
-  majorVersion('MAJOR_VERSION'),
-  ;
+class DeploymentUpdateType {
+  static const none = DeploymentUpdateType._('NONE');
+  static const currentVersion = DeploymentUpdateType._('CURRENT_VERSION');
+  static const minorVersion = DeploymentUpdateType._('MINOR_VERSION');
+  static const majorVersion = DeploymentUpdateType._('MAJOR_VERSION');
 
   final String value;
 
-  const DeploymentUpdateType(this.value);
+  const DeploymentUpdateType._(this.value);
 
-  static DeploymentUpdateType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum DeploymentUpdateType'));
+  static const values = [none, currentVersion, minorVersion, majorVersion];
+
+  static DeploymentUpdateType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DeploymentUpdateType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DeploymentUpdateType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Detailed data of an Proton environment resource. An Proton environment is a
@@ -6870,8 +6944,8 @@ class Environment {
     return Environment(
       arn: (json['arn'] as String?) ?? '',
       createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
-      deploymentStatus:
-          DeploymentStatus.fromString((json['deploymentStatus'] as String)),
+      deploymentStatus: DeploymentStatus.fromString(
+          (json['deploymentStatus'] as String?) ?? ''),
       lastDeploymentAttemptedAt:
           nonNullableTimeStampFromJson(json['lastDeploymentAttemptedAt'] ?? 0),
       lastDeploymentSucceededAt:
@@ -7034,7 +7108,7 @@ class EnvironmentAccountConnection {
       requestedAt: nonNullableTimeStampFromJson(json['requestedAt'] ?? 0),
       roleArn: (json['roleArn'] as String?) ?? '',
       status: EnvironmentAccountConnectionStatus.fromString(
-          (json['status'] as String)),
+          (json['status'] as String?) ?? ''),
       codebuildRoleArn: json['codebuildRoleArn'] as String?,
       componentRoleArn: json['componentRoleArn'] as String?,
     );
@@ -7068,36 +7142,60 @@ class EnvironmentAccountConnection {
   }
 }
 
-enum EnvironmentAccountConnectionRequesterAccountType {
-  managementAccount('MANAGEMENT_ACCOUNT'),
-  environmentAccount('ENVIRONMENT_ACCOUNT'),
-  ;
+class EnvironmentAccountConnectionRequesterAccountType {
+  static const managementAccount =
+      EnvironmentAccountConnectionRequesterAccountType._('MANAGEMENT_ACCOUNT');
+  static const environmentAccount =
+      EnvironmentAccountConnectionRequesterAccountType._('ENVIRONMENT_ACCOUNT');
 
   final String value;
 
-  const EnvironmentAccountConnectionRequesterAccountType(this.value);
+  const EnvironmentAccountConnectionRequesterAccountType._(this.value);
+
+  static const values = [managementAccount, environmentAccount];
 
   static EnvironmentAccountConnectionRequesterAccountType fromString(
           String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum EnvironmentAccountConnectionRequesterAccountType'));
+          orElse: () =>
+              EnvironmentAccountConnectionRequesterAccountType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is EnvironmentAccountConnectionRequesterAccountType &&
+      other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum EnvironmentAccountConnectionStatus {
-  pending('PENDING'),
-  connected('CONNECTED'),
-  rejected('REJECTED'),
-  ;
+class EnvironmentAccountConnectionStatus {
+  static const pending = EnvironmentAccountConnectionStatus._('PENDING');
+  static const connected = EnvironmentAccountConnectionStatus._('CONNECTED');
+  static const rejected = EnvironmentAccountConnectionStatus._('REJECTED');
 
   final String value;
 
-  const EnvironmentAccountConnectionStatus(this.value);
+  const EnvironmentAccountConnectionStatus._(this.value);
+
+  static const values = [pending, connected, rejected];
 
   static EnvironmentAccountConnectionStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum EnvironmentAccountConnectionStatus'));
+          orElse: () => EnvironmentAccountConnectionStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is EnvironmentAccountConnectionStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Summary data of an Proton environment account connection resource.
@@ -7172,7 +7270,7 @@ class EnvironmentAccountConnectionSummary {
       requestedAt: nonNullableTimeStampFromJson(json['requestedAt'] ?? 0),
       roleArn: (json['roleArn'] as String?) ?? '',
       status: EnvironmentAccountConnectionStatus.fromString(
-          (json['status'] as String)),
+          (json['status'] as String?) ?? ''),
       componentRoleArn: json['componentRoleArn'] as String?,
     );
   }
@@ -7345,8 +7443,8 @@ class EnvironmentSummary {
     return EnvironmentSummary(
       arn: (json['arn'] as String?) ?? '',
       createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
-      deploymentStatus:
-          DeploymentStatus.fromString((json['deploymentStatus'] as String)),
+      deploymentStatus: DeploymentStatus.fromString(
+          (json['deploymentStatus'] as String?) ?? ''),
       lastDeploymentAttemptedAt:
           nonNullableTimeStampFromJson(json['lastDeploymentAttemptedAt'] ?? 0),
       lastDeploymentSucceededAt:
@@ -7656,7 +7754,8 @@ class EnvironmentTemplateVersion {
       lastModifiedAt: nonNullableTimeStampFromJson(json['lastModifiedAt'] ?? 0),
       majorVersion: (json['majorVersion'] as String?) ?? '',
       minorVersion: (json['minorVersion'] as String?) ?? '',
-      status: TemplateVersionStatus.fromString((json['status'] as String)),
+      status:
+          TemplateVersionStatus.fromString((json['status'] as String?) ?? ''),
       templateName: (json['templateName'] as String?) ?? '',
       description: json['description'] as String?,
       recommendedMinorVersion: json['recommendedMinorVersion'] as String?,
@@ -7748,7 +7847,8 @@ class EnvironmentTemplateVersionSummary {
       lastModifiedAt: nonNullableTimeStampFromJson(json['lastModifiedAt'] ?? 0),
       majorVersion: (json['majorVersion'] as String?) ?? '',
       minorVersion: (json['minorVersion'] as String?) ?? '',
-      status: TemplateVersionStatus.fromString((json['status'] as String)),
+      status:
+          TemplateVersionStatus.fromString((json['status'] as String?) ?? ''),
       templateName: (json['templateName'] as String?) ?? '',
       description: json['description'] as String?,
       recommendedMinorVersion: json['recommendedMinorVersion'] as String?,
@@ -8805,27 +8905,55 @@ class ListServiceInstancesFilter {
   }
 }
 
-enum ListServiceInstancesFilterBy {
-  name('name'),
-  deploymentStatus('deploymentStatus'),
-  templateName('templateName'),
-  serviceName('serviceName'),
-  deployedTemplateVersionStatus('deployedTemplateVersionStatus'),
-  environmentName('environmentName'),
-  lastDeploymentAttemptedAtBefore('lastDeploymentAttemptedAtBefore'),
-  lastDeploymentAttemptedAtAfter('lastDeploymentAttemptedAtAfter'),
-  createdAtBefore('createdAtBefore'),
-  createdAtAfter('createdAtAfter'),
-  ;
+class ListServiceInstancesFilterBy {
+  static const name = ListServiceInstancesFilterBy._('name');
+  static const deploymentStatus =
+      ListServiceInstancesFilterBy._('deploymentStatus');
+  static const templateName = ListServiceInstancesFilterBy._('templateName');
+  static const serviceName = ListServiceInstancesFilterBy._('serviceName');
+  static const deployedTemplateVersionStatus =
+      ListServiceInstancesFilterBy._('deployedTemplateVersionStatus');
+  static const environmentName =
+      ListServiceInstancesFilterBy._('environmentName');
+  static const lastDeploymentAttemptedAtBefore =
+      ListServiceInstancesFilterBy._('lastDeploymentAttemptedAtBefore');
+  static const lastDeploymentAttemptedAtAfter =
+      ListServiceInstancesFilterBy._('lastDeploymentAttemptedAtAfter');
+  static const createdAtBefore =
+      ListServiceInstancesFilterBy._('createdAtBefore');
+  static const createdAtAfter =
+      ListServiceInstancesFilterBy._('createdAtAfter');
 
   final String value;
 
-  const ListServiceInstancesFilterBy(this.value);
+  const ListServiceInstancesFilterBy._(this.value);
+
+  static const values = [
+    name,
+    deploymentStatus,
+    templateName,
+    serviceName,
+    deployedTemplateVersionStatus,
+    environmentName,
+    lastDeploymentAttemptedAtBefore,
+    lastDeploymentAttemptedAtAfter,
+    createdAtBefore,
+    createdAtAfter
+  ];
 
   static ListServiceInstancesFilterBy fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ListServiceInstancesFilterBy'));
+          orElse: () => ListServiceInstancesFilterBy._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ListServiceInstancesFilterBy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class ListServiceInstancesOutput {
@@ -8863,24 +8991,45 @@ class ListServiceInstancesOutput {
   }
 }
 
-enum ListServiceInstancesSortBy {
-  name('name'),
-  deploymentStatus('deploymentStatus'),
-  templateName('templateName'),
-  serviceName('serviceName'),
-  environmentName('environmentName'),
-  lastDeploymentAttemptedAt('lastDeploymentAttemptedAt'),
-  createdAt('createdAt'),
-  ;
+class ListServiceInstancesSortBy {
+  static const name = ListServiceInstancesSortBy._('name');
+  static const deploymentStatus =
+      ListServiceInstancesSortBy._('deploymentStatus');
+  static const templateName = ListServiceInstancesSortBy._('templateName');
+  static const serviceName = ListServiceInstancesSortBy._('serviceName');
+  static const environmentName =
+      ListServiceInstancesSortBy._('environmentName');
+  static const lastDeploymentAttemptedAt =
+      ListServiceInstancesSortBy._('lastDeploymentAttemptedAt');
+  static const createdAt = ListServiceInstancesSortBy._('createdAt');
 
   final String value;
 
-  const ListServiceInstancesSortBy(this.value);
+  const ListServiceInstancesSortBy._(this.value);
+
+  static const values = [
+    name,
+    deploymentStatus,
+    templateName,
+    serviceName,
+    environmentName,
+    lastDeploymentAttemptedAt,
+    createdAt
+  ];
 
   static ListServiceInstancesSortBy fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ListServiceInstancesSortBy'));
+          orElse: () => ListServiceInstancesSortBy._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ListServiceInstancesSortBy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class ListServicePipelineOutputsOutput {
@@ -9178,33 +9327,51 @@ class ProvisionedResource {
 }
 
 /// List of provisioning engines
-enum ProvisionedResourceEngine {
-  cloudformation('CLOUDFORMATION'),
-  terraform('TERRAFORM'),
-  ;
+class ProvisionedResourceEngine {
+  static const cloudformation = ProvisionedResourceEngine._('CLOUDFORMATION');
+  static const terraform = ProvisionedResourceEngine._('TERRAFORM');
 
   final String value;
 
-  const ProvisionedResourceEngine(this.value);
+  const ProvisionedResourceEngine._(this.value);
+
+  static const values = [cloudformation, terraform];
 
   static ProvisionedResourceEngine fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ProvisionedResourceEngine'));
+          orElse: () => ProvisionedResourceEngine._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ProvisionedResourceEngine && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum Provisioning {
-  customerManaged('CUSTOMER_MANAGED'),
-  ;
+class Provisioning {
+  static const customerManaged = Provisioning._('CUSTOMER_MANAGED');
 
   final String value;
 
-  const Provisioning(this.value);
+  const Provisioning._(this.value);
 
-  static Provisioning fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum Provisioning'));
+  static const values = [customerManaged];
+
+  static Provisioning fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Provisioning._(value));
+
+  @override
+  bool operator ==(other) => other is Provisioning && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class RejectEnvironmentAccountConnectionOutput {
@@ -9264,7 +9431,8 @@ class Repository {
       arn: (json['arn'] as String?) ?? '',
       connectionArn: (json['connectionArn'] as String?) ?? '',
       name: (json['name'] as String?) ?? '',
-      provider: RepositoryProvider.fromString((json['provider'] as String)),
+      provider:
+          RepositoryProvider.fromString((json['provider'] as String?) ?? ''),
       encryptionKey: json['encryptionKey'] as String?,
     );
   }
@@ -9311,7 +9479,8 @@ class RepositoryBranch {
       arn: (json['arn'] as String?) ?? '',
       branch: (json['branch'] as String?) ?? '',
       name: (json['name'] as String?) ?? '',
-      provider: RepositoryProvider.fromString((json['provider'] as String)),
+      provider:
+          RepositoryProvider.fromString((json['provider'] as String?) ?? ''),
     );
   }
 
@@ -9358,20 +9527,30 @@ class RepositoryBranchInput {
   }
 }
 
-enum RepositoryProvider {
-  github('GITHUB'),
-  githubEnterprise('GITHUB_ENTERPRISE'),
-  bitbucket('BITBUCKET'),
-  ;
+class RepositoryProvider {
+  static const github = RepositoryProvider._('GITHUB');
+  static const githubEnterprise = RepositoryProvider._('GITHUB_ENTERPRISE');
+  static const bitbucket = RepositoryProvider._('BITBUCKET');
 
   final String value;
 
-  const RepositoryProvider(this.value);
+  const RepositoryProvider._(this.value);
 
-  static RepositoryProvider fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum RepositoryProvider'));
+  static const values = [github, githubEnterprise, bitbucket];
+
+  static RepositoryProvider fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => RepositoryProvider._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RepositoryProvider && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Summary data of a linked repository—a repository that has been registered
@@ -9402,7 +9581,8 @@ class RepositorySummary {
       arn: (json['arn'] as String?) ?? '',
       connectionArn: (json['connectionArn'] as String?) ?? '',
       name: (json['name'] as String?) ?? '',
-      provider: RepositoryProvider.fromString((json['provider'] as String)),
+      provider:
+          RepositoryProvider.fromString((json['provider'] as String?) ?? ''),
     );
   }
 
@@ -9445,7 +9625,8 @@ class RepositorySyncAttempt {
           .map((e) => RepositorySyncEvent.fromJson(e as Map<String, dynamic>))
           .toList(),
       startedAt: nonNullableTimeStampFromJson(json['startedAt'] ?? 0),
-      status: RepositorySyncStatus.fromString((json['status'] as String)),
+      status:
+          RepositorySyncStatus.fromString((json['status'] as String?) ?? ''),
     );
   }
 
@@ -9549,22 +9730,32 @@ class RepositorySyncEvent {
   }
 }
 
-enum RepositorySyncStatus {
-  initiated('INITIATED'),
-  inProgress('IN_PROGRESS'),
-  succeeded('SUCCEEDED'),
-  failed('FAILED'),
-  queued('QUEUED'),
-  ;
+class RepositorySyncStatus {
+  static const initiated = RepositorySyncStatus._('INITIATED');
+  static const inProgress = RepositorySyncStatus._('IN_PROGRESS');
+  static const succeeded = RepositorySyncStatus._('SUCCEEDED');
+  static const failed = RepositorySyncStatus._('FAILED');
+  static const queued = RepositorySyncStatus._('QUEUED');
 
   final String value;
 
-  const RepositorySyncStatus(this.value);
+  const RepositorySyncStatus._(this.value);
 
-  static RepositorySyncStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum RepositorySyncStatus'));
+  static const values = [initiated, inProgress, succeeded, failed, queued];
+
+  static RepositorySyncStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => RepositorySyncStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RepositorySyncStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Summary counts of each Proton resource types.
@@ -9624,20 +9815,30 @@ class ResourceCountsSummary {
 }
 
 /// The state that a PR-based deployment can be updated to.
-enum ResourceDeploymentStatus {
-  inProgress('IN_PROGRESS'),
-  failed('FAILED'),
-  succeeded('SUCCEEDED'),
-  ;
+class ResourceDeploymentStatus {
+  static const inProgress = ResourceDeploymentStatus._('IN_PROGRESS');
+  static const failed = ResourceDeploymentStatus._('FAILED');
+  static const succeeded = ResourceDeploymentStatus._('SUCCEEDED');
 
   final String value;
 
-  const ResourceDeploymentStatus(this.value);
+  const ResourceDeploymentStatus._(this.value);
+
+  static const values = [inProgress, failed, succeeded];
 
   static ResourceDeploymentStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ResourceDeploymentStatus'));
+          orElse: () => ResourceDeploymentStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ResourceDeploymentStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Detail data for a resource sync attempt activated by a push to a repository.
@@ -9679,7 +9880,7 @@ class ResourceSyncAttempt {
           (json['initialRevision'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
       startedAt: nonNullableTimeStampFromJson(json['startedAt'] ?? 0),
-      status: ResourceSyncStatus.fromString((json['status'] as String)),
+      status: ResourceSyncStatus.fromString((json['status'] as String?) ?? ''),
       target: (json['target'] as String?) ?? '',
       targetRevision: Revision.fromJson(
           (json['targetRevision'] as Map<String, dynamic>?) ??
@@ -9749,21 +9950,31 @@ class ResourceSyncEvent {
   }
 }
 
-enum ResourceSyncStatus {
-  initiated('INITIATED'),
-  inProgress('IN_PROGRESS'),
-  succeeded('SUCCEEDED'),
-  failed('FAILED'),
-  ;
+class ResourceSyncStatus {
+  static const initiated = ResourceSyncStatus._('INITIATED');
+  static const inProgress = ResourceSyncStatus._('IN_PROGRESS');
+  static const succeeded = ResourceSyncStatus._('SUCCEEDED');
+  static const failed = ResourceSyncStatus._('FAILED');
 
   final String value;
 
-  const ResourceSyncStatus(this.value);
+  const ResourceSyncStatus._(this.value);
 
-  static ResourceSyncStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ResourceSyncStatus'));
+  static const values = [initiated, inProgress, succeeded, failed];
+
+  static ResourceSyncStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ResourceSyncStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ResourceSyncStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Revision detail data for a commit and push that activates a sync attempt
@@ -9797,8 +10008,8 @@ class Revision {
       branch: (json['branch'] as String?) ?? '',
       directory: (json['directory'] as String?) ?? '',
       repositoryName: (json['repositoryName'] as String?) ?? '',
-      repositoryProvider:
-          RepositoryProvider.fromString((json['repositoryProvider'] as String)),
+      repositoryProvider: RepositoryProvider.fromString(
+          (json['repositoryProvider'] as String?) ?? ''),
       sha: (json['sha'] as String?) ?? '',
     );
   }
@@ -9910,7 +10121,7 @@ class Service {
       lastModifiedAt: nonNullableTimeStampFromJson(json['lastModifiedAt'] ?? 0),
       name: (json['name'] as String?) ?? '',
       spec: (json['spec'] as String?) ?? '',
-      status: ServiceStatus.fromString((json['status'] as String)),
+      status: ServiceStatus.fromString((json['status'] as String?) ?? ''),
       templateName: (json['templateName'] as String?) ?? '',
       branchName: json['branchName'] as String?,
       description: json['description'] as String?,
@@ -10032,8 +10243,8 @@ class ServiceInstance {
     return ServiceInstance(
       arn: (json['arn'] as String?) ?? '',
       createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
-      deploymentStatus:
-          DeploymentStatus.fromString((json['deploymentStatus'] as String)),
+      deploymentStatus: DeploymentStatus.fromString(
+          (json['deploymentStatus'] as String?) ?? ''),
       environmentName: (json['environmentName'] as String?) ?? '',
       lastDeploymentAttemptedAt:
           nonNullableTimeStampFromJson(json['lastDeploymentAttemptedAt'] ?? 0),
@@ -10247,8 +10458,8 @@ class ServiceInstanceSummary {
     return ServiceInstanceSummary(
       arn: (json['arn'] as String?) ?? '',
       createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
-      deploymentStatus:
-          DeploymentStatus.fromString((json['deploymentStatus'] as String)),
+      deploymentStatus: DeploymentStatus.fromString(
+          (json['deploymentStatus'] as String?) ?? ''),
       environmentName: (json['environmentName'] as String?) ?? '',
       lastDeploymentAttemptedAt:
           nonNullableTimeStampFromJson(json['lastDeploymentAttemptedAt'] ?? 0),
@@ -10364,8 +10575,8 @@ class ServicePipeline {
     return ServicePipeline(
       arn: (json['arn'] as String?) ?? '',
       createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
-      deploymentStatus:
-          DeploymentStatus.fromString((json['deploymentStatus'] as String)),
+      deploymentStatus: DeploymentStatus.fromString(
+          (json['deploymentStatus'] as String?) ?? ''),
       lastDeploymentAttemptedAt:
           nonNullableTimeStampFromJson(json['lastDeploymentAttemptedAt'] ?? 0),
       lastDeploymentSucceededAt:
@@ -10462,31 +10673,62 @@ class ServicePipelineState {
   }
 }
 
-enum ServiceStatus {
-  createInProgress('CREATE_IN_PROGRESS'),
-  createFailedCleanupInProgress('CREATE_FAILED_CLEANUP_IN_PROGRESS'),
-  createFailedCleanupComplete('CREATE_FAILED_CLEANUP_COMPLETE'),
-  createFailedCleanupFailed('CREATE_FAILED_CLEANUP_FAILED'),
-  createFailed('CREATE_FAILED'),
-  active('ACTIVE'),
-  deleteInProgress('DELETE_IN_PROGRESS'),
-  deleteFailed('DELETE_FAILED'),
-  updateInProgress('UPDATE_IN_PROGRESS'),
-  updateFailedCleanupInProgress('UPDATE_FAILED_CLEANUP_IN_PROGRESS'),
-  updateFailedCleanupComplete('UPDATE_FAILED_CLEANUP_COMPLETE'),
-  updateFailedCleanupFailed('UPDATE_FAILED_CLEANUP_FAILED'),
-  updateFailed('UPDATE_FAILED'),
-  updateCompleteCleanupFailed('UPDATE_COMPLETE_CLEANUP_FAILED'),
-  ;
+class ServiceStatus {
+  static const createInProgress = ServiceStatus._('CREATE_IN_PROGRESS');
+  static const createFailedCleanupInProgress =
+      ServiceStatus._('CREATE_FAILED_CLEANUP_IN_PROGRESS');
+  static const createFailedCleanupComplete =
+      ServiceStatus._('CREATE_FAILED_CLEANUP_COMPLETE');
+  static const createFailedCleanupFailed =
+      ServiceStatus._('CREATE_FAILED_CLEANUP_FAILED');
+  static const createFailed = ServiceStatus._('CREATE_FAILED');
+  static const active = ServiceStatus._('ACTIVE');
+  static const deleteInProgress = ServiceStatus._('DELETE_IN_PROGRESS');
+  static const deleteFailed = ServiceStatus._('DELETE_FAILED');
+  static const updateInProgress = ServiceStatus._('UPDATE_IN_PROGRESS');
+  static const updateFailedCleanupInProgress =
+      ServiceStatus._('UPDATE_FAILED_CLEANUP_IN_PROGRESS');
+  static const updateFailedCleanupComplete =
+      ServiceStatus._('UPDATE_FAILED_CLEANUP_COMPLETE');
+  static const updateFailedCleanupFailed =
+      ServiceStatus._('UPDATE_FAILED_CLEANUP_FAILED');
+  static const updateFailed = ServiceStatus._('UPDATE_FAILED');
+  static const updateCompleteCleanupFailed =
+      ServiceStatus._('UPDATE_COMPLETE_CLEANUP_FAILED');
 
   final String value;
 
-  const ServiceStatus(this.value);
+  const ServiceStatus._(this.value);
+
+  static const values = [
+    createInProgress,
+    createFailedCleanupInProgress,
+    createFailedCleanupComplete,
+    createFailedCleanupFailed,
+    createFailed,
+    active,
+    deleteInProgress,
+    deleteFailed,
+    updateInProgress,
+    updateFailedCleanupInProgress,
+    updateFailedCleanupComplete,
+    updateFailedCleanupFailed,
+    updateFailed,
+    updateCompleteCleanupFailed
+  ];
 
   static ServiceStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ServiceStatus'));
+          orElse: () => ServiceStatus._(value));
+
+  @override
+  bool operator ==(other) => other is ServiceStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Summary data of an Proton service resource.
@@ -10532,7 +10774,7 @@ class ServiceSummary {
       createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
       lastModifiedAt: nonNullableTimeStampFromJson(json['lastModifiedAt'] ?? 0),
       name: (json['name'] as String?) ?? '',
-      status: ServiceStatus.fromString((json['status'] as String)),
+      status: ServiceStatus.fromString((json['status'] as String?) ?? ''),
       templateName: (json['templateName'] as String?) ?? '',
       description: json['description'] as String?,
       statusMessage: json['statusMessage'] as String?,
@@ -10648,8 +10890,8 @@ class ServiceSyncConfig {
       branch: (json['branch'] as String?) ?? '',
       filePath: (json['filePath'] as String?) ?? '',
       repositoryName: (json['repositoryName'] as String?) ?? '',
-      repositoryProvider:
-          RepositoryProvider.fromString((json['repositoryProvider'] as String)),
+      repositoryProvider: RepositoryProvider.fromString(
+          (json['repositoryProvider'] as String?) ?? ''),
       serviceName: (json['serviceName'] as String?) ?? '',
     );
   }
@@ -10830,18 +11072,30 @@ class ServiceTemplateSummary {
   }
 }
 
-enum ServiceTemplateSupportedComponentSourceType {
-  directlyDefined('DIRECTLY_DEFINED'),
-  ;
+class ServiceTemplateSupportedComponentSourceType {
+  static const directlyDefined =
+      ServiceTemplateSupportedComponentSourceType._('DIRECTLY_DEFINED');
 
   final String value;
 
-  const ServiceTemplateSupportedComponentSourceType(this.value);
+  const ServiceTemplateSupportedComponentSourceType._(this.value);
+
+  static const values = [directlyDefined];
 
   static ServiceTemplateSupportedComponentSourceType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ServiceTemplateSupportedComponentSourceType'));
+          orElse: () => ServiceTemplateSupportedComponentSourceType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ServiceTemplateSupportedComponentSourceType &&
+      other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Detailed data of an Proton service template version resource.
@@ -10923,7 +11177,8 @@ class ServiceTemplateVersion {
       lastModifiedAt: nonNullableTimeStampFromJson(json['lastModifiedAt'] ?? 0),
       majorVersion: (json['majorVersion'] as String?) ?? '',
       minorVersion: (json['minorVersion'] as String?) ?? '',
-      status: TemplateVersionStatus.fromString((json['status'] as String)),
+      status:
+          TemplateVersionStatus.fromString((json['status'] as String?) ?? ''),
       templateName: (json['templateName'] as String?) ?? '',
       description: json['description'] as String?,
       recommendedMinorVersion: json['recommendedMinorVersion'] as String?,
@@ -11025,7 +11280,8 @@ class ServiceTemplateVersionSummary {
       lastModifiedAt: nonNullableTimeStampFromJson(json['lastModifiedAt'] ?? 0),
       majorVersion: (json['majorVersion'] as String?) ?? '',
       minorVersion: (json['minorVersion'] as String?) ?? '',
-      status: TemplateVersionStatus.fromString((json['status'] as String)),
+      status:
+          TemplateVersionStatus.fromString((json['status'] as String?) ?? ''),
       templateName: (json['templateName'] as String?) ?? '',
       description: json['description'] as String?,
       recommendedMinorVersion: json['recommendedMinorVersion'] as String?,
@@ -11060,18 +11316,27 @@ class ServiceTemplateVersionSummary {
   }
 }
 
-enum SortOrder {
-  ascending('ASCENDING'),
-  descending('DESCENDING'),
-  ;
+class SortOrder {
+  static const ascending = SortOrder._('ASCENDING');
+  static const descending = SortOrder._('DESCENDING');
 
   final String value;
 
-  const SortOrder(this.value);
+  const SortOrder._(this.value);
 
-  static SortOrder fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum SortOrder'));
+  static const values = [ascending, descending];
+
+  static SortOrder fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => SortOrder._(value));
+
+  @override
+  bool operator ==(other) => other is SortOrder && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Detailed data of the sync blocker.
@@ -11116,8 +11381,8 @@ class SyncBlocker {
       createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
       createdReason: (json['createdReason'] as String?) ?? '',
       id: (json['id'] as String?) ?? '',
-      status: BlockerStatus.fromString((json['status'] as String)),
-      type: BlockerType.fromString((json['type'] as String)),
+      status: BlockerStatus.fromString((json['status'] as String?) ?? ''),
+      type: BlockerType.fromString((json['type'] as String?) ?? ''),
       contexts: (json['contexts'] as List?)
           ?.nonNulls
           .map((e) => SyncBlockerContext.fromJson(e as Map<String, dynamic>))
@@ -11179,18 +11444,27 @@ class SyncBlockerContext {
   }
 }
 
-enum SyncType {
-  templateSync('TEMPLATE_SYNC'),
-  serviceSync('SERVICE_SYNC'),
-  ;
+class SyncType {
+  static const templateSync = SyncType._('TEMPLATE_SYNC');
+  static const serviceSync = SyncType._('SERVICE_SYNC');
 
   final String value;
 
-  const SyncType(this.value);
+  const SyncType._(this.value);
 
-  static SyncType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum SyncType'));
+  static const values = [templateSync, serviceSync];
+
+  static SyncType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => SyncType._(value));
+
+  @override
+  bool operator ==(other) => other is SyncType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A description of a resource tag.
@@ -11268,10 +11542,11 @@ class TemplateSyncConfig {
     return TemplateSyncConfig(
       branch: (json['branch'] as String?) ?? '',
       repositoryName: (json['repositoryName'] as String?) ?? '',
-      repositoryProvider:
-          RepositoryProvider.fromString((json['repositoryProvider'] as String)),
+      repositoryProvider: RepositoryProvider.fromString(
+          (json['repositoryProvider'] as String?) ?? ''),
       templateName: (json['templateName'] as String?) ?? '',
-      templateType: TemplateType.fromString((json['templateType'] as String)),
+      templateType:
+          TemplateType.fromString((json['templateType'] as String?) ?? ''),
       subdirectory: json['subdirectory'] as String?,
     );
   }
@@ -11294,19 +11569,27 @@ class TemplateSyncConfig {
   }
 }
 
-enum TemplateType {
-  environment('ENVIRONMENT'),
-  service('SERVICE'),
-  ;
+class TemplateType {
+  static const environment = TemplateType._('ENVIRONMENT');
+  static const service = TemplateType._('SERVICE');
 
   final String value;
 
-  const TemplateType(this.value);
+  const TemplateType._(this.value);
 
-  static TemplateType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum TemplateType'));
+  static const values = [environment, service];
+
+  static TemplateType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => TemplateType._(value));
+
+  @override
+  bool operator ==(other) => other is TemplateType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Template version source data.
@@ -11327,21 +11610,38 @@ class TemplateVersionSourceInput {
   }
 }
 
-enum TemplateVersionStatus {
-  registrationInProgress('REGISTRATION_IN_PROGRESS'),
-  registrationFailed('REGISTRATION_FAILED'),
-  draft('DRAFT'),
-  published('PUBLISHED'),
-  ;
+class TemplateVersionStatus {
+  static const registrationInProgress =
+      TemplateVersionStatus._('REGISTRATION_IN_PROGRESS');
+  static const registrationFailed =
+      TemplateVersionStatus._('REGISTRATION_FAILED');
+  static const draft = TemplateVersionStatus._('DRAFT');
+  static const published = TemplateVersionStatus._('PUBLISHED');
 
   final String value;
 
-  const TemplateVersionStatus(this.value);
+  const TemplateVersionStatus._(this.value);
 
-  static TemplateVersionStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum TemplateVersionStatus'));
+  static const values = [
+    registrationInProgress,
+    registrationFailed,
+    draft,
+    published
+  ];
+
+  static TemplateVersionStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => TemplateVersionStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TemplateVersionStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class UntagResourceOutput {

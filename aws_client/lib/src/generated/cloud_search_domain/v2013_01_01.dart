@@ -665,18 +665,27 @@ class BucketInfo {
   }
 }
 
-enum ContentType {
-  applicationJson('application/json'),
-  applicationXml('application/xml'),
-  ;
+class ContentType {
+  static const applicationJson = ContentType._('application/json');
+  static const applicationXml = ContentType._('application/xml');
 
   final String value;
 
-  const ContentType(this.value);
+  const ContentType._(this.value);
 
-  static ContentType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum ContentType'));
+  static const values = [applicationJson, applicationXml];
+
+  static ContentType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ContentType._(value));
+
+  @override
+  bool operator ==(other) => other is ContentType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about any problems encountered while processing an upload
@@ -930,20 +939,29 @@ class Hits {
   }
 }
 
-enum QueryParser {
-  simple('simple'),
-  structured('structured'),
-  lucene('lucene'),
-  dismax('dismax'),
-  ;
+class QueryParser {
+  static const simple = QueryParser._('simple');
+  static const structured = QueryParser._('structured');
+  static const lucene = QueryParser._('lucene');
+  static const dismax = QueryParser._('dismax');
 
   final String value;
 
-  const QueryParser(this.value);
+  const QueryParser._(this.value);
 
-  static QueryParser fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum QueryParser'));
+  static const values = [simple, structured, lucene, dismax];
+
+  static QueryParser fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => QueryParser._(value));
+
+  @override
+  bool operator ==(other) => other is QueryParser && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about any problems encountered while processing a search

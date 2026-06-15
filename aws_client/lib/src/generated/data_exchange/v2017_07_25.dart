@@ -1370,7 +1370,7 @@ class AssetEntry {
       assetDetails: AssetDetails.fromJson(
           (json['AssetDetails'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
-      assetType: AssetType.fromString((json['AssetType'] as String)),
+      assetType: AssetType.fromString((json['AssetType'] as String?) ?? ''),
       createdAt: nonNullableTimeStampFromJson(json['CreatedAt'] ?? 0),
       dataSetId: (json['DataSetId'] as String?) ?? '',
       id: (json['Id'] as String?) ?? '',
@@ -1437,21 +1437,37 @@ class AssetSourceEntry {
   }
 }
 
-enum AssetType {
-  s3Snapshot('S3_SNAPSHOT'),
-  redshiftDataShare('REDSHIFT_DATA_SHARE'),
-  apiGatewayApi('API_GATEWAY_API'),
-  s3DataAccess('S3_DATA_ACCESS'),
-  lakeFormationDataPermission('LAKE_FORMATION_DATA_PERMISSION'),
-  ;
+class AssetType {
+  static const s3Snapshot = AssetType._('S3_SNAPSHOT');
+  static const redshiftDataShare = AssetType._('REDSHIFT_DATA_SHARE');
+  static const apiGatewayApi = AssetType._('API_GATEWAY_API');
+  static const s3DataAccess = AssetType._('S3_DATA_ACCESS');
+  static const lakeFormationDataPermission =
+      AssetType._('LAKE_FORMATION_DATA_PERMISSION');
 
   final String value;
 
-  const AssetType(this.value);
+  const AssetType._(this.value);
 
-  static AssetType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum AssetType'));
+  static const values = [
+    s3Snapshot,
+    redshiftDataShare,
+    apiGatewayApi,
+    s3DataAccess,
+    lakeFormationDataPermission
+  ];
+
+  static AssetType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => AssetType._(value));
+
+  @override
+  bool operator ==(other) => other is AssetType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A revision destination is the Amazon S3 bucket folder destination to where
@@ -1526,23 +1542,42 @@ class AutoExportRevisionToS3RequestDetails {
   }
 }
 
-enum Code {
-  accessDeniedException('ACCESS_DENIED_EXCEPTION'),
-  internalServerException('INTERNAL_SERVER_EXCEPTION'),
-  malwareDetected('MALWARE_DETECTED'),
-  resourceNotFoundException('RESOURCE_NOT_FOUND_EXCEPTION'),
-  serviceQuotaExceededException('SERVICE_QUOTA_EXCEEDED_EXCEPTION'),
-  validationException('VALIDATION_EXCEPTION'),
-  malwareScanEncryptedFile('MALWARE_SCAN_ENCRYPTED_FILE'),
-  ;
+class Code {
+  static const accessDeniedException = Code._('ACCESS_DENIED_EXCEPTION');
+  static const internalServerException = Code._('INTERNAL_SERVER_EXCEPTION');
+  static const malwareDetected = Code._('MALWARE_DETECTED');
+  static const resourceNotFoundException =
+      Code._('RESOURCE_NOT_FOUND_EXCEPTION');
+  static const serviceQuotaExceededException =
+      Code._('SERVICE_QUOTA_EXCEEDED_EXCEPTION');
+  static const validationException = Code._('VALIDATION_EXCEPTION');
+  static const malwareScanEncryptedFile = Code._('MALWARE_SCAN_ENCRYPTED_FILE');
 
   final String value;
 
-  const Code(this.value);
+  const Code._(this.value);
+
+  static const values = [
+    accessDeniedException,
+    internalServerException,
+    malwareDetected,
+    resourceNotFoundException,
+    serviceQuotaExceededException,
+    validationException,
+    malwareScanEncryptedFile
+  ];
 
   static Code fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum Code'));
+      values.firstWhere((e) => e.value == value, orElse: () => Code._(value));
+
+  @override
+  bool operator ==(other) => other is Code && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class CreateDataSetResponse {
@@ -2018,12 +2053,12 @@ class DataSetEntry {
   factory DataSetEntry.fromJson(Map<String, dynamic> json) {
     return DataSetEntry(
       arn: (json['Arn'] as String?) ?? '',
-      assetType: AssetType.fromString((json['AssetType'] as String)),
+      assetType: AssetType.fromString((json['AssetType'] as String?) ?? ''),
       createdAt: nonNullableTimeStampFromJson(json['CreatedAt'] ?? 0),
       description: (json['Description'] as String?) ?? '',
       id: (json['Id'] as String?) ?? '',
       name: (json['Name'] as String?) ?? '',
-      origin: Origin.fromString((json['Origin'] as String)),
+      origin: Origin.fromString((json['Origin'] as String?) ?? ''),
       updatedAt: nonNullableTimeStampFromJson(json['UpdatedAt'] ?? 0),
       originDetails: json['OriginDetails'] != null
           ? OriginDetails.fromJson(
@@ -2140,18 +2175,28 @@ class DatabaseLFTagPolicyAndPermissions {
   }
 }
 
-enum DatabaseLFTagPolicyPermission {
-  describe('DESCRIBE'),
-  ;
+class DatabaseLFTagPolicyPermission {
+  static const describe = DatabaseLFTagPolicyPermission._('DESCRIBE');
 
   final String value;
 
-  const DatabaseLFTagPolicyPermission(this.value);
+  const DatabaseLFTagPolicyPermission._(this.value);
+
+  static const values = [describe];
 
   static DatabaseLFTagPolicyPermission fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum DatabaseLFTagPolicyPermission'));
+          orElse: () => DatabaseLFTagPolicyPermission._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DatabaseLFTagPolicyPermission && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Extra details specific to a deprecation type notification.
@@ -2574,7 +2619,8 @@ class ExportServerSideEncryption {
 
   factory ExportServerSideEncryption.fromJson(Map<String, dynamic> json) {
     return ExportServerSideEncryption(
-      type: ServerSideEncryptionTypes.fromString((json['Type'] as String)),
+      type:
+          ServerSideEncryptionTypes.fromString((json['Type'] as String?) ?? ''),
       kmsKeyArn: json['KmsKeyArn'] as String?,
     );
   }
@@ -3162,7 +3208,8 @@ class ImportAssetFromApiGatewayApiResponseDetails {
       apiSpecificationUploadUrlExpiresAt: nonNullableTimeStampFromJson(
           json['ApiSpecificationUploadUrlExpiresAt'] ?? 0),
       dataSetId: (json['DataSetId'] as String?) ?? '',
-      protocolType: ProtocolType.fromString((json['ProtocolType'] as String)),
+      protocolType:
+          ProtocolType.fromString((json['ProtocolType'] as String?) ?? ''),
       revisionId: (json['RevisionId'] as String?) ?? '',
       stage: (json['Stage'] as String?) ?? '',
       apiDescription: json['ApiDescription'] as String?,
@@ -3629,8 +3676,8 @@ class JobEntry {
           (json['Details'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
       id: (json['Id'] as String?) ?? '',
-      state: State.fromString((json['State'] as String)),
-      type: Type.fromString((json['Type'] as String)),
+      state: State.fromString((json['State'] as String?) ?? ''),
+      type: Type.fromString((json['Type'] as String?) ?? ''),
       updatedAt: nonNullableTimeStampFromJson(json['UpdatedAt'] ?? 0),
       errors: (json['Errors'] as List?)
           ?.nonNulls
@@ -3696,7 +3743,7 @@ class JobError {
 
   factory JobError.fromJson(Map<String, dynamic> json) {
     return JobError(
-      code: Code.fromString((json['Code'] as String)),
+      code: Code.fromString((json['Code'] as String?) ?? ''),
       message: (json['Message'] as String?) ?? '',
       details: json['Details'] != null
           ? Details.fromJson(json['Details'] as Map<String, dynamic>)
@@ -3730,41 +3777,67 @@ class JobError {
   }
 }
 
-enum JobErrorLimitName {
-  assetsPerRevision('Assets per revision'),
-  assetSizeInGb('Asset size in GB'),
-  amazonRedshiftDatashareAssetsPerRevision(
-      'Amazon Redshift datashare assets per revision'),
-  awsLakeFormationDataPermissionAssetsPerRevision(
-      'AWS Lake Formation data permission assets per revision'),
-  amazonS3DataAccessAssetsPerRevision(
-      'Amazon S3 data access assets per revision'),
-  ;
+class JobErrorLimitName {
+  static const assetsPerRevision = JobErrorLimitName._('Assets per revision');
+  static const assetSizeInGb = JobErrorLimitName._('Asset size in GB');
+  static const amazonRedshiftDatashareAssetsPerRevision =
+      JobErrorLimitName._('Amazon Redshift datashare assets per revision');
+  static const awsLakeFormationDataPermissionAssetsPerRevision =
+      JobErrorLimitName._(
+          'AWS Lake Formation data permission assets per revision');
+  static const amazonS3DataAccessAssetsPerRevision =
+      JobErrorLimitName._('Amazon S3 data access assets per revision');
 
   final String value;
 
-  const JobErrorLimitName(this.value);
+  const JobErrorLimitName._(this.value);
+
+  static const values = [
+    assetsPerRevision,
+    assetSizeInGb,
+    amazonRedshiftDatashareAssetsPerRevision,
+    awsLakeFormationDataPermissionAssetsPerRevision,
+    amazonS3DataAccessAssetsPerRevision
+  ];
 
   static JobErrorLimitName fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum JobErrorLimitName'));
+          orElse: () => JobErrorLimitName._(value));
+
+  @override
+  bool operator ==(other) => other is JobErrorLimitName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum JobErrorResourceTypes {
-  revision('REVISION'),
-  asset('ASSET'),
-  dataSet('DATA_SET'),
-  ;
+class JobErrorResourceTypes {
+  static const revision = JobErrorResourceTypes._('REVISION');
+  static const asset = JobErrorResourceTypes._('ASSET');
+  static const dataSet = JobErrorResourceTypes._('DATA_SET');
 
   final String value;
 
-  const JobErrorResourceTypes(this.value);
+  const JobErrorResourceTypes._(this.value);
 
-  static JobErrorResourceTypes fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum JobErrorResourceTypes'));
+  static const values = [revision, asset, dataSet];
+
+  static JobErrorResourceTypes fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => JobErrorResourceTypes._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is JobErrorResourceTypes && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The Amazon Resource Name (ARN) of the AWS KMS key used to encrypt the shared
@@ -3794,19 +3867,27 @@ class KmsKeyToGrant {
   }
 }
 
-enum LFPermission {
-  describe('DESCRIBE'),
-  select('SELECT'),
-  ;
+class LFPermission {
+  static const describe = LFPermission._('DESCRIBE');
+  static const select = LFPermission._('SELECT');
 
   final String value;
 
-  const LFPermission(this.value);
+  const LFPermission._(this.value);
 
-  static LFPermission fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum LFPermission'));
+  static const values = [describe, select];
+
+  static LFPermission fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => LFPermission._(value));
+
+  @override
+  bool operator ==(other) => other is LFPermission && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Details about the AWS Lake Formation resource (Table or Database) included
@@ -3847,19 +3928,28 @@ class LFResourceDetails {
   }
 }
 
-enum LFResourceType {
-  table('TABLE'),
-  database('DATABASE'),
-  ;
+class LFResourceType {
+  static const table = LFResourceType._('TABLE');
+  static const database = LFResourceType._('DATABASE');
 
   final String value;
 
-  const LFResourceType(this.value);
+  const LFResourceType._(this.value);
+
+  static const values = [table, database];
 
   static LFResourceType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum LFResourceType'));
+          orElse: () => LFResourceType._(value));
+
+  @override
+  bool operator ==(other) => other is LFResourceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A structure that allows an LF-admin to grant permissions on certain
@@ -3919,7 +4009,8 @@ class LFTagPolicyDetails {
       resourceDetails: LFResourceDetails.fromJson(
           (json['ResourceDetails'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
-      resourceType: LFResourceType.fromString((json['ResourceType'] as String)),
+      resourceType:
+          LFResourceType.fromString((json['ResourceType'] as String?) ?? ''),
     );
   }
 
@@ -3966,7 +4057,7 @@ class LakeFormationDataPermissionAsset {
                   const <String, dynamic>{}),
       lakeFormationDataPermissionType:
           LakeFormationDataPermissionType.fromString(
-              (json['LakeFormationDataPermissionType'] as String)),
+              (json['LakeFormationDataPermissionType'] as String?) ?? ''),
       permissions: ((json['Permissions'] as List?) ?? const [])
           .nonNulls
           .map((e) => LFPermission.fromString((e as String)))
@@ -4018,18 +4109,28 @@ class LakeFormationDataPermissionDetails {
   }
 }
 
-enum LakeFormationDataPermissionType {
-  lFTagPolicy('LFTagPolicy'),
-  ;
+class LakeFormationDataPermissionType {
+  static const lFTagPolicy = LakeFormationDataPermissionType._('LFTagPolicy');
 
   final String value;
 
-  const LakeFormationDataPermissionType(this.value);
+  const LakeFormationDataPermissionType._(this.value);
+
+  static const values = [lFTagPolicy];
 
   static LakeFormationDataPermissionType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum LakeFormationDataPermissionType'));
+          orElse: () => LakeFormationDataPermissionType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is LakeFormationDataPermissionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Extra details specific to the affected scope in this LF data set.
@@ -4272,35 +4373,53 @@ class NotificationDetails {
   }
 }
 
-enum NotificationType {
-  dataDelay('DATA_DELAY'),
-  dataUpdate('DATA_UPDATE'),
-  deprecation('DEPRECATION'),
-  schemaChange('SCHEMA_CHANGE'),
-  ;
+class NotificationType {
+  static const dataDelay = NotificationType._('DATA_DELAY');
+  static const dataUpdate = NotificationType._('DATA_UPDATE');
+  static const deprecation = NotificationType._('DEPRECATION');
+  static const schemaChange = NotificationType._('SCHEMA_CHANGE');
 
   final String value;
 
-  const NotificationType(this.value);
+  const NotificationType._(this.value);
+
+  static const values = [dataDelay, dataUpdate, deprecation, schemaChange];
 
   static NotificationType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum NotificationType'));
+          orElse: () => NotificationType._(value));
+
+  @override
+  bool operator ==(other) => other is NotificationType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum Origin {
-  owned('OWNED'),
-  entitled('ENTITLED'),
-  ;
+class Origin {
+  static const owned = Origin._('OWNED');
+  static const entitled = Origin._('ENTITLED');
 
   final String value;
 
-  const Origin(this.value);
+  const Origin._(this.value);
+
+  static const values = [owned, entitled];
 
   static Origin fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum Origin'));
+      values.firstWhere((e) => e.value == value, orElse: () => Origin._(value));
+
+  @override
+  bool operator ==(other) => other is Origin && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Details about the origin of the data set.
@@ -4326,18 +4445,26 @@ class OriginDetails {
   }
 }
 
-enum ProtocolType {
-  rest('REST'),
-  ;
+class ProtocolType {
+  static const rest = ProtocolType._('REST');
 
   final String value;
 
-  const ProtocolType(this.value);
+  const ProtocolType._(this.value);
 
-  static ProtocolType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ProtocolType'));
+  static const values = [rest];
+
+  static ProtocolType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ProtocolType._(value));
+
+  @override
+  bool operator ==(other) => other is ProtocolType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The Amazon Redshift datashare asset.
@@ -5142,20 +5269,29 @@ class SchemaChangeRequestDetails {
   }
 }
 
-enum SchemaChangeType {
-  add('ADD'),
-  remove('REMOVE'),
-  modify('MODIFY'),
-  ;
+class SchemaChangeType {
+  static const add = SchemaChangeType._('ADD');
+  static const remove = SchemaChangeType._('REMOVE');
+  static const modify = SchemaChangeType._('MODIFY');
 
   final String value;
 
-  const SchemaChangeType(this.value);
+  const SchemaChangeType._(this.value);
+
+  static const values = [add, remove, modify];
 
   static SchemaChangeType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum SchemaChangeType'));
+          orElse: () => SchemaChangeType._(value));
+
+  @override
+  bool operator ==(other) => other is SchemaChangeType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Details about the scope of the notifications such as the affected resources.
@@ -5221,19 +5357,29 @@ class SendDataSetNotificationResponse {
   }
 }
 
-enum ServerSideEncryptionTypes {
-  awsKms('aws:kms'),
-  aes256('AES256'),
-  ;
+class ServerSideEncryptionTypes {
+  static const awsKms = ServerSideEncryptionTypes._('aws:kms');
+  static const aes256 = ServerSideEncryptionTypes._('AES256');
 
   final String value;
 
-  const ServerSideEncryptionTypes(this.value);
+  const ServerSideEncryptionTypes._(this.value);
+
+  static const values = [awsKms, aes256];
 
   static ServerSideEncryptionTypes fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ServerSideEncryptionTypes'));
+          orElse: () => ServerSideEncryptionTypes._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ServerSideEncryptionTypes && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class StartJobResponse {
@@ -5248,22 +5394,38 @@ class StartJobResponse {
   }
 }
 
-enum State {
-  waiting('WAITING'),
-  inProgress('IN_PROGRESS'),
-  error('ERROR'),
-  completed('COMPLETED'),
-  cancelled('CANCELLED'),
-  timedOut('TIMED_OUT'),
-  ;
+class State {
+  static const waiting = State._('WAITING');
+  static const inProgress = State._('IN_PROGRESS');
+  static const error = State._('ERROR');
+  static const completed = State._('COMPLETED');
+  static const cancelled = State._('CANCELLED');
+  static const timedOut = State._('TIMED_OUT');
 
   final String value;
 
-  const State(this.value);
+  const State._(this.value);
+
+  static const values = [
+    waiting,
+    inProgress,
+    error,
+    completed,
+    cancelled,
+    timedOut
+  ];
 
   static State fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum State'));
+      values.firstWhere((e) => e.value == value, orElse: () => State._(value));
+
+  @override
+  bool operator ==(other) => other is State && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The LF-tag policy for a table resource.
@@ -5328,41 +5490,74 @@ class TableLFTagPolicyAndPermissions {
   }
 }
 
-enum TableTagPolicyLFPermission {
-  describe('DESCRIBE'),
-  select('SELECT'),
-  ;
+class TableTagPolicyLFPermission {
+  static const describe = TableTagPolicyLFPermission._('DESCRIBE');
+  static const select = TableTagPolicyLFPermission._('SELECT');
 
   final String value;
 
-  const TableTagPolicyLFPermission(this.value);
+  const TableTagPolicyLFPermission._(this.value);
+
+  static const values = [describe, select];
 
   static TableTagPolicyLFPermission fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum TableTagPolicyLFPermission'));
+          orElse: () => TableTagPolicyLFPermission._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TableTagPolicyLFPermission && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum Type {
-  importAssetsFromS3('IMPORT_ASSETS_FROM_S3'),
-  importAssetFromSignedUrl('IMPORT_ASSET_FROM_SIGNED_URL'),
-  exportAssetsToS3('EXPORT_ASSETS_TO_S3'),
-  exportAssetToSignedUrl('EXPORT_ASSET_TO_SIGNED_URL'),
-  exportRevisionsToS3('EXPORT_REVISIONS_TO_S3'),
-  importAssetsFromRedshiftDataShares('IMPORT_ASSETS_FROM_REDSHIFT_DATA_SHARES'),
-  importAssetFromApiGatewayApi('IMPORT_ASSET_FROM_API_GATEWAY_API'),
-  createS3DataAccessFromS3Bucket('CREATE_S3_DATA_ACCESS_FROM_S3_BUCKET'),
-  importAssetsFromLakeFormationTagPolicy(
-      'IMPORT_ASSETS_FROM_LAKE_FORMATION_TAG_POLICY'),
-  ;
+class Type {
+  static const importAssetsFromS3 = Type._('IMPORT_ASSETS_FROM_S3');
+  static const importAssetFromSignedUrl =
+      Type._('IMPORT_ASSET_FROM_SIGNED_URL');
+  static const exportAssetsToS3 = Type._('EXPORT_ASSETS_TO_S3');
+  static const exportAssetToSignedUrl = Type._('EXPORT_ASSET_TO_SIGNED_URL');
+  static const exportRevisionsToS3 = Type._('EXPORT_REVISIONS_TO_S3');
+  static const importAssetsFromRedshiftDataShares =
+      Type._('IMPORT_ASSETS_FROM_REDSHIFT_DATA_SHARES');
+  static const importAssetFromApiGatewayApi =
+      Type._('IMPORT_ASSET_FROM_API_GATEWAY_API');
+  static const createS3DataAccessFromS3Bucket =
+      Type._('CREATE_S3_DATA_ACCESS_FROM_S3_BUCKET');
+  static const importAssetsFromLakeFormationTagPolicy =
+      Type._('IMPORT_ASSETS_FROM_LAKE_FORMATION_TAG_POLICY');
 
   final String value;
 
-  const Type(this.value);
+  const Type._(this.value);
+
+  static const values = [
+    importAssetsFromS3,
+    importAssetFromSignedUrl,
+    exportAssetsToS3,
+    exportAssetToSignedUrl,
+    exportRevisionsToS3,
+    importAssetsFromRedshiftDataShares,
+    importAssetFromApiGatewayApi,
+    createS3DataAccessFromS3Bucket,
+    importAssetsFromLakeFormationTagPolicy
+  ];
 
   static Type fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum Type'));
+      values.firstWhere((e) => e.value == value, orElse: () => Type._(value));
+
+  @override
+  bool operator ==(other) => other is Type && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class UpdateAssetResponse {

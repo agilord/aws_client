@@ -2275,18 +2275,27 @@ class ACLsUpdateStatus {
   }
 }
 
-enum AZStatus {
-  singleaz('singleaz'),
-  multiaz('multiaz'),
-  ;
+class AZStatus {
+  static const singleaz = AZStatus._('singleaz');
+  static const multiaz = AZStatus._('multiaz');
 
   final String value;
 
-  const AZStatus(this.value);
+  const AZStatus._(this.value);
 
-  static AZStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum AZStatus'));
+  static const values = [singleaz, multiaz];
+
+  static AZStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => AZStatus._(value));
+
+  @override
+  bool operator ==(other) => other is AZStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Denotes the user's authentication properties, such as whether it requires a
@@ -2345,20 +2354,30 @@ class AuthenticationMode {
   }
 }
 
-enum AuthenticationType {
-  password('password'),
-  noPassword('no-password'),
-  iam('iam'),
-  ;
+class AuthenticationType {
+  static const password = AuthenticationType._('password');
+  static const noPassword = AuthenticationType._('no-password');
+  static const iam = AuthenticationType._('iam');
 
   final String value;
 
-  const AuthenticationType(this.value);
+  const AuthenticationType._(this.value);
 
-  static AuthenticationType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum AuthenticationType'));
+  static const values = [password, noPassword, iam];
+
+  static AuthenticationType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AuthenticationType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AuthenticationType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Indicates if the cluster has a Multi-AZ configuration (multiaz) or not
@@ -2984,19 +3003,28 @@ class CreateUserResponse {
   }
 }
 
-enum DataTieringStatus {
-  $true('true'),
-  $false('false'),
-  ;
+class DataTieringStatus {
+  static const $true = DataTieringStatus._('true');
+  static const $false = DataTieringStatus._('false');
 
   final String value;
 
-  const DataTieringStatus(this.value);
+  const DataTieringStatus._(this.value);
+
+  static const values = [$true, $false];
 
   static DataTieringStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum DataTieringStatus'));
+          orElse: () => DataTieringStatus._(value));
+
+  @override
+  bool operator ==(other) => other is DataTieringStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class DeleteACLResponse {
@@ -3746,19 +3774,29 @@ class Filter {
   }
 }
 
-enum InputAuthenticationType {
-  password('password'),
-  iam('iam'),
-  ;
+class InputAuthenticationType {
+  static const password = InputAuthenticationType._('password');
+  static const iam = InputAuthenticationType._('iam');
 
   final String value;
 
-  const InputAuthenticationType(this.value);
+  const InputAuthenticationType._(this.value);
+
+  static const values = [password, iam];
 
   static InputAuthenticationType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum InputAuthenticationType'));
+          orElse: () => InputAuthenticationType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is InputAuthenticationType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class ListAllowedNodeTypeUpdatesResponse {
@@ -4450,35 +4488,54 @@ class ServiceUpdateRequest {
   }
 }
 
-enum ServiceUpdateStatus {
-  available('available'),
-  inProgress('in-progress'),
-  complete('complete'),
-  scheduled('scheduled'),
-  ;
+class ServiceUpdateStatus {
+  static const available = ServiceUpdateStatus._('available');
+  static const inProgress = ServiceUpdateStatus._('in-progress');
+  static const complete = ServiceUpdateStatus._('complete');
+  static const scheduled = ServiceUpdateStatus._('scheduled');
 
   final String value;
 
-  const ServiceUpdateStatus(this.value);
+  const ServiceUpdateStatus._(this.value);
 
-  static ServiceUpdateStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ServiceUpdateStatus'));
+  static const values = [available, inProgress, complete, scheduled];
+
+  static ServiceUpdateStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ServiceUpdateStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ServiceUpdateStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ServiceUpdateType {
-  securityUpdate('security-update'),
-  ;
+class ServiceUpdateType {
+  static const securityUpdate = ServiceUpdateType._('security-update');
 
   final String value;
 
-  const ServiceUpdateType(this.value);
+  const ServiceUpdateType._(this.value);
+
+  static const values = [securityUpdate];
 
   static ServiceUpdateType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ServiceUpdateType'));
+          orElse: () => ServiceUpdateType._(value));
+
+  @override
+  bool operator ==(other) => other is ServiceUpdateType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Represents a collection of nodes in a cluster. One node in the node group is
@@ -4735,22 +4792,31 @@ class Snapshot {
   }
 }
 
-enum SourceType {
-  node('node'),
-  parameterGroup('parameter-group'),
-  subnetGroup('subnet-group'),
-  cluster('cluster'),
-  user('user'),
-  acl('acl'),
-  ;
+class SourceType {
+  static const node = SourceType._('node');
+  static const parameterGroup = SourceType._('parameter-group');
+  static const subnetGroup = SourceType._('subnet-group');
+  static const cluster = SourceType._('cluster');
+  static const user = SourceType._('user');
+  static const acl = SourceType._('acl');
 
   final String value;
 
-  const SourceType(this.value);
+  const SourceType._(this.value);
 
-  static SourceType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum SourceType'));
+  static const values = [node, parameterGroup, subnetGroup, cluster, user, acl];
+
+  static SourceType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => SourceType._(value));
+
+  @override
+  bool operator ==(other) => other is SourceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Represents the subnet associated with a cluster. This parameter refers to

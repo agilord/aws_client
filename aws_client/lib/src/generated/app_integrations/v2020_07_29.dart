@@ -1626,7 +1626,7 @@ class ExecutionConfiguration {
   factory ExecutionConfiguration.fromJson(Map<String, dynamic> json) {
     return ExecutionConfiguration(
       executionMode:
-          ExecutionMode.fromString((json['ExecutionMode'] as String)),
+          ExecutionMode.fromString((json['ExecutionMode'] as String?) ?? ''),
       onDemandConfiguration: json['OnDemandConfiguration'] != null
           ? OnDemandConfiguration.fromJson(
               json['OnDemandConfiguration'] as Map<String, dynamic>)
@@ -1652,35 +1652,53 @@ class ExecutionConfiguration {
   }
 }
 
-enum ExecutionMode {
-  onDemand('ON_DEMAND'),
-  scheduled('SCHEDULED'),
-  ;
+class ExecutionMode {
+  static const onDemand = ExecutionMode._('ON_DEMAND');
+  static const scheduled = ExecutionMode._('SCHEDULED');
 
   final String value;
 
-  const ExecutionMode(this.value);
+  const ExecutionMode._(this.value);
+
+  static const values = [onDemand, scheduled];
 
   static ExecutionMode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ExecutionMode'));
+          orElse: () => ExecutionMode._(value));
+
+  @override
+  bool operator ==(other) => other is ExecutionMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ExecutionStatus {
-  completed('COMPLETED'),
-  inProgress('IN_PROGRESS'),
-  failed('FAILED'),
-  ;
+class ExecutionStatus {
+  static const completed = ExecutionStatus._('COMPLETED');
+  static const inProgress = ExecutionStatus._('IN_PROGRESS');
+  static const failed = ExecutionStatus._('FAILED');
 
   final String value;
 
-  const ExecutionStatus(this.value);
+  const ExecutionStatus._(this.value);
+
+  static const values = [completed, inProgress, failed];
 
   static ExecutionStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ExecutionStatus'));
+          orElse: () => ExecutionStatus._(value));
+
+  @override
+  bool operator ==(other) => other is ExecutionStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The external URL source for the application.

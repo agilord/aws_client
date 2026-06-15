@@ -1410,7 +1410,7 @@ class Composition {
           (json['layout'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
       stageArn: (json['stageArn'] as String?) ?? '',
-      state: CompositionState.fromString((json['state'] as String)),
+      state: CompositionState.fromString((json['state'] as String?) ?? ''),
       endTime: timeStampFromJson(json['endTime']),
       startTime: timeStampFromJson(json['startTime']),
       tags: (json['tags'] as Map<String, dynamic>?)
@@ -1440,22 +1440,31 @@ class Composition {
   }
 }
 
-enum CompositionState {
-  starting('STARTING'),
-  active('ACTIVE'),
-  stopping('STOPPING'),
-  failed('FAILED'),
-  stopped('STOPPED'),
-  ;
+class CompositionState {
+  static const starting = CompositionState._('STARTING');
+  static const active = CompositionState._('ACTIVE');
+  static const stopping = CompositionState._('STOPPING');
+  static const failed = CompositionState._('FAILED');
+  static const stopped = CompositionState._('STOPPED');
 
   final String value;
 
-  const CompositionState(this.value);
+  const CompositionState._(this.value);
+
+  static const values = [starting, active, stopping, failed, stopped];
 
   static CompositionState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum CompositionState'));
+          orElse: () => CompositionState._(value));
+
+  @override
+  bool operator ==(other) => other is CompositionState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Summary information about a Composition.
@@ -1506,7 +1515,7 @@ class CompositionSummary {
           .map((e) => DestinationSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       stageArn: (json['stageArn'] as String?) ?? '',
-      state: CompositionState.fromString((json['state'] as String)),
+      state: CompositionState.fromString((json['state'] as String?) ?? ''),
       endTime: timeStampFromJson(json['endTime']),
       startTime: timeStampFromJson(json['startTime']),
       tags: (json['tags'] as Map<String, dynamic>?)
@@ -1733,7 +1742,7 @@ class Destination {
           (json['configuration'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
       id: (json['id'] as String?) ?? '',
-      state: DestinationState.fromString((json['state'] as String)),
+      state: DestinationState.fromString((json['state'] as String?) ?? ''),
       detail: json['detail'] != null
           ? DestinationDetail.fromJson(json['detail'] as Map<String, dynamic>)
           : null,
@@ -1830,23 +1839,39 @@ class DestinationDetail {
   }
 }
 
-enum DestinationState {
-  starting('STARTING'),
-  active('ACTIVE'),
-  stopping('STOPPING'),
-  reconnecting('RECONNECTING'),
-  failed('FAILED'),
-  stopped('STOPPED'),
-  ;
+class DestinationState {
+  static const starting = DestinationState._('STARTING');
+  static const active = DestinationState._('ACTIVE');
+  static const stopping = DestinationState._('STOPPING');
+  static const reconnecting = DestinationState._('RECONNECTING');
+  static const failed = DestinationState._('FAILED');
+  static const stopped = DestinationState._('STOPPED');
 
   final String value;
 
-  const DestinationState(this.value);
+  const DestinationState._(this.value);
+
+  static const values = [
+    starting,
+    active,
+    stopping,
+    reconnecting,
+    failed,
+    stopped
+  ];
 
   static DestinationState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum DestinationState'));
+          orElse: () => DestinationState._(value));
+
+  @override
+  bool operator ==(other) => other is DestinationState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Summary information about a Destination.
@@ -1875,7 +1900,7 @@ class DestinationSummary {
   factory DestinationSummary.fromJson(Map<String, dynamic> json) {
     return DestinationSummary(
       id: (json['id'] as String?) ?? '',
-      state: DestinationState.fromString((json['state'] as String)),
+      state: DestinationState.fromString((json['state'] as String?) ?? ''),
       endTime: timeStampFromJson(json['endTime']),
       startTime: timeStampFromJson(json['startTime']),
     );
@@ -2069,41 +2094,74 @@ class Event {
   }
 }
 
-enum EventErrorCode {
-  insufficientCapabilities('INSUFFICIENT_CAPABILITIES'),
-  quotaExceeded('QUOTA_EXCEEDED'),
-  publisherNotFound('PUBLISHER_NOT_FOUND'),
-  ;
+class EventErrorCode {
+  static const insufficientCapabilities =
+      EventErrorCode._('INSUFFICIENT_CAPABILITIES');
+  static const quotaExceeded = EventErrorCode._('QUOTA_EXCEEDED');
+  static const publisherNotFound = EventErrorCode._('PUBLISHER_NOT_FOUND');
 
   final String value;
 
-  const EventErrorCode(this.value);
+  const EventErrorCode._(this.value);
+
+  static const values = [
+    insufficientCapabilities,
+    quotaExceeded,
+    publisherNotFound
+  ];
 
   static EventErrorCode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum EventErrorCode'));
+          orElse: () => EventErrorCode._(value));
+
+  @override
+  bool operator ==(other) => other is EventErrorCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum EventName {
-  joined('JOINED'),
-  left('LEFT'),
-  publishStarted('PUBLISH_STARTED'),
-  publishStopped('PUBLISH_STOPPED'),
-  subscribeStarted('SUBSCRIBE_STARTED'),
-  subscribeStopped('SUBSCRIBE_STOPPED'),
-  publishError('PUBLISH_ERROR'),
-  subscribeError('SUBSCRIBE_ERROR'),
-  joinError('JOIN_ERROR'),
-  ;
+class EventName {
+  static const joined = EventName._('JOINED');
+  static const left = EventName._('LEFT');
+  static const publishStarted = EventName._('PUBLISH_STARTED');
+  static const publishStopped = EventName._('PUBLISH_STOPPED');
+  static const subscribeStarted = EventName._('SUBSCRIBE_STARTED');
+  static const subscribeStopped = EventName._('SUBSCRIBE_STOPPED');
+  static const publishError = EventName._('PUBLISH_ERROR');
+  static const subscribeError = EventName._('SUBSCRIBE_ERROR');
+  static const joinError = EventName._('JOIN_ERROR');
 
   final String value;
 
-  const EventName(this.value);
+  const EventName._(this.value);
 
-  static EventName fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum EventName'));
+  static const values = [
+    joined,
+    left,
+    publishStarted,
+    publishStopped,
+    subscribeStarted,
+    subscribeStopped,
+    publishError,
+    subscribeError,
+    joinError
+  ];
+
+  static EventName fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => EventName._(value));
+
+  @override
+  bool operator ==(other) => other is EventName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class GetCompositionResponse {
@@ -2837,71 +2895,114 @@ class Participant {
   }
 }
 
-enum ParticipantRecordingFilterByRecordingState {
-  starting('STARTING'),
-  active('ACTIVE'),
-  stopping('STOPPING'),
-  stopped('STOPPED'),
-  failed('FAILED'),
-  ;
+class ParticipantRecordingFilterByRecordingState {
+  static const starting =
+      ParticipantRecordingFilterByRecordingState._('STARTING');
+  static const active = ParticipantRecordingFilterByRecordingState._('ACTIVE');
+  static const stopping =
+      ParticipantRecordingFilterByRecordingState._('STOPPING');
+  static const stopped =
+      ParticipantRecordingFilterByRecordingState._('STOPPED');
+  static const failed = ParticipantRecordingFilterByRecordingState._('FAILED');
 
   final String value;
 
-  const ParticipantRecordingFilterByRecordingState(this.value);
+  const ParticipantRecordingFilterByRecordingState._(this.value);
+
+  static const values = [starting, active, stopping, stopped, failed];
 
   static ParticipantRecordingFilterByRecordingState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ParticipantRecordingFilterByRecordingState'));
+          orElse: () => ParticipantRecordingFilterByRecordingState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ParticipantRecordingFilterByRecordingState &&
+      other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ParticipantRecordingMediaType {
-  audioVideo('AUDIO_VIDEO'),
-  audioOnly('AUDIO_ONLY'),
-  ;
+class ParticipantRecordingMediaType {
+  static const audioVideo = ParticipantRecordingMediaType._('AUDIO_VIDEO');
+  static const audioOnly = ParticipantRecordingMediaType._('AUDIO_ONLY');
 
   final String value;
 
-  const ParticipantRecordingMediaType(this.value);
+  const ParticipantRecordingMediaType._(this.value);
+
+  static const values = [audioVideo, audioOnly];
 
   static ParticipantRecordingMediaType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ParticipantRecordingMediaType'));
+          orElse: () => ParticipantRecordingMediaType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ParticipantRecordingMediaType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ParticipantRecordingState {
-  starting('STARTING'),
-  active('ACTIVE'),
-  stopping('STOPPING'),
-  stopped('STOPPED'),
-  failed('FAILED'),
-  disabled('DISABLED'),
-  ;
+class ParticipantRecordingState {
+  static const starting = ParticipantRecordingState._('STARTING');
+  static const active = ParticipantRecordingState._('ACTIVE');
+  static const stopping = ParticipantRecordingState._('STOPPING');
+  static const stopped = ParticipantRecordingState._('STOPPED');
+  static const failed = ParticipantRecordingState._('FAILED');
+  static const disabled = ParticipantRecordingState._('DISABLED');
 
   final String value;
 
-  const ParticipantRecordingState(this.value);
+  const ParticipantRecordingState._(this.value);
+
+  static const values = [starting, active, stopping, stopped, failed, disabled];
 
   static ParticipantRecordingState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ParticipantRecordingState'));
+          orElse: () => ParticipantRecordingState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ParticipantRecordingState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ParticipantState {
-  connected('CONNECTED'),
-  disconnected('DISCONNECTED'),
-  ;
+class ParticipantState {
+  static const connected = ParticipantState._('CONNECTED');
+  static const disconnected = ParticipantState._('DISCONNECTED');
 
   final String value;
 
-  const ParticipantState(this.value);
+  const ParticipantState._(this.value);
+
+  static const values = [connected, disconnected];
 
   static ParticipantState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ParticipantState'));
+          orElse: () => ParticipantState._(value));
+
+  @override
+  bool operator ==(other) => other is ParticipantState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Summary object describing a participant that has joined a stage.
@@ -3049,19 +3150,29 @@ class ParticipantToken {
   }
 }
 
-enum ParticipantTokenCapability {
-  publish('PUBLISH'),
-  subscribe('SUBSCRIBE'),
-  ;
+class ParticipantTokenCapability {
+  static const publish = ParticipantTokenCapability._('PUBLISH');
+  static const subscribe = ParticipantTokenCapability._('SUBSCRIBE');
 
   final String value;
 
-  const ParticipantTokenCapability(this.value);
+  const ParticipantTokenCapability._(this.value);
+
+  static const values = [publish, subscribe];
 
   static ParticipantTokenCapability fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ParticipantTokenCapability'));
+          orElse: () => ParticipantTokenCapability._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ParticipantTokenCapability && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Object specifying a participant token configuration in a stage.
@@ -3109,18 +3220,27 @@ class ParticipantTokenConfiguration {
   }
 }
 
-enum PipBehavior {
-  static('STATIC'),
-  $dynamic('DYNAMIC'),
-  ;
+class PipBehavior {
+  static const static = PipBehavior._('STATIC');
+  static const $dynamic = PipBehavior._('DYNAMIC');
 
   final String value;
 
-  const PipBehavior(this.value);
+  const PipBehavior._(this.value);
 
-  static PipBehavior fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum PipBehavior'));
+  static const values = [static, $dynamic];
+
+  static PipBehavior fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => PipBehavior._(value));
+
+  @override
+  bool operator ==(other) => other is PipBehavior && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Configuration information specific to Picture-in-Picture (PiP) layout, for
@@ -3236,20 +3356,29 @@ class PipConfiguration {
   }
 }
 
-enum PipPosition {
-  topLeft('TOP_LEFT'),
-  topRight('TOP_RIGHT'),
-  bottomLeft('BOTTOM_LEFT'),
-  bottomRight('BOTTOM_RIGHT'),
-  ;
+class PipPosition {
+  static const topLeft = PipPosition._('TOP_LEFT');
+  static const topRight = PipPosition._('TOP_RIGHT');
+  static const bottomLeft = PipPosition._('BOTTOM_LEFT');
+  static const bottomRight = PipPosition._('BOTTOM_RIGHT');
 
   final String value;
 
-  const PipPosition(this.value);
+  const PipPosition._(this.value);
 
-  static PipPosition fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum PipPosition'));
+  static const values = [topLeft, topRight, bottomLeft, bottomRight];
+
+  static PipPosition fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => PipPosition._(value));
+
+  @override
+  bool operator ==(other) => other is PipPosition && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Object specifying a public key used to sign stage participant tokens.
@@ -3377,18 +3506,28 @@ class RecordingConfiguration {
   }
 }
 
-enum RecordingConfigurationFormat {
-  hls('HLS'),
-  ;
+class RecordingConfigurationFormat {
+  static const hls = RecordingConfigurationFormat._('HLS');
 
   final String value;
 
-  const RecordingConfigurationFormat(this.value);
+  const RecordingConfigurationFormat._(this.value);
+
+  static const values = [hls];
 
   static RecordingConfigurationFormat fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum RecordingConfigurationFormat'));
+          orElse: () => RecordingConfigurationFormat._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RecordingConfigurationFormat && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A complex type that describes an S3 location where recorded videos will be
@@ -3963,37 +4102,55 @@ class Video {
   }
 }
 
-enum VideoAspectRatio {
-  auto('AUTO'),
-  video('VIDEO'),
-  square('SQUARE'),
-  portrait('PORTRAIT'),
-  ;
+class VideoAspectRatio {
+  static const auto = VideoAspectRatio._('AUTO');
+  static const video = VideoAspectRatio._('VIDEO');
+  static const square = VideoAspectRatio._('SQUARE');
+  static const portrait = VideoAspectRatio._('PORTRAIT');
 
   final String value;
 
-  const VideoAspectRatio(this.value);
+  const VideoAspectRatio._(this.value);
+
+  static const values = [auto, video, square, portrait];
 
   static VideoAspectRatio fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum VideoAspectRatio'));
+          orElse: () => VideoAspectRatio._(value));
+
+  @override
+  bool operator ==(other) => other is VideoAspectRatio && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum VideoFillMode {
-  fill('FILL'),
-  cover('COVER'),
-  contain('CONTAIN'),
-  ;
+class VideoFillMode {
+  static const fill = VideoFillMode._('FILL');
+  static const cover = VideoFillMode._('COVER');
+  static const contain = VideoFillMode._('CONTAIN');
 
   final String value;
 
-  const VideoFillMode(this.value);
+  const VideoFillMode._(this.value);
+
+  static const values = [fill, cover, contain];
 
   static VideoFillMode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum VideoFillMode'));
+          orElse: () => VideoFillMode._(value));
+
+  @override
+  bool operator ==(other) => other is VideoFillMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class AccessDeniedException extends _s.GenericAwsException {

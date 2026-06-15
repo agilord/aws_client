@@ -2333,8 +2333,8 @@ class GetParametersForExportOutput {
       exportToken: (json['ExportToken'] as String?) ?? '',
       parametersValidUntilTimestamp: nonNullableTimeStampFromJson(
           json['ParametersValidUntilTimestamp'] ?? 0),
-      signingKeyAlgorithm:
-          KeyAlgorithm.fromString((json['SigningKeyAlgorithm'] as String)),
+      signingKeyAlgorithm: KeyAlgorithm.fromString(
+          (json['SigningKeyAlgorithm'] as String?) ?? ''),
       signingKeyCertificate: (json['SigningKeyCertificate'] as String?) ?? '',
       signingKeyCertificateChain:
           (json['SigningKeyCertificateChain'] as String?) ?? '',
@@ -2392,8 +2392,8 @@ class GetParametersForImportOutput {
       importToken: (json['ImportToken'] as String?) ?? '',
       parametersValidUntilTimestamp: nonNullableTimeStampFromJson(
           json['ParametersValidUntilTimestamp'] ?? 0),
-      wrappingKeyAlgorithm:
-          KeyAlgorithm.fromString((json['WrappingKeyAlgorithm'] as String)),
+      wrappingKeyAlgorithm: KeyAlgorithm.fromString(
+          (json['WrappingKeyAlgorithm'] as String?) ?? ''),
       wrappingKeyCertificate: (json['WrappingKeyCertificate'] as String?) ?? '',
       wrappingKeyCertificateChain:
           (json['WrappingKeyCertificateChain'] as String?) ?? '',
@@ -2738,9 +2738,9 @@ class Key {
               const <String, dynamic>{}),
       keyCheckValue: (json['KeyCheckValue'] as String?) ?? '',
       keyCheckValueAlgorithm: KeyCheckValueAlgorithm.fromString(
-          (json['KeyCheckValueAlgorithm'] as String)),
-      keyOrigin: KeyOrigin.fromString((json['KeyOrigin'] as String)),
-      keyState: KeyState.fromString((json['KeyState'] as String)),
+          (json['KeyCheckValueAlgorithm'] as String?) ?? ''),
+      keyOrigin: KeyOrigin.fromString((json['KeyOrigin'] as String?) ?? ''),
+      keyState: KeyState.fromString((json['KeyState'] as String?) ?? ''),
       deletePendingTimestamp: timeStampFromJson(json['DeletePendingTimestamp']),
       deleteTimestamp: timeStampFromJson(json['DeleteTimestamp']),
       usageStartTimestamp: timeStampFromJson(json['UsageStartTimestamp']),
@@ -2784,25 +2784,42 @@ class Key {
   }
 }
 
-enum KeyAlgorithm {
-  tdes_2key('TDES_2KEY'),
-  tdes_3key('TDES_3KEY'),
-  aes_128('AES_128'),
-  aes_192('AES_192'),
-  aes_256('AES_256'),
-  rsa_2048('RSA_2048'),
-  rsa_3072('RSA_3072'),
-  rsa_4096('RSA_4096'),
-  ;
+class KeyAlgorithm {
+  static const tdes_2key = KeyAlgorithm._('TDES_2KEY');
+  static const tdes_3key = KeyAlgorithm._('TDES_3KEY');
+  static const aes_128 = KeyAlgorithm._('AES_128');
+  static const aes_192 = KeyAlgorithm._('AES_192');
+  static const aes_256 = KeyAlgorithm._('AES_256');
+  static const rsa_2048 = KeyAlgorithm._('RSA_2048');
+  static const rsa_3072 = KeyAlgorithm._('RSA_3072');
+  static const rsa_4096 = KeyAlgorithm._('RSA_4096');
 
   final String value;
 
-  const KeyAlgorithm(this.value);
+  const KeyAlgorithm._(this.value);
 
-  static KeyAlgorithm fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum KeyAlgorithm'));
+  static const values = [
+    tdes_2key,
+    tdes_3key,
+    aes_128,
+    aes_192,
+    aes_256,
+    rsa_2048,
+    rsa_3072,
+    rsa_4096
+  ];
+
+  static KeyAlgorithm fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => KeyAlgorithm._(value));
+
+  @override
+  bool operator ==(other) => other is KeyAlgorithm && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The role of the key, the algorithm it supports, and the cryptographic
@@ -2840,12 +2857,13 @@ class KeyAttributes {
 
   factory KeyAttributes.fromJson(Map<String, dynamic> json) {
     return KeyAttributes(
-      keyAlgorithm: KeyAlgorithm.fromString((json['KeyAlgorithm'] as String)),
-      keyClass: KeyClass.fromString((json['KeyClass'] as String)),
+      keyAlgorithm:
+          KeyAlgorithm.fromString((json['KeyAlgorithm'] as String?) ?? ''),
+      keyClass: KeyClass.fromString((json['KeyClass'] as String?) ?? ''),
       keyModesOfUse: KeyModesOfUse.fromJson(
           (json['KeyModesOfUse'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
-      keyUsage: KeyUsage.fromString((json['KeyUsage'] as String)),
+      keyUsage: KeyUsage.fromString((json['KeyUsage'] as String?) ?? ''),
     );
   }
 
@@ -2919,69 +2937,119 @@ class KeyBlockHeaders {
   }
 }
 
-enum KeyCheckValueAlgorithm {
-  cmac('CMAC'),
-  ansiX9_24('ANSI_X9_24'),
-  ;
+class KeyCheckValueAlgorithm {
+  static const cmac = KeyCheckValueAlgorithm._('CMAC');
+  static const ansiX9_24 = KeyCheckValueAlgorithm._('ANSI_X9_24');
 
   final String value;
 
-  const KeyCheckValueAlgorithm(this.value);
+  const KeyCheckValueAlgorithm._(this.value);
+
+  static const values = [cmac, ansiX9_24];
 
   static KeyCheckValueAlgorithm fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum KeyCheckValueAlgorithm'));
+          orElse: () => KeyCheckValueAlgorithm._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is KeyCheckValueAlgorithm && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum KeyClass {
-  symmetricKey('SYMMETRIC_KEY'),
-  asymmetricKeyPair('ASYMMETRIC_KEY_PAIR'),
-  privateKey('PRIVATE_KEY'),
-  publicKey('PUBLIC_KEY'),
-  ;
+class KeyClass {
+  static const symmetricKey = KeyClass._('SYMMETRIC_KEY');
+  static const asymmetricKeyPair = KeyClass._('ASYMMETRIC_KEY_PAIR');
+  static const privateKey = KeyClass._('PRIVATE_KEY');
+  static const publicKey = KeyClass._('PUBLIC_KEY');
 
   final String value;
 
-  const KeyClass(this.value);
+  const KeyClass._(this.value);
 
-  static KeyClass fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum KeyClass'));
+  static const values = [
+    symmetricKey,
+    asymmetricKeyPair,
+    privateKey,
+    publicKey
+  ];
+
+  static KeyClass fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => KeyClass._(value));
+
+  @override
+  bool operator ==(other) => other is KeyClass && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum KeyExportability {
-  exportable('EXPORTABLE'),
-  nonExportable('NON_EXPORTABLE'),
-  sensitive('SENSITIVE'),
-  ;
+class KeyExportability {
+  static const exportable = KeyExportability._('EXPORTABLE');
+  static const nonExportable = KeyExportability._('NON_EXPORTABLE');
+  static const sensitive = KeyExportability._('SENSITIVE');
 
   final String value;
 
-  const KeyExportability(this.value);
+  const KeyExportability._(this.value);
+
+  static const values = [exportable, nonExportable, sensitive];
 
   static KeyExportability fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum KeyExportability'));
+          orElse: () => KeyExportability._(value));
+
+  @override
+  bool operator ==(other) => other is KeyExportability && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum KeyMaterialType {
-  tr34KeyBlock('TR34_KEY_BLOCK'),
-  tr31KeyBlock('TR31_KEY_BLOCK'),
-  rootPublicKeyCertificate('ROOT_PUBLIC_KEY_CERTIFICATE'),
-  trustedPublicKeyCertificate('TRUSTED_PUBLIC_KEY_CERTIFICATE'),
-  keyCryptogram('KEY_CRYPTOGRAM'),
-  ;
+class KeyMaterialType {
+  static const tr34KeyBlock = KeyMaterialType._('TR34_KEY_BLOCK');
+  static const tr31KeyBlock = KeyMaterialType._('TR31_KEY_BLOCK');
+  static const rootPublicKeyCertificate =
+      KeyMaterialType._('ROOT_PUBLIC_KEY_CERTIFICATE');
+  static const trustedPublicKeyCertificate =
+      KeyMaterialType._('TRUSTED_PUBLIC_KEY_CERTIFICATE');
+  static const keyCryptogram = KeyMaterialType._('KEY_CRYPTOGRAM');
 
   final String value;
 
-  const KeyMaterialType(this.value);
+  const KeyMaterialType._(this.value);
+
+  static const values = [
+    tr34KeyBlock,
+    tr31KeyBlock,
+    rootPublicKeyCertificate,
+    trustedPublicKeyCertificate,
+    keyCryptogram
+  ];
 
   static KeyMaterialType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum KeyMaterialType'));
+          orElse: () => KeyMaterialType._(value));
+
+  @override
+  bool operator ==(other) => other is KeyMaterialType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The list of cryptographic operations that you can perform using the key. The
@@ -3075,35 +3143,58 @@ class KeyModesOfUse {
 }
 
 /// Defines the source of a key
-enum KeyOrigin {
-  external('EXTERNAL'),
-  awsPaymentCryptography('AWS_PAYMENT_CRYPTOGRAPHY'),
-  ;
+class KeyOrigin {
+  static const external = KeyOrigin._('EXTERNAL');
+  static const awsPaymentCryptography = KeyOrigin._('AWS_PAYMENT_CRYPTOGRAPHY');
 
   final String value;
 
-  const KeyOrigin(this.value);
+  const KeyOrigin._(this.value);
 
-  static KeyOrigin fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum KeyOrigin'));
+  static const values = [external, awsPaymentCryptography];
+
+  static KeyOrigin fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => KeyOrigin._(value));
+
+  @override
+  bool operator ==(other) => other is KeyOrigin && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Defines the state of a key
-enum KeyState {
-  createInProgress('CREATE_IN_PROGRESS'),
-  createComplete('CREATE_COMPLETE'),
-  deletePending('DELETE_PENDING'),
-  deleteComplete('DELETE_COMPLETE'),
-  ;
+class KeyState {
+  static const createInProgress = KeyState._('CREATE_IN_PROGRESS');
+  static const createComplete = KeyState._('CREATE_COMPLETE');
+  static const deletePending = KeyState._('DELETE_PENDING');
+  static const deleteComplete = KeyState._('DELETE_COMPLETE');
 
   final String value;
 
-  const KeyState(this.value);
+  const KeyState._(this.value);
 
-  static KeyState fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum KeyState'));
+  static const values = [
+    createInProgress,
+    createComplete,
+    deletePending,
+    deleteComplete
+  ];
+
+  static KeyState fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => KeyState._(value));
+
+  @override
+  bool operator ==(other) => other is KeyState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Metadata about an Amazon Web Services Payment Cryptography key.
@@ -3149,7 +3240,7 @@ class KeySummary {
           (json['KeyAttributes'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
       keyCheckValue: (json['KeyCheckValue'] as String?) ?? '',
-      keyState: KeyState.fromString((json['KeyState'] as String)),
+      keyState: KeyState.fromString((json['KeyState'] as String?) ?? ''),
     );
   }
 
@@ -3171,42 +3262,93 @@ class KeySummary {
   }
 }
 
-enum KeyUsage {
-  tr31B0BaseDerivationKey('TR31_B0_BASE_DERIVATION_KEY'),
-  tr31C0CardVerificationKey('TR31_C0_CARD_VERIFICATION_KEY'),
-  tr31D0SymmetricDataEncryptionKey('TR31_D0_SYMMETRIC_DATA_ENCRYPTION_KEY'),
-  tr31D1AsymmetricKeyForDataEncryption(
-      'TR31_D1_ASYMMETRIC_KEY_FOR_DATA_ENCRYPTION'),
-  tr31E0EmvMkeyAppCryptograms('TR31_E0_EMV_MKEY_APP_CRYPTOGRAMS'),
-  tr31E1EmvMkeyConfidentiality('TR31_E1_EMV_MKEY_CONFIDENTIALITY'),
-  tr31E2EmvMkeyIntegrity('TR31_E2_EMV_MKEY_INTEGRITY'),
-  tr31E4EmvMkeyDynamicNumbers('TR31_E4_EMV_MKEY_DYNAMIC_NUMBERS'),
-  tr31E5EmvMkeyCardPersonalization('TR31_E5_EMV_MKEY_CARD_PERSONALIZATION'),
-  tr31E6EmvMkeyOther('TR31_E6_EMV_MKEY_OTHER'),
-  tr31K0KeyEncryptionKey('TR31_K0_KEY_ENCRYPTION_KEY'),
-  tr31K1KeyBlockProtectionKey('TR31_K1_KEY_BLOCK_PROTECTION_KEY'),
-  tr31K3AsymmetricKeyForKeyAgreement(
-      'TR31_K3_ASYMMETRIC_KEY_FOR_KEY_AGREEMENT'),
-  tr31M3Iso_9797_3MacKey('TR31_M3_ISO_9797_3_MAC_KEY'),
-  tr31M1Iso_9797_1MacKey('TR31_M1_ISO_9797_1_MAC_KEY'),
-  tr31M6Iso_9797_5CmacKey('TR31_M6_ISO_9797_5_CMAC_KEY'),
-  tr31M7HmacKey('TR31_M7_HMAC_KEY'),
-  tr31P0PinEncryptionKey('TR31_P0_PIN_ENCRYPTION_KEY'),
-  tr31P1PinGenerationKey('TR31_P1_PIN_GENERATION_KEY'),
-  tr31S0AsymmetricKeyForDigitalSignature(
-      'TR31_S0_ASYMMETRIC_KEY_FOR_DIGITAL_SIGNATURE'),
-  tr31V1Ibm3624PinVerificationKey('TR31_V1_IBM3624_PIN_VERIFICATION_KEY'),
-  tr31V2VisaPinVerificationKey('TR31_V2_VISA_PIN_VERIFICATION_KEY'),
-  tr31K2Tr34AsymmetricKey('TR31_K2_TR34_ASYMMETRIC_KEY'),
-  ;
+class KeyUsage {
+  static const tr31B0BaseDerivationKey =
+      KeyUsage._('TR31_B0_BASE_DERIVATION_KEY');
+  static const tr31C0CardVerificationKey =
+      KeyUsage._('TR31_C0_CARD_VERIFICATION_KEY');
+  static const tr31D0SymmetricDataEncryptionKey =
+      KeyUsage._('TR31_D0_SYMMETRIC_DATA_ENCRYPTION_KEY');
+  static const tr31D1AsymmetricKeyForDataEncryption =
+      KeyUsage._('TR31_D1_ASYMMETRIC_KEY_FOR_DATA_ENCRYPTION');
+  static const tr31E0EmvMkeyAppCryptograms =
+      KeyUsage._('TR31_E0_EMV_MKEY_APP_CRYPTOGRAMS');
+  static const tr31E1EmvMkeyConfidentiality =
+      KeyUsage._('TR31_E1_EMV_MKEY_CONFIDENTIALITY');
+  static const tr31E2EmvMkeyIntegrity =
+      KeyUsage._('TR31_E2_EMV_MKEY_INTEGRITY');
+  static const tr31E4EmvMkeyDynamicNumbers =
+      KeyUsage._('TR31_E4_EMV_MKEY_DYNAMIC_NUMBERS');
+  static const tr31E5EmvMkeyCardPersonalization =
+      KeyUsage._('TR31_E5_EMV_MKEY_CARD_PERSONALIZATION');
+  static const tr31E6EmvMkeyOther = KeyUsage._('TR31_E6_EMV_MKEY_OTHER');
+  static const tr31K0KeyEncryptionKey =
+      KeyUsage._('TR31_K0_KEY_ENCRYPTION_KEY');
+  static const tr31K1KeyBlockProtectionKey =
+      KeyUsage._('TR31_K1_KEY_BLOCK_PROTECTION_KEY');
+  static const tr31K3AsymmetricKeyForKeyAgreement =
+      KeyUsage._('TR31_K3_ASYMMETRIC_KEY_FOR_KEY_AGREEMENT');
+  static const tr31M3Iso_9797_3MacKey =
+      KeyUsage._('TR31_M3_ISO_9797_3_MAC_KEY');
+  static const tr31M1Iso_9797_1MacKey =
+      KeyUsage._('TR31_M1_ISO_9797_1_MAC_KEY');
+  static const tr31M6Iso_9797_5CmacKey =
+      KeyUsage._('TR31_M6_ISO_9797_5_CMAC_KEY');
+  static const tr31M7HmacKey = KeyUsage._('TR31_M7_HMAC_KEY');
+  static const tr31P0PinEncryptionKey =
+      KeyUsage._('TR31_P0_PIN_ENCRYPTION_KEY');
+  static const tr31P1PinGenerationKey =
+      KeyUsage._('TR31_P1_PIN_GENERATION_KEY');
+  static const tr31S0AsymmetricKeyForDigitalSignature =
+      KeyUsage._('TR31_S0_ASYMMETRIC_KEY_FOR_DIGITAL_SIGNATURE');
+  static const tr31V1Ibm3624PinVerificationKey =
+      KeyUsage._('TR31_V1_IBM3624_PIN_VERIFICATION_KEY');
+  static const tr31V2VisaPinVerificationKey =
+      KeyUsage._('TR31_V2_VISA_PIN_VERIFICATION_KEY');
+  static const tr31K2Tr34AsymmetricKey =
+      KeyUsage._('TR31_K2_TR34_ASYMMETRIC_KEY');
 
   final String value;
 
-  const KeyUsage(this.value);
+  const KeyUsage._(this.value);
 
-  static KeyUsage fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum KeyUsage'));
+  static const values = [
+    tr31B0BaseDerivationKey,
+    tr31C0CardVerificationKey,
+    tr31D0SymmetricDataEncryptionKey,
+    tr31D1AsymmetricKeyForDataEncryption,
+    tr31E0EmvMkeyAppCryptograms,
+    tr31E1EmvMkeyConfidentiality,
+    tr31E2EmvMkeyIntegrity,
+    tr31E4EmvMkeyDynamicNumbers,
+    tr31E5EmvMkeyCardPersonalization,
+    tr31E6EmvMkeyOther,
+    tr31K0KeyEncryptionKey,
+    tr31K1KeyBlockProtectionKey,
+    tr31K3AsymmetricKeyForKeyAgreement,
+    tr31M3Iso_9797_3MacKey,
+    tr31M1Iso_9797_1MacKey,
+    tr31M6Iso_9797_5CmacKey,
+    tr31M7HmacKey,
+    tr31P0PinEncryptionKey,
+    tr31P1PinGenerationKey,
+    tr31S0AsymmetricKeyForDigitalSignature,
+    tr31V1Ibm3624PinVerificationKey,
+    tr31V2VisaPinVerificationKey,
+    tr31K2Tr34AsymmetricKey
+  ];
+
+  static KeyUsage fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => KeyUsage._(value));
+
+  @override
+  bool operator ==(other) => other is KeyUsage && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class ListAliasesOutput {
@@ -3450,18 +3592,28 @@ class TagResourceOutput {
   }
 }
 
-enum Tr34KeyBlockFormat {
-  x9Tr34_2012('X9_TR34_2012'),
-  ;
+class Tr34KeyBlockFormat {
+  static const x9Tr34_2012 = Tr34KeyBlockFormat._('X9_TR34_2012');
 
   final String value;
 
-  const Tr34KeyBlockFormat(this.value);
+  const Tr34KeyBlockFormat._(this.value);
 
-  static Tr34KeyBlockFormat fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum Tr34KeyBlockFormat'));
+  static const values = [x9Tr34_2012];
+
+  static Tr34KeyBlockFormat fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => Tr34KeyBlockFormat._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is Tr34KeyBlockFormat && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Parameter information for trusted public key certificate import.
@@ -3572,7 +3724,7 @@ class WrappedKey {
     return WrappedKey(
       keyMaterial: (json['KeyMaterial'] as String?) ?? '',
       wrappedKeyMaterialFormat: WrappedKeyMaterialFormat.fromString(
-          (json['WrappedKeyMaterialFormat'] as String)),
+          (json['WrappedKeyMaterialFormat'] as String?) ?? ''),
       wrappingKeyArn: (json['WrappingKeyArn'] as String?) ?? '',
       keyCheckValue: json['KeyCheckValue'] as String?,
       keyCheckValueAlgorithm: (json['KeyCheckValueAlgorithm'] as String?)
@@ -3597,35 +3749,54 @@ class WrappedKey {
   }
 }
 
-enum WrappedKeyMaterialFormat {
-  keyCryptogram('KEY_CRYPTOGRAM'),
-  tr31KeyBlock('TR31_KEY_BLOCK'),
-  tr34KeyBlock('TR34_KEY_BLOCK'),
-  ;
+class WrappedKeyMaterialFormat {
+  static const keyCryptogram = WrappedKeyMaterialFormat._('KEY_CRYPTOGRAM');
+  static const tr31KeyBlock = WrappedKeyMaterialFormat._('TR31_KEY_BLOCK');
+  static const tr34KeyBlock = WrappedKeyMaterialFormat._('TR34_KEY_BLOCK');
 
   final String value;
 
-  const WrappedKeyMaterialFormat(this.value);
+  const WrappedKeyMaterialFormat._(this.value);
+
+  static const values = [keyCryptogram, tr31KeyBlock, tr34KeyBlock];
 
   static WrappedKeyMaterialFormat fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum WrappedKeyMaterialFormat'));
+          orElse: () => WrappedKeyMaterialFormat._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is WrappedKeyMaterialFormat && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum WrappingKeySpec {
-  rsaOaepSha_256('RSA_OAEP_SHA_256'),
-  rsaOaepSha_512('RSA_OAEP_SHA_512'),
-  ;
+class WrappingKeySpec {
+  static const rsaOaepSha_256 = WrappingKeySpec._('RSA_OAEP_SHA_256');
+  static const rsaOaepSha_512 = WrappingKeySpec._('RSA_OAEP_SHA_512');
 
   final String value;
 
-  const WrappingKeySpec(this.value);
+  const WrappingKeySpec._(this.value);
+
+  static const values = [rsaOaepSha_256, rsaOaepSha_512];
 
   static WrappingKeySpec fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum WrappingKeySpec'));
+          orElse: () => WrappingKeySpec._(value));
+
+  @override
+  bool operator ==(other) => other is WrappingKeySpec && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class AccessDeniedException extends _s.GenericAwsException {

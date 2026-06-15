@@ -229,7 +229,8 @@ class BillOfMaterialsImportJob {
       instanceId: (json['instanceId'] as String?) ?? '',
       jobId: (json['jobId'] as String?) ?? '',
       s3uri: (json['s3uri'] as String?) ?? '',
-      status: ConfigurationJobStatus.fromString((json['status'] as String)),
+      status:
+          ConfigurationJobStatus.fromString((json['status'] as String?) ?? ''),
       message: json['message'] as String?,
     );
   }
@@ -251,22 +252,32 @@ class BillOfMaterialsImportJob {
 }
 
 /// The status of the job.
-enum ConfigurationJobStatus {
-  $new('NEW'),
-  failed('FAILED'),
-  inProgress('IN_PROGRESS'),
-  queued('QUEUED'),
-  success('SUCCESS'),
-  ;
+class ConfigurationJobStatus {
+  static const $new = ConfigurationJobStatus._('NEW');
+  static const failed = ConfigurationJobStatus._('FAILED');
+  static const inProgress = ConfigurationJobStatus._('IN_PROGRESS');
+  static const queued = ConfigurationJobStatus._('QUEUED');
+  static const success = ConfigurationJobStatus._('SUCCESS');
 
   final String value;
 
-  const ConfigurationJobStatus(this.value);
+  const ConfigurationJobStatus._(this.value);
+
+  static const values = [$new, failed, inProgress, queued, success];
 
   static ConfigurationJobStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ConfigurationJobStatus'));
+          orElse: () => ConfigurationJobStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ConfigurationJobStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The response parameters of CreateBillOfMaterialsImportJob.
@@ -293,32 +304,73 @@ class CreateBillOfMaterialsImportJobResponse {
   }
 }
 
-enum DataIntegrationEventType {
-  scnDataForecast('scn.data.forecast'),
-  scnDataInventorylevel('scn.data.inventorylevel'),
-  scnDataInboundorder('scn.data.inboundorder'),
-  scnDataInboundorderline('scn.data.inboundorderline'),
-  scnDataInboundorderlineschedule('scn.data.inboundorderlineschedule'),
-  scnDataOutboundorderline('scn.data.outboundorderline'),
-  scnDataOutboundshipment('scn.data.outboundshipment'),
-  scnDataProcessheader('scn.data.processheader'),
-  scnDataProcessoperation('scn.data.processoperation'),
-  scnDataProcessproduct('scn.data.processproduct'),
-  scnDataReservation('scn.data.reservation'),
-  scnDataShipment('scn.data.shipment'),
-  scnDataShipmentstop('scn.data.shipmentstop'),
-  scnDataShipmentstoporder('scn.data.shipmentstoporder'),
-  scnDataSupplyplan('scn.data.supplyplan'),
-  ;
+class DataIntegrationEventType {
+  static const scnDataForecast =
+      DataIntegrationEventType._('scn.data.forecast');
+  static const scnDataInventorylevel =
+      DataIntegrationEventType._('scn.data.inventorylevel');
+  static const scnDataInboundorder =
+      DataIntegrationEventType._('scn.data.inboundorder');
+  static const scnDataInboundorderline =
+      DataIntegrationEventType._('scn.data.inboundorderline');
+  static const scnDataInboundorderlineschedule =
+      DataIntegrationEventType._('scn.data.inboundorderlineschedule');
+  static const scnDataOutboundorderline =
+      DataIntegrationEventType._('scn.data.outboundorderline');
+  static const scnDataOutboundshipment =
+      DataIntegrationEventType._('scn.data.outboundshipment');
+  static const scnDataProcessheader =
+      DataIntegrationEventType._('scn.data.processheader');
+  static const scnDataProcessoperation =
+      DataIntegrationEventType._('scn.data.processoperation');
+  static const scnDataProcessproduct =
+      DataIntegrationEventType._('scn.data.processproduct');
+  static const scnDataReservation =
+      DataIntegrationEventType._('scn.data.reservation');
+  static const scnDataShipment =
+      DataIntegrationEventType._('scn.data.shipment');
+  static const scnDataShipmentstop =
+      DataIntegrationEventType._('scn.data.shipmentstop');
+  static const scnDataShipmentstoporder =
+      DataIntegrationEventType._('scn.data.shipmentstoporder');
+  static const scnDataSupplyplan =
+      DataIntegrationEventType._('scn.data.supplyplan');
 
   final String value;
 
-  const DataIntegrationEventType(this.value);
+  const DataIntegrationEventType._(this.value);
+
+  static const values = [
+    scnDataForecast,
+    scnDataInventorylevel,
+    scnDataInboundorder,
+    scnDataInboundorderline,
+    scnDataInboundorderlineschedule,
+    scnDataOutboundorderline,
+    scnDataOutboundshipment,
+    scnDataProcessheader,
+    scnDataProcessoperation,
+    scnDataProcessproduct,
+    scnDataReservation,
+    scnDataShipment,
+    scnDataShipmentstop,
+    scnDataShipmentstoporder,
+    scnDataSupplyplan
+  ];
 
   static DataIntegrationEventType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum DataIntegrationEventType'));
+          orElse: () => DataIntegrationEventType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DataIntegrationEventType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The response parameters for GetBillOfMaterialsImportJob.

@@ -3802,18 +3802,27 @@ class AdminAccount {
   }
 }
 
-enum AdminStatus {
-  enabled('ENABLED'),
-  disableInProgress('DISABLE_IN_PROGRESS'),
-  ;
+class AdminStatus {
+  static const enabled = AdminStatus._('ENABLED');
+  static const disableInProgress = AdminStatus._('DISABLE_IN_PROGRESS');
 
   final String value;
 
-  const AdminStatus(this.value);
+  const AdminStatus._(this.value);
 
-  static AdminStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum AdminStatus'));
+  static const values = [enabled, disableInProgress];
+
+  static AdminStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => AdminStatus._(value));
+
+  @override
+  bool operator ==(other) => other is AdminStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains information about the administrator account and invitation.
@@ -4008,20 +4017,29 @@ class ArchiveFindingsResponse {
   }
 }
 
-enum AutoEnableMembers {
-  $new('NEW'),
-  all('ALL'),
-  none('NONE'),
-  ;
+class AutoEnableMembers {
+  static const $new = AutoEnableMembers._('NEW');
+  static const all = AutoEnableMembers._('ALL');
+  static const none = AutoEnableMembers._('NONE');
 
   final String value;
 
-  const AutoEnableMembers(this.value);
+  const AutoEnableMembers._(this.value);
+
+  static const values = [$new, all, none];
 
   static AutoEnableMembers fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum AutoEnableMembers'));
+          orElse: () => AutoEnableMembers._(value));
+
+  @override
+  bool operator ==(other) => other is AutoEnableMembers && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains information about the API action.
@@ -4283,7 +4301,7 @@ class CloudTrailConfigurationResult {
 
   factory CloudTrailConfigurationResult.fromJson(Map<String, dynamic> json) {
     return CloudTrailConfigurationResult(
-      status: DataSourceStatus.fromString((json['status'] as String)),
+      status: DataSourceStatus.fromString((json['status'] as String?) ?? ''),
     );
   }
 
@@ -4801,28 +4819,52 @@ class CoverageFilterCriterion {
   }
 }
 
-enum CoverageFilterCriterionKey {
-  accountId('ACCOUNT_ID'),
-  clusterName('CLUSTER_NAME'),
-  resourceType('RESOURCE_TYPE'),
-  coverageStatus('COVERAGE_STATUS'),
-  addonVersion('ADDON_VERSION'),
-  managementType('MANAGEMENT_TYPE'),
-  eksClusterName('EKS_CLUSTER_NAME'),
-  ecsClusterName('ECS_CLUSTER_NAME'),
-  agentVersion('AGENT_VERSION'),
-  instanceId('INSTANCE_ID'),
-  clusterArn('CLUSTER_ARN'),
-  ;
+class CoverageFilterCriterionKey {
+  static const accountId = CoverageFilterCriterionKey._('ACCOUNT_ID');
+  static const clusterName = CoverageFilterCriterionKey._('CLUSTER_NAME');
+  static const resourceType = CoverageFilterCriterionKey._('RESOURCE_TYPE');
+  static const coverageStatus = CoverageFilterCriterionKey._('COVERAGE_STATUS');
+  static const addonVersion = CoverageFilterCriterionKey._('ADDON_VERSION');
+  static const managementType = CoverageFilterCriterionKey._('MANAGEMENT_TYPE');
+  static const eksClusterName =
+      CoverageFilterCriterionKey._('EKS_CLUSTER_NAME');
+  static const ecsClusterName =
+      CoverageFilterCriterionKey._('ECS_CLUSTER_NAME');
+  static const agentVersion = CoverageFilterCriterionKey._('AGENT_VERSION');
+  static const instanceId = CoverageFilterCriterionKey._('INSTANCE_ID');
+  static const clusterArn = CoverageFilterCriterionKey._('CLUSTER_ARN');
 
   final String value;
 
-  const CoverageFilterCriterionKey(this.value);
+  const CoverageFilterCriterionKey._(this.value);
+
+  static const values = [
+    accountId,
+    clusterName,
+    resourceType,
+    coverageStatus,
+    addonVersion,
+    managementType,
+    eksClusterName,
+    ecsClusterName,
+    agentVersion,
+    instanceId,
+    clusterArn
+  ];
 
   static CoverageFilterCriterionKey fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum CoverageFilterCriterionKey'));
+          orElse: () => CoverageFilterCriterionKey._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CoverageFilterCriterionKey && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about the resource of the GuardDuty account.
@@ -4980,26 +5022,45 @@ class CoverageSortCriteria {
   }
 }
 
-enum CoverageSortKey {
-  accountId('ACCOUNT_ID'),
-  clusterName('CLUSTER_NAME'),
-  coverageStatus('COVERAGE_STATUS'),
-  issue('ISSUE'),
-  addonVersion('ADDON_VERSION'),
-  updatedAt('UPDATED_AT'),
-  eksClusterName('EKS_CLUSTER_NAME'),
-  ecsClusterName('ECS_CLUSTER_NAME'),
-  instanceId('INSTANCE_ID'),
-  ;
+class CoverageSortKey {
+  static const accountId = CoverageSortKey._('ACCOUNT_ID');
+  static const clusterName = CoverageSortKey._('CLUSTER_NAME');
+  static const coverageStatus = CoverageSortKey._('COVERAGE_STATUS');
+  static const issue = CoverageSortKey._('ISSUE');
+  static const addonVersion = CoverageSortKey._('ADDON_VERSION');
+  static const updatedAt = CoverageSortKey._('UPDATED_AT');
+  static const eksClusterName = CoverageSortKey._('EKS_CLUSTER_NAME');
+  static const ecsClusterName = CoverageSortKey._('ECS_CLUSTER_NAME');
+  static const instanceId = CoverageSortKey._('INSTANCE_ID');
 
   final String value;
 
-  const CoverageSortKey(this.value);
+  const CoverageSortKey._(this.value);
+
+  static const values = [
+    accountId,
+    clusterName,
+    coverageStatus,
+    issue,
+    addonVersion,
+    updatedAt,
+    eksClusterName,
+    ecsClusterName,
+    instanceId
+  ];
 
   static CoverageSortKey fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum CoverageSortKey'));
+          orElse: () => CoverageSortKey._(value));
+
+  @override
+  bool operator ==(other) => other is CoverageSortKey && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about the coverage statistics for a resource.
@@ -5041,34 +5102,55 @@ class CoverageStatistics {
   }
 }
 
-enum CoverageStatisticsType {
-  countByResourceType('COUNT_BY_RESOURCE_TYPE'),
-  countByCoverageStatus('COUNT_BY_COVERAGE_STATUS'),
-  ;
+class CoverageStatisticsType {
+  static const countByResourceType =
+      CoverageStatisticsType._('COUNT_BY_RESOURCE_TYPE');
+  static const countByCoverageStatus =
+      CoverageStatisticsType._('COUNT_BY_COVERAGE_STATUS');
 
   final String value;
 
-  const CoverageStatisticsType(this.value);
+  const CoverageStatisticsType._(this.value);
+
+  static const values = [countByResourceType, countByCoverageStatus];
 
   static CoverageStatisticsType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum CoverageStatisticsType'));
+          orElse: () => CoverageStatisticsType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CoverageStatisticsType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum CoverageStatus {
-  healthy('HEALTHY'),
-  unhealthy('UNHEALTHY'),
-  ;
+class CoverageStatus {
+  static const healthy = CoverageStatus._('HEALTHY');
+  static const unhealthy = CoverageStatus._('UNHEALTHY');
 
   final String value;
 
-  const CoverageStatus(this.value);
+  const CoverageStatus._(this.value);
+
+  static const values = [healthy, unhealthy];
 
   static CoverageStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum CoverageStatus'));
+          orElse: () => CoverageStatus._(value));
+
+  @override
+  bool operator ==(other) => other is CoverageStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class CreateDetectorResponse {
@@ -5319,24 +5401,40 @@ class CreateThreatIntelSetResponse {
   }
 }
 
-enum CriterionKey {
-  ec2InstanceArn('EC2_INSTANCE_ARN'),
-  scanId('SCAN_ID'),
-  accountId('ACCOUNT_ID'),
-  guarddutyFindingId('GUARDDUTY_FINDING_ID'),
-  scanStartTime('SCAN_START_TIME'),
-  scanStatus('SCAN_STATUS'),
-  scanType('SCAN_TYPE'),
-  ;
+class CriterionKey {
+  static const ec2InstanceArn = CriterionKey._('EC2_INSTANCE_ARN');
+  static const scanId = CriterionKey._('SCAN_ID');
+  static const accountId = CriterionKey._('ACCOUNT_ID');
+  static const guarddutyFindingId = CriterionKey._('GUARDDUTY_FINDING_ID');
+  static const scanStartTime = CriterionKey._('SCAN_START_TIME');
+  static const scanStatus = CriterionKey._('SCAN_STATUS');
+  static const scanType = CriterionKey._('SCAN_TYPE');
 
   final String value;
 
-  const CriterionKey(this.value);
+  const CriterionKey._(this.value);
 
-  static CriterionKey fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum CriterionKey'));
+  static const values = [
+    ec2InstanceArn,
+    scanId,
+    accountId,
+    guarddutyFindingId,
+    scanStartTime,
+    scanStatus,
+    scanType
+  ];
+
+  static CriterionKey fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => CriterionKey._(value));
+
+  @override
+  bool operator ==(other) => other is CriterionKey && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains information on the status of DNS logs as a data source.
@@ -5350,7 +5448,7 @@ class DNSLogsConfigurationResult {
 
   factory DNSLogsConfigurationResult.fromJson(Map<String, dynamic> json) {
     return DNSLogsConfigurationResult(
-      status: DataSourceStatus.fromString((json['status'] as String)),
+      status: DataSourceStatus.fromString((json['status'] as String?) ?? ''),
     );
   }
 
@@ -5362,22 +5460,38 @@ class DNSLogsConfigurationResult {
   }
 }
 
-enum DataSource {
-  flowLogs('FLOW_LOGS'),
-  cloudTrail('CLOUD_TRAIL'),
-  dnsLogs('DNS_LOGS'),
-  s3Logs('S3_LOGS'),
-  kubernetesAuditLogs('KUBERNETES_AUDIT_LOGS'),
-  ec2MalwareScan('EC2_MALWARE_SCAN'),
-  ;
+class DataSource {
+  static const flowLogs = DataSource._('FLOW_LOGS');
+  static const cloudTrail = DataSource._('CLOUD_TRAIL');
+  static const dnsLogs = DataSource._('DNS_LOGS');
+  static const s3Logs = DataSource._('S3_LOGS');
+  static const kubernetesAuditLogs = DataSource._('KUBERNETES_AUDIT_LOGS');
+  static const ec2MalwareScan = DataSource._('EC2_MALWARE_SCAN');
 
   final String value;
 
-  const DataSource(this.value);
+  const DataSource._(this.value);
 
-  static DataSource fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum DataSource'));
+  static const values = [
+    flowLogs,
+    cloudTrail,
+    dnsLogs,
+    s3Logs,
+    kubernetesAuditLogs,
+    ec2MalwareScan
+  ];
+
+  static DataSource fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => DataSource._(value));
+
+  @override
+  bool operator ==(other) => other is DataSource && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains information about which data sources are enabled.
@@ -5512,19 +5626,28 @@ class DataSourceFreeTrial {
   }
 }
 
-enum DataSourceStatus {
-  enabled('ENABLED'),
-  disabled('DISABLED'),
-  ;
+class DataSourceStatus {
+  static const enabled = DataSourceStatus._('ENABLED');
+  static const disabled = DataSourceStatus._('DISABLED');
 
   final String value;
 
-  const DataSourceStatus(this.value);
+  const DataSourceStatus._(this.value);
+
+  static const values = [enabled, disabled];
 
   static DataSourceStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum DataSourceStatus'));
+          orElse: () => DataSourceStatus._(value));
+
+  @override
+  bool operator ==(other) => other is DataSourceStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains information about which data sources are enabled for the GuardDuty
@@ -5947,11 +6070,11 @@ class DescribePublishingDestinationResponse {
       destinationProperties: DestinationProperties.fromJson(
           (json['destinationProperties'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
-      destinationType:
-          DestinationType.fromString((json['destinationType'] as String)),
+      destinationType: DestinationType.fromString(
+          (json['destinationType'] as String?) ?? ''),
       publishingFailureStartTimestamp:
           (json['publishingFailureStartTimestamp'] as int?) ?? 0,
-      status: PublishingStatus.fromString((json['status'] as String)),
+      status: PublishingStatus.fromString((json['status'] as String?) ?? ''),
     );
   }
 
@@ -5994,9 +6117,9 @@ class Destination {
   factory Destination.fromJson(Map<String, dynamic> json) {
     return Destination(
       destinationId: (json['destinationId'] as String?) ?? '',
-      destinationType:
-          DestinationType.fromString((json['destinationType'] as String)),
-      status: PublishingStatus.fromString((json['status'] as String)),
+      destinationType: DestinationType.fromString(
+          (json['destinationType'] as String?) ?? ''),
+      status: PublishingStatus.fromString((json['status'] as String?) ?? ''),
     );
   }
 
@@ -6047,18 +6170,27 @@ class DestinationProperties {
   }
 }
 
-enum DestinationType {
-  s3('S3'),
-  ;
+class DestinationType {
+  static const s3 = DestinationType._('S3');
 
   final String value;
 
-  const DestinationType(this.value);
+  const DestinationType._(this.value);
+
+  static const values = [s3];
 
   static DestinationType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum DestinationType'));
+          orElse: () => DestinationType._(value));
+
+  @override
+  bool operator ==(other) => other is DestinationType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains information about the detected behavior.
@@ -6151,24 +6283,43 @@ class DetectorAdditionalConfigurationResult {
   }
 }
 
-enum DetectorFeature {
-  s3DataEvents('S3_DATA_EVENTS'),
-  eksAuditLogs('EKS_AUDIT_LOGS'),
-  ebsMalwareProtection('EBS_MALWARE_PROTECTION'),
-  rdsLoginEvents('RDS_LOGIN_EVENTS'),
-  eksRuntimeMonitoring('EKS_RUNTIME_MONITORING'),
-  lambdaNetworkLogs('LAMBDA_NETWORK_LOGS'),
-  runtimeMonitoring('RUNTIME_MONITORING'),
-  ;
+class DetectorFeature {
+  static const s3DataEvents = DetectorFeature._('S3_DATA_EVENTS');
+  static const eksAuditLogs = DetectorFeature._('EKS_AUDIT_LOGS');
+  static const ebsMalwareProtection =
+      DetectorFeature._('EBS_MALWARE_PROTECTION');
+  static const rdsLoginEvents = DetectorFeature._('RDS_LOGIN_EVENTS');
+  static const eksRuntimeMonitoring =
+      DetectorFeature._('EKS_RUNTIME_MONITORING');
+  static const lambdaNetworkLogs = DetectorFeature._('LAMBDA_NETWORK_LOGS');
+  static const runtimeMonitoring = DetectorFeature._('RUNTIME_MONITORING');
 
   final String value;
 
-  const DetectorFeature(this.value);
+  const DetectorFeature._(this.value);
+
+  static const values = [
+    s3DataEvents,
+    eksAuditLogs,
+    ebsMalwareProtection,
+    rdsLoginEvents,
+    eksRuntimeMonitoring,
+    lambdaNetworkLogs,
+    runtimeMonitoring
+  ];
 
   static DetectorFeature fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum DetectorFeature'));
+          orElse: () => DetectorFeature._(value));
+
+  @override
+  bool operator ==(other) => other is DetectorFeature && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains information about a GuardDuty feature.
@@ -6267,42 +6418,76 @@ class DetectorFeatureConfigurationResult {
   }
 }
 
-enum DetectorFeatureResult {
-  flowLogs('FLOW_LOGS'),
-  cloudTrail('CLOUD_TRAIL'),
-  dnsLogs('DNS_LOGS'),
-  s3DataEvents('S3_DATA_EVENTS'),
-  eksAuditLogs('EKS_AUDIT_LOGS'),
-  ebsMalwareProtection('EBS_MALWARE_PROTECTION'),
-  rdsLoginEvents('RDS_LOGIN_EVENTS'),
-  eksRuntimeMonitoring('EKS_RUNTIME_MONITORING'),
-  lambdaNetworkLogs('LAMBDA_NETWORK_LOGS'),
-  runtimeMonitoring('RUNTIME_MONITORING'),
-  ;
+class DetectorFeatureResult {
+  static const flowLogs = DetectorFeatureResult._('FLOW_LOGS');
+  static const cloudTrail = DetectorFeatureResult._('CLOUD_TRAIL');
+  static const dnsLogs = DetectorFeatureResult._('DNS_LOGS');
+  static const s3DataEvents = DetectorFeatureResult._('S3_DATA_EVENTS');
+  static const eksAuditLogs = DetectorFeatureResult._('EKS_AUDIT_LOGS');
+  static const ebsMalwareProtection =
+      DetectorFeatureResult._('EBS_MALWARE_PROTECTION');
+  static const rdsLoginEvents = DetectorFeatureResult._('RDS_LOGIN_EVENTS');
+  static const eksRuntimeMonitoring =
+      DetectorFeatureResult._('EKS_RUNTIME_MONITORING');
+  static const lambdaNetworkLogs =
+      DetectorFeatureResult._('LAMBDA_NETWORK_LOGS');
+  static const runtimeMonitoring =
+      DetectorFeatureResult._('RUNTIME_MONITORING');
 
   final String value;
 
-  const DetectorFeatureResult(this.value);
+  const DetectorFeatureResult._(this.value);
 
-  static DetectorFeatureResult fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum DetectorFeatureResult'));
+  static const values = [
+    flowLogs,
+    cloudTrail,
+    dnsLogs,
+    s3DataEvents,
+    eksAuditLogs,
+    ebsMalwareProtection,
+    rdsLoginEvents,
+    eksRuntimeMonitoring,
+    lambdaNetworkLogs,
+    runtimeMonitoring
+  ];
+
+  static DetectorFeatureResult fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DetectorFeatureResult._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DetectorFeatureResult && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum DetectorStatus {
-  enabled('ENABLED'),
-  disabled('DISABLED'),
-  ;
+class DetectorStatus {
+  static const enabled = DetectorStatus._('ENABLED');
+  static const disabled = DetectorStatus._('DISABLED');
 
   final String value;
 
-  const DetectorStatus(this.value);
+  const DetectorStatus._(this.value);
+
+  static const values = [enabled, disabled];
 
   static DetectorStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum DetectorStatus'));
+          orElse: () => DetectorStatus._(value));
+
+  @override
+  bool operator ==(other) => other is DetectorStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class DisableOrganizationAdminAccountResponse {
@@ -6443,19 +6628,30 @@ class DomainDetails {
   }
 }
 
-enum EbsSnapshotPreservation {
-  noRetention('NO_RETENTION'),
-  retentionWithFinding('RETENTION_WITH_FINDING'),
-  ;
+class EbsSnapshotPreservation {
+  static const noRetention = EbsSnapshotPreservation._('NO_RETENTION');
+  static const retentionWithFinding =
+      EbsSnapshotPreservation._('RETENTION_WITH_FINDING');
 
   final String value;
 
-  const EbsSnapshotPreservation(this.value);
+  const EbsSnapshotPreservation._(this.value);
+
+  static const values = [noRetention, retentionWithFinding];
 
   static EbsSnapshotPreservation fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum EbsSnapshotPreservation'));
+          orElse: () => EbsSnapshotPreservation._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is EbsSnapshotPreservation && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains list of scanned and skipped EBS volumes with details.
@@ -6925,64 +7121,107 @@ class FargateDetails {
   }
 }
 
-enum FeatureAdditionalConfiguration {
-  eksAddonManagement('EKS_ADDON_MANAGEMENT'),
-  ecsFargateAgentManagement('ECS_FARGATE_AGENT_MANAGEMENT'),
-  ec2AgentManagement('EC2_AGENT_MANAGEMENT'),
-  ;
+class FeatureAdditionalConfiguration {
+  static const eksAddonManagement =
+      FeatureAdditionalConfiguration._('EKS_ADDON_MANAGEMENT');
+  static const ecsFargateAgentManagement =
+      FeatureAdditionalConfiguration._('ECS_FARGATE_AGENT_MANAGEMENT');
+  static const ec2AgentManagement =
+      FeatureAdditionalConfiguration._('EC2_AGENT_MANAGEMENT');
 
   final String value;
 
-  const FeatureAdditionalConfiguration(this.value);
+  const FeatureAdditionalConfiguration._(this.value);
+
+  static const values = [
+    eksAddonManagement,
+    ecsFargateAgentManagement,
+    ec2AgentManagement
+  ];
 
   static FeatureAdditionalConfiguration fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum FeatureAdditionalConfiguration'));
+          orElse: () => FeatureAdditionalConfiguration._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is FeatureAdditionalConfiguration && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum FeatureStatus {
-  enabled('ENABLED'),
-  disabled('DISABLED'),
-  ;
+class FeatureStatus {
+  static const enabled = FeatureStatus._('ENABLED');
+  static const disabled = FeatureStatus._('DISABLED');
 
   final String value;
 
-  const FeatureStatus(this.value);
+  const FeatureStatus._(this.value);
+
+  static const values = [enabled, disabled];
 
   static FeatureStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum FeatureStatus'));
+          orElse: () => FeatureStatus._(value));
+
+  @override
+  bool operator ==(other) => other is FeatureStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum Feedback {
-  useful('USEFUL'),
-  notUseful('NOT_USEFUL'),
-  ;
+class Feedback {
+  static const useful = Feedback._('USEFUL');
+  static const notUseful = Feedback._('NOT_USEFUL');
 
   final String value;
 
-  const Feedback(this.value);
+  const Feedback._(this.value);
 
-  static Feedback fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum Feedback'));
+  static const values = [useful, notUseful];
+
+  static Feedback fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Feedback._(value));
+
+  @override
+  bool operator ==(other) => other is Feedback && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum FilterAction {
-  noop('NOOP'),
-  archive('ARCHIVE'),
-  ;
+class FilterAction {
+  static const noop = FilterAction._('NOOP');
+  static const archive = FilterAction._('ARCHIVE');
 
   final String value;
 
-  const FilterAction(this.value);
+  const FilterAction._(this.value);
 
-  static FilterAction fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum FilterAction'));
+  static const values = [noop, archive];
+
+  static FilterAction fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => FilterAction._(value));
+
+  @override
+  bool operator ==(other) => other is FilterAction && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains information about the condition.
@@ -7214,34 +7453,54 @@ class FindingCriteria {
   }
 }
 
-enum FindingPublishingFrequency {
-  fifteenMinutes('FIFTEEN_MINUTES'),
-  oneHour('ONE_HOUR'),
-  sixHours('SIX_HOURS'),
-  ;
+class FindingPublishingFrequency {
+  static const fifteenMinutes = FindingPublishingFrequency._('FIFTEEN_MINUTES');
+  static const oneHour = FindingPublishingFrequency._('ONE_HOUR');
+  static const sixHours = FindingPublishingFrequency._('SIX_HOURS');
 
   final String value;
 
-  const FindingPublishingFrequency(this.value);
+  const FindingPublishingFrequency._(this.value);
+
+  static const values = [fifteenMinutes, oneHour, sixHours];
 
   static FindingPublishingFrequency fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum FindingPublishingFrequency'));
+          orElse: () => FindingPublishingFrequency._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is FindingPublishingFrequency && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum FindingStatisticType {
-  countBySeverity('COUNT_BY_SEVERITY'),
-  ;
+class FindingStatisticType {
+  static const countBySeverity = FindingStatisticType._('COUNT_BY_SEVERITY');
 
   final String value;
 
-  const FindingStatisticType(this.value);
+  const FindingStatisticType._(this.value);
 
-  static FindingStatisticType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum FindingStatisticType'));
+  static const values = [countBySeverity];
+
+  static FindingStatisticType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => FindingStatisticType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is FindingStatisticType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains information about finding statistics.
@@ -7279,7 +7538,7 @@ class FlowLogsConfigurationResult {
 
   factory FlowLogsConfigurationResult.fromJson(Map<String, dynamic> json) {
     return FlowLogsConfigurationResult(
-      status: DataSourceStatus.fromString((json['status'] as String)),
+      status: DataSourceStatus.fromString((json['status'] as String?) ?? ''),
     );
   }
 
@@ -7323,28 +7582,55 @@ class FreeTrialFeatureConfigurationResult {
   }
 }
 
-enum FreeTrialFeatureResult {
-  flowLogs('FLOW_LOGS'),
-  cloudTrail('CLOUD_TRAIL'),
-  dnsLogs('DNS_LOGS'),
-  s3DataEvents('S3_DATA_EVENTS'),
-  eksAuditLogs('EKS_AUDIT_LOGS'),
-  ebsMalwareProtection('EBS_MALWARE_PROTECTION'),
-  rdsLoginEvents('RDS_LOGIN_EVENTS'),
-  eksRuntimeMonitoring('EKS_RUNTIME_MONITORING'),
-  lambdaNetworkLogs('LAMBDA_NETWORK_LOGS'),
-  fargateRuntimeMonitoring('FARGATE_RUNTIME_MONITORING'),
-  ec2RuntimeMonitoring('EC2_RUNTIME_MONITORING'),
-  ;
+class FreeTrialFeatureResult {
+  static const flowLogs = FreeTrialFeatureResult._('FLOW_LOGS');
+  static const cloudTrail = FreeTrialFeatureResult._('CLOUD_TRAIL');
+  static const dnsLogs = FreeTrialFeatureResult._('DNS_LOGS');
+  static const s3DataEvents = FreeTrialFeatureResult._('S3_DATA_EVENTS');
+  static const eksAuditLogs = FreeTrialFeatureResult._('EKS_AUDIT_LOGS');
+  static const ebsMalwareProtection =
+      FreeTrialFeatureResult._('EBS_MALWARE_PROTECTION');
+  static const rdsLoginEvents = FreeTrialFeatureResult._('RDS_LOGIN_EVENTS');
+  static const eksRuntimeMonitoring =
+      FreeTrialFeatureResult._('EKS_RUNTIME_MONITORING');
+  static const lambdaNetworkLogs =
+      FreeTrialFeatureResult._('LAMBDA_NETWORK_LOGS');
+  static const fargateRuntimeMonitoring =
+      FreeTrialFeatureResult._('FARGATE_RUNTIME_MONITORING');
+  static const ec2RuntimeMonitoring =
+      FreeTrialFeatureResult._('EC2_RUNTIME_MONITORING');
 
   final String value;
 
-  const FreeTrialFeatureResult(this.value);
+  const FreeTrialFeatureResult._(this.value);
+
+  static const values = [
+    flowLogs,
+    cloudTrail,
+    dnsLogs,
+    s3DataEvents,
+    eksAuditLogs,
+    ebsMalwareProtection,
+    rdsLoginEvents,
+    eksRuntimeMonitoring,
+    lambdaNetworkLogs,
+    fargateRuntimeMonitoring,
+    ec2RuntimeMonitoring
+  ];
 
   static FreeTrialFeatureResult fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum FreeTrialFeatureResult'));
+          orElse: () => FreeTrialFeatureResult._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is FreeTrialFeatureResult && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains information about the location of the remote IP address.
@@ -7466,7 +7752,7 @@ class GetDetectorResponse {
   factory GetDetectorResponse.fromJson(Map<String, dynamic> json) {
     return GetDetectorResponse(
       serviceRole: (json['serviceRole'] as String?) ?? '',
-      status: DetectorStatus.fromString((json['status'] as String)),
+      status: DetectorStatus.fromString((json['status'] as String?) ?? ''),
       createdAt: json['createdAt'] as String?,
       dataSources: json['dataSources'] != null
           ? DataSourceConfigurationsResult.fromJson(
@@ -7541,7 +7827,7 @@ class GetFilterResponse {
 
   factory GetFilterResponse.fromJson(Map<String, dynamic> json) {
     return GetFilterResponse(
-      action: FilterAction.fromString((json['action'] as String)),
+      action: FilterAction.fromString((json['action'] as String?) ?? ''),
       findingCriteria: FindingCriteria.fromJson(
           (json['findingCriteria'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
@@ -7646,10 +7932,10 @@ class GetIPSetResponse {
 
   factory GetIPSetResponse.fromJson(Map<String, dynamic> json) {
     return GetIPSetResponse(
-      format: IpSetFormat.fromString((json['format'] as String)),
+      format: IpSetFormat.fromString((json['format'] as String?) ?? ''),
       location: (json['location'] as String?) ?? '',
       name: (json['name'] as String?) ?? '',
-      status: IpSetStatus.fromString((json['status'] as String)),
+      status: IpSetStatus.fromString((json['status'] as String?) ?? ''),
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
     );
@@ -8009,10 +8295,12 @@ class GetThreatIntelSetResponse {
 
   factory GetThreatIntelSetResponse.fromJson(Map<String, dynamic> json) {
     return GetThreatIntelSetResponse(
-      format: ThreatIntelSetFormat.fromString((json['format'] as String)),
+      format:
+          ThreatIntelSetFormat.fromString((json['format'] as String?) ?? ''),
       location: (json['location'] as String?) ?? '',
       name: (json['name'] as String?) ?? '',
-      status: ThreatIntelSetStatus.fromString((json['status'] as String)),
+      status:
+          ThreatIntelSetStatus.fromString((json['status'] as String?) ?? ''),
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
     );
@@ -8383,41 +8671,67 @@ class InviteMembersResponse {
   }
 }
 
-enum IpSetFormat {
-  txt('TXT'),
-  stix('STIX'),
-  otxCsv('OTX_CSV'),
-  alienVault('ALIEN_VAULT'),
-  proofPoint('PROOF_POINT'),
-  fireEye('FIRE_EYE'),
-  ;
+class IpSetFormat {
+  static const txt = IpSetFormat._('TXT');
+  static const stix = IpSetFormat._('STIX');
+  static const otxCsv = IpSetFormat._('OTX_CSV');
+  static const alienVault = IpSetFormat._('ALIEN_VAULT');
+  static const proofPoint = IpSetFormat._('PROOF_POINT');
+  static const fireEye = IpSetFormat._('FIRE_EYE');
 
   final String value;
 
-  const IpSetFormat(this.value);
+  const IpSetFormat._(this.value);
 
-  static IpSetFormat fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum IpSetFormat'));
+  static const values = [txt, stix, otxCsv, alienVault, proofPoint, fireEye];
+
+  static IpSetFormat fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => IpSetFormat._(value));
+
+  @override
+  bool operator ==(other) => other is IpSetFormat && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum IpSetStatus {
-  inactive('INACTIVE'),
-  activating('ACTIVATING'),
-  active('ACTIVE'),
-  deactivating('DEACTIVATING'),
-  error('ERROR'),
-  deletePending('DELETE_PENDING'),
-  deleted('DELETED'),
-  ;
+class IpSetStatus {
+  static const inactive = IpSetStatus._('INACTIVE');
+  static const activating = IpSetStatus._('ACTIVATING');
+  static const active = IpSetStatus._('ACTIVE');
+  static const deactivating = IpSetStatus._('DEACTIVATING');
+  static const error = IpSetStatus._('ERROR');
+  static const deletePending = IpSetStatus._('DELETE_PENDING');
+  static const deleted = IpSetStatus._('DELETED');
 
   final String value;
 
-  const IpSetStatus(this.value);
+  const IpSetStatus._(this.value);
 
-  static IpSetStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum IpSetStatus'));
+  static const values = [
+    inactive,
+    activating,
+    active,
+    deactivating,
+    error,
+    deletePending,
+    deleted
+  ];
+
+  static IpSetStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => IpSetStatus._(value));
+
+  @override
+  bool operator ==(other) => other is IpSetStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about the nested item path and hash of the protected resource.
@@ -8578,7 +8892,7 @@ class KubernetesAuditLogsConfigurationResult {
   factory KubernetesAuditLogsConfigurationResult.fromJson(
       Map<String, dynamic> json) {
     return KubernetesAuditLogsConfigurationResult(
-      status: DataSourceStatus.fromString((json['status'] as String)),
+      status: DataSourceStatus.fromString((json['status'] as String?) ?? ''),
     );
   }
 
@@ -9781,20 +10095,30 @@ class MalwareProtectionPlanActions {
   }
 }
 
-enum MalwareProtectionPlanStatus {
-  active('ACTIVE'),
-  warning('WARNING'),
-  error('ERROR'),
-  ;
+class MalwareProtectionPlanStatus {
+  static const active = MalwareProtectionPlanStatus._('ACTIVE');
+  static const warning = MalwareProtectionPlanStatus._('WARNING');
+  static const error = MalwareProtectionPlanStatus._('ERROR');
 
   final String value;
 
-  const MalwareProtectionPlanStatus(this.value);
+  const MalwareProtectionPlanStatus._(this.value);
+
+  static const values = [active, warning, error];
 
   static MalwareProtectionPlanStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum MalwareProtectionPlanStatus'));
+          orElse: () => MalwareProtectionPlanStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is MalwareProtectionPlanStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about the issue code and message associated to the status of
@@ -9883,19 +10207,30 @@ class MalwareProtectionPlanTaggingAction {
   }
 }
 
-enum MalwareProtectionPlanTaggingActionStatus {
-  enabled('ENABLED'),
-  disabled('DISABLED'),
-  ;
+class MalwareProtectionPlanTaggingActionStatus {
+  static const enabled = MalwareProtectionPlanTaggingActionStatus._('ENABLED');
+  static const disabled =
+      MalwareProtectionPlanTaggingActionStatus._('DISABLED');
 
   final String value;
 
-  const MalwareProtectionPlanTaggingActionStatus(this.value);
+  const MalwareProtectionPlanTaggingActionStatus._(this.value);
+
+  static const values = [enabled, disabled];
 
   static MalwareProtectionPlanTaggingActionStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum MalwareProtectionPlanTaggingActionStatus'));
+          orElse: () => MalwareProtectionPlanTaggingActionStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is MalwareProtectionPlanTaggingActionStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about the malware scan that generated a GuardDuty finding.
@@ -9925,20 +10260,29 @@ class MalwareScanDetails {
   }
 }
 
-enum ManagementType {
-  autoManaged('AUTO_MANAGED'),
-  manual('MANUAL'),
-  disabled('DISABLED'),
-  ;
+class ManagementType {
+  static const autoManaged = ManagementType._('AUTO_MANAGED');
+  static const manual = ManagementType._('MANUAL');
+  static const disabled = ManagementType._('DISABLED');
 
   final String value;
 
-  const ManagementType(this.value);
+  const ManagementType._(this.value);
+
+  static const values = [autoManaged, manual, disabled];
 
   static ManagementType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ManagementType'));
+          orElse: () => ManagementType._(value));
+
+  @override
+  bool operator ==(other) => other is ManagementType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains information about the administrator account and invitation.
@@ -10448,69 +10792,121 @@ class Observations {
   }
 }
 
-enum OrderBy {
-  asc('ASC'),
-  desc('DESC'),
-  ;
+class OrderBy {
+  static const asc = OrderBy._('ASC');
+  static const desc = OrderBy._('DESC');
 
   final String value;
 
-  const OrderBy(this.value);
+  const OrderBy._(this.value);
 
-  static OrderBy fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum OrderBy'));
+  static const values = [asc, desc];
+
+  static OrderBy fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => OrderBy._(value));
+
+  @override
+  bool operator ==(other) => other is OrderBy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum OrgFeature {
-  s3DataEvents('S3_DATA_EVENTS'),
-  eksAuditLogs('EKS_AUDIT_LOGS'),
-  ebsMalwareProtection('EBS_MALWARE_PROTECTION'),
-  rdsLoginEvents('RDS_LOGIN_EVENTS'),
-  eksRuntimeMonitoring('EKS_RUNTIME_MONITORING'),
-  lambdaNetworkLogs('LAMBDA_NETWORK_LOGS'),
-  runtimeMonitoring('RUNTIME_MONITORING'),
-  ;
+class OrgFeature {
+  static const s3DataEvents = OrgFeature._('S3_DATA_EVENTS');
+  static const eksAuditLogs = OrgFeature._('EKS_AUDIT_LOGS');
+  static const ebsMalwareProtection = OrgFeature._('EBS_MALWARE_PROTECTION');
+  static const rdsLoginEvents = OrgFeature._('RDS_LOGIN_EVENTS');
+  static const eksRuntimeMonitoring = OrgFeature._('EKS_RUNTIME_MONITORING');
+  static const lambdaNetworkLogs = OrgFeature._('LAMBDA_NETWORK_LOGS');
+  static const runtimeMonitoring = OrgFeature._('RUNTIME_MONITORING');
 
   final String value;
 
-  const OrgFeature(this.value);
+  const OrgFeature._(this.value);
 
-  static OrgFeature fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum OrgFeature'));
+  static const values = [
+    s3DataEvents,
+    eksAuditLogs,
+    ebsMalwareProtection,
+    rdsLoginEvents,
+    eksRuntimeMonitoring,
+    lambdaNetworkLogs,
+    runtimeMonitoring
+  ];
+
+  static OrgFeature fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => OrgFeature._(value));
+
+  @override
+  bool operator ==(other) => other is OrgFeature && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum OrgFeatureAdditionalConfiguration {
-  eksAddonManagement('EKS_ADDON_MANAGEMENT'),
-  ecsFargateAgentManagement('ECS_FARGATE_AGENT_MANAGEMENT'),
-  ec2AgentManagement('EC2_AGENT_MANAGEMENT'),
-  ;
+class OrgFeatureAdditionalConfiguration {
+  static const eksAddonManagement =
+      OrgFeatureAdditionalConfiguration._('EKS_ADDON_MANAGEMENT');
+  static const ecsFargateAgentManagement =
+      OrgFeatureAdditionalConfiguration._('ECS_FARGATE_AGENT_MANAGEMENT');
+  static const ec2AgentManagement =
+      OrgFeatureAdditionalConfiguration._('EC2_AGENT_MANAGEMENT');
 
   final String value;
 
-  const OrgFeatureAdditionalConfiguration(this.value);
+  const OrgFeatureAdditionalConfiguration._(this.value);
+
+  static const values = [
+    eksAddonManagement,
+    ecsFargateAgentManagement,
+    ec2AgentManagement
+  ];
 
   static OrgFeatureAdditionalConfiguration fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum OrgFeatureAdditionalConfiguration'));
+          orElse: () => OrgFeatureAdditionalConfiguration._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is OrgFeatureAdditionalConfiguration && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum OrgFeatureStatus {
-  $new('NEW'),
-  none('NONE'),
-  all('ALL'),
-  ;
+class OrgFeatureStatus {
+  static const $new = OrgFeatureStatus._('NEW');
+  static const none = OrgFeatureStatus._('NONE');
+  static const all = OrgFeatureStatus._('ALL');
 
   final String value;
 
-  const OrgFeatureStatus(this.value);
+  const OrgFeatureStatus._(this.value);
+
+  static const values = [$new, none, all];
 
   static OrgFeatureStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum OrgFeatureStatus'));
+          orElse: () => OrgFeatureStatus._(value));
+
+  @override
+  bool operator ==(other) => other is OrgFeatureStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains information about the ISP organization of the remote IP address.
@@ -11634,34 +12030,52 @@ class ProductCode {
   }
 }
 
-enum ProfileSubtype {
-  frequent('FREQUENT'),
-  infrequent('INFREQUENT'),
-  unseen('UNSEEN'),
-  rare('RARE'),
-  ;
+class ProfileSubtype {
+  static const frequent = ProfileSubtype._('FREQUENT');
+  static const infrequent = ProfileSubtype._('INFREQUENT');
+  static const unseen = ProfileSubtype._('UNSEEN');
+  static const rare = ProfileSubtype._('RARE');
 
   final String value;
 
-  const ProfileSubtype(this.value);
+  const ProfileSubtype._(this.value);
+
+  static const values = [frequent, infrequent, unseen, rare];
 
   static ProfileSubtype fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ProfileSubtype'));
+          orElse: () => ProfileSubtype._(value));
+
+  @override
+  bool operator ==(other) => other is ProfileSubtype && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ProfileType {
-  frequency('FREQUENCY'),
-  ;
+class ProfileType {
+  static const frequency = ProfileType._('FREQUENCY');
 
   final String value;
 
-  const ProfileType(this.value);
+  const ProfileType._(this.value);
 
-  static ProfileType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum ProfileType'));
+  static const values = [frequency];
+
+  static ProfileType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ProfileType._(value));
+
+  @override
+  bool operator ==(other) => other is ProfileType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes the public access policies that apply to the S3 bucket.
@@ -11700,22 +12114,36 @@ class PublicAccess {
   }
 }
 
-enum PublishingStatus {
-  pendingVerification('PENDING_VERIFICATION'),
-  publishing('PUBLISHING'),
-  unableToPublishFixDestinationProperty(
-      'UNABLE_TO_PUBLISH_FIX_DESTINATION_PROPERTY'),
-  stopped('STOPPED'),
-  ;
+class PublishingStatus {
+  static const pendingVerification = PublishingStatus._('PENDING_VERIFICATION');
+  static const publishing = PublishingStatus._('PUBLISHING');
+  static const unableToPublishFixDestinationProperty =
+      PublishingStatus._('UNABLE_TO_PUBLISH_FIX_DESTINATION_PROPERTY');
+  static const stopped = PublishingStatus._('STOPPED');
 
   final String value;
 
-  const PublishingStatus(this.value);
+  const PublishingStatus._(this.value);
+
+  static const values = [
+    pendingVerification,
+    publishing,
+    unableToPublishFixDestinationProperty,
+    stopped
+  ];
 
   static PublishingStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum PublishingStatus'));
+          orElse: () => PublishingStatus._(value));
+
+  @override
+  bool operator ==(other) => other is PublishingStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains information about the resource type <code>RDSDBInstance</code>
@@ -12163,20 +12591,28 @@ class ResourceDetails {
   }
 }
 
-enum ResourceType {
-  eks('EKS'),
-  ecs('ECS'),
-  ec2('EC2'),
-  ;
+class ResourceType {
+  static const eks = ResourceType._('EKS');
+  static const ecs = ResourceType._('ECS');
+  static const ec2 = ResourceType._('EC2');
 
   final String value;
 
-  const ResourceType(this.value);
+  const ResourceType._(this.value);
 
-  static ResourceType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ResourceType'));
+  static const values = [eks, ecs, ec2];
+
+  static ResourceType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ResourceType._(value));
+
+  @override
+  bool operator ==(other) => other is ResourceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Additional information about the suspicious activity.
@@ -12549,7 +12985,7 @@ class S3LogsConfigurationResult {
 
   factory S3LogsConfigurationResult.fromJson(Map<String, dynamic> json) {
     return S3LogsConfigurationResult(
-      status: DataSourceStatus.fromString((json['status'] as String)),
+      status: DataSourceStatus.fromString((json['status'] as String?) ?? ''),
     );
   }
 
@@ -12810,18 +13246,27 @@ class ScanConditionPair {
 
 /// An enum value representing possible resource properties to match with given
 /// scan condition.
-enum ScanCriterionKey {
-  ec2InstanceTag('EC2_INSTANCE_TAG'),
-  ;
+class ScanCriterionKey {
+  static const ec2InstanceTag = ScanCriterionKey._('EC2_INSTANCE_TAG');
 
   final String value;
 
-  const ScanCriterionKey(this.value);
+  const ScanCriterionKey._(this.value);
+
+  static const values = [ec2InstanceTag];
 
   static ScanCriterionKey fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ScanCriterionKey'));
+          orElse: () => ScanCriterionKey._(value));
+
+  @override
+  bool operator ==(other) => other is ScanCriterionKey && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains a complete view providing malware scan result details.
@@ -13013,18 +13458,27 @@ class ScanResourceCriteria {
   }
 }
 
-enum ScanResult {
-  clean('CLEAN'),
-  infected('INFECTED'),
-  ;
+class ScanResult {
+  static const clean = ScanResult._('CLEAN');
+  static const infected = ScanResult._('INFECTED');
 
   final String value;
 
-  const ScanResult(this.value);
+  const ScanResult._(this.value);
 
-  static ScanResult fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum ScanResult'));
+  static const values = [clean, infected];
+
+  static ScanResult fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ScanResult._(value));
+
+  @override
+  bool operator ==(other) => other is ScanResult && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Represents the result of the scan.
@@ -13050,20 +13504,29 @@ class ScanResultDetails {
   }
 }
 
-enum ScanStatus {
-  running('RUNNING'),
-  completed('COMPLETED'),
-  failed('FAILED'),
-  skipped('SKIPPED'),
-  ;
+class ScanStatus {
+  static const running = ScanStatus._('RUNNING');
+  static const completed = ScanStatus._('COMPLETED');
+  static const failed = ScanStatus._('FAILED');
+  static const skipped = ScanStatus._('SKIPPED');
 
   final String value;
 
-  const ScanStatus(this.value);
+  const ScanStatus._(this.value);
 
-  static ScanStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum ScanStatus'));
+  static const values = [running, completed, failed, skipped];
+
+  static ScanStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ScanStatus._(value));
+
+  @override
+  bool operator ==(other) => other is ScanStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains files infected with the given threat providing details of malware
@@ -13114,18 +13577,27 @@ class ScanThreatName {
   }
 }
 
-enum ScanType {
-  guarddutyInitiated('GUARDDUTY_INITIATED'),
-  onDemand('ON_DEMAND'),
-  ;
+class ScanType {
+  static const guarddutyInitiated = ScanType._('GUARDDUTY_INITIATED');
+  static const onDemand = ScanType._('ON_DEMAND');
 
   final String value;
 
-  const ScanType(this.value);
+  const ScanType._(this.value);
 
-  static ScanType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum ScanType'));
+  static const values = [guarddutyInitiated, onDemand];
+
+  static ScanType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ScanType._(value));
+
+  @override
+  bool operator ==(other) => other is ScanType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Total number of scanned files.
@@ -13643,43 +14115,71 @@ class ThreatDetectedByName {
   }
 }
 
-enum ThreatIntelSetFormat {
-  txt('TXT'),
-  stix('STIX'),
-  otxCsv('OTX_CSV'),
-  alienVault('ALIEN_VAULT'),
-  proofPoint('PROOF_POINT'),
-  fireEye('FIRE_EYE'),
-  ;
+class ThreatIntelSetFormat {
+  static const txt = ThreatIntelSetFormat._('TXT');
+  static const stix = ThreatIntelSetFormat._('STIX');
+  static const otxCsv = ThreatIntelSetFormat._('OTX_CSV');
+  static const alienVault = ThreatIntelSetFormat._('ALIEN_VAULT');
+  static const proofPoint = ThreatIntelSetFormat._('PROOF_POINT');
+  static const fireEye = ThreatIntelSetFormat._('FIRE_EYE');
 
   final String value;
 
-  const ThreatIntelSetFormat(this.value);
+  const ThreatIntelSetFormat._(this.value);
 
-  static ThreatIntelSetFormat fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ThreatIntelSetFormat'));
+  static const values = [txt, stix, otxCsv, alienVault, proofPoint, fireEye];
+
+  static ThreatIntelSetFormat fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ThreatIntelSetFormat._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ThreatIntelSetFormat && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ThreatIntelSetStatus {
-  inactive('INACTIVE'),
-  activating('ACTIVATING'),
-  active('ACTIVE'),
-  deactivating('DEACTIVATING'),
-  error('ERROR'),
-  deletePending('DELETE_PENDING'),
-  deleted('DELETED'),
-  ;
+class ThreatIntelSetStatus {
+  static const inactive = ThreatIntelSetStatus._('INACTIVE');
+  static const activating = ThreatIntelSetStatus._('ACTIVATING');
+  static const active = ThreatIntelSetStatus._('ACTIVE');
+  static const deactivating = ThreatIntelSetStatus._('DEACTIVATING');
+  static const error = ThreatIntelSetStatus._('ERROR');
+  static const deletePending = ThreatIntelSetStatus._('DELETE_PENDING');
+  static const deleted = ThreatIntelSetStatus._('DELETED');
 
   final String value;
 
-  const ThreatIntelSetStatus(this.value);
+  const ThreatIntelSetStatus._(this.value);
 
-  static ThreatIntelSetStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ThreatIntelSetStatus'));
+  static const values = [
+    inactive,
+    activating,
+    active,
+    deactivating,
+    error,
+    deletePending,
+    deleted
+  ];
+
+  static ThreatIntelSetStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ThreatIntelSetStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ThreatIntelSetStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// An instance of a threat intelligence detail that constitutes evidence for
@@ -14158,30 +14658,55 @@ class UsageDataSourceResult {
   }
 }
 
-enum UsageFeature {
-  flowLogs('FLOW_LOGS'),
-  cloudTrail('CLOUD_TRAIL'),
-  dnsLogs('DNS_LOGS'),
-  s3DataEvents('S3_DATA_EVENTS'),
-  eksAuditLogs('EKS_AUDIT_LOGS'),
-  ebsMalwareProtection('EBS_MALWARE_PROTECTION'),
-  rdsLoginEvents('RDS_LOGIN_EVENTS'),
-  lambdaNetworkLogs('LAMBDA_NETWORK_LOGS'),
-  eksRuntimeMonitoring('EKS_RUNTIME_MONITORING'),
-  fargateRuntimeMonitoring('FARGATE_RUNTIME_MONITORING'),
-  ec2RuntimeMonitoring('EC2_RUNTIME_MONITORING'),
-  rdsDbiProtectionProvisioned('RDS_DBI_PROTECTION_PROVISIONED'),
-  rdsDbiProtectionServerless('RDS_DBI_PROTECTION_SERVERLESS'),
-  ;
+class UsageFeature {
+  static const flowLogs = UsageFeature._('FLOW_LOGS');
+  static const cloudTrail = UsageFeature._('CLOUD_TRAIL');
+  static const dnsLogs = UsageFeature._('DNS_LOGS');
+  static const s3DataEvents = UsageFeature._('S3_DATA_EVENTS');
+  static const eksAuditLogs = UsageFeature._('EKS_AUDIT_LOGS');
+  static const ebsMalwareProtection = UsageFeature._('EBS_MALWARE_PROTECTION');
+  static const rdsLoginEvents = UsageFeature._('RDS_LOGIN_EVENTS');
+  static const lambdaNetworkLogs = UsageFeature._('LAMBDA_NETWORK_LOGS');
+  static const eksRuntimeMonitoring = UsageFeature._('EKS_RUNTIME_MONITORING');
+  static const fargateRuntimeMonitoring =
+      UsageFeature._('FARGATE_RUNTIME_MONITORING');
+  static const ec2RuntimeMonitoring = UsageFeature._('EC2_RUNTIME_MONITORING');
+  static const rdsDbiProtectionProvisioned =
+      UsageFeature._('RDS_DBI_PROTECTION_PROVISIONED');
+  static const rdsDbiProtectionServerless =
+      UsageFeature._('RDS_DBI_PROTECTION_SERVERLESS');
 
   final String value;
 
-  const UsageFeature(this.value);
+  const UsageFeature._(this.value);
 
-  static UsageFeature fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum UsageFeature'));
+  static const values = [
+    flowLogs,
+    cloudTrail,
+    dnsLogs,
+    s3DataEvents,
+    eksAuditLogs,
+    ebsMalwareProtection,
+    rdsLoginEvents,
+    lambdaNetworkLogs,
+    eksRuntimeMonitoring,
+    fargateRuntimeMonitoring,
+    ec2RuntimeMonitoring,
+    rdsDbiProtectionProvisioned,
+    rdsDbiProtectionServerless
+  ];
+
+  static UsageFeature fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => UsageFeature._(value));
+
+  @override
+  bool operator ==(other) => other is UsageFeature && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains information about the result of the total usage based on the
@@ -14248,23 +14773,41 @@ class UsageResourceResult {
   }
 }
 
-enum UsageStatisticType {
-  sumByAccount('SUM_BY_ACCOUNT'),
-  sumByDataSource('SUM_BY_DATA_SOURCE'),
-  sumByResource('SUM_BY_RESOURCE'),
-  topResources('TOP_RESOURCES'),
-  sumByFeatures('SUM_BY_FEATURES'),
-  topAccountsByFeature('TOP_ACCOUNTS_BY_FEATURE'),
-  ;
+class UsageStatisticType {
+  static const sumByAccount = UsageStatisticType._('SUM_BY_ACCOUNT');
+  static const sumByDataSource = UsageStatisticType._('SUM_BY_DATA_SOURCE');
+  static const sumByResource = UsageStatisticType._('SUM_BY_RESOURCE');
+  static const topResources = UsageStatisticType._('TOP_RESOURCES');
+  static const sumByFeatures = UsageStatisticType._('SUM_BY_FEATURES');
+  static const topAccountsByFeature =
+      UsageStatisticType._('TOP_ACCOUNTS_BY_FEATURE');
 
   final String value;
 
-  const UsageStatisticType(this.value);
+  const UsageStatisticType._(this.value);
 
-  static UsageStatisticType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum UsageStatisticType'));
+  static const values = [
+    sumByAccount,
+    sumByDataSource,
+    sumByResource,
+    topResources,
+    sumByFeatures,
+    topAccountsByFeature
+  ];
+
+  static UsageStatisticType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => UsageStatisticType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is UsageStatisticType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains the result of GuardDuty usage. If a UsageStatisticType is provided

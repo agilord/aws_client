@@ -1170,20 +1170,29 @@ class Address {
   }
 }
 
-enum AddressRoleType {
-  taxAddress('TaxAddress'),
-  billingAddress('BillingAddress'),
-  contactAddress('ContactAddress'),
-  ;
+class AddressRoleType {
+  static const taxAddress = AddressRoleType._('TaxAddress');
+  static const billingAddress = AddressRoleType._('BillingAddress');
+  static const contactAddress = AddressRoleType._('ContactAddress');
 
   final String value;
 
-  const AddressRoleType(this.value);
+  const AddressRoleType._(this.value);
+
+  static const values = [taxAddress, billingAddress, contactAddress];
 
   static AddressRoleType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum AddressRoleType'));
+          orElse: () => AddressRoleType._(value));
+
+  @override
+  bool operator ==(other) => other is AddressRoleType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The error object for representing failures in the
@@ -1514,7 +1523,7 @@ class GeorgiaAdditionalInfo {
 
   factory GeorgiaAdditionalInfo.fromJson(Map<String, dynamic> json) {
     return GeorgiaAdditionalInfo(
-      personType: PersonType.fromString((json['personType'] as String)),
+      personType: PersonType.fromString((json['personType'] as String?) ?? ''),
     );
   }
 
@@ -1599,22 +1608,38 @@ class IndiaAdditionalInfo {
   }
 }
 
-enum Industries {
-  circulatingOrg('CirculatingOrg'),
-  professionalOrg('ProfessionalOrg'),
-  banks('Banks'),
-  insurance('Insurance'),
-  pensionAndBenefitFunds('PensionAndBenefitFunds'),
-  developmentAgencies('DevelopmentAgencies'),
-  ;
+class Industries {
+  static const circulatingOrg = Industries._('CirculatingOrg');
+  static const professionalOrg = Industries._('ProfessionalOrg');
+  static const banks = Industries._('Banks');
+  static const insurance = Industries._('Insurance');
+  static const pensionAndBenefitFunds = Industries._('PensionAndBenefitFunds');
+  static const developmentAgencies = Industries._('DevelopmentAgencies');
 
   final String value;
 
-  const Industries(this.value);
+  const Industries._(this.value);
 
-  static Industries fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum Industries'));
+  static const values = [
+    circulatingOrg,
+    professionalOrg,
+    banks,
+    insurance,
+    pensionAndBenefitFunds,
+    developmentAgencies
+  ];
+
+  static Industries fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Industries._(value));
+
+  @override
+  bool operator ==(other) => other is Industries && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Additional tax information associated with your TRN in Israel.
@@ -1636,9 +1661,10 @@ class IsraelAdditionalInfo {
 
   factory IsraelAdditionalInfo.fromJson(Map<String, dynamic> json) {
     return IsraelAdditionalInfo(
-      customerType:
-          IsraelCustomerType.fromString((json['customerType'] as String)),
-      dealerType: IsraelDealerType.fromString((json['dealerType'] as String)),
+      customerType: IsraelCustomerType.fromString(
+          (json['customerType'] as String?) ?? ''),
+      dealerType:
+          IsraelDealerType.fromString((json['dealerType'] as String?) ?? ''),
     );
   }
 
@@ -1652,34 +1678,53 @@ class IsraelAdditionalInfo {
   }
 }
 
-enum IsraelCustomerType {
-  business('Business'),
-  individual('Individual'),
-  ;
+class IsraelCustomerType {
+  static const business = IsraelCustomerType._('Business');
+  static const individual = IsraelCustomerType._('Individual');
 
   final String value;
 
-  const IsraelCustomerType(this.value);
+  const IsraelCustomerType._(this.value);
 
-  static IsraelCustomerType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum IsraelCustomerType'));
+  static const values = [business, individual];
+
+  static IsraelCustomerType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => IsraelCustomerType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is IsraelCustomerType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum IsraelDealerType {
-  authorized('Authorized'),
-  nonAuthorized('Non-authorized'),
-  ;
+class IsraelDealerType {
+  static const authorized = IsraelDealerType._('Authorized');
+  static const nonAuthorized = IsraelDealerType._('Non-authorized');
 
   final String value;
 
-  const IsraelDealerType(this.value);
+  const IsraelDealerType._(this.value);
+
+  static const values = [authorized, nonAuthorized];
 
   static IsraelDealerType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum IsraelDealerType'));
+          orElse: () => IsraelDealerType._(value));
+
+  @override
+  bool operator ==(other) => other is IsraelDealerType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Additional tax information associated with your TRN in Italy.
@@ -1774,7 +1819,7 @@ class KenyaAdditionalInfo {
 
   factory KenyaAdditionalInfo.fromJson(Map<String, dynamic> json) {
     return KenyaAdditionalInfo(
-      personType: PersonType.fromString((json['personType'] as String)),
+      personType: PersonType.fromString((json['personType'] as String?) ?? ''),
     );
   }
 
@@ -1845,36 +1890,62 @@ class MalaysiaAdditionalInfo {
   }
 }
 
-enum MalaysiaServiceTaxCode {
-  consultancy('Consultancy'),
-  digitalServiceAndElectronicMedium('Digital Service And Electronic Medium'),
-  itServices('IT Services'),
-  trainingOrCoaching('Training Or Coaching'),
-  ;
+class MalaysiaServiceTaxCode {
+  static const consultancy = MalaysiaServiceTaxCode._('Consultancy');
+  static const digitalServiceAndElectronicMedium =
+      MalaysiaServiceTaxCode._('Digital Service And Electronic Medium');
+  static const itServices = MalaysiaServiceTaxCode._('IT Services');
+  static const trainingOrCoaching =
+      MalaysiaServiceTaxCode._('Training Or Coaching');
 
   final String value;
 
-  const MalaysiaServiceTaxCode(this.value);
+  const MalaysiaServiceTaxCode._(this.value);
+
+  static const values = [
+    consultancy,
+    digitalServiceAndElectronicMedium,
+    itServices,
+    trainingOrCoaching
+  ];
 
   static MalaysiaServiceTaxCode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum MalaysiaServiceTaxCode'));
+          orElse: () => MalaysiaServiceTaxCode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is MalaysiaServiceTaxCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum PersonType {
-  legalPerson('Legal Person'),
-  physicalPerson('Physical Person'),
-  business('Business'),
-  ;
+class PersonType {
+  static const legalPerson = PersonType._('Legal Person');
+  static const physicalPerson = PersonType._('Physical Person');
+  static const business = PersonType._('Business');
 
   final String value;
 
-  const PersonType(this.value);
+  const PersonType._(this.value);
 
-  static PersonType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum PersonType'));
+  static const values = [legalPerson, physicalPerson, business];
+
+  static PersonType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => PersonType._(value));
+
+  @override
+  bool operator ==(other) => other is PersonType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Additional tax information associated with your TRN in Poland.
@@ -1936,19 +2007,28 @@ class PutTaxRegistrationResponse {
   }
 }
 
-enum RegistrationType {
-  intraEu('Intra-EU'),
-  local('Local'),
-  ;
+class RegistrationType {
+  static const intraEu = RegistrationType._('Intra-EU');
+  static const local = RegistrationType._('Local');
 
   final String value;
 
-  const RegistrationType(this.value);
+  const RegistrationType._(this.value);
+
+  static const values = [intraEu, local];
 
   static RegistrationType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum RegistrationType'));
+          orElse: () => RegistrationType._(value));
+
+  @override
+  bool operator ==(other) => other is RegistrationType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Additional tax information to specify for a TRN in Romania.
@@ -1964,7 +2044,7 @@ class RomaniaAdditionalInfo {
   factory RomaniaAdditionalInfo.fromJson(Map<String, dynamic> json) {
     return RomaniaAdditionalInfo(
       taxRegistrationNumberType: TaxRegistrationNumberType.fromString(
-          (json['taxRegistrationNumberType'] as String)),
+          (json['taxRegistrationNumberType'] as String?) ?? ''),
     );
   }
 
@@ -2001,35 +2081,61 @@ class SaudiArabiaAdditionalInfo {
   }
 }
 
-enum SaudiArabiaTaxRegistrationNumberType {
-  taxRegistrationNumber('TaxRegistrationNumber'),
-  taxIdentificationNumber('TaxIdentificationNumber'),
-  commercialRegistrationNumber('CommercialRegistrationNumber'),
-  ;
+class SaudiArabiaTaxRegistrationNumberType {
+  static const taxRegistrationNumber =
+      SaudiArabiaTaxRegistrationNumberType._('TaxRegistrationNumber');
+  static const taxIdentificationNumber =
+      SaudiArabiaTaxRegistrationNumberType._('TaxIdentificationNumber');
+  static const commercialRegistrationNumber =
+      SaudiArabiaTaxRegistrationNumberType._('CommercialRegistrationNumber');
 
   final String value;
 
-  const SaudiArabiaTaxRegistrationNumberType(this.value);
+  const SaudiArabiaTaxRegistrationNumberType._(this.value);
+
+  static const values = [
+    taxRegistrationNumber,
+    taxIdentificationNumber,
+    commercialRegistrationNumber
+  ];
 
   static SaudiArabiaTaxRegistrationNumberType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum SaudiArabiaTaxRegistrationNumberType'));
+          orElse: () => SaudiArabiaTaxRegistrationNumberType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SaudiArabiaTaxRegistrationNumberType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum Sector {
-  business('Business'),
-  individual('Individual'),
-  government('Government'),
-  ;
+class Sector {
+  static const business = Sector._('Business');
+  static const individual = Sector._('Individual');
+  static const government = Sector._('Government');
 
   final String value;
 
-  const Sector(this.value);
+  const Sector._(this.value);
+
+  static const values = [business, individual, government];
 
   static Sector fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum Sector'));
+      values.firstWhere((e) => e.value == value, orElse: () => Sector._(value));
+
+  @override
+  bool operator ==(other) => other is Sector && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The Amazon S3 bucket in your account where your tax document is located.
@@ -2107,8 +2213,8 @@ class SpainAdditionalInfo {
 
   factory SpainAdditionalInfo.fromJson(Map<String, dynamic> json) {
     return SpainAdditionalInfo(
-      registrationType:
-          RegistrationType.fromString((json['registrationType'] as String)),
+      registrationType: RegistrationType.fromString(
+          (json['registrationType'] as String?) ?? ''),
     );
   }
 
@@ -2243,9 +2349,10 @@ class TaxRegistration {
               const <String, dynamic>{}),
       legalName: (json['legalName'] as String?) ?? '',
       registrationId: (json['registrationId'] as String?) ?? '',
-      registrationType:
-          TaxRegistrationType.fromString((json['registrationType'] as String)),
-      status: TaxRegistrationStatus.fromString((json['status'] as String)),
+      registrationType: TaxRegistrationType.fromString(
+          (json['registrationType'] as String?) ?? ''),
+      status:
+          TaxRegistrationStatus.fromString((json['status'] as String?) ?? ''),
       additionalTaxInformation: json['additionalTaxInformation'] != null
           ? AdditionalInfoResponse.fromJson(
               json['additionalTaxInformation'] as Map<String, dynamic>)
@@ -2387,54 +2494,86 @@ class TaxRegistrationEntry {
   }
 }
 
-enum TaxRegistrationNumberType {
-  taxRegistrationNumber('TaxRegistrationNumber'),
-  localRegistrationNumber('LocalRegistrationNumber'),
-  ;
+class TaxRegistrationNumberType {
+  static const taxRegistrationNumber =
+      TaxRegistrationNumberType._('TaxRegistrationNumber');
+  static const localRegistrationNumber =
+      TaxRegistrationNumberType._('LocalRegistrationNumber');
 
   final String value;
 
-  const TaxRegistrationNumberType(this.value);
+  const TaxRegistrationNumberType._(this.value);
+
+  static const values = [taxRegistrationNumber, localRegistrationNumber];
 
   static TaxRegistrationNumberType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum TaxRegistrationNumberType'));
+          orElse: () => TaxRegistrationNumberType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TaxRegistrationNumberType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum TaxRegistrationStatus {
-  verified('Verified'),
-  pending('Pending'),
-  deleted('Deleted'),
-  rejected('Rejected'),
-  ;
+class TaxRegistrationStatus {
+  static const verified = TaxRegistrationStatus._('Verified');
+  static const pending = TaxRegistrationStatus._('Pending');
+  static const deleted = TaxRegistrationStatus._('Deleted');
+  static const rejected = TaxRegistrationStatus._('Rejected');
 
   final String value;
 
-  const TaxRegistrationStatus(this.value);
+  const TaxRegistrationStatus._(this.value);
 
-  static TaxRegistrationStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum TaxRegistrationStatus'));
+  static const values = [verified, pending, deleted, rejected];
+
+  static TaxRegistrationStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => TaxRegistrationStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TaxRegistrationStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum TaxRegistrationType {
-  vat('VAT'),
-  gst('GST'),
-  cpf('CPF'),
-  cnpj('CNPJ'),
-  sst('SST'),
-  ;
+class TaxRegistrationType {
+  static const vat = TaxRegistrationType._('VAT');
+  static const gst = TaxRegistrationType._('GST');
+  static const cpf = TaxRegistrationType._('CPF');
+  static const cnpj = TaxRegistrationType._('CNPJ');
+  static const sst = TaxRegistrationType._('SST');
 
   final String value;
 
-  const TaxRegistrationType(this.value);
+  const TaxRegistrationType._(this.value);
 
-  static TaxRegistrationType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum TaxRegistrationType'));
+  static const values = [vat, gst, cpf, cnpj, sst];
+
+  static TaxRegistrationType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => TaxRegistrationType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TaxRegistrationType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Your TRN information with jurisdiction details. This doesn't contain the
@@ -2492,9 +2631,10 @@ class TaxRegistrationWithJurisdiction {
               const <String, dynamic>{}),
       legalName: (json['legalName'] as String?) ?? '',
       registrationId: (json['registrationId'] as String?) ?? '',
-      registrationType:
-          TaxRegistrationType.fromString((json['registrationType'] as String)),
-      status: TaxRegistrationStatus.fromString((json['status'] as String)),
+      registrationType: TaxRegistrationType.fromString(
+          (json['registrationType'] as String?) ?? ''),
+      status:
+          TaxRegistrationStatus.fromString((json['status'] as String?) ?? ''),
       additionalTaxInformation: json['additionalTaxInformation'] != null
           ? AdditionalInfoResponse.fromJson(
               json['additionalTaxInformation'] as Map<String, dynamic>)
@@ -2601,7 +2741,7 @@ class UkraineAdditionalInfo {
   factory UkraineAdditionalInfo.fromJson(Map<String, dynamic> json) {
     return UkraineAdditionalInfo(
       ukraineTrnType:
-          UkraineTrnType.fromString((json['ukraineTrnType'] as String)),
+          UkraineTrnType.fromString((json['ukraineTrnType'] as String?) ?? ''),
     );
   }
 
@@ -2613,19 +2753,28 @@ class UkraineAdditionalInfo {
   }
 }
 
-enum UkraineTrnType {
-  business('Business'),
-  individual('Individual'),
-  ;
+class UkraineTrnType {
+  static const business = UkraineTrnType._('Business');
+  static const individual = UkraineTrnType._('Individual');
 
   final String value;
 
-  const UkraineTrnType(this.value);
+  const UkraineTrnType._(this.value);
+
+  static const values = [business, individual];
 
   static UkraineTrnType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum UkraineTrnType'));
+          orElse: () => UkraineTrnType._(value));
+
+  @override
+  bool operator ==(other) => other is UkraineTrnType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Required information to verify your TRN.

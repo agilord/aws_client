@@ -1142,8 +1142,8 @@ class Cluster {
       scheduler: Scheduler.fromJson(
           (json['scheduler'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
-      size: Size.fromString((json['size'] as String)),
-      status: ClusterStatus.fromString((json['status'] as String)),
+      size: Size.fromString((json['size'] as String?) ?? ''),
+      status: ClusterStatus.fromString((json['status'] as String?) ?? ''),
       endpoints: (json['endpoints'] as List?)
           ?.nonNulls
           .map((e) => Endpoint.fromJson(e as Map<String, dynamic>))
@@ -1261,24 +1261,41 @@ class ClusterSlurmConfigurationRequest {
   }
 }
 
-enum ClusterStatus {
-  creating('CREATING'),
-  active('ACTIVE'),
-  updating('UPDATING'),
-  deleting('DELETING'),
-  createFailed('CREATE_FAILED'),
-  deleteFailed('DELETE_FAILED'),
-  updateFailed('UPDATE_FAILED'),
-  ;
+class ClusterStatus {
+  static const creating = ClusterStatus._('CREATING');
+  static const active = ClusterStatus._('ACTIVE');
+  static const updating = ClusterStatus._('UPDATING');
+  static const deleting = ClusterStatus._('DELETING');
+  static const createFailed = ClusterStatus._('CREATE_FAILED');
+  static const deleteFailed = ClusterStatus._('DELETE_FAILED');
+  static const updateFailed = ClusterStatus._('UPDATE_FAILED');
 
   final String value;
 
-  const ClusterStatus(this.value);
+  const ClusterStatus._(this.value);
+
+  static const values = [
+    creating,
+    active,
+    updating,
+    deleting,
+    createFailed,
+    deleteFailed,
+    updateFailed
+  ];
 
   static ClusterStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ClusterStatus'));
+          orElse: () => ClusterStatus._(value));
+
+  @override
+  bool operator ==(other) => other is ClusterStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The object returned by the <code>ListClusters</code> API action.
@@ -1320,7 +1337,7 @@ class ClusterSummary {
       id: (json['id'] as String?) ?? '',
       modifiedAt: nonNullableTimeStampFromJson(json['modifiedAt'] ?? 0),
       name: (json['name'] as String?) ?? '',
-      status: ClusterStatus.fromString((json['status'] as String)),
+      status: ClusterStatus.fromString((json['status'] as String?) ?? ''),
     );
   }
 
@@ -1442,7 +1459,8 @@ class ComputeNodeGroup {
       scalingConfiguration: ScalingConfiguration.fromJson(
           (json['scalingConfiguration'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
-      status: ComputeNodeGroupStatus.fromString((json['status'] as String)),
+      status:
+          ComputeNodeGroupStatus.fromString((json['status'] as String?) ?? ''),
       subnetIds: ((json['subnetIds'] as List?) ?? const [])
           .nonNulls
           .map((e) => e as String)
@@ -1575,25 +1593,44 @@ class ComputeNodeGroupSlurmConfigurationRequest {
   }
 }
 
-enum ComputeNodeGroupStatus {
-  creating('CREATING'),
-  active('ACTIVE'),
-  updating('UPDATING'),
-  deleting('DELETING'),
-  createFailed('CREATE_FAILED'),
-  deleteFailed('DELETE_FAILED'),
-  updateFailed('UPDATE_FAILED'),
-  deleted('DELETED'),
-  ;
+class ComputeNodeGroupStatus {
+  static const creating = ComputeNodeGroupStatus._('CREATING');
+  static const active = ComputeNodeGroupStatus._('ACTIVE');
+  static const updating = ComputeNodeGroupStatus._('UPDATING');
+  static const deleting = ComputeNodeGroupStatus._('DELETING');
+  static const createFailed = ComputeNodeGroupStatus._('CREATE_FAILED');
+  static const deleteFailed = ComputeNodeGroupStatus._('DELETE_FAILED');
+  static const updateFailed = ComputeNodeGroupStatus._('UPDATE_FAILED');
+  static const deleted = ComputeNodeGroupStatus._('DELETED');
 
   final String value;
 
-  const ComputeNodeGroupStatus(this.value);
+  const ComputeNodeGroupStatus._(this.value);
+
+  static const values = [
+    creating,
+    active,
+    updating,
+    deleting,
+    createFailed,
+    deleteFailed,
+    updateFailed,
+    deleted
+  ];
 
   static ComputeNodeGroupStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ComputeNodeGroupStatus'));
+          orElse: () => ComputeNodeGroupStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ComputeNodeGroupStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The object returned by the <code>ListComputeNodeGroups</code> API action.
@@ -1641,7 +1678,8 @@ class ComputeNodeGroupSummary {
       id: (json['id'] as String?) ?? '',
       modifiedAt: nonNullableTimeStampFromJson(json['modifiedAt'] ?? 0),
       name: (json['name'] as String?) ?? '',
-      status: ComputeNodeGroupStatus.fromString((json['status'] as String)),
+      status:
+          ComputeNodeGroupStatus.fromString((json['status'] as String?) ?? ''),
     );
   }
 
@@ -1836,7 +1874,7 @@ class Endpoint {
     return Endpoint(
       port: (json['port'] as String?) ?? '',
       privateIpAddress: (json['privateIpAddress'] as String?) ?? '',
-      type: EndpointType.fromString((json['type'] as String)),
+      type: EndpointType.fromString((json['type'] as String?) ?? ''),
       publicIpAddress: json['publicIpAddress'] as String?,
     );
   }
@@ -1855,19 +1893,27 @@ class Endpoint {
   }
 }
 
-enum EndpointType {
-  slurmctld('SLURMCTLD'),
-  slurmdbd('SLURMDBD'),
-  ;
+class EndpointType {
+  static const slurmctld = EndpointType._('SLURMCTLD');
+  static const slurmdbd = EndpointType._('SLURMDBD');
 
   final String value;
 
-  const EndpointType(this.value);
+  const EndpointType._(this.value);
 
-  static EndpointType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum EndpointType'));
+  static const values = [slurmctld, slurmdbd];
+
+  static EndpointType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => EndpointType._(value));
+
+  @override
+  bool operator ==(other) => other is EndpointType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// An error that occurred during resource creation.
@@ -2257,19 +2303,28 @@ class NetworkingRequest {
   }
 }
 
-enum PurchaseOption {
-  ondemand('ONDEMAND'),
-  spot('SPOT'),
-  ;
+class PurchaseOption {
+  static const ondemand = PurchaseOption._('ONDEMAND');
+  static const spot = PurchaseOption._('SPOT');
 
   final String value;
 
-  const PurchaseOption(this.value);
+  const PurchaseOption._(this.value);
+
+  static const values = [ondemand, spot];
 
   static PurchaseOption fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum PurchaseOption'));
+          orElse: () => PurchaseOption._(value));
+
+  @override
+  bool operator ==(other) => other is PurchaseOption && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A queue resource.
@@ -2332,7 +2387,7 @@ class Queue {
       id: (json['id'] as String?) ?? '',
       modifiedAt: nonNullableTimeStampFromJson(json['modifiedAt'] ?? 0),
       name: (json['name'] as String?) ?? '',
-      status: QueueStatus.fromString((json['status'] as String)),
+      status: QueueStatus.fromString((json['status'] as String?) ?? ''),
       errorInfo: (json['errorInfo'] as List?)
           ?.nonNulls
           .map((e) => ErrorInfo.fromJson(e as Map<String, dynamic>))
@@ -2364,23 +2419,40 @@ class Queue {
   }
 }
 
-enum QueueStatus {
-  creating('CREATING'),
-  active('ACTIVE'),
-  updating('UPDATING'),
-  deleting('DELETING'),
-  createFailed('CREATE_FAILED'),
-  deleteFailed('DELETE_FAILED'),
-  updateFailed('UPDATE_FAILED'),
-  ;
+class QueueStatus {
+  static const creating = QueueStatus._('CREATING');
+  static const active = QueueStatus._('ACTIVE');
+  static const updating = QueueStatus._('UPDATING');
+  static const deleting = QueueStatus._('DELETING');
+  static const createFailed = QueueStatus._('CREATE_FAILED');
+  static const deleteFailed = QueueStatus._('DELETE_FAILED');
+  static const updateFailed = QueueStatus._('UPDATE_FAILED');
 
   final String value;
 
-  const QueueStatus(this.value);
+  const QueueStatus._(this.value);
 
-  static QueueStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum QueueStatus'));
+  static const values = [
+    creating,
+    active,
+    updating,
+    deleting,
+    createFailed,
+    deleteFailed,
+    updateFailed
+  ];
+
+  static QueueStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => QueueStatus._(value));
+
+  @override
+  bool operator ==(other) => other is QueueStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The object returned by the <code>ListQueues</code> API action.
@@ -2427,7 +2499,7 @@ class QueueSummary {
       id: (json['id'] as String?) ?? '',
       modifiedAt: nonNullableTimeStampFromJson(json['modifiedAt'] ?? 0),
       name: (json['name'] as String?) ?? '',
-      status: QueueStatus.fromString((json['status'] as String)),
+      status: QueueStatus.fromString((json['status'] as String?) ?? ''),
     );
   }
 
@@ -2563,7 +2635,7 @@ class Scheduler {
 
   factory Scheduler.fromJson(Map<String, dynamic> json) {
     return Scheduler(
-      type: SchedulerType.fromString((json['type'] as String)),
+      type: SchedulerType.fromString((json['type'] as String?) ?? ''),
       version: (json['version'] as String?) ?? '',
     );
   }
@@ -2604,33 +2676,51 @@ class SchedulerRequest {
   }
 }
 
-enum SchedulerType {
-  slurm('SLURM'),
-  ;
+class SchedulerType {
+  static const slurm = SchedulerType._('SLURM');
 
   final String value;
 
-  const SchedulerType(this.value);
+  const SchedulerType._(this.value);
+
+  static const values = [slurm];
 
   static SchedulerType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum SchedulerType'));
+          orElse: () => SchedulerType._(value));
+
+  @override
+  bool operator ==(other) => other is SchedulerType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum Size {
-  small('SMALL'),
-  medium('MEDIUM'),
-  large('LARGE'),
-  ;
+class Size {
+  static const small = Size._('SMALL');
+  static const medium = Size._('MEDIUM');
+  static const large = Size._('LARGE');
 
   final String value;
 
-  const Size(this.value);
+  const Size._(this.value);
+
+  static const values = [small, medium, large];
 
   static Size fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum Size'));
+      values.firstWhere((e) => e.value == value, orElse: () => Size._(value));
+
+  @override
+  bool operator ==(other) => other is Size && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The shared Slurm key for authentication, also known as the <b>cluster
@@ -2701,20 +2791,36 @@ class SlurmCustomSetting {
   }
 }
 
-enum SpotAllocationStrategy {
-  lowestPrice('lowest-price'),
-  capacityOptimized('capacity-optimized'),
-  priceCapacityOptimized('price-capacity-optimized'),
-  ;
+class SpotAllocationStrategy {
+  static const lowestPrice = SpotAllocationStrategy._('lowest-price');
+  static const capacityOptimized =
+      SpotAllocationStrategy._('capacity-optimized');
+  static const priceCapacityOptimized =
+      SpotAllocationStrategy._('price-capacity-optimized');
 
   final String value;
 
-  const SpotAllocationStrategy(this.value);
+  const SpotAllocationStrategy._(this.value);
+
+  static const values = [
+    lowestPrice,
+    capacityOptimized,
+    priceCapacityOptimized
+  ];
 
   static SpotAllocationStrategy fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum SpotAllocationStrategy'));
+          orElse: () => SpotAllocationStrategy._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SpotAllocationStrategy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Additional configuration when you specify <code>SPOT</code> as the

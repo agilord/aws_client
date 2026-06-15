@@ -3926,76 +3926,136 @@ class Artifact {
   }
 }
 
-enum ArtifactCategory {
-  screenshot('SCREENSHOT'),
-  file('FILE'),
-  log('LOG'),
-  ;
+class ArtifactCategory {
+  static const screenshot = ArtifactCategory._('SCREENSHOT');
+  static const file = ArtifactCategory._('FILE');
+  static const log = ArtifactCategory._('LOG');
 
   final String value;
 
-  const ArtifactCategory(this.value);
+  const ArtifactCategory._(this.value);
+
+  static const values = [screenshot, file, log];
 
   static ArtifactCategory fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ArtifactCategory'));
+          orElse: () => ArtifactCategory._(value));
+
+  @override
+  bool operator ==(other) => other is ArtifactCategory && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ArtifactType {
-  unknown('UNKNOWN'),
-  screenshot('SCREENSHOT'),
-  deviceLog('DEVICE_LOG'),
-  messageLog('MESSAGE_LOG'),
-  videoLog('VIDEO_LOG'),
-  resultLog('RESULT_LOG'),
-  serviceLog('SERVICE_LOG'),
-  webkitLog('WEBKIT_LOG'),
-  instrumentationOutput('INSTRUMENTATION_OUTPUT'),
-  exerciserMonkeyOutput('EXERCISER_MONKEY_OUTPUT'),
-  calabashJsonOutput('CALABASH_JSON_OUTPUT'),
-  calabashPrettyOutput('CALABASH_PRETTY_OUTPUT'),
-  calabashStandardOutput('CALABASH_STANDARD_OUTPUT'),
-  calabashJavaXmlOutput('CALABASH_JAVA_XML_OUTPUT'),
-  automationOutput('AUTOMATION_OUTPUT'),
-  appiumServerOutput('APPIUM_SERVER_OUTPUT'),
-  appiumJavaOutput('APPIUM_JAVA_OUTPUT'),
-  appiumJavaXmlOutput('APPIUM_JAVA_XML_OUTPUT'),
-  appiumPythonOutput('APPIUM_PYTHON_OUTPUT'),
-  appiumPythonXmlOutput('APPIUM_PYTHON_XML_OUTPUT'),
-  explorerEventLog('EXPLORER_EVENT_LOG'),
-  explorerSummaryLog('EXPLORER_SUMMARY_LOG'),
-  applicationCrashReport('APPLICATION_CRASH_REPORT'),
-  xctestLog('XCTEST_LOG'),
-  video('VIDEO'),
-  customerArtifact('CUSTOMER_ARTIFACT'),
-  customerArtifactLog('CUSTOMER_ARTIFACT_LOG'),
-  testspecOutput('TESTSPEC_OUTPUT'),
-  ;
+class ArtifactType {
+  static const unknown = ArtifactType._('UNKNOWN');
+  static const screenshot = ArtifactType._('SCREENSHOT');
+  static const deviceLog = ArtifactType._('DEVICE_LOG');
+  static const messageLog = ArtifactType._('MESSAGE_LOG');
+  static const videoLog = ArtifactType._('VIDEO_LOG');
+  static const resultLog = ArtifactType._('RESULT_LOG');
+  static const serviceLog = ArtifactType._('SERVICE_LOG');
+  static const webkitLog = ArtifactType._('WEBKIT_LOG');
+  static const instrumentationOutput = ArtifactType._('INSTRUMENTATION_OUTPUT');
+  static const exerciserMonkeyOutput =
+      ArtifactType._('EXERCISER_MONKEY_OUTPUT');
+  static const calabashJsonOutput = ArtifactType._('CALABASH_JSON_OUTPUT');
+  static const calabashPrettyOutput = ArtifactType._('CALABASH_PRETTY_OUTPUT');
+  static const calabashStandardOutput =
+      ArtifactType._('CALABASH_STANDARD_OUTPUT');
+  static const calabashJavaXmlOutput =
+      ArtifactType._('CALABASH_JAVA_XML_OUTPUT');
+  static const automationOutput = ArtifactType._('AUTOMATION_OUTPUT');
+  static const appiumServerOutput = ArtifactType._('APPIUM_SERVER_OUTPUT');
+  static const appiumJavaOutput = ArtifactType._('APPIUM_JAVA_OUTPUT');
+  static const appiumJavaXmlOutput = ArtifactType._('APPIUM_JAVA_XML_OUTPUT');
+  static const appiumPythonOutput = ArtifactType._('APPIUM_PYTHON_OUTPUT');
+  static const appiumPythonXmlOutput =
+      ArtifactType._('APPIUM_PYTHON_XML_OUTPUT');
+  static const explorerEventLog = ArtifactType._('EXPLORER_EVENT_LOG');
+  static const explorerSummaryLog = ArtifactType._('EXPLORER_SUMMARY_LOG');
+  static const applicationCrashReport =
+      ArtifactType._('APPLICATION_CRASH_REPORT');
+  static const xctestLog = ArtifactType._('XCTEST_LOG');
+  static const video = ArtifactType._('VIDEO');
+  static const customerArtifact = ArtifactType._('CUSTOMER_ARTIFACT');
+  static const customerArtifactLog = ArtifactType._('CUSTOMER_ARTIFACT_LOG');
+  static const testspecOutput = ArtifactType._('TESTSPEC_OUTPUT');
 
   final String value;
 
-  const ArtifactType(this.value);
+  const ArtifactType._(this.value);
 
-  static ArtifactType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ArtifactType'));
+  static const values = [
+    unknown,
+    screenshot,
+    deviceLog,
+    messageLog,
+    videoLog,
+    resultLog,
+    serviceLog,
+    webkitLog,
+    instrumentationOutput,
+    exerciserMonkeyOutput,
+    calabashJsonOutput,
+    calabashPrettyOutput,
+    calabashStandardOutput,
+    calabashJavaXmlOutput,
+    automationOutput,
+    appiumServerOutput,
+    appiumJavaOutput,
+    appiumJavaXmlOutput,
+    appiumPythonOutput,
+    appiumPythonXmlOutput,
+    explorerEventLog,
+    explorerSummaryLog,
+    applicationCrashReport,
+    xctestLog,
+    video,
+    customerArtifact,
+    customerArtifactLog,
+    testspecOutput
+  ];
+
+  static ArtifactType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ArtifactType._(value));
+
+  @override
+  bool operator ==(other) => other is ArtifactType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum BillingMethod {
-  metered('METERED'),
-  unmetered('UNMETERED'),
-  ;
+class BillingMethod {
+  static const metered = BillingMethod._('METERED');
+  static const unmetered = BillingMethod._('UNMETERED');
 
   final String value;
 
-  const BillingMethod(this.value);
+  const BillingMethod._(this.value);
+
+  static const values = [metered, unmetered];
 
   static BillingMethod fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum BillingMethod'));
+          orElse: () => BillingMethod._(value));
+
+  @override
+  bool operator ==(other) => other is BillingMethod && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Represents the amount of CPU that an app is using on a physical device. Does
@@ -4362,18 +4422,26 @@ class CreateVPCEConfigurationResult {
   }
 }
 
-enum CurrencyCode {
-  usd('USD'),
-  ;
+class CurrencyCode {
+  static const usd = CurrencyCode._('USD');
 
   final String value;
 
-  const CurrencyCode(this.value);
+  const CurrencyCode._(this.value);
 
-  static CurrencyCode fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum CurrencyCode'));
+  static const values = [usd];
+
+  static CurrencyCode fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => CurrencyCode._(value));
+
+  @override
+  bool operator ==(other) => other is CurrencyCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A JSON object that specifies the paths where the artifacts generated by the
@@ -4748,47 +4816,86 @@ class Device {
   }
 }
 
-enum DeviceAttribute {
-  arn('ARN'),
-  platform('PLATFORM'),
-  formFactor('FORM_FACTOR'),
-  manufacturer('MANUFACTURER'),
-  remoteAccessEnabled('REMOTE_ACCESS_ENABLED'),
-  remoteDebugEnabled('REMOTE_DEBUG_ENABLED'),
-  appiumVersion('APPIUM_VERSION'),
-  instanceArn('INSTANCE_ARN'),
-  instanceLabels('INSTANCE_LABELS'),
-  fleetType('FLEET_TYPE'),
-  osVersion('OS_VERSION'),
-  model('MODEL'),
-  availability('AVAILABILITY'),
-  ;
+class DeviceAttribute {
+  static const arn = DeviceAttribute._('ARN');
+  static const platform = DeviceAttribute._('PLATFORM');
+  static const formFactor = DeviceAttribute._('FORM_FACTOR');
+  static const manufacturer = DeviceAttribute._('MANUFACTURER');
+  static const remoteAccessEnabled = DeviceAttribute._('REMOTE_ACCESS_ENABLED');
+  static const remoteDebugEnabled = DeviceAttribute._('REMOTE_DEBUG_ENABLED');
+  static const appiumVersion = DeviceAttribute._('APPIUM_VERSION');
+  static const instanceArn = DeviceAttribute._('INSTANCE_ARN');
+  static const instanceLabels = DeviceAttribute._('INSTANCE_LABELS');
+  static const fleetType = DeviceAttribute._('FLEET_TYPE');
+  static const osVersion = DeviceAttribute._('OS_VERSION');
+  static const model = DeviceAttribute._('MODEL');
+  static const availability = DeviceAttribute._('AVAILABILITY');
 
   final String value;
 
-  const DeviceAttribute(this.value);
+  const DeviceAttribute._(this.value);
+
+  static const values = [
+    arn,
+    platform,
+    formFactor,
+    manufacturer,
+    remoteAccessEnabled,
+    remoteDebugEnabled,
+    appiumVersion,
+    instanceArn,
+    instanceLabels,
+    fleetType,
+    osVersion,
+    model,
+    availability
+  ];
 
   static DeviceAttribute fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum DeviceAttribute'));
+          orElse: () => DeviceAttribute._(value));
+
+  @override
+  bool operator ==(other) => other is DeviceAttribute && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum DeviceAvailability {
-  temporaryNotAvailable('TEMPORARY_NOT_AVAILABLE'),
-  busy('BUSY'),
-  available('AVAILABLE'),
-  highlyAvailable('HIGHLY_AVAILABLE'),
-  ;
+class DeviceAvailability {
+  static const temporaryNotAvailable =
+      DeviceAvailability._('TEMPORARY_NOT_AVAILABLE');
+  static const busy = DeviceAvailability._('BUSY');
+  static const available = DeviceAvailability._('AVAILABLE');
+  static const highlyAvailable = DeviceAvailability._('HIGHLY_AVAILABLE');
 
   final String value;
 
-  const DeviceAvailability(this.value);
+  const DeviceAvailability._(this.value);
 
-  static DeviceAvailability fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum DeviceAvailability'));
+  static const values = [
+    temporaryNotAvailable,
+    busy,
+    available,
+    highlyAvailable
+  ];
+
+  static DeviceAvailability fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DeviceAvailability._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DeviceAvailability && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Represents a device filter used to select a set of devices to be included in
@@ -4914,9 +5021,9 @@ class DeviceFilter {
 
   factory DeviceFilter.fromJson(Map<String, dynamic> json) {
     return DeviceFilter(
-      attribute:
-          DeviceFilterAttribute.fromString((json['attribute'] as String)),
-      operator: RuleOperator.fromString((json['operator'] as String)),
+      attribute: DeviceFilterAttribute.fromString(
+          (json['attribute'] as String?) ?? ''),
+      operator: RuleOperator.fromString((json['operator'] as String?) ?? ''),
       values: ((json['values'] as List?) ?? const [])
           .nonNulls
           .map((e) => e as String)
@@ -4936,44 +5043,78 @@ class DeviceFilter {
   }
 }
 
-enum DeviceFilterAttribute {
-  arn('ARN'),
-  platform('PLATFORM'),
-  osVersion('OS_VERSION'),
-  model('MODEL'),
-  availability('AVAILABILITY'),
-  formFactor('FORM_FACTOR'),
-  manufacturer('MANUFACTURER'),
-  remoteAccessEnabled('REMOTE_ACCESS_ENABLED'),
-  remoteDebugEnabled('REMOTE_DEBUG_ENABLED'),
-  instanceArn('INSTANCE_ARN'),
-  instanceLabels('INSTANCE_LABELS'),
-  fleetType('FLEET_TYPE'),
-  ;
+class DeviceFilterAttribute {
+  static const arn = DeviceFilterAttribute._('ARN');
+  static const platform = DeviceFilterAttribute._('PLATFORM');
+  static const osVersion = DeviceFilterAttribute._('OS_VERSION');
+  static const model = DeviceFilterAttribute._('MODEL');
+  static const availability = DeviceFilterAttribute._('AVAILABILITY');
+  static const formFactor = DeviceFilterAttribute._('FORM_FACTOR');
+  static const manufacturer = DeviceFilterAttribute._('MANUFACTURER');
+  static const remoteAccessEnabled =
+      DeviceFilterAttribute._('REMOTE_ACCESS_ENABLED');
+  static const remoteDebugEnabled =
+      DeviceFilterAttribute._('REMOTE_DEBUG_ENABLED');
+  static const instanceArn = DeviceFilterAttribute._('INSTANCE_ARN');
+  static const instanceLabels = DeviceFilterAttribute._('INSTANCE_LABELS');
+  static const fleetType = DeviceFilterAttribute._('FLEET_TYPE');
 
   final String value;
 
-  const DeviceFilterAttribute(this.value);
+  const DeviceFilterAttribute._(this.value);
 
-  static DeviceFilterAttribute fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum DeviceFilterAttribute'));
+  static const values = [
+    arn,
+    platform,
+    osVersion,
+    model,
+    availability,
+    formFactor,
+    manufacturer,
+    remoteAccessEnabled,
+    remoteDebugEnabled,
+    instanceArn,
+    instanceLabels,
+    fleetType
+  ];
+
+  static DeviceFilterAttribute fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DeviceFilterAttribute._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DeviceFilterAttribute && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum DeviceFormFactor {
-  phone('PHONE'),
-  tablet('TABLET'),
-  ;
+class DeviceFormFactor {
+  static const phone = DeviceFormFactor._('PHONE');
+  static const tablet = DeviceFormFactor._('TABLET');
 
   final String value;
 
-  const DeviceFormFactor(this.value);
+  const DeviceFormFactor._(this.value);
+
+  static const values = [phone, tablet];
 
   static DeviceFormFactor fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum DeviceFormFactor'));
+          orElse: () => DeviceFormFactor._(value));
+
+  @override
+  bool operator ==(other) => other is DeviceFormFactor && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Represents the device instance.
@@ -5079,19 +5220,28 @@ class DeviceMinutes {
   }
 }
 
-enum DevicePlatform {
-  android('ANDROID'),
-  ios('IOS'),
-  ;
+class DevicePlatform {
+  static const android = DevicePlatform._('ANDROID');
+  static const ios = DevicePlatform._('IOS');
 
   final String value;
 
-  const DevicePlatform(this.value);
+  const DevicePlatform._(this.value);
+
+  static const values = [android, ios];
 
   static DevicePlatform fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum DevicePlatform'));
+          orElse: () => DevicePlatform._(value));
+
+  @override
+  bool operator ==(other) => other is DevicePlatform && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Represents a collection of device types.
@@ -5218,19 +5368,28 @@ class DevicePoolCompatibilityResult {
   }
 }
 
-enum DevicePoolType {
-  curated('CURATED'),
-  private('PRIVATE'),
-  ;
+class DevicePoolType {
+  static const curated = DevicePoolType._('CURATED');
+  static const private = DevicePoolType._('PRIVATE');
 
   final String value;
 
-  const DevicePoolType(this.value);
+  const DevicePoolType._(this.value);
+
+  static const values = [curated, private];
 
   static DevicePoolType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum DevicePoolType'));
+          orElse: () => DevicePoolType._(value));
+
+  @override
+  bool operator ==(other) => other is DevicePoolType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Represents the device filters used in a test run and the maximum number of
@@ -5463,61 +5622,108 @@ class ExecutionConfiguration {
   }
 }
 
-enum ExecutionResult {
-  pending('PENDING'),
-  passed('PASSED'),
-  warned('WARNED'),
-  failed('FAILED'),
-  skipped('SKIPPED'),
-  errored('ERRORED'),
-  stopped('STOPPED'),
-  ;
+class ExecutionResult {
+  static const pending = ExecutionResult._('PENDING');
+  static const passed = ExecutionResult._('PASSED');
+  static const warned = ExecutionResult._('WARNED');
+  static const failed = ExecutionResult._('FAILED');
+  static const skipped = ExecutionResult._('SKIPPED');
+  static const errored = ExecutionResult._('ERRORED');
+  static const stopped = ExecutionResult._('STOPPED');
 
   final String value;
 
-  const ExecutionResult(this.value);
+  const ExecutionResult._(this.value);
+
+  static const values = [
+    pending,
+    passed,
+    warned,
+    failed,
+    skipped,
+    errored,
+    stopped
+  ];
 
   static ExecutionResult fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ExecutionResult'));
+          orElse: () => ExecutionResult._(value));
+
+  @override
+  bool operator ==(other) => other is ExecutionResult && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ExecutionResultCode {
-  parsingFailed('PARSING_FAILED'),
-  vpcEndpointSetupFailed('VPC_ENDPOINT_SETUP_FAILED'),
-  ;
+class ExecutionResultCode {
+  static const parsingFailed = ExecutionResultCode._('PARSING_FAILED');
+  static const vpcEndpointSetupFailed =
+      ExecutionResultCode._('VPC_ENDPOINT_SETUP_FAILED');
 
   final String value;
 
-  const ExecutionResultCode(this.value);
+  const ExecutionResultCode._(this.value);
 
-  static ExecutionResultCode fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ExecutionResultCode'));
+  static const values = [parsingFailed, vpcEndpointSetupFailed];
+
+  static ExecutionResultCode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ExecutionResultCode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ExecutionResultCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ExecutionStatus {
-  pending('PENDING'),
-  pendingConcurrency('PENDING_CONCURRENCY'),
-  pendingDevice('PENDING_DEVICE'),
-  processing('PROCESSING'),
-  scheduling('SCHEDULING'),
-  preparing('PREPARING'),
-  running('RUNNING'),
-  completed('COMPLETED'),
-  stopping('STOPPING'),
-  ;
+class ExecutionStatus {
+  static const pending = ExecutionStatus._('PENDING');
+  static const pendingConcurrency = ExecutionStatus._('PENDING_CONCURRENCY');
+  static const pendingDevice = ExecutionStatus._('PENDING_DEVICE');
+  static const processing = ExecutionStatus._('PROCESSING');
+  static const scheduling = ExecutionStatus._('SCHEDULING');
+  static const preparing = ExecutionStatus._('PREPARING');
+  static const running = ExecutionStatus._('RUNNING');
+  static const completed = ExecutionStatus._('COMPLETED');
+  static const stopping = ExecutionStatus._('STOPPING');
 
   final String value;
 
-  const ExecutionStatus(this.value);
+  const ExecutionStatus._(this.value);
+
+  static const values = [
+    pending,
+    pendingConcurrency,
+    pendingDevice,
+    processing,
+    scheduling,
+    preparing,
+    running,
+    completed,
+    stopping
+  ];
 
   static ExecutionStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ExecutionStatus'));
+          orElse: () => ExecutionStatus._(value));
+
+  @override
+  bool operator ==(other) => other is ExecutionStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Represents the account settings return values from the
@@ -6153,37 +6359,55 @@ class InstanceProfile {
   }
 }
 
-enum InstanceStatus {
-  inUse('IN_USE'),
-  preparing('PREPARING'),
-  available('AVAILABLE'),
-  notAvailable('NOT_AVAILABLE'),
-  ;
+class InstanceStatus {
+  static const inUse = InstanceStatus._('IN_USE');
+  static const preparing = InstanceStatus._('PREPARING');
+  static const available = InstanceStatus._('AVAILABLE');
+  static const notAvailable = InstanceStatus._('NOT_AVAILABLE');
 
   final String value;
 
-  const InstanceStatus(this.value);
+  const InstanceStatus._(this.value);
+
+  static const values = [inUse, preparing, available, notAvailable];
 
   static InstanceStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum InstanceStatus'));
+          orElse: () => InstanceStatus._(value));
+
+  @override
+  bool operator ==(other) => other is InstanceStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum InteractionMode {
-  interactive('INTERACTIVE'),
-  noVideo('NO_VIDEO'),
-  videoOnly('VIDEO_ONLY'),
-  ;
+class InteractionMode {
+  static const interactive = InteractionMode._('INTERACTIVE');
+  static const noVideo = InteractionMode._('NO_VIDEO');
+  static const videoOnly = InteractionMode._('VIDEO_ONLY');
 
   final String value;
 
-  const InteractionMode(this.value);
+  const InteractionMode._(this.value);
+
+  static const values = [interactive, noVideo, videoOnly];
 
   static InteractionMode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum InteractionMode'));
+          orElse: () => InteractionMode._(value));
+
+  @override
+  bool operator ==(other) => other is InteractionMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Represents a device.
@@ -7441,19 +7665,29 @@ class NetworkProfile {
   }
 }
 
-enum NetworkProfileType {
-  curated('CURATED'),
-  private('PRIVATE'),
-  ;
+class NetworkProfileType {
+  static const curated = NetworkProfileType._('CURATED');
+  static const private = NetworkProfileType._('PRIVATE');
 
   final String value;
 
-  const NetworkProfileType(this.value);
+  const NetworkProfileType._(this.value);
 
-  static NetworkProfileType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum NetworkProfileType'));
+  static const values = [curated, private];
+
+  static NetworkProfileType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => NetworkProfileType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is NetworkProfileType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Represents the metadata of a device offering.
@@ -7644,34 +7878,52 @@ class OfferingTransaction {
   }
 }
 
-enum OfferingTransactionType {
-  purchase('PURCHASE'),
-  renew('RENEW'),
-  system('SYSTEM'),
-  ;
+class OfferingTransactionType {
+  static const purchase = OfferingTransactionType._('PURCHASE');
+  static const renew = OfferingTransactionType._('RENEW');
+  static const system = OfferingTransactionType._('SYSTEM');
 
   final String value;
 
-  const OfferingTransactionType(this.value);
+  const OfferingTransactionType._(this.value);
+
+  static const values = [purchase, renew, system];
 
   static OfferingTransactionType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum OfferingTransactionType'));
+          orElse: () => OfferingTransactionType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is OfferingTransactionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum OfferingType {
-  recurring('RECURRING'),
-  ;
+class OfferingType {
+  static const recurring = OfferingType._('RECURRING');
 
   final String value;
 
-  const OfferingType(this.value);
+  const OfferingType._(this.value);
 
-  static OfferingType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum OfferingType'));
+  static const values = [recurring];
+
+  static OfferingType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => OfferingType._(value));
+
+  @override
+  bool operator ==(other) => other is OfferingType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Represents a specific warning or failure.
@@ -7966,18 +8218,28 @@ class RecurringCharge {
   }
 }
 
-enum RecurringChargeFrequency {
-  monthly('MONTHLY'),
-  ;
+class RecurringChargeFrequency {
+  static const monthly = RecurringChargeFrequency._('MONTHLY');
 
   final String value;
 
-  const RecurringChargeFrequency(this.value);
+  const RecurringChargeFrequency._(this.value);
+
+  static const values = [monthly];
 
   static RecurringChargeFrequency fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum RecurringChargeFrequency'));
+          orElse: () => RecurringChargeFrequency._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RecurringChargeFrequency && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Represents information about the remote access session.
@@ -8435,25 +8697,42 @@ class Rule {
   }
 }
 
-enum RuleOperator {
-  equals('EQUALS'),
-  lessThan('LESS_THAN'),
-  lessThanOrEquals('LESS_THAN_OR_EQUALS'),
-  greaterThan('GREATER_THAN'),
-  greaterThanOrEquals('GREATER_THAN_OR_EQUALS'),
-  $in('IN'),
-  notIn('NOT_IN'),
-  contains('CONTAINS'),
-  ;
+class RuleOperator {
+  static const equals = RuleOperator._('EQUALS');
+  static const lessThan = RuleOperator._('LESS_THAN');
+  static const lessThanOrEquals = RuleOperator._('LESS_THAN_OR_EQUALS');
+  static const greaterThan = RuleOperator._('GREATER_THAN');
+  static const greaterThanOrEquals = RuleOperator._('GREATER_THAN_OR_EQUALS');
+  static const $in = RuleOperator._('IN');
+  static const notIn = RuleOperator._('NOT_IN');
+  static const contains = RuleOperator._('CONTAINS');
 
   final String value;
 
-  const RuleOperator(this.value);
+  const RuleOperator._(this.value);
 
-  static RuleOperator fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum RuleOperator'));
+  static const values = [
+    equals,
+    lessThan,
+    lessThanOrEquals,
+    greaterThan,
+    greaterThanOrEquals,
+    $in,
+    notIn,
+    contains
+  ];
+
+  static RuleOperator fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => RuleOperator._(value));
+
+  @override
+  bool operator ==(other) => other is RuleOperator && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Represents a test run on a set of devices with a given app package, test
@@ -8955,33 +9234,60 @@ class Sample {
   }
 }
 
-enum SampleType {
-  cpu('CPU'),
-  memory('MEMORY'),
-  threads('THREADS'),
-  rxRate('RX_RATE'),
-  txRate('TX_RATE'),
-  rx('RX'),
-  tx('TX'),
-  nativeFrames('NATIVE_FRAMES'),
-  nativeFps('NATIVE_FPS'),
-  nativeMinDrawtime('NATIVE_MIN_DRAWTIME'),
-  nativeAvgDrawtime('NATIVE_AVG_DRAWTIME'),
-  nativeMaxDrawtime('NATIVE_MAX_DRAWTIME'),
-  openglFrames('OPENGL_FRAMES'),
-  openglFps('OPENGL_FPS'),
-  openglMinDrawtime('OPENGL_MIN_DRAWTIME'),
-  openglAvgDrawtime('OPENGL_AVG_DRAWTIME'),
-  openglMaxDrawtime('OPENGL_MAX_DRAWTIME'),
-  ;
+class SampleType {
+  static const cpu = SampleType._('CPU');
+  static const memory = SampleType._('MEMORY');
+  static const threads = SampleType._('THREADS');
+  static const rxRate = SampleType._('RX_RATE');
+  static const txRate = SampleType._('TX_RATE');
+  static const rx = SampleType._('RX');
+  static const tx = SampleType._('TX');
+  static const nativeFrames = SampleType._('NATIVE_FRAMES');
+  static const nativeFps = SampleType._('NATIVE_FPS');
+  static const nativeMinDrawtime = SampleType._('NATIVE_MIN_DRAWTIME');
+  static const nativeAvgDrawtime = SampleType._('NATIVE_AVG_DRAWTIME');
+  static const nativeMaxDrawtime = SampleType._('NATIVE_MAX_DRAWTIME');
+  static const openglFrames = SampleType._('OPENGL_FRAMES');
+  static const openglFps = SampleType._('OPENGL_FPS');
+  static const openglMinDrawtime = SampleType._('OPENGL_MIN_DRAWTIME');
+  static const openglAvgDrawtime = SampleType._('OPENGL_AVG_DRAWTIME');
+  static const openglMaxDrawtime = SampleType._('OPENGL_MAX_DRAWTIME');
 
   final String value;
 
-  const SampleType(this.value);
+  const SampleType._(this.value);
 
-  static SampleType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum SampleType'));
+  static const values = [
+    cpu,
+    memory,
+    threads,
+    rxRate,
+    txRate,
+    rx,
+    tx,
+    nativeFrames,
+    nativeFps,
+    nativeMinDrawtime,
+    nativeAvgDrawtime,
+    nativeMaxDrawtime,
+    openglFrames,
+    openglFps,
+    openglMinDrawtime,
+    openglAvgDrawtime,
+    openglMaxDrawtime
+  ];
+
+  static SampleType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => SampleType._(value));
+
+  @override
+  bool operator ==(other) => other is SampleType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Represents the settings for a run. Includes things like location, radio
@@ -10006,51 +10312,81 @@ class TestGridSessionArtifact {
   }
 }
 
-enum TestGridSessionArtifactCategory {
-  video('VIDEO'),
-  log('LOG'),
-  ;
+class TestGridSessionArtifactCategory {
+  static const video = TestGridSessionArtifactCategory._('VIDEO');
+  static const log = TestGridSessionArtifactCategory._('LOG');
 
   final String value;
 
-  const TestGridSessionArtifactCategory(this.value);
+  const TestGridSessionArtifactCategory._(this.value);
+
+  static const values = [video, log];
 
   static TestGridSessionArtifactCategory fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum TestGridSessionArtifactCategory'));
+          orElse: () => TestGridSessionArtifactCategory._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TestGridSessionArtifactCategory && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum TestGridSessionArtifactType {
-  unknown('UNKNOWN'),
-  video('VIDEO'),
-  seleniumLog('SELENIUM_LOG'),
-  ;
+class TestGridSessionArtifactType {
+  static const unknown = TestGridSessionArtifactType._('UNKNOWN');
+  static const video = TestGridSessionArtifactType._('VIDEO');
+  static const seleniumLog = TestGridSessionArtifactType._('SELENIUM_LOG');
 
   final String value;
 
-  const TestGridSessionArtifactType(this.value);
+  const TestGridSessionArtifactType._(this.value);
+
+  static const values = [unknown, video, seleniumLog];
 
   static TestGridSessionArtifactType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum TestGridSessionArtifactType'));
+          orElse: () => TestGridSessionArtifactType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TestGridSessionArtifactType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum TestGridSessionStatus {
-  active('ACTIVE'),
-  closed('CLOSED'),
-  errored('ERRORED'),
-  ;
+class TestGridSessionStatus {
+  static const active = TestGridSessionStatus._('ACTIVE');
+  static const closed = TestGridSessionStatus._('CLOSED');
+  static const errored = TestGridSessionStatus._('ERRORED');
 
   final String value;
 
-  const TestGridSessionStatus(this.value);
+  const TestGridSessionStatus._(this.value);
 
-  static TestGridSessionStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum TestGridSessionStatus'));
+  static const values = [active, closed, errored];
+
+  static TestGridSessionStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => TestGridSessionStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TestGridSessionStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The VPC security groups and subnets that are attached to a project.
@@ -10096,30 +10432,54 @@ class TestGridVpcConfig {
   }
 }
 
-enum TestType {
-  builtinFuzz('BUILTIN_FUZZ'),
-  appiumJavaJunit('APPIUM_JAVA_JUNIT'),
-  appiumJavaTestng('APPIUM_JAVA_TESTNG'),
-  appiumPython('APPIUM_PYTHON'),
-  appiumNode('APPIUM_NODE'),
-  appiumRuby('APPIUM_RUBY'),
-  appiumWebJavaJunit('APPIUM_WEB_JAVA_JUNIT'),
-  appiumWebJavaTestng('APPIUM_WEB_JAVA_TESTNG'),
-  appiumWebPython('APPIUM_WEB_PYTHON'),
-  appiumWebNode('APPIUM_WEB_NODE'),
-  appiumWebRuby('APPIUM_WEB_RUBY'),
-  instrumentation('INSTRUMENTATION'),
-  xctest('XCTEST'),
-  xctestUi('XCTEST_UI'),
-  ;
+class TestType {
+  static const builtinFuzz = TestType._('BUILTIN_FUZZ');
+  static const appiumJavaJunit = TestType._('APPIUM_JAVA_JUNIT');
+  static const appiumJavaTestng = TestType._('APPIUM_JAVA_TESTNG');
+  static const appiumPython = TestType._('APPIUM_PYTHON');
+  static const appiumNode = TestType._('APPIUM_NODE');
+  static const appiumRuby = TestType._('APPIUM_RUBY');
+  static const appiumWebJavaJunit = TestType._('APPIUM_WEB_JAVA_JUNIT');
+  static const appiumWebJavaTestng = TestType._('APPIUM_WEB_JAVA_TESTNG');
+  static const appiumWebPython = TestType._('APPIUM_WEB_PYTHON');
+  static const appiumWebNode = TestType._('APPIUM_WEB_NODE');
+  static const appiumWebRuby = TestType._('APPIUM_WEB_RUBY');
+  static const instrumentation = TestType._('INSTRUMENTATION');
+  static const xctest = TestType._('XCTEST');
+  static const xctestUi = TestType._('XCTEST_UI');
 
   final String value;
 
-  const TestType(this.value);
+  const TestType._(this.value);
 
-  static TestType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum TestType'));
+  static const values = [
+    builtinFuzz,
+    appiumJavaJunit,
+    appiumJavaTestng,
+    appiumPython,
+    appiumNode,
+    appiumRuby,
+    appiumWebJavaJunit,
+    appiumWebJavaTestng,
+    appiumWebPython,
+    appiumWebNode,
+    appiumWebRuby,
+    instrumentation,
+    xctest,
+    xctestUi
+  ];
+
+  static TestType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => TestType._(value));
+
+  @override
+  bool operator ==(other) => other is TestType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Represents information about free trial device minutes for an AWS account.
@@ -10604,80 +10964,158 @@ class Upload {
   }
 }
 
-enum UploadCategory {
-  curated('CURATED'),
-  private('PRIVATE'),
-  ;
+class UploadCategory {
+  static const curated = UploadCategory._('CURATED');
+  static const private = UploadCategory._('PRIVATE');
 
   final String value;
 
-  const UploadCategory(this.value);
+  const UploadCategory._(this.value);
+
+  static const values = [curated, private];
 
   static UploadCategory fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum UploadCategory'));
+          orElse: () => UploadCategory._(value));
+
+  @override
+  bool operator ==(other) => other is UploadCategory && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum UploadStatus {
-  initialized('INITIALIZED'),
-  processing('PROCESSING'),
-  succeeded('SUCCEEDED'),
-  failed('FAILED'),
-  ;
+class UploadStatus {
+  static const initialized = UploadStatus._('INITIALIZED');
+  static const processing = UploadStatus._('PROCESSING');
+  static const succeeded = UploadStatus._('SUCCEEDED');
+  static const failed = UploadStatus._('FAILED');
 
   final String value;
 
-  const UploadStatus(this.value);
+  const UploadStatus._(this.value);
 
-  static UploadStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum UploadStatus'));
+  static const values = [initialized, processing, succeeded, failed];
+
+  static UploadStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => UploadStatus._(value));
+
+  @override
+  bool operator ==(other) => other is UploadStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum UploadType {
-  androidApp('ANDROID_APP'),
-  iosApp('IOS_APP'),
-  webApp('WEB_APP'),
-  externalData('EXTERNAL_DATA'),
-  appiumJavaJunitTestPackage('APPIUM_JAVA_JUNIT_TEST_PACKAGE'),
-  appiumJavaTestngTestPackage('APPIUM_JAVA_TESTNG_TEST_PACKAGE'),
-  appiumPythonTestPackage('APPIUM_PYTHON_TEST_PACKAGE'),
-  appiumNodeTestPackage('APPIUM_NODE_TEST_PACKAGE'),
-  appiumRubyTestPackage('APPIUM_RUBY_TEST_PACKAGE'),
-  appiumWebJavaJunitTestPackage('APPIUM_WEB_JAVA_JUNIT_TEST_PACKAGE'),
-  appiumWebJavaTestngTestPackage('APPIUM_WEB_JAVA_TESTNG_TEST_PACKAGE'),
-  appiumWebPythonTestPackage('APPIUM_WEB_PYTHON_TEST_PACKAGE'),
-  appiumWebNodeTestPackage('APPIUM_WEB_NODE_TEST_PACKAGE'),
-  appiumWebRubyTestPackage('APPIUM_WEB_RUBY_TEST_PACKAGE'),
-  calabashTestPackage('CALABASH_TEST_PACKAGE'),
-  instrumentationTestPackage('INSTRUMENTATION_TEST_PACKAGE'),
-  uiautomationTestPackage('UIAUTOMATION_TEST_PACKAGE'),
-  uiautomatorTestPackage('UIAUTOMATOR_TEST_PACKAGE'),
-  xctestTestPackage('XCTEST_TEST_PACKAGE'),
-  xctestUiTestPackage('XCTEST_UI_TEST_PACKAGE'),
-  appiumJavaJunitTestSpec('APPIUM_JAVA_JUNIT_TEST_SPEC'),
-  appiumJavaTestngTestSpec('APPIUM_JAVA_TESTNG_TEST_SPEC'),
-  appiumPythonTestSpec('APPIUM_PYTHON_TEST_SPEC'),
-  appiumNodeTestSpec('APPIUM_NODE_TEST_SPEC'),
-  appiumRubyTestSpec('APPIUM_RUBY_TEST_SPEC'),
-  appiumWebJavaJunitTestSpec('APPIUM_WEB_JAVA_JUNIT_TEST_SPEC'),
-  appiumWebJavaTestngTestSpec('APPIUM_WEB_JAVA_TESTNG_TEST_SPEC'),
-  appiumWebPythonTestSpec('APPIUM_WEB_PYTHON_TEST_SPEC'),
-  appiumWebNodeTestSpec('APPIUM_WEB_NODE_TEST_SPEC'),
-  appiumWebRubyTestSpec('APPIUM_WEB_RUBY_TEST_SPEC'),
-  instrumentationTestSpec('INSTRUMENTATION_TEST_SPEC'),
-  xctestUiTestSpec('XCTEST_UI_TEST_SPEC'),
-  ;
+class UploadType {
+  static const androidApp = UploadType._('ANDROID_APP');
+  static const iosApp = UploadType._('IOS_APP');
+  static const webApp = UploadType._('WEB_APP');
+  static const externalData = UploadType._('EXTERNAL_DATA');
+  static const appiumJavaJunitTestPackage =
+      UploadType._('APPIUM_JAVA_JUNIT_TEST_PACKAGE');
+  static const appiumJavaTestngTestPackage =
+      UploadType._('APPIUM_JAVA_TESTNG_TEST_PACKAGE');
+  static const appiumPythonTestPackage =
+      UploadType._('APPIUM_PYTHON_TEST_PACKAGE');
+  static const appiumNodeTestPackage = UploadType._('APPIUM_NODE_TEST_PACKAGE');
+  static const appiumRubyTestPackage = UploadType._('APPIUM_RUBY_TEST_PACKAGE');
+  static const appiumWebJavaJunitTestPackage =
+      UploadType._('APPIUM_WEB_JAVA_JUNIT_TEST_PACKAGE');
+  static const appiumWebJavaTestngTestPackage =
+      UploadType._('APPIUM_WEB_JAVA_TESTNG_TEST_PACKAGE');
+  static const appiumWebPythonTestPackage =
+      UploadType._('APPIUM_WEB_PYTHON_TEST_PACKAGE');
+  static const appiumWebNodeTestPackage =
+      UploadType._('APPIUM_WEB_NODE_TEST_PACKAGE');
+  static const appiumWebRubyTestPackage =
+      UploadType._('APPIUM_WEB_RUBY_TEST_PACKAGE');
+  static const calabashTestPackage = UploadType._('CALABASH_TEST_PACKAGE');
+  static const instrumentationTestPackage =
+      UploadType._('INSTRUMENTATION_TEST_PACKAGE');
+  static const uiautomationTestPackage =
+      UploadType._('UIAUTOMATION_TEST_PACKAGE');
+  static const uiautomatorTestPackage =
+      UploadType._('UIAUTOMATOR_TEST_PACKAGE');
+  static const xctestTestPackage = UploadType._('XCTEST_TEST_PACKAGE');
+  static const xctestUiTestPackage = UploadType._('XCTEST_UI_TEST_PACKAGE');
+  static const appiumJavaJunitTestSpec =
+      UploadType._('APPIUM_JAVA_JUNIT_TEST_SPEC');
+  static const appiumJavaTestngTestSpec =
+      UploadType._('APPIUM_JAVA_TESTNG_TEST_SPEC');
+  static const appiumPythonTestSpec = UploadType._('APPIUM_PYTHON_TEST_SPEC');
+  static const appiumNodeTestSpec = UploadType._('APPIUM_NODE_TEST_SPEC');
+  static const appiumRubyTestSpec = UploadType._('APPIUM_RUBY_TEST_SPEC');
+  static const appiumWebJavaJunitTestSpec =
+      UploadType._('APPIUM_WEB_JAVA_JUNIT_TEST_SPEC');
+  static const appiumWebJavaTestngTestSpec =
+      UploadType._('APPIUM_WEB_JAVA_TESTNG_TEST_SPEC');
+  static const appiumWebPythonTestSpec =
+      UploadType._('APPIUM_WEB_PYTHON_TEST_SPEC');
+  static const appiumWebNodeTestSpec =
+      UploadType._('APPIUM_WEB_NODE_TEST_SPEC');
+  static const appiumWebRubyTestSpec =
+      UploadType._('APPIUM_WEB_RUBY_TEST_SPEC');
+  static const instrumentationTestSpec =
+      UploadType._('INSTRUMENTATION_TEST_SPEC');
+  static const xctestUiTestSpec = UploadType._('XCTEST_UI_TEST_SPEC');
 
   final String value;
 
-  const UploadType(this.value);
+  const UploadType._(this.value);
 
-  static UploadType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum UploadType'));
+  static const values = [
+    androidApp,
+    iosApp,
+    webApp,
+    externalData,
+    appiumJavaJunitTestPackage,
+    appiumJavaTestngTestPackage,
+    appiumPythonTestPackage,
+    appiumNodeTestPackage,
+    appiumRubyTestPackage,
+    appiumWebJavaJunitTestPackage,
+    appiumWebJavaTestngTestPackage,
+    appiumWebPythonTestPackage,
+    appiumWebNodeTestPackage,
+    appiumWebRubyTestPackage,
+    calabashTestPackage,
+    instrumentationTestPackage,
+    uiautomationTestPackage,
+    uiautomatorTestPackage,
+    xctestTestPackage,
+    xctestUiTestPackage,
+    appiumJavaJunitTestSpec,
+    appiumJavaTestngTestSpec,
+    appiumPythonTestSpec,
+    appiumNodeTestSpec,
+    appiumRubyTestSpec,
+    appiumWebJavaJunitTestSpec,
+    appiumWebJavaTestngTestSpec,
+    appiumWebPythonTestSpec,
+    appiumWebNodeTestSpec,
+    appiumWebRubyTestSpec,
+    instrumentationTestSpec,
+    xctestUiTestSpec
+  ];
+
+  static UploadType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => UploadType._(value));
+
+  @override
+  bool operator ==(other) => other is UploadType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Represents an Amazon Virtual Private Cloud (VPC) endpoint configuration.

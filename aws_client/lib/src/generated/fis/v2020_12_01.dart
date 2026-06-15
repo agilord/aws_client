@@ -891,19 +891,28 @@ class Fis {
   }
 }
 
-enum AccountTargeting {
-  singleAccount('single-account'),
-  multiAccount('multi-account'),
-  ;
+class AccountTargeting {
+  static const singleAccount = AccountTargeting._('single-account');
+  static const multiAccount = AccountTargeting._('multi-account');
 
   final String value;
 
-  const AccountTargeting(this.value);
+  const AccountTargeting._(this.value);
+
+  static const values = [singleAccount, multiAccount];
 
   static AccountTargeting fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum AccountTargeting'));
+          orElse: () => AccountTargeting._(value));
+
+  @override
+  bool operator ==(other) => other is AccountTargeting && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes an action. For more information, see <a
@@ -1075,18 +1084,27 @@ class ActionTarget {
   }
 }
 
-enum ActionsMode {
-  skipAll('skip-all'),
-  runAll('run-all'),
-  ;
+class ActionsMode {
+  static const skipAll = ActionsMode._('skip-all');
+  static const runAll = ActionsMode._('run-all');
 
   final String value;
 
-  const ActionsMode(this.value);
+  const ActionsMode._(this.value);
 
-  static ActionsMode fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum ActionsMode'));
+  static const values = [skipAll, runAll];
+
+  static ActionsMode fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ActionsMode._(value));
+
+  @override
+  bool operator ==(other) => other is ActionsMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specifies an action for an experiment template.
@@ -1394,19 +1412,29 @@ class DeleteTargetAccountConfigurationResponse {
   }
 }
 
-enum EmptyTargetResolutionMode {
-  fail('fail'),
-  skip('skip'),
-  ;
+class EmptyTargetResolutionMode {
+  static const fail = EmptyTargetResolutionMode._('fail');
+  static const skip = EmptyTargetResolutionMode._('skip');
 
   final String value;
 
-  const EmptyTargetResolutionMode(this.value);
+  const EmptyTargetResolutionMode._(this.value);
+
+  static const values = [fail, skip];
 
   static EmptyTargetResolutionMode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum EmptyTargetResolutionMode'));
+          orElse: () => EmptyTargetResolutionMode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is EmptyTargetResolutionMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes an experiment.
@@ -1662,26 +1690,46 @@ class ExperimentActionState {
   }
 }
 
-enum ExperimentActionStatus {
-  pending('pending'),
-  initiating('initiating'),
-  running('running'),
-  completed('completed'),
-  cancelled('cancelled'),
-  stopping('stopping'),
-  stopped('stopped'),
-  failed('failed'),
-  skipped('skipped'),
-  ;
+class ExperimentActionStatus {
+  static const pending = ExperimentActionStatus._('pending');
+  static const initiating = ExperimentActionStatus._('initiating');
+  static const running = ExperimentActionStatus._('running');
+  static const completed = ExperimentActionStatus._('completed');
+  static const cancelled = ExperimentActionStatus._('cancelled');
+  static const stopping = ExperimentActionStatus._('stopping');
+  static const stopped = ExperimentActionStatus._('stopped');
+  static const failed = ExperimentActionStatus._('failed');
+  static const skipped = ExperimentActionStatus._('skipped');
 
   final String value;
 
-  const ExperimentActionStatus(this.value);
+  const ExperimentActionStatus._(this.value);
+
+  static const values = [
+    pending,
+    initiating,
+    running,
+    completed,
+    cancelled,
+    stopping,
+    stopped,
+    failed,
+    skipped
+  ];
 
   static ExperimentActionStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ExperimentActionStatus'));
+          orElse: () => ExperimentActionStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ExperimentActionStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes the configuration for experiment logging to Amazon CloudWatch
@@ -1903,25 +1951,43 @@ class ExperimentState {
   }
 }
 
-enum ExperimentStatus {
-  pending('pending'),
-  initiating('initiating'),
-  running('running'),
-  completed('completed'),
-  stopping('stopping'),
-  stopped('stopped'),
-  failed('failed'),
-  cancelled('cancelled'),
-  ;
+class ExperimentStatus {
+  static const pending = ExperimentStatus._('pending');
+  static const initiating = ExperimentStatus._('initiating');
+  static const running = ExperimentStatus._('running');
+  static const completed = ExperimentStatus._('completed');
+  static const stopping = ExperimentStatus._('stopping');
+  static const stopped = ExperimentStatus._('stopped');
+  static const failed = ExperimentStatus._('failed');
+  static const cancelled = ExperimentStatus._('cancelled');
 
   final String value;
 
-  const ExperimentStatus(this.value);
+  const ExperimentStatus._(this.value);
+
+  static const values = [
+    pending,
+    initiating,
+    running,
+    completed,
+    stopping,
+    stopped,
+    failed,
+    cancelled
+  ];
 
   static ExperimentStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ExperimentStatus'));
+          orElse: () => ExperimentStatus._(value));
+
+  @override
+  bool operator ==(other) => other is ExperimentStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes the stop condition for an experiment.
@@ -3332,35 +3398,54 @@ class SafetyLeverState {
   }
 }
 
-enum SafetyLeverStatus {
-  disengaged('disengaged'),
-  engaged('engaged'),
-  engaging('engaging'),
-  ;
+class SafetyLeverStatus {
+  static const disengaged = SafetyLeverStatus._('disengaged');
+  static const engaged = SafetyLeverStatus._('engaged');
+  static const engaging = SafetyLeverStatus._('engaging');
 
   final String value;
 
-  const SafetyLeverStatus(this.value);
+  const SafetyLeverStatus._(this.value);
+
+  static const values = [disengaged, engaged, engaging];
 
   static SafetyLeverStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum SafetyLeverStatus'));
+          orElse: () => SafetyLeverStatus._(value));
+
+  @override
+  bool operator ==(other) => other is SafetyLeverStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum SafetyLeverStatusInput {
-  disengaged('disengaged'),
-  engaged('engaged'),
-  ;
+class SafetyLeverStatusInput {
+  static const disengaged = SafetyLeverStatusInput._('disengaged');
+  static const engaged = SafetyLeverStatusInput._('engaged');
 
   final String value;
 
-  const SafetyLeverStatusInput(this.value);
+  const SafetyLeverStatusInput._(this.value);
+
+  static const values = [disengaged, engaged];
 
   static SafetyLeverStatusInput fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum SafetyLeverStatusInput'));
+          orElse: () => SafetyLeverStatusInput._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SafetyLeverStatusInput && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specifies experiment options for running an experiment.

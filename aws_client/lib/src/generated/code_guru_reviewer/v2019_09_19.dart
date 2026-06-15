@@ -817,19 +817,27 @@ class CodeGuruReviewer {
   }
 }
 
-enum AnalysisType {
-  security('Security'),
-  codeQuality('CodeQuality'),
-  ;
+class AnalysisType {
+  static const security = AnalysisType._('Security');
+  static const codeQuality = AnalysisType._('CodeQuality');
 
   final String value;
 
-  const AnalysisType(this.value);
+  const AnalysisType._(this.value);
 
-  static AnalysisType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum AnalysisType'));
+  static const values = [security, codeQuality];
+
+  static AnalysisType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => AnalysisType._(value));
+
+  @override
+  bool operator ==(other) => other is AnalysisType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class AssociateRepositoryResponse {
@@ -1380,20 +1388,29 @@ class CommitDiffSourceCodeType {
   }
 }
 
-enum ConfigFileState {
-  present('Present'),
-  absent('Absent'),
-  presentWithErrors('PresentWithErrors'),
-  ;
+class ConfigFileState {
+  static const present = ConfigFileState._('Present');
+  static const absent = ConfigFileState._('Absent');
+  static const presentWithErrors = ConfigFileState._('PresentWithErrors');
 
   final String value;
 
-  const ConfigFileState(this.value);
+  const ConfigFileState._(this.value);
+
+  static const values = [present, absent, presentWithErrors];
 
   static ConfigFileState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ConfigFileState'));
+          orElse: () => ConfigFileState._(value));
+
+  @override
+  bool operator ==(other) => other is ConfigFileState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class CreateCodeReviewResponse {
@@ -1569,19 +1586,28 @@ class DisassociateRepositoryResponse {
   }
 }
 
-enum EncryptionOption {
-  awsOwnedCmk('AWS_OWNED_CMK'),
-  customerManagedCmk('CUSTOMER_MANAGED_CMK'),
-  ;
+class EncryptionOption {
+  static const awsOwnedCmk = EncryptionOption._('AWS_OWNED_CMK');
+  static const customerManagedCmk = EncryptionOption._('CUSTOMER_MANAGED_CMK');
 
   final String value;
 
-  const EncryptionOption(this.value);
+  const EncryptionOption._(this.value);
+
+  static const values = [awsOwnedCmk, customerManagedCmk];
 
   static EncryptionOption fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum EncryptionOption'));
+          orElse: () => EncryptionOption._(value));
+
+  @override
+  bool operator ==(other) => other is EncryptionOption && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about an event. The event might be a push, pull request,
@@ -1616,20 +1642,29 @@ class EventInfo {
   }
 }
 
-enum JobState {
-  completed('Completed'),
-  pending('Pending'),
-  failed('Failed'),
-  deleting('Deleting'),
-  ;
+class JobState {
+  static const completed = JobState._('Completed');
+  static const pending = JobState._('Pending');
+  static const failed = JobState._('Failed');
+  static const deleting = JobState._('Deleting');
 
   final String value;
 
-  const JobState(this.value);
+  const JobState._(this.value);
 
-  static JobState fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum JobState'));
+  static const values = [completed, pending, failed, deleting];
+
+  static JobState fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => JobState._(value));
+
+  @override
+  bool operator ==(other) => other is JobState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// An object that contains:
@@ -1974,22 +2009,37 @@ class MetricsSummary {
   }
 }
 
-enum ProviderType {
-  codeCommit('CodeCommit'),
-  gitHub('GitHub'),
-  bitbucket('Bitbucket'),
-  gitHubEnterpriseServer('GitHubEnterpriseServer'),
-  s3Bucket('S3Bucket'),
-  ;
+class ProviderType {
+  static const codeCommit = ProviderType._('CodeCommit');
+  static const gitHub = ProviderType._('GitHub');
+  static const bitbucket = ProviderType._('Bitbucket');
+  static const gitHubEnterpriseServer =
+      ProviderType._('GitHubEnterpriseServer');
+  static const s3Bucket = ProviderType._('S3Bucket');
 
   final String value;
 
-  const ProviderType(this.value);
+  const ProviderType._(this.value);
 
-  static ProviderType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ProviderType'));
+  static const values = [
+    codeCommit,
+    gitHub,
+    bitbucket,
+    gitHubEnterpriseServer,
+    s3Bucket
+  ];
+
+  static ProviderType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ProviderType._(value));
+
+  @override
+  bool operator ==(other) => other is ProviderType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class PutRecommendationFeedbackResponse {
@@ -2004,42 +2054,79 @@ class PutRecommendationFeedbackResponse {
   }
 }
 
-enum Reaction {
-  thumbsUp('ThumbsUp'),
-  thumbsDown('ThumbsDown'),
-  ;
+class Reaction {
+  static const thumbsUp = Reaction._('ThumbsUp');
+  static const thumbsDown = Reaction._('ThumbsDown');
 
   final String value;
 
-  const Reaction(this.value);
+  const Reaction._(this.value);
 
-  static Reaction fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum Reaction'));
+  static const values = [thumbsUp, thumbsDown];
+
+  static Reaction fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Reaction._(value));
+
+  @override
+  bool operator ==(other) => other is Reaction && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum RecommendationCategory {
-  awsBestPractices('AWSBestPractices'),
-  awsCloudFormationIssues('AWSCloudFormationIssues'),
-  duplicateCode('DuplicateCode'),
-  codeMaintenanceIssues('CodeMaintenanceIssues'),
-  concurrencyIssues('ConcurrencyIssues'),
-  inputValidations('InputValidations'),
-  pythonBestPractices('PythonBestPractices'),
-  javaBestPractices('JavaBestPractices'),
-  resourceLeaks('ResourceLeaks'),
-  securityIssues('SecurityIssues'),
-  codeInconsistencies('CodeInconsistencies'),
-  ;
+class RecommendationCategory {
+  static const awsBestPractices = RecommendationCategory._('AWSBestPractices');
+  static const awsCloudFormationIssues =
+      RecommendationCategory._('AWSCloudFormationIssues');
+  static const duplicateCode = RecommendationCategory._('DuplicateCode');
+  static const codeMaintenanceIssues =
+      RecommendationCategory._('CodeMaintenanceIssues');
+  static const concurrencyIssues =
+      RecommendationCategory._('ConcurrencyIssues');
+  static const inputValidations = RecommendationCategory._('InputValidations');
+  static const pythonBestPractices =
+      RecommendationCategory._('PythonBestPractices');
+  static const javaBestPractices =
+      RecommendationCategory._('JavaBestPractices');
+  static const resourceLeaks = RecommendationCategory._('ResourceLeaks');
+  static const securityIssues = RecommendationCategory._('SecurityIssues');
+  static const codeInconsistencies =
+      RecommendationCategory._('CodeInconsistencies');
 
   final String value;
 
-  const RecommendationCategory(this.value);
+  const RecommendationCategory._(this.value);
+
+  static const values = [
+    awsBestPractices,
+    awsCloudFormationIssues,
+    duplicateCode,
+    codeMaintenanceIssues,
+    concurrencyIssues,
+    inputValidations,
+    pythonBestPractices,
+    javaBestPractices,
+    resourceLeaks,
+    securityIssues,
+    codeInconsistencies
+  ];
 
   static RecommendationCategory fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum RecommendationCategory'));
+          orElse: () => RecommendationCategory._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RecommendationCategory && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about the recommendation feedback.
@@ -2493,22 +2580,38 @@ class RepositoryAssociation {
   }
 }
 
-enum RepositoryAssociationState {
-  associated('Associated'),
-  associating('Associating'),
-  failed('Failed'),
-  disassociating('Disassociating'),
-  disassociated('Disassociated'),
-  ;
+class RepositoryAssociationState {
+  static const associated = RepositoryAssociationState._('Associated');
+  static const associating = RepositoryAssociationState._('Associating');
+  static const failed = RepositoryAssociationState._('Failed');
+  static const disassociating = RepositoryAssociationState._('Disassociating');
+  static const disassociated = RepositoryAssociationState._('Disassociated');
 
   final String value;
 
-  const RepositoryAssociationState(this.value);
+  const RepositoryAssociationState._(this.value);
+
+  static const values = [
+    associated,
+    associating,
+    failed,
+    disassociating,
+    disassociated
+  ];
 
   static RepositoryAssociationState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum RepositoryAssociationState'));
+          orElse: () => RepositoryAssociationState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RepositoryAssociationState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Summary information about a repository association. The <a
@@ -2886,21 +2989,30 @@ class S3RepositoryDetails {
   }
 }
 
-enum Severity {
-  info('Info'),
-  low('Low'),
-  medium('Medium'),
-  high('High'),
-  critical('Critical'),
-  ;
+class Severity {
+  static const info = Severity._('Info');
+  static const low = Severity._('Low');
+  static const medium = Severity._('Medium');
+  static const high = Severity._('High');
+  static const critical = Severity._('Critical');
 
   final String value;
 
-  const Severity(this.value);
+  const Severity._(this.value);
 
-  static Severity fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum Severity'));
+  static const values = [info, low, medium, high, critical];
+
+  static Severity fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Severity._(value));
+
+  @override
+  bool operator ==(other) => other is Severity && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specifies the source code that is analyzed in a code review.
@@ -3032,18 +3144,27 @@ class ThirdPartySourceRepository {
   }
 }
 
-enum Type {
-  pullRequest('PullRequest'),
-  repositoryAnalysis('RepositoryAnalysis'),
-  ;
+class Type {
+  static const pullRequest = Type._('PullRequest');
+  static const repositoryAnalysis = Type._('RepositoryAnalysis');
 
   final String value;
 
-  const Type(this.value);
+  const Type._(this.value);
+
+  static const values = [pullRequest, repositoryAnalysis];
 
   static Type fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum Type'));
+      values.firstWhere((e) => e.value == value, orElse: () => Type._(value));
+
+  @override
+  bool operator ==(other) => other is Type && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class UntagResourceResponse {
@@ -3058,19 +3179,28 @@ class UntagResourceResponse {
   }
 }
 
-enum VendorName {
-  gitHub('GitHub'),
-  gitLab('GitLab'),
-  nativeS3('NativeS3'),
-  ;
+class VendorName {
+  static const gitHub = VendorName._('GitHub');
+  static const gitLab = VendorName._('GitLab');
+  static const nativeS3 = VendorName._('NativeS3');
 
   final String value;
 
-  const VendorName(this.value);
+  const VendorName._(this.value);
 
-  static VendorName fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum VendorName'));
+  static const values = [gitHub, gitLab, nativeS3];
+
+  static VendorName fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => VendorName._(value));
+
+  @override
+  bool operator ==(other) => other is VendorName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class AccessDeniedException extends _s.GenericAwsException {

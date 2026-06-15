@@ -3479,19 +3479,28 @@ class Address {
   }
 }
 
-enum AlexaSkillStatus {
-  active('ACTIVE'),
-  inactive('INACTIVE'),
-  ;
+class AlexaSkillStatus {
+  static const active = AlexaSkillStatus._('ACTIVE');
+  static const inactive = AlexaSkillStatus._('INACTIVE');
 
   final String value;
 
-  const AlexaSkillStatus(this.value);
+  const AlexaSkillStatus._(this.value);
+
+  static const values = [active, inactive];
 
   static AlexaSkillStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum AlexaSkillStatus'));
+          orElse: () => AlexaSkillStatus._(value));
+
+  @override
+  bool operator ==(other) => other is AlexaSkillStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class AssociatePhoneNumbersWithVoiceConnectorGroupResponse {
@@ -3639,35 +3648,58 @@ class CallDetails {
   }
 }
 
-enum CallLegType {
-  caller('Caller'),
-  callee('Callee'),
-  ;
+class CallLegType {
+  static const caller = CallLegType._('Caller');
+  static const callee = CallLegType._('Callee');
 
   final String value;
 
-  const CallLegType(this.value);
+  const CallLegType._(this.value);
 
-  static CallLegType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum CallLegType'));
+  static const values = [caller, callee];
+
+  static CallLegType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => CallLegType._(value));
+
+  @override
+  bool operator ==(other) => other is CallLegType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum CallingNameStatus {
-  unassigned('Unassigned'),
-  updateInProgress('UpdateInProgress'),
-  updateSucceeded('UpdateSucceeded'),
-  updateFailed('UpdateFailed'),
-  ;
+class CallingNameStatus {
+  static const unassigned = CallingNameStatus._('Unassigned');
+  static const updateInProgress = CallingNameStatus._('UpdateInProgress');
+  static const updateSucceeded = CallingNameStatus._('UpdateSucceeded');
+  static const updateFailed = CallingNameStatus._('UpdateFailed');
 
   final String value;
 
-  const CallingNameStatus(this.value);
+  const CallingNameStatus._(this.value);
+
+  static const values = [
+    unassigned,
+    updateInProgress,
+    updateSucceeded,
+    updateFailed
+  ];
 
   static CallingNameStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum CallingNameStatus'));
+          orElse: () => CallingNameStatus._(value));
+
+  @override
+  bool operator ==(other) => other is CallingNameStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A suggested address.
@@ -3735,18 +3767,27 @@ class CandidateAddress {
   }
 }
 
-enum Capability {
-  voice('Voice'),
-  sms('SMS'),
-  ;
+class Capability {
+  static const voice = Capability._('Voice');
+  static const sms = Capability._('SMS');
 
   final String value;
 
-  const Capability(this.value);
+  const Capability._(this.value);
 
-  static Capability fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum Capability'));
+  static const values = [voice, sms];
+
+  static Capability fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Capability._(value));
+
+  @override
+  bool operator ==(other) => other is Capability && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class CreatePhoneNumberOrderResponse {
@@ -4130,47 +4171,84 @@ class EmergencyCallingConfiguration {
   }
 }
 
-enum ErrorCode {
-  badRequest('BadRequest'),
-  conflict('Conflict'),
-  forbidden('Forbidden'),
-  notFound('NotFound'),
-  preconditionFailed('PreconditionFailed'),
-  resourceLimitExceeded('ResourceLimitExceeded'),
-  serviceFailure('ServiceFailure'),
-  accessDenied('AccessDenied'),
-  serviceUnavailable('ServiceUnavailable'),
-  throttled('Throttled'),
-  throttling('Throttling'),
-  unauthorized('Unauthorized'),
-  unprocessable('Unprocessable'),
-  voiceConnectorGroupAssociationsExist('VoiceConnectorGroupAssociationsExist'),
-  phoneNumberAssociationsExist('PhoneNumberAssociationsExist'),
-  gone('Gone'),
-  ;
+class ErrorCode {
+  static const badRequest = ErrorCode._('BadRequest');
+  static const conflict = ErrorCode._('Conflict');
+  static const forbidden = ErrorCode._('Forbidden');
+  static const notFound = ErrorCode._('NotFound');
+  static const preconditionFailed = ErrorCode._('PreconditionFailed');
+  static const resourceLimitExceeded = ErrorCode._('ResourceLimitExceeded');
+  static const serviceFailure = ErrorCode._('ServiceFailure');
+  static const accessDenied = ErrorCode._('AccessDenied');
+  static const serviceUnavailable = ErrorCode._('ServiceUnavailable');
+  static const throttled = ErrorCode._('Throttled');
+  static const throttling = ErrorCode._('Throttling');
+  static const unauthorized = ErrorCode._('Unauthorized');
+  static const unprocessable = ErrorCode._('Unprocessable');
+  static const voiceConnectorGroupAssociationsExist =
+      ErrorCode._('VoiceConnectorGroupAssociationsExist');
+  static const phoneNumberAssociationsExist =
+      ErrorCode._('PhoneNumberAssociationsExist');
+  static const gone = ErrorCode._('Gone');
 
   final String value;
 
-  const ErrorCode(this.value);
+  const ErrorCode._(this.value);
 
-  static ErrorCode fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum ErrorCode'));
+  static const values = [
+    badRequest,
+    conflict,
+    forbidden,
+    notFound,
+    preconditionFailed,
+    resourceLimitExceeded,
+    serviceFailure,
+    accessDenied,
+    serviceUnavailable,
+    throttled,
+    throttling,
+    unauthorized,
+    unprocessable,
+    voiceConnectorGroupAssociationsExist,
+    phoneNumberAssociationsExist,
+    gone
+  ];
+
+  static ErrorCode fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ErrorCode._(value));
+
+  @override
+  bool operator ==(other) => other is ErrorCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum GeoMatchLevel {
-  country('Country'),
-  areaCode('AreaCode'),
-  ;
+class GeoMatchLevel {
+  static const country = GeoMatchLevel._('Country');
+  static const areaCode = GeoMatchLevel._('AreaCode');
 
   final String value;
 
-  const GeoMatchLevel(this.value);
+  const GeoMatchLevel._(this.value);
+
+  static const values = [country, areaCode];
 
   static GeoMatchLevel fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum GeoMatchLevel'));
+          orElse: () => GeoMatchLevel._(value));
+
+  @override
+  bool operator ==(other) => other is GeoMatchLevel && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The country and area code for a proxy phone number in a proxy phone session.
@@ -4780,18 +4858,26 @@ class GetVoiceToneAnalysisTaskResponse {
   }
 }
 
-enum LanguageCode {
-  enUs('en-US'),
-  ;
+class LanguageCode {
+  static const enUs = LanguageCode._('en-US');
 
   final String value;
 
-  const LanguageCode(this.value);
+  const LanguageCode._(this.value);
 
-  static LanguageCode fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum LanguageCode'));
+  static const values = [enUs];
+
+  static LanguageCode fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => LanguageCode._(value));
+
+  @override
+  bool operator ==(other) => other is LanguageCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class ListAvailableVoiceConnectorRegionsResponse {
@@ -5255,35 +5341,55 @@ class MediaInsightsConfiguration {
   }
 }
 
-enum NotificationTarget {
-  eventBridge('EventBridge'),
-  sns('SNS'),
-  sqs('SQS'),
-  ;
+class NotificationTarget {
+  static const eventBridge = NotificationTarget._('EventBridge');
+  static const sns = NotificationTarget._('SNS');
+  static const sqs = NotificationTarget._('SQS');
 
   final String value;
 
-  const NotificationTarget(this.value);
+  const NotificationTarget._(this.value);
 
-  static NotificationTarget fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum NotificationTarget'));
+  static const values = [eventBridge, sns, sqs];
+
+  static NotificationTarget fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => NotificationTarget._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is NotificationTarget && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum NumberSelectionBehavior {
-  preferSticky('PreferSticky'),
-  avoidSticky('AvoidSticky'),
-  ;
+class NumberSelectionBehavior {
+  static const preferSticky = NumberSelectionBehavior._('PreferSticky');
+  static const avoidSticky = NumberSelectionBehavior._('AvoidSticky');
 
   final String value;
 
-  const NumberSelectionBehavior(this.value);
+  const NumberSelectionBehavior._(this.value);
+
+  static const values = [preferSticky, avoidSticky];
 
   static NumberSelectionBehavior fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum NumberSelectionBehavior'));
+          orElse: () => NumberSelectionBehavior._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is NumberSelectionBehavior && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A phone number for which an order has been placed.
@@ -5317,20 +5423,30 @@ class OrderedPhoneNumber {
   }
 }
 
-enum OrderedPhoneNumberStatus {
-  processing('Processing'),
-  acquired('Acquired'),
-  failed('Failed'),
-  ;
+class OrderedPhoneNumberStatus {
+  static const processing = OrderedPhoneNumberStatus._('Processing');
+  static const acquired = OrderedPhoneNumberStatus._('Acquired');
+  static const failed = OrderedPhoneNumberStatus._('Failed');
 
   final String value;
 
-  const OrderedPhoneNumberStatus(this.value);
+  const OrderedPhoneNumberStatus._(this.value);
+
+  static const values = [processing, acquired, failed];
 
   static OrderedPhoneNumberStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum OrderedPhoneNumberStatus'));
+          orElse: () => OrderedPhoneNumberStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is OrderedPhoneNumberStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Origination settings enable your SIP hosts to receive inbound calls using
@@ -5434,19 +5550,29 @@ class OriginationRoute {
   }
 }
 
-enum OriginationRouteProtocol {
-  tcp('TCP'),
-  udp('UDP'),
-  ;
+class OriginationRouteProtocol {
+  static const tcp = OriginationRouteProtocol._('TCP');
+  static const udp = OriginationRouteProtocol._('UDP');
 
   final String value;
 
-  const OriginationRouteProtocol(this.value);
+  const OriginationRouteProtocol._(this.value);
+
+  static const values = [tcp, udp];
 
   static OriginationRouteProtocol fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum OriginationRouteProtocol'));
+          orElse: () => OriginationRouteProtocol._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is OriginationRouteProtocol && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The phone number and proxy phone number for a participant in an Amazon Chime
@@ -5655,20 +5781,32 @@ class PhoneNumberAssociation {
   }
 }
 
-enum PhoneNumberAssociationName {
-  voiceConnectorId('VoiceConnectorId'),
-  voiceConnectorGroupId('VoiceConnectorGroupId'),
-  sipRuleId('SipRuleId'),
-  ;
+class PhoneNumberAssociationName {
+  static const voiceConnectorId =
+      PhoneNumberAssociationName._('VoiceConnectorId');
+  static const voiceConnectorGroupId =
+      PhoneNumberAssociationName._('VoiceConnectorGroupId');
+  static const sipRuleId = PhoneNumberAssociationName._('SipRuleId');
 
   final String value;
 
-  const PhoneNumberAssociationName(this.value);
+  const PhoneNumberAssociationName._(this.value);
+
+  static const values = [voiceConnectorId, voiceConnectorGroupId, sipRuleId];
 
   static PhoneNumberAssociationName fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum PhoneNumberAssociationName'));
+          orElse: () => PhoneNumberAssociationName._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is PhoneNumberAssociationName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The phone number capabilities for Amazon Chime SDK phone numbers, such as
@@ -5879,97 +6017,171 @@ class PhoneNumberOrder {
   }
 }
 
-enum PhoneNumberOrderStatus {
-  processing('Processing'),
-  successful('Successful'),
-  failed('Failed'),
-  partial('Partial'),
-  pendingDocuments('PendingDocuments'),
-  submitted('Submitted'),
-  foc('FOC'),
-  changeRequested('ChangeRequested'),
-  exception('Exception'),
-  cancelRequested('CancelRequested'),
-  cancelled('Cancelled'),
-  ;
+class PhoneNumberOrderStatus {
+  static const processing = PhoneNumberOrderStatus._('Processing');
+  static const successful = PhoneNumberOrderStatus._('Successful');
+  static const failed = PhoneNumberOrderStatus._('Failed');
+  static const partial = PhoneNumberOrderStatus._('Partial');
+  static const pendingDocuments = PhoneNumberOrderStatus._('PendingDocuments');
+  static const submitted = PhoneNumberOrderStatus._('Submitted');
+  static const foc = PhoneNumberOrderStatus._('FOC');
+  static const changeRequested = PhoneNumberOrderStatus._('ChangeRequested');
+  static const exception = PhoneNumberOrderStatus._('Exception');
+  static const cancelRequested = PhoneNumberOrderStatus._('CancelRequested');
+  static const cancelled = PhoneNumberOrderStatus._('Cancelled');
 
   final String value;
 
-  const PhoneNumberOrderStatus(this.value);
+  const PhoneNumberOrderStatus._(this.value);
+
+  static const values = [
+    processing,
+    successful,
+    failed,
+    partial,
+    pendingDocuments,
+    submitted,
+    foc,
+    changeRequested,
+    exception,
+    cancelRequested,
+    cancelled
+  ];
 
   static PhoneNumberOrderStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum PhoneNumberOrderStatus'));
+          orElse: () => PhoneNumberOrderStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is PhoneNumberOrderStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum PhoneNumberOrderType {
-  $new('New'),
-  porting('Porting'),
-  ;
+class PhoneNumberOrderType {
+  static const $new = PhoneNumberOrderType._('New');
+  static const porting = PhoneNumberOrderType._('Porting');
 
   final String value;
 
-  const PhoneNumberOrderType(this.value);
+  const PhoneNumberOrderType._(this.value);
 
-  static PhoneNumberOrderType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum PhoneNumberOrderType'));
+  static const values = [$new, porting];
+
+  static PhoneNumberOrderType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => PhoneNumberOrderType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is PhoneNumberOrderType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum PhoneNumberProductType {
-  voiceConnector('VoiceConnector'),
-  sipMediaApplicationDialIn('SipMediaApplicationDialIn'),
-  ;
+class PhoneNumberProductType {
+  static const voiceConnector = PhoneNumberProductType._('VoiceConnector');
+  static const sipMediaApplicationDialIn =
+      PhoneNumberProductType._('SipMediaApplicationDialIn');
 
   final String value;
 
-  const PhoneNumberProductType(this.value);
+  const PhoneNumberProductType._(this.value);
+
+  static const values = [voiceConnector, sipMediaApplicationDialIn];
 
   static PhoneNumberProductType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum PhoneNumberProductType'));
+          orElse: () => PhoneNumberProductType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is PhoneNumberProductType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum PhoneNumberStatus {
-  cancelled('Cancelled'),
-  portinCancelRequested('PortinCancelRequested'),
-  portinInProgress('PortinInProgress'),
-  acquireInProgress('AcquireInProgress'),
-  acquireFailed('AcquireFailed'),
-  unassigned('Unassigned'),
-  assigned('Assigned'),
-  releaseInProgress('ReleaseInProgress'),
-  deleteInProgress('DeleteInProgress'),
-  releaseFailed('ReleaseFailed'),
-  deleteFailed('DeleteFailed'),
-  ;
+class PhoneNumberStatus {
+  static const cancelled = PhoneNumberStatus._('Cancelled');
+  static const portinCancelRequested =
+      PhoneNumberStatus._('PortinCancelRequested');
+  static const portinInProgress = PhoneNumberStatus._('PortinInProgress');
+  static const acquireInProgress = PhoneNumberStatus._('AcquireInProgress');
+  static const acquireFailed = PhoneNumberStatus._('AcquireFailed');
+  static const unassigned = PhoneNumberStatus._('Unassigned');
+  static const assigned = PhoneNumberStatus._('Assigned');
+  static const releaseInProgress = PhoneNumberStatus._('ReleaseInProgress');
+  static const deleteInProgress = PhoneNumberStatus._('DeleteInProgress');
+  static const releaseFailed = PhoneNumberStatus._('ReleaseFailed');
+  static const deleteFailed = PhoneNumberStatus._('DeleteFailed');
 
   final String value;
 
-  const PhoneNumberStatus(this.value);
+  const PhoneNumberStatus._(this.value);
+
+  static const values = [
+    cancelled,
+    portinCancelRequested,
+    portinInProgress,
+    acquireInProgress,
+    acquireFailed,
+    unassigned,
+    assigned,
+    releaseInProgress,
+    deleteInProgress,
+    releaseFailed,
+    deleteFailed
+  ];
 
   static PhoneNumberStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum PhoneNumberStatus'));
+          orElse: () => PhoneNumberStatus._(value));
+
+  @override
+  bool operator ==(other) => other is PhoneNumberStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum PhoneNumberType {
-  local('Local'),
-  tollFree('TollFree'),
-  ;
+class PhoneNumberType {
+  static const local = PhoneNumberType._('Local');
+  static const tollFree = PhoneNumberType._('TollFree');
 
   final String value;
 
-  const PhoneNumberType(this.value);
+  const PhoneNumberType._(this.value);
+
+  static const values = [local, tollFree];
 
   static PhoneNumberType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum PhoneNumberType'));
+          orElse: () => PhoneNumberType._(value));
+
+  @override
+  bool operator ==(other) => other is PhoneNumberType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The proxy configuration for an Amazon Chime SDK Voice Connector.
@@ -6148,20 +6360,30 @@ class ProxySession {
   }
 }
 
-enum ProxySessionStatus {
-  open('Open'),
-  inProgress('InProgress'),
-  closed('Closed'),
-  ;
+class ProxySessionStatus {
+  static const open = ProxySessionStatus._('Open');
+  static const inProgress = ProxySessionStatus._('InProgress');
+  static const closed = ProxySessionStatus._('Closed');
 
   final String value;
 
-  const ProxySessionStatus(this.value);
+  const ProxySessionStatus._(this.value);
 
-  static ProxySessionStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ProxySessionStatus'));
+  static const values = [open, inProgress, closed];
+
+  static ProxySessionStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ProxySessionStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ProxySessionStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class PutSipMediaApplicationAlexaSkillConfigurationResponse {
@@ -6572,8 +6794,8 @@ class SipMediaApplicationAlexaSkillConfiguration {
           .nonNulls
           .map((e) => e as String)
           .toList(),
-      alexaSkillStatus:
-          AlexaSkillStatus.fromString((json['AlexaSkillStatus'] as String)),
+      alexaSkillStatus: AlexaSkillStatus.fromString(
+          (json['AlexaSkillStatus'] as String?) ?? ''),
     );
   }
 
@@ -6788,19 +7010,29 @@ class SipRuleTargetApplication {
   }
 }
 
-enum SipRuleTriggerType {
-  toPhoneNumber('ToPhoneNumber'),
-  requestUriHostname('RequestUriHostname'),
-  ;
+class SipRuleTriggerType {
+  static const toPhoneNumber = SipRuleTriggerType._('ToPhoneNumber');
+  static const requestUriHostname = SipRuleTriggerType._('RequestUriHostname');
 
   final String value;
 
-  const SipRuleTriggerType(this.value);
+  const SipRuleTriggerType._(this.value);
 
-  static SipRuleTriggerType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum SipRuleTriggerType'));
+  static const values = [toPhoneNumber, requestUriHostname];
+
+  static SipRuleTriggerType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => SipRuleTriggerType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SipRuleTriggerType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The details of a speaker search task.
@@ -7602,27 +7834,48 @@ class VoiceConnector {
   }
 }
 
-enum VoiceConnectorAwsRegion {
-  usEast_1('us-east-1'),
-  usWest_2('us-west-2'),
-  caCentral_1('ca-central-1'),
-  euCentral_1('eu-central-1'),
-  euWest_1('eu-west-1'),
-  euWest_2('eu-west-2'),
-  apNortheast_2('ap-northeast-2'),
-  apNortheast_1('ap-northeast-1'),
-  apSoutheast_1('ap-southeast-1'),
-  apSoutheast_2('ap-southeast-2'),
-  ;
+class VoiceConnectorAwsRegion {
+  static const usEast_1 = VoiceConnectorAwsRegion._('us-east-1');
+  static const usWest_2 = VoiceConnectorAwsRegion._('us-west-2');
+  static const caCentral_1 = VoiceConnectorAwsRegion._('ca-central-1');
+  static const euCentral_1 = VoiceConnectorAwsRegion._('eu-central-1');
+  static const euWest_1 = VoiceConnectorAwsRegion._('eu-west-1');
+  static const euWest_2 = VoiceConnectorAwsRegion._('eu-west-2');
+  static const apNortheast_2 = VoiceConnectorAwsRegion._('ap-northeast-2');
+  static const apNortheast_1 = VoiceConnectorAwsRegion._('ap-northeast-1');
+  static const apSoutheast_1 = VoiceConnectorAwsRegion._('ap-southeast-1');
+  static const apSoutheast_2 = VoiceConnectorAwsRegion._('ap-southeast-2');
 
   final String value;
 
-  const VoiceConnectorAwsRegion(this.value);
+  const VoiceConnectorAwsRegion._(this.value);
+
+  static const values = [
+    usEast_1,
+    usWest_2,
+    caCentral_1,
+    euCentral_1,
+    euWest_1,
+    euWest_2,
+    apNortheast_2,
+    apNortheast_1,
+    apSoutheast_1,
+    apSoutheast_2
+  ];
 
   static VoiceConnectorAwsRegion fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum VoiceConnectorAwsRegion'));
+          orElse: () => VoiceConnectorAwsRegion._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is VoiceConnectorAwsRegion && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The Amazon Chime SDK Voice Connector group configuration, including

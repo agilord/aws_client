@@ -2806,24 +2806,42 @@ class Filter {
   }
 }
 
-enum FilterNameStringType {
-  description('description'),
-  name('name'),
-  tagKey('tag-key'),
-  tagValue('tag-value'),
-  primaryRegion('primary-region'),
-  owningService('owning-service'),
-  all('all'),
-  ;
+class FilterNameStringType {
+  static const description = FilterNameStringType._('description');
+  static const name = FilterNameStringType._('name');
+  static const tagKey = FilterNameStringType._('tag-key');
+  static const tagValue = FilterNameStringType._('tag-value');
+  static const primaryRegion = FilterNameStringType._('primary-region');
+  static const owningService = FilterNameStringType._('owning-service');
+  static const all = FilterNameStringType._('all');
 
   final String value;
 
-  const FilterNameStringType(this.value);
+  const FilterNameStringType._(this.value);
 
-  static FilterNameStringType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum FilterNameStringType'));
+  static const values = [
+    description,
+    name,
+    tagKey,
+    tagValue,
+    primaryRegion,
+    owningService,
+    all
+  ];
+
+  static FilterNameStringType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => FilterNameStringType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is FilterNameStringType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class GetRandomPasswordResponse {
@@ -3757,34 +3775,52 @@ class SecretVersionsListEntry {
   }
 }
 
-enum SortOrderType {
-  asc('asc'),
-  desc('desc'),
-  ;
+class SortOrderType {
+  static const asc = SortOrderType._('asc');
+  static const desc = SortOrderType._('desc');
 
   final String value;
 
-  const SortOrderType(this.value);
+  const SortOrderType._(this.value);
+
+  static const values = [asc, desc];
 
   static SortOrderType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum SortOrderType'));
+          orElse: () => SortOrderType._(value));
+
+  @override
+  bool operator ==(other) => other is SortOrderType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum StatusType {
-  inSync('InSync'),
-  failed('Failed'),
-  inProgress('InProgress'),
-  ;
+class StatusType {
+  static const inSync = StatusType._('InSync');
+  static const failed = StatusType._('Failed');
+  static const inProgress = StatusType._('InProgress');
 
   final String value;
 
-  const StatusType(this.value);
+  const StatusType._(this.value);
 
-  static StatusType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum StatusType'));
+  static const values = [inSync, failed, inProgress];
+
+  static StatusType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => StatusType._(value));
+
+  @override
+  bool operator ==(other) => other is StatusType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class StopReplicationToReplicaResponse {

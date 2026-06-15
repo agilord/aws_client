@@ -5168,55 +5168,86 @@ class App {
   }
 }
 
-enum AppAttributesKeys {
-  documentRoot('DocumentRoot'),
-  railsEnv('RailsEnv'),
-  autoBundleOnDeploy('AutoBundleOnDeploy'),
-  awsFlowRubySettings('AwsFlowRubySettings'),
-  ;
+class AppAttributesKeys {
+  static const documentRoot = AppAttributesKeys._('DocumentRoot');
+  static const railsEnv = AppAttributesKeys._('RailsEnv');
+  static const autoBundleOnDeploy = AppAttributesKeys._('AutoBundleOnDeploy');
+  static const awsFlowRubySettings = AppAttributesKeys._('AwsFlowRubySettings');
 
   final String value;
 
-  const AppAttributesKeys(this.value);
+  const AppAttributesKeys._(this.value);
+
+  static const values = [
+    documentRoot,
+    railsEnv,
+    autoBundleOnDeploy,
+    awsFlowRubySettings
+  ];
 
   static AppAttributesKeys fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum AppAttributesKeys'));
+          orElse: () => AppAttributesKeys._(value));
+
+  @override
+  bool operator ==(other) => other is AppAttributesKeys && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum AppType {
-  awsFlowRuby('aws-flow-ruby'),
-  java('java'),
-  rails('rails'),
-  php('php'),
-  nodejs('nodejs'),
-  static('static'),
-  other('other'),
-  ;
+class AppType {
+  static const awsFlowRuby = AppType._('aws-flow-ruby');
+  static const java = AppType._('java');
+  static const rails = AppType._('rails');
+  static const php = AppType._('php');
+  static const nodejs = AppType._('nodejs');
+  static const static = AppType._('static');
+  static const other = AppType._('other');
 
   final String value;
 
-  const AppType(this.value);
+  const AppType._(this.value);
 
-  static AppType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum AppType'));
+  static const values = [awsFlowRuby, java, rails, php, nodejs, static, other];
+
+  static AppType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => AppType._(value));
+
+  @override
+  bool operator ==(other) => other is AppType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum Architecture {
-  x86_64('x86_64'),
-  i386('i386'),
-  ;
+class Architecture {
+  static const x86_64 = Architecture._('x86_64');
+  static const i386 = Architecture._('i386');
 
   final String value;
 
-  const Architecture(this.value);
+  const Architecture._(this.value);
 
-  static Architecture fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum Architecture'));
+  static const values = [x86_64, i386];
+
+  static Architecture fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Architecture._(value));
+
+  @override
+  bool operator ==(other) => other is Architecture && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes a load-based auto scaling upscaling or downscaling threshold
@@ -5310,19 +5341,28 @@ class AutoScalingThresholds {
   }
 }
 
-enum AutoScalingType {
-  load('load'),
-  timer('timer'),
-  ;
+class AutoScalingType {
+  static const load = AutoScalingType._('load');
+  static const timer = AutoScalingType._('timer');
 
   final String value;
 
-  const AutoScalingType(this.value);
+  const AutoScalingType._(this.value);
+
+  static const values = [load, timer];
 
   static AutoScalingType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum AutoScalingType'));
+          orElse: () => AutoScalingType._(value));
+
+  @override
+  bool operator ==(other) => other is AutoScalingType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes a block device mapping. This data type maps directly to the Amazon
@@ -5469,127 +5509,240 @@ class CloudWatchLogsConfiguration {
 /// Specifies the encoding of the log file so that the file can be read
 /// correctly. The default is <code>utf_8</code>. Encodings supported by Python
 /// <code>codecs.decode()</code> can be used here.
-enum CloudWatchLogsEncoding {
-  ascii('ascii'),
-  big5('big5'),
-  big5hkscs('big5hkscs'),
-  cp037('cp037'),
-  cp424('cp424'),
-  cp437('cp437'),
-  cp500('cp500'),
-  cp720('cp720'),
-  cp737('cp737'),
-  cp775('cp775'),
-  cp850('cp850'),
-  cp852('cp852'),
-  cp855('cp855'),
-  cp856('cp856'),
-  cp857('cp857'),
-  cp858('cp858'),
-  cp860('cp860'),
-  cp861('cp861'),
-  cp862('cp862'),
-  cp863('cp863'),
-  cp864('cp864'),
-  cp865('cp865'),
-  cp866('cp866'),
-  cp869('cp869'),
-  cp874('cp874'),
-  cp875('cp875'),
-  cp932('cp932'),
-  cp949('cp949'),
-  cp950('cp950'),
-  cp1006('cp1006'),
-  cp1026('cp1026'),
-  cp1140('cp1140'),
-  cp1250('cp1250'),
-  cp1251('cp1251'),
-  cp1252('cp1252'),
-  cp1253('cp1253'),
-  cp1254('cp1254'),
-  cp1255('cp1255'),
-  cp1256('cp1256'),
-  cp1257('cp1257'),
-  cp1258('cp1258'),
-  eucJp('euc_jp'),
-  eucJis_2004('euc_jis_2004'),
-  eucJisx0213('euc_jisx0213'),
-  eucKr('euc_kr'),
-  gb2312('gb2312'),
-  gbk('gbk'),
-  gb18030('gb18030'),
-  hz('hz'),
-  iso2022Jp('iso2022_jp'),
-  iso2022Jp_1('iso2022_jp_1'),
-  iso2022Jp_2('iso2022_jp_2'),
-  iso2022Jp_2004('iso2022_jp_2004'),
-  iso2022Jp_3('iso2022_jp_3'),
-  iso2022JpExt('iso2022_jp_ext'),
-  iso2022Kr('iso2022_kr'),
-  latin_1('latin_1'),
-  iso8859_2('iso8859_2'),
-  iso8859_3('iso8859_3'),
-  iso8859_4('iso8859_4'),
-  iso8859_5('iso8859_5'),
-  iso8859_6('iso8859_6'),
-  iso8859_7('iso8859_7'),
-  iso8859_8('iso8859_8'),
-  iso8859_9('iso8859_9'),
-  iso8859_10('iso8859_10'),
-  iso8859_13('iso8859_13'),
-  iso8859_14('iso8859_14'),
-  iso8859_15('iso8859_15'),
-  iso8859_16('iso8859_16'),
-  johab('johab'),
-  koi8R('koi8_r'),
-  koi8U('koi8_u'),
-  macCyrillic('mac_cyrillic'),
-  macGreek('mac_greek'),
-  macIceland('mac_iceland'),
-  macLatin2('mac_latin2'),
-  macRoman('mac_roman'),
-  macTurkish('mac_turkish'),
-  ptcp154('ptcp154'),
-  shiftJis('shift_jis'),
-  shiftJis_2004('shift_jis_2004'),
-  shiftJisx0213('shift_jisx0213'),
-  utf_32('utf_32'),
-  utf_32Be('utf_32_be'),
-  utf_32Le('utf_32_le'),
-  utf_16('utf_16'),
-  utf_16Be('utf_16_be'),
-  utf_16Le('utf_16_le'),
-  utf_7('utf_7'),
-  utf_8('utf_8'),
-  utf_8Sig('utf_8_sig'),
-  ;
+class CloudWatchLogsEncoding {
+  static const ascii = CloudWatchLogsEncoding._('ascii');
+  static const big5 = CloudWatchLogsEncoding._('big5');
+  static const big5hkscs = CloudWatchLogsEncoding._('big5hkscs');
+  static const cp037 = CloudWatchLogsEncoding._('cp037');
+  static const cp424 = CloudWatchLogsEncoding._('cp424');
+  static const cp437 = CloudWatchLogsEncoding._('cp437');
+  static const cp500 = CloudWatchLogsEncoding._('cp500');
+  static const cp720 = CloudWatchLogsEncoding._('cp720');
+  static const cp737 = CloudWatchLogsEncoding._('cp737');
+  static const cp775 = CloudWatchLogsEncoding._('cp775');
+  static const cp850 = CloudWatchLogsEncoding._('cp850');
+  static const cp852 = CloudWatchLogsEncoding._('cp852');
+  static const cp855 = CloudWatchLogsEncoding._('cp855');
+  static const cp856 = CloudWatchLogsEncoding._('cp856');
+  static const cp857 = CloudWatchLogsEncoding._('cp857');
+  static const cp858 = CloudWatchLogsEncoding._('cp858');
+  static const cp860 = CloudWatchLogsEncoding._('cp860');
+  static const cp861 = CloudWatchLogsEncoding._('cp861');
+  static const cp862 = CloudWatchLogsEncoding._('cp862');
+  static const cp863 = CloudWatchLogsEncoding._('cp863');
+  static const cp864 = CloudWatchLogsEncoding._('cp864');
+  static const cp865 = CloudWatchLogsEncoding._('cp865');
+  static const cp866 = CloudWatchLogsEncoding._('cp866');
+  static const cp869 = CloudWatchLogsEncoding._('cp869');
+  static const cp874 = CloudWatchLogsEncoding._('cp874');
+  static const cp875 = CloudWatchLogsEncoding._('cp875');
+  static const cp932 = CloudWatchLogsEncoding._('cp932');
+  static const cp949 = CloudWatchLogsEncoding._('cp949');
+  static const cp950 = CloudWatchLogsEncoding._('cp950');
+  static const cp1006 = CloudWatchLogsEncoding._('cp1006');
+  static const cp1026 = CloudWatchLogsEncoding._('cp1026');
+  static const cp1140 = CloudWatchLogsEncoding._('cp1140');
+  static const cp1250 = CloudWatchLogsEncoding._('cp1250');
+  static const cp1251 = CloudWatchLogsEncoding._('cp1251');
+  static const cp1252 = CloudWatchLogsEncoding._('cp1252');
+  static const cp1253 = CloudWatchLogsEncoding._('cp1253');
+  static const cp1254 = CloudWatchLogsEncoding._('cp1254');
+  static const cp1255 = CloudWatchLogsEncoding._('cp1255');
+  static const cp1256 = CloudWatchLogsEncoding._('cp1256');
+  static const cp1257 = CloudWatchLogsEncoding._('cp1257');
+  static const cp1258 = CloudWatchLogsEncoding._('cp1258');
+  static const eucJp = CloudWatchLogsEncoding._('euc_jp');
+  static const eucJis_2004 = CloudWatchLogsEncoding._('euc_jis_2004');
+  static const eucJisx0213 = CloudWatchLogsEncoding._('euc_jisx0213');
+  static const eucKr = CloudWatchLogsEncoding._('euc_kr');
+  static const gb2312 = CloudWatchLogsEncoding._('gb2312');
+  static const gbk = CloudWatchLogsEncoding._('gbk');
+  static const gb18030 = CloudWatchLogsEncoding._('gb18030');
+  static const hz = CloudWatchLogsEncoding._('hz');
+  static const iso2022Jp = CloudWatchLogsEncoding._('iso2022_jp');
+  static const iso2022Jp_1 = CloudWatchLogsEncoding._('iso2022_jp_1');
+  static const iso2022Jp_2 = CloudWatchLogsEncoding._('iso2022_jp_2');
+  static const iso2022Jp_2004 = CloudWatchLogsEncoding._('iso2022_jp_2004');
+  static const iso2022Jp_3 = CloudWatchLogsEncoding._('iso2022_jp_3');
+  static const iso2022JpExt = CloudWatchLogsEncoding._('iso2022_jp_ext');
+  static const iso2022Kr = CloudWatchLogsEncoding._('iso2022_kr');
+  static const latin_1 = CloudWatchLogsEncoding._('latin_1');
+  static const iso8859_2 = CloudWatchLogsEncoding._('iso8859_2');
+  static const iso8859_3 = CloudWatchLogsEncoding._('iso8859_3');
+  static const iso8859_4 = CloudWatchLogsEncoding._('iso8859_4');
+  static const iso8859_5 = CloudWatchLogsEncoding._('iso8859_5');
+  static const iso8859_6 = CloudWatchLogsEncoding._('iso8859_6');
+  static const iso8859_7 = CloudWatchLogsEncoding._('iso8859_7');
+  static const iso8859_8 = CloudWatchLogsEncoding._('iso8859_8');
+  static const iso8859_9 = CloudWatchLogsEncoding._('iso8859_9');
+  static const iso8859_10 = CloudWatchLogsEncoding._('iso8859_10');
+  static const iso8859_13 = CloudWatchLogsEncoding._('iso8859_13');
+  static const iso8859_14 = CloudWatchLogsEncoding._('iso8859_14');
+  static const iso8859_15 = CloudWatchLogsEncoding._('iso8859_15');
+  static const iso8859_16 = CloudWatchLogsEncoding._('iso8859_16');
+  static const johab = CloudWatchLogsEncoding._('johab');
+  static const koi8R = CloudWatchLogsEncoding._('koi8_r');
+  static const koi8U = CloudWatchLogsEncoding._('koi8_u');
+  static const macCyrillic = CloudWatchLogsEncoding._('mac_cyrillic');
+  static const macGreek = CloudWatchLogsEncoding._('mac_greek');
+  static const macIceland = CloudWatchLogsEncoding._('mac_iceland');
+  static const macLatin2 = CloudWatchLogsEncoding._('mac_latin2');
+  static const macRoman = CloudWatchLogsEncoding._('mac_roman');
+  static const macTurkish = CloudWatchLogsEncoding._('mac_turkish');
+  static const ptcp154 = CloudWatchLogsEncoding._('ptcp154');
+  static const shiftJis = CloudWatchLogsEncoding._('shift_jis');
+  static const shiftJis_2004 = CloudWatchLogsEncoding._('shift_jis_2004');
+  static const shiftJisx0213 = CloudWatchLogsEncoding._('shift_jisx0213');
+  static const utf_32 = CloudWatchLogsEncoding._('utf_32');
+  static const utf_32Be = CloudWatchLogsEncoding._('utf_32_be');
+  static const utf_32Le = CloudWatchLogsEncoding._('utf_32_le');
+  static const utf_16 = CloudWatchLogsEncoding._('utf_16');
+  static const utf_16Be = CloudWatchLogsEncoding._('utf_16_be');
+  static const utf_16Le = CloudWatchLogsEncoding._('utf_16_le');
+  static const utf_7 = CloudWatchLogsEncoding._('utf_7');
+  static const utf_8 = CloudWatchLogsEncoding._('utf_8');
+  static const utf_8Sig = CloudWatchLogsEncoding._('utf_8_sig');
 
   final String value;
 
-  const CloudWatchLogsEncoding(this.value);
+  const CloudWatchLogsEncoding._(this.value);
+
+  static const values = [
+    ascii,
+    big5,
+    big5hkscs,
+    cp037,
+    cp424,
+    cp437,
+    cp500,
+    cp720,
+    cp737,
+    cp775,
+    cp850,
+    cp852,
+    cp855,
+    cp856,
+    cp857,
+    cp858,
+    cp860,
+    cp861,
+    cp862,
+    cp863,
+    cp864,
+    cp865,
+    cp866,
+    cp869,
+    cp874,
+    cp875,
+    cp932,
+    cp949,
+    cp950,
+    cp1006,
+    cp1026,
+    cp1140,
+    cp1250,
+    cp1251,
+    cp1252,
+    cp1253,
+    cp1254,
+    cp1255,
+    cp1256,
+    cp1257,
+    cp1258,
+    eucJp,
+    eucJis_2004,
+    eucJisx0213,
+    eucKr,
+    gb2312,
+    gbk,
+    gb18030,
+    hz,
+    iso2022Jp,
+    iso2022Jp_1,
+    iso2022Jp_2,
+    iso2022Jp_2004,
+    iso2022Jp_3,
+    iso2022JpExt,
+    iso2022Kr,
+    latin_1,
+    iso8859_2,
+    iso8859_3,
+    iso8859_4,
+    iso8859_5,
+    iso8859_6,
+    iso8859_7,
+    iso8859_8,
+    iso8859_9,
+    iso8859_10,
+    iso8859_13,
+    iso8859_14,
+    iso8859_15,
+    iso8859_16,
+    johab,
+    koi8R,
+    koi8U,
+    macCyrillic,
+    macGreek,
+    macIceland,
+    macLatin2,
+    macRoman,
+    macTurkish,
+    ptcp154,
+    shiftJis,
+    shiftJis_2004,
+    shiftJisx0213,
+    utf_32,
+    utf_32Be,
+    utf_32Le,
+    utf_16,
+    utf_16Be,
+    utf_16Le,
+    utf_7,
+    utf_8,
+    utf_8Sig
+  ];
 
   static CloudWatchLogsEncoding fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum CloudWatchLogsEncoding'));
+          orElse: () => CloudWatchLogsEncoding._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CloudWatchLogsEncoding && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specifies where to start to read data (start_of_file or end_of_file). The
 /// default is start_of_file. It's only used if there is no state persisted for
 /// that log stream.
-enum CloudWatchLogsInitialPosition {
-  startOfFile('start_of_file'),
-  endOfFile('end_of_file'),
-  ;
+class CloudWatchLogsInitialPosition {
+  static const startOfFile = CloudWatchLogsInitialPosition._('start_of_file');
+  static const endOfFile = CloudWatchLogsInitialPosition._('end_of_file');
 
   final String value;
 
-  const CloudWatchLogsInitialPosition(this.value);
+  const CloudWatchLogsInitialPosition._(this.value);
+
+  static const values = [startOfFile, endOfFile];
 
   static CloudWatchLogsInitialPosition fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum CloudWatchLogsInitialPosition'));
+          orElse: () => CloudWatchLogsInitialPosition._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CloudWatchLogsInitialPosition && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes the CloudWatch Logs configuration for a layer. For detailed
@@ -5727,19 +5880,29 @@ class CloudWatchLogsLogStream {
 
 /// The preferred time zone for logs streamed to CloudWatch Logs. Valid values
 /// are <code>LOCAL</code> and <code>UTC</code>, for Coordinated Universal Time.
-enum CloudWatchLogsTimeZone {
-  local('LOCAL'),
-  utc('UTC'),
-  ;
+class CloudWatchLogsTimeZone {
+  static const local = CloudWatchLogsTimeZone._('LOCAL');
+  static const utc = CloudWatchLogsTimeZone._('UTC');
 
   final String value;
 
-  const CloudWatchLogsTimeZone(this.value);
+  const CloudWatchLogsTimeZone._(this.value);
+
+  static const values = [local, utc];
 
   static CloudWatchLogsTimeZone fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum CloudWatchLogsTimeZone'));
+          orElse: () => CloudWatchLogsTimeZone._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CloudWatchLogsTimeZone && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes a command.
@@ -6279,7 +6442,7 @@ class DeploymentCommand {
 
   factory DeploymentCommand.fromJson(Map<String, dynamic> json) {
     return DeploymentCommand(
-      name: DeploymentCommandName.fromString((json['Name'] as String)),
+      name: DeploymentCommandName.fromString((json['Name'] as String?) ?? ''),
       args: (json['Args'] as Map<String, dynamic>?)?.map((k, e) =>
           MapEntry(k, (e as List).nonNulls.map((e) => e as String).toList())),
     );
@@ -6295,29 +6458,55 @@ class DeploymentCommand {
   }
 }
 
-enum DeploymentCommandName {
-  installDependencies('install_dependencies'),
-  updateDependencies('update_dependencies'),
-  updateCustomCookbooks('update_custom_cookbooks'),
-  executeRecipes('execute_recipes'),
-  configure('configure'),
-  setup('setup'),
-  deploy('deploy'),
-  rollback('rollback'),
-  start('start'),
-  stop('stop'),
-  restart('restart'),
-  undeploy('undeploy'),
-  ;
+class DeploymentCommandName {
+  static const installDependencies =
+      DeploymentCommandName._('install_dependencies');
+  static const updateDependencies =
+      DeploymentCommandName._('update_dependencies');
+  static const updateCustomCookbooks =
+      DeploymentCommandName._('update_custom_cookbooks');
+  static const executeRecipes = DeploymentCommandName._('execute_recipes');
+  static const configure = DeploymentCommandName._('configure');
+  static const setup = DeploymentCommandName._('setup');
+  static const deploy = DeploymentCommandName._('deploy');
+  static const rollback = DeploymentCommandName._('rollback');
+  static const start = DeploymentCommandName._('start');
+  static const stop = DeploymentCommandName._('stop');
+  static const restart = DeploymentCommandName._('restart');
+  static const undeploy = DeploymentCommandName._('undeploy');
 
   final String value;
 
-  const DeploymentCommandName(this.value);
+  const DeploymentCommandName._(this.value);
 
-  static DeploymentCommandName fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum DeploymentCommandName'));
+  static const values = [
+    installDependencies,
+    updateDependencies,
+    updateCustomCookbooks,
+    executeRecipes,
+    configure,
+    setup,
+    deploy,
+    rollback,
+    start,
+    stop,
+    restart,
+    undeploy
+  ];
+
+  static DeploymentCommandName fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DeploymentCommandName._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DeploymentCommandName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains the response to a <code>DescribeAgentVersions</code> request.
@@ -8164,66 +8353,129 @@ class Layer {
   }
 }
 
-enum LayerAttributesKeys {
-  ecsClusterArn('EcsClusterArn'),
-  enableHaproxyStats('EnableHaproxyStats'),
-  haproxyStatsUrl('HaproxyStatsUrl'),
-  haproxyStatsUser('HaproxyStatsUser'),
-  haproxyStatsPassword('HaproxyStatsPassword'),
-  haproxyHealthCheckUrl('HaproxyHealthCheckUrl'),
-  haproxyHealthCheckMethod('HaproxyHealthCheckMethod'),
-  mysqlRootPassword('MysqlRootPassword'),
-  mysqlRootPasswordUbiquitous('MysqlRootPasswordUbiquitous'),
-  gangliaUrl('GangliaUrl'),
-  gangliaUser('GangliaUser'),
-  gangliaPassword('GangliaPassword'),
-  memcachedMemory('MemcachedMemory'),
-  nodejsVersion('NodejsVersion'),
-  rubyVersion('RubyVersion'),
-  rubygemsVersion('RubygemsVersion'),
-  manageBundler('ManageBundler'),
-  bundlerVersion('BundlerVersion'),
-  railsStack('RailsStack'),
-  passengerVersion('PassengerVersion'),
-  jvm('Jvm'),
-  jvmVersion('JvmVersion'),
-  jvmOptions('JvmOptions'),
-  javaAppServer('JavaAppServer'),
-  javaAppServerVersion('JavaAppServerVersion'),
-  ;
+class LayerAttributesKeys {
+  static const ecsClusterArn = LayerAttributesKeys._('EcsClusterArn');
+  static const enableHaproxyStats = LayerAttributesKeys._('EnableHaproxyStats');
+  static const haproxyStatsUrl = LayerAttributesKeys._('HaproxyStatsUrl');
+  static const haproxyStatsUser = LayerAttributesKeys._('HaproxyStatsUser');
+  static const haproxyStatsPassword =
+      LayerAttributesKeys._('HaproxyStatsPassword');
+  static const haproxyHealthCheckUrl =
+      LayerAttributesKeys._('HaproxyHealthCheckUrl');
+  static const haproxyHealthCheckMethod =
+      LayerAttributesKeys._('HaproxyHealthCheckMethod');
+  static const mysqlRootPassword = LayerAttributesKeys._('MysqlRootPassword');
+  static const mysqlRootPasswordUbiquitous =
+      LayerAttributesKeys._('MysqlRootPasswordUbiquitous');
+  static const gangliaUrl = LayerAttributesKeys._('GangliaUrl');
+  static const gangliaUser = LayerAttributesKeys._('GangliaUser');
+  static const gangliaPassword = LayerAttributesKeys._('GangliaPassword');
+  static const memcachedMemory = LayerAttributesKeys._('MemcachedMemory');
+  static const nodejsVersion = LayerAttributesKeys._('NodejsVersion');
+  static const rubyVersion = LayerAttributesKeys._('RubyVersion');
+  static const rubygemsVersion = LayerAttributesKeys._('RubygemsVersion');
+  static const manageBundler = LayerAttributesKeys._('ManageBundler');
+  static const bundlerVersion = LayerAttributesKeys._('BundlerVersion');
+  static const railsStack = LayerAttributesKeys._('RailsStack');
+  static const passengerVersion = LayerAttributesKeys._('PassengerVersion');
+  static const jvm = LayerAttributesKeys._('Jvm');
+  static const jvmVersion = LayerAttributesKeys._('JvmVersion');
+  static const jvmOptions = LayerAttributesKeys._('JvmOptions');
+  static const javaAppServer = LayerAttributesKeys._('JavaAppServer');
+  static const javaAppServerVersion =
+      LayerAttributesKeys._('JavaAppServerVersion');
 
   final String value;
 
-  const LayerAttributesKeys(this.value);
+  const LayerAttributesKeys._(this.value);
 
-  static LayerAttributesKeys fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum LayerAttributesKeys'));
+  static const values = [
+    ecsClusterArn,
+    enableHaproxyStats,
+    haproxyStatsUrl,
+    haproxyStatsUser,
+    haproxyStatsPassword,
+    haproxyHealthCheckUrl,
+    haproxyHealthCheckMethod,
+    mysqlRootPassword,
+    mysqlRootPasswordUbiquitous,
+    gangliaUrl,
+    gangliaUser,
+    gangliaPassword,
+    memcachedMemory,
+    nodejsVersion,
+    rubyVersion,
+    rubygemsVersion,
+    manageBundler,
+    bundlerVersion,
+    railsStack,
+    passengerVersion,
+    jvm,
+    jvmVersion,
+    jvmOptions,
+    javaAppServer,
+    javaAppServerVersion
+  ];
+
+  static LayerAttributesKeys fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => LayerAttributesKeys._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is LayerAttributesKeys && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum LayerType {
-  awsFlowRuby('aws-flow-ruby'),
-  ecsCluster('ecs-cluster'),
-  javaApp('java-app'),
-  lb('lb'),
-  web('web'),
-  phpApp('php-app'),
-  railsApp('rails-app'),
-  nodejsApp('nodejs-app'),
-  memcached('memcached'),
-  dbMaster('db-master'),
-  monitoringMaster('monitoring-master'),
-  custom('custom'),
-  ;
+class LayerType {
+  static const awsFlowRuby = LayerType._('aws-flow-ruby');
+  static const ecsCluster = LayerType._('ecs-cluster');
+  static const javaApp = LayerType._('java-app');
+  static const lb = LayerType._('lb');
+  static const web = LayerType._('web');
+  static const phpApp = LayerType._('php-app');
+  static const railsApp = LayerType._('rails-app');
+  static const nodejsApp = LayerType._('nodejs-app');
+  static const memcached = LayerType._('memcached');
+  static const dbMaster = LayerType._('db-master');
+  static const monitoringMaster = LayerType._('monitoring-master');
+  static const custom = LayerType._('custom');
 
   final String value;
 
-  const LayerType(this.value);
+  const LayerType._(this.value);
 
-  static LayerType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum LayerType'));
+  static const values = [
+    awsFlowRuby,
+    ecsCluster,
+    javaApp,
+    lb,
+    web,
+    phpApp,
+    railsApp,
+    nodejsApp,
+    memcached,
+    dbMaster,
+    monitoringMaster,
+    custom
+  ];
+
+  static LayerType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => LayerType._(value));
+
+  @override
+  bool operator ==(other) => other is LayerType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specifies the lifecycle event configuration
@@ -8927,19 +9179,28 @@ class ReportedOs {
   }
 }
 
-enum RootDeviceType {
-  ebs('ebs'),
-  instanceStore('instance-store'),
-  ;
+class RootDeviceType {
+  static const ebs = RootDeviceType._('ebs');
+  static const instanceStore = RootDeviceType._('instance-store');
 
   final String value;
 
-  const RootDeviceType(this.value);
+  const RootDeviceType._(this.value);
+
+  static const values = [ebs, instanceStore];
 
   static RootDeviceType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum RootDeviceType'));
+          orElse: () => RootDeviceType._(value));
+
+  @override
+  bool operator ==(other) => other is RootDeviceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes a user's SSH information.
@@ -9178,20 +9439,29 @@ class Source {
   }
 }
 
-enum SourceType {
-  git('git'),
-  svn('svn'),
-  archive('archive'),
-  s3('s3'),
-  ;
+class SourceType {
+  static const git = SourceType._('git');
+  static const svn = SourceType._('svn');
+  static const archive = SourceType._('archive');
+  static const s3 = SourceType._('s3');
 
   final String value;
 
-  const SourceType(this.value);
+  const SourceType._(this.value);
 
-  static SourceType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum SourceType'));
+  static const values = [git, svn, archive, s3];
+
+  static SourceType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => SourceType._(value));
+
+  @override
+  bool operator ==(other) => other is SourceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes an app's SSL configuration.
@@ -9452,18 +9722,28 @@ class Stack {
   }
 }
 
-enum StackAttributesKeys {
-  color('Color'),
-  ;
+class StackAttributesKeys {
+  static const color = StackAttributesKeys._('Color');
 
   final String value;
 
-  const StackAttributesKeys(this.value);
+  const StackAttributesKeys._(this.value);
 
-  static StackAttributesKeys fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum StackAttributesKeys'));
+  static const values = [color];
+
+  static StackAttributesKeys fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => StackAttributesKeys._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is StackAttributesKeys && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes the configuration manager.
@@ -9698,19 +9978,29 @@ class UserProfile {
   }
 }
 
-enum VirtualizationType {
-  paravirtual('paravirtual'),
-  hvm('hvm'),
-  ;
+class VirtualizationType {
+  static const paravirtual = VirtualizationType._('paravirtual');
+  static const hvm = VirtualizationType._('hvm');
 
   final String value;
 
-  const VirtualizationType(this.value);
+  const VirtualizationType._(this.value);
 
-  static VirtualizationType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum VirtualizationType'));
+  static const values = [paravirtual, hvm];
+
+  static VirtualizationType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => VirtualizationType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is VirtualizationType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes an instance's Amazon EBS volume.
@@ -9957,19 +10247,28 @@ class VolumeConfiguration {
   }
 }
 
-enum VolumeType {
-  gp2('gp2'),
-  io1('io1'),
-  standard('standard'),
-  ;
+class VolumeType {
+  static const gp2 = VolumeType._('gp2');
+  static const io1 = VolumeType._('io1');
+  static const standard = VolumeType._('standard');
 
   final String value;
 
-  const VolumeType(this.value);
+  const VolumeType._(this.value);
 
-  static VolumeType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum VolumeType'));
+  static const values = [gp2, io1, standard];
+
+  static VolumeType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => VolumeType._(value));
+
+  @override
+  bool operator ==(other) => other is VolumeType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes a time-based instance's auto scaling schedule. The schedule

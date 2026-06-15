@@ -1519,8 +1519,8 @@ class ApplicationDetail {
     return ApplicationDetail(
       applicationARN: (json['ApplicationARN'] as String?) ?? '',
       applicationName: (json['ApplicationName'] as String?) ?? '',
-      applicationStatus:
-          ApplicationStatus.fromString((json['ApplicationStatus'] as String)),
+      applicationStatus: ApplicationStatus.fromString(
+          (json['ApplicationStatus'] as String?) ?? ''),
       applicationVersionId: (json['ApplicationVersionId'] as int?) ?? 0,
       applicationCode: json['ApplicationCode'] as String?,
       applicationDescription: json['ApplicationDescription'] as String?,
@@ -1587,23 +1587,39 @@ class ApplicationDetail {
   }
 }
 
-enum ApplicationStatus {
-  deleting('DELETING'),
-  starting('STARTING'),
-  stopping('STOPPING'),
-  ready('READY'),
-  running('RUNNING'),
-  updating('UPDATING'),
-  ;
+class ApplicationStatus {
+  static const deleting = ApplicationStatus._('DELETING');
+  static const starting = ApplicationStatus._('STARTING');
+  static const stopping = ApplicationStatus._('STOPPING');
+  static const ready = ApplicationStatus._('READY');
+  static const running = ApplicationStatus._('RUNNING');
+  static const updating = ApplicationStatus._('UPDATING');
 
   final String value;
 
-  const ApplicationStatus(this.value);
+  const ApplicationStatus._(this.value);
+
+  static const values = [
+    deleting,
+    starting,
+    stopping,
+    ready,
+    running,
+    updating
+  ];
 
   static ApplicationStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ApplicationStatus'));
+          orElse: () => ApplicationStatus._(value));
+
+  @override
+  bool operator ==(other) => other is ApplicationStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// <note>
@@ -1635,8 +1651,8 @@ class ApplicationSummary {
     return ApplicationSummary(
       applicationARN: (json['ApplicationARN'] as String?) ?? '',
       applicationName: (json['ApplicationName'] as String?) ?? '',
-      applicationStatus:
-          ApplicationStatus.fromString((json['ApplicationStatus'] as String)),
+      applicationStatus: ApplicationStatus.fromString(
+          (json['ApplicationStatus'] as String?) ?? ''),
     );
   }
 
@@ -1967,8 +1983,8 @@ class DestinationSchema {
 
   factory DestinationSchema.fromJson(Map<String, dynamic> json) {
     return DestinationSchema(
-      recordFormatType:
-          RecordFormatType.fromString((json['RecordFormatType'] as String)),
+      recordFormatType: RecordFormatType.fromString(
+          (json['RecordFormatType'] as String?) ?? ''),
     );
   }
 
@@ -2538,20 +2554,30 @@ class InputSchemaUpdate {
   }
 }
 
-enum InputStartingPosition {
-  now('NOW'),
-  trimHorizon('TRIM_HORIZON'),
-  lastStoppedPoint('LAST_STOPPED_POINT'),
-  ;
+class InputStartingPosition {
+  static const now = InputStartingPosition._('NOW');
+  static const trimHorizon = InputStartingPosition._('TRIM_HORIZON');
+  static const lastStoppedPoint = InputStartingPosition._('LAST_STOPPED_POINT');
 
   final String value;
 
-  const InputStartingPosition(this.value);
+  const InputStartingPosition._(this.value);
 
-  static InputStartingPosition fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum InputStartingPosition'));
+  static const values = [now, trimHorizon, lastStoppedPoint];
+
+  static InputStartingPosition fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => InputStartingPosition._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is InputStartingPosition && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes the point at which the application reads from the streaming
@@ -3499,8 +3525,8 @@ class RecordFormat {
 
   factory RecordFormat.fromJson(Map<String, dynamic> json) {
     return RecordFormat(
-      recordFormatType:
-          RecordFormatType.fromString((json['RecordFormatType'] as String)),
+      recordFormatType: RecordFormatType.fromString(
+          (json['RecordFormatType'] as String?) ?? ''),
       mappingParameters: json['MappingParameters'] != null
           ? MappingParameters.fromJson(
               json['MappingParameters'] as Map<String, dynamic>)
@@ -3518,19 +3544,28 @@ class RecordFormat {
   }
 }
 
-enum RecordFormatType {
-  json('JSON'),
-  csv('CSV'),
-  ;
+class RecordFormatType {
+  static const json = RecordFormatType._('JSON');
+  static const csv = RecordFormatType._('CSV');
 
   final String value;
 
-  const RecordFormatType(this.value);
+  const RecordFormatType._(this.value);
+
+  static const values = [json, csv];
 
   static RecordFormatType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum RecordFormatType'));
+          orElse: () => RecordFormatType._(value));
+
+  @override
+  bool operator ==(other) => other is RecordFormatType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes the reference data source by providing the source information (S3

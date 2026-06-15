@@ -4465,7 +4465,7 @@ class AccountAttribute {
 
   factory AccountAttribute.fromJson(Map<String, dynamic> json) {
     return AccountAttribute(
-      name: AccountAttributeName.fromString((json['Name'] as String)),
+      name: AccountAttributeName.fromString((json['Name'] as String?) ?? ''),
       value: (json['Value'] as String?) ?? '',
     );
   }
@@ -4480,19 +4480,30 @@ class AccountAttribute {
   }
 }
 
-enum AccountAttributeName {
-  accountTier('ACCOUNT_TIER'),
-  defaultProtectConfigurationId('DEFAULT_PROTECT_CONFIGURATION_ID'),
-  ;
+class AccountAttributeName {
+  static const accountTier = AccountAttributeName._('ACCOUNT_TIER');
+  static const defaultProtectConfigurationId =
+      AccountAttributeName._('DEFAULT_PROTECT_CONFIGURATION_ID');
 
   final String value;
 
-  const AccountAttributeName(this.value);
+  const AccountAttributeName._(this.value);
 
-  static AccountAttributeName fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum AccountAttributeName'));
+  static const values = [accountTier, defaultProtectConfigurationId];
+
+  static AccountAttributeName fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AccountAttributeName._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AccountAttributeName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The current resource quotas associated with an Amazon Web Services account.
@@ -4515,7 +4526,7 @@ class AccountLimit {
   factory AccountLimit.fromJson(Map<String, dynamic> json) {
     return AccountLimit(
       max: (json['Max'] as int?) ?? 0,
-      name: AccountLimitName.fromString((json['Name'] as String)),
+      name: AccountLimitName.fromString((json['Name'] as String?) ?? ''),
       used: (json['Used'] as int?) ?? 0,
     );
   }
@@ -4532,25 +4543,45 @@ class AccountLimit {
   }
 }
 
-enum AccountLimitName {
-  phoneNumbers('PHONE_NUMBERS'),
-  pools('POOLS'),
-  configurationSets('CONFIGURATION_SETS'),
-  optOutLists('OPT_OUT_LISTS'),
-  senderIds('SENDER_IDS'),
-  registrations('REGISTRATIONS'),
-  registrationAttachments('REGISTRATION_ATTACHMENTS'),
-  verifiedDestinationNumbers('VERIFIED_DESTINATION_NUMBERS'),
-  ;
+class AccountLimitName {
+  static const phoneNumbers = AccountLimitName._('PHONE_NUMBERS');
+  static const pools = AccountLimitName._('POOLS');
+  static const configurationSets = AccountLimitName._('CONFIGURATION_SETS');
+  static const optOutLists = AccountLimitName._('OPT_OUT_LISTS');
+  static const senderIds = AccountLimitName._('SENDER_IDS');
+  static const registrations = AccountLimitName._('REGISTRATIONS');
+  static const registrationAttachments =
+      AccountLimitName._('REGISTRATION_ATTACHMENTS');
+  static const verifiedDestinationNumbers =
+      AccountLimitName._('VERIFIED_DESTINATION_NUMBERS');
 
   final String value;
 
-  const AccountLimitName(this.value);
+  const AccountLimitName._(this.value);
+
+  static const values = [
+    phoneNumbers,
+    pools,
+    configurationSets,
+    optOutLists,
+    senderIds,
+    registrations,
+    registrationAttachments,
+    verifiedDestinationNumbers
+  ];
 
   static AccountLimitName fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum AccountLimitName'));
+          orElse: () => AccountLimitName._(value));
+
+  @override
+  bool operator ==(other) => other is AccountLimitName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class AssociateOriginationIdentityResult {
@@ -4653,35 +4684,59 @@ class AssociateProtectConfigurationResult {
   }
 }
 
-enum AttachmentStatus {
-  uploadInProgress('UPLOAD_IN_PROGRESS'),
-  uploadComplete('UPLOAD_COMPLETE'),
-  uploadFailed('UPLOAD_FAILED'),
-  deleted('DELETED'),
-  ;
+class AttachmentStatus {
+  static const uploadInProgress = AttachmentStatus._('UPLOAD_IN_PROGRESS');
+  static const uploadComplete = AttachmentStatus._('UPLOAD_COMPLETE');
+  static const uploadFailed = AttachmentStatus._('UPLOAD_FAILED');
+  static const deleted = AttachmentStatus._('DELETED');
 
   final String value;
 
-  const AttachmentStatus(this.value);
+  const AttachmentStatus._(this.value);
+
+  static const values = [
+    uploadInProgress,
+    uploadComplete,
+    uploadFailed,
+    deleted
+  ];
 
   static AttachmentStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum AttachmentStatus'));
+          orElse: () => AttachmentStatus._(value));
+
+  @override
+  bool operator ==(other) => other is AttachmentStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum AttachmentUploadErrorReason {
-  internalError('INTERNAL_ERROR'),
-  ;
+class AttachmentUploadErrorReason {
+  static const internalError = AttachmentUploadErrorReason._('INTERNAL_ERROR');
 
   final String value;
 
-  const AttachmentUploadErrorReason(this.value);
+  const AttachmentUploadErrorReason._(this.value);
+
+  static const values = [internalError];
 
   static AttachmentUploadErrorReason fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum AttachmentUploadErrorReason'));
+          orElse: () => AttachmentUploadErrorReason._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AttachmentUploadErrorReason && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains the destination configuration to use when publishing message
@@ -4740,22 +4795,43 @@ class ConfigurationSetFilter {
   }
 }
 
-enum ConfigurationSetFilterName {
-  eventDestinationName('event-destination-name'),
-  matchingEventTypes('matching-event-types'),
-  defaultMessageType('default-message-type'),
-  defaultSenderId('default-sender-id'),
-  protectConfigurationId('protect-configuration-id'),
-  ;
+class ConfigurationSetFilterName {
+  static const eventDestinationName =
+      ConfigurationSetFilterName._('event-destination-name');
+  static const matchingEventTypes =
+      ConfigurationSetFilterName._('matching-event-types');
+  static const defaultMessageType =
+      ConfigurationSetFilterName._('default-message-type');
+  static const defaultSenderId =
+      ConfigurationSetFilterName._('default-sender-id');
+  static const protectConfigurationId =
+      ConfigurationSetFilterName._('protect-configuration-id');
 
   final String value;
 
-  const ConfigurationSetFilterName(this.value);
+  const ConfigurationSetFilterName._(this.value);
+
+  static const values = [
+    eventDestinationName,
+    matchingEventTypes,
+    defaultMessageType,
+    defaultSenderId,
+    protectConfigurationId
+  ];
 
   static ConfigurationSetFilterName fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ConfigurationSetFilterName'));
+          orElse: () => ConfigurationSetFilterName._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ConfigurationSetFilterName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information related to a given configuration set in your Amazon Web Services
@@ -5298,8 +5374,8 @@ class CreateRegistrationAttachmentResult {
   factory CreateRegistrationAttachmentResult.fromJson(
       Map<String, dynamic> json) {
     return CreateRegistrationAttachmentResult(
-      attachmentStatus:
-          AttachmentStatus.fromString((json['AttachmentStatus'] as String)),
+      attachmentStatus: AttachmentStatus.fromString(
+          (json['AttachmentStatus'] as String?) ?? ''),
       createdTimestamp:
           nonNullableTimeStampFromJson(json['CreatedTimestamp'] ?? 0),
       registrationAttachmentArn:
@@ -5409,8 +5485,8 @@ class CreateRegistrationResult {
       currentVersionNumber: (json['CurrentVersionNumber'] as int?) ?? 0,
       registrationArn: (json['RegistrationArn'] as String?) ?? '',
       registrationId: (json['RegistrationId'] as String?) ?? '',
-      registrationStatus:
-          RegistrationStatus.fromString((json['RegistrationStatus'] as String)),
+      registrationStatus: RegistrationStatus.fromString(
+          (json['RegistrationStatus'] as String?) ?? ''),
       registrationType: (json['RegistrationType'] as String?) ?? '',
       additionalAttributes:
           (json['AdditionalAttributes'] as Map<String, dynamic>?)
@@ -5507,7 +5583,7 @@ class CreateRegistrationVersionResult {
       registrationArn: (json['RegistrationArn'] as String?) ?? '',
       registrationId: (json['RegistrationId'] as String?) ?? '',
       registrationVersionStatus: RegistrationVersionStatus.fromString(
-          (json['RegistrationVersionStatus'] as String)),
+          (json['RegistrationVersionStatus'] as String?) ?? ''),
       registrationVersionStatusHistory:
           RegistrationVersionStatusHistory.fromJson(
               (json['RegistrationVersionStatusHistory']
@@ -5580,7 +5656,7 @@ class CreateVerifiedDestinationNumberResult {
       createdTimestamp:
           nonNullableTimeStampFromJson(json['CreatedTimestamp'] ?? 0),
       destinationPhoneNumber: (json['DestinationPhoneNumber'] as String?) ?? '',
-      status: VerificationStatus.fromString((json['Status'] as String)),
+      status: VerificationStatus.fromString((json['Status'] as String?) ?? ''),
       verifiedDestinationNumberArn:
           (json['VerifiedDestinationNumberArn'] as String?) ?? '',
       verifiedDestinationNumberId:
@@ -6210,8 +6286,8 @@ class DeleteRegistrationAttachmentResult {
   factory DeleteRegistrationAttachmentResult.fromJson(
       Map<String, dynamic> json) {
     return DeleteRegistrationAttachmentResult(
-      attachmentStatus:
-          AttachmentStatus.fromString((json['AttachmentStatus'] as String)),
+      attachmentStatus: AttachmentStatus.fromString(
+          (json['AttachmentStatus'] as String?) ?? ''),
       createdTimestamp:
           nonNullableTimeStampFromJson(json['CreatedTimestamp'] ?? 0),
       registrationAttachmentArn:
@@ -6393,8 +6469,8 @@ class DeleteRegistrationResult {
       currentVersionNumber: (json['CurrentVersionNumber'] as int?) ?? 0,
       registrationArn: (json['RegistrationArn'] as String?) ?? '',
       registrationId: (json['RegistrationId'] as String?) ?? '',
-      registrationStatus:
-          RegistrationStatus.fromString((json['RegistrationStatus'] as String)),
+      registrationStatus: RegistrationStatus.fromString(
+          (json['RegistrationStatus'] as String?) ?? ''),
       registrationType: (json['RegistrationType'] as String?) ?? '',
       additionalAttributes:
           (json['AdditionalAttributes'] as Map<String, dynamic>?)
@@ -7276,19 +7352,30 @@ class DescribeVerifiedDestinationNumbersResult {
   }
 }
 
-enum DestinationCountryParameterKey {
-  inTemplateId('IN_TEMPLATE_ID'),
-  inEntityId('IN_ENTITY_ID'),
-  ;
+class DestinationCountryParameterKey {
+  static const inTemplateId =
+      DestinationCountryParameterKey._('IN_TEMPLATE_ID');
+  static const inEntityId = DestinationCountryParameterKey._('IN_ENTITY_ID');
 
   final String value;
 
-  const DestinationCountryParameterKey(this.value);
+  const DestinationCountryParameterKey._(this.value);
+
+  static const values = [inTemplateId, inEntityId];
 
   static DestinationCountryParameterKey fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum DestinationCountryParameterKey'));
+          orElse: () => DestinationCountryParameterKey._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DestinationCountryParameterKey && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class DisassociateOriginationIdentityResult {
@@ -7452,7 +7539,7 @@ class DiscardRegistrationVersionResult {
       registrationArn: (json['RegistrationArn'] as String?) ?? '',
       registrationId: (json['RegistrationId'] as String?) ?? '',
       registrationVersionStatus: RegistrationVersionStatus.fromString(
-          (json['RegistrationVersionStatus'] as String)),
+          (json['RegistrationVersionStatus'] as String?) ?? ''),
       registrationVersionStatusHistory:
           RegistrationVersionStatusHistory.fromJson(
               (json['RegistrationVersionStatusHistory']
@@ -7560,89 +7647,161 @@ class EventDestination {
   }
 }
 
-enum EventType {
-  all('ALL'),
-  textAll('TEXT_ALL'),
-  textSent('TEXT_SENT'),
-  textPending('TEXT_PENDING'),
-  textQueued('TEXT_QUEUED'),
-  textSuccessful('TEXT_SUCCESSFUL'),
-  textDelivered('TEXT_DELIVERED'),
-  textInvalid('TEXT_INVALID'),
-  textInvalidMessage('TEXT_INVALID_MESSAGE'),
-  textUnreachable('TEXT_UNREACHABLE'),
-  textCarrierUnreachable('TEXT_CARRIER_UNREACHABLE'),
-  textBlocked('TEXT_BLOCKED'),
-  textCarrierBlocked('TEXT_CARRIER_BLOCKED'),
-  textSpam('TEXT_SPAM'),
-  textUnknown('TEXT_UNKNOWN'),
-  textTtlExpired('TEXT_TTL_EXPIRED'),
-  voiceAll('VOICE_ALL'),
-  voiceInitiated('VOICE_INITIATED'),
-  voiceRinging('VOICE_RINGING'),
-  voiceAnswered('VOICE_ANSWERED'),
-  voiceCompleted('VOICE_COMPLETED'),
-  voiceBusy('VOICE_BUSY'),
-  voiceNoAnswer('VOICE_NO_ANSWER'),
-  voiceFailed('VOICE_FAILED'),
-  voiceTtlExpired('VOICE_TTL_EXPIRED'),
-  mediaAll('MEDIA_ALL'),
-  mediaPending('MEDIA_PENDING'),
-  mediaQueued('MEDIA_QUEUED'),
-  mediaSuccessful('MEDIA_SUCCESSFUL'),
-  mediaDelivered('MEDIA_DELIVERED'),
-  mediaInvalid('MEDIA_INVALID'),
-  mediaInvalidMessage('MEDIA_INVALID_MESSAGE'),
-  mediaUnreachable('MEDIA_UNREACHABLE'),
-  mediaCarrierUnreachable('MEDIA_CARRIER_UNREACHABLE'),
-  mediaBlocked('MEDIA_BLOCKED'),
-  mediaCarrierBlocked('MEDIA_CARRIER_BLOCKED'),
-  mediaSpam('MEDIA_SPAM'),
-  mediaUnknown('MEDIA_UNKNOWN'),
-  mediaTtlExpired('MEDIA_TTL_EXPIRED'),
-  mediaFileInaccessible('MEDIA_FILE_INACCESSIBLE'),
-  mediaFileTypeUnsupported('MEDIA_FILE_TYPE_UNSUPPORTED'),
-  mediaFileSizeExceeded('MEDIA_FILE_SIZE_EXCEEDED'),
-  ;
+class EventType {
+  static const all = EventType._('ALL');
+  static const textAll = EventType._('TEXT_ALL');
+  static const textSent = EventType._('TEXT_SENT');
+  static const textPending = EventType._('TEXT_PENDING');
+  static const textQueued = EventType._('TEXT_QUEUED');
+  static const textSuccessful = EventType._('TEXT_SUCCESSFUL');
+  static const textDelivered = EventType._('TEXT_DELIVERED');
+  static const textInvalid = EventType._('TEXT_INVALID');
+  static const textInvalidMessage = EventType._('TEXT_INVALID_MESSAGE');
+  static const textUnreachable = EventType._('TEXT_UNREACHABLE');
+  static const textCarrierUnreachable = EventType._('TEXT_CARRIER_UNREACHABLE');
+  static const textBlocked = EventType._('TEXT_BLOCKED');
+  static const textCarrierBlocked = EventType._('TEXT_CARRIER_BLOCKED');
+  static const textSpam = EventType._('TEXT_SPAM');
+  static const textUnknown = EventType._('TEXT_UNKNOWN');
+  static const textTtlExpired = EventType._('TEXT_TTL_EXPIRED');
+  static const voiceAll = EventType._('VOICE_ALL');
+  static const voiceInitiated = EventType._('VOICE_INITIATED');
+  static const voiceRinging = EventType._('VOICE_RINGING');
+  static const voiceAnswered = EventType._('VOICE_ANSWERED');
+  static const voiceCompleted = EventType._('VOICE_COMPLETED');
+  static const voiceBusy = EventType._('VOICE_BUSY');
+  static const voiceNoAnswer = EventType._('VOICE_NO_ANSWER');
+  static const voiceFailed = EventType._('VOICE_FAILED');
+  static const voiceTtlExpired = EventType._('VOICE_TTL_EXPIRED');
+  static const mediaAll = EventType._('MEDIA_ALL');
+  static const mediaPending = EventType._('MEDIA_PENDING');
+  static const mediaQueued = EventType._('MEDIA_QUEUED');
+  static const mediaSuccessful = EventType._('MEDIA_SUCCESSFUL');
+  static const mediaDelivered = EventType._('MEDIA_DELIVERED');
+  static const mediaInvalid = EventType._('MEDIA_INVALID');
+  static const mediaInvalidMessage = EventType._('MEDIA_INVALID_MESSAGE');
+  static const mediaUnreachable = EventType._('MEDIA_UNREACHABLE');
+  static const mediaCarrierUnreachable =
+      EventType._('MEDIA_CARRIER_UNREACHABLE');
+  static const mediaBlocked = EventType._('MEDIA_BLOCKED');
+  static const mediaCarrierBlocked = EventType._('MEDIA_CARRIER_BLOCKED');
+  static const mediaSpam = EventType._('MEDIA_SPAM');
+  static const mediaUnknown = EventType._('MEDIA_UNKNOWN');
+  static const mediaTtlExpired = EventType._('MEDIA_TTL_EXPIRED');
+  static const mediaFileInaccessible = EventType._('MEDIA_FILE_INACCESSIBLE');
+  static const mediaFileTypeUnsupported =
+      EventType._('MEDIA_FILE_TYPE_UNSUPPORTED');
+  static const mediaFileSizeExceeded = EventType._('MEDIA_FILE_SIZE_EXCEEDED');
 
   final String value;
 
-  const EventType(this.value);
+  const EventType._(this.value);
 
-  static EventType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum EventType'));
+  static const values = [
+    all,
+    textAll,
+    textSent,
+    textPending,
+    textQueued,
+    textSuccessful,
+    textDelivered,
+    textInvalid,
+    textInvalidMessage,
+    textUnreachable,
+    textCarrierUnreachable,
+    textBlocked,
+    textCarrierBlocked,
+    textSpam,
+    textUnknown,
+    textTtlExpired,
+    voiceAll,
+    voiceInitiated,
+    voiceRinging,
+    voiceAnswered,
+    voiceCompleted,
+    voiceBusy,
+    voiceNoAnswer,
+    voiceFailed,
+    voiceTtlExpired,
+    mediaAll,
+    mediaPending,
+    mediaQueued,
+    mediaSuccessful,
+    mediaDelivered,
+    mediaInvalid,
+    mediaInvalidMessage,
+    mediaUnreachable,
+    mediaCarrierUnreachable,
+    mediaBlocked,
+    mediaCarrierBlocked,
+    mediaSpam,
+    mediaUnknown,
+    mediaTtlExpired,
+    mediaFileInaccessible,
+    mediaFileTypeUnsupported,
+    mediaFileSizeExceeded
+  ];
+
+  static EventType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => EventType._(value));
+
+  @override
+  bool operator ==(other) => other is EventType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum FieldRequirement {
-  required('REQUIRED'),
-  conditional('CONDITIONAL'),
-  optional('OPTIONAL'),
-  ;
+class FieldRequirement {
+  static const required = FieldRequirement._('REQUIRED');
+  static const conditional = FieldRequirement._('CONDITIONAL');
+  static const optional = FieldRequirement._('OPTIONAL');
 
   final String value;
 
-  const FieldRequirement(this.value);
+  const FieldRequirement._(this.value);
+
+  static const values = [required, conditional, optional];
 
   static FieldRequirement fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum FieldRequirement'));
+          orElse: () => FieldRequirement._(value));
+
+  @override
+  bool operator ==(other) => other is FieldRequirement && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum FieldType {
-  select('SELECT'),
-  text('TEXT'),
-  attachment('ATTACHMENT'),
-  ;
+class FieldType {
+  static const select = FieldType._('SELECT');
+  static const text = FieldType._('TEXT');
+  static const attachment = FieldType._('ATTACHMENT');
 
   final String value;
 
-  const FieldType(this.value);
+  const FieldType._(this.value);
 
-  static FieldType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum FieldType'));
+  static const values = [select, text, attachment];
+
+  static FieldType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => FieldType._(value));
+
+  @override
+  bool operator ==(other) => other is FieldType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class GetProtectConfigurationCountryRuleSetResult {
@@ -7681,8 +7840,8 @@ class GetProtectConfigurationCountryRuleSetResult {
               k,
               ProtectConfigurationCountryRuleSetInformation.fromJson(
                   e as Map<String, dynamic>))),
-      numberCapability:
-          NumberCapability.fromString((json['NumberCapability'] as String)),
+      numberCapability: NumberCapability.fromString(
+          (json['NumberCapability'] as String?) ?? ''),
       protectConfigurationArn:
           (json['ProtectConfigurationArn'] as String?) ?? '',
       protectConfigurationId: (json['ProtectConfigurationId'] as String?) ?? '',
@@ -7703,20 +7862,29 @@ class GetProtectConfigurationCountryRuleSetResult {
   }
 }
 
-enum KeywordAction {
-  automaticResponse('AUTOMATIC_RESPONSE'),
-  optOut('OPT_OUT'),
-  optIn('OPT_IN'),
-  ;
+class KeywordAction {
+  static const automaticResponse = KeywordAction._('AUTOMATIC_RESPONSE');
+  static const optOut = KeywordAction._('OPT_OUT');
+  static const optIn = KeywordAction._('OPT_IN');
 
   final String value;
 
-  const KeywordAction(this.value);
+  const KeywordAction._(this.value);
+
+  static const values = [automaticResponse, optOut, optIn];
 
   static KeywordAction fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum KeywordAction'));
+          orElse: () => KeywordAction._(value));
+
+  @override
+  bool operator ==(other) => other is KeywordAction && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The information for keywords that meet a specified criteria.
@@ -7742,18 +7910,27 @@ class KeywordFilter {
   }
 }
 
-enum KeywordFilterName {
-  keywordAction('keyword-action'),
-  ;
+class KeywordFilterName {
+  static const keywordAction = KeywordFilterName._('keyword-action');
 
   final String value;
 
-  const KeywordFilterName(this.value);
+  const KeywordFilterName._(this.value);
+
+  static const values = [keywordAction];
 
   static KeywordFilterName fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum KeywordFilterName'));
+          orElse: () => KeywordFilterName._(value));
+
+  @override
+  bool operator ==(other) => other is KeywordFilterName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The information for all keywords in a pool.
@@ -7777,7 +7954,7 @@ class KeywordInformation {
     return KeywordInformation(
       keyword: (json['Keyword'] as String?) ?? '',
       keywordAction:
-          KeywordAction.fromString((json['KeywordAction'] as String)),
+          KeywordAction.fromString((json['KeywordAction'] as String?) ?? ''),
       keywordMessage: (json['KeywordMessage'] as String?) ?? '',
     );
   }
@@ -7830,30 +8007,52 @@ class KinesisFirehoseDestination {
   }
 }
 
-enum LanguageCode {
-  deDe('DE_DE'),
-  enGb('EN_GB'),
-  enUs('EN_US'),
-  es_419('ES_419'),
-  esEs('ES_ES'),
-  frCa('FR_CA'),
-  frFr('FR_FR'),
-  itIt('IT_IT'),
-  jaJp('JA_JP'),
-  koKr('KO_KR'),
-  ptBr('PT_BR'),
-  zhCn('ZH_CN'),
-  zhTw('ZH_TW'),
-  ;
+class LanguageCode {
+  static const deDe = LanguageCode._('DE_DE');
+  static const enGb = LanguageCode._('EN_GB');
+  static const enUs = LanguageCode._('EN_US');
+  static const es_419 = LanguageCode._('ES_419');
+  static const esEs = LanguageCode._('ES_ES');
+  static const frCa = LanguageCode._('FR_CA');
+  static const frFr = LanguageCode._('FR_FR');
+  static const itIt = LanguageCode._('IT_IT');
+  static const jaJp = LanguageCode._('JA_JP');
+  static const koKr = LanguageCode._('KO_KR');
+  static const ptBr = LanguageCode._('PT_BR');
+  static const zhCn = LanguageCode._('ZH_CN');
+  static const zhTw = LanguageCode._('ZH_TW');
 
   final String value;
 
-  const LanguageCode(this.value);
+  const LanguageCode._(this.value);
 
-  static LanguageCode fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum LanguageCode'));
+  static const values = [
+    deDe,
+    enGb,
+    enUs,
+    es_419,
+    esEs,
+    frCa,
+    frFr,
+    itIt,
+    jaJp,
+    koKr,
+    ptBr,
+    zhCn,
+    zhTw
+  ];
+
+  static LanguageCode fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => LanguageCode._(value));
+
+  @override
+  bool operator ==(other) => other is LanguageCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class ListPoolOriginationIdentitiesResult {
@@ -7996,69 +8195,104 @@ class ListTagsForResourceResult {
   }
 }
 
-enum MessageType {
-  transactional('TRANSACTIONAL'),
-  promotional('PROMOTIONAL'),
-  ;
+class MessageType {
+  static const transactional = MessageType._('TRANSACTIONAL');
+  static const promotional = MessageType._('PROMOTIONAL');
 
   final String value;
 
-  const MessageType(this.value);
+  const MessageType._(this.value);
 
-  static MessageType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum MessageType'));
+  static const values = [transactional, promotional];
+
+  static MessageType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => MessageType._(value));
+
+  @override
+  bool operator ==(other) => other is MessageType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum NumberCapability {
-  sms('SMS'),
-  voice('VOICE'),
-  mms('MMS'),
-  ;
+class NumberCapability {
+  static const sms = NumberCapability._('SMS');
+  static const voice = NumberCapability._('VOICE');
+  static const mms = NumberCapability._('MMS');
 
   final String value;
 
-  const NumberCapability(this.value);
+  const NumberCapability._(this.value);
+
+  static const values = [sms, voice, mms];
 
   static NumberCapability fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum NumberCapability'));
+          orElse: () => NumberCapability._(value));
+
+  @override
+  bool operator ==(other) => other is NumberCapability && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum NumberStatus {
-  pending('PENDING'),
-  active('ACTIVE'),
-  associating('ASSOCIATING'),
-  disassociating('DISASSOCIATING'),
-  deleted('DELETED'),
-  ;
+class NumberStatus {
+  static const pending = NumberStatus._('PENDING');
+  static const active = NumberStatus._('ACTIVE');
+  static const associating = NumberStatus._('ASSOCIATING');
+  static const disassociating = NumberStatus._('DISASSOCIATING');
+  static const deleted = NumberStatus._('DELETED');
 
   final String value;
 
-  const NumberStatus(this.value);
+  const NumberStatus._(this.value);
 
-  static NumberStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum NumberStatus'));
+  static const values = [pending, active, associating, disassociating, deleted];
+
+  static NumberStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => NumberStatus._(value));
+
+  @override
+  bool operator ==(other) => other is NumberStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum NumberType {
-  shortCode('SHORT_CODE'),
-  longCode('LONG_CODE'),
-  tollFree('TOLL_FREE'),
-  tenDlc('TEN_DLC'),
-  simulator('SIMULATOR'),
-  ;
+class NumberType {
+  static const shortCode = NumberType._('SHORT_CODE');
+  static const longCode = NumberType._('LONG_CODE');
+  static const tollFree = NumberType._('TOLL_FREE');
+  static const tenDlc = NumberType._('TEN_DLC');
+  static const simulator = NumberType._('SIMULATOR');
 
   final String value;
 
-  const NumberType(this.value);
+  const NumberType._(this.value);
 
-  static NumberType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum NumberType'));
+  static const values = [shortCode, longCode, tollFree, tenDlc, simulator];
+
+  static NumberType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => NumberType._(value));
+
+  @override
+  bool operator ==(other) => other is NumberType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The information for all OptOutList in an Amazon Web Services account.
@@ -8123,18 +8357,28 @@ class OptedOutFilter {
   }
 }
 
-enum OptedOutFilterName {
-  endUserOptedOut('end-user-opted-out'),
-  ;
+class OptedOutFilterName {
+  static const endUserOptedOut = OptedOutFilterName._('end-user-opted-out');
 
   final String value;
 
-  const OptedOutFilterName(this.value);
+  const OptedOutFilterName._(this.value);
 
-  static OptedOutFilterName fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum OptedOutFilterName'));
+  static const values = [endUserOptedOut];
+
+  static OptedOutFilterName fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => OptedOutFilterName._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is OptedOutFilterName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The information for an opted out number in an Amazon Web Services account.
@@ -8255,27 +8499,51 @@ class PhoneNumberFilter {
   }
 }
 
-enum PhoneNumberFilterName {
-  status('status'),
-  isoCountryCode('iso-country-code'),
-  messageType('message-type'),
-  numberCapability('number-capability'),
-  numberType('number-type'),
-  twoWayEnabled('two-way-enabled'),
-  selfManagedOptOutsEnabled('self-managed-opt-outs-enabled'),
-  optOutListName('opt-out-list-name'),
-  deletionProtectionEnabled('deletion-protection-enabled'),
-  twoWayChannelArn('two-way-channel-arn'),
-  ;
+class PhoneNumberFilterName {
+  static const status = PhoneNumberFilterName._('status');
+  static const isoCountryCode = PhoneNumberFilterName._('iso-country-code');
+  static const messageType = PhoneNumberFilterName._('message-type');
+  static const numberCapability = PhoneNumberFilterName._('number-capability');
+  static const numberType = PhoneNumberFilterName._('number-type');
+  static const twoWayEnabled = PhoneNumberFilterName._('two-way-enabled');
+  static const selfManagedOptOutsEnabled =
+      PhoneNumberFilterName._('self-managed-opt-outs-enabled');
+  static const optOutListName = PhoneNumberFilterName._('opt-out-list-name');
+  static const deletionProtectionEnabled =
+      PhoneNumberFilterName._('deletion-protection-enabled');
+  static const twoWayChannelArn =
+      PhoneNumberFilterName._('two-way-channel-arn');
 
   final String value;
 
-  const PhoneNumberFilterName(this.value);
+  const PhoneNumberFilterName._(this.value);
 
-  static PhoneNumberFilterName fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum PhoneNumberFilterName'));
+  static const values = [
+    status,
+    isoCountryCode,
+    messageType,
+    numberCapability,
+    numberType,
+    twoWayEnabled,
+    selfManagedOptOutsEnabled,
+    optOutListName,
+    deletionProtectionEnabled,
+    twoWayChannelArn
+  ];
+
+  static PhoneNumberFilterName fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => PhoneNumberFilterName._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is PhoneNumberFilterName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The information for a phone number, in E.164 format, in an Amazon Web
@@ -8377,19 +8645,20 @@ class PhoneNumberInformation {
       deletionProtectionEnabled:
           (json['DeletionProtectionEnabled'] as bool?) ?? false,
       isoCountryCode: (json['IsoCountryCode'] as String?) ?? '',
-      messageType: MessageType.fromString((json['MessageType'] as String)),
+      messageType:
+          MessageType.fromString((json['MessageType'] as String?) ?? ''),
       monthlyLeasingPrice: (json['MonthlyLeasingPrice'] as String?) ?? '',
       numberCapabilities: ((json['NumberCapabilities'] as List?) ?? const [])
           .nonNulls
           .map((e) => NumberCapability.fromString((e as String)))
           .toList(),
-      numberType: NumberType.fromString((json['NumberType'] as String)),
+      numberType: NumberType.fromString((json['NumberType'] as String?) ?? ''),
       optOutListName: (json['OptOutListName'] as String?) ?? '',
       phoneNumber: (json['PhoneNumber'] as String?) ?? '',
       phoneNumberArn: (json['PhoneNumberArn'] as String?) ?? '',
       selfManagedOptOutsEnabled:
           (json['SelfManagedOptOutsEnabled'] as bool?) ?? false,
-      status: NumberStatus.fromString((json['Status'] as String)),
+      status: NumberStatus.fromString((json['Status'] as String?) ?? ''),
       twoWayEnabled: (json['TwoWayEnabled'] as bool?) ?? false,
       phoneNumberId: json['PhoneNumberId'] as String?,
       poolId: json['PoolId'] as String?,
@@ -8464,25 +8733,45 @@ class PoolFilter {
   }
 }
 
-enum PoolFilterName {
-  status('status'),
-  messageType('message-type'),
-  twoWayEnabled('two-way-enabled'),
-  selfManagedOptOutsEnabled('self-managed-opt-outs-enabled'),
-  optOutListName('opt-out-list-name'),
-  sharedRoutesEnabled('shared-routes-enabled'),
-  deletionProtectionEnabled('deletion-protection-enabled'),
-  twoWayChannelArn('two-way-channel-arn'),
-  ;
+class PoolFilterName {
+  static const status = PoolFilterName._('status');
+  static const messageType = PoolFilterName._('message-type');
+  static const twoWayEnabled = PoolFilterName._('two-way-enabled');
+  static const selfManagedOptOutsEnabled =
+      PoolFilterName._('self-managed-opt-outs-enabled');
+  static const optOutListName = PoolFilterName._('opt-out-list-name');
+  static const sharedRoutesEnabled = PoolFilterName._('shared-routes-enabled');
+  static const deletionProtectionEnabled =
+      PoolFilterName._('deletion-protection-enabled');
+  static const twoWayChannelArn = PoolFilterName._('two-way-channel-arn');
 
   final String value;
 
-  const PoolFilterName(this.value);
+  const PoolFilterName._(this.value);
+
+  static const values = [
+    status,
+    messageType,
+    twoWayEnabled,
+    selfManagedOptOutsEnabled,
+    optOutListName,
+    sharedRoutesEnabled,
+    deletionProtectionEnabled,
+    twoWayChannelArn
+  ];
 
   static PoolFilterName fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum PoolFilterName'));
+          orElse: () => PoolFilterName._(value));
+
+  @override
+  bool operator ==(other) => other is PoolFilterName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The information for a pool in an Amazon Web Services account.
@@ -8562,14 +8851,15 @@ class PoolInformation {
           nonNullableTimeStampFromJson(json['CreatedTimestamp'] ?? 0),
       deletionProtectionEnabled:
           (json['DeletionProtectionEnabled'] as bool?) ?? false,
-      messageType: MessageType.fromString((json['MessageType'] as String)),
+      messageType:
+          MessageType.fromString((json['MessageType'] as String?) ?? ''),
       optOutListName: (json['OptOutListName'] as String?) ?? '',
       poolArn: (json['PoolArn'] as String?) ?? '',
       poolId: (json['PoolId'] as String?) ?? '',
       selfManagedOptOutsEnabled:
           (json['SelfManagedOptOutsEnabled'] as bool?) ?? false,
       sharedRoutesEnabled: (json['SharedRoutesEnabled'] as bool?) ?? false,
-      status: PoolStatus.fromString((json['Status'] as String)),
+      status: PoolStatus.fromString((json['Status'] as String?) ?? ''),
       twoWayEnabled: (json['TwoWayEnabled'] as bool?) ?? false,
       twoWayChannelArn: json['TwoWayChannelArn'] as String?,
       twoWayChannelRole: json['TwoWayChannelRole'] as String?,
@@ -8630,34 +8920,55 @@ class PoolOriginationIdentitiesFilter {
   }
 }
 
-enum PoolOriginationIdentitiesFilterName {
-  isoCountryCode('iso-country-code'),
-  numberCapability('number-capability'),
-  ;
+class PoolOriginationIdentitiesFilterName {
+  static const isoCountryCode =
+      PoolOriginationIdentitiesFilterName._('iso-country-code');
+  static const numberCapability =
+      PoolOriginationIdentitiesFilterName._('number-capability');
 
   final String value;
 
-  const PoolOriginationIdentitiesFilterName(this.value);
+  const PoolOriginationIdentitiesFilterName._(this.value);
+
+  static const values = [isoCountryCode, numberCapability];
 
   static PoolOriginationIdentitiesFilterName fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum PoolOriginationIdentitiesFilterName'));
+          orElse: () => PoolOriginationIdentitiesFilterName._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is PoolOriginationIdentitiesFilterName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum PoolStatus {
-  creating('CREATING'),
-  active('ACTIVE'),
-  deleting('DELETING'),
-  ;
+class PoolStatus {
+  static const creating = PoolStatus._('CREATING');
+  static const active = PoolStatus._('ACTIVE');
+  static const deleting = PoolStatus._('DELETING');
 
   final String value;
 
-  const PoolStatus(this.value);
+  const PoolStatus._(this.value);
 
-  static PoolStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum PoolStatus'));
+  static const values = [creating, active, deleting];
+
+  static PoolStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => PoolStatus._(value));
+
+  @override
+  bool operator ==(other) => other is PoolStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The types of statuses that can be used.
@@ -8673,7 +8984,7 @@ class ProtectConfigurationCountryRuleSetInformation {
       Map<String, dynamic> json) {
     return ProtectConfigurationCountryRuleSetInformation(
       protectStatus:
-          ProtectStatus.fromString((json['ProtectStatus'] as String)),
+          ProtectStatus.fromString((json['ProtectStatus'] as String?) ?? ''),
     );
   }
 
@@ -8709,19 +9020,31 @@ class ProtectConfigurationFilter {
   }
 }
 
-enum ProtectConfigurationFilterName {
-  accountDefault('account-default'),
-  deletionProtectionEnabled('deletion-protection-enabled'),
-  ;
+class ProtectConfigurationFilterName {
+  static const accountDefault =
+      ProtectConfigurationFilterName._('account-default');
+  static const deletionProtectionEnabled =
+      ProtectConfigurationFilterName._('deletion-protection-enabled');
 
   final String value;
 
-  const ProtectConfigurationFilterName(this.value);
+  const ProtectConfigurationFilterName._(this.value);
+
+  static const values = [accountDefault, deletionProtectionEnabled];
 
   static ProtectConfigurationFilterName fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ProtectConfigurationFilterName'));
+          orElse: () => ProtectConfigurationFilterName._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ProtectConfigurationFilterName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Provides information on the specified protect configuration.
@@ -8781,19 +9104,28 @@ class ProtectConfigurationInformation {
   }
 }
 
-enum ProtectStatus {
-  allow('ALLOW'),
-  block('BLOCK'),
-  ;
+class ProtectStatus {
+  static const allow = ProtectStatus._('ALLOW');
+  static const block = ProtectStatus._('BLOCK');
 
   final String value;
 
-  const ProtectStatus(this.value);
+  const ProtectStatus._(this.value);
+
+  static const values = [allow, block];
 
   static ProtectStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ProtectStatus'));
+          orElse: () => ProtectStatus._(value));
+
+  @override
+  bool operator ==(other) => other is ProtectStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class PutKeywordResult {
@@ -8971,20 +9303,37 @@ class PutRegistrationFieldValueResult {
   }
 }
 
-enum RegistrationAssociationBehavior {
-  associateBeforeSubmit('ASSOCIATE_BEFORE_SUBMIT'),
-  associateOnApproval('ASSOCIATE_ON_APPROVAL'),
-  associateAfterComplete('ASSOCIATE_AFTER_COMPLETE'),
-  ;
+class RegistrationAssociationBehavior {
+  static const associateBeforeSubmit =
+      RegistrationAssociationBehavior._('ASSOCIATE_BEFORE_SUBMIT');
+  static const associateOnApproval =
+      RegistrationAssociationBehavior._('ASSOCIATE_ON_APPROVAL');
+  static const associateAfterComplete =
+      RegistrationAssociationBehavior._('ASSOCIATE_AFTER_COMPLETE');
 
   final String value;
 
-  const RegistrationAssociationBehavior(this.value);
+  const RegistrationAssociationBehavior._(this.value);
+
+  static const values = [
+    associateBeforeSubmit,
+    associateOnApproval,
+    associateAfterComplete
+  ];
 
   static RegistrationAssociationBehavior fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum RegistrationAssociationBehavior'));
+          orElse: () => RegistrationAssociationBehavior._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RegistrationAssociationBehavior && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The filter definition for filtering registrations that meets a specified
@@ -9011,19 +9360,31 @@ class RegistrationAssociationFilter {
   }
 }
 
-enum RegistrationAssociationFilterName {
-  resourceType('resource-type'),
-  isoCountryCode('iso-country-code'),
-  ;
+class RegistrationAssociationFilterName {
+  static const resourceType =
+      RegistrationAssociationFilterName._('resource-type');
+  static const isoCountryCode =
+      RegistrationAssociationFilterName._('iso-country-code');
 
   final String value;
 
-  const RegistrationAssociationFilterName(this.value);
+  const RegistrationAssociationFilterName._(this.value);
+
+  static const values = [resourceType, isoCountryCode];
 
   static RegistrationAssociationFilterName fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum RegistrationAssociationFilterName'));
+          orElse: () => RegistrationAssociationFilterName._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RegistrationAssociationFilterName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Metadata for the origination identity that is associated with the
@@ -9105,18 +9466,29 @@ class RegistrationAttachmentFilter {
   }
 }
 
-enum RegistrationAttachmentFilterName {
-  attachmentStatus('attachment-status'),
-  ;
+class RegistrationAttachmentFilterName {
+  static const attachmentStatus =
+      RegistrationAttachmentFilterName._('attachment-status');
 
   final String value;
 
-  const RegistrationAttachmentFilterName(this.value);
+  const RegistrationAttachmentFilterName._(this.value);
+
+  static const values = [attachmentStatus];
 
   static RegistrationAttachmentFilterName fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum RegistrationAttachmentFilterName'));
+          orElse: () => RegistrationAttachmentFilterName._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RegistrationAttachmentFilterName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Provides information on the specified registration attachments.
@@ -9163,8 +9535,8 @@ class RegistrationAttachmentsInformation {
   factory RegistrationAttachmentsInformation.fromJson(
       Map<String, dynamic> json) {
     return RegistrationAttachmentsInformation(
-      attachmentStatus:
-          AttachmentStatus.fromString((json['AttachmentStatus'] as String)),
+      attachmentStatus: AttachmentStatus.fromString(
+          (json['AttachmentStatus'] as String?) ?? ''),
       createdTimestamp:
           nonNullableTimeStampFromJson(json['CreatedTimestamp'] ?? 0),
       registrationAttachmentArn:
@@ -9246,21 +9618,39 @@ class RegistrationDeniedReasonInformation {
   }
 }
 
-enum RegistrationDisassociationBehavior {
-  disassociateAllClosesRegistration('DISASSOCIATE_ALL_CLOSES_REGISTRATION'),
-  disassociateAllAllowsDeleteRegistration(
-      'DISASSOCIATE_ALL_ALLOWS_DELETE_REGISTRATION'),
-  deleteRegistrationDisassociates('DELETE_REGISTRATION_DISASSOCIATES'),
-  ;
+class RegistrationDisassociationBehavior {
+  static const disassociateAllClosesRegistration =
+      RegistrationDisassociationBehavior._(
+          'DISASSOCIATE_ALL_CLOSES_REGISTRATION');
+  static const disassociateAllAllowsDeleteRegistration =
+      RegistrationDisassociationBehavior._(
+          'DISASSOCIATE_ALL_ALLOWS_DELETE_REGISTRATION');
+  static const deleteRegistrationDisassociates =
+      RegistrationDisassociationBehavior._('DELETE_REGISTRATION_DISASSOCIATES');
 
   final String value;
 
-  const RegistrationDisassociationBehavior(this.value);
+  const RegistrationDisassociationBehavior._(this.value);
+
+  static const values = [
+    disassociateAllClosesRegistration,
+    disassociateAllAllowsDeleteRegistration,
+    deleteRegistrationDisassociates
+  ];
 
   static RegistrationDisassociationBehavior fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum RegistrationDisassociationBehavior'));
+          orElse: () => RegistrationDisassociationBehavior._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RegistrationDisassociationBehavior && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Provides a description of the specified field.
@@ -9304,9 +9694,9 @@ class RegistrationFieldDefinition {
           (json['DisplayHints'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
       fieldPath: (json['FieldPath'] as String?) ?? '',
-      fieldRequirement:
-          FieldRequirement.fromString((json['FieldRequirement'] as String)),
-      fieldType: FieldType.fromString((json['FieldType'] as String)),
+      fieldRequirement: FieldRequirement.fromString(
+          (json['FieldRequirement'] as String?) ?? ''),
+      fieldType: FieldType.fromString((json['FieldType'] as String?) ?? ''),
       sectionPath: (json['SectionPath'] as String?) ?? '',
       selectValidation: json['SelectValidation'] != null
           ? SelectValidation.fromJson(
@@ -9498,19 +9888,30 @@ class RegistrationFilter {
   }
 }
 
-enum RegistrationFilterName {
-  registrationType('registration-type'),
-  registrationStatus('registration-status'),
-  ;
+class RegistrationFilterName {
+  static const registrationType = RegistrationFilterName._('registration-type');
+  static const registrationStatus =
+      RegistrationFilterName._('registration-status');
 
   final String value;
 
-  const RegistrationFilterName(this.value);
+  const RegistrationFilterName._(this.value);
+
+  static const values = [registrationType, registrationStatus];
 
   static RegistrationFilterName fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum RegistrationFilterName'));
+          orElse: () => RegistrationFilterName._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RegistrationFilterName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Provides information about the requested registration.
@@ -9597,8 +9998,8 @@ class RegistrationInformation {
       currentVersionNumber: (json['CurrentVersionNumber'] as int?) ?? 0,
       registrationArn: (json['RegistrationArn'] as String?) ?? '',
       registrationId: (json['RegistrationId'] as String?) ?? '',
-      registrationStatus:
-          RegistrationStatus.fromString((json['RegistrationStatus'] as String)),
+      registrationStatus: RegistrationStatus.fromString(
+          (json['RegistrationStatus'] as String?) ?? ''),
       registrationType: (json['RegistrationType'] as String?) ?? '',
       additionalAttributes:
           (json['AdditionalAttributes'] as Map<String, dynamic>?)
@@ -9718,25 +10119,44 @@ class RegistrationSectionDisplayHints {
   }
 }
 
-enum RegistrationStatus {
-  created('CREATED'),
-  submitted('SUBMITTED'),
-  reviewing('REVIEWING'),
-  provisioning('PROVISIONING'),
-  complete('COMPLETE'),
-  requiresUpdates('REQUIRES_UPDATES'),
-  closed('CLOSED'),
-  deleted('DELETED'),
-  ;
+class RegistrationStatus {
+  static const created = RegistrationStatus._('CREATED');
+  static const submitted = RegistrationStatus._('SUBMITTED');
+  static const reviewing = RegistrationStatus._('REVIEWING');
+  static const provisioning = RegistrationStatus._('PROVISIONING');
+  static const complete = RegistrationStatus._('COMPLETE');
+  static const requiresUpdates = RegistrationStatus._('REQUIRES_UPDATES');
+  static const closed = RegistrationStatus._('CLOSED');
+  static const deleted = RegistrationStatus._('DELETED');
 
   final String value;
 
-  const RegistrationStatus(this.value);
+  const RegistrationStatus._(this.value);
 
-  static RegistrationStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum RegistrationStatus'));
+  static const values = [
+    created,
+    submitted,
+    reviewing,
+    provisioning,
+    complete,
+    requiresUpdates,
+    closed,
+    deleted
+  ];
+
+  static RegistrationStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => RegistrationStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RegistrationStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Provides information on the supported registration type.
@@ -9858,19 +10278,34 @@ class RegistrationTypeFilter {
   }
 }
 
-enum RegistrationTypeFilterName {
-  supportedAssociationResourceType('supported-association-resource-type'),
-  supportedAssociationIsoCountryCode('supported-association-iso-country-code'),
-  ;
+class RegistrationTypeFilterName {
+  static const supportedAssociationResourceType =
+      RegistrationTypeFilterName._('supported-association-resource-type');
+  static const supportedAssociationIsoCountryCode =
+      RegistrationTypeFilterName._('supported-association-iso-country-code');
 
   final String value;
 
-  const RegistrationTypeFilterName(this.value);
+  const RegistrationTypeFilterName._(this.value);
+
+  static const values = [
+    supportedAssociationResourceType,
+    supportedAssociationIsoCountryCode
+  ];
 
   static RegistrationTypeFilterName fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum RegistrationTypeFilterName'));
+          orElse: () => RegistrationTypeFilterName._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RegistrationTypeFilterName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The filter definition for filtering registration versions that meets a
@@ -9897,18 +10332,29 @@ class RegistrationVersionFilter {
   }
 }
 
-enum RegistrationVersionFilterName {
-  registrationVersionStatus('registration-version-status'),
-  ;
+class RegistrationVersionFilterName {
+  static const registrationVersionStatus =
+      RegistrationVersionFilterName._('registration-version-status');
 
   final String value;
 
-  const RegistrationVersionFilterName(this.value);
+  const RegistrationVersionFilterName._(this.value);
+
+  static const values = [registrationVersionStatus];
 
   static RegistrationVersionFilterName fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum RegistrationVersionFilterName'));
+          orElse: () => RegistrationVersionFilterName._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RegistrationVersionFilterName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Provides information about the specified version of the registration.
@@ -9968,7 +10414,7 @@ class RegistrationVersionInformation {
   factory RegistrationVersionInformation.fromJson(Map<String, dynamic> json) {
     return RegistrationVersionInformation(
       registrationVersionStatus: RegistrationVersionStatus.fromString(
-          (json['RegistrationVersionStatus'] as String)),
+          (json['RegistrationVersionStatus'] as String?) ?? ''),
       registrationVersionStatusHistory:
           RegistrationVersionStatusHistory.fromJson(
               (json['RegistrationVersionStatusHistory']
@@ -9998,25 +10444,44 @@ class RegistrationVersionInformation {
   }
 }
 
-enum RegistrationVersionStatus {
-  draft('DRAFT'),
-  submitted('SUBMITTED'),
-  reviewing('REVIEWING'),
-  approved('APPROVED'),
-  discarded('DISCARDED'),
-  denied('DENIED'),
-  revoked('REVOKED'),
-  archived('ARCHIVED'),
-  ;
+class RegistrationVersionStatus {
+  static const draft = RegistrationVersionStatus._('DRAFT');
+  static const submitted = RegistrationVersionStatus._('SUBMITTED');
+  static const reviewing = RegistrationVersionStatus._('REVIEWING');
+  static const approved = RegistrationVersionStatus._('APPROVED');
+  static const discarded = RegistrationVersionStatus._('DISCARDED');
+  static const denied = RegistrationVersionStatus._('DENIED');
+  static const revoked = RegistrationVersionStatus._('REVOKED');
+  static const archived = RegistrationVersionStatus._('ARCHIVED');
 
   final String value;
 
-  const RegistrationVersionStatus(this.value);
+  const RegistrationVersionStatus._(this.value);
+
+  static const values = [
+    draft,
+    submitted,
+    reviewing,
+    approved,
+    discarded,
+    denied,
+    revoked,
+    archived
+  ];
 
   static RegistrationVersionStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum RegistrationVersionStatus'));
+          orElse: () => RegistrationVersionStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RegistrationVersionStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The <b>RegistrationVersionStatusHistory</b> object contains the time stamps
@@ -10579,21 +11044,31 @@ class RequestSenderIdResult {
   }
 }
 
-enum RequestableNumberType {
-  longCode('LONG_CODE'),
-  tollFree('TOLL_FREE'),
-  tenDlc('TEN_DLC'),
-  simulator('SIMULATOR'),
-  ;
+class RequestableNumberType {
+  static const longCode = RequestableNumberType._('LONG_CODE');
+  static const tollFree = RequestableNumberType._('TOLL_FREE');
+  static const tenDlc = RequestableNumberType._('TEN_DLC');
+  static const simulator = RequestableNumberType._('SIMULATOR');
 
   final String value;
 
-  const RequestableNumberType(this.value);
+  const RequestableNumberType._(this.value);
 
-  static RequestableNumberType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum RequestableNumberType'));
+  static const values = [longCode, tollFree, tenDlc, simulator];
+
+  static RequestableNumberType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => RequestableNumberType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RequestableNumberType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A description of each select option.
@@ -10812,22 +11287,39 @@ class SenderIdFilter {
   }
 }
 
-enum SenderIdFilterName {
-  senderId('sender-id'),
-  isoCountryCode('iso-country-code'),
-  messageType('message-type'),
-  deletionProtectionEnabled('deletion-protection-enabled'),
-  registered('registered'),
-  ;
+class SenderIdFilterName {
+  static const senderId = SenderIdFilterName._('sender-id');
+  static const isoCountryCode = SenderIdFilterName._('iso-country-code');
+  static const messageType = SenderIdFilterName._('message-type');
+  static const deletionProtectionEnabled =
+      SenderIdFilterName._('deletion-protection-enabled');
+  static const registered = SenderIdFilterName._('registered');
 
   final String value;
 
-  const SenderIdFilterName(this.value);
+  const SenderIdFilterName._(this.value);
 
-  static SenderIdFilterName fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum SenderIdFilterName'));
+  static const values = [
+    senderId,
+    isoCountryCode,
+    messageType,
+    deletionProtectionEnabled,
+    registered
+  ];
+
+  static SenderIdFilterName fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => SenderIdFilterName._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SenderIdFilterName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The information for all SenderIds in an Amazon Web Services account.
@@ -11150,7 +11642,7 @@ class SpendLimit {
     return SpendLimit(
       enforcedLimit: (json['EnforcedLimit'] as int?) ?? 0,
       maxLimit: (json['MaxLimit'] as int?) ?? 0,
-      name: SpendLimitName.fromString((json['Name'] as String)),
+      name: SpendLimitName.fromString((json['Name'] as String?) ?? ''),
       overridden: (json['Overridden'] as bool?) ?? false,
     );
   }
@@ -11169,20 +11661,36 @@ class SpendLimit {
   }
 }
 
-enum SpendLimitName {
-  textMessageMonthlySpendLimit('TEXT_MESSAGE_MONTHLY_SPEND_LIMIT'),
-  voiceMessageMonthlySpendLimit('VOICE_MESSAGE_MONTHLY_SPEND_LIMIT'),
-  mediaMessageMonthlySpendLimit('MEDIA_MESSAGE_MONTHLY_SPEND_LIMIT'),
-  ;
+class SpendLimitName {
+  static const textMessageMonthlySpendLimit =
+      SpendLimitName._('TEXT_MESSAGE_MONTHLY_SPEND_LIMIT');
+  static const voiceMessageMonthlySpendLimit =
+      SpendLimitName._('VOICE_MESSAGE_MONTHLY_SPEND_LIMIT');
+  static const mediaMessageMonthlySpendLimit =
+      SpendLimitName._('MEDIA_MESSAGE_MONTHLY_SPEND_LIMIT');
 
   final String value;
 
-  const SpendLimitName(this.value);
+  const SpendLimitName._(this.value);
+
+  static const values = [
+    textMessageMonthlySpendLimit,
+    voiceMessageMonthlySpendLimit,
+    mediaMessageMonthlySpendLimit
+  ];
 
   static SpendLimitName fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum SpendLimitName'));
+          orElse: () => SpendLimitName._(value));
+
+  @override
+  bool operator ==(other) => other is SpendLimitName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class SubmitRegistrationVersionResult {
@@ -11247,7 +11755,7 @@ class SubmitRegistrationVersionResult {
       registrationArn: (json['RegistrationArn'] as String?) ?? '',
       registrationId: (json['RegistrationId'] as String?) ?? '',
       registrationVersionStatus: RegistrationVersionStatus.fromString(
-          (json['RegistrationVersionStatus'] as String)),
+          (json['RegistrationVersionStatus'] as String?) ?? ''),
       registrationVersionStatusHistory:
           RegistrationVersionStatusHistory.fromJson(
               (json['RegistrationVersionStatusHistory']
@@ -11335,9 +11843,9 @@ class SupportedAssociation {
   factory SupportedAssociation.fromJson(Map<String, dynamic> json) {
     return SupportedAssociation(
       associationBehavior: RegistrationAssociationBehavior.fromString(
-          (json['AssociationBehavior'] as String)),
+          (json['AssociationBehavior'] as String?) ?? ''),
       disassociationBehavior: RegistrationDisassociationBehavior.fromString(
-          (json['DisassociationBehavior'] as String)),
+          (json['DisassociationBehavior'] as String?) ?? ''),
       resourceType: (json['ResourceType'] as String?) ?? '',
       isoCountryCode: json['IsoCountryCode'] as String?,
     );
@@ -11782,8 +12290,8 @@ class UpdateProtectConfigurationCountryRuleSetResult {
               k,
               ProtectConfigurationCountryRuleSetInformation.fromJson(
                   e as Map<String, dynamic>))),
-      numberCapability:
-          NumberCapability.fromString((json['NumberCapability'] as String)),
+      numberCapability: NumberCapability.fromString(
+          (json['NumberCapability'] as String?) ?? ''),
       protectConfigurationArn:
           (json['ProtectConfigurationArn'] as String?) ?? '',
       protectConfigurationId: (json['ProtectConfigurationId'] as String?) ?? '',
@@ -11939,34 +12447,54 @@ class UpdateSenderIdResult {
   }
 }
 
-enum VerificationChannel {
-  text('TEXT'),
-  voice('VOICE'),
-  ;
+class VerificationChannel {
+  static const text = VerificationChannel._('TEXT');
+  static const voice = VerificationChannel._('VOICE');
 
   final String value;
 
-  const VerificationChannel(this.value);
+  const VerificationChannel._(this.value);
 
-  static VerificationChannel fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum VerificationChannel'));
+  static const values = [text, voice];
+
+  static VerificationChannel fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => VerificationChannel._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is VerificationChannel && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum VerificationStatus {
-  pending('PENDING'),
-  verified('VERIFIED'),
-  ;
+class VerificationStatus {
+  static const pending = VerificationStatus._('PENDING');
+  static const verified = VerificationStatus._('VERIFIED');
 
   final String value;
 
-  const VerificationStatus(this.value);
+  const VerificationStatus._(this.value);
 
-  static VerificationStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum VerificationStatus'));
+  static const values = [pending, verified];
+
+  static VerificationStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => VerificationStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is VerificationStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The filter definition for filtering verified destination phone numbers that
@@ -11993,18 +12521,28 @@ class VerifiedDestinationNumberFilter {
   }
 }
 
-enum VerifiedDestinationNumberFilterName {
-  status('status'),
-  ;
+class VerifiedDestinationNumberFilterName {
+  static const status = VerifiedDestinationNumberFilterName._('status');
 
   final String value;
 
-  const VerifiedDestinationNumberFilterName(this.value);
+  const VerifiedDestinationNumberFilterName._(this.value);
+
+  static const values = [status];
 
   static VerifiedDestinationNumberFilterName fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum VerifiedDestinationNumberFilterName'));
+          orElse: () => VerifiedDestinationNumberFilterName._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is VerifiedDestinationNumberFilterName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Provides information about the requested verified destintion phone number.
@@ -12049,7 +12587,7 @@ class VerifiedDestinationNumberInformation {
       createdTimestamp:
           nonNullableTimeStampFromJson(json['CreatedTimestamp'] ?? 0),
       destinationPhoneNumber: (json['DestinationPhoneNumber'] as String?) ?? '',
-      status: VerificationStatus.fromString((json['Status'] as String)),
+      status: VerificationStatus.fromString((json['Status'] as String?) ?? ''),
       verifiedDestinationNumberArn:
           (json['VerifiedDestinationNumberArn'] as String?) ?? '',
       verifiedDestinationNumberId:
@@ -12103,7 +12641,7 @@ class VerifyDestinationNumberResult {
       createdTimestamp:
           nonNullableTimeStampFromJson(json['CreatedTimestamp'] ?? 0),
       destinationPhoneNumber: (json['DestinationPhoneNumber'] as String?) ?? '',
-      status: VerificationStatus.fromString((json['Status'] as String)),
+      status: VerificationStatus.fromString((json['Status'] as String?) ?? ''),
       verifiedDestinationNumberArn:
           (json['VerifiedDestinationNumberArn'] as String?) ?? '',
       verifiedDestinationNumberId:
@@ -12127,90 +12665,169 @@ class VerifyDestinationNumberResult {
   }
 }
 
-enum VoiceId {
-  amy('AMY'),
-  astrid('ASTRID'),
-  bianca('BIANCA'),
-  brian('BRIAN'),
-  camila('CAMILA'),
-  carla('CARLA'),
-  carmen('CARMEN'),
-  celine('CELINE'),
-  chantal('CHANTAL'),
-  conchita('CONCHITA'),
-  cristiano('CRISTIANO'),
-  dora('DORA'),
-  emma('EMMA'),
-  enrique('ENRIQUE'),
-  ewa('EWA'),
-  filiz('FILIZ'),
-  geraint('GERAINT'),
-  giorgio('GIORGIO'),
-  gwyneth('GWYNETH'),
-  hans('HANS'),
-  ines('INES'),
-  ivy('IVY'),
-  jacek('JACEK'),
-  jan('JAN'),
-  joanna('JOANNA'),
-  joey('JOEY'),
-  justin('JUSTIN'),
-  karl('KARL'),
-  kendra('KENDRA'),
-  kimberly('KIMBERLY'),
-  lea('LEA'),
-  liv('LIV'),
-  lotte('LOTTE'),
-  lucia('LUCIA'),
-  lupe('LUPE'),
-  mads('MADS'),
-  maja('MAJA'),
-  marlene('MARLENE'),
-  mathieu('MATHIEU'),
-  matthew('MATTHEW'),
-  maxim('MAXIM'),
-  mia('MIA'),
-  miguel('MIGUEL'),
-  mizuki('MIZUKI'),
-  naja('NAJA'),
-  nicole('NICOLE'),
-  penelope('PENELOPE'),
-  raveena('RAVEENA'),
-  ricardo('RICARDO'),
-  ruben('RUBEN'),
-  russell('RUSSELL'),
-  salli('SALLI'),
-  seoyeon('SEOYEON'),
-  takumi('TAKUMI'),
-  tatyana('TATYANA'),
-  vicki('VICKI'),
-  vitoria('VITORIA'),
-  zeina('ZEINA'),
-  zhiyu('ZHIYU'),
-  ;
+class VoiceId {
+  static const amy = VoiceId._('AMY');
+  static const astrid = VoiceId._('ASTRID');
+  static const bianca = VoiceId._('BIANCA');
+  static const brian = VoiceId._('BRIAN');
+  static const camila = VoiceId._('CAMILA');
+  static const carla = VoiceId._('CARLA');
+  static const carmen = VoiceId._('CARMEN');
+  static const celine = VoiceId._('CELINE');
+  static const chantal = VoiceId._('CHANTAL');
+  static const conchita = VoiceId._('CONCHITA');
+  static const cristiano = VoiceId._('CRISTIANO');
+  static const dora = VoiceId._('DORA');
+  static const emma = VoiceId._('EMMA');
+  static const enrique = VoiceId._('ENRIQUE');
+  static const ewa = VoiceId._('EWA');
+  static const filiz = VoiceId._('FILIZ');
+  static const geraint = VoiceId._('GERAINT');
+  static const giorgio = VoiceId._('GIORGIO');
+  static const gwyneth = VoiceId._('GWYNETH');
+  static const hans = VoiceId._('HANS');
+  static const ines = VoiceId._('INES');
+  static const ivy = VoiceId._('IVY');
+  static const jacek = VoiceId._('JACEK');
+  static const jan = VoiceId._('JAN');
+  static const joanna = VoiceId._('JOANNA');
+  static const joey = VoiceId._('JOEY');
+  static const justin = VoiceId._('JUSTIN');
+  static const karl = VoiceId._('KARL');
+  static const kendra = VoiceId._('KENDRA');
+  static const kimberly = VoiceId._('KIMBERLY');
+  static const lea = VoiceId._('LEA');
+  static const liv = VoiceId._('LIV');
+  static const lotte = VoiceId._('LOTTE');
+  static const lucia = VoiceId._('LUCIA');
+  static const lupe = VoiceId._('LUPE');
+  static const mads = VoiceId._('MADS');
+  static const maja = VoiceId._('MAJA');
+  static const marlene = VoiceId._('MARLENE');
+  static const mathieu = VoiceId._('MATHIEU');
+  static const matthew = VoiceId._('MATTHEW');
+  static const maxim = VoiceId._('MAXIM');
+  static const mia = VoiceId._('MIA');
+  static const miguel = VoiceId._('MIGUEL');
+  static const mizuki = VoiceId._('MIZUKI');
+  static const naja = VoiceId._('NAJA');
+  static const nicole = VoiceId._('NICOLE');
+  static const penelope = VoiceId._('PENELOPE');
+  static const raveena = VoiceId._('RAVEENA');
+  static const ricardo = VoiceId._('RICARDO');
+  static const ruben = VoiceId._('RUBEN');
+  static const russell = VoiceId._('RUSSELL');
+  static const salli = VoiceId._('SALLI');
+  static const seoyeon = VoiceId._('SEOYEON');
+  static const takumi = VoiceId._('TAKUMI');
+  static const tatyana = VoiceId._('TATYANA');
+  static const vicki = VoiceId._('VICKI');
+  static const vitoria = VoiceId._('VITORIA');
+  static const zeina = VoiceId._('ZEINA');
+  static const zhiyu = VoiceId._('ZHIYU');
 
   final String value;
 
-  const VoiceId(this.value);
+  const VoiceId._(this.value);
 
-  static VoiceId fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum VoiceId'));
+  static const values = [
+    amy,
+    astrid,
+    bianca,
+    brian,
+    camila,
+    carla,
+    carmen,
+    celine,
+    chantal,
+    conchita,
+    cristiano,
+    dora,
+    emma,
+    enrique,
+    ewa,
+    filiz,
+    geraint,
+    giorgio,
+    gwyneth,
+    hans,
+    ines,
+    ivy,
+    jacek,
+    jan,
+    joanna,
+    joey,
+    justin,
+    karl,
+    kendra,
+    kimberly,
+    lea,
+    liv,
+    lotte,
+    lucia,
+    lupe,
+    mads,
+    maja,
+    marlene,
+    mathieu,
+    matthew,
+    maxim,
+    mia,
+    miguel,
+    mizuki,
+    naja,
+    nicole,
+    penelope,
+    raveena,
+    ricardo,
+    ruben,
+    russell,
+    salli,
+    seoyeon,
+    takumi,
+    tatyana,
+    vicki,
+    vitoria,
+    zeina,
+    zhiyu
+  ];
+
+  static VoiceId fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => VoiceId._(value));
+
+  @override
+  bool operator ==(other) => other is VoiceId && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum VoiceMessageBodyTextType {
-  text('TEXT'),
-  ssml('SSML'),
-  ;
+class VoiceMessageBodyTextType {
+  static const text = VoiceMessageBodyTextType._('TEXT');
+  static const ssml = VoiceMessageBodyTextType._('SSML');
 
   final String value;
 
-  const VoiceMessageBodyTextType(this.value);
+  const VoiceMessageBodyTextType._(this.value);
+
+  static const values = [text, ssml];
 
   static VoiceMessageBodyTextType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum VoiceMessageBodyTextType'));
+          orElse: () => VoiceMessageBodyTextType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is VoiceMessageBodyTextType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class AccessDeniedException extends _s.GenericAwsException {

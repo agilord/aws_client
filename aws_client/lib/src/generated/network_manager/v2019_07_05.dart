@@ -4165,64 +4165,121 @@ class AttachmentError {
   }
 }
 
-enum AttachmentErrorCode {
-  vpcNotFound('VPC_NOT_FOUND'),
-  subnetNotFound('SUBNET_NOT_FOUND'),
-  subnetDuplicatedInAvailabilityZone('SUBNET_DUPLICATED_IN_AVAILABILITY_ZONE'),
-  subnetNoFreeAddresses('SUBNET_NO_FREE_ADDRESSES'),
-  subnetUnsupportedAvailabilityZone('SUBNET_UNSUPPORTED_AVAILABILITY_ZONE'),
-  subnetNoIpv6Cidrs('SUBNET_NO_IPV6_CIDRS'),
-  vpnConnectionNotFound('VPN_CONNECTION_NOT_FOUND'),
-  maximumNoEncapLimitExceeded('MAXIMUM_NO_ENCAP_LIMIT_EXCEEDED'),
-  ;
+class AttachmentErrorCode {
+  static const vpcNotFound = AttachmentErrorCode._('VPC_NOT_FOUND');
+  static const subnetNotFound = AttachmentErrorCode._('SUBNET_NOT_FOUND');
+  static const subnetDuplicatedInAvailabilityZone =
+      AttachmentErrorCode._('SUBNET_DUPLICATED_IN_AVAILABILITY_ZONE');
+  static const subnetNoFreeAddresses =
+      AttachmentErrorCode._('SUBNET_NO_FREE_ADDRESSES');
+  static const subnetUnsupportedAvailabilityZone =
+      AttachmentErrorCode._('SUBNET_UNSUPPORTED_AVAILABILITY_ZONE');
+  static const subnetNoIpv6Cidrs =
+      AttachmentErrorCode._('SUBNET_NO_IPV6_CIDRS');
+  static const vpnConnectionNotFound =
+      AttachmentErrorCode._('VPN_CONNECTION_NOT_FOUND');
+  static const maximumNoEncapLimitExceeded =
+      AttachmentErrorCode._('MAXIMUM_NO_ENCAP_LIMIT_EXCEEDED');
 
   final String value;
 
-  const AttachmentErrorCode(this.value);
+  const AttachmentErrorCode._(this.value);
 
-  static AttachmentErrorCode fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum AttachmentErrorCode'));
+  static const values = [
+    vpcNotFound,
+    subnetNotFound,
+    subnetDuplicatedInAvailabilityZone,
+    subnetNoFreeAddresses,
+    subnetUnsupportedAvailabilityZone,
+    subnetNoIpv6Cidrs,
+    vpnConnectionNotFound,
+    maximumNoEncapLimitExceeded
+  ];
+
+  static AttachmentErrorCode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AttachmentErrorCode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AttachmentErrorCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum AttachmentState {
-  rejected('REJECTED'),
-  pendingAttachmentAcceptance('PENDING_ATTACHMENT_ACCEPTANCE'),
-  creating('CREATING'),
-  failed('FAILED'),
-  available('AVAILABLE'),
-  updating('UPDATING'),
-  pendingNetworkUpdate('PENDING_NETWORK_UPDATE'),
-  pendingTagAcceptance('PENDING_TAG_ACCEPTANCE'),
-  deleting('DELETING'),
-  ;
+class AttachmentState {
+  static const rejected = AttachmentState._('REJECTED');
+  static const pendingAttachmentAcceptance =
+      AttachmentState._('PENDING_ATTACHMENT_ACCEPTANCE');
+  static const creating = AttachmentState._('CREATING');
+  static const failed = AttachmentState._('FAILED');
+  static const available = AttachmentState._('AVAILABLE');
+  static const updating = AttachmentState._('UPDATING');
+  static const pendingNetworkUpdate =
+      AttachmentState._('PENDING_NETWORK_UPDATE');
+  static const pendingTagAcceptance =
+      AttachmentState._('PENDING_TAG_ACCEPTANCE');
+  static const deleting = AttachmentState._('DELETING');
 
   final String value;
 
-  const AttachmentState(this.value);
+  const AttachmentState._(this.value);
+
+  static const values = [
+    rejected,
+    pendingAttachmentAcceptance,
+    creating,
+    failed,
+    available,
+    updating,
+    pendingNetworkUpdate,
+    pendingTagAcceptance,
+    deleting
+  ];
 
   static AttachmentState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum AttachmentState'));
+          orElse: () => AttachmentState._(value));
+
+  @override
+  bool operator ==(other) => other is AttachmentState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum AttachmentType {
-  connect('CONNECT'),
-  siteToSiteVpn('SITE_TO_SITE_VPN'),
-  vpc('VPC'),
-  transitGatewayRouteTable('TRANSIT_GATEWAY_ROUTE_TABLE'),
-  ;
+class AttachmentType {
+  static const connect = AttachmentType._('CONNECT');
+  static const siteToSiteVpn = AttachmentType._('SITE_TO_SITE_VPN');
+  static const vpc = AttachmentType._('VPC');
+  static const transitGatewayRouteTable =
+      AttachmentType._('TRANSIT_GATEWAY_ROUTE_TABLE');
 
   final String value;
 
-  const AttachmentType(this.value);
+  const AttachmentType._(this.value);
+
+  static const values = [connect, siteToSiteVpn, vpc, transitGatewayRouteTable];
 
   static AttachmentType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum AttachmentType'));
+          orElse: () => AttachmentType._(value));
+
+  @override
+  bool operator ==(other) => other is AttachmentType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes bandwidth information.
@@ -4272,78 +4329,134 @@ class BgpOptions {
   }
 }
 
-enum ChangeAction {
-  add('ADD'),
-  modify('MODIFY'),
-  remove('REMOVE'),
-  ;
+class ChangeAction {
+  static const add = ChangeAction._('ADD');
+  static const modify = ChangeAction._('MODIFY');
+  static const remove = ChangeAction._('REMOVE');
 
   final String value;
 
-  const ChangeAction(this.value);
+  const ChangeAction._(this.value);
 
-  static ChangeAction fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ChangeAction'));
+  static const values = [add, modify, remove];
+
+  static ChangeAction fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ChangeAction._(value));
+
+  @override
+  bool operator ==(other) => other is ChangeAction && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ChangeSetState {
-  pendingGeneration('PENDING_GENERATION'),
-  failedGeneration('FAILED_GENERATION'),
-  readyToExecute('READY_TO_EXECUTE'),
-  executing('EXECUTING'),
-  executionSucceeded('EXECUTION_SUCCEEDED'),
-  outOfDate('OUT_OF_DATE'),
-  ;
+class ChangeSetState {
+  static const pendingGeneration = ChangeSetState._('PENDING_GENERATION');
+  static const failedGeneration = ChangeSetState._('FAILED_GENERATION');
+  static const readyToExecute = ChangeSetState._('READY_TO_EXECUTE');
+  static const executing = ChangeSetState._('EXECUTING');
+  static const executionSucceeded = ChangeSetState._('EXECUTION_SUCCEEDED');
+  static const outOfDate = ChangeSetState._('OUT_OF_DATE');
 
   final String value;
 
-  const ChangeSetState(this.value);
+  const ChangeSetState._(this.value);
+
+  static const values = [
+    pendingGeneration,
+    failedGeneration,
+    readyToExecute,
+    executing,
+    executionSucceeded,
+    outOfDate
+  ];
 
   static ChangeSetState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ChangeSetState'));
+          orElse: () => ChangeSetState._(value));
+
+  @override
+  bool operator ==(other) => other is ChangeSetState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ChangeStatus {
-  notStarted('NOT_STARTED'),
-  inProgress('IN_PROGRESS'),
-  complete('COMPLETE'),
-  failed('FAILED'),
-  ;
+class ChangeStatus {
+  static const notStarted = ChangeStatus._('NOT_STARTED');
+  static const inProgress = ChangeStatus._('IN_PROGRESS');
+  static const complete = ChangeStatus._('COMPLETE');
+  static const failed = ChangeStatus._('FAILED');
 
   final String value;
 
-  const ChangeStatus(this.value);
+  const ChangeStatus._(this.value);
 
-  static ChangeStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ChangeStatus'));
+  static const values = [notStarted, inProgress, complete, failed];
+
+  static ChangeStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ChangeStatus._(value));
+
+  @override
+  bool operator ==(other) => other is ChangeStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ChangeType {
-  coreNetworkSegment('CORE_NETWORK_SEGMENT'),
-  networkFunctionGroup('NETWORK_FUNCTION_GROUP'),
-  coreNetworkEdge('CORE_NETWORK_EDGE'),
-  attachmentMapping('ATTACHMENT_MAPPING'),
-  attachmentRoutePropagation('ATTACHMENT_ROUTE_PROPAGATION'),
-  attachmentRouteStatic('ATTACHMENT_ROUTE_STATIC'),
-  coreNetworkConfiguration('CORE_NETWORK_CONFIGURATION'),
-  segmentsConfiguration('SEGMENTS_CONFIGURATION'),
-  segmentActionsConfiguration('SEGMENT_ACTIONS_CONFIGURATION'),
-  attachmentPoliciesConfiguration('ATTACHMENT_POLICIES_CONFIGURATION'),
-  ;
+class ChangeType {
+  static const coreNetworkSegment = ChangeType._('CORE_NETWORK_SEGMENT');
+  static const networkFunctionGroup = ChangeType._('NETWORK_FUNCTION_GROUP');
+  static const coreNetworkEdge = ChangeType._('CORE_NETWORK_EDGE');
+  static const attachmentMapping = ChangeType._('ATTACHMENT_MAPPING');
+  static const attachmentRoutePropagation =
+      ChangeType._('ATTACHMENT_ROUTE_PROPAGATION');
+  static const attachmentRouteStatic = ChangeType._('ATTACHMENT_ROUTE_STATIC');
+  static const coreNetworkConfiguration =
+      ChangeType._('CORE_NETWORK_CONFIGURATION');
+  static const segmentsConfiguration = ChangeType._('SEGMENTS_CONFIGURATION');
+  static const segmentActionsConfiguration =
+      ChangeType._('SEGMENT_ACTIONS_CONFIGURATION');
+  static const attachmentPoliciesConfiguration =
+      ChangeType._('ATTACHMENT_POLICIES_CONFIGURATION');
 
   final String value;
 
-  const ChangeType(this.value);
+  const ChangeType._(this.value);
 
-  static ChangeType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum ChangeType'));
+  static const values = [
+    coreNetworkSegment,
+    networkFunctionGroup,
+    coreNetworkEdge,
+    attachmentMapping,
+    attachmentRoutePropagation,
+    attachmentRouteStatic,
+    coreNetworkConfiguration,
+    segmentsConfiguration,
+    segmentActionsConfiguration,
+    attachmentPoliciesConfiguration
+  ];
+
+  static ChangeType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ChangeType._(value));
+
+  @override
+  bool operator ==(other) => other is ChangeType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes a core network Connect attachment.
@@ -4562,21 +4675,31 @@ class ConnectPeerAssociation {
   }
 }
 
-enum ConnectPeerAssociationState {
-  pending('PENDING'),
-  available('AVAILABLE'),
-  deleting('DELETING'),
-  deleted('DELETED'),
-  ;
+class ConnectPeerAssociationState {
+  static const pending = ConnectPeerAssociationState._('PENDING');
+  static const available = ConnectPeerAssociationState._('AVAILABLE');
+  static const deleting = ConnectPeerAssociationState._('DELETING');
+  static const deleted = ConnectPeerAssociationState._('DELETED');
 
   final String value;
 
-  const ConnectPeerAssociationState(this.value);
+  const ConnectPeerAssociationState._(this.value);
+
+  static const values = [pending, available, deleting, deleted];
 
   static ConnectPeerAssociationState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ConnectPeerAssociationState'));
+          orElse: () => ConnectPeerAssociationState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ConnectPeerAssociationState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes a core network BGP configuration.
@@ -4725,40 +4848,71 @@ class ConnectPeerError {
   }
 }
 
-enum ConnectPeerErrorCode {
-  edgeLocationNoFreeIps('EDGE_LOCATION_NO_FREE_IPS'),
-  edgeLocationPeerDuplicate('EDGE_LOCATION_PEER_DUPLICATE'),
-  subnetNotFound('SUBNET_NOT_FOUND'),
-  ipOutsideSubnetCidrRange('IP_OUTSIDE_SUBNET_CIDR_RANGE'),
-  invalidInsideCidrBlock('INVALID_INSIDE_CIDR_BLOCK'),
-  noAssociatedCidrBlock('NO_ASSOCIATED_CIDR_BLOCK'),
-  ;
+class ConnectPeerErrorCode {
+  static const edgeLocationNoFreeIps =
+      ConnectPeerErrorCode._('EDGE_LOCATION_NO_FREE_IPS');
+  static const edgeLocationPeerDuplicate =
+      ConnectPeerErrorCode._('EDGE_LOCATION_PEER_DUPLICATE');
+  static const subnetNotFound = ConnectPeerErrorCode._('SUBNET_NOT_FOUND');
+  static const ipOutsideSubnetCidrRange =
+      ConnectPeerErrorCode._('IP_OUTSIDE_SUBNET_CIDR_RANGE');
+  static const invalidInsideCidrBlock =
+      ConnectPeerErrorCode._('INVALID_INSIDE_CIDR_BLOCK');
+  static const noAssociatedCidrBlock =
+      ConnectPeerErrorCode._('NO_ASSOCIATED_CIDR_BLOCK');
 
   final String value;
 
-  const ConnectPeerErrorCode(this.value);
+  const ConnectPeerErrorCode._(this.value);
 
-  static ConnectPeerErrorCode fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ConnectPeerErrorCode'));
+  static const values = [
+    edgeLocationNoFreeIps,
+    edgeLocationPeerDuplicate,
+    subnetNotFound,
+    ipOutsideSubnetCidrRange,
+    invalidInsideCidrBlock,
+    noAssociatedCidrBlock
+  ];
+
+  static ConnectPeerErrorCode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ConnectPeerErrorCode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ConnectPeerErrorCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ConnectPeerState {
-  creating('CREATING'),
-  failed('FAILED'),
-  available('AVAILABLE'),
-  deleting('DELETING'),
-  ;
+class ConnectPeerState {
+  static const creating = ConnectPeerState._('CREATING');
+  static const failed = ConnectPeerState._('FAILED');
+  static const available = ConnectPeerState._('AVAILABLE');
+  static const deleting = ConnectPeerState._('DELETING');
 
   final String value;
 
-  const ConnectPeerState(this.value);
+  const ConnectPeerState._(this.value);
+
+  static const values = [creating, failed, available, deleting];
 
   static ConnectPeerState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ConnectPeerState'));
+          orElse: () => ConnectPeerState._(value));
+
+  @override
+  bool operator ==(other) => other is ConnectPeerState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Summary description of a Connect peer.
@@ -4971,51 +5125,78 @@ class ConnectionHealth {
   }
 }
 
-enum ConnectionState {
-  pending('PENDING'),
-  available('AVAILABLE'),
-  deleting('DELETING'),
-  updating('UPDATING'),
-  ;
+class ConnectionState {
+  static const pending = ConnectionState._('PENDING');
+  static const available = ConnectionState._('AVAILABLE');
+  static const deleting = ConnectionState._('DELETING');
+  static const updating = ConnectionState._('UPDATING');
 
   final String value;
 
-  const ConnectionState(this.value);
+  const ConnectionState._(this.value);
+
+  static const values = [pending, available, deleting, updating];
 
   static ConnectionState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ConnectionState'));
+          orElse: () => ConnectionState._(value));
+
+  @override
+  bool operator ==(other) => other is ConnectionState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ConnectionStatus {
-  up('UP'),
-  down('DOWN'),
-  ;
+class ConnectionStatus {
+  static const up = ConnectionStatus._('UP');
+  static const down = ConnectionStatus._('DOWN');
 
   final String value;
 
-  const ConnectionStatus(this.value);
+  const ConnectionStatus._(this.value);
+
+  static const values = [up, down];
 
   static ConnectionStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ConnectionStatus'));
+          orElse: () => ConnectionStatus._(value));
+
+  @override
+  bool operator ==(other) => other is ConnectionStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ConnectionType {
-  bgp('BGP'),
-  ipsec('IPSEC'),
-  ;
+class ConnectionType {
+  static const bgp = ConnectionType._('BGP');
+  static const ipsec = ConnectionType._('IPSEC');
 
   final String value;
 
-  const ConnectionType(this.value);
+  const ConnectionType._(this.value);
+
+  static const values = [bgp, ipsec];
 
   static ConnectionType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ConnectionType'));
+          orElse: () => ConnectionType._(value));
+
+  @override
+  bool operator ==(other) => other is ConnectionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes a core network.
@@ -5590,19 +5771,29 @@ class CoreNetworkPolicy {
   }
 }
 
-enum CoreNetworkPolicyAlias {
-  live('LIVE'),
-  latest('LATEST'),
-  ;
+class CoreNetworkPolicyAlias {
+  static const live = CoreNetworkPolicyAlias._('LIVE');
+  static const latest = CoreNetworkPolicyAlias._('LATEST');
 
   final String value;
 
-  const CoreNetworkPolicyAlias(this.value);
+  const CoreNetworkPolicyAlias._(this.value);
+
+  static const values = [live, latest];
 
   static CoreNetworkPolicyAlias fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum CoreNetworkPolicyAlias'));
+          orElse: () => CoreNetworkPolicyAlias._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CoreNetworkPolicyAlias && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Provides details about an error in a core network policy.
@@ -5783,21 +5974,30 @@ class CoreNetworkSegmentEdgeIdentifier {
   }
 }
 
-enum CoreNetworkState {
-  creating('CREATING'),
-  updating('UPDATING'),
-  available('AVAILABLE'),
-  deleting('DELETING'),
-  ;
+class CoreNetworkState {
+  static const creating = CoreNetworkState._('CREATING');
+  static const updating = CoreNetworkState._('UPDATING');
+  static const available = CoreNetworkState._('AVAILABLE');
+  static const deleting = CoreNetworkState._('DELETING');
 
   final String value;
 
-  const CoreNetworkState(this.value);
+  const CoreNetworkState._(this.value);
+
+  static const values = [creating, updating, available, deleting];
 
   static CoreNetworkState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum CoreNetworkState'));
+          orElse: () => CoreNetworkState._(value));
+
+  @override
+  bool operator ==(other) => other is CoreNetworkState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Returns summary information about a core network.
@@ -6225,21 +6425,31 @@ class CustomerGatewayAssociation {
   }
 }
 
-enum CustomerGatewayAssociationState {
-  pending('PENDING'),
-  available('AVAILABLE'),
-  deleting('DELETING'),
-  deleted('DELETED'),
-  ;
+class CustomerGatewayAssociationState {
+  static const pending = CustomerGatewayAssociationState._('PENDING');
+  static const available = CustomerGatewayAssociationState._('AVAILABLE');
+  static const deleting = CustomerGatewayAssociationState._('DELETING');
+  static const deleted = CustomerGatewayAssociationState._('DELETED');
 
   final String value;
 
-  const CustomerGatewayAssociationState(this.value);
+  const CustomerGatewayAssociationState._(this.value);
+
+  static const values = [pending, available, deleting, deleted];
 
   static CustomerGatewayAssociationState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum CustomerGatewayAssociationState'));
+          orElse: () => CustomerGatewayAssociationState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CustomerGatewayAssociationState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class DeleteAttachmentResponse {
@@ -6676,20 +6886,29 @@ class Device {
   }
 }
 
-enum DeviceState {
-  pending('PENDING'),
-  available('AVAILABLE'),
-  deleting('DELETING'),
-  updating('UPDATING'),
-  ;
+class DeviceState {
+  static const pending = DeviceState._('PENDING');
+  static const available = DeviceState._('AVAILABLE');
+  static const deleting = DeviceState._('DELETING');
+  static const updating = DeviceState._('UPDATING');
 
   final String value;
 
-  const DeviceState(this.value);
+  const DeviceState._(this.value);
 
-  static DeviceState fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum DeviceState'));
+  static const values = [pending, available, deleting, updating];
+
+  static DeviceState fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => DeviceState._(value));
+
+  @override
+  bool operator ==(other) => other is DeviceState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class DisassociateConnectPeerResponse {
@@ -7728,21 +7947,31 @@ class GlobalNetwork {
   }
 }
 
-enum GlobalNetworkState {
-  pending('PENDING'),
-  available('AVAILABLE'),
-  deleting('DELETING'),
-  updating('UPDATING'),
-  ;
+class GlobalNetworkState {
+  static const pending = GlobalNetworkState._('PENDING');
+  static const available = GlobalNetworkState._('AVAILABLE');
+  static const deleting = GlobalNetworkState._('DELETING');
+  static const updating = GlobalNetworkState._('UPDATING');
 
   final String value;
 
-  const GlobalNetworkState(this.value);
+  const GlobalNetworkState._(this.value);
 
-  static GlobalNetworkState fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum GlobalNetworkState'));
+  static const values = [pending, available, deleting, updating];
+
+  static GlobalNetworkState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => GlobalNetworkState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is GlobalNetworkState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes a link.
@@ -7889,37 +8118,56 @@ class LinkAssociation {
   }
 }
 
-enum LinkAssociationState {
-  pending('PENDING'),
-  available('AVAILABLE'),
-  deleting('DELETING'),
-  deleted('DELETED'),
-  ;
+class LinkAssociationState {
+  static const pending = LinkAssociationState._('PENDING');
+  static const available = LinkAssociationState._('AVAILABLE');
+  static const deleting = LinkAssociationState._('DELETING');
+  static const deleted = LinkAssociationState._('DELETED');
 
   final String value;
 
-  const LinkAssociationState(this.value);
+  const LinkAssociationState._(this.value);
 
-  static LinkAssociationState fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum LinkAssociationState'));
+  static const values = [pending, available, deleting, deleted];
+
+  static LinkAssociationState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => LinkAssociationState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is LinkAssociationState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum LinkState {
-  pending('PENDING'),
-  available('AVAILABLE'),
-  deleting('DELETING'),
-  updating('UPDATING'),
-  ;
+class LinkState {
+  static const pending = LinkState._('PENDING');
+  static const available = LinkState._('AVAILABLE');
+  static const deleting = LinkState._('DELETING');
+  static const updating = LinkState._('UPDATING');
 
   final String value;
 
-  const LinkState(this.value);
+  const LinkState._(this.value);
 
-  static LinkState fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum LinkState'));
+  static const values = [pending, available, deleting, updating];
+
+  static LinkState fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => LinkState._(value));
+
+  @override
+  bool operator ==(other) => other is LinkState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class ListAttachmentsResponse {
@@ -8921,53 +9169,90 @@ class PeeringError {
   }
 }
 
-enum PeeringErrorCode {
-  transitGatewayNotFound('TRANSIT_GATEWAY_NOT_FOUND'),
-  transitGatewayPeersLimitExceeded('TRANSIT_GATEWAY_PEERS_LIMIT_EXCEEDED'),
-  missingPermissions('MISSING_PERMISSIONS'),
-  internalError('INTERNAL_ERROR'),
-  edgeLocationPeerDuplicate('EDGE_LOCATION_PEER_DUPLICATE'),
-  invalidTransitGatewayState('INVALID_TRANSIT_GATEWAY_STATE'),
-  ;
+class PeeringErrorCode {
+  static const transitGatewayNotFound =
+      PeeringErrorCode._('TRANSIT_GATEWAY_NOT_FOUND');
+  static const transitGatewayPeersLimitExceeded =
+      PeeringErrorCode._('TRANSIT_GATEWAY_PEERS_LIMIT_EXCEEDED');
+  static const missingPermissions = PeeringErrorCode._('MISSING_PERMISSIONS');
+  static const internalError = PeeringErrorCode._('INTERNAL_ERROR');
+  static const edgeLocationPeerDuplicate =
+      PeeringErrorCode._('EDGE_LOCATION_PEER_DUPLICATE');
+  static const invalidTransitGatewayState =
+      PeeringErrorCode._('INVALID_TRANSIT_GATEWAY_STATE');
 
   final String value;
 
-  const PeeringErrorCode(this.value);
+  const PeeringErrorCode._(this.value);
+
+  static const values = [
+    transitGatewayNotFound,
+    transitGatewayPeersLimitExceeded,
+    missingPermissions,
+    internalError,
+    edgeLocationPeerDuplicate,
+    invalidTransitGatewayState
+  ];
 
   static PeeringErrorCode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum PeeringErrorCode'));
+          orElse: () => PeeringErrorCode._(value));
+
+  @override
+  bool operator ==(other) => other is PeeringErrorCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum PeeringState {
-  creating('CREATING'),
-  failed('FAILED'),
-  available('AVAILABLE'),
-  deleting('DELETING'),
-  ;
+class PeeringState {
+  static const creating = PeeringState._('CREATING');
+  static const failed = PeeringState._('FAILED');
+  static const available = PeeringState._('AVAILABLE');
+  static const deleting = PeeringState._('DELETING');
 
   final String value;
 
-  const PeeringState(this.value);
+  const PeeringState._(this.value);
 
-  static PeeringState fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum PeeringState'));
+  static const values = [creating, failed, available, deleting];
+
+  static PeeringState fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => PeeringState._(value));
+
+  @override
+  bool operator ==(other) => other is PeeringState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum PeeringType {
-  transitGateway('TRANSIT_GATEWAY'),
-  ;
+class PeeringType {
+  static const transitGateway = PeeringType._('TRANSIT_GATEWAY');
 
   final String value;
 
-  const PeeringType(this.value);
+  const PeeringType._(this.value);
 
-  static PeeringType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum PeeringType'));
+  static const values = [transitGateway];
+
+  static PeeringType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => PeeringType._(value));
+
+  @override
+  bool operator ==(other) => other is PeeringType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes additional information about missing permissions.
@@ -9411,46 +9696,93 @@ class RouteAnalysisCompletion {
   }
 }
 
-enum RouteAnalysisCompletionReasonCode {
-  transitGatewayAttachmentNotFound('TRANSIT_GATEWAY_ATTACHMENT_NOT_FOUND'),
-  transitGatewayAttachmentNotInTransitGateway(
-      'TRANSIT_GATEWAY_ATTACHMENT_NOT_IN_TRANSIT_GATEWAY'),
-  cyclicPathDetected('CYCLIC_PATH_DETECTED'),
-  transitGatewayAttachmentStableRouteTableNotFound(
-      'TRANSIT_GATEWAY_ATTACHMENT_STABLE_ROUTE_TABLE_NOT_FOUND'),
-  routeNotFound('ROUTE_NOT_FOUND'),
-  blackholeRouteForDestinationFound('BLACKHOLE_ROUTE_FOR_DESTINATION_FOUND'),
-  inactiveRouteForDestinationFound('INACTIVE_ROUTE_FOR_DESTINATION_FOUND'),
-  transitGatewayAttachmentAttachArnNoMatch(
-      'TRANSIT_GATEWAY_ATTACHMENT_ATTACH_ARN_NO_MATCH'),
-  maxHopsExceeded('MAX_HOPS_EXCEEDED'),
-  possibleMiddlebox('POSSIBLE_MIDDLEBOX'),
-  noDestinationArnProvided('NO_DESTINATION_ARN_PROVIDED'),
-  ;
+class RouteAnalysisCompletionReasonCode {
+  static const transitGatewayAttachmentNotFound =
+      RouteAnalysisCompletionReasonCode._(
+          'TRANSIT_GATEWAY_ATTACHMENT_NOT_FOUND');
+  static const transitGatewayAttachmentNotInTransitGateway =
+      RouteAnalysisCompletionReasonCode._(
+          'TRANSIT_GATEWAY_ATTACHMENT_NOT_IN_TRANSIT_GATEWAY');
+  static const cyclicPathDetected =
+      RouteAnalysisCompletionReasonCode._('CYCLIC_PATH_DETECTED');
+  static const transitGatewayAttachmentStableRouteTableNotFound =
+      RouteAnalysisCompletionReasonCode._(
+          'TRANSIT_GATEWAY_ATTACHMENT_STABLE_ROUTE_TABLE_NOT_FOUND');
+  static const routeNotFound =
+      RouteAnalysisCompletionReasonCode._('ROUTE_NOT_FOUND');
+  static const blackholeRouteForDestinationFound =
+      RouteAnalysisCompletionReasonCode._(
+          'BLACKHOLE_ROUTE_FOR_DESTINATION_FOUND');
+  static const inactiveRouteForDestinationFound =
+      RouteAnalysisCompletionReasonCode._(
+          'INACTIVE_ROUTE_FOR_DESTINATION_FOUND');
+  static const transitGatewayAttachmentAttachArnNoMatch =
+      RouteAnalysisCompletionReasonCode._(
+          'TRANSIT_GATEWAY_ATTACHMENT_ATTACH_ARN_NO_MATCH');
+  static const maxHopsExceeded =
+      RouteAnalysisCompletionReasonCode._('MAX_HOPS_EXCEEDED');
+  static const possibleMiddlebox =
+      RouteAnalysisCompletionReasonCode._('POSSIBLE_MIDDLEBOX');
+  static const noDestinationArnProvided =
+      RouteAnalysisCompletionReasonCode._('NO_DESTINATION_ARN_PROVIDED');
 
   final String value;
 
-  const RouteAnalysisCompletionReasonCode(this.value);
+  const RouteAnalysisCompletionReasonCode._(this.value);
+
+  static const values = [
+    transitGatewayAttachmentNotFound,
+    transitGatewayAttachmentNotInTransitGateway,
+    cyclicPathDetected,
+    transitGatewayAttachmentStableRouteTableNotFound,
+    routeNotFound,
+    blackholeRouteForDestinationFound,
+    inactiveRouteForDestinationFound,
+    transitGatewayAttachmentAttachArnNoMatch,
+    maxHopsExceeded,
+    possibleMiddlebox,
+    noDestinationArnProvided
+  ];
 
   static RouteAnalysisCompletionReasonCode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum RouteAnalysisCompletionReasonCode'));
+          orElse: () => RouteAnalysisCompletionReasonCode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RouteAnalysisCompletionReasonCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum RouteAnalysisCompletionResultCode {
-  connected('CONNECTED'),
-  notConnected('NOT_CONNECTED'),
-  ;
+class RouteAnalysisCompletionResultCode {
+  static const connected = RouteAnalysisCompletionResultCode._('CONNECTED');
+  static const notConnected =
+      RouteAnalysisCompletionResultCode._('NOT_CONNECTED');
 
   final String value;
 
-  const RouteAnalysisCompletionResultCode(this.value);
+  const RouteAnalysisCompletionResultCode._(this.value);
+
+  static const values = [connected, notConnected];
 
   static RouteAnalysisCompletionResultCode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum RouteAnalysisCompletionResultCode'));
+          orElse: () => RouteAnalysisCompletionResultCode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RouteAnalysisCompletionResultCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes a source or a destination.
@@ -9552,34 +9884,53 @@ class RouteAnalysisPath {
   }
 }
 
-enum RouteAnalysisStatus {
-  running('RUNNING'),
-  completed('COMPLETED'),
-  failed('FAILED'),
-  ;
+class RouteAnalysisStatus {
+  static const running = RouteAnalysisStatus._('RUNNING');
+  static const completed = RouteAnalysisStatus._('COMPLETED');
+  static const failed = RouteAnalysisStatus._('FAILED');
 
   final String value;
 
-  const RouteAnalysisStatus(this.value);
+  const RouteAnalysisStatus._(this.value);
 
-  static RouteAnalysisStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum RouteAnalysisStatus'));
+  static const values = [running, completed, failed];
+
+  static RouteAnalysisStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => RouteAnalysisStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RouteAnalysisStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum RouteState {
-  active('ACTIVE'),
-  blackhole('BLACKHOLE'),
-  ;
+class RouteState {
+  static const active = RouteState._('ACTIVE');
+  static const blackhole = RouteState._('BLACKHOLE');
 
   final String value;
 
-  const RouteState(this.value);
+  const RouteState._(this.value);
 
-  static RouteState fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum RouteState'));
+  static const values = [active, blackhole];
+
+  static RouteState fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => RouteState._(value));
+
+  @override
+  bool operator ==(other) => other is RouteState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes a route table.
@@ -9618,63 +9969,106 @@ class RouteTableIdentifier {
   }
 }
 
-enum RouteTableType {
-  transitGatewayRouteTable('TRANSIT_GATEWAY_ROUTE_TABLE'),
-  coreNetworkSegment('CORE_NETWORK_SEGMENT'),
-  networkFunctionGroup('NETWORK_FUNCTION_GROUP'),
-  ;
+class RouteTableType {
+  static const transitGatewayRouteTable =
+      RouteTableType._('TRANSIT_GATEWAY_ROUTE_TABLE');
+  static const coreNetworkSegment = RouteTableType._('CORE_NETWORK_SEGMENT');
+  static const networkFunctionGroup =
+      RouteTableType._('NETWORK_FUNCTION_GROUP');
 
   final String value;
 
-  const RouteTableType(this.value);
+  const RouteTableType._(this.value);
+
+  static const values = [
+    transitGatewayRouteTable,
+    coreNetworkSegment,
+    networkFunctionGroup
+  ];
 
   static RouteTableType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum RouteTableType'));
+          orElse: () => RouteTableType._(value));
+
+  @override
+  bool operator ==(other) => other is RouteTableType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum RouteType {
-  propagated('PROPAGATED'),
-  static('STATIC'),
-  ;
+class RouteType {
+  static const propagated = RouteType._('PROPAGATED');
+  static const static = RouteType._('STATIC');
 
   final String value;
 
-  const RouteType(this.value);
+  const RouteType._(this.value);
 
-  static RouteType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum RouteType'));
+  static const values = [propagated, static];
+
+  static RouteType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => RouteType._(value));
+
+  @override
+  bool operator ==(other) => other is RouteType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum SegmentActionServiceInsertion {
-  sendVia('send-via'),
-  sendTo('send-to'),
-  ;
+class SegmentActionServiceInsertion {
+  static const sendVia = SegmentActionServiceInsertion._('send-via');
+  static const sendTo = SegmentActionServiceInsertion._('send-to');
 
   final String value;
 
-  const SegmentActionServiceInsertion(this.value);
+  const SegmentActionServiceInsertion._(this.value);
+
+  static const values = [sendVia, sendTo];
 
   static SegmentActionServiceInsertion fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum SegmentActionServiceInsertion'));
+          orElse: () => SegmentActionServiceInsertion._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SegmentActionServiceInsertion && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum SendViaMode {
-  dualHop('dual-hop'),
-  singleHop('single-hop'),
-  ;
+class SendViaMode {
+  static const dualHop = SendViaMode._('dual-hop');
+  static const singleHop = SendViaMode._('single-hop');
 
   final String value;
 
-  const SendViaMode(this.value);
+  const SendViaMode._(this.value);
 
-  static SendViaMode fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum SendViaMode'));
+  static const values = [dualHop, singleHop];
+
+  static SendViaMode fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => SendViaMode._(value));
+
+  @override
+  bool operator ==(other) => other is SendViaMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes the action that the service insertion will take for any segments
@@ -9849,20 +10243,29 @@ class Site {
   }
 }
 
-enum SiteState {
-  pending('PENDING'),
-  available('AVAILABLE'),
-  deleting('DELETING'),
-  updating('UPDATING'),
-  ;
+class SiteState {
+  static const pending = SiteState._('PENDING');
+  static const available = SiteState._('AVAILABLE');
+  static const deleting = SiteState._('DELETING');
+  static const updating = SiteState._('UPDATING');
 
   final String value;
 
-  const SiteState(this.value);
+  const SiteState._(this.value);
 
-  static SiteState fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum SiteState'));
+  static const values = [pending, available, deleting, updating];
+
+  static SiteState fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => SiteState._(value));
+
+  @override
+  bool operator ==(other) => other is SiteState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Creates a site-to-site VPN attachment.
@@ -10050,21 +10453,34 @@ class TransitGatewayConnectPeerAssociation {
   }
 }
 
-enum TransitGatewayConnectPeerAssociationState {
-  pending('PENDING'),
-  available('AVAILABLE'),
-  deleting('DELETING'),
-  deleted('DELETED'),
-  ;
+class TransitGatewayConnectPeerAssociationState {
+  static const pending = TransitGatewayConnectPeerAssociationState._('PENDING');
+  static const available =
+      TransitGatewayConnectPeerAssociationState._('AVAILABLE');
+  static const deleting =
+      TransitGatewayConnectPeerAssociationState._('DELETING');
+  static const deleted = TransitGatewayConnectPeerAssociationState._('DELETED');
 
   final String value;
 
-  const TransitGatewayConnectPeerAssociationState(this.value);
+  const TransitGatewayConnectPeerAssociationState._(this.value);
+
+  static const values = [pending, available, deleting, deleted];
 
   static TransitGatewayConnectPeerAssociationState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum TransitGatewayConnectPeerAssociationState'));
+          orElse: () => TransitGatewayConnectPeerAssociationState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TransitGatewayConnectPeerAssociationState &&
+      other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes a transit gateway peering attachment.
@@ -10149,22 +10565,32 @@ class TransitGatewayRegistration {
   }
 }
 
-enum TransitGatewayRegistrationState {
-  pending('PENDING'),
-  available('AVAILABLE'),
-  deleting('DELETING'),
-  deleted('DELETED'),
-  failed('FAILED'),
-  ;
+class TransitGatewayRegistrationState {
+  static const pending = TransitGatewayRegistrationState._('PENDING');
+  static const available = TransitGatewayRegistrationState._('AVAILABLE');
+  static const deleting = TransitGatewayRegistrationState._('DELETING');
+  static const deleted = TransitGatewayRegistrationState._('DELETED');
+  static const failed = TransitGatewayRegistrationState._('FAILED');
 
   final String value;
 
-  const TransitGatewayRegistrationState(this.value);
+  const TransitGatewayRegistrationState._(this.value);
+
+  static const values = [pending, available, deleting, deleted, failed];
 
   static TransitGatewayRegistrationState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum TransitGatewayRegistrationState'));
+          orElse: () => TransitGatewayRegistrationState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TransitGatewayRegistrationState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes the status of a transit gateway registration.
@@ -10242,19 +10668,28 @@ class TransitGatewayRouteTableAttachment {
   }
 }
 
-enum TunnelProtocol {
-  gre('GRE'),
-  noEncap('NO_ENCAP'),
-  ;
+class TunnelProtocol {
+  static const gre = TunnelProtocol._('GRE');
+  static const noEncap = TunnelProtocol._('NO_ENCAP');
 
   final String value;
 
-  const TunnelProtocol(this.value);
+  const TunnelProtocol._(this.value);
+
+  static const values = [gre, noEncap];
 
   static TunnelProtocol fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum TunnelProtocol'));
+          orElse: () => TunnelProtocol._(value));
+
+  @override
+  bool operator ==(other) => other is TunnelProtocol && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class UntagResourceResponse {

@@ -1012,35 +1012,55 @@ class CrossRegionCopyTarget {
   }
 }
 
-enum DefaultPoliciesTypeValues {
-  volume('VOLUME'),
-  instance('INSTANCE'),
-  all('ALL'),
-  ;
+class DefaultPoliciesTypeValues {
+  static const volume = DefaultPoliciesTypeValues._('VOLUME');
+  static const instance = DefaultPoliciesTypeValues._('INSTANCE');
+  static const all = DefaultPoliciesTypeValues._('ALL');
 
   final String value;
 
-  const DefaultPoliciesTypeValues(this.value);
+  const DefaultPoliciesTypeValues._(this.value);
+
+  static const values = [volume, instance, all];
 
   static DefaultPoliciesTypeValues fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum DefaultPoliciesTypeValues'));
+          orElse: () => DefaultPoliciesTypeValues._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DefaultPoliciesTypeValues && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum DefaultPolicyTypeValues {
-  volume('VOLUME'),
-  instance('INSTANCE'),
-  ;
+class DefaultPolicyTypeValues {
+  static const volume = DefaultPolicyTypeValues._('VOLUME');
+  static const instance = DefaultPolicyTypeValues._('INSTANCE');
 
   final String value;
 
-  const DefaultPolicyTypeValues(this.value);
+  const DefaultPolicyTypeValues._(this.value);
+
+  static const values = [volume, instance];
 
   static DefaultPolicyTypeValues fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum DefaultPolicyTypeValues'));
+          orElse: () => DefaultPolicyTypeValues._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DefaultPolicyTypeValues && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class DeleteLifecyclePolicyResponse {
@@ -1171,7 +1191,8 @@ class EventParameters {
   factory EventParameters.fromJson(Map<String, dynamic> json) {
     return EventParameters(
       descriptionRegex: (json['DescriptionRegex'] as String?) ?? '',
-      eventType: EventTypeValues.fromString((json['EventType'] as String)),
+      eventType:
+          EventTypeValues.fromString((json['EventType'] as String?) ?? ''),
       snapshotOwner: ((json['SnapshotOwner'] as List?) ?? const [])
           .nonNulls
           .map((e) => e as String)
@@ -1208,7 +1229,7 @@ class EventSource {
 
   factory EventSource.fromJson(Map<String, dynamic> json) {
     return EventSource(
-      type: EventSourceValues.fromString((json['Type'] as String)),
+      type: EventSourceValues.fromString((json['Type'] as String?) ?? ''),
       parameters: json['Parameters'] != null
           ? EventParameters.fromJson(json['Parameters'] as Map<String, dynamic>)
           : null,
@@ -1225,32 +1246,50 @@ class EventSource {
   }
 }
 
-enum EventSourceValues {
-  managedCwe('MANAGED_CWE'),
-  ;
+class EventSourceValues {
+  static const managedCwe = EventSourceValues._('MANAGED_CWE');
 
   final String value;
 
-  const EventSourceValues(this.value);
+  const EventSourceValues._(this.value);
+
+  static const values = [managedCwe];
 
   static EventSourceValues fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum EventSourceValues'));
+          orElse: () => EventSourceValues._(value));
+
+  @override
+  bool operator ==(other) => other is EventSourceValues && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum EventTypeValues {
-  shareSnapshot('shareSnapshot'),
-  ;
+class EventTypeValues {
+  static const shareSnapshot = EventTypeValues._('shareSnapshot');
 
   final String value;
 
-  const EventTypeValues(this.value);
+  const EventTypeValues._(this.value);
+
+  static const values = [shareSnapshot];
 
   static EventTypeValues fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum EventTypeValues'));
+          orElse: () => EventTypeValues._(value));
+
+  @override
+  bool operator ==(other) => other is EventTypeValues && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// <b>[Default policies only]</b> Specifies exclusion parameters for volumes or
@@ -1306,18 +1345,29 @@ class Exclusions {
   }
 }
 
-enum ExecutionHandlerServiceValues {
-  awsSystemsManager('AWS_SYSTEMS_MANAGER'),
-  ;
+class ExecutionHandlerServiceValues {
+  static const awsSystemsManager =
+      ExecutionHandlerServiceValues._('AWS_SYSTEMS_MANAGER');
 
   final String value;
 
-  const ExecutionHandlerServiceValues(this.value);
+  const ExecutionHandlerServiceValues._(this.value);
+
+  static const values = [awsSystemsManager];
 
   static ExecutionHandlerServiceValues fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ExecutionHandlerServiceValues'));
+          orElse: () => ExecutionHandlerServiceValues._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ExecutionHandlerServiceValues && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// <b>[Custom snapshot policies only]</b> Specifies a rule for enabling fast
@@ -1421,34 +1471,54 @@ class GetLifecyclePolicyResponse {
   }
 }
 
-enum GettablePolicyStateValues {
-  enabled('ENABLED'),
-  disabled('DISABLED'),
-  error('ERROR'),
-  ;
+class GettablePolicyStateValues {
+  static const enabled = GettablePolicyStateValues._('ENABLED');
+  static const disabled = GettablePolicyStateValues._('DISABLED');
+  static const error = GettablePolicyStateValues._('ERROR');
 
   final String value;
 
-  const GettablePolicyStateValues(this.value);
+  const GettablePolicyStateValues._(this.value);
+
+  static const values = [enabled, disabled, error];
 
   static GettablePolicyStateValues fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum GettablePolicyStateValues'));
+          orElse: () => GettablePolicyStateValues._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is GettablePolicyStateValues && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum IntervalUnitValues {
-  hours('HOURS'),
-  ;
+class IntervalUnitValues {
+  static const hours = IntervalUnitValues._('HOURS');
 
   final String value;
 
-  const IntervalUnitValues(this.value);
+  const IntervalUnitValues._(this.value);
 
-  static IntervalUnitValues fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum IntervalUnitValues'));
+  static const values = [hours];
+
+  static IntervalUnitValues fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => IntervalUnitValues._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is IntervalUnitValues && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// <b>[Custom policies only]</b> Detailed information about a snapshot, AMI, or
@@ -1658,19 +1728,28 @@ class ListTagsForResourceResponse {
   }
 }
 
-enum LocationValues {
-  cloud('CLOUD'),
-  outpostLocal('OUTPOST_LOCAL'),
-  ;
+class LocationValues {
+  static const cloud = LocationValues._('CLOUD');
+  static const outpostLocal = LocationValues._('OUTPOST_LOCAL');
 
   final String value;
 
-  const LocationValues(this.value);
+  const LocationValues._(this.value);
+
+  static const values = [cloud, outpostLocal];
 
   static LocationValues fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum LocationValues'));
+          orElse: () => LocationValues._(value));
+
+  @override
+  bool operator ==(other) => other is LocationValues && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// <b>[Custom snapshot and AMI policies only]</b> Specifies optional parameters
@@ -1995,65 +2074,109 @@ class PolicyDetails {
   }
 }
 
-enum PolicyLanguageValues {
-  simplified('SIMPLIFIED'),
-  standard('STANDARD'),
-  ;
+class PolicyLanguageValues {
+  static const simplified = PolicyLanguageValues._('SIMPLIFIED');
+  static const standard = PolicyLanguageValues._('STANDARD');
 
   final String value;
 
-  const PolicyLanguageValues(this.value);
+  const PolicyLanguageValues._(this.value);
 
-  static PolicyLanguageValues fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum PolicyLanguageValues'));
+  static const values = [simplified, standard];
+
+  static PolicyLanguageValues fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => PolicyLanguageValues._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is PolicyLanguageValues && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum PolicyTypeValues {
-  ebsSnapshotManagement('EBS_SNAPSHOT_MANAGEMENT'),
-  imageManagement('IMAGE_MANAGEMENT'),
-  eventBasedPolicy('EVENT_BASED_POLICY'),
-  ;
+class PolicyTypeValues {
+  static const ebsSnapshotManagement =
+      PolicyTypeValues._('EBS_SNAPSHOT_MANAGEMENT');
+  static const imageManagement = PolicyTypeValues._('IMAGE_MANAGEMENT');
+  static const eventBasedPolicy = PolicyTypeValues._('EVENT_BASED_POLICY');
 
   final String value;
 
-  const PolicyTypeValues(this.value);
+  const PolicyTypeValues._(this.value);
+
+  static const values = [
+    ebsSnapshotManagement,
+    imageManagement,
+    eventBasedPolicy
+  ];
 
   static PolicyTypeValues fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum PolicyTypeValues'));
+          orElse: () => PolicyTypeValues._(value));
+
+  @override
+  bool operator ==(other) => other is PolicyTypeValues && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ResourceLocationValues {
-  cloud('CLOUD'),
-  outpost('OUTPOST'),
-  ;
+class ResourceLocationValues {
+  static const cloud = ResourceLocationValues._('CLOUD');
+  static const outpost = ResourceLocationValues._('OUTPOST');
 
   final String value;
 
-  const ResourceLocationValues(this.value);
+  const ResourceLocationValues._(this.value);
+
+  static const values = [cloud, outpost];
 
   static ResourceLocationValues fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ResourceLocationValues'));
+          orElse: () => ResourceLocationValues._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ResourceLocationValues && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ResourceTypeValues {
-  volume('VOLUME'),
-  instance('INSTANCE'),
-  ;
+class ResourceTypeValues {
+  static const volume = ResourceTypeValues._('VOLUME');
+  static const instance = ResourceTypeValues._('INSTANCE');
 
   final String value;
 
-  const ResourceTypeValues(this.value);
+  const ResourceTypeValues._(this.value);
 
-  static ResourceTypeValues fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ResourceTypeValues'));
+  static const values = [volume, instance];
+
+  static ResourceTypeValues fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ResourceTypeValues._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ResourceTypeValues && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// <b>[Custom snapshot and AMI policies only]</b> Specifies a retention rule
@@ -2208,21 +2331,31 @@ class RetentionArchiveTier {
   }
 }
 
-enum RetentionIntervalUnitValues {
-  days('DAYS'),
-  weeks('WEEKS'),
-  months('MONTHS'),
-  years('YEARS'),
-  ;
+class RetentionIntervalUnitValues {
+  static const days = RetentionIntervalUnitValues._('DAYS');
+  static const weeks = RetentionIntervalUnitValues._('WEEKS');
+  static const months = RetentionIntervalUnitValues._('MONTHS');
+  static const years = RetentionIntervalUnitValues._('YEARS');
 
   final String value;
 
-  const RetentionIntervalUnitValues(this.value);
+  const RetentionIntervalUnitValues._(this.value);
+
+  static const values = [days, weeks, months, years];
 
   static RetentionIntervalUnitValues fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum RetentionIntervalUnitValues'));
+          orElse: () => RetentionIntervalUnitValues._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RetentionIntervalUnitValues && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// <b>[Custom snapshot and AMI policies only]</b> Specifies a schedule for a
@@ -2532,19 +2665,29 @@ class Script {
   }
 }
 
-enum SettablePolicyStateValues {
-  enabled('ENABLED'),
-  disabled('DISABLED'),
-  ;
+class SettablePolicyStateValues {
+  static const enabled = SettablePolicyStateValues._('ENABLED');
+  static const disabled = SettablePolicyStateValues._('DISABLED');
 
   final String value;
 
-  const SettablePolicyStateValues(this.value);
+  const SettablePolicyStateValues._(this.value);
+
+  static const values = [enabled, disabled];
 
   static SettablePolicyStateValues fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum SettablePolicyStateValues'));
+          orElse: () => SettablePolicyStateValues._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SettablePolicyStateValues && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// <b>[Custom snapshot policies only]</b> Specifies a rule for sharing
@@ -2592,18 +2735,27 @@ class ShareRule {
   }
 }
 
-enum StageValues {
-  pre('PRE'),
-  post('POST'),
-  ;
+class StageValues {
+  static const pre = StageValues._('PRE');
+  static const post = StageValues._('POST');
 
   final String value;
 
-  const StageValues(this.value);
+  const StageValues._(this.value);
 
-  static StageValues fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum StageValues'));
+  static const values = [pre, post];
+
+  static StageValues fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => StageValues._(value));
+
+  @override
+  bool operator ==(other) => other is StageValues && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specifies a tag for a resource.

@@ -718,20 +718,29 @@ class ConfidenceScore {
   }
 }
 
-enum ConfirmationState {
-  confirmed('Confirmed'),
-  denied('Denied'),
-  none('None'),
-  ;
+class ConfirmationState {
+  static const confirmed = ConfirmationState._('Confirmed');
+  static const denied = ConfirmationState._('Denied');
+  static const none = ConfirmationState._('None');
 
   final String value;
 
-  const ConfirmationState(this.value);
+  const ConfirmationState._(this.value);
+
+  static const values = [confirmed, denied, none];
 
   static ConfirmationState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ConfirmationState'));
+          orElse: () => ConfirmationState._(value));
+
+  @override
+  bool operator ==(other) => other is ConfirmationState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class DeleteSessionResponse {
@@ -840,7 +849,7 @@ class DialogAction {
 
   factory DialogAction.fromJson(Map<String, dynamic> json) {
     return DialogAction(
-      type: DialogActionType.fromString((json['type'] as String)),
+      type: DialogActionType.fromString((json['type'] as String?) ?? ''),
       slotElicitationStyle:
           (json['slotElicitationStyle'] as String?)?.let(StyleType.fromString),
       slotToElicit: json['slotToElicit'] as String?,
@@ -866,23 +875,39 @@ class DialogAction {
   }
 }
 
-enum DialogActionType {
-  close('Close'),
-  confirmIntent('ConfirmIntent'),
-  delegate('Delegate'),
-  elicitIntent('ElicitIntent'),
-  elicitSlot('ElicitSlot'),
-  none('None'),
-  ;
+class DialogActionType {
+  static const close = DialogActionType._('Close');
+  static const confirmIntent = DialogActionType._('ConfirmIntent');
+  static const delegate = DialogActionType._('Delegate');
+  static const elicitIntent = DialogActionType._('ElicitIntent');
+  static const elicitSlot = DialogActionType._('ElicitSlot');
+  static const none = DialogActionType._('None');
 
   final String value;
 
-  const DialogActionType(this.value);
+  const DialogActionType._(this.value);
+
+  static const values = [
+    close,
+    confirmIntent,
+    delegate,
+    elicitIntent,
+    elicitSlot,
+    none
+  ];
 
   static DialogActionType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum DialogActionType'));
+          orElse: () => DialogActionType._(value));
+
+  @override
+  bool operator ==(other) => other is DialogActionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The specific constituent sub slot of the composite slot to elicit in dialog
@@ -1114,22 +1139,38 @@ class Intent {
   }
 }
 
-enum IntentState {
-  failed('Failed'),
-  fulfilled('Fulfilled'),
-  inProgress('InProgress'),
-  readyForFulfillment('ReadyForFulfillment'),
-  waiting('Waiting'),
-  fulfillmentInProgress('FulfillmentInProgress'),
-  ;
+class IntentState {
+  static const failed = IntentState._('Failed');
+  static const fulfilled = IntentState._('Fulfilled');
+  static const inProgress = IntentState._('InProgress');
+  static const readyForFulfillment = IntentState._('ReadyForFulfillment');
+  static const waiting = IntentState._('Waiting');
+  static const fulfillmentInProgress = IntentState._('FulfillmentInProgress');
 
   final String value;
 
-  const IntentState(this.value);
+  const IntentState._(this.value);
 
-  static IntentState fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum IntentState'));
+  static const values = [
+    failed,
+    fulfilled,
+    inProgress,
+    readyForFulfillment,
+    waiting,
+    fulfillmentInProgress
+  ];
+
+  static IntentState fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => IntentState._(value));
+
+  @override
+  bool operator ==(other) => other is IntentState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// An object containing information about an intent that Amazon Lex V2
@@ -1197,19 +1238,29 @@ class Interpretation {
   }
 }
 
-enum InterpretationSource {
-  bedrock('Bedrock'),
-  lex('Lex'),
-  ;
+class InterpretationSource {
+  static const bedrock = InterpretationSource._('Bedrock');
+  static const lex = InterpretationSource._('Lex');
 
   final String value;
 
-  const InterpretationSource(this.value);
+  const InterpretationSource._(this.value);
 
-  static InterpretationSource fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum InterpretationSource'));
+  static const values = [bedrock, lex];
+
+  static InterpretationSource fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => InterpretationSource._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is InterpretationSource && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Container for text that is returned to the customer..
@@ -1230,7 +1281,7 @@ class Message {
   factory Message.fromJson(Map<String, dynamic> json) {
     return Message(
       contentType:
-          MessageContentType.fromString((json['contentType'] as String)),
+          MessageContentType.fromString((json['contentType'] as String?) ?? ''),
       content: json['content'] as String?,
       imageResponseCard: json['imageResponseCard'] != null
           ? ImageResponseCard.fromJson(
@@ -1251,21 +1302,31 @@ class Message {
   }
 }
 
-enum MessageContentType {
-  customPayload('CustomPayload'),
-  imageResponseCard('ImageResponseCard'),
-  plainText('PlainText'),
-  ssml('SSML'),
-  ;
+class MessageContentType {
+  static const customPayload = MessageContentType._('CustomPayload');
+  static const imageResponseCard = MessageContentType._('ImageResponseCard');
+  static const plainText = MessageContentType._('PlainText');
+  static const ssml = MessageContentType._('SSML');
 
   final String value;
 
-  const MessageContentType(this.value);
+  const MessageContentType._(this.value);
 
-  static MessageContentType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum MessageContentType'));
+  static const values = [customPayload, imageResponseCard, plainText, ssml];
+
+  static MessageContentType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => MessageContentType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is MessageContentType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class PutSessionResponse {
@@ -1740,21 +1801,30 @@ class SentimentScore {
   }
 }
 
-enum SentimentType {
-  mixed('MIXED'),
-  negative('NEGATIVE'),
-  neutral('NEUTRAL'),
-  positive('POSITIVE'),
-  ;
+class SentimentType {
+  static const mixed = SentimentType._('MIXED');
+  static const negative = SentimentType._('NEGATIVE');
+  static const neutral = SentimentType._('NEUTRAL');
+  static const positive = SentimentType._('POSITIVE');
 
   final String value;
 
-  const SentimentType(this.value);
+  const SentimentType._(this.value);
+
+  static const values = [mixed, negative, neutral, positive];
 
   static SentimentType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum SentimentType'));
+          orElse: () => SentimentType._(value));
+
+  @override
+  bool operator ==(other) => other is SentimentType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The state of the user's session with Amazon Lex V2.
@@ -1832,19 +1902,28 @@ class SessionState {
   }
 }
 
-enum Shape {
-  scalar('Scalar'),
-  list('List'),
-  composite('Composite'),
-  ;
+class Shape {
+  static const scalar = Shape._('Scalar');
+  static const list = Shape._('List');
+  static const composite = Shape._('Composite');
 
   final String value;
 
-  const Shape(this.value);
+  const Shape._(this.value);
+
+  static const values = [scalar, list, composite];
 
   static Shape fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum Shape'));
+      values.firstWhere((e) => e.value == value, orElse: () => Shape._(value));
+
+  @override
+  bool operator ==(other) => other is Shape && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A value that Amazon Lex V2 uses to fulfill an intent.
@@ -1902,19 +1981,28 @@ class Slot {
   }
 }
 
-enum StyleType {
-  $default('Default'),
-  spellByLetter('SpellByLetter'),
-  spellByWord('SpellByWord'),
-  ;
+class StyleType {
+  static const $default = StyleType._('Default');
+  static const spellByLetter = StyleType._('SpellByLetter');
+  static const spellByWord = StyleType._('SpellByWord');
 
   final String value;
 
-  const StyleType(this.value);
+  const StyleType._(this.value);
 
-  static StyleType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum StyleType'));
+  static const values = [$default, spellByLetter, spellByWord];
+
+  static StyleType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => StyleType._(value));
+
+  @override
+  bool operator ==(other) => other is StyleType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about the value provided for a slot and Amazon Lex V2's

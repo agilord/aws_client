@@ -1408,21 +1408,31 @@ class AlarmModelSummary {
   }
 }
 
-enum AlarmModelVersionStatus {
-  active('ACTIVE'),
-  activating('ACTIVATING'),
-  inactive('INACTIVE'),
-  failed('FAILED'),
-  ;
+class AlarmModelVersionStatus {
+  static const active = AlarmModelVersionStatus._('ACTIVE');
+  static const activating = AlarmModelVersionStatus._('ACTIVATING');
+  static const inactive = AlarmModelVersionStatus._('INACTIVE');
+  static const failed = AlarmModelVersionStatus._('FAILED');
 
   final String value;
 
-  const AlarmModelVersionStatus(this.value);
+  const AlarmModelVersionStatus._(this.value);
+
+  static const values = [active, activating, inactive, failed];
 
   static AlarmModelVersionStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum AlarmModelVersionStatus'));
+          orElse: () => AlarmModelVersionStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AlarmModelVersionStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains a summary of an alarm model version.
@@ -1686,20 +1696,30 @@ class AnalysisResult {
   }
 }
 
-enum AnalysisResultLevel {
-  info('INFO'),
-  warning('WARNING'),
-  error('ERROR'),
-  ;
+class AnalysisResultLevel {
+  static const info = AnalysisResultLevel._('INFO');
+  static const warning = AnalysisResultLevel._('WARNING');
+  static const error = AnalysisResultLevel._('ERROR');
 
   final String value;
 
-  const AnalysisResultLevel(this.value);
+  const AnalysisResultLevel._(this.value);
 
-  static AnalysisResultLevel fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum AnalysisResultLevel'));
+  static const values = [info, warning, error];
+
+  static AnalysisResultLevel fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AnalysisResultLevel._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AnalysisResultLevel && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains information that you can use to locate the field in your detector
@@ -1727,20 +1747,29 @@ class AnalysisResultLocation {
   }
 }
 
-enum AnalysisStatus {
-  running('RUNNING'),
-  complete('COMPLETE'),
-  failed('FAILED'),
-  ;
+class AnalysisStatus {
+  static const running = AnalysisStatus._('RUNNING');
+  static const complete = AnalysisStatus._('COMPLETE');
+  static const failed = AnalysisStatus._('FAILED');
 
   final String value;
 
-  const AnalysisStatus(this.value);
+  const AnalysisStatus._(this.value);
+
+  static const values = [running, complete, failed];
 
   static AnalysisStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum AnalysisStatus'));
+          orElse: () => AnalysisStatus._(value));
+
+  @override
+  bool operator ==(other) => other is AnalysisStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A structure that contains timestamp information. For more information, see
@@ -2024,23 +2053,40 @@ class ClearTimerAction {
   }
 }
 
-enum ComparisonOperator {
-  greater('GREATER'),
-  greaterOrEqual('GREATER_OR_EQUAL'),
-  less('LESS'),
-  lessOrEqual('LESS_OR_EQUAL'),
-  equal('EQUAL'),
-  notEqual('NOT_EQUAL'),
-  ;
+class ComparisonOperator {
+  static const greater = ComparisonOperator._('GREATER');
+  static const greaterOrEqual = ComparisonOperator._('GREATER_OR_EQUAL');
+  static const less = ComparisonOperator._('LESS');
+  static const lessOrEqual = ComparisonOperator._('LESS_OR_EQUAL');
+  static const equal = ComparisonOperator._('EQUAL');
+  static const notEqual = ComparisonOperator._('NOT_EQUAL');
 
   final String value;
 
-  const ComparisonOperator(this.value);
+  const ComparisonOperator._(this.value);
 
-  static ComparisonOperator fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ComparisonOperator'));
+  static const values = [
+    greater,
+    greaterOrEqual,
+    less,
+    lessOrEqual,
+    equal,
+    notEqual
+  ];
+
+  static ComparisonOperator fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ComparisonOperator._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ComparisonOperator && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class CreateAlarmModelResponse {
@@ -2727,24 +2773,42 @@ class DetectorModelSummary {
   }
 }
 
-enum DetectorModelVersionStatus {
-  active('ACTIVE'),
-  activating('ACTIVATING'),
-  inactive('INACTIVE'),
-  deprecated('DEPRECATED'),
-  draft('DRAFT'),
-  paused('PAUSED'),
-  failed('FAILED'),
-  ;
+class DetectorModelVersionStatus {
+  static const active = DetectorModelVersionStatus._('ACTIVE');
+  static const activating = DetectorModelVersionStatus._('ACTIVATING');
+  static const inactive = DetectorModelVersionStatus._('INACTIVE');
+  static const deprecated = DetectorModelVersionStatus._('DEPRECATED');
+  static const draft = DetectorModelVersionStatus._('DRAFT');
+  static const paused = DetectorModelVersionStatus._('PAUSED');
+  static const failed = DetectorModelVersionStatus._('FAILED');
 
   final String value;
 
-  const DetectorModelVersionStatus(this.value);
+  const DetectorModelVersionStatus._(this.value);
+
+  static const values = [
+    active,
+    activating,
+    inactive,
+    deprecated,
+    draft,
+    paused,
+    failed
+  ];
 
   static DetectorModelVersionStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum DetectorModelVersionStatus'));
+          orElse: () => DetectorModelVersionStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DetectorModelVersionStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about the detector model version.
@@ -3215,19 +3279,28 @@ class EmailRecipients {
   }
 }
 
-enum EvaluationMethod {
-  batch('BATCH'),
-  serial('SERIAL'),
-  ;
+class EvaluationMethod {
+  static const batch = EvaluationMethod._('BATCH');
+  static const serial = EvaluationMethod._('SERIAL');
 
   final String value;
 
-  const EvaluationMethod(this.value);
+  const EvaluationMethod._(this.value);
+
+  static const values = [batch, serial];
 
   static EvaluationMethod fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum EvaluationMethod'));
+          orElse: () => EvaluationMethod._(value));
+
+  @override
+  bool operator ==(other) => other is EvaluationMethod && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specifies the <code>actions</code> to be performed when the
@@ -3450,7 +3523,7 @@ class InputConfiguration {
       inputArn: (json['inputArn'] as String?) ?? '',
       inputName: (json['inputName'] as String?) ?? '',
       lastUpdateTime: nonNullableTimeStampFromJson(json['lastUpdateTime'] ?? 0),
-      status: InputStatus.fromString((json['status'] as String)),
+      status: InputStatus.fromString((json['status'] as String?) ?? ''),
       inputDescription: json['inputDescription'] as String?,
     );
   }
@@ -3529,20 +3602,29 @@ class InputIdentifier {
   }
 }
 
-enum InputStatus {
-  creating('CREATING'),
-  updating('UPDATING'),
-  active('ACTIVE'),
-  deleting('DELETING'),
-  ;
+class InputStatus {
+  static const creating = InputStatus._('CREATING');
+  static const updating = InputStatus._('UPDATING');
+  static const active = InputStatus._('ACTIVE');
+  static const deleting = InputStatus._('DELETING');
 
   final String value;
 
-  const InputStatus(this.value);
+  const InputStatus._(this.value);
 
-  static InputStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum InputStatus'));
+  static const values = [creating, updating, active, deleting];
+
+  static InputStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => InputStatus._(value));
+
+  @override
+  bool operator ==(other) => other is InputStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about the input.
@@ -4098,20 +4180,28 @@ class ListTagsForResourceResponse {
   }
 }
 
-enum LoggingLevel {
-  error('ERROR'),
-  info('INFO'),
-  debug('DEBUG'),
-  ;
+class LoggingLevel {
+  static const error = LoggingLevel._('ERROR');
+  static const info = LoggingLevel._('INFO');
+  static const debug = LoggingLevel._('DEBUG');
 
   final String value;
 
-  const LoggingLevel(this.value);
+  const LoggingLevel._(this.value);
 
-  static LoggingLevel fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum LoggingLevel'));
+  static const values = [error, info, debug];
+
+  static LoggingLevel fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => LoggingLevel._(value));
+
+  @override
+  bool operator ==(other) => other is LoggingLevel && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The values of the AWS IoT Events logging options.
@@ -4140,7 +4230,7 @@ class LoggingOptions {
   factory LoggingOptions.fromJson(Map<String, dynamic> json) {
     return LoggingOptions(
       enabled: (json['enabled'] as bool?) ?? false,
-      level: LoggingLevel.fromString((json['level'] as String)),
+      level: LoggingLevel.fromString((json['level'] as String?) ?? ''),
       roleArn: (json['roleArn'] as String?) ?? '',
       detectorDebugOptions: (json['detectorDebugOptions'] as List?)
           ?.nonNulls
@@ -4364,7 +4454,7 @@ class Payload {
   factory Payload.fromJson(Map<String, dynamic> json) {
     return Payload(
       contentExpression: (json['contentExpression'] as String?) ?? '',
-      type: PayloadType.fromString((json['type'] as String)),
+      type: PayloadType.fromString((json['type'] as String?) ?? ''),
     );
   }
 
@@ -4378,18 +4468,27 @@ class Payload {
   }
 }
 
-enum PayloadType {
-  string('STRING'),
-  json('JSON'),
-  ;
+class PayloadType {
+  static const string = PayloadType._('STRING');
+  static const json = PayloadType._('JSON');
 
   final String value;
 
-  const PayloadType(this.value);
+  const PayloadType._(this.value);
 
-  static PayloadType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum PayloadType'));
+  static const values = [string, json];
+
+  static PayloadType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => PayloadType._(value));
+
+  @override
+  bool operator ==(other) => other is PayloadType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The information that identifies the recipient.
@@ -4681,8 +4780,8 @@ class SimpleRule {
 
   factory SimpleRule.fromJson(Map<String, dynamic> json) {
     return SimpleRule(
-      comparisonOperator:
-          ComparisonOperator.fromString((json['comparisonOperator'] as String)),
+      comparisonOperator: ComparisonOperator.fromString(
+          (json['comparisonOperator'] as String?) ?? ''),
       inputProperty: (json['inputProperty'] as String?) ?? '',
       threshold: (json['threshold'] as String?) ?? '',
     );

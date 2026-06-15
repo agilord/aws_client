@@ -4490,19 +4490,29 @@ class BatchInferenceJobInput {
   }
 }
 
-enum BatchInferenceJobMode {
-  batchInference('BATCH_INFERENCE'),
-  themeGeneration('THEME_GENERATION'),
-  ;
+class BatchInferenceJobMode {
+  static const batchInference = BatchInferenceJobMode._('BATCH_INFERENCE');
+  static const themeGeneration = BatchInferenceJobMode._('THEME_GENERATION');
 
   final String value;
 
-  const BatchInferenceJobMode(this.value);
+  const BatchInferenceJobMode._(this.value);
 
-  static BatchInferenceJobMode fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum BatchInferenceJobMode'));
+  static const values = [batchInference, themeGeneration];
+
+  static BatchInferenceJobMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => BatchInferenceJobMode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is BatchInferenceJobMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The output configuration parameters of a batch inference job.
@@ -7552,18 +7562,27 @@ class DescribeSolutionVersionResponse {
   }
 }
 
-enum Domain {
-  ecommerce('ECOMMERCE'),
-  videoOnDemand('VIDEO_ON_DEMAND'),
-  ;
+class Domain {
+  static const ecommerce = Domain._('ECOMMERCE');
+  static const videoOnDemand = Domain._('VIDEO_ON_DEMAND');
 
   final String value;
 
-  const Domain(this.value);
+  const Domain._(this.value);
+
+  static const values = [ecommerce, videoOnDemand];
 
   static Domain fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum Domain'));
+      values.firstWhere((e) => e.value == value, orElse: () => Domain._(value));
+
+  @override
+  bool operator ==(other) => other is Domain && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Provides information about an event tracker.
@@ -8180,34 +8199,52 @@ class HyperParameterRanges {
   }
 }
 
-enum ImportMode {
-  full('FULL'),
-  incremental('INCREMENTAL'),
-  ;
+class ImportMode {
+  static const full = ImportMode._('FULL');
+  static const incremental = ImportMode._('INCREMENTAL');
 
   final String value;
 
-  const ImportMode(this.value);
+  const ImportMode._(this.value);
 
-  static ImportMode fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum ImportMode'));
+  static const values = [full, incremental];
+
+  static ImportMode fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ImportMode._(value));
+
+  @override
+  bool operator ==(other) => other is ImportMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum IngestionMode {
-  bulk('BULK'),
-  put('PUT'),
-  all('ALL'),
-  ;
+class IngestionMode {
+  static const bulk = IngestionMode._('BULK');
+  static const put = IngestionMode._('PUT');
+  static const all = IngestionMode._('ALL');
 
   final String value;
 
-  const IngestionMode(this.value);
+  const IngestionMode._(this.value);
+
+  static const values = [bulk, put, all];
 
   static IngestionMode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum IngestionMode'));
+          orElse: () => IngestionMode._(value));
+
+  @override
+  bool operator ==(other) => other is IngestionMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Provides the name and range of an integer-valued hyperparameter.
@@ -9056,21 +9093,31 @@ class MetricAttributionSummary {
   }
 }
 
-enum ObjectiveSensitivity {
-  low('LOW'),
-  medium('MEDIUM'),
-  high('HIGH'),
-  off('OFF'),
-  ;
+class ObjectiveSensitivity {
+  static const low = ObjectiveSensitivity._('LOW');
+  static const medium = ObjectiveSensitivity._('MEDIUM');
+  static const high = ObjectiveSensitivity._('HIGH');
+  static const off = ObjectiveSensitivity._('OFF');
 
   final String value;
 
-  const ObjectiveSensitivity(this.value);
+  const ObjectiveSensitivity._(this.value);
 
-  static ObjectiveSensitivity fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ObjectiveSensitivity'));
+  static const values = [low, medium, high, off];
+
+  static ObjectiveSensitivity fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ObjectiveSensitivity._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ObjectiveSensitivity && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes the additional objective for the solution, such as maximizing
@@ -9209,18 +9256,27 @@ class Recipe {
   }
 }
 
-enum RecipeProvider {
-  service('SERVICE'),
-  ;
+class RecipeProvider {
+  static const service = RecipeProvider._('SERVICE');
 
   final String value;
 
-  const RecipeProvider(this.value);
+  const RecipeProvider._(this.value);
+
+  static const values = [service];
 
   static RecipeProvider fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum RecipeProvider'));
+          orElse: () => RecipeProvider._(value));
+
+  @override
+  bool operator ==(other) => other is RecipeProvider && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Provides a summary of the properties of a recipe. For a complete listing,
@@ -10558,35 +10614,51 @@ class TrainingDataConfig {
   }
 }
 
-enum TrainingMode {
-  full('FULL'),
-  update('UPDATE'),
-  autotrain('AUTOTRAIN'),
-  ;
+class TrainingMode {
+  static const full = TrainingMode._('FULL');
+  static const update = TrainingMode._('UPDATE');
+  static const autotrain = TrainingMode._('AUTOTRAIN');
 
   final String value;
 
-  const TrainingMode(this.value);
+  const TrainingMode._(this.value);
 
-  static TrainingMode fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum TrainingMode'));
+  static const values = [full, update, autotrain];
+
+  static TrainingMode fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => TrainingMode._(value));
+
+  @override
+  bool operator ==(other) => other is TrainingMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum TrainingType {
-  automatic('AUTOMATIC'),
-  manual('MANUAL'),
-  ;
+class TrainingType {
+  static const automatic = TrainingType._('AUTOMATIC');
+  static const manual = TrainingType._('MANUAL');
 
   final String value;
 
-  const TrainingType(this.value);
+  const TrainingType._(this.value);
 
-  static TrainingType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum TrainingType'));
+  static const values = [automatic, manual];
+
+  static TrainingType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => TrainingType._(value));
+
+  @override
+  bool operator ==(other) => other is TrainingType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// If hyperparameter optimization (HPO) was performed, contains the

@@ -1182,18 +1182,27 @@ class Dax {
   }
 }
 
-enum ChangeType {
-  immediate('IMMEDIATE'),
-  requiresReboot('REQUIRES_REBOOT'),
-  ;
+class ChangeType {
+  static const immediate = ChangeType._('IMMEDIATE');
+  static const requiresReboot = ChangeType._('REQUIRES_REBOOT');
 
   final String value;
 
-  const ChangeType(this.value);
+  const ChangeType._(this.value);
 
-  static ChangeType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum ChangeType'));
+  static const values = [immediate, requiresReboot];
+
+  static ChangeType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ChangeType._(value));
+
+  @override
+  bool operator ==(other) => other is ChangeType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains all of the attributes of a specific DAX cluster.
@@ -1387,19 +1396,29 @@ class Cluster {
   }
 }
 
-enum ClusterEndpointEncryptionType {
-  none('NONE'),
-  tls('TLS'),
-  ;
+class ClusterEndpointEncryptionType {
+  static const none = ClusterEndpointEncryptionType._('NONE');
+  static const tls = ClusterEndpointEncryptionType._('TLS');
 
   final String value;
 
-  const ClusterEndpointEncryptionType(this.value);
+  const ClusterEndpointEncryptionType._(this.value);
+
+  static const values = [none, tls];
 
   static ClusterEndpointEncryptionType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ClusterEndpointEncryptionType'));
+          orElse: () => ClusterEndpointEncryptionType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ClusterEndpointEncryptionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class CreateClusterResponse {
@@ -1880,20 +1899,28 @@ class IncreaseReplicationFactorResponse {
   }
 }
 
-enum IsModifiable {
-  $true('TRUE'),
-  $false('FALSE'),
-  conditional('CONDITIONAL'),
-  ;
+class IsModifiable {
+  static const $true = IsModifiable._('TRUE');
+  static const $false = IsModifiable._('FALSE');
+  static const conditional = IsModifiable._('CONDITIONAL');
 
   final String value;
 
-  const IsModifiable(this.value);
+  const IsModifiable._(this.value);
 
-  static IsModifiable fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum IsModifiable'));
+  static const values = [$true, $false, conditional];
+
+  static IsModifiable fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => IsModifiable._(value));
+
+  @override
+  bool operator ==(other) => other is IsModifiable && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class ListTagsResponse {
@@ -2251,19 +2278,28 @@ class ParameterNameValue {
   }
 }
 
-enum ParameterType {
-  $default('DEFAULT'),
-  nodeTypeSpecific('NODE_TYPE_SPECIFIC'),
-  ;
+class ParameterType {
+  static const $default = ParameterType._('DEFAULT');
+  static const nodeTypeSpecific = ParameterType._('NODE_TYPE_SPECIFIC');
 
   final String value;
 
-  const ParameterType(this.value);
+  const ParameterType._(this.value);
+
+  static const values = [$default, nodeTypeSpecific];
 
   static ParameterType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ParameterType'));
+          orElse: () => ParameterType._(value));
+
+  @override
+  bool operator ==(other) => other is ParameterType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class RebootNodeResponse {
@@ -2347,20 +2383,29 @@ class SSESpecification {
   }
 }
 
-enum SSEStatus {
-  enabling('ENABLING'),
-  enabled('ENABLED'),
-  disabling('DISABLING'),
-  disabled('DISABLED'),
-  ;
+class SSEStatus {
+  static const enabling = SSEStatus._('ENABLING');
+  static const enabled = SSEStatus._('ENABLED');
+  static const disabling = SSEStatus._('DISABLING');
+  static const disabled = SSEStatus._('DISABLED');
 
   final String value;
 
-  const SSEStatus(this.value);
+  const SSEStatus._(this.value);
 
-  static SSEStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum SSEStatus'));
+  static const values = [enabling, enabled, disabling, disabled];
+
+  static SSEStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => SSEStatus._(value));
+
+  @override
+  bool operator ==(other) => other is SSEStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// An individual VPC security group and its status.
@@ -2394,19 +2439,28 @@ class SecurityGroupMembership {
   }
 }
 
-enum SourceType {
-  cluster('CLUSTER'),
-  parameterGroup('PARAMETER_GROUP'),
-  subnetGroup('SUBNET_GROUP'),
-  ;
+class SourceType {
+  static const cluster = SourceType._('CLUSTER');
+  static const parameterGroup = SourceType._('PARAMETER_GROUP');
+  static const subnetGroup = SourceType._('SUBNET_GROUP');
 
   final String value;
 
-  const SourceType(this.value);
+  const SourceType._(this.value);
 
-  static SourceType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum SourceType'));
+  static const values = [cluster, parameterGroup, subnetGroup];
+
+  static SourceType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => SourceType._(value));
+
+  @override
+  bool operator ==(other) => other is SourceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Represents the subnet associated with a DAX cluster. This parameter refers

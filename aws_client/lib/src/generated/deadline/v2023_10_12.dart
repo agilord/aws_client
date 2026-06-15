@@ -4868,18 +4868,27 @@ class AcceleratorTotalMemoryMiBRange {
   }
 }
 
-enum AcceleratorType {
-  gpu('gpu'),
-  ;
+class AcceleratorType {
+  static const gpu = AcceleratorType._('gpu');
 
   final String value;
 
-  const AcceleratorType(this.value);
+  const AcceleratorType._(this.value);
+
+  static const values = [gpu];
 
   static AcceleratorType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum AcceleratorType'));
+          orElse: () => AcceleratorType._(value));
+
+  @override
+  bool operator ==(other) => other is AcceleratorType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The assigned starting environment for a worker during session.
@@ -5338,35 +5347,54 @@ class Attachments {
   }
 }
 
-enum AutoScalingMode {
-  noScaling('NO_SCALING'),
-  eventBasedAutoScaling('EVENT_BASED_AUTO_SCALING'),
-  ;
+class AutoScalingMode {
+  static const noScaling = AutoScalingMode._('NO_SCALING');
+  static const eventBasedAutoScaling =
+      AutoScalingMode._('EVENT_BASED_AUTO_SCALING');
 
   final String value;
 
-  const AutoScalingMode(this.value);
+  const AutoScalingMode._(this.value);
+
+  static const values = [noScaling, eventBasedAutoScaling];
 
   static AutoScalingMode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum AutoScalingMode'));
+          orElse: () => AutoScalingMode._(value));
+
+  @override
+  bool operator ==(other) => other is AutoScalingMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum AutoScalingStatus {
-  growing('GROWING'),
-  steady('STEADY'),
-  shrinking('SHRINKING'),
-  ;
+class AutoScalingStatus {
+  static const growing = AutoScalingStatus._('GROWING');
+  static const steady = AutoScalingStatus._('STEADY');
+  static const shrinking = AutoScalingStatus._('SHRINKING');
 
   final String value;
 
-  const AutoScalingStatus(this.value);
+  const AutoScalingStatus._(this.value);
+
+  static const values = [growing, steady, shrinking];
 
   static AutoScalingStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum AutoScalingStatus'));
+          orElse: () => AutoScalingStatus._(value));
+
+  @override
+  bool operator ==(other) => other is AutoScalingStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The Identity and Access Management credentials.
@@ -5505,19 +5533,33 @@ class BudgetActionToRemove {
   }
 }
 
-enum BudgetActionType {
-  stopSchedulingAndCompleteTasks('STOP_SCHEDULING_AND_COMPLETE_TASKS'),
-  stopSchedulingAndCancelTasks('STOP_SCHEDULING_AND_CANCEL_TASKS'),
-  ;
+class BudgetActionType {
+  static const stopSchedulingAndCompleteTasks =
+      BudgetActionType._('STOP_SCHEDULING_AND_COMPLETE_TASKS');
+  static const stopSchedulingAndCancelTasks =
+      BudgetActionType._('STOP_SCHEDULING_AND_CANCEL_TASKS');
 
   final String value;
 
-  const BudgetActionType(this.value);
+  const BudgetActionType._(this.value);
+
+  static const values = [
+    stopSchedulingAndCompleteTasks,
+    stopSchedulingAndCancelTasks
+  ];
 
   static BudgetActionType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum BudgetActionType'));
+          orElse: () => BudgetActionType._(value));
+
+  @override
+  bool operator ==(other) => other is BudgetActionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The start and end time of the budget.
@@ -5545,19 +5587,27 @@ class BudgetSchedule {
   }
 }
 
-enum BudgetStatus {
-  active('ACTIVE'),
-  inactive('INACTIVE'),
-  ;
+class BudgetStatus {
+  static const active = BudgetStatus._('ACTIVE');
+  static const inactive = BudgetStatus._('INACTIVE');
 
   final String value;
 
-  const BudgetStatus(this.value);
+  const BudgetStatus._(this.value);
 
-  static BudgetStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum BudgetStatus'));
+  static const values = [active, inactive];
+
+  static BudgetStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => BudgetStatus._(value));
+
+  @override
+  bool operator ==(other) => other is BudgetStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The budget summary.
@@ -5636,7 +5686,7 @@ class BudgetSummary {
       createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
       createdBy: (json['createdBy'] as String?) ?? '',
       displayName: (json['displayName'] as String?) ?? '',
-      status: BudgetStatus.fromString((json['status'] as String)),
+      status: BudgetStatus.fromString((json['status'] as String?) ?? ''),
       usageTrackingResource: UsageTrackingResource.fromJson(
           (json['usageTrackingResource'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
@@ -5677,41 +5727,74 @@ class BudgetSummary {
   }
 }
 
-enum ComparisonOperator {
-  equal('EQUAL'),
-  notEqual('NOT_EQUAL'),
-  greaterThanEqualTo('GREATER_THAN_EQUAL_TO'),
-  greaterThan('GREATER_THAN'),
-  lessThanEqualTo('LESS_THAN_EQUAL_TO'),
-  lessThan('LESS_THAN'),
-  ;
+class ComparisonOperator {
+  static const equal = ComparisonOperator._('EQUAL');
+  static const notEqual = ComparisonOperator._('NOT_EQUAL');
+  static const greaterThanEqualTo =
+      ComparisonOperator._('GREATER_THAN_EQUAL_TO');
+  static const greaterThan = ComparisonOperator._('GREATER_THAN');
+  static const lessThanEqualTo = ComparisonOperator._('LESS_THAN_EQUAL_TO');
+  static const lessThan = ComparisonOperator._('LESS_THAN');
 
   final String value;
 
-  const ComparisonOperator(this.value);
+  const ComparisonOperator._(this.value);
 
-  static ComparisonOperator fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ComparisonOperator'));
+  static const values = [
+    equal,
+    notEqual,
+    greaterThanEqualTo,
+    greaterThan,
+    lessThanEqualTo,
+    lessThan
+  ];
+
+  static ComparisonOperator fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ComparisonOperator._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ComparisonOperator && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum CompletedStatus {
-  succeeded('SUCCEEDED'),
-  failed('FAILED'),
-  interrupted('INTERRUPTED'),
-  canceled('CANCELED'),
-  neverAttempted('NEVER_ATTEMPTED'),
-  ;
+class CompletedStatus {
+  static const succeeded = CompletedStatus._('SUCCEEDED');
+  static const failed = CompletedStatus._('FAILED');
+  static const interrupted = CompletedStatus._('INTERRUPTED');
+  static const canceled = CompletedStatus._('CANCELED');
+  static const neverAttempted = CompletedStatus._('NEVER_ATTEMPTED');
 
   final String value;
 
-  const CompletedStatus(this.value);
+  const CompletedStatus._(this.value);
+
+  static const values = [
+    succeeded,
+    failed,
+    interrupted,
+    canceled,
+    neverAttempted
+  ];
 
   static CompletedStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum CompletedStatus'));
+          orElse: () => CompletedStatus._(value));
+
+  @override
+  bool operator ==(other) => other is CompletedStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The consumed usage for the resource.
@@ -5749,7 +5832,7 @@ class CopyJobTemplateResponse {
   factory CopyJobTemplateResponse.fromJson(Map<String, dynamic> json) {
     return CopyJobTemplateResponse(
       templateType:
-          JobTemplateType.fromString((json['templateType'] as String)),
+          JobTemplateType.fromString((json['templateType'] as String?) ?? ''),
     );
   }
 
@@ -5761,19 +5844,29 @@ class CopyJobTemplateResponse {
   }
 }
 
-enum CpuArchitectureType {
-  x86_64('x86_64'),
-  arm64('arm64'),
-  ;
+class CpuArchitectureType {
+  static const x86_64 = CpuArchitectureType._('x86_64');
+  static const arm64 = CpuArchitectureType._('arm64');
 
   final String value;
 
-  const CpuArchitectureType(this.value);
+  const CpuArchitectureType._(this.value);
 
-  static CpuArchitectureType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum CpuArchitectureType'));
+  static const values = [x86_64, arm64];
+
+  static CpuArchitectureType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => CpuArchitectureType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CpuArchitectureType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class CreateBudgetResponse {
@@ -5864,19 +5957,29 @@ class CreateJobResponse {
   }
 }
 
-enum CreateJobTargetTaskRunStatus {
-  ready('READY'),
-  suspended('SUSPENDED'),
-  ;
+class CreateJobTargetTaskRunStatus {
+  static const ready = CreateJobTargetTaskRunStatus._('READY');
+  static const suspended = CreateJobTargetTaskRunStatus._('SUSPENDED');
 
   final String value;
 
-  const CreateJobTargetTaskRunStatus(this.value);
+  const CreateJobTargetTaskRunStatus._(this.value);
+
+  static const values = [ready, suspended];
 
   static CreateJobTargetTaskRunStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum CreateJobTargetTaskRunStatus'));
+          orElse: () => CreateJobTargetTaskRunStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CreateJobTargetTaskRunStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class CreateLicenseEndpointResponse {
@@ -6052,7 +6155,7 @@ class CustomerManagedFleetConfiguration {
   factory CustomerManagedFleetConfiguration.fromJson(
       Map<String, dynamic> json) {
     return CustomerManagedFleetConfiguration(
-      mode: AutoScalingMode.fromString((json['mode'] as String)),
+      mode: AutoScalingMode.fromString((json['mode'] as String?) ?? ''),
       workerCapabilities: CustomerManagedWorkerCapabilities.fromJson(
           (json['workerCapabilities'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
@@ -6072,20 +6175,31 @@ class CustomerManagedFleetConfiguration {
   }
 }
 
-enum CustomerManagedFleetOperatingSystemFamily {
-  windows('WINDOWS'),
-  linux('LINUX'),
-  macos('MACOS'),
-  ;
+class CustomerManagedFleetOperatingSystemFamily {
+  static const windows = CustomerManagedFleetOperatingSystemFamily._('WINDOWS');
+  static const linux = CustomerManagedFleetOperatingSystemFamily._('LINUX');
+  static const macos = CustomerManagedFleetOperatingSystemFamily._('MACOS');
 
   final String value;
 
-  const CustomerManagedFleetOperatingSystemFamily(this.value);
+  const CustomerManagedFleetOperatingSystemFamily._(this.value);
+
+  static const values = [windows, linux, macos];
 
   static CustomerManagedFleetOperatingSystemFamily fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum CustomerManagedFleetOperatingSystemFamily'));
+          orElse: () => CustomerManagedFleetOperatingSystemFamily._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CustomerManagedFleetOperatingSystemFamily &&
+      other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The worker capabilities for a customer managed workflow.
@@ -6133,12 +6247,12 @@ class CustomerManagedWorkerCapabilities {
       Map<String, dynamic> json) {
     return CustomerManagedWorkerCapabilities(
       cpuArchitectureType: CpuArchitectureType.fromString(
-          (json['cpuArchitectureType'] as String)),
+          (json['cpuArchitectureType'] as String?) ?? ''),
       memoryMiB: MemoryMiBRange.fromJson(
           (json['memoryMiB'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
       osFamily: CustomerManagedFleetOperatingSystemFamily.fromString(
-          (json['osFamily'] as String)),
+          (json['osFamily'] as String?) ?? ''),
       vCpuCount: VCpuCountRange.fromJson(
           (json['vCpuCount'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
@@ -6221,20 +6335,36 @@ class DateTimeFilterExpression {
   }
 }
 
-enum DefaultQueueBudgetAction {
-  none('NONE'),
-  stopSchedulingAndCompleteTasks('STOP_SCHEDULING_AND_COMPLETE_TASKS'),
-  stopSchedulingAndCancelTasks('STOP_SCHEDULING_AND_CANCEL_TASKS'),
-  ;
+class DefaultQueueBudgetAction {
+  static const none = DefaultQueueBudgetAction._('NONE');
+  static const stopSchedulingAndCompleteTasks =
+      DefaultQueueBudgetAction._('STOP_SCHEDULING_AND_COMPLETE_TASKS');
+  static const stopSchedulingAndCancelTasks =
+      DefaultQueueBudgetAction._('STOP_SCHEDULING_AND_CANCEL_TASKS');
 
   final String value;
 
-  const DefaultQueueBudgetAction(this.value);
+  const DefaultQueueBudgetAction._(this.value);
+
+  static const values = [
+    none,
+    stopSchedulingAndCompleteTasks,
+    stopSchedulingAndCancelTasks
+  ];
 
   static DefaultQueueBudgetAction fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum DefaultQueueBudgetAction'));
+          orElse: () => DefaultQueueBudgetAction._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DefaultQueueBudgetAction && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class DeleteBudgetResponse {
@@ -6369,19 +6499,29 @@ class DeleteWorkerResponse {
   }
 }
 
-enum DependencyConsumerResolutionStatus {
-  resolved('RESOLVED'),
-  unresolved('UNRESOLVED'),
-  ;
+class DependencyConsumerResolutionStatus {
+  static const resolved = DependencyConsumerResolutionStatus._('RESOLVED');
+  static const unresolved = DependencyConsumerResolutionStatus._('UNRESOLVED');
 
   final String value;
 
-  const DependencyConsumerResolutionStatus(this.value);
+  const DependencyConsumerResolutionStatus._(this.value);
+
+  static const values = [resolved, unresolved];
 
   static DependencyConsumerResolutionStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum DependencyConsumerResolutionStatus'));
+          orElse: () => DependencyConsumerResolutionStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DependencyConsumerResolutionStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The number of dependencies for the consumer.
@@ -6428,18 +6568,28 @@ class DependencyCounts {
   }
 }
 
-enum DesiredWorkerStatus {
-  stopped('STOPPED'),
-  ;
+class DesiredWorkerStatus {
+  static const stopped = DesiredWorkerStatus._('STOPPED');
 
   final String value;
 
-  const DesiredWorkerStatus(this.value);
+  const DesiredWorkerStatus._(this.value);
 
-  static DesiredWorkerStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum DesiredWorkerStatus'));
+  static const values = [stopped];
+
+  static DesiredWorkerStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DesiredWorkerStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DesiredWorkerStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class DisassociateMemberFromFarmResponse {
@@ -6539,19 +6689,28 @@ class Ec2EbsVolume {
   }
 }
 
-enum Ec2MarketType {
-  onDemand('on-demand'),
-  spot('spot'),
-  ;
+class Ec2MarketType {
+  static const onDemand = Ec2MarketType._('on-demand');
+  static const spot = Ec2MarketType._('spot');
 
   final String value;
 
-  const Ec2MarketType(this.value);
+  const Ec2MarketType._(this.value);
+
+  static const values = [onDemand, spot];
 
   static Ec2MarketType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum Ec2MarketType'));
+          orElse: () => Ec2MarketType._(value));
+
+  @override
+  bool operator ==(other) => other is Ec2MarketType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The details of a specified environment.
@@ -6622,7 +6781,7 @@ class EnvironmentDetailsError {
 
   factory EnvironmentDetailsError.fromJson(Map<String, dynamic> json) {
     return EnvironmentDetailsError(
-      code: JobEntityErrorCode.fromString((json['code'] as String)),
+      code: JobEntityErrorCode.fromString((json['code'] as String?) ?? ''),
       environmentId: (json['environmentId'] as String?) ?? '',
       jobId: (json['jobId'] as String?) ?? '',
       message: (json['message'] as String?) ?? '',
@@ -6762,19 +6921,29 @@ class EnvironmentExitSessionActionDefinitionSummary {
   }
 }
 
-enum EnvironmentTemplateType {
-  json('JSON'),
-  yaml('YAML'),
-  ;
+class EnvironmentTemplateType {
+  static const json = EnvironmentTemplateType._('JSON');
+  static const yaml = EnvironmentTemplateType._('YAML');
 
   final String value;
 
-  const EnvironmentTemplateType(this.value);
+  const EnvironmentTemplateType._(this.value);
+
+  static const values = [json, yaml];
 
   static EnvironmentTemplateType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum EnvironmentTemplateType'));
+          orElse: () => EnvironmentTemplateType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is EnvironmentTemplateType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The member of a farm.
@@ -6806,11 +6975,11 @@ class FarmMember {
     return FarmMember(
       farmId: (json['farmId'] as String?) ?? '',
       identityStoreId: (json['identityStoreId'] as String?) ?? '',
-      membershipLevel:
-          MembershipLevel.fromString((json['membershipLevel'] as String)),
+      membershipLevel: MembershipLevel.fromString(
+          (json['membershipLevel'] as String?) ?? ''),
       principalId: (json['principalId'] as String?) ?? '',
       principalType:
-          PrincipalType.fromString((json['principalType'] as String)),
+          PrincipalType.fromString((json['principalType'] as String?) ?? ''),
     );
   }
 
@@ -6944,7 +7113,7 @@ class FileSystemLocation {
     return FileSystemLocation(
       name: (json['name'] as String?) ?? '',
       path: (json['path'] as String?) ?? '',
-      type: FileSystemLocationType.fromString((json['type'] as String)),
+      type: FileSystemLocationType.fromString((json['type'] as String?) ?? ''),
     );
   }
 
@@ -6960,19 +7129,29 @@ class FileSystemLocation {
   }
 }
 
-enum FileSystemLocationType {
-  shared('SHARED'),
-  local('LOCAL'),
-  ;
+class FileSystemLocationType {
+  static const shared = FileSystemLocationType._('SHARED');
+  static const local = FileSystemLocationType._('LOCAL');
 
   final String value;
 
-  const FileSystemLocationType(this.value);
+  const FileSystemLocationType._(this.value);
+
+  static const values = [shared, local];
 
   static FileSystemLocationType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum FileSystemLocationType'));
+          orElse: () => FileSystemLocationType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is FileSystemLocationType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The details of a fixed budget schedule.
@@ -7182,11 +7361,11 @@ class FleetMember {
       farmId: (json['farmId'] as String?) ?? '',
       fleetId: (json['fleetId'] as String?) ?? '',
       identityStoreId: (json['identityStoreId'] as String?) ?? '',
-      membershipLevel:
-          MembershipLevel.fromString((json['membershipLevel'] as String)),
+      membershipLevel: MembershipLevel.fromString(
+          (json['membershipLevel'] as String?) ?? ''),
       principalId: (json['principalId'] as String?) ?? '',
       principalType:
-          PrincipalType.fromString((json['principalType'] as String)),
+          PrincipalType.fromString((json['principalType'] as String?) ?? ''),
     );
   }
 
@@ -7208,21 +7387,36 @@ class FleetMember {
   }
 }
 
-enum FleetStatus {
-  active('ACTIVE'),
-  createInProgress('CREATE_IN_PROGRESS'),
-  updateInProgress('UPDATE_IN_PROGRESS'),
-  createFailed('CREATE_FAILED'),
-  updateFailed('UPDATE_FAILED'),
-  ;
+class FleetStatus {
+  static const active = FleetStatus._('ACTIVE');
+  static const createInProgress = FleetStatus._('CREATE_IN_PROGRESS');
+  static const updateInProgress = FleetStatus._('UPDATE_IN_PROGRESS');
+  static const createFailed = FleetStatus._('CREATE_FAILED');
+  static const updateFailed = FleetStatus._('UPDATE_FAILED');
 
   final String value;
 
-  const FleetStatus(this.value);
+  const FleetStatus._(this.value);
 
-  static FleetStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum FleetStatus'));
+  static const values = [
+    active,
+    createInProgress,
+    updateInProgress,
+    createFailed,
+    updateFailed
+  ];
+
+  static FleetStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => FleetStatus._(value));
+
+  @override
+  bool operator ==(other) => other is FleetStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The details of a fleet.
@@ -7303,7 +7497,7 @@ class FleetSummary {
       fleetId: (json['fleetId'] as String?) ?? '',
       maxWorkerCount: (json['maxWorkerCount'] as int?) ?? 0,
       minWorkerCount: (json['minWorkerCount'] as int?) ?? 0,
-      status: FleetStatus.fromString((json['status'] as String)),
+      status: FleetStatus.fromString((json['status'] as String?) ?? ''),
       workerCount: (json['workerCount'] as int?) ?? 0,
       autoScalingStatus: (json['autoScalingStatus'] as String?)
           ?.let(AutoScalingStatus.fromString),
@@ -7442,7 +7636,7 @@ class GetBudgetResponse {
       schedule: BudgetSchedule.fromJson(
           (json['schedule'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
-      status: BudgetStatus.fromString((json['status'] as String)),
+      status: BudgetStatus.fromString((json['status'] as String?) ?? ''),
       usageTrackingResource: UsageTrackingResource.fromJson(
           (json['usageTrackingResource'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
@@ -7669,7 +7863,7 @@ class GetFleetResponse {
       maxWorkerCount: (json['maxWorkerCount'] as int?) ?? 0,
       minWorkerCount: (json['minWorkerCount'] as int?) ?? 0,
       roleArn: (json['roleArn'] as String?) ?? '',
-      status: FleetStatus.fromString((json['status'] as String)),
+      status: FleetStatus.fromString((json['status'] as String?) ?? ''),
       workerCount: (json['workerCount'] as int?) ?? 0,
       autoScalingStatus: (json['autoScalingStatus'] as String?)
           ?.let(AutoScalingStatus.fromString),
@@ -7876,8 +8070,8 @@ class GetJobResponse {
       createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
       createdBy: (json['createdBy'] as String?) ?? '',
       jobId: (json['jobId'] as String?) ?? '',
-      lifecycleStatus:
-          JobLifecycleStatus.fromString((json['lifecycleStatus'] as String)),
+      lifecycleStatus: JobLifecycleStatus.fromString(
+          (json['lifecycleStatus'] as String?) ?? ''),
       lifecycleStatusMessage: (json['lifecycleStatusMessage'] as String?) ?? '',
       name: (json['name'] as String?) ?? '',
       priority: (json['priority'] as int?) ?? 0,
@@ -7989,7 +8183,8 @@ class GetLicenseEndpointResponse {
   factory GetLicenseEndpointResponse.fromJson(Map<String, dynamic> json) {
     return GetLicenseEndpointResponse(
       licenseEndpointId: (json['licenseEndpointId'] as String?) ?? '',
-      status: LicenseEndpointStatus.fromString((json['status'] as String)),
+      status:
+          LicenseEndpointStatus.fromString((json['status'] as String?) ?? ''),
       statusMessage: (json['statusMessage'] as String?) ?? '',
       dnsName: json['dnsName'] as String?,
       securityGroupIds: (json['securityGroupIds'] as List?)
@@ -8176,8 +8371,8 @@ class GetQueueEnvironmentResponse {
       priority: (json['priority'] as int?) ?? 0,
       queueEnvironmentId: (json['queueEnvironmentId'] as String?) ?? '',
       template: (json['template'] as String?) ?? '',
-      templateType:
-          EnvironmentTemplateType.fromString((json['templateType'] as String)),
+      templateType: EnvironmentTemplateType.fromString(
+          (json['templateType'] as String?) ?? ''),
       updatedAt: timeStampFromJson(json['updatedAt']),
       updatedBy: json['updatedBy'] as String?,
     );
@@ -8245,8 +8440,8 @@ class GetQueueFleetAssociationResponse {
       createdBy: (json['createdBy'] as String?) ?? '',
       fleetId: (json['fleetId'] as String?) ?? '',
       queueId: (json['queueId'] as String?) ?? '',
-      status:
-          QueueFleetAssociationStatus.fromString((json['status'] as String)),
+      status: QueueFleetAssociationStatus.fromString(
+          (json['status'] as String?) ?? ''),
       updatedAt: timeStampFromJson(json['updatedAt']),
       updatedBy: json['updatedBy'] as String?,
     );
@@ -8368,11 +8563,11 @@ class GetQueueResponse {
       createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
       createdBy: (json['createdBy'] as String?) ?? '',
       defaultBudgetAction: DefaultQueueBudgetAction.fromString(
-          (json['defaultBudgetAction'] as String)),
+          (json['defaultBudgetAction'] as String?) ?? ''),
       displayName: (json['displayName'] as String?) ?? '',
       farmId: (json['farmId'] as String?) ?? '',
       queueId: (json['queueId'] as String?) ?? '',
-      status: QueueStatus.fromString((json['status'] as String)),
+      status: QueueStatus.fromString((json['status'] as String?) ?? ''),
       allowedStorageProfileIds: (json['allowedStorageProfileIds'] as List?)
           ?.nonNulls
           .map((e) => e as String)
@@ -8492,7 +8687,7 @@ class GetSessionActionResponse {
               const <String, dynamic>{}),
       sessionActionId: (json['sessionActionId'] as String?) ?? '',
       sessionId: (json['sessionId'] as String?) ?? '',
-      status: SessionActionStatus.fromString((json['status'] as String)),
+      status: SessionActionStatus.fromString((json['status'] as String?) ?? ''),
       endedAt: timeStampFromJson(json['endedAt']),
       processExitCode: json['processExitCode'] as int?,
       progressMessage: json['progressMessage'] as String?,
@@ -8585,7 +8780,7 @@ class GetSessionResponse {
     return GetSessionResponse(
       fleetId: (json['fleetId'] as String?) ?? '',
       lifecycleStatus: SessionLifecycleStatus.fromString(
-          (json['lifecycleStatus'] as String)),
+          (json['lifecycleStatus'] as String?) ?? ''),
       log: LogConfiguration.fromJson(
           (json['log'] as Map<String, dynamic>?) ?? const <String, dynamic>{}),
       sessionId: (json['sessionId'] as String?) ?? '',
@@ -8676,7 +8871,7 @@ class GetSessionsStatisticsAggregationResponse {
       Map<String, dynamic> json) {
     return GetSessionsStatisticsAggregationResponse(
       status: SessionsStatisticsAggregationStatus.fromString(
-          (json['status'] as String)),
+          (json['status'] as String?) ?? ''),
       nextToken: json['nextToken'] as String?,
       statistics: (json['statistics'] as List?)
           ?.nonNulls
@@ -8781,12 +8976,12 @@ class GetStepResponse {
     return GetStepResponse(
       createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
       createdBy: (json['createdBy'] as String?) ?? '',
-      lifecycleStatus:
-          StepLifecycleStatus.fromString((json['lifecycleStatus'] as String)),
+      lifecycleStatus: StepLifecycleStatus.fromString(
+          (json['lifecycleStatus'] as String?) ?? ''),
       name: (json['name'] as String?) ?? '',
       stepId: (json['stepId'] as String?) ?? '',
       taskRunStatus:
-          TaskRunStatus.fromString((json['taskRunStatus'] as String)),
+          TaskRunStatus.fromString((json['taskRunStatus'] as String?) ?? ''),
       taskRunStatusCounts:
           ((json['taskRunStatusCounts'] as Map<String, dynamic>?) ??
                   const <String, dynamic>{})
@@ -8888,7 +9083,7 @@ class GetStorageProfileForQueueResponse {
     return GetStorageProfileForQueueResponse(
       displayName: (json['displayName'] as String?) ?? '',
       osFamily: StorageProfileOperatingSystemFamily.fromString(
-          (json['osFamily'] as String)),
+          (json['osFamily'] as String?) ?? ''),
       storageProfileId: (json['storageProfileId'] as String?) ?? '',
       fileSystemLocations: (json['fileSystemLocations'] as List?)
           ?.nonNulls
@@ -8959,7 +9154,7 @@ class GetStorageProfileResponse {
       createdBy: (json['createdBy'] as String?) ?? '',
       displayName: (json['displayName'] as String?) ?? '',
       osFamily: StorageProfileOperatingSystemFamily.fromString(
-          (json['osFamily'] as String)),
+          (json['osFamily'] as String?) ?? ''),
       storageProfileId: (json['storageProfileId'] as String?) ?? '',
       fileSystemLocations: (json['fileSystemLocations'] as List?)
           ?.nonNulls
@@ -9049,7 +9244,7 @@ class GetTaskResponse {
     return GetTaskResponse(
       createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
       createdBy: (json['createdBy'] as String?) ?? '',
-      runStatus: TaskRunStatus.fromString((json['runStatus'] as String)),
+      runStatus: TaskRunStatus.fromString((json['runStatus'] as String?) ?? ''),
       taskId: (json['taskId'] as String?) ?? '',
       endedAt: timeStampFromJson(json['endedAt']),
       failureRetryCount: json['failureRetryCount'] as int?,
@@ -9145,7 +9340,7 @@ class GetWorkerResponse {
       createdBy: (json['createdBy'] as String?) ?? '',
       farmId: (json['farmId'] as String?) ?? '',
       fleetId: (json['fleetId'] as String?) ?? '',
-      status: WorkerStatus.fromString((json['status'] as String)),
+      status: WorkerStatus.fromString((json['status'] as String?) ?? ''),
       workerId: (json['workerId'] as String?) ?? '',
       hostProperties: json['hostProperties'] != null
           ? HostPropertiesResponse.fromJson(
@@ -9341,7 +9536,7 @@ class JobAttachmentDetailsError {
 
   factory JobAttachmentDetailsError.fromJson(Map<String, dynamic> json) {
     return JobAttachmentDetailsError(
-      code: JobEntityErrorCode.fromString((json['code'] as String)),
+      code: JobEntityErrorCode.fromString((json['code'] as String?) ?? ''),
       jobId: (json['jobId'] as String?) ?? '',
       message: (json['message'] as String?) ?? '',
     );
@@ -9407,19 +9602,29 @@ class JobAttachmentSettings {
   }
 }
 
-enum JobAttachmentsFileSystem {
-  copied('COPIED'),
-  virtual('VIRTUAL'),
-  ;
+class JobAttachmentsFileSystem {
+  static const copied = JobAttachmentsFileSystem._('COPIED');
+  static const virtual = JobAttachmentsFileSystem._('VIRTUAL');
 
   final String value;
 
-  const JobAttachmentsFileSystem(this.value);
+  const JobAttachmentsFileSystem._(this.value);
+
+  static const values = [copied, virtual];
 
   static JobAttachmentsFileSystem fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum JobAttachmentsFileSystem'));
+          orElse: () => JobAttachmentsFileSystem._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is JobAttachmentsFileSystem && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The job details for a specific job.
@@ -9523,7 +9728,7 @@ class JobDetailsError {
 
   factory JobDetailsError.fromJson(Map<String, dynamic> json) {
     return JobDetailsError(
-      code: JobEntityErrorCode.fromString((json['code'] as String)),
+      code: JobEntityErrorCode.fromString((json['code'] as String?) ?? ''),
       jobId: (json['jobId'] as String?) ?? '',
       message: (json['message'] as String?) ?? '',
     );
@@ -9615,23 +9820,45 @@ class JobEntity {
   }
 }
 
-enum JobEntityErrorCode {
-  accessDeniedException('AccessDeniedException'),
-  internalServerException('InternalServerException'),
-  validationException('ValidationException'),
-  resourceNotFoundException('ResourceNotFoundException'),
-  maxPayloadSizeExceeded('MaxPayloadSizeExceeded'),
-  conflictException('ConflictException'),
-  ;
+class JobEntityErrorCode {
+  static const accessDeniedException =
+      JobEntityErrorCode._('AccessDeniedException');
+  static const internalServerException =
+      JobEntityErrorCode._('InternalServerException');
+  static const validationException =
+      JobEntityErrorCode._('ValidationException');
+  static const resourceNotFoundException =
+      JobEntityErrorCode._('ResourceNotFoundException');
+  static const maxPayloadSizeExceeded =
+      JobEntityErrorCode._('MaxPayloadSizeExceeded');
+  static const conflictException = JobEntityErrorCode._('ConflictException');
 
   final String value;
 
-  const JobEntityErrorCode(this.value);
+  const JobEntityErrorCode._(this.value);
 
-  static JobEntityErrorCode fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum JobEntityErrorCode'));
+  static const values = [
+    accessDeniedException,
+    internalServerException,
+    validationException,
+    resourceNotFoundException,
+    maxPayloadSizeExceeded,
+    conflictException
+  ];
+
+  static JobEntityErrorCode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => JobEntityErrorCode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is JobEntityErrorCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The details of a job entity identifier.
@@ -9670,26 +9897,46 @@ class JobEntityIdentifiersUnion {
   }
 }
 
-enum JobLifecycleStatus {
-  createInProgress('CREATE_IN_PROGRESS'),
-  createFailed('CREATE_FAILED'),
-  createComplete('CREATE_COMPLETE'),
-  uploadInProgress('UPLOAD_IN_PROGRESS'),
-  uploadFailed('UPLOAD_FAILED'),
-  updateInProgress('UPDATE_IN_PROGRESS'),
-  updateFailed('UPDATE_FAILED'),
-  updateSucceeded('UPDATE_SUCCEEDED'),
-  archived('ARCHIVED'),
-  ;
+class JobLifecycleStatus {
+  static const createInProgress = JobLifecycleStatus._('CREATE_IN_PROGRESS');
+  static const createFailed = JobLifecycleStatus._('CREATE_FAILED');
+  static const createComplete = JobLifecycleStatus._('CREATE_COMPLETE');
+  static const uploadInProgress = JobLifecycleStatus._('UPLOAD_IN_PROGRESS');
+  static const uploadFailed = JobLifecycleStatus._('UPLOAD_FAILED');
+  static const updateInProgress = JobLifecycleStatus._('UPDATE_IN_PROGRESS');
+  static const updateFailed = JobLifecycleStatus._('UPDATE_FAILED');
+  static const updateSucceeded = JobLifecycleStatus._('UPDATE_SUCCEEDED');
+  static const archived = JobLifecycleStatus._('ARCHIVED');
 
   final String value;
 
-  const JobLifecycleStatus(this.value);
+  const JobLifecycleStatus._(this.value);
 
-  static JobLifecycleStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum JobLifecycleStatus'));
+  static const values = [
+    createInProgress,
+    createFailed,
+    createComplete,
+    uploadInProgress,
+    uploadFailed,
+    updateInProgress,
+    updateFailed,
+    updateSucceeded,
+    archived
+  ];
+
+  static JobLifecycleStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => JobLifecycleStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is JobLifecycleStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The details for a job member.
@@ -9730,11 +9977,11 @@ class JobMember {
       farmId: (json['farmId'] as String?) ?? '',
       identityStoreId: (json['identityStoreId'] as String?) ?? '',
       jobId: (json['jobId'] as String?) ?? '',
-      membershipLevel:
-          MembershipLevel.fromString((json['membershipLevel'] as String)),
+      membershipLevel: MembershipLevel.fromString(
+          (json['membershipLevel'] as String?) ?? ''),
       principalId: (json['principalId'] as String?) ?? '',
       principalType:
-          PrincipalType.fromString((json['principalType'] as String)),
+          PrincipalType.fromString((json['principalType'] as String?) ?? ''),
       queueId: (json['queueId'] as String?) ?? '',
     );
   }
@@ -9823,7 +10070,7 @@ class JobRunAsUser {
 
   factory JobRunAsUser.fromJson(Map<String, dynamic> json) {
     return JobRunAsUser(
-      runAs: RunAs.fromString((json['runAs'] as String)),
+      runAs: RunAs.fromString((json['runAs'] as String?) ?? ''),
       posix: json['posix'] != null
           ? PosixUser.fromJson(json['posix'] as Map<String, dynamic>)
           : null,
@@ -10127,8 +10374,8 @@ class JobSummary {
       createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
       createdBy: (json['createdBy'] as String?) ?? '',
       jobId: (json['jobId'] as String?) ?? '',
-      lifecycleStatus:
-          JobLifecycleStatus.fromString((json['lifecycleStatus'] as String)),
+      lifecycleStatus: JobLifecycleStatus.fromString(
+          (json['lifecycleStatus'] as String?) ?? ''),
       lifecycleStatusMessage: (json['lifecycleStatusMessage'] as String?) ?? '',
       name: (json['name'] as String?) ?? '',
       priority: (json['priority'] as int?) ?? 0,
@@ -10190,55 +10437,91 @@ class JobSummary {
   }
 }
 
-enum JobTargetTaskRunStatus {
-  ready('READY'),
-  failed('FAILED'),
-  succeeded('SUCCEEDED'),
-  canceled('CANCELED'),
-  suspended('SUSPENDED'),
-  pending('PENDING'),
-  ;
+class JobTargetTaskRunStatus {
+  static const ready = JobTargetTaskRunStatus._('READY');
+  static const failed = JobTargetTaskRunStatus._('FAILED');
+  static const succeeded = JobTargetTaskRunStatus._('SUCCEEDED');
+  static const canceled = JobTargetTaskRunStatus._('CANCELED');
+  static const suspended = JobTargetTaskRunStatus._('SUSPENDED');
+  static const pending = JobTargetTaskRunStatus._('PENDING');
 
   final String value;
 
-  const JobTargetTaskRunStatus(this.value);
+  const JobTargetTaskRunStatus._(this.value);
+
+  static const values = [
+    ready,
+    failed,
+    succeeded,
+    canceled,
+    suspended,
+    pending
+  ];
 
   static JobTargetTaskRunStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum JobTargetTaskRunStatus'));
+          orElse: () => JobTargetTaskRunStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is JobTargetTaskRunStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum JobTemplateType {
-  json('JSON'),
-  yaml('YAML'),
-  ;
+class JobTemplateType {
+  static const json = JobTemplateType._('JSON');
+  static const yaml = JobTemplateType._('YAML');
 
   final String value;
 
-  const JobTemplateType(this.value);
+  const JobTemplateType._(this.value);
+
+  static const values = [json, yaml];
 
   static JobTemplateType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum JobTemplateType'));
+          orElse: () => JobTemplateType._(value));
+
+  @override
+  bool operator ==(other) => other is JobTemplateType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum LicenseEndpointStatus {
-  createInProgress('CREATE_IN_PROGRESS'),
-  deleteInProgress('DELETE_IN_PROGRESS'),
-  ready('READY'),
-  notReady('NOT_READY'),
-  ;
+class LicenseEndpointStatus {
+  static const createInProgress = LicenseEndpointStatus._('CREATE_IN_PROGRESS');
+  static const deleteInProgress = LicenseEndpointStatus._('DELETE_IN_PROGRESS');
+  static const ready = LicenseEndpointStatus._('READY');
+  static const notReady = LicenseEndpointStatus._('NOT_READY');
 
   final String value;
 
-  const LicenseEndpointStatus(this.value);
+  const LicenseEndpointStatus._(this.value);
 
-  static LicenseEndpointStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum LicenseEndpointStatus'));
+  static const values = [createInProgress, deleteInProgress, ready, notReady];
+
+  static LicenseEndpointStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => LicenseEndpointStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is LicenseEndpointStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The details for a license endpoint.
@@ -11333,19 +11616,28 @@ class LogConfiguration {
   }
 }
 
-enum LogicalOperator {
-  and('AND'),
-  or('OR'),
-  ;
+class LogicalOperator {
+  static const and = LogicalOperator._('AND');
+  static const or = LogicalOperator._('OR');
 
   final String value;
 
-  const LogicalOperator(this.value);
+  const LogicalOperator._(this.value);
+
+  static const values = [and, or];
 
   static LogicalOperator fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum LogicalOperator'));
+          orElse: () => LogicalOperator._(value));
+
+  @override
+  bool operator ==(other) => other is LogicalOperator && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The details of the manifest that links a job's source information.
@@ -11380,7 +11672,8 @@ class ManifestProperties {
   factory ManifestProperties.fromJson(Map<String, dynamic> json) {
     return ManifestProperties(
       rootPath: (json['rootPath'] as String?) ?? '',
-      rootPathFormat: PathFormat.fromString((json['rootPathFormat'] as String)),
+      rootPathFormat:
+          PathFormat.fromString((json['rootPathFormat'] as String?) ?? ''),
       fileSystemLocationName: json['fileSystemLocationName'] as String?,
       inputManifestHash: json['inputManifestHash'] as String?,
       inputManifestPath: json['inputManifestPath'] as String?,
@@ -11411,21 +11704,30 @@ class ManifestProperties {
   }
 }
 
-enum MembershipLevel {
-  viewer('VIEWER'),
-  contributor('CONTRIBUTOR'),
-  owner('OWNER'),
-  manager('MANAGER'),
-  ;
+class MembershipLevel {
+  static const viewer = MembershipLevel._('VIEWER');
+  static const contributor = MembershipLevel._('CONTRIBUTOR');
+  static const owner = MembershipLevel._('OWNER');
+  static const manager = MembershipLevel._('MANAGER');
 
   final String value;
 
-  const MembershipLevel(this.value);
+  const MembershipLevel._(this.value);
+
+  static const values = [viewer, contributor, owner, manager];
 
   static MembershipLevel fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum MembershipLevel'));
+          orElse: () => MembershipLevel._(value));
+
+  @override
+  bool operator ==(other) => other is MembershipLevel && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The range of memory in MiB.
@@ -11692,18 +11994,27 @@ class ParameterSpace {
   }
 }
 
-enum PathFormat {
-  windows('windows'),
-  posix('posix'),
-  ;
+class PathFormat {
+  static const windows = PathFormat._('windows');
+  static const posix = PathFormat._('posix');
 
   final String value;
 
-  const PathFormat(this.value);
+  const PathFormat._(this.value);
 
-  static PathFormat fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum PathFormat'));
+  static const values = [windows, posix];
+
+  static PathFormat fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => PathFormat._(value));
+
+  @override
+  bool operator ==(other) => other is PathFormat && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The details of a source and destination path.
@@ -11728,7 +12039,7 @@ class PathMappingRule {
       destinationPath: (json['destinationPath'] as String?) ?? '',
       sourcePath: (json['sourcePath'] as String?) ?? '',
       sourcePathFormat:
-          PathFormat.fromString((json['sourcePathFormat'] as String)),
+          PathFormat.fromString((json['sourcePathFormat'] as String?) ?? ''),
     );
   }
 
@@ -11744,20 +12055,29 @@ class PathMappingRule {
   }
 }
 
-enum Period {
-  hourly('HOURLY'),
-  daily('DAILY'),
-  weekly('WEEKLY'),
-  monthly('MONTHLY'),
-  ;
+class Period {
+  static const hourly = Period._('HOURLY');
+  static const daily = Period._('DAILY');
+  static const weekly = Period._('WEEKLY');
+  static const monthly = Period._('MONTHLY');
 
   final String value;
 
-  const Period(this.value);
+  const Period._(this.value);
+
+  static const values = [hourly, daily, weekly, monthly];
 
   static Period fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum Period'));
+      values.firstWhere((e) => e.value == value, orElse: () => Period._(value));
+
+  @override
+  bool operator ==(other) => other is Period && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The POSIX user.
@@ -11790,19 +12110,28 @@ class PosixUser {
   }
 }
 
-enum PrincipalType {
-  user('USER'),
-  group('GROUP'),
-  ;
+class PrincipalType {
+  static const user = PrincipalType._('USER');
+  static const group = PrincipalType._('GROUP');
 
   final String value;
 
-  const PrincipalType(this.value);
+  const PrincipalType._(this.value);
+
+  static const values = [user, group];
 
   static PrincipalType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum PrincipalType'));
+          orElse: () => PrincipalType._(value));
+
+  @override
+  bool operator ==(other) => other is PrincipalType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class PutMeteredProductResponse {
@@ -11817,19 +12146,31 @@ class PutMeteredProductResponse {
   }
 }
 
-enum QueueBlockedReason {
-  noBudgetConfigured('NO_BUDGET_CONFIGURED'),
-  budgetThresholdReached('BUDGET_THRESHOLD_REACHED'),
-  ;
+class QueueBlockedReason {
+  static const noBudgetConfigured =
+      QueueBlockedReason._('NO_BUDGET_CONFIGURED');
+  static const budgetThresholdReached =
+      QueueBlockedReason._('BUDGET_THRESHOLD_REACHED');
 
   final String value;
 
-  const QueueBlockedReason(this.value);
+  const QueueBlockedReason._(this.value);
 
-  static QueueBlockedReason fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum QueueBlockedReason'));
+  static const values = [noBudgetConfigured, budgetThresholdReached];
+
+  static QueueBlockedReason fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => QueueBlockedReason._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is QueueBlockedReason && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The summary of a queue environment.
@@ -11869,21 +12210,38 @@ class QueueEnvironmentSummary {
   }
 }
 
-enum QueueFleetAssociationStatus {
-  active('ACTIVE'),
-  stopSchedulingAndCompleteTasks('STOP_SCHEDULING_AND_COMPLETE_TASKS'),
-  stopSchedulingAndCancelTasks('STOP_SCHEDULING_AND_CANCEL_TASKS'),
-  stopped('STOPPED'),
-  ;
+class QueueFleetAssociationStatus {
+  static const active = QueueFleetAssociationStatus._('ACTIVE');
+  static const stopSchedulingAndCompleteTasks =
+      QueueFleetAssociationStatus._('STOP_SCHEDULING_AND_COMPLETE_TASKS');
+  static const stopSchedulingAndCancelTasks =
+      QueueFleetAssociationStatus._('STOP_SCHEDULING_AND_CANCEL_TASKS');
+  static const stopped = QueueFleetAssociationStatus._('STOPPED');
 
   final String value;
 
-  const QueueFleetAssociationStatus(this.value);
+  const QueueFleetAssociationStatus._(this.value);
+
+  static const values = [
+    active,
+    stopSchedulingAndCompleteTasks,
+    stopSchedulingAndCancelTasks,
+    stopped
+  ];
 
   static QueueFleetAssociationStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum QueueFleetAssociationStatus'));
+          orElse: () => QueueFleetAssociationStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is QueueFleetAssociationStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The details of a queue-fleet association.
@@ -11942,8 +12300,8 @@ class QueueFleetAssociationSummary {
       createdBy: (json['createdBy'] as String?) ?? '',
       fleetId: (json['fleetId'] as String?) ?? '',
       queueId: (json['queueId'] as String?) ?? '',
-      status:
-          QueueFleetAssociationStatus.fromString((json['status'] as String)),
+      status: QueueFleetAssociationStatus.fromString(
+          (json['status'] as String?) ?? ''),
       updatedAt: timeStampFromJson(json['updatedAt']),
       updatedBy: json['updatedBy'] as String?,
     );
@@ -12002,11 +12360,11 @@ class QueueMember {
     return QueueMember(
       farmId: (json['farmId'] as String?) ?? '',
       identityStoreId: (json['identityStoreId'] as String?) ?? '',
-      membershipLevel:
-          MembershipLevel.fromString((json['membershipLevel'] as String)),
+      membershipLevel: MembershipLevel.fromString(
+          (json['membershipLevel'] as String?) ?? ''),
       principalId: (json['principalId'] as String?) ?? '',
       principalType:
-          PrincipalType.fromString((json['principalType'] as String)),
+          PrincipalType.fromString((json['principalType'] as String?) ?? ''),
       queueId: (json['queueId'] as String?) ?? '',
     );
   }
@@ -12029,19 +12387,28 @@ class QueueMember {
   }
 }
 
-enum QueueStatus {
-  idle('IDLE'),
-  scheduling('SCHEDULING'),
-  schedulingBlocked('SCHEDULING_BLOCKED'),
-  ;
+class QueueStatus {
+  static const idle = QueueStatus._('IDLE');
+  static const scheduling = QueueStatus._('SCHEDULING');
+  static const schedulingBlocked = QueueStatus._('SCHEDULING_BLOCKED');
 
   final String value;
 
-  const QueueStatus(this.value);
+  const QueueStatus._(this.value);
 
-  static QueueStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum QueueStatus'));
+  static const values = [idle, scheduling, schedulingBlocked];
+
+  static QueueStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => QueueStatus._(value));
+
+  @override
+  bool operator ==(other) => other is QueueStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The details of a queue summary.
@@ -12099,11 +12466,11 @@ class QueueSummary {
       createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
       createdBy: (json['createdBy'] as String?) ?? '',
       defaultBudgetAction: DefaultQueueBudgetAction.fromString(
-          (json['defaultBudgetAction'] as String)),
+          (json['defaultBudgetAction'] as String?) ?? ''),
       displayName: (json['displayName'] as String?) ?? '',
       farmId: (json['farmId'] as String?) ?? '',
       queueId: (json['queueId'] as String?) ?? '',
-      status: QueueStatus.fromString((json['status'] as String)),
+      status: QueueStatus.fromString((json['status'] as String?) ?? ''),
       blockedReason: (json['blockedReason'] as String?)
           ?.let(QueueBlockedReason.fromString),
       updatedAt: timeStampFromJson(json['updatedAt']),
@@ -12162,7 +12529,7 @@ class ResponseBudgetAction {
   factory ResponseBudgetAction.fromJson(Map<String, dynamic> json) {
     return ResponseBudgetAction(
       thresholdPercentage: (json['thresholdPercentage'] as double?) ?? 0,
-      type: BudgetActionType.fromString((json['type'] as String)),
+      type: BudgetActionType.fromString((json['type'] as String?) ?? ''),
       description: json['description'] as String?,
     );
   }
@@ -12179,18 +12546,27 @@ class ResponseBudgetAction {
   }
 }
 
-enum RunAs {
-  queueConfiguredUser('QUEUE_CONFIGURED_USER'),
-  workerAgentUser('WORKER_AGENT_USER'),
-  ;
+class RunAs {
+  static const queueConfiguredUser = RunAs._('QUEUE_CONFIGURED_USER');
+  static const workerAgentUser = RunAs._('WORKER_AGENT_USER');
 
   final String value;
 
-  const RunAs(this.value);
+  const RunAs._(this.value);
+
+  static const values = [queueConfiguredUser, workerAgentUser];
 
   static RunAs fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum RunAs'));
+      values.firstWhere((e) => e.value == value, orElse: () => RunAs._(value));
+
+  @override
+  bool operator ==(other) => other is RunAs && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The Amazon S3 location information.
@@ -12570,12 +12946,12 @@ class ServiceManagedEc2InstanceCapabilities {
       Map<String, dynamic> json) {
     return ServiceManagedEc2InstanceCapabilities(
       cpuArchitectureType: CpuArchitectureType.fromString(
-          (json['cpuArchitectureType'] as String)),
+          (json['cpuArchitectureType'] as String?) ?? ''),
       memoryMiB: MemoryMiBRange.fromJson(
           (json['memoryMiB'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
       osFamily: ServiceManagedFleetOperatingSystemFamily.fromString(
-          (json['osFamily'] as String)),
+          (json['osFamily'] as String?) ?? ''),
       vCpuCount: VCpuCountRange.fromJson(
           (json['vCpuCount'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
@@ -12641,7 +13017,7 @@ class ServiceManagedEc2InstanceMarketOptions {
   factory ServiceManagedEc2InstanceMarketOptions.fromJson(
       Map<String, dynamic> json) {
     return ServiceManagedEc2InstanceMarketOptions(
-      type: Ec2MarketType.fromString((json['type'] as String)),
+      type: Ec2MarketType.fromString((json['type'] as String?) ?? ''),
     );
   }
 
@@ -12653,19 +13029,29 @@ class ServiceManagedEc2InstanceMarketOptions {
   }
 }
 
-enum ServiceManagedFleetOperatingSystemFamily {
-  windows('WINDOWS'),
-  linux('LINUX'),
-  ;
+class ServiceManagedFleetOperatingSystemFamily {
+  static const windows = ServiceManagedFleetOperatingSystemFamily._('WINDOWS');
+  static const linux = ServiceManagedFleetOperatingSystemFamily._('LINUX');
 
   final String value;
 
-  const ServiceManagedFleetOperatingSystemFamily(this.value);
+  const ServiceManagedFleetOperatingSystemFamily._(this.value);
+
+  static const values = [windows, linux];
 
   static ServiceManagedFleetOperatingSystemFamily fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ServiceManagedFleetOperatingSystemFamily'));
+          orElse: () => ServiceManagedFleetOperatingSystemFamily._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ServiceManagedFleetOperatingSystemFamily && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The definition of the session action.
@@ -12783,28 +13169,50 @@ class SessionActionDefinitionSummary {
   }
 }
 
-enum SessionActionStatus {
-  assigned('ASSIGNED'),
-  running('RUNNING'),
-  canceling('CANCELING'),
-  succeeded('SUCCEEDED'),
-  failed('FAILED'),
-  interrupted('INTERRUPTED'),
-  canceled('CANCELED'),
-  neverAttempted('NEVER_ATTEMPTED'),
-  scheduled('SCHEDULED'),
-  reclaiming('RECLAIMING'),
-  reclaimed('RECLAIMED'),
-  ;
+class SessionActionStatus {
+  static const assigned = SessionActionStatus._('ASSIGNED');
+  static const running = SessionActionStatus._('RUNNING');
+  static const canceling = SessionActionStatus._('CANCELING');
+  static const succeeded = SessionActionStatus._('SUCCEEDED');
+  static const failed = SessionActionStatus._('FAILED');
+  static const interrupted = SessionActionStatus._('INTERRUPTED');
+  static const canceled = SessionActionStatus._('CANCELED');
+  static const neverAttempted = SessionActionStatus._('NEVER_ATTEMPTED');
+  static const scheduled = SessionActionStatus._('SCHEDULED');
+  static const reclaiming = SessionActionStatus._('RECLAIMING');
+  static const reclaimed = SessionActionStatus._('RECLAIMED');
 
   final String value;
 
-  const SessionActionStatus(this.value);
+  const SessionActionStatus._(this.value);
 
-  static SessionActionStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum SessionActionStatus'));
+  static const values = [
+    assigned,
+    running,
+    canceling,
+    succeeded,
+    failed,
+    interrupted,
+    canceled,
+    neverAttempted,
+    scheduled,
+    reclaiming,
+    reclaimed
+  ];
+
+  static SessionActionStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => SessionActionStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SessionActionStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The details of a session action.
@@ -12847,7 +13255,7 @@ class SessionActionSummary {
           (json['definition'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
       sessionActionId: (json['sessionActionId'] as String?) ?? '',
-      status: SessionActionStatus.fromString((json['status'] as String)),
+      status: SessionActionStatus.fromString((json['status'] as String?) ?? ''),
       endedAt: timeStampFromJson(json['endedAt']),
       progressPercent: json['progressPercent'] as double?,
       startedAt: timeStampFromJson(json['startedAt']),
@@ -12876,36 +13284,63 @@ class SessionActionSummary {
   }
 }
 
-enum SessionLifecycleStatus {
-  started('STARTED'),
-  updateInProgress('UPDATE_IN_PROGRESS'),
-  updateSucceeded('UPDATE_SUCCEEDED'),
-  updateFailed('UPDATE_FAILED'),
-  ended('ENDED'),
-  ;
+class SessionLifecycleStatus {
+  static const started = SessionLifecycleStatus._('STARTED');
+  static const updateInProgress =
+      SessionLifecycleStatus._('UPDATE_IN_PROGRESS');
+  static const updateSucceeded = SessionLifecycleStatus._('UPDATE_SUCCEEDED');
+  static const updateFailed = SessionLifecycleStatus._('UPDATE_FAILED');
+  static const ended = SessionLifecycleStatus._('ENDED');
 
   final String value;
 
-  const SessionLifecycleStatus(this.value);
+  const SessionLifecycleStatus._(this.value);
+
+  static const values = [
+    started,
+    updateInProgress,
+    updateSucceeded,
+    updateFailed,
+    ended
+  ];
 
   static SessionLifecycleStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum SessionLifecycleStatus'));
+          orElse: () => SessionLifecycleStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SessionLifecycleStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum SessionLifecycleTargetStatus {
-  ended('ENDED'),
-  ;
+class SessionLifecycleTargetStatus {
+  static const ended = SessionLifecycleTargetStatus._('ENDED');
 
   final String value;
 
-  const SessionLifecycleTargetStatus(this.value);
+  const SessionLifecycleTargetStatus._(this.value);
+
+  static const values = [ended];
 
   static SessionLifecycleTargetStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum SessionLifecycleTargetStatus'));
+          orElse: () => SessionLifecycleTargetStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SessionLifecycleTargetStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The summary of a session.
@@ -12953,7 +13388,7 @@ class SessionSummary {
     return SessionSummary(
       fleetId: (json['fleetId'] as String?) ?? '',
       lifecycleStatus: SessionLifecycleStatus.fromString(
-          (json['lifecycleStatus'] as String)),
+          (json['lifecycleStatus'] as String?) ?? ''),
       sessionId: (json['sessionId'] as String?) ?? '',
       startedAt: nonNullableTimeStampFromJson(json['startedAt'] ?? 0),
       workerId: (json['workerId'] as String?) ?? '',
@@ -12990,21 +13425,32 @@ class SessionSummary {
   }
 }
 
-enum SessionsStatisticsAggregationStatus {
-  inProgress('IN_PROGRESS'),
-  timeout('TIMEOUT'),
-  failed('FAILED'),
-  completed('COMPLETED'),
-  ;
+class SessionsStatisticsAggregationStatus {
+  static const inProgress =
+      SessionsStatisticsAggregationStatus._('IN_PROGRESS');
+  static const timeout = SessionsStatisticsAggregationStatus._('TIMEOUT');
+  static const failed = SessionsStatisticsAggregationStatus._('FAILED');
+  static const completed = SessionsStatisticsAggregationStatus._('COMPLETED');
 
   final String value;
 
-  const SessionsStatisticsAggregationStatus(this.value);
+  const SessionsStatisticsAggregationStatus._(this.value);
+
+  static const values = [inProgress, timeout, failed, completed];
 
   static SessionsStatisticsAggregationStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum SessionsStatisticsAggregationStatus'));
+          orElse: () => SessionsStatisticsAggregationStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SessionsStatisticsAggregationStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specifies the fleet IDs or queue IDs to return statistics. You can specify
@@ -13035,18 +13481,27 @@ class SessionsStatisticsResources {
   }
 }
 
-enum SortOrder {
-  ascending('ASCENDING'),
-  descending('DESCENDING'),
-  ;
+class SortOrder {
+  static const ascending = SortOrder._('ASCENDING');
+  static const descending = SortOrder._('DESCENDING');
 
   final String value;
 
-  const SortOrder(this.value);
+  const SortOrder._(this.value);
 
-  static SortOrder fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum SortOrder'));
+  static const values = [ascending, descending];
+
+  static SortOrder fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => SortOrder._(value));
+
+  @override
+  bool operator ==(other) => other is SortOrder && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class StartSessionsStatisticsAggregationResponse {
@@ -13330,7 +13785,7 @@ class StepConsumer {
   factory StepConsumer.fromJson(Map<String, dynamic> json) {
     return StepConsumer(
       status: DependencyConsumerResolutionStatus.fromString(
-          (json['status'] as String)),
+          (json['status'] as String?) ?? ''),
       stepId: (json['stepId'] as String?) ?? '',
     );
   }
@@ -13361,7 +13816,7 @@ class StepDependency {
   factory StepDependency.fromJson(Map<String, dynamic> json) {
     return StepDependency(
       status: DependencyConsumerResolutionStatus.fromString(
-          (json['status'] as String)),
+          (json['status'] as String?) ?? ''),
       stepId: (json['stepId'] as String?) ?? '',
     );
   }
@@ -13454,7 +13909,7 @@ class StepDetailsError {
 
   factory StepDetailsError.fromJson(Map<String, dynamic> json) {
     return StepDetailsError(
-      code: JobEntityErrorCode.fromString((json['code'] as String)),
+      code: JobEntityErrorCode.fromString((json['code'] as String?) ?? ''),
       jobId: (json['jobId'] as String?) ?? '',
       message: (json['message'] as String?) ?? '',
       stepId: (json['stepId'] as String?) ?? '',
@@ -13498,21 +13953,36 @@ class StepDetailsIdentifiers {
   }
 }
 
-enum StepLifecycleStatus {
-  createComplete('CREATE_COMPLETE'),
-  updateInProgress('UPDATE_IN_PROGRESS'),
-  updateFailed('UPDATE_FAILED'),
-  updateSucceeded('UPDATE_SUCCEEDED'),
-  ;
+class StepLifecycleStatus {
+  static const createComplete = StepLifecycleStatus._('CREATE_COMPLETE');
+  static const updateInProgress = StepLifecycleStatus._('UPDATE_IN_PROGRESS');
+  static const updateFailed = StepLifecycleStatus._('UPDATE_FAILED');
+  static const updateSucceeded = StepLifecycleStatus._('UPDATE_SUCCEEDED');
 
   final String value;
 
-  const StepLifecycleStatus(this.value);
+  const StepLifecycleStatus._(this.value);
 
-  static StepLifecycleStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum StepLifecycleStatus'));
+  static const values = [
+    createComplete,
+    updateInProgress,
+    updateFailed,
+    updateSucceeded
+  ];
+
+  static StepLifecycleStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => StepLifecycleStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is StepLifecycleStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The details of a step parameter.
@@ -13531,7 +14001,7 @@ class StepParameter {
   factory StepParameter.fromJson(Map<String, dynamic> json) {
     return StepParameter(
       name: (json['name'] as String?) ?? '',
-      type: StepParameterType.fromString((json['type'] as String)),
+      type: StepParameterType.fromString((json['type'] as String?) ?? ''),
     );
   }
 
@@ -13545,21 +14015,30 @@ class StepParameter {
   }
 }
 
-enum StepParameterType {
-  int('INT'),
-  float('FLOAT'),
-  string('STRING'),
-  path('PATH'),
-  ;
+class StepParameterType {
+  static const $int = StepParameterType._('INT');
+  static const float = StepParameterType._('FLOAT');
+  static const string = StepParameterType._('STRING');
+  static const path = StepParameterType._('PATH');
 
   final String value;
 
-  const StepParameterType(this.value);
+  const StepParameterType._(this.value);
+
+  static const values = [$int, float, string, path];
 
   static StepParameterType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum StepParameterType'));
+          orElse: () => StepParameterType._(value));
+
+  @override
+  bool operator ==(other) => other is StepParameterType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The details of required step capabilities.
@@ -13849,12 +14328,12 @@ class StepSummary {
     return StepSummary(
       createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
       createdBy: (json['createdBy'] as String?) ?? '',
-      lifecycleStatus:
-          StepLifecycleStatus.fromString((json['lifecycleStatus'] as String)),
+      lifecycleStatus: StepLifecycleStatus.fromString(
+          (json['lifecycleStatus'] as String?) ?? ''),
       name: (json['name'] as String?) ?? '',
       stepId: (json['stepId'] as String?) ?? '',
       taskRunStatus:
-          TaskRunStatus.fromString((json['taskRunStatus'] as String)),
+          TaskRunStatus.fromString((json['taskRunStatus'] as String?) ?? ''),
       taskRunStatusCounts:
           ((json['taskRunStatusCounts'] as Map<String, dynamic>?) ??
                   const <String, dynamic>{})
@@ -13910,39 +14389,66 @@ class StepSummary {
   }
 }
 
-enum StepTargetTaskRunStatus {
-  ready('READY'),
-  failed('FAILED'),
-  succeeded('SUCCEEDED'),
-  canceled('CANCELED'),
-  suspended('SUSPENDED'),
-  pending('PENDING'),
-  ;
+class StepTargetTaskRunStatus {
+  static const ready = StepTargetTaskRunStatus._('READY');
+  static const failed = StepTargetTaskRunStatus._('FAILED');
+  static const succeeded = StepTargetTaskRunStatus._('SUCCEEDED');
+  static const canceled = StepTargetTaskRunStatus._('CANCELED');
+  static const suspended = StepTargetTaskRunStatus._('SUSPENDED');
+  static const pending = StepTargetTaskRunStatus._('PENDING');
 
   final String value;
 
-  const StepTargetTaskRunStatus(this.value);
+  const StepTargetTaskRunStatus._(this.value);
+
+  static const values = [
+    ready,
+    failed,
+    succeeded,
+    canceled,
+    suspended,
+    pending
+  ];
 
   static StepTargetTaskRunStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum StepTargetTaskRunStatus'));
+          orElse: () => StepTargetTaskRunStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is StepTargetTaskRunStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum StorageProfileOperatingSystemFamily {
-  windows('WINDOWS'),
-  linux('LINUX'),
-  macos('MACOS'),
-  ;
+class StorageProfileOperatingSystemFamily {
+  static const windows = StorageProfileOperatingSystemFamily._('WINDOWS');
+  static const linux = StorageProfileOperatingSystemFamily._('LINUX');
+  static const macos = StorageProfileOperatingSystemFamily._('MACOS');
 
   final String value;
 
-  const StorageProfileOperatingSystemFamily(this.value);
+  const StorageProfileOperatingSystemFamily._(this.value);
+
+  static const values = [windows, linux, macos];
 
   static StorageProfileOperatingSystemFamily fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum StorageProfileOperatingSystemFamily'));
+          orElse: () => StorageProfileOperatingSystemFamily._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is StorageProfileOperatingSystemFamily && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The details of a storage profile.
@@ -13971,7 +14477,7 @@ class StorageProfileSummary {
     return StorageProfileSummary(
       displayName: (json['displayName'] as String?) ?? '',
       osFamily: StorageProfileOperatingSystemFamily.fromString(
-          (json['osFamily'] as String)),
+          (json['osFamily'] as String?) ?? ''),
       storageProfileId: (json['storageProfileId'] as String?) ?? '',
     );
   }
@@ -14192,29 +14698,51 @@ class TaskRunSessionActionDefinitionSummary {
   }
 }
 
-enum TaskRunStatus {
-  pending('PENDING'),
-  ready('READY'),
-  assigned('ASSIGNED'),
-  starting('STARTING'),
-  scheduled('SCHEDULED'),
-  interrupting('INTERRUPTING'),
-  running('RUNNING'),
-  suspended('SUSPENDED'),
-  canceled('CANCELED'),
-  failed('FAILED'),
-  succeeded('SUCCEEDED'),
-  notCompatible('NOT_COMPATIBLE'),
-  ;
+class TaskRunStatus {
+  static const pending = TaskRunStatus._('PENDING');
+  static const ready = TaskRunStatus._('READY');
+  static const assigned = TaskRunStatus._('ASSIGNED');
+  static const starting = TaskRunStatus._('STARTING');
+  static const scheduled = TaskRunStatus._('SCHEDULED');
+  static const interrupting = TaskRunStatus._('INTERRUPTING');
+  static const running = TaskRunStatus._('RUNNING');
+  static const suspended = TaskRunStatus._('SUSPENDED');
+  static const canceled = TaskRunStatus._('CANCELED');
+  static const failed = TaskRunStatus._('FAILED');
+  static const succeeded = TaskRunStatus._('SUCCEEDED');
+  static const notCompatible = TaskRunStatus._('NOT_COMPATIBLE');
 
   final String value;
 
-  const TaskRunStatus(this.value);
+  const TaskRunStatus._(this.value);
+
+  static const values = [
+    pending,
+    ready,
+    assigned,
+    starting,
+    scheduled,
+    interrupting,
+    running,
+    suspended,
+    canceled,
+    failed,
+    succeeded,
+    notCompatible
+  ];
 
   static TaskRunStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum TaskRunStatus'));
+          orElse: () => TaskRunStatus._(value));
+
+  @override
+  bool operator ==(other) => other is TaskRunStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The details of a task search.
@@ -14362,7 +14890,7 @@ class TaskSummary {
     return TaskSummary(
       createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
       createdBy: (json['createdBy'] as String?) ?? '',
-      runStatus: TaskRunStatus.fromString((json['runStatus'] as String)),
+      runStatus: TaskRunStatus.fromString((json['runStatus'] as String?) ?? ''),
       taskId: (json['taskId'] as String?) ?? '',
       endedAt: timeStampFromJson(json['endedAt']),
       failureRetryCount: json['failureRetryCount'] as int?,
@@ -14408,23 +14936,40 @@ class TaskSummary {
   }
 }
 
-enum TaskTargetRunStatus {
-  ready('READY'),
-  failed('FAILED'),
-  succeeded('SUCCEEDED'),
-  canceled('CANCELED'),
-  suspended('SUSPENDED'),
-  pending('PENDING'),
-  ;
+class TaskTargetRunStatus {
+  static const ready = TaskTargetRunStatus._('READY');
+  static const failed = TaskTargetRunStatus._('FAILED');
+  static const succeeded = TaskTargetRunStatus._('SUCCEEDED');
+  static const canceled = TaskTargetRunStatus._('CANCELED');
+  static const suspended = TaskTargetRunStatus._('SUSPENDED');
+  static const pending = TaskTargetRunStatus._('PENDING');
 
   final String value;
 
-  const TaskTargetRunStatus(this.value);
+  const TaskTargetRunStatus._(this.value);
 
-  static TaskTargetRunStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum TaskTargetRunStatus'));
+  static const values = [
+    ready,
+    failed,
+    succeeded,
+    canceled,
+    suspended,
+    pending
+  ];
+
+  static TaskTargetRunStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => TaskTargetRunStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TaskTargetRunStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class UntagResourceResponse {
@@ -14475,18 +15020,28 @@ class UpdateFleetResponse {
   }
 }
 
-enum UpdateJobLifecycleStatus {
-  archived('ARCHIVED'),
-  ;
+class UpdateJobLifecycleStatus {
+  static const archived = UpdateJobLifecycleStatus._('ARCHIVED');
 
   final String value;
 
-  const UpdateJobLifecycleStatus(this.value);
+  const UpdateJobLifecycleStatus._(this.value);
+
+  static const values = [archived];
 
   static UpdateJobLifecycleStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum UpdateJobLifecycleStatus'));
+          orElse: () => UpdateJobLifecycleStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is UpdateJobLifecycleStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class UpdateJobResponse {
@@ -14537,20 +15092,36 @@ class UpdateQueueFleetAssociationResponse {
   }
 }
 
-enum UpdateQueueFleetAssociationStatus {
-  active('ACTIVE'),
-  stopSchedulingAndCompleteTasks('STOP_SCHEDULING_AND_COMPLETE_TASKS'),
-  stopSchedulingAndCancelTasks('STOP_SCHEDULING_AND_CANCEL_TASKS'),
-  ;
+class UpdateQueueFleetAssociationStatus {
+  static const active = UpdateQueueFleetAssociationStatus._('ACTIVE');
+  static const stopSchedulingAndCompleteTasks =
+      UpdateQueueFleetAssociationStatus._('STOP_SCHEDULING_AND_COMPLETE_TASKS');
+  static const stopSchedulingAndCancelTasks =
+      UpdateQueueFleetAssociationStatus._('STOP_SCHEDULING_AND_CANCEL_TASKS');
 
   final String value;
 
-  const UpdateQueueFleetAssociationStatus(this.value);
+  const UpdateQueueFleetAssociationStatus._(this.value);
+
+  static const values = [
+    active,
+    stopSchedulingAndCompleteTasks,
+    stopSchedulingAndCancelTasks
+  ];
 
   static UpdateQueueFleetAssociationStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum UpdateQueueFleetAssociationStatus'));
+          orElse: () => UpdateQueueFleetAssociationStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is UpdateQueueFleetAssociationStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class UpdateQueueResponse {
@@ -14743,57 +15314,93 @@ class UpdatedSessionActionInfo {
   }
 }
 
-enum UpdatedWorkerStatus {
-  started('STARTED'),
-  stopping('STOPPING'),
-  stopped('STOPPED'),
-  ;
+class UpdatedWorkerStatus {
+  static const started = UpdatedWorkerStatus._('STARTED');
+  static const stopping = UpdatedWorkerStatus._('STOPPING');
+  static const stopped = UpdatedWorkerStatus._('STOPPED');
 
   final String value;
 
-  const UpdatedWorkerStatus(this.value);
+  const UpdatedWorkerStatus._(this.value);
 
-  static UpdatedWorkerStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum UpdatedWorkerStatus'));
+  static const values = [started, stopping, stopped];
+
+  static UpdatedWorkerStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => UpdatedWorkerStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is UpdatedWorkerStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum UsageGroupByField {
-  queueId('QUEUE_ID'),
-  fleetId('FLEET_ID'),
-  jobId('JOB_ID'),
-  userId('USER_ID'),
-  usageType('USAGE_TYPE'),
-  instanceType('INSTANCE_TYPE'),
-  licenseProduct('LICENSE_PRODUCT'),
-  ;
+class UsageGroupByField {
+  static const queueId = UsageGroupByField._('QUEUE_ID');
+  static const fleetId = UsageGroupByField._('FLEET_ID');
+  static const jobId = UsageGroupByField._('JOB_ID');
+  static const userId = UsageGroupByField._('USER_ID');
+  static const usageType = UsageGroupByField._('USAGE_TYPE');
+  static const instanceType = UsageGroupByField._('INSTANCE_TYPE');
+  static const licenseProduct = UsageGroupByField._('LICENSE_PRODUCT');
 
   final String value;
 
-  const UsageGroupByField(this.value);
+  const UsageGroupByField._(this.value);
+
+  static const values = [
+    queueId,
+    fleetId,
+    jobId,
+    userId,
+    usageType,
+    instanceType,
+    licenseProduct
+  ];
 
   static UsageGroupByField fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum UsageGroupByField'));
+          orElse: () => UsageGroupByField._(value));
+
+  @override
+  bool operator ==(other) => other is UsageGroupByField && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum UsageStatistic {
-  sum('SUM'),
-  min('MIN'),
-  max('MAX'),
-  avg('AVG'),
-  ;
+class UsageStatistic {
+  static const sum = UsageStatistic._('SUM');
+  static const min = UsageStatistic._('MIN');
+  static const max = UsageStatistic._('MAX');
+  static const avg = UsageStatistic._('AVG');
 
   final String value;
 
-  const UsageStatistic(this.value);
+  const UsageStatistic._(this.value);
+
+  static const values = [sum, min, max, avg];
 
   static UsageStatistic fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum UsageStatistic'));
+          orElse: () => UsageStatistic._(value));
+
+  @override
+  bool operator ==(other) => other is UsageStatistic && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The usage details of the allotted budget.
@@ -14819,18 +15426,27 @@ class UsageTrackingResource {
   }
 }
 
-enum UsageType {
-  compute('COMPUTE'),
-  license('LICENSE'),
-  ;
+class UsageType {
+  static const compute = UsageType._('COMPUTE');
+  static const license = UsageType._('LICENSE');
 
   final String value;
 
-  const UsageType(this.value);
+  const UsageType._(this.value);
 
-  static UsageType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum UsageType'));
+  static const values = [compute, license];
+
+  static UsageType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => UsageType._(value));
+
+  @override
+  bool operator ==(other) => other is UsageType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Allows setting a specific user's job to run first.
@@ -15091,7 +15707,7 @@ class WorkerSessionSummary {
     return WorkerSessionSummary(
       jobId: (json['jobId'] as String?) ?? '',
       lifecycleStatus: SessionLifecycleStatus.fromString(
-          (json['lifecycleStatus'] as String)),
+          (json['lifecycleStatus'] as String?) ?? ''),
       queueId: (json['queueId'] as String?) ?? '',
       sessionId: (json['sessionId'] as String?) ?? '',
       startedAt: nonNullableTimeStampFromJson(json['startedAt'] ?? 0),
@@ -15122,25 +15738,42 @@ class WorkerSessionSummary {
   }
 }
 
-enum WorkerStatus {
-  created('CREATED'),
-  started('STARTED'),
-  stopping('STOPPING'),
-  stopped('STOPPED'),
-  notResponding('NOT_RESPONDING'),
-  notCompatible('NOT_COMPATIBLE'),
-  running('RUNNING'),
-  idle('IDLE'),
-  ;
+class WorkerStatus {
+  static const created = WorkerStatus._('CREATED');
+  static const started = WorkerStatus._('STARTED');
+  static const stopping = WorkerStatus._('STOPPING');
+  static const stopped = WorkerStatus._('STOPPED');
+  static const notResponding = WorkerStatus._('NOT_RESPONDING');
+  static const notCompatible = WorkerStatus._('NOT_COMPATIBLE');
+  static const running = WorkerStatus._('RUNNING');
+  static const idle = WorkerStatus._('IDLE');
 
   final String value;
 
-  const WorkerStatus(this.value);
+  const WorkerStatus._(this.value);
 
-  static WorkerStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum WorkerStatus'));
+  static const values = [
+    created,
+    started,
+    stopping,
+    stopped,
+    notResponding,
+    notCompatible,
+    running,
+    idle
+  ];
+
+  static WorkerStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => WorkerStatus._(value));
+
+  @override
+  bool operator ==(other) => other is WorkerStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The summary of details for a worker.
@@ -15194,7 +15827,7 @@ class WorkerSummary {
       createdBy: (json['createdBy'] as String?) ?? '',
       farmId: (json['farmId'] as String?) ?? '',
       fleetId: (json['fleetId'] as String?) ?? '',
-      status: WorkerStatus.fromString((json['status'] as String)),
+      status: WorkerStatus.fromString((json['status'] as String?) ?? ''),
       workerId: (json['workerId'] as String?) ?? '',
       hostProperties: json['hostProperties'] != null
           ? HostPropertiesResponse.fromJson(

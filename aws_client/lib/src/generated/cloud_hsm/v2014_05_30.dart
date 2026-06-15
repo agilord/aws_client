@@ -1174,35 +1174,54 @@ class AddTagsToResourceResponse {
   }
 }
 
-enum ClientVersion {
-  $5_1('5.1'),
-  $5_3('5.3'),
-  ;
+class ClientVersion {
+  static const $5_1 = ClientVersion._('5.1');
+  static const $5_3 = ClientVersion._('5.3');
 
   final String value;
 
-  const ClientVersion(this.value);
+  const ClientVersion._(this.value);
+
+  static const values = [$5_1, $5_3];
 
   static ClientVersion fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ClientVersion'));
+          orElse: () => ClientVersion._(value));
+
+  @override
+  bool operator ==(other) => other is ClientVersion && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum CloudHsmObjectState {
-  ready('READY'),
-  updating('UPDATING'),
-  degraded('DEGRADED'),
-  ;
+class CloudHsmObjectState {
+  static const ready = CloudHsmObjectState._('READY');
+  static const updating = CloudHsmObjectState._('UPDATING');
+  static const degraded = CloudHsmObjectState._('DEGRADED');
 
   final String value;
 
-  const CloudHsmObjectState(this.value);
+  const CloudHsmObjectState._(this.value);
 
-  static CloudHsmObjectState fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum CloudHsmObjectState'));
+  static const values = [ready, updating, degraded];
+
+  static CloudHsmObjectState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => CloudHsmObjectState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CloudHsmObjectState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains the output of the <a>CreateHAPartitionGroup</a> action.
@@ -1695,23 +1714,40 @@ class GetConfigResponse {
   }
 }
 
-enum HsmStatus {
-  pending('PENDING'),
-  running('RUNNING'),
-  updating('UPDATING'),
-  suspended('SUSPENDED'),
-  terminating('TERMINATING'),
-  terminated('TERMINATED'),
-  degraded('DEGRADED'),
-  ;
+class HsmStatus {
+  static const pending = HsmStatus._('PENDING');
+  static const running = HsmStatus._('RUNNING');
+  static const updating = HsmStatus._('UPDATING');
+  static const suspended = HsmStatus._('SUSPENDED');
+  static const terminating = HsmStatus._('TERMINATING');
+  static const terminated = HsmStatus._('TERMINATED');
+  static const degraded = HsmStatus._('DEGRADED');
 
   final String value;
 
-  const HsmStatus(this.value);
+  const HsmStatus._(this.value);
 
-  static HsmStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum HsmStatus'));
+  static const values = [
+    pending,
+    running,
+    updating,
+    suspended,
+    terminating,
+    terminated,
+    degraded
+  ];
+
+  static HsmStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => HsmStatus._(value));
+
+  @override
+  bool operator ==(other) => other is HsmStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class ListAvailableZonesResponse {
@@ -1959,18 +1995,27 @@ class RemoveTagsFromResourceResponse {
 /// <b>TRIAL</b> - The HSM is being used in a product trial.
 /// </li>
 /// </ul>
-enum SubscriptionType {
-  production('PRODUCTION'),
-  ;
+class SubscriptionType {
+  static const production = SubscriptionType._('PRODUCTION');
 
   final String value;
 
-  const SubscriptionType(this.value);
+  const SubscriptionType._(this.value);
+
+  static const values = [production];
 
   static SubscriptionType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum SubscriptionType'));
+          orElse: () => SubscriptionType._(value));
+
+  @override
+  bool operator ==(other) => other is SubscriptionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A key-value pair that identifies or specifies metadata about an AWS CloudHSM

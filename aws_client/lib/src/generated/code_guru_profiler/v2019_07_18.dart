@@ -1299,17 +1299,26 @@ class CodeGuruProfiler {
   }
 }
 
-enum ActionGroup {
-  agentPermissions('agentPermissions'),
-  ;
+class ActionGroup {
+  static const agentPermissions = ActionGroup._('agentPermissions');
 
   final String value;
 
-  const ActionGroup(this.value);
+  const ActionGroup._(this.value);
 
-  static ActionGroup fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum ActionGroup'));
+  static const values = [agentPermissions];
+
+  static ActionGroup fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ActionGroup._(value));
+
+  @override
+  bool operator ==(other) => other is ActionGroup && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The structure representing the AddNotificationChannelsResponse.
@@ -1443,23 +1452,42 @@ class AgentOrchestrationConfig {
   }
 }
 
-enum AgentParameterField {
-  samplingIntervalInMilliseconds('SamplingIntervalInMilliseconds'),
-  reportingIntervalInMilliseconds('ReportingIntervalInMilliseconds'),
-  minimumTimeForReportingInMilliseconds(
-      'MinimumTimeForReportingInMilliseconds'),
-  memoryUsageLimitPercent('MemoryUsageLimitPercent'),
-  maxStackDepth('MaxStackDepth'),
-  ;
+class AgentParameterField {
+  static const samplingIntervalInMilliseconds =
+      AgentParameterField._('SamplingIntervalInMilliseconds');
+  static const reportingIntervalInMilliseconds =
+      AgentParameterField._('ReportingIntervalInMilliseconds');
+  static const minimumTimeForReportingInMilliseconds =
+      AgentParameterField._('MinimumTimeForReportingInMilliseconds');
+  static const memoryUsageLimitPercent =
+      AgentParameterField._('MemoryUsageLimitPercent');
+  static const maxStackDepth = AgentParameterField._('MaxStackDepth');
 
   final String value;
 
-  const AgentParameterField(this.value);
+  const AgentParameterField._(this.value);
 
-  static AgentParameterField fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum AgentParameterField'));
+  static const values = [
+    samplingIntervalInMilliseconds,
+    reportingIntervalInMilliseconds,
+    minimumTimeForReportingInMilliseconds,
+    memoryUsageLimitPercent,
+    maxStackDepth
+  ];
+
+  static AgentParameterField fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AgentParameterField._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AgentParameterField && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specifies the aggregation period and aggregation start time for an
@@ -1518,20 +1546,29 @@ class AggregatedProfileTime {
   }
 }
 
-enum AggregationPeriod {
-  pt5m('PT5M'),
-  pt1h('PT1H'),
-  p1d('P1D'),
-  ;
+class AggregationPeriod {
+  static const pt5m = AggregationPeriod._('PT5M');
+  static const pt1h = AggregationPeriod._('PT1H');
+  static const p1d = AggregationPeriod._('P1D');
 
   final String value;
 
-  const AggregationPeriod(this.value);
+  const AggregationPeriod._(this.value);
+
+  static const values = [pt5m, pt1h, p1d];
 
   static AggregationPeriod fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum AggregationPeriod'));
+          orElse: () => AggregationPeriod._(value));
+
+  @override
+  bool operator ==(other) => other is AggregationPeriod && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Details about an anomaly in a specific metric of application profile. The
@@ -1698,7 +1735,8 @@ class BatchGetFrameMetricDataResponse {
           .nonNulls
           .map((e) => FrameMetricDatum.fromJson(e as Map<String, dynamic>))
           .toList(),
-      resolution: AggregationPeriod.fromString((json['resolution'] as String)),
+      resolution:
+          AggregationPeriod.fromString((json['resolution'] as String?) ?? ''),
       startTime: nonNullableTimeStampFromJson(json['startTime'] ?? 0),
       unprocessedEndTimes: ((json['unprocessedEndTimes']
                   as Map<String, dynamic>?) ??
@@ -1778,19 +1816,28 @@ class Channel {
   }
 }
 
-enum ComputePlatform {
-  $default('Default'),
-  awsLambda('AWSLambda'),
-  ;
+class ComputePlatform {
+  static const $default = ComputePlatform._('Default');
+  static const awsLambda = ComputePlatform._('AWSLambda');
 
   final String value;
 
-  const ComputePlatform(this.value);
+  const ComputePlatform._(this.value);
+
+  static const values = [$default, awsLambda];
 
   static ComputePlatform fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ComputePlatform'));
+          orElse: () => ComputePlatform._(value));
+
+  @override
+  bool operator ==(other) => other is ComputePlatform && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The structure representing the configureAgentResponse.
@@ -1866,33 +1913,50 @@ class DescribeProfilingGroupResponse {
   }
 }
 
-enum EventPublisher {
-  anomalyDetection('AnomalyDetection'),
-  ;
+class EventPublisher {
+  static const anomalyDetection = EventPublisher._('AnomalyDetection');
 
   final String value;
 
-  const EventPublisher(this.value);
+  const EventPublisher._(this.value);
+
+  static const values = [anomalyDetection];
 
   static EventPublisher fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum EventPublisher'));
+          orElse: () => EventPublisher._(value));
+
+  @override
+  bool operator ==(other) => other is EventPublisher && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum FeedbackType {
-  positive('Positive'),
-  negative('Negative'),
-  ;
+class FeedbackType {
+  static const positive = FeedbackType._('Positive');
+  static const negative = FeedbackType._('Negative');
 
   final String value;
 
-  const FeedbackType(this.value);
+  const FeedbackType._(this.value);
 
-  static FeedbackType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum FeedbackType'));
+  static const values = [positive, negative];
+
+  static FeedbackType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => FeedbackType._(value));
+
+  @override
+  bool operator ==(other) => other is FeedbackType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about potential recommendations that might be created from the
@@ -1986,7 +2050,7 @@ class FrameMetric {
           .nonNulls
           .map((e) => e as String)
           .toList(),
-      type: MetricType.fromString((json['type'] as String)),
+      type: MetricType.fromString((json['type'] as String?) ?? ''),
     );
   }
 
@@ -2423,28 +2487,48 @@ class Match {
   }
 }
 
-enum MetadataField {
-  computePlatform('ComputePlatform'),
-  agentId('AgentId'),
-  awsRequestId('AwsRequestId'),
-  executionEnvironment('ExecutionEnvironment'),
-  lambdaFunctionArn('LambdaFunctionArn'),
-  lambdaMemoryLimitInMB('LambdaMemoryLimitInMB'),
-  lambdaRemainingTimeInMilliseconds('LambdaRemainingTimeInMilliseconds'),
-  lambdaTimeGapBetweenInvokesInMilliseconds(
-      'LambdaTimeGapBetweenInvokesInMilliseconds'),
-  lambdaPreviousExecutionTimeInMilliseconds(
-      'LambdaPreviousExecutionTimeInMilliseconds'),
-  ;
+class MetadataField {
+  static const computePlatform = MetadataField._('ComputePlatform');
+  static const agentId = MetadataField._('AgentId');
+  static const awsRequestId = MetadataField._('AwsRequestId');
+  static const executionEnvironment = MetadataField._('ExecutionEnvironment');
+  static const lambdaFunctionArn = MetadataField._('LambdaFunctionArn');
+  static const lambdaMemoryLimitInMB = MetadataField._('LambdaMemoryLimitInMB');
+  static const lambdaRemainingTimeInMilliseconds =
+      MetadataField._('LambdaRemainingTimeInMilliseconds');
+  static const lambdaTimeGapBetweenInvokesInMilliseconds =
+      MetadataField._('LambdaTimeGapBetweenInvokesInMilliseconds');
+  static const lambdaPreviousExecutionTimeInMilliseconds =
+      MetadataField._('LambdaPreviousExecutionTimeInMilliseconds');
 
   final String value;
 
-  const MetadataField(this.value);
+  const MetadataField._(this.value);
+
+  static const values = [
+    computePlatform,
+    agentId,
+    awsRequestId,
+    executionEnvironment,
+    lambdaFunctionArn,
+    lambdaMemoryLimitInMB,
+    lambdaRemainingTimeInMilliseconds,
+    lambdaTimeGapBetweenInvokesInMilliseconds,
+    lambdaPreviousExecutionTimeInMilliseconds
+  ];
 
   static MetadataField fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum MetadataField'));
+          orElse: () => MetadataField._(value));
+
+  @override
+  bool operator ==(other) => other is MetadataField && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Details about the metric that the analysis used when it detected the
@@ -2478,7 +2562,7 @@ class Metric {
           .nonNulls
           .map((e) => e as String)
           .toList(),
-      type: MetricType.fromString((json['type'] as String)),
+      type: MetricType.fromString((json['type'] as String?) ?? ''),
     );
   }
 
@@ -2494,17 +2578,27 @@ class Metric {
   }
 }
 
-enum MetricType {
-  aggregatedRelativeTotalTime('AggregatedRelativeTotalTime'),
-  ;
+class MetricType {
+  static const aggregatedRelativeTotalTime =
+      MetricType._('AggregatedRelativeTotalTime');
 
   final String value;
 
-  const MetricType(this.value);
+  const MetricType._(this.value);
 
-  static MetricType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum MetricType'));
+  static const values = [aggregatedRelativeTotalTime];
+
+  static MetricType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => MetricType._(value));
+
+  @override
+  bool operator ==(other) => other is MetricType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The configuration for notifications stored for each profiling group. This
@@ -2536,18 +2630,27 @@ class NotificationConfiguration {
   }
 }
 
-enum OrderBy {
-  timestampDescending('TimestampDescending'),
-  timestampAscending('TimestampAscending'),
-  ;
+class OrderBy {
+  static const timestampDescending = OrderBy._('TimestampDescending');
+  static const timestampAscending = OrderBy._('TimestampAscending');
 
   final String value;
 
-  const OrderBy(this.value);
+  const OrderBy._(this.value);
 
-  static OrderBy fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum OrderBy'));
+  static const values = [timestampDescending, timestampAscending];
+
+  static OrderBy fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => OrderBy._(value));
+
+  @override
+  bool operator ==(other) => other is OrderBy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A set of rules used to make a recommendation during an analysis.
@@ -3078,7 +3181,7 @@ class UserFeedback {
 
   factory UserFeedback.fromJson(Map<String, dynamic> json) {
     return UserFeedback(
-      type: FeedbackType.fromString((json['type'] as String)),
+      type: FeedbackType.fromString((json['type'] as String?) ?? ''),
     );
   }
 

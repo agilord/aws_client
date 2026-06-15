@@ -3477,53 +3477,82 @@ class AbsoluteTimeRange {
   }
 }
 
-enum BaseModelName {
-  narrowBand('NarrowBand'),
-  wideBand('WideBand'),
-  ;
+class BaseModelName {
+  static const narrowBand = BaseModelName._('NarrowBand');
+  static const wideBand = BaseModelName._('WideBand');
 
   final String value;
 
-  const BaseModelName(this.value);
+  const BaseModelName._(this.value);
+
+  static const values = [narrowBand, wideBand];
 
   static BaseModelName fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum BaseModelName'));
+          orElse: () => BaseModelName._(value));
+
+  @override
+  bool operator ==(other) => other is BaseModelName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum CLMLanguageCode {
-  enUs('en-US'),
-  hiIn('hi-IN'),
-  esUs('es-US'),
-  enGb('en-GB'),
-  enAu('en-AU'),
-  deDe('de-DE'),
-  jaJp('ja-JP'),
-  ;
+class CLMLanguageCode {
+  static const enUs = CLMLanguageCode._('en-US');
+  static const hiIn = CLMLanguageCode._('hi-IN');
+  static const esUs = CLMLanguageCode._('es-US');
+  static const enGb = CLMLanguageCode._('en-GB');
+  static const enAu = CLMLanguageCode._('en-AU');
+  static const deDe = CLMLanguageCode._('de-DE');
+  static const jaJp = CLMLanguageCode._('ja-JP');
 
   final String value;
 
-  const CLMLanguageCode(this.value);
+  const CLMLanguageCode._(this.value);
+
+  static const values = [enUs, hiIn, esUs, enGb, enAu, deDe, jaJp];
 
   static CLMLanguageCode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum CLMLanguageCode'));
+          orElse: () => CLMLanguageCode._(value));
+
+  @override
+  bool operator ==(other) => other is CLMLanguageCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum CallAnalyticsFeature {
-  generativeSummarization('GENERATIVE_SUMMARIZATION'),
-  ;
+class CallAnalyticsFeature {
+  static const generativeSummarization =
+      CallAnalyticsFeature._('GENERATIVE_SUMMARIZATION');
 
   final String value;
 
-  const CallAnalyticsFeature(this.value);
+  const CallAnalyticsFeature._(this.value);
 
-  static CallAnalyticsFeature fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum CallAnalyticsFeature'));
+  static const values = [generativeSummarization];
+
+  static CallAnalyticsFeature fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => CallAnalyticsFeature._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CallAnalyticsFeature && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Provides detailed information about a Call Analytics job.
@@ -3964,21 +3993,31 @@ class CallAnalyticsJobSettings {
   }
 }
 
-enum CallAnalyticsJobStatus {
-  queued('QUEUED'),
-  inProgress('IN_PROGRESS'),
-  failed('FAILED'),
-  completed('COMPLETED'),
-  ;
+class CallAnalyticsJobStatus {
+  static const queued = CallAnalyticsJobStatus._('QUEUED');
+  static const inProgress = CallAnalyticsJobStatus._('IN_PROGRESS');
+  static const failed = CallAnalyticsJobStatus._('FAILED');
+  static const completed = CallAnalyticsJobStatus._('COMPLETED');
 
   final String value;
 
-  const CallAnalyticsJobStatus(this.value);
+  const CallAnalyticsJobStatus._(this.value);
+
+  static const values = [queued, inProgress, failed, completed];
 
   static CallAnalyticsJobStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum CallAnalyticsJobStatus'));
+          orElse: () => CallAnalyticsJobStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CallAnalyticsJobStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Provides detailed information about a specific Call Analytics job.
@@ -4139,19 +4178,34 @@ class CallAnalyticsSkippedFeature {
   }
 }
 
-enum CallAnalyticsSkippedReasonCode {
-  insufficientConversationContent('INSUFFICIENT_CONVERSATION_CONTENT'),
-  failedSafetyGuidelines('FAILED_SAFETY_GUIDELINES'),
-  ;
+class CallAnalyticsSkippedReasonCode {
+  static const insufficientConversationContent =
+      CallAnalyticsSkippedReasonCode._('INSUFFICIENT_CONVERSATION_CONTENT');
+  static const failedSafetyGuidelines =
+      CallAnalyticsSkippedReasonCode._('FAILED_SAFETY_GUIDELINES');
 
   final String value;
 
-  const CallAnalyticsSkippedReasonCode(this.value);
+  const CallAnalyticsSkippedReasonCode._(this.value);
+
+  static const values = [
+    insufficientConversationContent,
+    failedSafetyGuidelines
+  ];
 
   static CallAnalyticsSkippedReasonCode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum CallAnalyticsSkippedReasonCode'));
+          orElse: () => CallAnalyticsSkippedReasonCode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CallAnalyticsSkippedReasonCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Provides you with the properties of the Call Analytics category you
@@ -4298,10 +4352,10 @@ class ContentRedaction {
 
   factory ContentRedaction.fromJson(Map<String, dynamic> json) {
     return ContentRedaction(
-      redactionOutput:
-          RedactionOutput.fromString((json['RedactionOutput'] as String)),
+      redactionOutput: RedactionOutput.fromString(
+          (json['RedactionOutput'] as String?) ?? ''),
       redactionType:
-          RedactionType.fromString((json['RedactionType'] as String)),
+          RedactionType.fromString((json['RedactionType'] as String?) ?? ''),
       piiEntityTypes: (json['PiiEntityTypes'] as List?)
           ?.nonNulls
           .map((e) => PiiEntityType.fromString((e as String)))
@@ -5026,18 +5080,27 @@ class InputDataConfig {
   }
 }
 
-enum InputType {
-  realTime('REAL_TIME'),
-  postCall('POST_CALL'),
-  ;
+class InputType {
+  static const realTime = InputType._('REAL_TIME');
+  static const postCall = InputType._('POST_CALL');
 
   final String value;
 
-  const InputType(this.value);
+  const InputType._(this.value);
 
-  static InputType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum InputType'));
+  static const values = [realTime, postCall];
+
+  static InputType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => InputType._(value));
+
+  @override
+  bool operator ==(other) => other is InputType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Flag the presence or absence of interruptions in your Call Analytics
@@ -5186,120 +5249,232 @@ class JobExecutionSettings {
   }
 }
 
-enum LanguageCode {
-  afZa('af-ZA'),
-  arAe('ar-AE'),
-  arSa('ar-SA'),
-  daDk('da-DK'),
-  deCh('de-CH'),
-  deDe('de-DE'),
-  enAb('en-AB'),
-  enAu('en-AU'),
-  enGb('en-GB'),
-  enIe('en-IE'),
-  enIn('en-IN'),
-  enUs('en-US'),
-  enWl('en-WL'),
-  esEs('es-ES'),
-  esUs('es-US'),
-  faIr('fa-IR'),
-  frCa('fr-CA'),
-  frFr('fr-FR'),
-  heIl('he-IL'),
-  hiIn('hi-IN'),
-  idId('id-ID'),
-  itIt('it-IT'),
-  jaJp('ja-JP'),
-  koKr('ko-KR'),
-  msMy('ms-MY'),
-  nlNl('nl-NL'),
-  ptBr('pt-BR'),
-  ptPt('pt-PT'),
-  ruRu('ru-RU'),
-  taIn('ta-IN'),
-  teIn('te-IN'),
-  trTr('tr-TR'),
-  zhCn('zh-CN'),
-  zhTw('zh-TW'),
-  thTh('th-TH'),
-  enZa('en-ZA'),
-  enNz('en-NZ'),
-  viVn('vi-VN'),
-  svSe('sv-SE'),
-  abGe('ab-GE'),
-  astEs('ast-ES'),
-  azAz('az-AZ'),
-  baRu('ba-RU'),
-  beBy('be-BY'),
-  bgBg('bg-BG'),
-  bnIn('bn-IN'),
-  bsBa('bs-BA'),
-  caEs('ca-ES'),
-  ckbIq('ckb-IQ'),
-  ckbIr('ckb-IR'),
-  csCz('cs-CZ'),
-  cyWl('cy-WL'),
-  elGr('el-GR'),
-  etEt('et-ET'),
-  euEs('eu-ES'),
-  fiFi('fi-FI'),
-  glEs('gl-ES'),
-  guIn('gu-IN'),
-  haNg('ha-NG'),
-  hrHr('hr-HR'),
-  huHu('hu-HU'),
-  hyAm('hy-AM'),
-  isIs('is-IS'),
-  kaGe('ka-GE'),
-  kabDz('kab-DZ'),
-  kkKz('kk-KZ'),
-  knIn('kn-IN'),
-  kyKg('ky-KG'),
-  lgIn('lg-IN'),
-  ltLt('lt-LT'),
-  lvLv('lv-LV'),
-  mhrRu('mhr-RU'),
-  miNz('mi-NZ'),
-  mkMk('mk-MK'),
-  mlIn('ml-IN'),
-  mnMn('mn-MN'),
-  mrIn('mr-IN'),
-  mtMt('mt-MT'),
-  noNo('no-NO'),
-  orIn('or-IN'),
-  paIn('pa-IN'),
-  plPl('pl-PL'),
-  psAf('ps-AF'),
-  roRo('ro-RO'),
-  rwRw('rw-RW'),
-  siLk('si-LK'),
-  skSk('sk-SK'),
-  slSi('sl-SI'),
-  soSo('so-SO'),
-  srRs('sr-RS'),
-  suId('su-ID'),
-  swBi('sw-BI'),
-  swKe('sw-KE'),
-  swRw('sw-RW'),
-  swTz('sw-TZ'),
-  swUg('sw-UG'),
-  tlPh('tl-PH'),
-  ttRu('tt-RU'),
-  ugCn('ug-CN'),
-  ukUa('uk-UA'),
-  uzUz('uz-UZ'),
-  woSn('wo-SN'),
-  zuZa('zu-ZA'),
-  ;
+class LanguageCode {
+  static const afZa = LanguageCode._('af-ZA');
+  static const arAe = LanguageCode._('ar-AE');
+  static const arSa = LanguageCode._('ar-SA');
+  static const daDk = LanguageCode._('da-DK');
+  static const deCh = LanguageCode._('de-CH');
+  static const deDe = LanguageCode._('de-DE');
+  static const enAb = LanguageCode._('en-AB');
+  static const enAu = LanguageCode._('en-AU');
+  static const enGb = LanguageCode._('en-GB');
+  static const enIe = LanguageCode._('en-IE');
+  static const enIn = LanguageCode._('en-IN');
+  static const enUs = LanguageCode._('en-US');
+  static const enWl = LanguageCode._('en-WL');
+  static const esEs = LanguageCode._('es-ES');
+  static const esUs = LanguageCode._('es-US');
+  static const faIr = LanguageCode._('fa-IR');
+  static const frCa = LanguageCode._('fr-CA');
+  static const frFr = LanguageCode._('fr-FR');
+  static const heIl = LanguageCode._('he-IL');
+  static const hiIn = LanguageCode._('hi-IN');
+  static const idId = LanguageCode._('id-ID');
+  static const itIt = LanguageCode._('it-IT');
+  static const jaJp = LanguageCode._('ja-JP');
+  static const koKr = LanguageCode._('ko-KR');
+  static const msMy = LanguageCode._('ms-MY');
+  static const nlNl = LanguageCode._('nl-NL');
+  static const ptBr = LanguageCode._('pt-BR');
+  static const ptPt = LanguageCode._('pt-PT');
+  static const ruRu = LanguageCode._('ru-RU');
+  static const taIn = LanguageCode._('ta-IN');
+  static const teIn = LanguageCode._('te-IN');
+  static const trTr = LanguageCode._('tr-TR');
+  static const zhCn = LanguageCode._('zh-CN');
+  static const zhTw = LanguageCode._('zh-TW');
+  static const thTh = LanguageCode._('th-TH');
+  static const enZa = LanguageCode._('en-ZA');
+  static const enNz = LanguageCode._('en-NZ');
+  static const viVn = LanguageCode._('vi-VN');
+  static const svSe = LanguageCode._('sv-SE');
+  static const abGe = LanguageCode._('ab-GE');
+  static const astEs = LanguageCode._('ast-ES');
+  static const azAz = LanguageCode._('az-AZ');
+  static const baRu = LanguageCode._('ba-RU');
+  static const beBy = LanguageCode._('be-BY');
+  static const bgBg = LanguageCode._('bg-BG');
+  static const bnIn = LanguageCode._('bn-IN');
+  static const bsBa = LanguageCode._('bs-BA');
+  static const caEs = LanguageCode._('ca-ES');
+  static const ckbIq = LanguageCode._('ckb-IQ');
+  static const ckbIr = LanguageCode._('ckb-IR');
+  static const csCz = LanguageCode._('cs-CZ');
+  static const cyWl = LanguageCode._('cy-WL');
+  static const elGr = LanguageCode._('el-GR');
+  static const etEt = LanguageCode._('et-ET');
+  static const euEs = LanguageCode._('eu-ES');
+  static const fiFi = LanguageCode._('fi-FI');
+  static const glEs = LanguageCode._('gl-ES');
+  static const guIn = LanguageCode._('gu-IN');
+  static const haNg = LanguageCode._('ha-NG');
+  static const hrHr = LanguageCode._('hr-HR');
+  static const huHu = LanguageCode._('hu-HU');
+  static const hyAm = LanguageCode._('hy-AM');
+  static const isIs = LanguageCode._('is-IS');
+  static const kaGe = LanguageCode._('ka-GE');
+  static const kabDz = LanguageCode._('kab-DZ');
+  static const kkKz = LanguageCode._('kk-KZ');
+  static const knIn = LanguageCode._('kn-IN');
+  static const kyKg = LanguageCode._('ky-KG');
+  static const lgIn = LanguageCode._('lg-IN');
+  static const ltLt = LanguageCode._('lt-LT');
+  static const lvLv = LanguageCode._('lv-LV');
+  static const mhrRu = LanguageCode._('mhr-RU');
+  static const miNz = LanguageCode._('mi-NZ');
+  static const mkMk = LanguageCode._('mk-MK');
+  static const mlIn = LanguageCode._('ml-IN');
+  static const mnMn = LanguageCode._('mn-MN');
+  static const mrIn = LanguageCode._('mr-IN');
+  static const mtMt = LanguageCode._('mt-MT');
+  static const noNo = LanguageCode._('no-NO');
+  static const orIn = LanguageCode._('or-IN');
+  static const paIn = LanguageCode._('pa-IN');
+  static const plPl = LanguageCode._('pl-PL');
+  static const psAf = LanguageCode._('ps-AF');
+  static const roRo = LanguageCode._('ro-RO');
+  static const rwRw = LanguageCode._('rw-RW');
+  static const siLk = LanguageCode._('si-LK');
+  static const skSk = LanguageCode._('sk-SK');
+  static const slSi = LanguageCode._('sl-SI');
+  static const soSo = LanguageCode._('so-SO');
+  static const srRs = LanguageCode._('sr-RS');
+  static const suId = LanguageCode._('su-ID');
+  static const swBi = LanguageCode._('sw-BI');
+  static const swKe = LanguageCode._('sw-KE');
+  static const swRw = LanguageCode._('sw-RW');
+  static const swTz = LanguageCode._('sw-TZ');
+  static const swUg = LanguageCode._('sw-UG');
+  static const tlPh = LanguageCode._('tl-PH');
+  static const ttRu = LanguageCode._('tt-RU');
+  static const ugCn = LanguageCode._('ug-CN');
+  static const ukUa = LanguageCode._('uk-UA');
+  static const uzUz = LanguageCode._('uz-UZ');
+  static const woSn = LanguageCode._('wo-SN');
+  static const zuZa = LanguageCode._('zu-ZA');
 
   final String value;
 
-  const LanguageCode(this.value);
+  const LanguageCode._(this.value);
 
-  static LanguageCode fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum LanguageCode'));
+  static const values = [
+    afZa,
+    arAe,
+    arSa,
+    daDk,
+    deCh,
+    deDe,
+    enAb,
+    enAu,
+    enGb,
+    enIe,
+    enIn,
+    enUs,
+    enWl,
+    esEs,
+    esUs,
+    faIr,
+    frCa,
+    frFr,
+    heIl,
+    hiIn,
+    idId,
+    itIt,
+    jaJp,
+    koKr,
+    msMy,
+    nlNl,
+    ptBr,
+    ptPt,
+    ruRu,
+    taIn,
+    teIn,
+    trTr,
+    zhCn,
+    zhTw,
+    thTh,
+    enZa,
+    enNz,
+    viVn,
+    svSe,
+    abGe,
+    astEs,
+    azAz,
+    baRu,
+    beBy,
+    bgBg,
+    bnIn,
+    bsBa,
+    caEs,
+    ckbIq,
+    ckbIr,
+    csCz,
+    cyWl,
+    elGr,
+    etEt,
+    euEs,
+    fiFi,
+    glEs,
+    guIn,
+    haNg,
+    hrHr,
+    huHu,
+    hyAm,
+    isIs,
+    kaGe,
+    kabDz,
+    kkKz,
+    knIn,
+    kyKg,
+    lgIn,
+    ltLt,
+    lvLv,
+    mhrRu,
+    miNz,
+    mkMk,
+    mlIn,
+    mnMn,
+    mrIn,
+    mtMt,
+    noNo,
+    orIn,
+    paIn,
+    plPl,
+    psAf,
+    roRo,
+    rwRw,
+    siLk,
+    skSk,
+    slSi,
+    soSo,
+    srRs,
+    suId,
+    swBi,
+    swKe,
+    swRw,
+    swTz,
+    swUg,
+    tlPh,
+    ttRu,
+    ugCn,
+    ukUa,
+    uzUz,
+    woSn,
+    zuZa
+  ];
+
+  static LanguageCode fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => LanguageCode._(value));
+
+  @override
+  bool operator ==(other) => other is LanguageCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Provides information on the speech contained in a discreet utterance when
@@ -6074,38 +6249,57 @@ class Media {
   }
 }
 
-enum MediaFormat {
-  mp3('mp3'),
-  mp4('mp4'),
-  wav('wav'),
-  flac('flac'),
-  ogg('ogg'),
-  amr('amr'),
-  webm('webm'),
-  m4a('m4a'),
-  ;
+class MediaFormat {
+  static const mp3 = MediaFormat._('mp3');
+  static const mp4 = MediaFormat._('mp4');
+  static const wav = MediaFormat._('wav');
+  static const flac = MediaFormat._('flac');
+  static const ogg = MediaFormat._('ogg');
+  static const amr = MediaFormat._('amr');
+  static const webm = MediaFormat._('webm');
+  static const m4a = MediaFormat._('m4a');
 
   final String value;
 
-  const MediaFormat(this.value);
+  const MediaFormat._(this.value);
 
-  static MediaFormat fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum MediaFormat'));
+  static const values = [mp3, mp4, wav, flac, ogg, amr, webm, m4a];
+
+  static MediaFormat fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => MediaFormat._(value));
+
+  @override
+  bool operator ==(other) => other is MediaFormat && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum MedicalContentIdentificationType {
-  phi('PHI'),
-  ;
+class MedicalContentIdentificationType {
+  static const phi = MedicalContentIdentificationType._('PHI');
 
   final String value;
 
-  const MedicalContentIdentificationType(this.value);
+  const MedicalContentIdentificationType._(this.value);
+
+  static const values = [phi];
 
   static MedicalContentIdentificationType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum MedicalContentIdentificationType'));
+          orElse: () => MedicalContentIdentificationType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is MedicalContentIdentificationType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Indicates which speaker is on which channel. The options are
@@ -6127,7 +6321,7 @@ class MedicalScribeChannelDefinition {
     return MedicalScribeChannelDefinition(
       channelId: (json['ChannelId'] as int?) ?? 0,
       participantRole: MedicalScribeParticipantRole.fromString(
-          (json['ParticipantRole'] as String)),
+          (json['ParticipantRole'] as String?) ?? ''),
     );
   }
 
@@ -6338,21 +6532,31 @@ class MedicalScribeJob {
   }
 }
 
-enum MedicalScribeJobStatus {
-  queued('QUEUED'),
-  inProgress('IN_PROGRESS'),
-  failed('FAILED'),
-  completed('COMPLETED'),
-  ;
+class MedicalScribeJobStatus {
+  static const queued = MedicalScribeJobStatus._('QUEUED');
+  static const inProgress = MedicalScribeJobStatus._('IN_PROGRESS');
+  static const failed = MedicalScribeJobStatus._('FAILED');
+  static const completed = MedicalScribeJobStatus._('COMPLETED');
 
   final String value;
 
-  const MedicalScribeJobStatus(this.value);
+  const MedicalScribeJobStatus._(this.value);
+
+  static const values = [queued, inProgress, failed, completed];
 
   static MedicalScribeJobStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum MedicalScribeJobStatus'));
+          orElse: () => MedicalScribeJobStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is MedicalScribeJobStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Provides detailed information about a specific Medical Scribe job.
@@ -6451,18 +6655,28 @@ class MedicalScribeJobSummary {
   }
 }
 
-enum MedicalScribeLanguageCode {
-  enUs('en-US'),
-  ;
+class MedicalScribeLanguageCode {
+  static const enUs = MedicalScribeLanguageCode._('en-US');
 
   final String value;
 
-  const MedicalScribeLanguageCode(this.value);
+  const MedicalScribeLanguageCode._(this.value);
+
+  static const values = [enUs];
 
   static MedicalScribeLanguageCode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum MedicalScribeLanguageCode'));
+          orElse: () => MedicalScribeLanguageCode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is MedicalScribeLanguageCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The location of the output of your Medical Scribe job.
@@ -6498,19 +6712,29 @@ class MedicalScribeOutput {
   }
 }
 
-enum MedicalScribeParticipantRole {
-  patient('PATIENT'),
-  clinician('CLINICIAN'),
-  ;
+class MedicalScribeParticipantRole {
+  static const patient = MedicalScribeParticipantRole._('PATIENT');
+  static const clinician = MedicalScribeParticipantRole._('CLINICIAN');
 
   final String value;
 
-  const MedicalScribeParticipantRole(this.value);
+  const MedicalScribeParticipantRole._(this.value);
+
+  static const values = [patient, clinician];
 
   static MedicalScribeParticipantRole fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum MedicalScribeParticipantRole'));
+          orElse: () => MedicalScribeParticipantRole._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is MedicalScribeParticipantRole && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Makes it possible to control how your Medical Scribe job is processed using
@@ -7176,19 +7400,28 @@ class ModelSettings {
   }
 }
 
-enum ModelStatus {
-  inProgress('IN_PROGRESS'),
-  failed('FAILED'),
-  completed('COMPLETED'),
-  ;
+class ModelStatus {
+  static const inProgress = ModelStatus._('IN_PROGRESS');
+  static const failed = ModelStatus._('FAILED');
+  static const completed = ModelStatus._('COMPLETED');
 
   final String value;
 
-  const ModelStatus(this.value);
+  const ModelStatus._(this.value);
 
-  static ModelStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum ModelStatus'));
+  static const values = [inProgress, failed, completed];
+
+  static ModelStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ModelStatus._(value));
+
+  @override
+  bool operator ==(other) => other is ModelStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Flag the presence or absence of periods of silence in your Call Analytics
@@ -7263,88 +7496,148 @@ class NonTalkTimeFilter {
   }
 }
 
-enum OutputLocationType {
-  customerBucket('CUSTOMER_BUCKET'),
-  serviceBucket('SERVICE_BUCKET'),
-  ;
+class OutputLocationType {
+  static const customerBucket = OutputLocationType._('CUSTOMER_BUCKET');
+  static const serviceBucket = OutputLocationType._('SERVICE_BUCKET');
 
   final String value;
 
-  const OutputLocationType(this.value);
+  const OutputLocationType._(this.value);
 
-  static OutputLocationType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum OutputLocationType'));
+  static const values = [customerBucket, serviceBucket];
+
+  static OutputLocationType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => OutputLocationType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is OutputLocationType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ParticipantRole {
-  agent('AGENT'),
-  customer('CUSTOMER'),
-  ;
+class ParticipantRole {
+  static const agent = ParticipantRole._('AGENT');
+  static const customer = ParticipantRole._('CUSTOMER');
 
   final String value;
 
-  const ParticipantRole(this.value);
+  const ParticipantRole._(this.value);
+
+  static const values = [agent, customer];
 
   static ParticipantRole fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ParticipantRole'));
+          orElse: () => ParticipantRole._(value));
+
+  @override
+  bool operator ==(other) => other is ParticipantRole && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum PiiEntityType {
-  bankAccountNumber('BANK_ACCOUNT_NUMBER'),
-  bankRouting('BANK_ROUTING'),
-  creditDebitNumber('CREDIT_DEBIT_NUMBER'),
-  creditDebitCvv('CREDIT_DEBIT_CVV'),
-  creditDebitExpiry('CREDIT_DEBIT_EXPIRY'),
-  pin('PIN'),
-  email('EMAIL'),
-  address('ADDRESS'),
-  name('NAME'),
-  phone('PHONE'),
-  ssn('SSN'),
-  all('ALL'),
-  ;
+class PiiEntityType {
+  static const bankAccountNumber = PiiEntityType._('BANK_ACCOUNT_NUMBER');
+  static const bankRouting = PiiEntityType._('BANK_ROUTING');
+  static const creditDebitNumber = PiiEntityType._('CREDIT_DEBIT_NUMBER');
+  static const creditDebitCvv = PiiEntityType._('CREDIT_DEBIT_CVV');
+  static const creditDebitExpiry = PiiEntityType._('CREDIT_DEBIT_EXPIRY');
+  static const pin = PiiEntityType._('PIN');
+  static const email = PiiEntityType._('EMAIL');
+  static const address = PiiEntityType._('ADDRESS');
+  static const name = PiiEntityType._('NAME');
+  static const phone = PiiEntityType._('PHONE');
+  static const ssn = PiiEntityType._('SSN');
+  static const all = PiiEntityType._('ALL');
 
   final String value;
 
-  const PiiEntityType(this.value);
+  const PiiEntityType._(this.value);
+
+  static const values = [
+    bankAccountNumber,
+    bankRouting,
+    creditDebitNumber,
+    creditDebitCvv,
+    creditDebitExpiry,
+    pin,
+    email,
+    address,
+    name,
+    phone,
+    ssn,
+    all
+  ];
 
   static PiiEntityType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum PiiEntityType'));
+          orElse: () => PiiEntityType._(value));
+
+  @override
+  bool operator ==(other) => other is PiiEntityType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum RedactionOutput {
-  redacted('redacted'),
-  redactedAndUnredacted('redacted_and_unredacted'),
-  ;
+class RedactionOutput {
+  static const redacted = RedactionOutput._('redacted');
+  static const redactedAndUnredacted =
+      RedactionOutput._('redacted_and_unredacted');
 
   final String value;
 
-  const RedactionOutput(this.value);
+  const RedactionOutput._(this.value);
+
+  static const values = [redacted, redactedAndUnredacted];
 
   static RedactionOutput fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum RedactionOutput'));
+          orElse: () => RedactionOutput._(value));
+
+  @override
+  bool operator ==(other) => other is RedactionOutput && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum RedactionType {
-  pii('PII'),
-  ;
+class RedactionType {
+  static const pii = RedactionType._('PII');
 
   final String value;
 
-  const RedactionType(this.value);
+  const RedactionType._(this.value);
+
+  static const values = [pii];
 
   static RedactionType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum RedactionType'));
+          orElse: () => RedactionType._(value));
+
+  @override
+  bool operator ==(other) => other is RedactionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A time range, in percentage, between two points in your media file.
@@ -7581,21 +7874,30 @@ class SentimentFilter {
   }
 }
 
-enum SentimentValue {
-  positive('POSITIVE'),
-  negative('NEGATIVE'),
-  neutral('NEUTRAL'),
-  mixed('MIXED'),
-  ;
+class SentimentValue {
+  static const positive = SentimentValue._('POSITIVE');
+  static const negative = SentimentValue._('NEGATIVE');
+  static const neutral = SentimentValue._('NEUTRAL');
+  static const mixed = SentimentValue._('MIXED');
 
   final String value;
 
-  const SentimentValue(this.value);
+  const SentimentValue._(this.value);
+
+  static const values = [positive, negative, neutral, mixed];
 
   static SentimentValue fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum SentimentValue'));
+          orElse: () => SentimentValue._(value));
+
+  @override
+  bool operator ==(other) => other is SentimentValue && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Allows additional optional settings in your request, including channel
@@ -7737,17 +8039,26 @@ class Settings {
   }
 }
 
-enum Specialty {
-  primarycare('PRIMARYCARE'),
-  ;
+class Specialty {
+  static const primarycare = Specialty._('PRIMARYCARE');
 
   final String value;
 
-  const Specialty(this.value);
+  const Specialty._(this.value);
 
-  static Specialty fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum Specialty'));
+  static const values = [primarycare];
+
+  static Specialty fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Specialty._(value));
+
+  @override
+  bool operator ==(other) => other is Specialty && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class StartCallAnalyticsJobResponse {
@@ -7856,19 +8167,28 @@ class StartTranscriptionJobResponse {
   }
 }
 
-enum SubtitleFormat {
-  vtt('vtt'),
-  srt('srt'),
-  ;
+class SubtitleFormat {
+  static const vtt = SubtitleFormat._('vtt');
+  static const srt = SubtitleFormat._('srt');
 
   final String value;
 
-  const SubtitleFormat(this.value);
+  const SubtitleFormat._(this.value);
+
+  static const values = [vtt, srt];
 
   static SubtitleFormat fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum SubtitleFormat'));
+          orElse: () => SubtitleFormat._(value));
+
+  @override
+  bool operator ==(other) => other is SubtitleFormat && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Generate subtitles for your media file with your transcription request.
@@ -8065,18 +8385,27 @@ class TagResourceResponse {
   }
 }
 
-enum ToxicityCategory {
-  all('ALL'),
-  ;
+class ToxicityCategory {
+  static const all = ToxicityCategory._('ALL');
 
   final String value;
 
-  const ToxicityCategory(this.value);
+  const ToxicityCategory._(this.value);
+
+  static const values = [all];
 
   static ToxicityCategory fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ToxicityCategory'));
+          orElse: () => ToxicityCategory._(value));
+
+  @override
+  bool operator ==(other) => other is ToxicityCategory && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains <code>ToxicityCategories</code>, which is a required parameter if
@@ -8244,7 +8573,7 @@ class TranscriptFilter {
           .map((e) => e as String)
           .toList(),
       transcriptFilterType: TranscriptFilterType.fromString(
-          (json['TranscriptFilterType'] as String)),
+          (json['TranscriptFilterType'] as String?) ?? ''),
       absoluteTimeRange: json['AbsoluteTimeRange'] != null
           ? AbsoluteTimeRange.fromJson(
               json['AbsoluteTimeRange'] as Map<String, dynamic>)
@@ -8277,18 +8606,28 @@ class TranscriptFilter {
   }
 }
 
-enum TranscriptFilterType {
-  exact('EXACT'),
-  ;
+class TranscriptFilterType {
+  static const exact = TranscriptFilterType._('EXACT');
 
   final String value;
 
-  const TranscriptFilterType(this.value);
+  const TranscriptFilterType._(this.value);
 
-  static TranscriptFilterType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum TranscriptFilterType'));
+  static const values = [exact];
+
+  static TranscriptFilterType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => TranscriptFilterType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TranscriptFilterType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Provides detailed information about a transcription job.
@@ -8625,21 +8964,31 @@ class TranscriptionJob {
   }
 }
 
-enum TranscriptionJobStatus {
-  queued('QUEUED'),
-  inProgress('IN_PROGRESS'),
-  failed('FAILED'),
-  completed('COMPLETED'),
-  ;
+class TranscriptionJobStatus {
+  static const queued = TranscriptionJobStatus._('QUEUED');
+  static const inProgress = TranscriptionJobStatus._('IN_PROGRESS');
+  static const failed = TranscriptionJobStatus._('FAILED');
+  static const completed = TranscriptionJobStatus._('COMPLETED');
 
   final String value;
 
-  const TranscriptionJobStatus(this.value);
+  const TranscriptionJobStatus._(this.value);
+
+  static const values = [queued, inProgress, failed, completed];
 
   static TranscriptionJobStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum TranscriptionJobStatus'));
+          orElse: () => TranscriptionJobStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TranscriptionJobStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Provides detailed information about a specific transcription job.
@@ -8829,18 +9178,27 @@ class TranscriptionJobSummary {
   }
 }
 
-enum Type {
-  conversation('CONVERSATION'),
-  dictation('DICTATION'),
-  ;
+class Type {
+  static const conversation = Type._('CONVERSATION');
+  static const dictation = Type._('DICTATION');
 
   final String value;
 
-  const Type(this.value);
+  const Type._(this.value);
+
+  static const values = [conversation, dictation];
 
   static Type fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum Type'));
+      values.firstWhere((e) => e.value == value, orElse: () => Type._(value));
+
+  @override
+  bool operator ==(other) => other is Type && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class UntagResourceResponse {
@@ -9090,20 +9448,30 @@ class VocabularyFilterInfo {
   }
 }
 
-enum VocabularyFilterMethod {
-  remove('remove'),
-  mask('mask'),
-  tag('tag'),
-  ;
+class VocabularyFilterMethod {
+  static const remove = VocabularyFilterMethod._('remove');
+  static const mask = VocabularyFilterMethod._('mask');
+  static const tag = VocabularyFilterMethod._('tag');
 
   final String value;
 
-  const VocabularyFilterMethod(this.value);
+  const VocabularyFilterMethod._(this.value);
+
+  static const values = [remove, mask, tag];
 
   static VocabularyFilterMethod fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum VocabularyFilterMethod'));
+          orElse: () => VocabularyFilterMethod._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is VocabularyFilterMethod && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Provides information about a custom vocabulary, including the language of
@@ -9169,20 +9537,29 @@ class VocabularyInfo {
   }
 }
 
-enum VocabularyState {
-  pending('PENDING'),
-  ready('READY'),
-  failed('FAILED'),
-  ;
+class VocabularyState {
+  static const pending = VocabularyState._('PENDING');
+  static const ready = VocabularyState._('READY');
+  static const failed = VocabularyState._('FAILED');
 
   final String value;
 
-  const VocabularyState(this.value);
+  const VocabularyState._(this.value);
+
+  static const values = [pending, ready, failed];
 
   static VocabularyState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum VocabularyState'));
+          orElse: () => VocabularyState._(value));
+
+  @override
+  bool operator ==(other) => other is VocabularyState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class BadRequestException extends _s.GenericAwsException {

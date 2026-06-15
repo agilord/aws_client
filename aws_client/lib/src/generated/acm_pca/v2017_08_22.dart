@@ -2170,35 +2170,54 @@ class AccessMethod {
   }
 }
 
-enum AccessMethodType {
-  caRepository('CA_REPOSITORY'),
-  resourcePkiManifest('RESOURCE_PKI_MANIFEST'),
-  resourcePkiNotify('RESOURCE_PKI_NOTIFY'),
-  ;
+class AccessMethodType {
+  static const caRepository = AccessMethodType._('CA_REPOSITORY');
+  static const resourcePkiManifest =
+      AccessMethodType._('RESOURCE_PKI_MANIFEST');
+  static const resourcePkiNotify = AccessMethodType._('RESOURCE_PKI_NOTIFY');
 
   final String value;
 
-  const AccessMethodType(this.value);
+  const AccessMethodType._(this.value);
+
+  static const values = [caRepository, resourcePkiManifest, resourcePkiNotify];
 
   static AccessMethodType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum AccessMethodType'));
+          orElse: () => AccessMethodType._(value));
+
+  @override
+  bool operator ==(other) => other is AccessMethodType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ActionType {
-  issueCertificate('IssueCertificate'),
-  getCertificate('GetCertificate'),
-  listPermissions('ListPermissions'),
-  ;
+class ActionType {
+  static const issueCertificate = ActionType._('IssueCertificate');
+  static const getCertificate = ActionType._('GetCertificate');
+  static const listPermissions = ActionType._('ListPermissions');
 
   final String value;
 
-  const ActionType(this.value);
+  const ActionType._(this.value);
 
-  static ActionType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum ActionType'));
+  static const values = [issueCertificate, getCertificate, listPermissions];
+
+  static ActionType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ActionType._(value));
+
+  @override
+  bool operator ==(other) => other is ActionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains X.509 certificate information to be placed in an issued
@@ -2230,35 +2249,54 @@ class ApiPassthrough {
   }
 }
 
-enum AuditReportResponseFormat {
-  json('JSON'),
-  csv('CSV'),
-  ;
+class AuditReportResponseFormat {
+  static const json = AuditReportResponseFormat._('JSON');
+  static const csv = AuditReportResponseFormat._('CSV');
 
   final String value;
 
-  const AuditReportResponseFormat(this.value);
+  const AuditReportResponseFormat._(this.value);
+
+  static const values = [json, csv];
 
   static AuditReportResponseFormat fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum AuditReportResponseFormat'));
+          orElse: () => AuditReportResponseFormat._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AuditReportResponseFormat && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum AuditReportStatus {
-  creating('CREATING'),
-  success('SUCCESS'),
-  failed('FAILED'),
-  ;
+class AuditReportStatus {
+  static const creating = AuditReportStatus._('CREATING');
+  static const success = AuditReportStatus._('SUCCESS');
+  static const failed = AuditReportStatus._('FAILED');
 
   final String value;
 
-  const AuditReportStatus(this.value);
+  const AuditReportStatus._(this.value);
+
+  static const values = [creating, success, failed];
 
   static AuditReportStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum AuditReportStatus'));
+          orElse: () => AuditReportStatus._(value));
+
+  @override
+  bool operator ==(other) => other is AuditReportStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains information about your private certificate authority (CA). Your
@@ -2472,9 +2510,10 @@ class CertificateAuthorityConfiguration {
   factory CertificateAuthorityConfiguration.fromJson(
       Map<String, dynamic> json) {
     return CertificateAuthorityConfiguration(
-      keyAlgorithm: KeyAlgorithm.fromString((json['KeyAlgorithm'] as String)),
-      signingAlgorithm:
-          SigningAlgorithm.fromString((json['SigningAlgorithm'] as String)),
+      keyAlgorithm:
+          KeyAlgorithm.fromString((json['KeyAlgorithm'] as String?) ?? ''),
+      signingAlgorithm: SigningAlgorithm.fromString(
+          (json['SigningAlgorithm'] as String?) ?? ''),
       subject: ASN1Subject.fromJson(
           (json['Subject'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
@@ -2499,54 +2538,95 @@ class CertificateAuthorityConfiguration {
   }
 }
 
-enum CertificateAuthorityStatus {
-  creating('CREATING'),
-  pendingCertificate('PENDING_CERTIFICATE'),
-  active('ACTIVE'),
-  deleted('DELETED'),
-  disabled('DISABLED'),
-  expired('EXPIRED'),
-  failed('FAILED'),
-  ;
+class CertificateAuthorityStatus {
+  static const creating = CertificateAuthorityStatus._('CREATING');
+  static const pendingCertificate =
+      CertificateAuthorityStatus._('PENDING_CERTIFICATE');
+  static const active = CertificateAuthorityStatus._('ACTIVE');
+  static const deleted = CertificateAuthorityStatus._('DELETED');
+  static const disabled = CertificateAuthorityStatus._('DISABLED');
+  static const expired = CertificateAuthorityStatus._('EXPIRED');
+  static const failed = CertificateAuthorityStatus._('FAILED');
 
   final String value;
 
-  const CertificateAuthorityStatus(this.value);
+  const CertificateAuthorityStatus._(this.value);
+
+  static const values = [
+    creating,
+    pendingCertificate,
+    active,
+    deleted,
+    disabled,
+    expired,
+    failed
+  ];
 
   static CertificateAuthorityStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum CertificateAuthorityStatus'));
+          orElse: () => CertificateAuthorityStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CertificateAuthorityStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum CertificateAuthorityType {
-  root('ROOT'),
-  subordinate('SUBORDINATE'),
-  ;
+class CertificateAuthorityType {
+  static const root = CertificateAuthorityType._('ROOT');
+  static const subordinate = CertificateAuthorityType._('SUBORDINATE');
 
   final String value;
 
-  const CertificateAuthorityType(this.value);
+  const CertificateAuthorityType._(this.value);
+
+  static const values = [root, subordinate];
 
   static CertificateAuthorityType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum CertificateAuthorityType'));
+          orElse: () => CertificateAuthorityType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CertificateAuthorityType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum CertificateAuthorityUsageMode {
-  generalPurpose('GENERAL_PURPOSE'),
-  shortLivedCertificate('SHORT_LIVED_CERTIFICATE'),
-  ;
+class CertificateAuthorityUsageMode {
+  static const generalPurpose =
+      CertificateAuthorityUsageMode._('GENERAL_PURPOSE');
+  static const shortLivedCertificate =
+      CertificateAuthorityUsageMode._('SHORT_LIVED_CERTIFICATE');
 
   final String value;
 
-  const CertificateAuthorityUsageMode(this.value);
+  const CertificateAuthorityUsageMode._(this.value);
+
+  static const values = [generalPurpose, shortLivedCertificate];
 
   static CertificateAuthorityUsageMode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum CertificateAuthorityUsageMode'));
+          orElse: () => CertificateAuthorityUsageMode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CertificateAuthorityUsageMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class CreateCertificateAuthorityAuditReportResponse {
@@ -3111,26 +3191,47 @@ class ExtendedKeyUsage {
   }
 }
 
-enum ExtendedKeyUsageType {
-  serverAuth('SERVER_AUTH'),
-  clientAuth('CLIENT_AUTH'),
-  codeSigning('CODE_SIGNING'),
-  emailProtection('EMAIL_PROTECTION'),
-  timeStamping('TIME_STAMPING'),
-  ocspSigning('OCSP_SIGNING'),
-  smartCardLogin('SMART_CARD_LOGIN'),
-  documentSigning('DOCUMENT_SIGNING'),
-  certificateTransparency('CERTIFICATE_TRANSPARENCY'),
-  ;
+class ExtendedKeyUsageType {
+  static const serverAuth = ExtendedKeyUsageType._('SERVER_AUTH');
+  static const clientAuth = ExtendedKeyUsageType._('CLIENT_AUTH');
+  static const codeSigning = ExtendedKeyUsageType._('CODE_SIGNING');
+  static const emailProtection = ExtendedKeyUsageType._('EMAIL_PROTECTION');
+  static const timeStamping = ExtendedKeyUsageType._('TIME_STAMPING');
+  static const ocspSigning = ExtendedKeyUsageType._('OCSP_SIGNING');
+  static const smartCardLogin = ExtendedKeyUsageType._('SMART_CARD_LOGIN');
+  static const documentSigning = ExtendedKeyUsageType._('DOCUMENT_SIGNING');
+  static const certificateTransparency =
+      ExtendedKeyUsageType._('CERTIFICATE_TRANSPARENCY');
 
   final String value;
 
-  const ExtendedKeyUsageType(this.value);
+  const ExtendedKeyUsageType._(this.value);
 
-  static ExtendedKeyUsageType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ExtendedKeyUsageType'));
+  static const values = [
+    serverAuth,
+    clientAuth,
+    codeSigning,
+    emailProtection,
+    timeStamping,
+    ocspSigning,
+    smartCardLogin,
+    documentSigning,
+    certificateTransparency
+  ];
+
+  static ExtendedKeyUsageType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ExtendedKeyUsageType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ExtendedKeyUsageType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains X.509 extension information for a certificate.
@@ -3190,20 +3291,29 @@ class Extensions {
   }
 }
 
-enum FailureReason {
-  requestTimedOut('REQUEST_TIMED_OUT'),
-  unsupportedAlgorithm('UNSUPPORTED_ALGORITHM'),
-  other('OTHER'),
-  ;
+class FailureReason {
+  static const requestTimedOut = FailureReason._('REQUEST_TIMED_OUT');
+  static const unsupportedAlgorithm = FailureReason._('UNSUPPORTED_ALGORITHM');
+  static const other = FailureReason._('OTHER');
 
   final String value;
 
-  const FailureReason(this.value);
+  const FailureReason._(this.value);
+
+  static const values = [requestTimedOut, unsupportedAlgorithm, other];
 
   static FailureReason fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum FailureReason'));
+          orElse: () => FailureReason._(value));
+
+  @override
+  bool operator ==(other) => other is FailureReason && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes an ASN.1 X.400 <code>GeneralName</code> as defined in <a
@@ -3425,38 +3535,63 @@ class IssueCertificateResponse {
   }
 }
 
-enum KeyAlgorithm {
-  rsa_2048('RSA_2048'),
-  rsa_4096('RSA_4096'),
-  ecPrime256v1('EC_prime256v1'),
-  ecSecp384r1('EC_secp384r1'),
-  sm2('SM2'),
-  ;
+class KeyAlgorithm {
+  static const rsa_2048 = KeyAlgorithm._('RSA_2048');
+  static const rsa_4096 = KeyAlgorithm._('RSA_4096');
+  static const ecPrime256v1 = KeyAlgorithm._('EC_prime256v1');
+  static const ecSecp384r1 = KeyAlgorithm._('EC_secp384r1');
+  static const sm2 = KeyAlgorithm._('SM2');
 
   final String value;
 
-  const KeyAlgorithm(this.value);
+  const KeyAlgorithm._(this.value);
 
-  static KeyAlgorithm fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum KeyAlgorithm'));
+  static const values = [rsa_2048, rsa_4096, ecPrime256v1, ecSecp384r1, sm2];
+
+  static KeyAlgorithm fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => KeyAlgorithm._(value));
+
+  @override
+  bool operator ==(other) => other is KeyAlgorithm && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum KeyStorageSecurityStandard {
-  fips_140_2Level_2OrHigher('FIPS_140_2_LEVEL_2_OR_HIGHER'),
-  fips_140_2Level_3OrHigher('FIPS_140_2_LEVEL_3_OR_HIGHER'),
-  ccpcLevel_1OrHigher('CCPC_LEVEL_1_OR_HIGHER'),
-  ;
+class KeyStorageSecurityStandard {
+  static const fips_140_2Level_2OrHigher =
+      KeyStorageSecurityStandard._('FIPS_140_2_LEVEL_2_OR_HIGHER');
+  static const fips_140_2Level_3OrHigher =
+      KeyStorageSecurityStandard._('FIPS_140_2_LEVEL_3_OR_HIGHER');
+  static const ccpcLevel_1OrHigher =
+      KeyStorageSecurityStandard._('CCPC_LEVEL_1_OR_HIGHER');
 
   final String value;
 
-  const KeyStorageSecurityStandard(this.value);
+  const KeyStorageSecurityStandard._(this.value);
+
+  static const values = [
+    fips_140_2Level_2OrHigher,
+    fips_140_2Level_3OrHigher,
+    ccpcLevel_1OrHigher
+  ];
 
   static KeyStorageSecurityStandard fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum KeyStorageSecurityStandard'));
+          orElse: () => KeyStorageSecurityStandard._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is KeyStorageSecurityStandard && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Defines one or more purposes for which the key contained in the certificate
@@ -3827,18 +3962,27 @@ class PolicyInformation {
   }
 }
 
-enum PolicyQualifierId {
-  cps('CPS'),
-  ;
+class PolicyQualifierId {
+  static const cps = PolicyQualifierId._('CPS');
 
   final String value;
 
-  const PolicyQualifierId(this.value);
+  const PolicyQualifierId._(this.value);
+
+  static const values = [cps];
 
   static PolicyQualifierId fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum PolicyQualifierId'));
+          orElse: () => PolicyQualifierId._(value));
+
+  @override
+  bool operator ==(other) => other is PolicyQualifierId && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Modifies the <code>CertPolicyId</code> of a <code>PolicyInformation</code>
@@ -3888,19 +4032,28 @@ class Qualifier {
   }
 }
 
-enum ResourceOwner {
-  self('SELF'),
-  otherAccounts('OTHER_ACCOUNTS'),
-  ;
+class ResourceOwner {
+  static const self = ResourceOwner._('SELF');
+  static const otherAccounts = ResourceOwner._('OTHER_ACCOUNTS');
 
   final String value;
 
-  const ResourceOwner(this.value);
+  const ResourceOwner._(this.value);
+
+  static const values = [self, otherAccounts];
 
   static ResourceOwner fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ResourceOwner'));
+          orElse: () => ResourceOwner._(value));
+
+  @override
+  bool operator ==(other) => other is ResourceOwner && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Certificate revocation information used by the <a
@@ -3957,59 +4110,106 @@ class RevocationConfiguration {
   }
 }
 
-enum RevocationReason {
-  unspecified('UNSPECIFIED'),
-  keyCompromise('KEY_COMPROMISE'),
-  certificateAuthorityCompromise('CERTIFICATE_AUTHORITY_COMPROMISE'),
-  affiliationChanged('AFFILIATION_CHANGED'),
-  superseded('SUPERSEDED'),
-  cessationOfOperation('CESSATION_OF_OPERATION'),
-  privilegeWithdrawn('PRIVILEGE_WITHDRAWN'),
-  aACompromise('A_A_COMPROMISE'),
-  ;
+class RevocationReason {
+  static const unspecified = RevocationReason._('UNSPECIFIED');
+  static const keyCompromise = RevocationReason._('KEY_COMPROMISE');
+  static const certificateAuthorityCompromise =
+      RevocationReason._('CERTIFICATE_AUTHORITY_COMPROMISE');
+  static const affiliationChanged = RevocationReason._('AFFILIATION_CHANGED');
+  static const superseded = RevocationReason._('SUPERSEDED');
+  static const cessationOfOperation =
+      RevocationReason._('CESSATION_OF_OPERATION');
+  static const privilegeWithdrawn = RevocationReason._('PRIVILEGE_WITHDRAWN');
+  static const aACompromise = RevocationReason._('A_A_COMPROMISE');
 
   final String value;
 
-  const RevocationReason(this.value);
+  const RevocationReason._(this.value);
+
+  static const values = [
+    unspecified,
+    keyCompromise,
+    certificateAuthorityCompromise,
+    affiliationChanged,
+    superseded,
+    cessationOfOperation,
+    privilegeWithdrawn,
+    aACompromise
+  ];
 
   static RevocationReason fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum RevocationReason'));
+          orElse: () => RevocationReason._(value));
+
+  @override
+  bool operator ==(other) => other is RevocationReason && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum S3ObjectAcl {
-  publicRead('PUBLIC_READ'),
-  bucketOwnerFullControl('BUCKET_OWNER_FULL_CONTROL'),
-  ;
+class S3ObjectAcl {
+  static const publicRead = S3ObjectAcl._('PUBLIC_READ');
+  static const bucketOwnerFullControl =
+      S3ObjectAcl._('BUCKET_OWNER_FULL_CONTROL');
 
   final String value;
 
-  const S3ObjectAcl(this.value);
+  const S3ObjectAcl._(this.value);
 
-  static S3ObjectAcl fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum S3ObjectAcl'));
+  static const values = [publicRead, bucketOwnerFullControl];
+
+  static S3ObjectAcl fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => S3ObjectAcl._(value));
+
+  @override
+  bool operator ==(other) => other is S3ObjectAcl && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum SigningAlgorithm {
-  sha256withecdsa('SHA256WITHECDSA'),
-  sha384withecdsa('SHA384WITHECDSA'),
-  sha512withecdsa('SHA512WITHECDSA'),
-  sha256withrsa('SHA256WITHRSA'),
-  sha384withrsa('SHA384WITHRSA'),
-  sha512withrsa('SHA512WITHRSA'),
-  sm3withsm2('SM3WITHSM2'),
-  ;
+class SigningAlgorithm {
+  static const sha256withecdsa = SigningAlgorithm._('SHA256WITHECDSA');
+  static const sha384withecdsa = SigningAlgorithm._('SHA384WITHECDSA');
+  static const sha512withecdsa = SigningAlgorithm._('SHA512WITHECDSA');
+  static const sha256withrsa = SigningAlgorithm._('SHA256WITHRSA');
+  static const sha384withrsa = SigningAlgorithm._('SHA384WITHRSA');
+  static const sha512withrsa = SigningAlgorithm._('SHA512WITHRSA');
+  static const sm3withsm2 = SigningAlgorithm._('SM3WITHSM2');
 
   final String value;
 
-  const SigningAlgorithm(this.value);
+  const SigningAlgorithm._(this.value);
+
+  static const values = [
+    sha256withecdsa,
+    sha384withecdsa,
+    sha512withecdsa,
+    sha256withrsa,
+    sha384withrsa,
+    sha512withrsa,
+    sm3withsm2
+  ];
 
   static SigningAlgorithm fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum SigningAlgorithm'));
+          orElse: () => SigningAlgorithm._(value));
+
+  @override
+  bool operator ==(other) => other is SigningAlgorithm && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Tags are labels that you can use to identify and organize your private CAs.
@@ -4132,22 +4332,32 @@ class Validity {
   }
 }
 
-enum ValidityPeriodType {
-  endDate('END_DATE'),
-  absolute('ABSOLUTE'),
-  days('DAYS'),
-  months('MONTHS'),
-  years('YEARS'),
-  ;
+class ValidityPeriodType {
+  static const endDate = ValidityPeriodType._('END_DATE');
+  static const absolute = ValidityPeriodType._('ABSOLUTE');
+  static const days = ValidityPeriodType._('DAYS');
+  static const months = ValidityPeriodType._('MONTHS');
+  static const years = ValidityPeriodType._('YEARS');
 
   final String value;
 
-  const ValidityPeriodType(this.value);
+  const ValidityPeriodType._(this.value);
 
-  static ValidityPeriodType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ValidityPeriodType'));
+  static const values = [endDate, absolute, days, months, years];
+
+  static ValidityPeriodType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ValidityPeriodType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ValidityPeriodType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class CertificateMismatchException extends _s.GenericAwsException {

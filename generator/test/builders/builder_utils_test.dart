@@ -136,7 +136,7 @@ void main() {
       expect(nested, 'e as String');
     });
 
-    test('enums are intentionally NOT corrected (no unknown variant)', () {
+    group('open enums', () {
       final enumApi = Api.fromJson(jsonDecode('''
 {
   "version": "2.0",
@@ -154,11 +154,20 @@ void main() {
   }
 }
 ''') as Map<String, dynamic>)..initReferences();
-      final result = extractJsonCode(enumApi.shapes['Color']!, "json['X']",
-          nullability: Nullability.input);
-      // Still a bare, throwing cast — locks in the deferred enum decision.
-      expect(result, contains("json['X'] as String"));
-      expect(result, isNot(contains('??')));
+
+      test('required-but-absent value falls back to an unknown member', () {
+        // Open enums never throw, so a missing required value is corrected to
+        // '' and wrapped by fromString rather than crashing on a null cast.
+        final result = extractJsonCode(enumApi.shapes['Color']!, "json['X']",
+            nullability: Nullability.input);
+        expect(result, "Color.fromString((json['X'] as String?) ?? '')");
+      });
+
+      test('optional value stays null-aware', () {
+        final result = extractJsonCode(enumApi.shapes['Color']!, "json['X']",
+            nullability: Nullability.inputOutput);
+        expect(result, "(json['X'] as String?)?.let(Color.fromString)");
+      });
     });
   });
 }

@@ -1397,18 +1397,27 @@ class Address {
   }
 }
 
-enum AddressType {
-  shippingAddress('SHIPPING_ADDRESS'),
-  operatingAddress('OPERATING_ADDRESS'),
-  ;
+class AddressType {
+  static const shippingAddress = AddressType._('SHIPPING_ADDRESS');
+  static const operatingAddress = AddressType._('OPERATING_ADDRESS');
 
   final String value;
 
-  const AddressType(this.value);
+  const AddressType._(this.value);
 
-  static AddressType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum AddressType'));
+  static const values = [shippingAddress, operatingAddress];
+
+  static AddressType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => AddressType._(value));
+
+  @override
+  bool operator ==(other) => other is AddressType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about hardware assets.
@@ -1491,32 +1500,50 @@ class AssetLocation {
   }
 }
 
-enum AssetState {
-  active('ACTIVE'),
-  retiring('RETIRING'),
-  isolated('ISOLATED'),
-  ;
+class AssetState {
+  static const active = AssetState._('ACTIVE');
+  static const retiring = AssetState._('RETIRING');
+  static const isolated = AssetState._('ISOLATED');
 
   final String value;
 
-  const AssetState(this.value);
+  const AssetState._(this.value);
 
-  static AssetState fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum AssetState'));
+  static const values = [active, retiring, isolated];
+
+  static AssetState fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => AssetState._(value));
+
+  @override
+  bool operator ==(other) => other is AssetState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum AssetType {
-  compute('COMPUTE'),
-  ;
+class AssetType {
+  static const compute = AssetType._('COMPUTE');
 
   final String value;
 
-  const AssetType(this.value);
+  const AssetType._(this.value);
 
-  static AssetType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum AssetType'));
+  static const values = [compute];
+
+  static AssetType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => AssetType._(value));
+
+  @override
+  bool operator ==(other) => other is AssetType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class CancelCapacityTaskOutput {
@@ -1573,36 +1600,57 @@ class CapacityTaskFailure {
   }
 }
 
-enum CapacityTaskFailureType {
-  unsupportedCapacityConfiguration('UNSUPPORTED_CAPACITY_CONFIGURATION'),
-  ;
+class CapacityTaskFailureType {
+  static const unsupportedCapacityConfiguration =
+      CapacityTaskFailureType._('UNSUPPORTED_CAPACITY_CONFIGURATION');
 
   final String value;
 
-  const CapacityTaskFailureType(this.value);
+  const CapacityTaskFailureType._(this.value);
+
+  static const values = [unsupportedCapacityConfiguration];
 
   static CapacityTaskFailureType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum CapacityTaskFailureType'));
+          orElse: () => CapacityTaskFailureType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CapacityTaskFailureType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum CapacityTaskStatus {
-  requested('REQUESTED'),
-  inProgress('IN_PROGRESS'),
-  failed('FAILED'),
-  completed('COMPLETED'),
-  cancelled('CANCELLED'),
-  ;
+class CapacityTaskStatus {
+  static const requested = CapacityTaskStatus._('REQUESTED');
+  static const inProgress = CapacityTaskStatus._('IN_PROGRESS');
+  static const failed = CapacityTaskStatus._('FAILED');
+  static const completed = CapacityTaskStatus._('COMPLETED');
+  static const cancelled = CapacityTaskStatus._('CANCELLED');
 
   final String value;
 
-  const CapacityTaskStatus(this.value);
+  const CapacityTaskStatus._(this.value);
 
-  static CapacityTaskStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum CapacityTaskStatus'));
+  static const values = [requested, inProgress, failed, completed, cancelled];
+
+  static CapacityTaskStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => CapacityTaskStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CapacityTaskStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The summary of the capacity task.
@@ -1754,50 +1802,77 @@ class CatalogItem {
   }
 }
 
-enum CatalogItemClass {
-  rack('RACK'),
-  server('SERVER'),
-  ;
+class CatalogItemClass {
+  static const rack = CatalogItemClass._('RACK');
+  static const server = CatalogItemClass._('SERVER');
 
   final String value;
 
-  const CatalogItemClass(this.value);
+  const CatalogItemClass._(this.value);
+
+  static const values = [rack, server];
 
   static CatalogItemClass fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum CatalogItemClass'));
+          orElse: () => CatalogItemClass._(value));
+
+  @override
+  bool operator ==(other) => other is CatalogItemClass && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum CatalogItemStatus {
-  available('AVAILABLE'),
-  discontinued('DISCONTINUED'),
-  ;
+class CatalogItemStatus {
+  static const available = CatalogItemStatus._('AVAILABLE');
+  static const discontinued = CatalogItemStatus._('DISCONTINUED');
 
   final String value;
 
-  const CatalogItemStatus(this.value);
+  const CatalogItemStatus._(this.value);
+
+  static const values = [available, discontinued];
 
   static CatalogItemStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum CatalogItemStatus'));
+          orElse: () => CatalogItemStatus._(value));
+
+  @override
+  bool operator ==(other) => other is CatalogItemStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ComputeAssetState {
-  active('ACTIVE'),
-  isolated('ISOLATED'),
-  retiring('RETIRING'),
-  ;
+class ComputeAssetState {
+  static const active = ComputeAssetState._('ACTIVE');
+  static const isolated = ComputeAssetState._('ISOLATED');
+  static const retiring = ComputeAssetState._('RETIRING');
 
   final String value;
 
-  const ComputeAssetState(this.value);
+  const ComputeAssetState._(this.value);
+
+  static const values = [active, isolated, retiring];
 
   static ComputeAssetState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ComputeAssetState'));
+          orElse: () => ComputeAssetState._(value));
+
+  @override
+  bool operator ==(other) => other is ComputeAssetState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about compute hardware assets.
@@ -2052,19 +2127,29 @@ class EC2Capacity {
   }
 }
 
-enum FiberOpticCableType {
-  singleMode('SINGLE_MODE'),
-  multiMode('MULTI_MODE'),
-  ;
+class FiberOpticCableType {
+  static const singleMode = FiberOpticCableType._('SINGLE_MODE');
+  static const multiMode = FiberOpticCableType._('MULTI_MODE');
 
   final String value;
 
-  const FiberOpticCableType(this.value);
+  const FiberOpticCableType._(this.value);
 
-  static FiberOpticCableType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum FiberOpticCableType'));
+  static const values = [singleMode, multiMode];
+
+  static FiberOpticCableType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => FiberOpticCableType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is FiberOpticCableType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class GetCapacityTaskOutput {
@@ -2612,26 +2697,45 @@ class LineItemRequest {
   }
 }
 
-enum LineItemStatus {
-  preparing('PREPARING'),
-  building('BUILDING'),
-  shipped('SHIPPED'),
-  delivered('DELIVERED'),
-  installing('INSTALLING'),
-  installed('INSTALLED'),
-  error('ERROR'),
-  cancelled('CANCELLED'),
-  replaced('REPLACED'),
-  ;
+class LineItemStatus {
+  static const preparing = LineItemStatus._('PREPARING');
+  static const building = LineItemStatus._('BUILDING');
+  static const shipped = LineItemStatus._('SHIPPED');
+  static const delivered = LineItemStatus._('DELIVERED');
+  static const installing = LineItemStatus._('INSTALLING');
+  static const installed = LineItemStatus._('INSTALLED');
+  static const error = LineItemStatus._('ERROR');
+  static const cancelled = LineItemStatus._('CANCELLED');
+  static const replaced = LineItemStatus._('REPLACED');
 
   final String value;
 
-  const LineItemStatus(this.value);
+  const LineItemStatus._(this.value);
+
+  static const values = [
+    preparing,
+    building,
+    shipped,
+    delivered,
+    installing,
+    installed,
+    error,
+    cancelled,
+    replaced
+  ];
 
   static LineItemStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum LineItemStatus'));
+          orElse: () => LineItemStatus._(value));
+
+  @override
+  bool operator ==(other) => other is LineItemStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class ListAssetsOutput {
@@ -2836,48 +2940,88 @@ class ListTagsForResourceResponse {
   }
 }
 
-enum MaximumSupportedWeightLbs {
-  noLimit('NO_LIMIT'),
-  max_1400Lbs('MAX_1400_LBS'),
-  max_1600Lbs('MAX_1600_LBS'),
-  max_1800Lbs('MAX_1800_LBS'),
-  max_2000Lbs('MAX_2000_LBS'),
-  ;
+class MaximumSupportedWeightLbs {
+  static const noLimit = MaximumSupportedWeightLbs._('NO_LIMIT');
+  static const max_1400Lbs = MaximumSupportedWeightLbs._('MAX_1400_LBS');
+  static const max_1600Lbs = MaximumSupportedWeightLbs._('MAX_1600_LBS');
+  static const max_1800Lbs = MaximumSupportedWeightLbs._('MAX_1800_LBS');
+  static const max_2000Lbs = MaximumSupportedWeightLbs._('MAX_2000_LBS');
 
   final String value;
 
-  const MaximumSupportedWeightLbs(this.value);
+  const MaximumSupportedWeightLbs._(this.value);
+
+  static const values = [
+    noLimit,
+    max_1400Lbs,
+    max_1600Lbs,
+    max_1800Lbs,
+    max_2000Lbs
+  ];
 
   static MaximumSupportedWeightLbs fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum MaximumSupportedWeightLbs'));
+          orElse: () => MaximumSupportedWeightLbs._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is MaximumSupportedWeightLbs && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum OpticalStandard {
-  optic_10gbaseSr('OPTIC_10GBASE_SR'),
-  optic_10gbaseIr('OPTIC_10GBASE_IR'),
-  optic_10gbaseLr('OPTIC_10GBASE_LR'),
-  optic_40gbaseSr('OPTIC_40GBASE_SR'),
-  optic_40gbaseEsr('OPTIC_40GBASE_ESR'),
-  optic_40gbaseIr4Lr4l('OPTIC_40GBASE_IR4_LR4L'),
-  optic_40gbaseLr4('OPTIC_40GBASE_LR4'),
-  optic_100gbaseSr4('OPTIC_100GBASE_SR4'),
-  optic_100gbaseCwdm4('OPTIC_100GBASE_CWDM4'),
-  optic_100gbaseLr4('OPTIC_100GBASE_LR4'),
-  optic_100gPsm4Msa('OPTIC_100G_PSM4_MSA'),
-  optic_1000baseLx('OPTIC_1000BASE_LX'),
-  optic_1000baseSx('OPTIC_1000BASE_SX'),
-  ;
+class OpticalStandard {
+  static const optic_10gbaseSr = OpticalStandard._('OPTIC_10GBASE_SR');
+  static const optic_10gbaseIr = OpticalStandard._('OPTIC_10GBASE_IR');
+  static const optic_10gbaseLr = OpticalStandard._('OPTIC_10GBASE_LR');
+  static const optic_40gbaseSr = OpticalStandard._('OPTIC_40GBASE_SR');
+  static const optic_40gbaseEsr = OpticalStandard._('OPTIC_40GBASE_ESR');
+  static const optic_40gbaseIr4Lr4l =
+      OpticalStandard._('OPTIC_40GBASE_IR4_LR4L');
+  static const optic_40gbaseLr4 = OpticalStandard._('OPTIC_40GBASE_LR4');
+  static const optic_100gbaseSr4 = OpticalStandard._('OPTIC_100GBASE_SR4');
+  static const optic_100gbaseCwdm4 = OpticalStandard._('OPTIC_100GBASE_CWDM4');
+  static const optic_100gbaseLr4 = OpticalStandard._('OPTIC_100GBASE_LR4');
+  static const optic_100gPsm4Msa = OpticalStandard._('OPTIC_100G_PSM4_MSA');
+  static const optic_1000baseLx = OpticalStandard._('OPTIC_1000BASE_LX');
+  static const optic_1000baseSx = OpticalStandard._('OPTIC_1000BASE_SX');
 
   final String value;
 
-  const OpticalStandard(this.value);
+  const OpticalStandard._(this.value);
+
+  static const values = [
+    optic_10gbaseSr,
+    optic_10gbaseIr,
+    optic_10gbaseLr,
+    optic_40gbaseSr,
+    optic_40gbaseEsr,
+    optic_40gbaseIr4Lr4l,
+    optic_40gbaseLr4,
+    optic_100gbaseSr4,
+    optic_100gbaseCwdm4,
+    optic_100gbaseLr4,
+    optic_100gPsm4Msa,
+    optic_1000baseLx,
+    optic_1000baseSx
+  ];
 
   static OpticalStandard fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum OpticalStandard'));
+          orElse: () => OpticalStandard._(value));
+
+  @override
+  bool operator ==(other) => other is OpticalStandard && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about an order.
@@ -2989,26 +3133,46 @@ class Order {
   }
 }
 
-enum OrderStatus {
-  received('RECEIVED'),
-  pending('PENDING'),
-  processing('PROCESSING'),
-  installing('INSTALLING'),
-  fulfilled('FULFILLED'),
-  cancelled('CANCELLED'),
-  preparing('PREPARING'),
-  inProgress('IN_PROGRESS'),
-  completed('COMPLETED'),
-  error('ERROR'),
-  ;
+class OrderStatus {
+  static const received = OrderStatus._('RECEIVED');
+  static const pending = OrderStatus._('PENDING');
+  static const processing = OrderStatus._('PROCESSING');
+  static const installing = OrderStatus._('INSTALLING');
+  static const fulfilled = OrderStatus._('FULFILLED');
+  static const cancelled = OrderStatus._('CANCELLED');
+  static const preparing = OrderStatus._('PREPARING');
+  static const inProgress = OrderStatus._('IN_PROGRESS');
+  static const completed = OrderStatus._('COMPLETED');
+  static const error = OrderStatus._('ERROR');
 
   final String value;
 
-  const OrderStatus(this.value);
+  const OrderStatus._(this.value);
 
-  static OrderStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum OrderStatus'));
+  static const values = [
+    received,
+    pending,
+    processing,
+    installing,
+    fulfilled,
+    cancelled,
+    preparing,
+    inProgress,
+    completed,
+    error
+  ];
+
+  static OrderStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => OrderStatus._(value));
+
+  @override
+  bool operator ==(other) => other is OrderStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A summary of line items in your order.
@@ -3105,18 +3269,27 @@ class OrderSummary {
   }
 }
 
-enum OrderType {
-  outpost('OUTPOST'),
-  replacement('REPLACEMENT'),
-  ;
+class OrderType {
+  static const outpost = OrderType._('OUTPOST');
+  static const replacement = OrderType._('REPLACEMENT');
 
   final String value;
 
-  const OrderType(this.value);
+  const OrderType._(this.value);
 
-  static OrderType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum OrderType'));
+  static const values = [outpost, replacement];
+
+  static OrderType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => OrderType._(value));
+
+  @override
+  bool operator ==(other) => other is OrderType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about an Outpost.
@@ -3205,97 +3378,150 @@ class Outpost {
   }
 }
 
-enum PaymentOption {
-  allUpfront('ALL_UPFRONT'),
-  noUpfront('NO_UPFRONT'),
-  partialUpfront('PARTIAL_UPFRONT'),
-  ;
+class PaymentOption {
+  static const allUpfront = PaymentOption._('ALL_UPFRONT');
+  static const noUpfront = PaymentOption._('NO_UPFRONT');
+  static const partialUpfront = PaymentOption._('PARTIAL_UPFRONT');
 
   final String value;
 
-  const PaymentOption(this.value);
+  const PaymentOption._(this.value);
+
+  static const values = [allUpfront, noUpfront, partialUpfront];
 
   static PaymentOption fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum PaymentOption'));
+          orElse: () => PaymentOption._(value));
+
+  @override
+  bool operator ==(other) => other is PaymentOption && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum PaymentTerm {
-  threeYears('THREE_YEARS'),
-  oneYear('ONE_YEAR'),
-  ;
+class PaymentTerm {
+  static const threeYears = PaymentTerm._('THREE_YEARS');
+  static const oneYear = PaymentTerm._('ONE_YEAR');
 
   final String value;
 
-  const PaymentTerm(this.value);
+  const PaymentTerm._(this.value);
 
-  static PaymentTerm fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum PaymentTerm'));
+  static const values = [threeYears, oneYear];
+
+  static PaymentTerm fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => PaymentTerm._(value));
+
+  @override
+  bool operator ==(other) => other is PaymentTerm && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum PowerConnector {
-  l6_30p('L6_30P'),
-  iec309('IEC309'),
-  ah530p7w('AH530P7W'),
-  ah532p6w('AH532P6W'),
-  ;
+class PowerConnector {
+  static const l6_30p = PowerConnector._('L6_30P');
+  static const iec309 = PowerConnector._('IEC309');
+  static const ah530p7w = PowerConnector._('AH530P7W');
+  static const ah532p6w = PowerConnector._('AH532P6W');
 
   final String value;
 
-  const PowerConnector(this.value);
+  const PowerConnector._(this.value);
+
+  static const values = [l6_30p, iec309, ah530p7w, ah532p6w];
 
   static PowerConnector fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum PowerConnector'));
+          orElse: () => PowerConnector._(value));
+
+  @override
+  bool operator ==(other) => other is PowerConnector && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum PowerDrawKva {
-  power_5Kva('POWER_5_KVA'),
-  power_10Kva('POWER_10_KVA'),
-  power_15Kva('POWER_15_KVA'),
-  power_30Kva('POWER_30_KVA'),
-  ;
+class PowerDrawKva {
+  static const power_5Kva = PowerDrawKva._('POWER_5_KVA');
+  static const power_10Kva = PowerDrawKva._('POWER_10_KVA');
+  static const power_15Kva = PowerDrawKva._('POWER_15_KVA');
+  static const power_30Kva = PowerDrawKva._('POWER_30_KVA');
 
   final String value;
 
-  const PowerDrawKva(this.value);
+  const PowerDrawKva._(this.value);
 
-  static PowerDrawKva fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum PowerDrawKva'));
+  static const values = [power_5Kva, power_10Kva, power_15Kva, power_30Kva];
+
+  static PowerDrawKva fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => PowerDrawKva._(value));
+
+  @override
+  bool operator ==(other) => other is PowerDrawKva && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum PowerFeedDrop {
-  aboveRack('ABOVE_RACK'),
-  belowRack('BELOW_RACK'),
-  ;
+class PowerFeedDrop {
+  static const aboveRack = PowerFeedDrop._('ABOVE_RACK');
+  static const belowRack = PowerFeedDrop._('BELOW_RACK');
 
   final String value;
 
-  const PowerFeedDrop(this.value);
+  const PowerFeedDrop._(this.value);
+
+  static const values = [aboveRack, belowRack];
 
   static PowerFeedDrop fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum PowerFeedDrop'));
+          orElse: () => PowerFeedDrop._(value));
+
+  @override
+  bool operator ==(other) => other is PowerFeedDrop && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum PowerPhase {
-  singlePhase('SINGLE_PHASE'),
-  threePhase('THREE_PHASE'),
-  ;
+class PowerPhase {
+  static const singlePhase = PowerPhase._('SINGLE_PHASE');
+  static const threePhase = PowerPhase._('THREE_PHASE');
 
   final String value;
 
-  const PowerPhase(this.value);
+  const PowerPhase._(this.value);
 
-  static PowerPhase fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum PowerPhase'));
+  static const values = [singlePhase, threePhase];
+
+  static PowerPhase fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => PowerPhase._(value));
+
+  @override
+  bool operator ==(other) => other is PowerPhase && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about the physical and logistical details for racks at sites.
@@ -3394,22 +3620,31 @@ class RackPhysicalProperties {
   }
 }
 
-enum ShipmentCarrier {
-  dhl('DHL'),
-  dbs('DBS'),
-  fedex('FEDEX'),
-  ups('UPS'),
-  expeditors('EXPEDITORS'),
-  ;
+class ShipmentCarrier {
+  static const dhl = ShipmentCarrier._('DHL');
+  static const dbs = ShipmentCarrier._('DBS');
+  static const fedex = ShipmentCarrier._('FEDEX');
+  static const ups = ShipmentCarrier._('UPS');
+  static const expeditors = ShipmentCarrier._('EXPEDITORS');
 
   final String value;
 
-  const ShipmentCarrier(this.value);
+  const ShipmentCarrier._(this.value);
+
+  static const values = [dhl, dbs, fedex, ups, expeditors];
 
   static ShipmentCarrier fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ShipmentCarrier'));
+          orElse: () => ShipmentCarrier._(value));
+
+  @override
+  bool operator ==(other) => other is ShipmentCarrier && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about a line item shipment.
@@ -3667,34 +3902,54 @@ class StartConnectionResponse {
   }
 }
 
-enum SupportedHardwareType {
-  rack('RACK'),
-  server('SERVER'),
-  ;
+class SupportedHardwareType {
+  static const rack = SupportedHardwareType._('RACK');
+  static const server = SupportedHardwareType._('SERVER');
 
   final String value;
 
-  const SupportedHardwareType(this.value);
+  const SupportedHardwareType._(this.value);
 
-  static SupportedHardwareType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum SupportedHardwareType'));
+  static const values = [rack, server];
+
+  static SupportedHardwareType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => SupportedHardwareType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SupportedHardwareType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum SupportedStorageEnum {
-  ebs('EBS'),
-  s3('S3'),
-  ;
+class SupportedStorageEnum {
+  static const ebs = SupportedStorageEnum._('EBS');
+  static const s3 = SupportedStorageEnum._('S3');
 
   final String value;
 
-  const SupportedStorageEnum(this.value);
+  const SupportedStorageEnum._(this.value);
 
-  static SupportedStorageEnum fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum SupportedStorageEnum'));
+  static const values = [ebs, s3];
+
+  static SupportedStorageEnum fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => SupportedStorageEnum._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SupportedStorageEnum && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class TagResourceResponse {
@@ -3823,42 +4078,71 @@ class UpdateSiteRackPhysicalPropertiesOutput {
   }
 }
 
-enum UplinkCount {
-  uplinkCount_1('UPLINK_COUNT_1'),
-  uplinkCount_2('UPLINK_COUNT_2'),
-  uplinkCount_3('UPLINK_COUNT_3'),
-  uplinkCount_4('UPLINK_COUNT_4'),
-  uplinkCount_5('UPLINK_COUNT_5'),
-  uplinkCount_6('UPLINK_COUNT_6'),
-  uplinkCount_7('UPLINK_COUNT_7'),
-  uplinkCount_8('UPLINK_COUNT_8'),
-  uplinkCount_12('UPLINK_COUNT_12'),
-  uplinkCount_16('UPLINK_COUNT_16'),
-  ;
+class UplinkCount {
+  static const uplinkCount_1 = UplinkCount._('UPLINK_COUNT_1');
+  static const uplinkCount_2 = UplinkCount._('UPLINK_COUNT_2');
+  static const uplinkCount_3 = UplinkCount._('UPLINK_COUNT_3');
+  static const uplinkCount_4 = UplinkCount._('UPLINK_COUNT_4');
+  static const uplinkCount_5 = UplinkCount._('UPLINK_COUNT_5');
+  static const uplinkCount_6 = UplinkCount._('UPLINK_COUNT_6');
+  static const uplinkCount_7 = UplinkCount._('UPLINK_COUNT_7');
+  static const uplinkCount_8 = UplinkCount._('UPLINK_COUNT_8');
+  static const uplinkCount_12 = UplinkCount._('UPLINK_COUNT_12');
+  static const uplinkCount_16 = UplinkCount._('UPLINK_COUNT_16');
 
   final String value;
 
-  const UplinkCount(this.value);
+  const UplinkCount._(this.value);
 
-  static UplinkCount fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum UplinkCount'));
+  static const values = [
+    uplinkCount_1,
+    uplinkCount_2,
+    uplinkCount_3,
+    uplinkCount_4,
+    uplinkCount_5,
+    uplinkCount_6,
+    uplinkCount_7,
+    uplinkCount_8,
+    uplinkCount_12,
+    uplinkCount_16
+  ];
+
+  static UplinkCount fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => UplinkCount._(value));
+
+  @override
+  bool operator ==(other) => other is UplinkCount && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum UplinkGbps {
-  uplink_1g('UPLINK_1G'),
-  uplink_10g('UPLINK_10G'),
-  uplink_40g('UPLINK_40G'),
-  uplink_100g('UPLINK_100G'),
-  ;
+class UplinkGbps {
+  static const uplink_1g = UplinkGbps._('UPLINK_1G');
+  static const uplink_10g = UplinkGbps._('UPLINK_10G');
+  static const uplink_40g = UplinkGbps._('UPLINK_40G');
+  static const uplink_100g = UplinkGbps._('UPLINK_100G');
 
   final String value;
 
-  const UplinkGbps(this.value);
+  const UplinkGbps._(this.value);
 
-  static UplinkGbps fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum UplinkGbps'));
+  static const values = [uplink_1g, uplink_10g, uplink_40g, uplink_100g];
+
+  static UplinkGbps fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => UplinkGbps._(value));
+
+  @override
+  bool operator ==(other) => other is UplinkGbps && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class AccessDeniedException extends _s.GenericAwsException {

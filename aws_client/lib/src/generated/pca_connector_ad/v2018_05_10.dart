@@ -1097,18 +1097,27 @@ class AccessControlEntrySummary {
   }
 }
 
-enum AccessRight {
-  allow('ALLOW'),
-  deny('DENY'),
-  ;
+class AccessRight {
+  static const allow = AccessRight._('ALLOW');
+  static const deny = AccessRight._('DENY');
 
   final String value;
 
-  const AccessRight(this.value);
+  const AccessRight._(this.value);
 
-  static AccessRight fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum AccessRight'));
+  static const values = [allow, deny];
+
+  static AccessRight fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => AccessRight._(value));
+
+  @override
+  bool operator ==(other) => other is AccessRight && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Allow or deny permissions for an Active Directory group to enroll or
@@ -1210,90 +1219,206 @@ class ApplicationPolicy {
   }
 }
 
-enum ApplicationPolicyType {
-  allApplicationPolicies('ALL_APPLICATION_POLICIES'),
-  anyPurpose('ANY_PURPOSE'),
-  attestationIdentityKeyCertificate('ATTESTATION_IDENTITY_KEY_CERTIFICATE'),
-  certificateRequestAgent('CERTIFICATE_REQUEST_AGENT'),
-  clientAuthentication('CLIENT_AUTHENTICATION'),
-  codeSigning('CODE_SIGNING'),
-  ctlUsage('CTL_USAGE'),
-  digitalRights('DIGITAL_RIGHTS'),
-  directoryServiceEmailReplication('DIRECTORY_SERVICE_EMAIL_REPLICATION'),
-  disallowedList('DISALLOWED_LIST'),
-  dnsServerTrust('DNS_SERVER_TRUST'),
-  documentEncryption('DOCUMENT_ENCRYPTION'),
-  documentSigning('DOCUMENT_SIGNING'),
-  dynamicCodeGenerator('DYNAMIC_CODE_GENERATOR'),
-  earlyLaunchAntimalwareDriver('EARLY_LAUNCH_ANTIMALWARE_DRIVER'),
-  embeddedWindowsSystemComponentVerification(
-      'EMBEDDED_WINDOWS_SYSTEM_COMPONENT_VERIFICATION'),
-  enclave('ENCLAVE'),
-  encryptingFileSystem('ENCRYPTING_FILE_SYSTEM'),
-  endorsementKeyCertificate('ENDORSEMENT_KEY_CERTIFICATE'),
-  fileRecovery('FILE_RECOVERY'),
-  halExtension('HAL_EXTENSION'),
-  ipSecurityEndSystem('IP_SECURITY_END_SYSTEM'),
-  ipSecurityIkeIntermediate('IP_SECURITY_IKE_INTERMEDIATE'),
-  ipSecurityTunnelTermination('IP_SECURITY_TUNNEL_TERMINATION'),
-  ipSecurityUser('IP_SECURITY_USER'),
-  isolatedUserMode('ISOLATED_USER_MODE'),
-  kdcAuthentication('KDC_AUTHENTICATION'),
-  kernelModeCodeSigning('KERNEL_MODE_CODE_SIGNING'),
-  keyPackLicenses('KEY_PACK_LICENSES'),
-  keyRecovery('KEY_RECOVERY'),
-  keyRecoveryAgent('KEY_RECOVERY_AGENT'),
-  licenseServerVerification('LICENSE_SERVER_VERIFICATION'),
-  lifetimeSigning('LIFETIME_SIGNING'),
-  microsoftPublisher('MICROSOFT_PUBLISHER'),
-  microsoftTimeStamping('MICROSOFT_TIME_STAMPING'),
-  microsoftTrustListSigning('MICROSOFT_TRUST_LIST_SIGNING'),
-  ocspSigning('OCSP_SIGNING'),
-  oemWindowsSystemComponentVerification(
-      'OEM_WINDOWS_SYSTEM_COMPONENT_VERIFICATION'),
-  platformCertificate('PLATFORM_CERTIFICATE'),
-  previewBuildSigning('PREVIEW_BUILD_SIGNING'),
-  privateKeyArchival('PRIVATE_KEY_ARCHIVAL'),
-  protectedProcessLightVerification('PROTECTED_PROCESS_LIGHT_VERIFICATION'),
-  protectedProcessVerification('PROTECTED_PROCESS_VERIFICATION'),
-  qualifiedSubordination('QUALIFIED_SUBORDINATION'),
-  revokedListSigner('REVOKED_LIST_SIGNER'),
-  rootProgramAutoUpdateCaRevocation('ROOT_PROGRAM_AUTO_UPDATE_CA_REVOCATION'),
-  rootProgramAutoUpdateEndRevocation('ROOT_PROGRAM_AUTO_UPDATE_END_REVOCATION'),
-  rootProgramNoOscpFailoverToCrl('ROOT_PROGRAM_NO_OSCP_FAILOVER_TO_CRL'),
-  rootListSigner('ROOT_LIST_SIGNER'),
-  secureEmail('SECURE_EMAIL'),
-  serverAuthentication('SERVER_AUTHENTICATION'),
-  smartCardLogin('SMART_CARD_LOGIN'),
-  spcEncryptedDigestRetryCount('SPC_ENCRYPTED_DIGEST_RETRY_COUNT'),
-  spcRelaxedPeMarkerCheck('SPC_RELAXED_PE_MARKER_CHECK'),
-  timeStamping('TIME_STAMPING'),
-  windowsHardwareDriverAttestedVerification(
-      'WINDOWS_HARDWARE_DRIVER_ATTESTED_VERIFICATION'),
-  windowsHardwareDriverExtendedVerification(
-      'WINDOWS_HARDWARE_DRIVER_EXTENDED_VERIFICATION'),
-  windowsHardwareDriverVerification('WINDOWS_HARDWARE_DRIVER_VERIFICATION'),
-  windowsHelloRecoveryKeyEncryption('WINDOWS_HELLO_RECOVERY_KEY_ENCRYPTION'),
-  windowsKitsComponent('WINDOWS_KITS_COMPONENT'),
-  windowsRtVerification('WINDOWS_RT_VERIFICATION'),
-  windowsSoftwareExtensionVerification(
-      'WINDOWS_SOFTWARE_EXTENSION_VERIFICATION'),
-  windowsStore('WINDOWS_STORE'),
-  windowsSystemComponentVerification('WINDOWS_SYSTEM_COMPONENT_VERIFICATION'),
-  windowsTcbComponent('WINDOWS_TCB_COMPONENT'),
-  windowsThirdPartyApplicationComponent(
-      'WINDOWS_THIRD_PARTY_APPLICATION_COMPONENT'),
-  windowsUpdate('WINDOWS_UPDATE'),
-  ;
+class ApplicationPolicyType {
+  static const allApplicationPolicies =
+      ApplicationPolicyType._('ALL_APPLICATION_POLICIES');
+  static const anyPurpose = ApplicationPolicyType._('ANY_PURPOSE');
+  static const attestationIdentityKeyCertificate =
+      ApplicationPolicyType._('ATTESTATION_IDENTITY_KEY_CERTIFICATE');
+  static const certificateRequestAgent =
+      ApplicationPolicyType._('CERTIFICATE_REQUEST_AGENT');
+  static const clientAuthentication =
+      ApplicationPolicyType._('CLIENT_AUTHENTICATION');
+  static const codeSigning = ApplicationPolicyType._('CODE_SIGNING');
+  static const ctlUsage = ApplicationPolicyType._('CTL_USAGE');
+  static const digitalRights = ApplicationPolicyType._('DIGITAL_RIGHTS');
+  static const directoryServiceEmailReplication =
+      ApplicationPolicyType._('DIRECTORY_SERVICE_EMAIL_REPLICATION');
+  static const disallowedList = ApplicationPolicyType._('DISALLOWED_LIST');
+  static const dnsServerTrust = ApplicationPolicyType._('DNS_SERVER_TRUST');
+  static const documentEncryption =
+      ApplicationPolicyType._('DOCUMENT_ENCRYPTION');
+  static const documentSigning = ApplicationPolicyType._('DOCUMENT_SIGNING');
+  static const dynamicCodeGenerator =
+      ApplicationPolicyType._('DYNAMIC_CODE_GENERATOR');
+  static const earlyLaunchAntimalwareDriver =
+      ApplicationPolicyType._('EARLY_LAUNCH_ANTIMALWARE_DRIVER');
+  static const embeddedWindowsSystemComponentVerification =
+      ApplicationPolicyType._('EMBEDDED_WINDOWS_SYSTEM_COMPONENT_VERIFICATION');
+  static const enclave = ApplicationPolicyType._('ENCLAVE');
+  static const encryptingFileSystem =
+      ApplicationPolicyType._('ENCRYPTING_FILE_SYSTEM');
+  static const endorsementKeyCertificate =
+      ApplicationPolicyType._('ENDORSEMENT_KEY_CERTIFICATE');
+  static const fileRecovery = ApplicationPolicyType._('FILE_RECOVERY');
+  static const halExtension = ApplicationPolicyType._('HAL_EXTENSION');
+  static const ipSecurityEndSystem =
+      ApplicationPolicyType._('IP_SECURITY_END_SYSTEM');
+  static const ipSecurityIkeIntermediate =
+      ApplicationPolicyType._('IP_SECURITY_IKE_INTERMEDIATE');
+  static const ipSecurityTunnelTermination =
+      ApplicationPolicyType._('IP_SECURITY_TUNNEL_TERMINATION');
+  static const ipSecurityUser = ApplicationPolicyType._('IP_SECURITY_USER');
+  static const isolatedUserMode = ApplicationPolicyType._('ISOLATED_USER_MODE');
+  static const kdcAuthentication =
+      ApplicationPolicyType._('KDC_AUTHENTICATION');
+  static const kernelModeCodeSigning =
+      ApplicationPolicyType._('KERNEL_MODE_CODE_SIGNING');
+  static const keyPackLicenses = ApplicationPolicyType._('KEY_PACK_LICENSES');
+  static const keyRecovery = ApplicationPolicyType._('KEY_RECOVERY');
+  static const keyRecoveryAgent = ApplicationPolicyType._('KEY_RECOVERY_AGENT');
+  static const licenseServerVerification =
+      ApplicationPolicyType._('LICENSE_SERVER_VERIFICATION');
+  static const lifetimeSigning = ApplicationPolicyType._('LIFETIME_SIGNING');
+  static const microsoftPublisher =
+      ApplicationPolicyType._('MICROSOFT_PUBLISHER');
+  static const microsoftTimeStamping =
+      ApplicationPolicyType._('MICROSOFT_TIME_STAMPING');
+  static const microsoftTrustListSigning =
+      ApplicationPolicyType._('MICROSOFT_TRUST_LIST_SIGNING');
+  static const ocspSigning = ApplicationPolicyType._('OCSP_SIGNING');
+  static const oemWindowsSystemComponentVerification =
+      ApplicationPolicyType._('OEM_WINDOWS_SYSTEM_COMPONENT_VERIFICATION');
+  static const platformCertificate =
+      ApplicationPolicyType._('PLATFORM_CERTIFICATE');
+  static const previewBuildSigning =
+      ApplicationPolicyType._('PREVIEW_BUILD_SIGNING');
+  static const privateKeyArchival =
+      ApplicationPolicyType._('PRIVATE_KEY_ARCHIVAL');
+  static const protectedProcessLightVerification =
+      ApplicationPolicyType._('PROTECTED_PROCESS_LIGHT_VERIFICATION');
+  static const protectedProcessVerification =
+      ApplicationPolicyType._('PROTECTED_PROCESS_VERIFICATION');
+  static const qualifiedSubordination =
+      ApplicationPolicyType._('QUALIFIED_SUBORDINATION');
+  static const revokedListSigner =
+      ApplicationPolicyType._('REVOKED_LIST_SIGNER');
+  static const rootProgramAutoUpdateCaRevocation =
+      ApplicationPolicyType._('ROOT_PROGRAM_AUTO_UPDATE_CA_REVOCATION');
+  static const rootProgramAutoUpdateEndRevocation =
+      ApplicationPolicyType._('ROOT_PROGRAM_AUTO_UPDATE_END_REVOCATION');
+  static const rootProgramNoOscpFailoverToCrl =
+      ApplicationPolicyType._('ROOT_PROGRAM_NO_OSCP_FAILOVER_TO_CRL');
+  static const rootListSigner = ApplicationPolicyType._('ROOT_LIST_SIGNER');
+  static const secureEmail = ApplicationPolicyType._('SECURE_EMAIL');
+  static const serverAuthentication =
+      ApplicationPolicyType._('SERVER_AUTHENTICATION');
+  static const smartCardLogin = ApplicationPolicyType._('SMART_CARD_LOGIN');
+  static const spcEncryptedDigestRetryCount =
+      ApplicationPolicyType._('SPC_ENCRYPTED_DIGEST_RETRY_COUNT');
+  static const spcRelaxedPeMarkerCheck =
+      ApplicationPolicyType._('SPC_RELAXED_PE_MARKER_CHECK');
+  static const timeStamping = ApplicationPolicyType._('TIME_STAMPING');
+  static const windowsHardwareDriverAttestedVerification =
+      ApplicationPolicyType._('WINDOWS_HARDWARE_DRIVER_ATTESTED_VERIFICATION');
+  static const windowsHardwareDriverExtendedVerification =
+      ApplicationPolicyType._('WINDOWS_HARDWARE_DRIVER_EXTENDED_VERIFICATION');
+  static const windowsHardwareDriverVerification =
+      ApplicationPolicyType._('WINDOWS_HARDWARE_DRIVER_VERIFICATION');
+  static const windowsHelloRecoveryKeyEncryption =
+      ApplicationPolicyType._('WINDOWS_HELLO_RECOVERY_KEY_ENCRYPTION');
+  static const windowsKitsComponent =
+      ApplicationPolicyType._('WINDOWS_KITS_COMPONENT');
+  static const windowsRtVerification =
+      ApplicationPolicyType._('WINDOWS_RT_VERIFICATION');
+  static const windowsSoftwareExtensionVerification =
+      ApplicationPolicyType._('WINDOWS_SOFTWARE_EXTENSION_VERIFICATION');
+  static const windowsStore = ApplicationPolicyType._('WINDOWS_STORE');
+  static const windowsSystemComponentVerification =
+      ApplicationPolicyType._('WINDOWS_SYSTEM_COMPONENT_VERIFICATION');
+  static const windowsTcbComponent =
+      ApplicationPolicyType._('WINDOWS_TCB_COMPONENT');
+  static const windowsThirdPartyApplicationComponent =
+      ApplicationPolicyType._('WINDOWS_THIRD_PARTY_APPLICATION_COMPONENT');
+  static const windowsUpdate = ApplicationPolicyType._('WINDOWS_UPDATE');
 
   final String value;
 
-  const ApplicationPolicyType(this.value);
+  const ApplicationPolicyType._(this.value);
 
-  static ApplicationPolicyType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ApplicationPolicyType'));
+  static const values = [
+    allApplicationPolicies,
+    anyPurpose,
+    attestationIdentityKeyCertificate,
+    certificateRequestAgent,
+    clientAuthentication,
+    codeSigning,
+    ctlUsage,
+    digitalRights,
+    directoryServiceEmailReplication,
+    disallowedList,
+    dnsServerTrust,
+    documentEncryption,
+    documentSigning,
+    dynamicCodeGenerator,
+    earlyLaunchAntimalwareDriver,
+    embeddedWindowsSystemComponentVerification,
+    enclave,
+    encryptingFileSystem,
+    endorsementKeyCertificate,
+    fileRecovery,
+    halExtension,
+    ipSecurityEndSystem,
+    ipSecurityIkeIntermediate,
+    ipSecurityTunnelTermination,
+    ipSecurityUser,
+    isolatedUserMode,
+    kdcAuthentication,
+    kernelModeCodeSigning,
+    keyPackLicenses,
+    keyRecovery,
+    keyRecoveryAgent,
+    licenseServerVerification,
+    lifetimeSigning,
+    microsoftPublisher,
+    microsoftTimeStamping,
+    microsoftTrustListSigning,
+    ocspSigning,
+    oemWindowsSystemComponentVerification,
+    platformCertificate,
+    previewBuildSigning,
+    privateKeyArchival,
+    protectedProcessLightVerification,
+    protectedProcessVerification,
+    qualifiedSubordination,
+    revokedListSigner,
+    rootProgramAutoUpdateCaRevocation,
+    rootProgramAutoUpdateEndRevocation,
+    rootProgramNoOscpFailoverToCrl,
+    rootListSigner,
+    secureEmail,
+    serverAuthentication,
+    smartCardLogin,
+    spcEncryptedDigestRetryCount,
+    spcRelaxedPeMarkerCheck,
+    timeStamping,
+    windowsHardwareDriverAttestedVerification,
+    windowsHardwareDriverExtendedVerification,
+    windowsHardwareDriverVerification,
+    windowsHelloRecoveryKeyEncryption,
+    windowsKitsComponent,
+    windowsRtVerification,
+    windowsSoftwareExtensionVerification,
+    windowsStore,
+    windowsSystemComponentVerification,
+    windowsTcbComponent,
+    windowsThirdPartyApplicationComponent,
+    windowsUpdate
+  ];
+
+  static ApplicationPolicyType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ApplicationPolicyType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ApplicationPolicyType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information describing the end of the validity period of the certificate.
@@ -1347,57 +1472,118 @@ class CertificateValidity {
   }
 }
 
-enum ClientCompatibilityV2 {
-  windowsServer_2003('WINDOWS_SERVER_2003'),
-  windowsServer_2008('WINDOWS_SERVER_2008'),
-  windowsServer_2008R2('WINDOWS_SERVER_2008_R2'),
-  windowsServer_2012('WINDOWS_SERVER_2012'),
-  windowsServer_2012R2('WINDOWS_SERVER_2012_R2'),
-  windowsServer_2016('WINDOWS_SERVER_2016'),
-  ;
+class ClientCompatibilityV2 {
+  static const windowsServer_2003 =
+      ClientCompatibilityV2._('WINDOWS_SERVER_2003');
+  static const windowsServer_2008 =
+      ClientCompatibilityV2._('WINDOWS_SERVER_2008');
+  static const windowsServer_2008R2 =
+      ClientCompatibilityV2._('WINDOWS_SERVER_2008_R2');
+  static const windowsServer_2012 =
+      ClientCompatibilityV2._('WINDOWS_SERVER_2012');
+  static const windowsServer_2012R2 =
+      ClientCompatibilityV2._('WINDOWS_SERVER_2012_R2');
+  static const windowsServer_2016 =
+      ClientCompatibilityV2._('WINDOWS_SERVER_2016');
 
   final String value;
 
-  const ClientCompatibilityV2(this.value);
+  const ClientCompatibilityV2._(this.value);
 
-  static ClientCompatibilityV2 fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ClientCompatibilityV2'));
+  static const values = [
+    windowsServer_2003,
+    windowsServer_2008,
+    windowsServer_2008R2,
+    windowsServer_2012,
+    windowsServer_2012R2,
+    windowsServer_2016
+  ];
+
+  static ClientCompatibilityV2 fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ClientCompatibilityV2._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ClientCompatibilityV2 && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ClientCompatibilityV3 {
-  windowsServer_2008('WINDOWS_SERVER_2008'),
-  windowsServer_2008R2('WINDOWS_SERVER_2008_R2'),
-  windowsServer_2012('WINDOWS_SERVER_2012'),
-  windowsServer_2012R2('WINDOWS_SERVER_2012_R2'),
-  windowsServer_2016('WINDOWS_SERVER_2016'),
-  ;
+class ClientCompatibilityV3 {
+  static const windowsServer_2008 =
+      ClientCompatibilityV3._('WINDOWS_SERVER_2008');
+  static const windowsServer_2008R2 =
+      ClientCompatibilityV3._('WINDOWS_SERVER_2008_R2');
+  static const windowsServer_2012 =
+      ClientCompatibilityV3._('WINDOWS_SERVER_2012');
+  static const windowsServer_2012R2 =
+      ClientCompatibilityV3._('WINDOWS_SERVER_2012_R2');
+  static const windowsServer_2016 =
+      ClientCompatibilityV3._('WINDOWS_SERVER_2016');
 
   final String value;
 
-  const ClientCompatibilityV3(this.value);
+  const ClientCompatibilityV3._(this.value);
 
-  static ClientCompatibilityV3 fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ClientCompatibilityV3'));
+  static const values = [
+    windowsServer_2008,
+    windowsServer_2008R2,
+    windowsServer_2012,
+    windowsServer_2012R2,
+    windowsServer_2016
+  ];
+
+  static ClientCompatibilityV3 fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ClientCompatibilityV3._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ClientCompatibilityV3 && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ClientCompatibilityV4 {
-  windowsServer_2012('WINDOWS_SERVER_2012'),
-  windowsServer_2012R2('WINDOWS_SERVER_2012_R2'),
-  windowsServer_2016('WINDOWS_SERVER_2016'),
-  ;
+class ClientCompatibilityV4 {
+  static const windowsServer_2012 =
+      ClientCompatibilityV4._('WINDOWS_SERVER_2012');
+  static const windowsServer_2012R2 =
+      ClientCompatibilityV4._('WINDOWS_SERVER_2012_R2');
+  static const windowsServer_2016 =
+      ClientCompatibilityV4._('WINDOWS_SERVER_2016');
 
   final String value;
 
-  const ClientCompatibilityV4(this.value);
+  const ClientCompatibilityV4._(this.value);
 
-  static ClientCompatibilityV4 fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ClientCompatibilityV4'));
+  static const values = [
+    windowsServer_2012,
+    windowsServer_2012R2,
+    windowsServer_2016
+  ];
+
+  static ClientCompatibilityV4 fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ClientCompatibilityV4._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ClientCompatibilityV4 && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Amazon Web Services Private CA Connector for Active Directory is a service
@@ -1495,42 +1681,76 @@ class Connector {
   }
 }
 
-enum ConnectorStatus {
-  creating('CREATING'),
-  active('ACTIVE'),
-  deleting('DELETING'),
-  failed('FAILED'),
-  ;
+class ConnectorStatus {
+  static const creating = ConnectorStatus._('CREATING');
+  static const active = ConnectorStatus._('ACTIVE');
+  static const deleting = ConnectorStatus._('DELETING');
+  static const failed = ConnectorStatus._('FAILED');
 
   final String value;
 
-  const ConnectorStatus(this.value);
+  const ConnectorStatus._(this.value);
+
+  static const values = [creating, active, deleting, failed];
 
   static ConnectorStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ConnectorStatus'));
+          orElse: () => ConnectorStatus._(value));
+
+  @override
+  bool operator ==(other) => other is ConnectorStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ConnectorStatusReason {
-  directoryAccessDenied('DIRECTORY_ACCESS_DENIED'),
-  internalFailure('INTERNAL_FAILURE'),
-  privatecaAccessDenied('PRIVATECA_ACCESS_DENIED'),
-  privatecaResourceNotFound('PRIVATECA_RESOURCE_NOT_FOUND'),
-  securityGroupNotInVpc('SECURITY_GROUP_NOT_IN_VPC'),
-  vpcAccessDenied('VPC_ACCESS_DENIED'),
-  vpcEndpointLimitExceeded('VPC_ENDPOINT_LIMIT_EXCEEDED'),
-  vpcResourceNotFound('VPC_RESOURCE_NOT_FOUND'),
-  ;
+class ConnectorStatusReason {
+  static const directoryAccessDenied =
+      ConnectorStatusReason._('DIRECTORY_ACCESS_DENIED');
+  static const internalFailure = ConnectorStatusReason._('INTERNAL_FAILURE');
+  static const privatecaAccessDenied =
+      ConnectorStatusReason._('PRIVATECA_ACCESS_DENIED');
+  static const privatecaResourceNotFound =
+      ConnectorStatusReason._('PRIVATECA_RESOURCE_NOT_FOUND');
+  static const securityGroupNotInVpc =
+      ConnectorStatusReason._('SECURITY_GROUP_NOT_IN_VPC');
+  static const vpcAccessDenied = ConnectorStatusReason._('VPC_ACCESS_DENIED');
+  static const vpcEndpointLimitExceeded =
+      ConnectorStatusReason._('VPC_ENDPOINT_LIMIT_EXCEEDED');
+  static const vpcResourceNotFound =
+      ConnectorStatusReason._('VPC_RESOURCE_NOT_FOUND');
 
   final String value;
 
-  const ConnectorStatusReason(this.value);
+  const ConnectorStatusReason._(this.value);
 
-  static ConnectorStatusReason fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ConnectorStatusReason'));
+  static const values = [
+    directoryAccessDenied,
+    internalFailure,
+    privatecaAccessDenied,
+    privatecaResourceNotFound,
+    securityGroupNotInVpc,
+    vpcAccessDenied,
+    vpcEndpointLimitExceeded,
+    vpcResourceNotFound
+  ];
+
+  static ConnectorStatusReason fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ConnectorStatusReason._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ConnectorStatusReason && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Summary description of the Amazon Web Services Private CA AD connectors
@@ -1758,40 +1978,73 @@ class DirectoryRegistration {
   }
 }
 
-enum DirectoryRegistrationStatus {
-  creating('CREATING'),
-  active('ACTIVE'),
-  deleting('DELETING'),
-  failed('FAILED'),
-  ;
+class DirectoryRegistrationStatus {
+  static const creating = DirectoryRegistrationStatus._('CREATING');
+  static const active = DirectoryRegistrationStatus._('ACTIVE');
+  static const deleting = DirectoryRegistrationStatus._('DELETING');
+  static const failed = DirectoryRegistrationStatus._('FAILED');
 
   final String value;
 
-  const DirectoryRegistrationStatus(this.value);
+  const DirectoryRegistrationStatus._(this.value);
+
+  static const values = [creating, active, deleting, failed];
 
   static DirectoryRegistrationStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum DirectoryRegistrationStatus'));
+          orElse: () => DirectoryRegistrationStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DirectoryRegistrationStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum DirectoryRegistrationStatusReason {
-  directoryAccessDenied('DIRECTORY_ACCESS_DENIED'),
-  directoryResourceNotFound('DIRECTORY_RESOURCE_NOT_FOUND'),
-  directoryNotActive('DIRECTORY_NOT_ACTIVE'),
-  directoryNotReachable('DIRECTORY_NOT_REACHABLE'),
-  directoryTypeNotSupported('DIRECTORY_TYPE_NOT_SUPPORTED'),
-  internalFailure('INTERNAL_FAILURE'),
-  ;
+class DirectoryRegistrationStatusReason {
+  static const directoryAccessDenied =
+      DirectoryRegistrationStatusReason._('DIRECTORY_ACCESS_DENIED');
+  static const directoryResourceNotFound =
+      DirectoryRegistrationStatusReason._('DIRECTORY_RESOURCE_NOT_FOUND');
+  static const directoryNotActive =
+      DirectoryRegistrationStatusReason._('DIRECTORY_NOT_ACTIVE');
+  static const directoryNotReachable =
+      DirectoryRegistrationStatusReason._('DIRECTORY_NOT_REACHABLE');
+  static const directoryTypeNotSupported =
+      DirectoryRegistrationStatusReason._('DIRECTORY_TYPE_NOT_SUPPORTED');
+  static const internalFailure =
+      DirectoryRegistrationStatusReason._('INTERNAL_FAILURE');
 
   final String value;
 
-  const DirectoryRegistrationStatusReason(this.value);
+  const DirectoryRegistrationStatusReason._(this.value);
+
+  static const values = [
+    directoryAccessDenied,
+    directoryResourceNotFound,
+    directoryNotActive,
+    directoryNotReachable,
+    directoryTypeNotSupported,
+    internalFailure
+  ];
 
   static DirectoryRegistrationStatusReason fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum DirectoryRegistrationStatusReason'));
+          orElse: () => DirectoryRegistrationStatusReason._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DirectoryRegistrationStatusReason && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The directory registration represents the authorization of the connector
@@ -2398,34 +2651,52 @@ class GetTemplateResponse {
   }
 }
 
-enum HashAlgorithm {
-  sha256('SHA256'),
-  sha384('SHA384'),
-  sha512('SHA512'),
-  ;
+class HashAlgorithm {
+  static const sha256 = HashAlgorithm._('SHA256');
+  static const sha384 = HashAlgorithm._('SHA384');
+  static const sha512 = HashAlgorithm._('SHA512');
 
   final String value;
 
-  const HashAlgorithm(this.value);
+  const HashAlgorithm._(this.value);
+
+  static const values = [sha256, sha384, sha512];
 
   static HashAlgorithm fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum HashAlgorithm'));
+          orElse: () => HashAlgorithm._(value));
+
+  @override
+  bool operator ==(other) => other is HashAlgorithm && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum KeySpec {
-  keyExchange('KEY_EXCHANGE'),
-  signature('SIGNATURE'),
-  ;
+class KeySpec {
+  static const keyExchange = KeySpec._('KEY_EXCHANGE');
+  static const signature = KeySpec._('SIGNATURE');
 
   final String value;
 
-  const KeySpec(this.value);
+  const KeySpec._(this.value);
 
-  static KeySpec fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum KeySpec'));
+  static const values = [keyExchange, signature];
+
+  static KeySpec fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => KeySpec._(value));
+
+  @override
+  bool operator ==(other) => other is KeySpec && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The key usage extension defines the purpose (e.g., encipherment, signature)
@@ -2595,18 +2866,28 @@ class KeyUsagePropertyFlags {
   }
 }
 
-enum KeyUsagePropertyType {
-  all('ALL'),
-  ;
+class KeyUsagePropertyType {
+  static const all = KeyUsagePropertyType._('ALL');
 
   final String value;
 
-  const KeyUsagePropertyType(this.value);
+  const KeyUsagePropertyType._(this.value);
 
-  static KeyUsagePropertyType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum KeyUsagePropertyType'));
+  static const values = [all];
+
+  static KeyUsagePropertyType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => KeyUsagePropertyType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is KeyUsagePropertyType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class ListConnectorsResponse {
@@ -2813,21 +3094,31 @@ class ListTemplatesResponse {
   }
 }
 
-enum PrivateKeyAlgorithm {
-  rsa('RSA'),
-  ecdhP256('ECDH_P256'),
-  ecdhP384('ECDH_P384'),
-  ecdhP521('ECDH_P521'),
-  ;
+class PrivateKeyAlgorithm {
+  static const rsa = PrivateKeyAlgorithm._('RSA');
+  static const ecdhP256 = PrivateKeyAlgorithm._('ECDH_P256');
+  static const ecdhP384 = PrivateKeyAlgorithm._('ECDH_P384');
+  static const ecdhP521 = PrivateKeyAlgorithm._('ECDH_P521');
 
   final String value;
 
-  const PrivateKeyAlgorithm(this.value);
+  const PrivateKeyAlgorithm._(this.value);
 
-  static PrivateKeyAlgorithm fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum PrivateKeyAlgorithm'));
+  static const values = [rsa, ecdhP256, ecdhP384, ecdhP521];
+
+  static PrivateKeyAlgorithm fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => PrivateKeyAlgorithm._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is PrivateKeyAlgorithm && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Defines the attributes of the private key.
@@ -2850,7 +3141,7 @@ class PrivateKeyAttributesV2 {
 
   factory PrivateKeyAttributesV2.fromJson(Map<String, dynamic> json) {
     return PrivateKeyAttributesV2(
-      keySpec: KeySpec.fromString((json['KeySpec'] as String)),
+      keySpec: KeySpec.fromString((json['KeySpec'] as String?) ?? ''),
       minimalKeyLength: (json['MinimalKeyLength'] as int?) ?? 0,
       cryptoProviders: (json['CryptoProviders'] as List?)
           ?.nonNulls
@@ -2901,8 +3192,9 @@ class PrivateKeyAttributesV3 {
 
   factory PrivateKeyAttributesV3.fromJson(Map<String, dynamic> json) {
     return PrivateKeyAttributesV3(
-      algorithm: PrivateKeyAlgorithm.fromString((json['Algorithm'] as String)),
-      keySpec: KeySpec.fromString((json['KeySpec'] as String)),
+      algorithm:
+          PrivateKeyAlgorithm.fromString((json['Algorithm'] as String?) ?? ''),
+      keySpec: KeySpec.fromString((json['KeySpec'] as String?) ?? ''),
       keyUsageProperty: KeyUsageProperty.fromJson(
           (json['KeyUsageProperty'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
@@ -2960,7 +3252,7 @@ class PrivateKeyAttributesV4 {
 
   factory PrivateKeyAttributesV4.fromJson(Map<String, dynamic> json) {
     return PrivateKeyAttributesV4(
-      keySpec: KeySpec.fromString((json['KeySpec'] as String)),
+      keySpec: KeySpec.fromString((json['KeySpec'] as String?) ?? ''),
       minimalKeyLength: (json['MinimalKeyLength'] as int?) ?? 0,
       algorithm:
           (json['Algorithm'] as String?)?.let(PrivateKeyAlgorithm.fromString),
@@ -3012,8 +3304,8 @@ class PrivateKeyFlagsV2 {
 
   factory PrivateKeyFlagsV2.fromJson(Map<String, dynamic> json) {
     return PrivateKeyFlagsV2(
-      clientVersion:
-          ClientCompatibilityV2.fromString((json['ClientVersion'] as String)),
+      clientVersion: ClientCompatibilityV2.fromString(
+          (json['ClientVersion'] as String?) ?? ''),
       exportableKey: json['ExportableKey'] as bool?,
       strongKeyProtectionRequired: json['StrongKeyProtectionRequired'] as bool?,
     );
@@ -3059,8 +3351,8 @@ class PrivateKeyFlagsV3 {
 
   factory PrivateKeyFlagsV3.fromJson(Map<String, dynamic> json) {
     return PrivateKeyFlagsV3(
-      clientVersion:
-          ClientCompatibilityV3.fromString((json['ClientVersion'] as String)),
+      clientVersion: ClientCompatibilityV3.fromString(
+          (json['ClientVersion'] as String?) ?? ''),
       exportableKey: json['ExportableKey'] as bool?,
       requireAlternateSignatureAlgorithm:
           json['RequireAlternateSignatureAlgorithm'] as bool?,
@@ -3124,8 +3416,8 @@ class PrivateKeyFlagsV4 {
 
   factory PrivateKeyFlagsV4.fromJson(Map<String, dynamic> json) {
     return PrivateKeyFlagsV4(
-      clientVersion:
-          ClientCompatibilityV4.fromString((json['ClientVersion'] as String)),
+      clientVersion: ClientCompatibilityV4.fromString(
+          (json['ClientVersion'] as String?) ?? ''),
       exportableKey: json['ExportableKey'] as bool?,
       requireAlternateSignatureAlgorithm:
           json['RequireAlternateSignatureAlgorithm'] as bool?,
@@ -3223,39 +3515,70 @@ class ServicePrincipalName {
   }
 }
 
-enum ServicePrincipalNameStatus {
-  creating('CREATING'),
-  active('ACTIVE'),
-  deleting('DELETING'),
-  failed('FAILED'),
-  ;
+class ServicePrincipalNameStatus {
+  static const creating = ServicePrincipalNameStatus._('CREATING');
+  static const active = ServicePrincipalNameStatus._('ACTIVE');
+  static const deleting = ServicePrincipalNameStatus._('DELETING');
+  static const failed = ServicePrincipalNameStatus._('FAILED');
 
   final String value;
 
-  const ServicePrincipalNameStatus(this.value);
+  const ServicePrincipalNameStatus._(this.value);
+
+  static const values = [creating, active, deleting, failed];
 
   static ServicePrincipalNameStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ServicePrincipalNameStatus'));
+          orElse: () => ServicePrincipalNameStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ServicePrincipalNameStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ServicePrincipalNameStatusReason {
-  directoryAccessDenied('DIRECTORY_ACCESS_DENIED'),
-  directoryNotReachable('DIRECTORY_NOT_REACHABLE'),
-  directoryResourceNotFound('DIRECTORY_RESOURCE_NOT_FOUND'),
-  spnExistsOnDifferentAdObject('SPN_EXISTS_ON_DIFFERENT_AD_OBJECT'),
-  internalFailure('INTERNAL_FAILURE'),
-  ;
+class ServicePrincipalNameStatusReason {
+  static const directoryAccessDenied =
+      ServicePrincipalNameStatusReason._('DIRECTORY_ACCESS_DENIED');
+  static const directoryNotReachable =
+      ServicePrincipalNameStatusReason._('DIRECTORY_NOT_REACHABLE');
+  static const directoryResourceNotFound =
+      ServicePrincipalNameStatusReason._('DIRECTORY_RESOURCE_NOT_FOUND');
+  static const spnExistsOnDifferentAdObject =
+      ServicePrincipalNameStatusReason._('SPN_EXISTS_ON_DIFFERENT_AD_OBJECT');
+  static const internalFailure =
+      ServicePrincipalNameStatusReason._('INTERNAL_FAILURE');
 
   final String value;
 
-  const ServicePrincipalNameStatusReason(this.value);
+  const ServicePrincipalNameStatusReason._(this.value);
+
+  static const values = [
+    directoryAccessDenied,
+    directoryNotReachable,
+    directoryResourceNotFound,
+    spnExistsOnDifferentAdObject,
+    internalFailure
+  ];
 
   static ServicePrincipalNameStatusReason fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ServicePrincipalNameStatusReason'));
+          orElse: () => ServicePrincipalNameStatusReason._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ServicePrincipalNameStatusReason && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The service principal name that the connector uses to authenticate with
@@ -3802,19 +4125,28 @@ class TemplateRevision {
   }
 }
 
-enum TemplateStatus {
-  active('ACTIVE'),
-  deleting('DELETING'),
-  ;
+class TemplateStatus {
+  static const active = TemplateStatus._('ACTIVE');
+  static const deleting = TemplateStatus._('DELETING');
 
   final String value;
 
-  const TemplateStatus(this.value);
+  const TemplateStatus._(this.value);
+
+  static const values = [active, deleting];
 
   static TemplateStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum TemplateStatus'));
+          orElse: () => TemplateStatus._(value));
+
+  @override
+  bool operator ==(other) => other is TemplateStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// An Active Directory compatible certificate template. Connectors issue
@@ -4085,7 +4417,7 @@ class TemplateV3 {
           (json['GeneralFlags'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
       hashAlgorithm:
-          HashAlgorithm.fromString((json['HashAlgorithm'] as String)),
+          HashAlgorithm.fromString((json['HashAlgorithm'] as String?) ?? ''),
       privateKeyAttributes: PrivateKeyAttributesV3.fromJson(
           (json['PrivateKeyAttributes'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
@@ -4263,7 +4595,8 @@ class ValidityPeriod {
   factory ValidityPeriod.fromJson(Map<String, dynamic> json) {
     return ValidityPeriod(
       period: (json['Period'] as int?) ?? 0,
-      periodType: ValidityPeriodType.fromString((json['PeriodType'] as String)),
+      periodType:
+          ValidityPeriodType.fromString((json['PeriodType'] as String?) ?? ''),
     );
   }
 
@@ -4277,22 +4610,32 @@ class ValidityPeriod {
   }
 }
 
-enum ValidityPeriodType {
-  hours('HOURS'),
-  days('DAYS'),
-  weeks('WEEKS'),
-  months('MONTHS'),
-  years('YEARS'),
-  ;
+class ValidityPeriodType {
+  static const hours = ValidityPeriodType._('HOURS');
+  static const days = ValidityPeriodType._('DAYS');
+  static const weeks = ValidityPeriodType._('WEEKS');
+  static const months = ValidityPeriodType._('MONTHS');
+  static const years = ValidityPeriodType._('YEARS');
 
   final String value;
 
-  const ValidityPeriodType(this.value);
+  const ValidityPeriodType._(this.value);
 
-  static ValidityPeriodType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ValidityPeriodType'));
+  static const values = [hours, days, weeks, months, years];
+
+  static ValidityPeriodType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ValidityPeriodType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ValidityPeriodType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about your VPC and security groups used with the connector.

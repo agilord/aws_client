@@ -512,23 +512,40 @@ class EventDestinationDefinition {
 }
 
 /// The types of events that are sent to the event destination.
-enum EventType {
-  initiatedCall('INITIATED_CALL'),
-  ringing('RINGING'),
-  answered('ANSWERED'),
-  completedCall('COMPLETED_CALL'),
-  busy('BUSY'),
-  failed('FAILED'),
-  noAnswer('NO_ANSWER'),
-  ;
+class EventType {
+  static const initiatedCall = EventType._('INITIATED_CALL');
+  static const ringing = EventType._('RINGING');
+  static const answered = EventType._('ANSWERED');
+  static const completedCall = EventType._('COMPLETED_CALL');
+  static const busy = EventType._('BUSY');
+  static const failed = EventType._('FAILED');
+  static const noAnswer = EventType._('NO_ANSWER');
 
   final String value;
 
-  const EventType(this.value);
+  const EventType._(this.value);
 
-  static EventType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum EventType'));
+  static const values = [
+    initiatedCall,
+    ringing,
+    answered,
+    completedCall,
+    busy,
+    failed,
+    noAnswer
+  ];
+
+  static EventType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => EventType._(value));
+
+  @override
+  bool operator ==(other) => other is EventType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// An object that contains information about an event destination.

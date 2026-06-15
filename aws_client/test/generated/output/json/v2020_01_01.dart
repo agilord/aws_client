@@ -96,19 +96,27 @@ class OutputShape {
   }
 }
 
-enum JSONEnumType {
-  foo('foo'),
-  bar('bar'),
-  ;
+class JSONEnumType {
+  static const foo = JSONEnumType._('foo');
+  static const bar = JSONEnumType._('bar');
 
   final String value;
 
-  const JSONEnumType(this.value);
+  const JSONEnumType._(this.value);
 
-  static JSONEnumType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum JSONEnumType'));
+  static const values = [foo, bar];
+
+  static JSONEnumType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => JSONEnumType._(value));
+
+  @override
+  bool operator ==(other) => other is JSONEnumType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 final _exceptionFns = <String, _s.AwsExceptionFn>{};

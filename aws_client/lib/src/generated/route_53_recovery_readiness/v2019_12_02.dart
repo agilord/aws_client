@@ -2207,20 +2207,29 @@ class R53ResourceRecord {
 }
 
 /// The readiness status.
-enum Readiness {
-  ready('READY'),
-  notReady('NOT_READY'),
-  unknown('UNKNOWN'),
-  notAuthorized('NOT_AUTHORIZED'),
-  ;
+class Readiness {
+  static const ready = Readiness._('READY');
+  static const notReady = Readiness._('NOT_READY');
+  static const unknown = Readiness._('UNKNOWN');
+  static const notAuthorized = Readiness._('NOT_AUTHORIZED');
 
   final String value;
 
-  const Readiness(this.value);
+  const Readiness._(this.value);
 
-  static Readiness fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum Readiness'));
+  static const values = [ready, notReady, unknown, notAuthorized];
+
+  static Readiness fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Readiness._(value));
+
+  @override
+  bool operator ==(other) => other is Readiness && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A readiness check.
@@ -2449,7 +2458,7 @@ class ResourceResult {
     return ResourceResult(
       lastCheckedTimestamp:
           nonNullableTimeStampFromJson(json['lastCheckedTimestamp'] ?? 0),
-      readiness: Readiness.fromString((json['readiness'] as String)),
+      readiness: Readiness.fromString((json['readiness'] as String?) ?? ''),
       componentId: json['componentId'] as String?,
       resourceArn: json['resourceArn'] as String?,
     );
@@ -2563,7 +2572,7 @@ class RuleResult {
           .nonNulls
           .map((e) => Message.fromJson(e as Map<String, dynamic>))
           .toList(),
-      readiness: Readiness.fromString((json['readiness'] as String)),
+      readiness: Readiness.fromString((json['readiness'] as String?) ?? ''),
       ruleId: (json['ruleId'] as String?) ?? '',
     );
   }

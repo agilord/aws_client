@@ -816,18 +816,27 @@ class Job {
 }
 
 /// Specifies whether the job to initiate is an import or export job.
-enum JobType {
-  import('Import'),
-  export('Export'),
-  ;
+class JobType {
+  static const import = JobType._('Import');
+  static const export = JobType._('Export');
 
   final String value;
 
-  const JobType(this.value);
+  const JobType._(this.value);
 
-  static JobType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum JobType'));
+  static const values = [import, export];
+
+  static JobType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => JobType._(value));
+
+  @override
+  bool operator ==(other) => other is JobType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Output structure for the ListJobs operation.

@@ -1778,20 +1778,29 @@ class CachedMethods {
   }
 }
 
-enum CertificateSource {
-  cloudfront('cloudfront'),
-  iam('iam'),
-  acm('acm'),
-  ;
+class CertificateSource {
+  static const cloudfront = CertificateSource._('cloudfront');
+  static const iam = CertificateSource._('iam');
+  static const acm = CertificateSource._('acm');
 
   final String value;
 
-  const CertificateSource(this.value);
+  const CertificateSource._(this.value);
+
+  static const values = [cloudfront, iam, acm];
 
   static CertificateSource fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum CertificateSource'));
+          orElse: () => CertificateSource._(value));
+
+  @override
+  bool operator ==(other) => other is CertificateSource && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// CloudFront origin access identity.
@@ -3682,20 +3691,34 @@ class DistributionSummary {
   }
 }
 
-enum EventType {
-  viewerRequest('viewer-request'),
-  viewerResponse('viewer-response'),
-  originRequest('origin-request'),
-  originResponse('origin-response'),
-  ;
+class EventType {
+  static const viewerRequest = EventType._('viewer-request');
+  static const viewerResponse = EventType._('viewer-response');
+  static const originRequest = EventType._('origin-request');
+  static const originResponse = EventType._('origin-response');
 
   final String value;
 
-  const EventType(this.value);
+  const EventType._(this.value);
 
-  static EventType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum EventType'));
+  static const values = [
+    viewerRequest,
+    viewerResponse,
+    originRequest,
+    originResponse
+  ];
+
+  static EventType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => EventType._(value));
+
+  @override
+  bool operator ==(other) => other is EventType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A complex type that specifies how CloudFront handles query strings and
@@ -3895,20 +3918,30 @@ class GeoRestriction {
   }
 }
 
-enum GeoRestrictionType {
-  blacklist('blacklist'),
-  whitelist('whitelist'),
-  none('none'),
-  ;
+class GeoRestrictionType {
+  static const blacklist = GeoRestrictionType._('blacklist');
+  static const whitelist = GeoRestrictionType._('whitelist');
+  static const none = GeoRestrictionType._('none');
 
   final String value;
 
-  const GeoRestrictionType(this.value);
+  const GeoRestrictionType._(this.value);
 
-  static GeoRestrictionType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum GeoRestrictionType'));
+  static const values = [blacklist, whitelist, none];
+
+  static GeoRestrictionType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => GeoRestrictionType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is GeoRestrictionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The returned result of the corresponding request.
@@ -4168,18 +4201,27 @@ class Headers {
   }
 }
 
-enum HttpVersion {
-  http1_1('http1.1'),
-  http2('http2'),
-  ;
+class HttpVersion {
+  static const http1_1 = HttpVersion._('http1.1');
+  static const http2 = HttpVersion._('http2');
 
   final String value;
 
-  const HttpVersion(this.value);
+  const HttpVersion._(this.value);
 
-  static HttpVersion fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum HttpVersion'));
+  static const values = [http1_1, http2];
+
+  static HttpVersion fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => HttpVersion._(value));
+
+  @override
+  bool operator ==(other) => other is HttpVersion && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Origin and <code>CallerReference</code> cannot be updated.
@@ -4884,20 +4926,29 @@ class InvalidationSummary {
   }
 }
 
-enum ItemSelection {
-  none('none'),
-  whitelist('whitelist'),
-  all('all'),
-  ;
+class ItemSelection {
+  static const none = ItemSelection._('none');
+  static const whitelist = ItemSelection._('whitelist');
+  static const all = ItemSelection._('all');
 
   final String value;
 
-  const ItemSelection(this.value);
+  const ItemSelection._(this.value);
+
+  static const values = [none, whitelist, all];
 
   static ItemSelection fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ItemSelection'));
+          orElse: () => ItemSelection._(value));
+
+  @override
+  bool operator ==(other) => other is ItemSelection && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A complex type that lists the active CloudFront key pairs, if any, that are
@@ -5260,38 +5311,57 @@ class LoggingConfig {
   }
 }
 
-enum Method {
-  get('GET'),
-  head('HEAD'),
-  post('POST'),
-  put('PUT'),
-  patch('PATCH'),
-  options('OPTIONS'),
-  delete('DELETE'),
-  ;
+class Method {
+  static const get = Method._('GET');
+  static const head = Method._('HEAD');
+  static const post = Method._('POST');
+  static const put = Method._('PUT');
+  static const patch = Method._('PATCH');
+  static const options = Method._('OPTIONS');
+  static const delete = Method._('DELETE');
 
   final String value;
 
-  const Method(this.value);
+  const Method._(this.value);
+
+  static const values = [get, head, post, put, patch, options, delete];
 
   static Method fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum Method'));
+      values.firstWhere((e) => e.value == value, orElse: () => Method._(value));
+
+  @override
+  bool operator ==(other) => other is Method && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum MinimumProtocolVersion {
-  sSLv3('SSLv3'),
-  tLSv1('TLSv1'),
-  ;
+class MinimumProtocolVersion {
+  static const sSLv3 = MinimumProtocolVersion._('SSLv3');
+  static const tLSv1 = MinimumProtocolVersion._('TLSv1');
 
   final String value;
 
-  const MinimumProtocolVersion(this.value);
+  const MinimumProtocolVersion._(this.value);
+
+  static const values = [sSLv3, tLSv1];
 
   static MinimumProtocolVersion fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum MinimumProtocolVersion'));
+          orElse: () => MinimumProtocolVersion._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is MinimumProtocolVersion && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// This operation requires a body. Ensure that the body is present and the
@@ -5666,20 +5736,30 @@ class OriginCustomHeader {
   }
 }
 
-enum OriginProtocolPolicy {
-  httpOnly('http-only'),
-  matchViewer('match-viewer'),
-  httpsOnly('https-only'),
-  ;
+class OriginProtocolPolicy {
+  static const httpOnly = OriginProtocolPolicy._('http-only');
+  static const matchViewer = OriginProtocolPolicy._('match-viewer');
+  static const httpsOnly = OriginProtocolPolicy._('https-only');
 
   final String value;
 
-  const OriginProtocolPolicy(this.value);
+  const OriginProtocolPolicy._(this.value);
 
-  static OriginProtocolPolicy fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum OriginProtocolPolicy'));
+  static const values = [httpOnly, matchViewer, httpsOnly];
+
+  static OriginProtocolPolicy fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => OriginProtocolPolicy._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is OriginProtocolPolicy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A complex type that contains information about the SSL/TLS protocols that
@@ -5862,19 +5942,28 @@ class PreconditionFailed implements _s.AwsException {
   }
 }
 
-enum PriceClass {
-  priceClass_100('PriceClass_100'),
-  priceClass_200('PriceClass_200'),
-  priceClassAll('PriceClass_All'),
-  ;
+class PriceClass {
+  static const priceClass_100 = PriceClass._('PriceClass_100');
+  static const priceClass_200 = PriceClass._('PriceClass_200');
+  static const priceClassAll = PriceClass._('PriceClass_All');
 
   final String value;
 
-  const PriceClass(this.value);
+  const PriceClass._(this.value);
 
-  static PriceClass fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum PriceClass'));
+  static const values = [priceClass_100, priceClass_200, priceClassAll];
+
+  static PriceClass fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => PriceClass._(value));
+
+  @override
+  bool operator ==(other) => other is PriceClass && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class QueryStringCacheKeys {
@@ -6099,19 +6188,28 @@ class S3OriginConfig {
   }
 }
 
-enum SSLSupportMethod {
-  sniOnly('sni-only'),
-  vip('vip'),
-  ;
+class SSLSupportMethod {
+  static const sniOnly = SSLSupportMethod._('sni-only');
+  static const vip = SSLSupportMethod._('vip');
 
   final String value;
 
-  const SSLSupportMethod(this.value);
+  const SSLSupportMethod._(this.value);
+
+  static const values = [sniOnly, vip];
 
   static SSLSupportMethod fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum SSLSupportMethod'));
+          orElse: () => SSLSupportMethod._(value));
+
+  @override
+  bool operator ==(other) => other is SSLSupportMethod && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A complex type that lists the AWS accounts that were included in the
@@ -6157,20 +6255,29 @@ class Signer {
   }
 }
 
-enum SslProtocol {
-  sSLv3('SSLv3'),
-  tLSv1('TLSv1'),
-  tLSv1_1('TLSv1.1'),
-  tLSv1_2('TLSv1.2'),
-  ;
+class SslProtocol {
+  static const sSLv3 = SslProtocol._('SSLv3');
+  static const tLSv1 = SslProtocol._('TLSv1');
+  static const tLSv1_1 = SslProtocol._('TLSv1.1');
+  static const tLSv1_2 = SslProtocol._('TLSv1.2');
 
   final String value;
 
-  const SslProtocol(this.value);
+  const SslProtocol._(this.value);
 
-  static SslProtocol fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum SslProtocol'));
+  static const values = [sSLv3, tLSv1, tLSv1_1, tLSv1_2];
+
+  static SslProtocol fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => SslProtocol._(value));
+
+  @override
+  bool operator ==(other) => other is SslProtocol && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A streaming distribution.
@@ -7675,20 +7782,30 @@ class ViewerCertificate {
   }
 }
 
-enum ViewerProtocolPolicy {
-  allowAll('allow-all'),
-  httpsOnly('https-only'),
-  redirectToHttps('redirect-to-https'),
-  ;
+class ViewerProtocolPolicy {
+  static const allowAll = ViewerProtocolPolicy._('allow-all');
+  static const httpsOnly = ViewerProtocolPolicy._('https-only');
+  static const redirectToHttps = ViewerProtocolPolicy._('redirect-to-https');
 
   final String value;
 
-  const ViewerProtocolPolicy(this.value);
+  const ViewerProtocolPolicy._(this.value);
 
-  static ViewerProtocolPolicy fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ViewerProtocolPolicy'));
+  static const values = [allowAll, httpsOnly, redirectToHttps];
+
+  static ViewerProtocolPolicy fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ViewerProtocolPolicy._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ViewerProtocolPolicy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 final _exceptionFns = <String, _s.AwsExceptionFn>{

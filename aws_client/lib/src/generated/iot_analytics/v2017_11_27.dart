@@ -1688,20 +1688,29 @@ class ChannelStatistics {
   }
 }
 
-enum ChannelStatus {
-  creating('CREATING'),
-  active('ACTIVE'),
-  deleting('DELETING'),
-  ;
+class ChannelStatus {
+  static const creating = ChannelStatus._('CREATING');
+  static const active = ChannelStatus._('ACTIVE');
+  static const deleting = ChannelStatus._('DELETING');
 
   final String value;
 
-  const ChannelStatus(this.value);
+  const ChannelStatus._(this.value);
+
+  static const values = [creating, active, deleting];
 
   static ChannelStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ChannelStatus'));
+          orElse: () => ChannelStatus._(value));
+
+  @override
+  bool operator ==(other) => other is ChannelStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Where channel data is stored. You may choose one of
@@ -1886,18 +1895,27 @@ class Column {
   }
 }
 
-enum ComputeType {
-  acu_1('ACU_1'),
-  acu_2('ACU_2'),
-  ;
+class ComputeType {
+  static const acu_1 = ComputeType._('ACU_1');
+  static const acu_2 = ComputeType._('ACU_2');
 
   final String value;
 
-  const ComputeType(this.value);
+  const ComputeType._(this.value);
 
-  static ComputeType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum ComputeType'));
+  static const values = [acu_1, acu_2];
+
+  static ComputeType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ComputeType._(value));
+
+  @override
+  bool operator ==(other) => other is ComputeType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information required to run the <code>containerAction</code> to produce
@@ -2510,19 +2528,28 @@ class DatasetActionSummary {
   }
 }
 
-enum DatasetActionType {
-  query('QUERY'),
-  container('CONTAINER'),
-  ;
+class DatasetActionType {
+  static const query = DatasetActionType._('QUERY');
+  static const container = DatasetActionType._('CONTAINER');
 
   final String value;
 
-  const DatasetActionType(this.value);
+  const DatasetActionType._(this.value);
+
+  static const values = [query, container];
 
   static DatasetActionType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum DatasetActionType'));
+          orElse: () => DatasetActionType._(value));
+
+  @override
+  bool operator ==(other) => other is DatasetActionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The destination to which dataset contents are delivered.
@@ -2600,20 +2627,30 @@ class DatasetContentDeliveryRule {
   }
 }
 
-enum DatasetContentState {
-  creating('CREATING'),
-  succeeded('SUCCEEDED'),
-  failed('FAILED'),
-  ;
+class DatasetContentState {
+  static const creating = DatasetContentState._('CREATING');
+  static const succeeded = DatasetContentState._('SUCCEEDED');
+  static const failed = DatasetContentState._('FAILED');
 
   final String value;
 
-  const DatasetContentState(this.value);
+  const DatasetContentState._(this.value);
 
-  static DatasetContentState fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum DatasetContentState'));
+  static const values = [creating, succeeded, failed];
+
+  static DatasetContentState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DatasetContentState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DatasetContentState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The state of the dataset contents and the reason they are in this state.
@@ -2759,20 +2796,29 @@ class DatasetEntry {
   }
 }
 
-enum DatasetStatus {
-  creating('CREATING'),
-  active('ACTIVE'),
-  deleting('DELETING'),
-  ;
+class DatasetStatus {
+  static const creating = DatasetStatus._('CREATING');
+  static const active = DatasetStatus._('ACTIVE');
+  static const deleting = DatasetStatus._('DELETING');
 
   final String value;
 
-  const DatasetStatus(this.value);
+  const DatasetStatus._(this.value);
+
+  static const values = [creating, active, deleting];
 
   static DatasetStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum DatasetStatus'));
+          orElse: () => DatasetStatus._(value));
+
+  @override
+  bool operator ==(other) => other is DatasetStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A summary of information about a dataset.
@@ -3186,20 +3232,29 @@ class DatastoreStatistics {
   }
 }
 
-enum DatastoreStatus {
-  creating('CREATING'),
-  active('ACTIVE'),
-  deleting('DELETING'),
-  ;
+class DatastoreStatus {
+  static const creating = DatastoreStatus._('CREATING');
+  static const active = DatastoreStatus._('ACTIVE');
+  static const deleting = DatastoreStatus._('DELETING');
 
   final String value;
 
-  const DatastoreStatus(this.value);
+  const DatastoreStatus._(this.value);
+
+  static const values = [creating, active, deleting];
 
   static DatastoreStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum DatastoreStatus'));
+          orElse: () => DatastoreStatus._(value));
+
+  @override
+  bool operator ==(other) => other is DatastoreStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Where data in a data store is stored.. You can choose
@@ -3801,19 +3856,28 @@ class FileFormatConfiguration {
   }
 }
 
-enum FileFormatType {
-  json('JSON'),
-  parquet('PARQUET'),
-  ;
+class FileFormatType {
+  static const json = FileFormatType._('JSON');
+  static const parquet = FileFormatType._('PARQUET');
 
   final String value;
 
-  const FileFormatType(this.value);
+  const FileFormatType._(this.value);
+
+  static const values = [json, parquet];
 
   static FileFormatType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum FileFormatType'));
+          orElse: () => FileFormatType._(value));
+
+  @override
+  bool operator ==(other) => other is FileFormatType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// An activity that filters a message based on its attributes.
@@ -4349,18 +4413,26 @@ class ListTagsForResourceResponse {
   }
 }
 
-enum LoggingLevel {
-  error('ERROR'),
-  ;
+class LoggingLevel {
+  static const error = LoggingLevel._('ERROR');
 
   final String value;
 
-  const LoggingLevel(this.value);
+  const LoggingLevel._(this.value);
 
-  static LoggingLevel fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum LoggingLevel'));
+  static const values = [error];
+
+  static LoggingLevel fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => LoggingLevel._(value));
+
+  @override
+  bool operator ==(other) => other is LoggingLevel && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about logging options.
@@ -4384,7 +4456,7 @@ class LoggingOptions {
   factory LoggingOptions.fromJson(Map<String, dynamic> json) {
     return LoggingOptions(
       enabled: (json['enabled'] as bool?) ?? false,
-      level: LoggingLevel.fromString((json['level'] as String)),
+      level: LoggingLevel.fromString((json['level'] as String?) ?? ''),
       roleArn: (json['roleArn'] as String?) ?? '',
     );
   }
@@ -4845,21 +4917,31 @@ class RemoveAttributesActivity {
   }
 }
 
-enum ReprocessingStatus {
-  running('RUNNING'),
-  succeeded('SUCCEEDED'),
-  cancelled('CANCELLED'),
-  failed('FAILED'),
-  ;
+class ReprocessingStatus {
+  static const running = ReprocessingStatus._('RUNNING');
+  static const succeeded = ReprocessingStatus._('SUCCEEDED');
+  static const cancelled = ReprocessingStatus._('CANCELLED');
+  static const failed = ReprocessingStatus._('FAILED');
 
   final String value;
 
-  const ReprocessingStatus(this.value);
+  const ReprocessingStatus._(this.value);
 
-  static ReprocessingStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ReprocessingStatus'));
+  static const values = [running, succeeded, cancelled, failed];
+
+  static ReprocessingStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ReprocessingStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ReprocessingStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about pipeline reprocessing.
@@ -4920,7 +5002,8 @@ class ResourceConfiguration {
 
   factory ResourceConfiguration.fromJson(Map<String, dynamic> json) {
     return ResourceConfiguration(
-      computeType: ComputeType.fromString((json['computeType'] as String)),
+      computeType:
+          ComputeType.fromString((json['computeType'] as String?) ?? ''),
       volumeSizeInGB: (json['volumeSizeInGB'] as int?) ?? 0,
     );
   }

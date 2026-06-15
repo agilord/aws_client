@@ -742,38 +742,65 @@ class Connector {
   }
 }
 
-enum ConnectorStatus {
-  creating('CREATING'),
-  active('ACTIVE'),
-  deleting('DELETING'),
-  failed('FAILED'),
-  ;
+class ConnectorStatus {
+  static const creating = ConnectorStatus._('CREATING');
+  static const active = ConnectorStatus._('ACTIVE');
+  static const deleting = ConnectorStatus._('DELETING');
+  static const failed = ConnectorStatus._('FAILED');
 
   final String value;
 
-  const ConnectorStatus(this.value);
+  const ConnectorStatus._(this.value);
+
+  static const values = [creating, active, deleting, failed];
 
   static ConnectorStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ConnectorStatus'));
+          orElse: () => ConnectorStatus._(value));
+
+  @override
+  bool operator ==(other) => other is ConnectorStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ConnectorStatusReason {
-  internalFailure('INTERNAL_FAILURE'),
-  privatecaAccessDenied('PRIVATECA_ACCESS_DENIED'),
-  privatecaInvalidState('PRIVATECA_INVALID_STATE'),
-  privatecaResourceNotFound('PRIVATECA_RESOURCE_NOT_FOUND'),
-  ;
+class ConnectorStatusReason {
+  static const internalFailure = ConnectorStatusReason._('INTERNAL_FAILURE');
+  static const privatecaAccessDenied =
+      ConnectorStatusReason._('PRIVATECA_ACCESS_DENIED');
+  static const privatecaInvalidState =
+      ConnectorStatusReason._('PRIVATECA_INVALID_STATE');
+  static const privatecaResourceNotFound =
+      ConnectorStatusReason._('PRIVATECA_RESOURCE_NOT_FOUND');
 
   final String value;
 
-  const ConnectorStatusReason(this.value);
+  const ConnectorStatusReason._(this.value);
 
-  static ConnectorStatusReason fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ConnectorStatusReason'));
+  static const values = [
+    internalFailure,
+    privatecaAccessDenied,
+    privatecaInvalidState,
+    privatecaResourceNotFound
+  ];
+
+  static ConnectorStatusReason fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ConnectorStatusReason._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ConnectorStatusReason && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Lists the Amazon Web Services Private CA SCEP connectors belonging to your
@@ -878,19 +905,28 @@ class ConnectorSummary {
   }
 }
 
-enum ConnectorType {
-  generalPurpose('GENERAL_PURPOSE'),
-  intune('INTUNE'),
-  ;
+class ConnectorType {
+  static const generalPurpose = ConnectorType._('GENERAL_PURPOSE');
+  static const intune = ConnectorType._('INTUNE');
 
   final String value;
 
-  const ConnectorType(this.value);
+  const ConnectorType._(this.value);
+
+  static const values = [generalPurpose, intune];
 
   static ConnectorType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ConnectorType'));
+          orElse: () => ConnectorType._(value));
+
+  @override
+  bool operator ==(other) => other is ConnectorType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class CreateChallengeResponse {

@@ -1193,32 +1193,49 @@ class Mediapackagev2 {
   }
 }
 
-enum AdMarkerDash {
-  binary('BINARY'),
-  xml('XML'),
-  ;
+class AdMarkerDash {
+  static const binary = AdMarkerDash._('BINARY');
+  static const xml = AdMarkerDash._('XML');
 
   final String value;
 
-  const AdMarkerDash(this.value);
+  const AdMarkerDash._(this.value);
 
-  static AdMarkerDash fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum AdMarkerDash'));
+  static const values = [binary, xml];
+
+  static AdMarkerDash fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => AdMarkerDash._(value));
+
+  @override
+  bool operator ==(other) => other is AdMarkerDash && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum AdMarkerHls {
-  daterange('DATERANGE'),
-  ;
+class AdMarkerHls {
+  static const daterange = AdMarkerHls._('DATERANGE');
 
   final String value;
 
-  const AdMarkerHls(this.value);
+  const AdMarkerHls._(this.value);
 
-  static AdMarkerHls fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum AdMarkerHls'));
+  static const values = [daterange];
+
+  static AdMarkerHls fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => AdMarkerHls._(value));
+
+  @override
+  bool operator ==(other) => other is AdMarkerHls && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The configuration of the channel group.
@@ -1360,34 +1377,53 @@ class ChannelListConfiguration {
   }
 }
 
-enum CmafEncryptionMethod {
-  cenc('CENC'),
-  cbcs('CBCS'),
-  ;
+class CmafEncryptionMethod {
+  static const cenc = CmafEncryptionMethod._('CENC');
+  static const cbcs = CmafEncryptionMethod._('CBCS');
 
   final String value;
 
-  const CmafEncryptionMethod(this.value);
+  const CmafEncryptionMethod._(this.value);
 
-  static CmafEncryptionMethod fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum CmafEncryptionMethod'));
+  static const values = [cenc, cbcs];
+
+  static CmafEncryptionMethod fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => CmafEncryptionMethod._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CmafEncryptionMethod && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ContainerType {
-  ts('TS'),
-  cmaf('CMAF'),
-  ;
+class ContainerType {
+  static const ts = ContainerType._('TS');
+  static const cmaf = ContainerType._('CMAF');
 
   final String value;
 
-  const ContainerType(this.value);
+  const ContainerType._(this.value);
+
+  static const values = [ts, cmaf];
 
   static ContainerType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ContainerType'));
+          orElse: () => ContainerType._(value));
+
+  @override
+  bool operator ==(other) => other is ContainerType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class CreateChannelGroupResponse {
@@ -1897,7 +1933,7 @@ class CreateOriginEndpointResponse {
       channelGroupName: (json['ChannelGroupName'] as String?) ?? '',
       channelName: (json['ChannelName'] as String?) ?? '',
       containerType:
-          ContainerType.fromString((json['ContainerType'] as String)),
+          ContainerType.fromString((json['ContainerType'] as String?) ?? ''),
       createdAt: nonNullableTimeStampFromJson(json['CreatedAt'] ?? 0),
       modifiedAt: nonNullableTimeStampFromJson(json['ModifiedAt'] ?? 0),
       originEndpointName: (json['OriginEndpointName'] as String?) ?? '',
@@ -1974,51 +2010,86 @@ class CreateOriginEndpointResponse {
   }
 }
 
-enum DashDrmSignaling {
-  individual('INDIVIDUAL'),
-  referenced('REFERENCED'),
-  ;
+class DashDrmSignaling {
+  static const individual = DashDrmSignaling._('INDIVIDUAL');
+  static const referenced = DashDrmSignaling._('REFERENCED');
 
   final String value;
 
-  const DashDrmSignaling(this.value);
+  const DashDrmSignaling._(this.value);
+
+  static const values = [individual, referenced];
 
   static DashDrmSignaling fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum DashDrmSignaling'));
+          orElse: () => DashDrmSignaling._(value));
+
+  @override
+  bool operator ==(other) => other is DashDrmSignaling && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum DashPeriodTrigger {
-  avails('AVAILS'),
-  drmKeyRotation('DRM_KEY_ROTATION'),
-  sourceChanges('SOURCE_CHANGES'),
-  sourceDisruptions('SOURCE_DISRUPTIONS'),
-  none('NONE'),
-  ;
+class DashPeriodTrigger {
+  static const avails = DashPeriodTrigger._('AVAILS');
+  static const drmKeyRotation = DashPeriodTrigger._('DRM_KEY_ROTATION');
+  static const sourceChanges = DashPeriodTrigger._('SOURCE_CHANGES');
+  static const sourceDisruptions = DashPeriodTrigger._('SOURCE_DISRUPTIONS');
+  static const none = DashPeriodTrigger._('NONE');
 
   final String value;
 
-  const DashPeriodTrigger(this.value);
+  const DashPeriodTrigger._(this.value);
+
+  static const values = [
+    avails,
+    drmKeyRotation,
+    sourceChanges,
+    sourceDisruptions,
+    none
+  ];
 
   static DashPeriodTrigger fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum DashPeriodTrigger'));
+          orElse: () => DashPeriodTrigger._(value));
+
+  @override
+  bool operator ==(other) => other is DashPeriodTrigger && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum DashSegmentTemplateFormat {
-  numberWithTimeline('NUMBER_WITH_TIMELINE'),
-  ;
+class DashSegmentTemplateFormat {
+  static const numberWithTimeline =
+      DashSegmentTemplateFormat._('NUMBER_WITH_TIMELINE');
 
   final String value;
 
-  const DashSegmentTemplateFormat(this.value);
+  const DashSegmentTemplateFormat._(this.value);
+
+  static const values = [numberWithTimeline];
 
   static DashSegmentTemplateFormat fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum DashSegmentTemplateFormat'));
+          orElse: () => DashSegmentTemplateFormat._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DashSegmentTemplateFormat && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Determines the type of UTC timing included in the DASH Media Presentation
@@ -2054,21 +2125,30 @@ class DashUtcTiming {
   }
 }
 
-enum DashUtcTimingMode {
-  httpHead('HTTP_HEAD'),
-  httpIso('HTTP_ISO'),
-  httpXsdate('HTTP_XSDATE'),
-  utcDirect('UTC_DIRECT'),
-  ;
+class DashUtcTimingMode {
+  static const httpHead = DashUtcTimingMode._('HTTP_HEAD');
+  static const httpIso = DashUtcTimingMode._('HTTP_ISO');
+  static const httpXsdate = DashUtcTimingMode._('HTTP_XSDATE');
+  static const utcDirect = DashUtcTimingMode._('UTC_DIRECT');
 
   final String value;
 
-  const DashUtcTimingMode(this.value);
+  const DashUtcTimingMode._(this.value);
+
+  static const values = [httpHead, httpIso, httpXsdate, utcDirect];
 
   static DashUtcTimingMode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum DashUtcTimingMode'));
+          orElse: () => DashUtcTimingMode._(value));
+
+  @override
+  bool operator ==(other) => other is DashUtcTimingMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class DeleteChannelGroupResponse {
@@ -2131,21 +2211,36 @@ class DeleteOriginEndpointResponse {
   }
 }
 
-enum DrmSystem {
-  clearKeyAes_128('CLEAR_KEY_AES_128'),
-  fairplay('FAIRPLAY'),
-  playready('PLAYREADY'),
-  widevine('WIDEVINE'),
-  irdeto('IRDETO'),
-  ;
+class DrmSystem {
+  static const clearKeyAes_128 = DrmSystem._('CLEAR_KEY_AES_128');
+  static const fairplay = DrmSystem._('FAIRPLAY');
+  static const playready = DrmSystem._('PLAYREADY');
+  static const widevine = DrmSystem._('WIDEVINE');
+  static const irdeto = DrmSystem._('IRDETO');
 
   final String value;
 
-  const DrmSystem(this.value);
+  const DrmSystem._(this.value);
 
-  static DrmSystem fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum DrmSystem'));
+  static const values = [
+    clearKeyAes_128,
+    fairplay,
+    playready,
+    widevine,
+    irdeto
+  ];
+
+  static DrmSystem fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => DrmSystem._(value));
+
+  @override
+  bool operator ==(other) => other is DrmSystem && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The parameters for encrypting content.
@@ -2305,10 +2400,10 @@ class EncryptionContractConfiguration {
 
   factory EncryptionContractConfiguration.fromJson(Map<String, dynamic> json) {
     return EncryptionContractConfiguration(
-      presetSpeke20Audio:
-          PresetSpeke20Audio.fromString((json['PresetSpeke20Audio'] as String)),
-      presetSpeke20Video:
-          PresetSpeke20Video.fromString((json['PresetSpeke20Video'] as String)),
+      presetSpeke20Audio: PresetSpeke20Audio.fromString(
+          (json['PresetSpeke20Audio'] as String?) ?? ''),
+      presetSpeke20Video: PresetSpeke20Video.fromString(
+          (json['PresetSpeke20Video'] as String?) ?? ''),
     );
   }
 
@@ -2356,21 +2451,37 @@ class EncryptionMethod {
   }
 }
 
-enum EndpointErrorCondition {
-  staleManifest('STALE_MANIFEST'),
-  incompleteManifest('INCOMPLETE_MANIFEST'),
-  missingDrmKey('MISSING_DRM_KEY'),
-  slateInput('SLATE_INPUT'),
-  ;
+class EndpointErrorCondition {
+  static const staleManifest = EndpointErrorCondition._('STALE_MANIFEST');
+  static const incompleteManifest =
+      EndpointErrorCondition._('INCOMPLETE_MANIFEST');
+  static const missingDrmKey = EndpointErrorCondition._('MISSING_DRM_KEY');
+  static const slateInput = EndpointErrorCondition._('SLATE_INPUT');
 
   final String value;
 
-  const EndpointErrorCondition(this.value);
+  const EndpointErrorCondition._(this.value);
+
+  static const values = [
+    staleManifest,
+    incompleteManifest,
+    missingDrmKey,
+    slateInput
+  ];
 
   static EndpointErrorCondition fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum EndpointErrorCondition'));
+          orElse: () => EndpointErrorCondition._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is EndpointErrorCondition && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Filter configuration includes settings for manifest filtering, start and end
@@ -3151,7 +3262,7 @@ class GetOriginEndpointResponse {
       channelGroupName: (json['ChannelGroupName'] as String?) ?? '',
       channelName: (json['ChannelName'] as String?) ?? '',
       containerType:
-          ContainerType.fromString((json['ContainerType'] as String)),
+          ContainerType.fromString((json['ContainerType'] as String?) ?? ''),
       createdAt: nonNullableTimeStampFromJson(json['CreatedAt'] ?? 0),
       modifiedAt: nonNullableTimeStampFromJson(json['ModifiedAt'] ?? 0),
       originEndpointName: (json['OriginEndpointName'] as String?) ?? '',
@@ -3258,18 +3369,27 @@ class IngestEndpoint {
   }
 }
 
-enum InputType {
-  hls('HLS'),
-  cmaf('CMAF'),
-  ;
+class InputType {
+  static const hls = InputType._('HLS');
+  static const cmaf = InputType._('CMAF');
 
   final String value;
 
-  const InputType(this.value);
+  const InputType._(this.value);
 
-  static InputType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum InputType'));
+  static const values = [hls, cmaf];
+
+  static InputType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => InputType._(value));
+
+  @override
+  bool operator ==(other) => other is InputType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class ListChannelGroupsResponse {
@@ -3592,7 +3712,7 @@ class OriginEndpointListConfiguration {
       channelGroupName: (json['ChannelGroupName'] as String?) ?? '',
       channelName: (json['ChannelName'] as String?) ?? '',
       containerType:
-          ContainerType.fromString((json['ContainerType'] as String)),
+          ContainerType.fromString((json['ContainerType'] as String?) ?? ''),
       originEndpointName: (json['OriginEndpointName'] as String?) ?? '',
       createdAt: timeStampFromJson(json['CreatedAt']),
       dashManifests: (json['DashManifests'] as List?)
@@ -3654,45 +3774,82 @@ class OriginEndpointListConfiguration {
   }
 }
 
-enum PresetSpeke20Audio {
-  presetAudio_1('PRESET_AUDIO_1'),
-  presetAudio_2('PRESET_AUDIO_2'),
-  presetAudio_3('PRESET_AUDIO_3'),
-  shared('SHARED'),
-  unencrypted('UNENCRYPTED'),
-  ;
+class PresetSpeke20Audio {
+  static const presetAudio_1 = PresetSpeke20Audio._('PRESET_AUDIO_1');
+  static const presetAudio_2 = PresetSpeke20Audio._('PRESET_AUDIO_2');
+  static const presetAudio_3 = PresetSpeke20Audio._('PRESET_AUDIO_3');
+  static const shared = PresetSpeke20Audio._('SHARED');
+  static const unencrypted = PresetSpeke20Audio._('UNENCRYPTED');
 
   final String value;
 
-  const PresetSpeke20Audio(this.value);
+  const PresetSpeke20Audio._(this.value);
 
-  static PresetSpeke20Audio fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum PresetSpeke20Audio'));
+  static const values = [
+    presetAudio_1,
+    presetAudio_2,
+    presetAudio_3,
+    shared,
+    unencrypted
+  ];
+
+  static PresetSpeke20Audio fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => PresetSpeke20Audio._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is PresetSpeke20Audio && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum PresetSpeke20Video {
-  presetVideo_1('PRESET_VIDEO_1'),
-  presetVideo_2('PRESET_VIDEO_2'),
-  presetVideo_3('PRESET_VIDEO_3'),
-  presetVideo_4('PRESET_VIDEO_4'),
-  presetVideo_5('PRESET_VIDEO_5'),
-  presetVideo_6('PRESET_VIDEO_6'),
-  presetVideo_7('PRESET_VIDEO_7'),
-  presetVideo_8('PRESET_VIDEO_8'),
-  shared('SHARED'),
-  unencrypted('UNENCRYPTED'),
-  ;
+class PresetSpeke20Video {
+  static const presetVideo_1 = PresetSpeke20Video._('PRESET_VIDEO_1');
+  static const presetVideo_2 = PresetSpeke20Video._('PRESET_VIDEO_2');
+  static const presetVideo_3 = PresetSpeke20Video._('PRESET_VIDEO_3');
+  static const presetVideo_4 = PresetSpeke20Video._('PRESET_VIDEO_4');
+  static const presetVideo_5 = PresetSpeke20Video._('PRESET_VIDEO_5');
+  static const presetVideo_6 = PresetSpeke20Video._('PRESET_VIDEO_6');
+  static const presetVideo_7 = PresetSpeke20Video._('PRESET_VIDEO_7');
+  static const presetVideo_8 = PresetSpeke20Video._('PRESET_VIDEO_8');
+  static const shared = PresetSpeke20Video._('SHARED');
+  static const unencrypted = PresetSpeke20Video._('UNENCRYPTED');
 
   final String value;
 
-  const PresetSpeke20Video(this.value);
+  const PresetSpeke20Video._(this.value);
 
-  static PresetSpeke20Video fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum PresetSpeke20Video'));
+  static const values = [
+    presetVideo_1,
+    presetVideo_2,
+    presetVideo_3,
+    presetVideo_4,
+    presetVideo_5,
+    presetVideo_6,
+    presetVideo_7,
+    presetVideo_8,
+    shared,
+    unencrypted
+  ];
+
+  static PresetSpeke20Video fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => PresetSpeke20Video._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is PresetSpeke20Video && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class PutChannelPolicyResponse {
@@ -3785,26 +3942,49 @@ class ScteDash {
   }
 }
 
-enum ScteFilter {
-  spliceInsert('SPLICE_INSERT'),
-  $break('BREAK'),
-  providerAdvertisement('PROVIDER_ADVERTISEMENT'),
-  distributorAdvertisement('DISTRIBUTOR_ADVERTISEMENT'),
-  providerPlacementOpportunity('PROVIDER_PLACEMENT_OPPORTUNITY'),
-  distributorPlacementOpportunity('DISTRIBUTOR_PLACEMENT_OPPORTUNITY'),
-  providerOverlayPlacementOpportunity('PROVIDER_OVERLAY_PLACEMENT_OPPORTUNITY'),
-  distributorOverlayPlacementOpportunity(
-      'DISTRIBUTOR_OVERLAY_PLACEMENT_OPPORTUNITY'),
-  program('PROGRAM'),
-  ;
+class ScteFilter {
+  static const spliceInsert = ScteFilter._('SPLICE_INSERT');
+  static const $break = ScteFilter._('BREAK');
+  static const providerAdvertisement = ScteFilter._('PROVIDER_ADVERTISEMENT');
+  static const distributorAdvertisement =
+      ScteFilter._('DISTRIBUTOR_ADVERTISEMENT');
+  static const providerPlacementOpportunity =
+      ScteFilter._('PROVIDER_PLACEMENT_OPPORTUNITY');
+  static const distributorPlacementOpportunity =
+      ScteFilter._('DISTRIBUTOR_PLACEMENT_OPPORTUNITY');
+  static const providerOverlayPlacementOpportunity =
+      ScteFilter._('PROVIDER_OVERLAY_PLACEMENT_OPPORTUNITY');
+  static const distributorOverlayPlacementOpportunity =
+      ScteFilter._('DISTRIBUTOR_OVERLAY_PLACEMENT_OPPORTUNITY');
+  static const program = ScteFilter._('PROGRAM');
 
   final String value;
 
-  const ScteFilter(this.value);
+  const ScteFilter._(this.value);
 
-  static ScteFilter fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum ScteFilter'));
+  static const values = [
+    spliceInsert,
+    $break,
+    providerAdvertisement,
+    distributorAdvertisement,
+    providerPlacementOpportunity,
+    distributorPlacementOpportunity,
+    providerOverlayPlacementOpportunity,
+    distributorOverlayPlacementOpportunity,
+    program
+  ];
+
+  static ScteFilter fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ScteFilter._(value));
+
+  @override
+  bool operator ==(other) => other is ScteFilter && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The SCTE configuration.
@@ -4017,19 +4197,29 @@ class SpekeKeyProvider {
   }
 }
 
-enum TsEncryptionMethod {
-  aes_128('AES_128'),
-  sampleAes('SAMPLE_AES'),
-  ;
+class TsEncryptionMethod {
+  static const aes_128 = TsEncryptionMethod._('AES_128');
+  static const sampleAes = TsEncryptionMethod._('SAMPLE_AES');
 
   final String value;
 
-  const TsEncryptionMethod(this.value);
+  const TsEncryptionMethod._(this.value);
 
-  static TsEncryptionMethod fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum TsEncryptionMethod'));
+  static const values = [aes_128, sampleAes];
+
+  static TsEncryptionMethod fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => TsEncryptionMethod._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TsEncryptionMethod && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class UpdateChannelGroupResponse {
@@ -4301,7 +4491,7 @@ class UpdateOriginEndpointResponse {
       channelGroupName: (json['ChannelGroupName'] as String?) ?? '',
       channelName: (json['ChannelName'] as String?) ?? '',
       containerType:
-          ContainerType.fromString((json['ContainerType'] as String)),
+          ContainerType.fromString((json['ContainerType'] as String?) ?? ''),
       createdAt: nonNullableTimeStampFromJson(json['CreatedAt'] ?? 0),
       modifiedAt: nonNullableTimeStampFromJson(json['ModifiedAt'] ?? 0),
       originEndpointName: (json['OriginEndpointName'] as String?) ?? '',

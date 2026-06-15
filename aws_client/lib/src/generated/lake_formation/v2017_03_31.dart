@@ -2491,19 +2491,28 @@ class AllRowsWildcard {
   }
 }
 
-enum ApplicationStatus {
-  enabled('ENABLED'),
-  disabled('DISABLED'),
-  ;
+class ApplicationStatus {
+  static const enabled = ApplicationStatus._('ENABLED');
+  static const disabled = ApplicationStatus._('DISABLED');
 
   final String value;
 
-  const ApplicationStatus(this.value);
+  const ApplicationStatus._(this.value);
+
+  static const values = [enabled, disabled];
 
   static ApplicationStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ApplicationStatus'));
+          orElse: () => ApplicationStatus._(value));
+
+  @override
+  bool operator ==(other) => other is ApplicationStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class AssumeDecoratedRoleWithSAMLResponse {
@@ -2835,28 +2844,50 @@ class CommitTransactionResponse {
   }
 }
 
-enum ComparisonOperator {
-  eq('EQ'),
-  ne('NE'),
-  le('LE'),
-  lt('LT'),
-  ge('GE'),
-  gt('GT'),
-  contains('CONTAINS'),
-  notContains('NOT_CONTAINS'),
-  beginsWith('BEGINS_WITH'),
-  $in('IN'),
-  between('BETWEEN'),
-  ;
+class ComparisonOperator {
+  static const eq = ComparisonOperator._('EQ');
+  static const ne = ComparisonOperator._('NE');
+  static const le = ComparisonOperator._('LE');
+  static const lt = ComparisonOperator._('LT');
+  static const ge = ComparisonOperator._('GE');
+  static const gt = ComparisonOperator._('GT');
+  static const contains = ComparisonOperator._('CONTAINS');
+  static const notContains = ComparisonOperator._('NOT_CONTAINS');
+  static const beginsWith = ComparisonOperator._('BEGINS_WITH');
+  static const $in = ComparisonOperator._('IN');
+  static const between = ComparisonOperator._('BETWEEN');
 
   final String value;
 
-  const ComparisonOperator(this.value);
+  const ComparisonOperator._(this.value);
 
-  static ComparisonOperator fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ComparisonOperator'));
+  static const values = [
+    eq,
+    ne,
+    le,
+    lt,
+    ge,
+    gt,
+    contains,
+    notContains,
+    beginsWith,
+    $in,
+    between
+  ];
+
+  static ComparisonOperator fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ComparisonOperator._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ComparisonOperator && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class CreateDataCellsFilterResponse {
@@ -3075,25 +3106,45 @@ class DataLakePrincipal {
   }
 }
 
-enum DataLakeResourceType {
-  catalog('CATALOG'),
-  database('DATABASE'),
-  table('TABLE'),
-  dataLocation('DATA_LOCATION'),
-  lfTag('LF_TAG'),
-  lfTagPolicy('LF_TAG_POLICY'),
-  lfTagPolicyDatabase('LF_TAG_POLICY_DATABASE'),
-  lfTagPolicyTable('LF_TAG_POLICY_TABLE'),
-  ;
+class DataLakeResourceType {
+  static const catalog = DataLakeResourceType._('CATALOG');
+  static const database = DataLakeResourceType._('DATABASE');
+  static const table = DataLakeResourceType._('TABLE');
+  static const dataLocation = DataLakeResourceType._('DATA_LOCATION');
+  static const lfTag = DataLakeResourceType._('LF_TAG');
+  static const lfTagPolicy = DataLakeResourceType._('LF_TAG_POLICY');
+  static const lfTagPolicyDatabase =
+      DataLakeResourceType._('LF_TAG_POLICY_DATABASE');
+  static const lfTagPolicyTable = DataLakeResourceType._('LF_TAG_POLICY_TABLE');
 
   final String value;
 
-  const DataLakeResourceType(this.value);
+  const DataLakeResourceType._(this.value);
 
-  static DataLakeResourceType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum DataLakeResourceType'));
+  static const values = [
+    catalog,
+    database,
+    table,
+    dataLocation,
+    lfTag,
+    lfTagPolicy,
+    lfTagPolicyDatabase,
+    lfTagPolicyTable
+  ];
+
+  static DataLakeResourceType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DataLakeResourceType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DataLakeResourceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A structure representing a list of Lake Formation principals designated as
@@ -3603,19 +3654,27 @@ class DetailsMap {
   }
 }
 
-enum EnableStatus {
-  enabled('ENABLED'),
-  disabled('DISABLED'),
-  ;
+class EnableStatus {
+  static const enabled = EnableStatus._('ENABLED');
+  static const disabled = EnableStatus._('DISABLED');
 
   final String value;
 
-  const EnableStatus(this.value);
+  const EnableStatus._(this.value);
 
-  static EnableStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum EnableStatus'));
+  static const values = [enabled, disabled];
+
+  static EnableStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => EnableStatus._(value));
+
+  @override
+  bool operator ==(other) => other is EnableStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains details about an error.
@@ -3721,7 +3780,7 @@ class ExternalFilteringConfiguration {
           .nonNulls
           .map((e) => e as String)
           .toList(),
-      status: EnableStatus.fromString((json['Status'] as String)),
+      status: EnableStatus.fromString((json['Status'] as String?) ?? ''),
     );
   }
 
@@ -3735,20 +3794,29 @@ class ExternalFilteringConfiguration {
   }
 }
 
-enum FieldNameString {
-  resourceArn('RESOURCE_ARN'),
-  roleArn('ROLE_ARN'),
-  lastModified('LAST_MODIFIED'),
-  ;
+class FieldNameString {
+  static const resourceArn = FieldNameString._('RESOURCE_ARN');
+  static const roleArn = FieldNameString._('ROLE_ARN');
+  static const lastModified = FieldNameString._('LAST_MODIFIED');
 
   final String value;
 
-  const FieldNameString(this.value);
+  const FieldNameString._(this.value);
+
+  static const values = [resourceArn, roleArn, lastModified];
 
   static FieldNameString fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum FieldNameString'));
+          orElse: () => FieldNameString._(value));
+
+  @override
+  bool operator ==(other) => other is FieldNameString && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// This structure describes the filtering of columns in a table based on a
@@ -3964,7 +4032,7 @@ class GetQueryStateResponse {
 
   factory GetQueryStateResponse.fromJson(Map<String, dynamic> json) {
     return GetQueryStateResponse(
-      state: QueryStateString.fromString((json['State'] as String)),
+      state: QueryStateString.fromString((json['State'] as String?) ?? ''),
       error: json['Error'] as String?,
     );
   }
@@ -4459,7 +4527,8 @@ class LFTagPolicyResource {
           .nonNulls
           .map((e) => LFTag.fromJson(e as Map<String, dynamic>))
           .toList(),
-      resourceType: ResourceType.fromString((json['ResourceType'] as String)),
+      resourceType:
+          ResourceType.fromString((json['ResourceType'] as String?) ?? ''),
       catalogId: json['CatalogId'] as String?,
     );
   }
@@ -4762,20 +4831,29 @@ class ListTransactionsResponse {
   }
 }
 
-enum OptimizerType {
-  compaction('COMPACTION'),
-  garbageCollection('GARBAGE_COLLECTION'),
-  all('ALL'),
-  ;
+class OptimizerType {
+  static const compaction = OptimizerType._('COMPACTION');
+  static const garbageCollection = OptimizerType._('GARBAGE_COLLECTION');
+  static const all = OptimizerType._('ALL');
 
   final String value;
 
-  const OptimizerType(this.value);
+  const OptimizerType._(this.value);
+
+  static const values = [compaction, garbageCollection, all];
 
   static OptimizerType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum OptimizerType'));
+          orElse: () => OptimizerType._(value));
+
+  @override
+  bool operator ==(other) => other is OptimizerType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A structure containing a list of partition values and table objects.
@@ -4831,46 +4909,86 @@ class PartitionValueList {
   }
 }
 
-enum Permission {
-  all('ALL'),
-  select('SELECT'),
-  alter('ALTER'),
-  drop('DROP'),
-  delete('DELETE'),
-  insert('INSERT'),
-  describe('DESCRIBE'),
-  createDatabase('CREATE_DATABASE'),
-  createTable('CREATE_TABLE'),
-  dataLocationAccess('DATA_LOCATION_ACCESS'),
-  createLfTag('CREATE_LF_TAG'),
-  associate('ASSOCIATE'),
-  grantWithLfTagExpression('GRANT_WITH_LF_TAG_EXPRESSION'),
-  ;
+class Permission {
+  static const all = Permission._('ALL');
+  static const select = Permission._('SELECT');
+  static const alter = Permission._('ALTER');
+  static const drop = Permission._('DROP');
+  static const delete = Permission._('DELETE');
+  static const insert = Permission._('INSERT');
+  static const describe = Permission._('DESCRIBE');
+  static const createDatabase = Permission._('CREATE_DATABASE');
+  static const createTable = Permission._('CREATE_TABLE');
+  static const dataLocationAccess = Permission._('DATA_LOCATION_ACCESS');
+  static const createLfTag = Permission._('CREATE_LF_TAG');
+  static const associate = Permission._('ASSOCIATE');
+  static const grantWithLfTagExpression =
+      Permission._('GRANT_WITH_LF_TAG_EXPRESSION');
 
   final String value;
 
-  const Permission(this.value);
+  const Permission._(this.value);
 
-  static Permission fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum Permission'));
+  static const values = [
+    all,
+    select,
+    alter,
+    drop,
+    delete,
+    insert,
+    describe,
+    createDatabase,
+    createTable,
+    dataLocationAccess,
+    createLfTag,
+    associate,
+    grantWithLfTagExpression
+  ];
+
+  static Permission fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Permission._(value));
+
+  @override
+  bool operator ==(other) => other is Permission && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum PermissionType {
-  columnPermission('COLUMN_PERMISSION'),
-  cellFilterPermission('CELL_FILTER_PERMISSION'),
-  nestedPermission('NESTED_PERMISSION'),
-  nestedCellPermission('NESTED_CELL_PERMISSION'),
-  ;
+class PermissionType {
+  static const columnPermission = PermissionType._('COLUMN_PERMISSION');
+  static const cellFilterPermission =
+      PermissionType._('CELL_FILTER_PERMISSION');
+  static const nestedPermission = PermissionType._('NESTED_PERMISSION');
+  static const nestedCellPermission =
+      PermissionType._('NESTED_CELL_PERMISSION');
 
   final String value;
 
-  const PermissionType(this.value);
+  const PermissionType._(this.value);
+
+  static const values = [
+    columnPermission,
+    cellFilterPermission,
+    nestedPermission,
+    nestedCellPermission
+  ];
 
   static PermissionType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum PermissionType'));
+          orElse: () => PermissionType._(value));
+
+  @override
+  bool operator ==(other) => other is PermissionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Statistics related to the processing of a query statement.
@@ -5148,22 +5266,31 @@ class QuerySessionContext {
   }
 }
 
-enum QueryStateString {
-  pending('PENDING'),
-  workunitsAvailable('WORKUNITS_AVAILABLE'),
-  error('ERROR'),
-  finished('FINISHED'),
-  expired('EXPIRED'),
-  ;
+class QueryStateString {
+  static const pending = QueryStateString._('PENDING');
+  static const workunitsAvailable = QueryStateString._('WORKUNITS_AVAILABLE');
+  static const error = QueryStateString._('ERROR');
+  static const finished = QueryStateString._('FINISHED');
+  static const expired = QueryStateString._('EXPIRED');
 
   final String value;
 
-  const QueryStateString(this.value);
+  const QueryStateString._(this.value);
+
+  static const values = [pending, workunitsAvailable, error, finished, expired];
 
   static QueryStateString fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum QueryStateString'));
+          orElse: () => QueryStateString._(value));
+
+  @override
+  bool operator ==(other) => other is QueryStateString && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class RegisterResourceResponse {
@@ -5358,34 +5485,51 @@ class ResourceInfo {
   }
 }
 
-enum ResourceShareType {
-  foreign('FOREIGN'),
-  all('ALL'),
-  ;
+class ResourceShareType {
+  static const foreign = ResourceShareType._('FOREIGN');
+  static const all = ResourceShareType._('ALL');
 
   final String value;
 
-  const ResourceShareType(this.value);
+  const ResourceShareType._(this.value);
+
+  static const values = [foreign, all];
 
   static ResourceShareType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ResourceShareType'));
+          orElse: () => ResourceShareType._(value));
+
+  @override
+  bool operator ==(other) => other is ResourceShareType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ResourceType {
-  database('DATABASE'),
-  table('TABLE'),
-  ;
+class ResourceType {
+  static const database = ResourceType._('DATABASE');
+  static const table = ResourceType._('TABLE');
 
   final String value;
 
-  const ResourceType(this.value);
+  const ResourceType._(this.value);
 
-  static ResourceType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ResourceType'));
+  static const values = [database, table];
+
+  static ResourceType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ResourceType._(value));
+
+  @override
+  bool operator ==(other) => other is ResourceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class RevokePermissionsResponse {
@@ -5925,54 +6069,82 @@ class TransactionDescription {
   }
 }
 
-enum TransactionStatus {
-  active('ACTIVE'),
-  committed('COMMITTED'),
-  aborted('ABORTED'),
-  commitInProgress('COMMIT_IN_PROGRESS'),
-  ;
+class TransactionStatus {
+  static const active = TransactionStatus._('ACTIVE');
+  static const committed = TransactionStatus._('COMMITTED');
+  static const aborted = TransactionStatus._('ABORTED');
+  static const commitInProgress = TransactionStatus._('COMMIT_IN_PROGRESS');
 
   final String value;
 
-  const TransactionStatus(this.value);
+  const TransactionStatus._(this.value);
+
+  static const values = [active, committed, aborted, commitInProgress];
 
   static TransactionStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum TransactionStatus'));
+          orElse: () => TransactionStatus._(value));
+
+  @override
+  bool operator ==(other) => other is TransactionStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum TransactionStatusFilter {
-  all('ALL'),
-  completed('COMPLETED'),
-  active('ACTIVE'),
-  committed('COMMITTED'),
-  aborted('ABORTED'),
-  ;
+class TransactionStatusFilter {
+  static const all = TransactionStatusFilter._('ALL');
+  static const completed = TransactionStatusFilter._('COMPLETED');
+  static const active = TransactionStatusFilter._('ACTIVE');
+  static const committed = TransactionStatusFilter._('COMMITTED');
+  static const aborted = TransactionStatusFilter._('ABORTED');
 
   final String value;
 
-  const TransactionStatusFilter(this.value);
+  const TransactionStatusFilter._(this.value);
+
+  static const values = [all, completed, active, committed, aborted];
 
   static TransactionStatusFilter fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum TransactionStatusFilter'));
+          orElse: () => TransactionStatusFilter._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TransactionStatusFilter && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum TransactionType {
-  readAndWrite('READ_AND_WRITE'),
-  readOnly('READ_ONLY'),
-  ;
+class TransactionType {
+  static const readAndWrite = TransactionType._('READ_AND_WRITE');
+  static const readOnly = TransactionType._('READ_ONLY');
 
   final String value;
 
-  const TransactionType(this.value);
+  const TransactionType._(this.value);
+
+  static const values = [readAndWrite, readOnly];
 
   static TransactionType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum TransactionType'));
+          orElse: () => TransactionType._(value));
+
+  @override
+  bool operator ==(other) => other is TransactionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class UpdateDataCellsFilterResponse {

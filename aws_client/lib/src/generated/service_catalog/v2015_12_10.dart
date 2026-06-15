@@ -5946,36 +5946,54 @@ class AccessLevelFilter {
   }
 }
 
-enum AccessLevelFilterKey {
-  account('Account'),
-  role('Role'),
-  user('User'),
-  ;
+class AccessLevelFilterKey {
+  static const account = AccessLevelFilterKey._('Account');
+  static const role = AccessLevelFilterKey._('Role');
+  static const user = AccessLevelFilterKey._('User');
 
   final String value;
 
-  const AccessLevelFilterKey(this.value);
+  const AccessLevelFilterKey._(this.value);
 
-  static AccessLevelFilterKey fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum AccessLevelFilterKey'));
+  static const values = [account, role, user];
+
+  static AccessLevelFilterKey fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AccessLevelFilterKey._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AccessLevelFilterKey && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum AccessStatus {
-  enabled('ENABLED'),
-  underChange('UNDER_CHANGE'),
-  disabled('DISABLED'),
-  ;
+class AccessStatus {
+  static const enabled = AccessStatus._('ENABLED');
+  static const underChange = AccessStatus._('UNDER_CHANGE');
+  static const disabled = AccessStatus._('DISABLED');
 
   final String value;
 
-  const AccessStatus(this.value);
+  const AccessStatus._(this.value);
 
-  static AccessStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum AccessStatus'));
+  static const values = [enabled, underChange, disabled];
+
+  static AccessStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => AccessStatus._(value));
+
+  @override
+  bool operator ==(other) => other is AccessStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class AssociateBudgetWithResourceOutput {
@@ -6126,20 +6144,28 @@ class BudgetDetail {
   }
 }
 
-enum ChangeAction {
-  add('ADD'),
-  modify('MODIFY'),
-  remove('REMOVE'),
-  ;
+class ChangeAction {
+  static const add = ChangeAction._('ADD');
+  static const modify = ChangeAction._('MODIFY');
+  static const remove = ChangeAction._('REMOVE');
 
   final String value;
 
-  const ChangeAction(this.value);
+  const ChangeAction._(this.value);
 
-  static ChangeAction fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ChangeAction'));
+  static const values = [add, modify, remove];
+
+  static ChangeAction fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ChangeAction._(value));
+
+  @override
+  bool operator ==(other) => other is ChangeAction && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about a CloudWatch dashboard.
@@ -6335,17 +6361,26 @@ class ConstraintSummary {
   }
 }
 
-enum CopyOption {
-  copyTags('CopyTags'),
-  ;
+class CopyOption {
+  static const copyTags = CopyOption._('CopyTags');
 
   final String value;
 
-  const CopyOption(this.value);
+  const CopyOption._(this.value);
 
-  static CopyOption fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum CopyOption'));
+  static const values = [copyTags];
+
+  static CopyOption fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => CopyOption._(value));
+
+  @override
+  bool operator ==(other) => other is CopyOption && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class CopyProductOutput {
@@ -6370,20 +6405,29 @@ class CopyProductOutput {
   }
 }
 
-enum CopyProductStatus {
-  succeeded('SUCCEEDED'),
-  inProgress('IN_PROGRESS'),
-  failed('FAILED'),
-  ;
+class CopyProductStatus {
+  static const succeeded = CopyProductStatus._('SUCCEEDED');
+  static const inProgress = CopyProductStatus._('IN_PROGRESS');
+  static const failed = CopyProductStatus._('FAILED');
 
   final String value;
 
-  const CopyProductStatus(this.value);
+  const CopyProductStatus._(this.value);
+
+  static const values = [succeeded, inProgress, failed];
 
   static CopyProductStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum CopyProductStatus'));
+          orElse: () => CopyProductStatus._(value));
+
+  @override
+  bool operator ==(other) => other is CopyProductStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class CreateConstraintOutput {
@@ -6989,21 +7033,38 @@ class DescribePortfolioShareStatusOutput {
   }
 }
 
-enum DescribePortfolioShareType {
-  account('ACCOUNT'),
-  organization('ORGANIZATION'),
-  organizationalUnit('ORGANIZATIONAL_UNIT'),
-  organizationMemberAccount('ORGANIZATION_MEMBER_ACCOUNT'),
-  ;
+class DescribePortfolioShareType {
+  static const account = DescribePortfolioShareType._('ACCOUNT');
+  static const organization = DescribePortfolioShareType._('ORGANIZATION');
+  static const organizationalUnit =
+      DescribePortfolioShareType._('ORGANIZATIONAL_UNIT');
+  static const organizationMemberAccount =
+      DescribePortfolioShareType._('ORGANIZATION_MEMBER_ACCOUNT');
 
   final String value;
 
-  const DescribePortfolioShareType(this.value);
+  const DescribePortfolioShareType._(this.value);
+
+  static const values = [
+    account,
+    organization,
+    organizationalUnit,
+    organizationMemberAccount
+  ];
 
   static DescribePortfolioShareType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum DescribePortfolioShareType'));
+          orElse: () => DescribePortfolioShareType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DescribePortfolioShareType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class DescribePortfolioSharesOutput {
@@ -7676,34 +7737,53 @@ class EngineWorkflowResourceIdentifier {
   }
 }
 
-enum EngineWorkflowStatus {
-  succeeded('SUCCEEDED'),
-  failed('FAILED'),
-  ;
+class EngineWorkflowStatus {
+  static const succeeded = EngineWorkflowStatus._('SUCCEEDED');
+  static const failed = EngineWorkflowStatus._('FAILED');
 
   final String value;
 
-  const EngineWorkflowStatus(this.value);
+  const EngineWorkflowStatus._(this.value);
 
-  static EngineWorkflowStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum EngineWorkflowStatus'));
+  static const values = [succeeded, failed];
+
+  static EngineWorkflowStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => EngineWorkflowStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is EngineWorkflowStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum EvaluationType {
-  static('STATIC'),
-  $dynamic('DYNAMIC'),
-  ;
+class EvaluationType {
+  static const static = EvaluationType._('STATIC');
+  static const $dynamic = EvaluationType._('DYNAMIC');
 
   final String value;
 
-  const EvaluationType(this.value);
+  const EvaluationType._(this.value);
+
+  static const values = [static, $dynamic];
 
   static EvaluationType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum EvaluationType'));
+          orElse: () => EvaluationType._(value));
+
+  @override
+  bool operator ==(other) => other is EvaluationType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class ExecuteProvisionedProductPlanOutput {
@@ -8019,19 +8099,28 @@ class LastSync {
   }
 }
 
-enum LastSyncStatus {
-  succeeded('SUCCEEDED'),
-  failed('FAILED'),
-  ;
+class LastSyncStatus {
+  static const succeeded = LastSyncStatus._('SUCCEEDED');
+  static const failed = LastSyncStatus._('FAILED');
 
   final String value;
 
-  const LastSyncStatus(this.value);
+  const LastSyncStatus._(this.value);
+
+  static const values = [succeeded, failed];
 
   static LastSyncStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum LastSyncStatus'));
+          orElse: () => LastSyncStatus._(value));
+
+  @override
+  bool operator ==(other) => other is LastSyncStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A launch path object.
@@ -8863,20 +8952,31 @@ class OrganizationNode {
   }
 }
 
-enum OrganizationNodeType {
-  organization('ORGANIZATION'),
-  organizationalUnit('ORGANIZATIONAL_UNIT'),
-  account('ACCOUNT'),
-  ;
+class OrganizationNodeType {
+  static const organization = OrganizationNodeType._('ORGANIZATION');
+  static const organizationalUnit =
+      OrganizationNodeType._('ORGANIZATIONAL_UNIT');
+  static const account = OrganizationNodeType._('ACCOUNT');
 
   final String value;
 
-  const OrganizationNodeType(this.value);
+  const OrganizationNodeType._(this.value);
 
-  static OrganizationNodeType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum OrganizationNodeType'));
+  static const values = [organization, organizationalUnit, account];
+
+  static OrganizationNodeType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => OrganizationNodeType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is OrganizationNodeType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The constraints that the administrator has put on the parameter.
@@ -9091,20 +9191,30 @@ class PortfolioShareDetail {
   }
 }
 
-enum PortfolioShareType {
-  imported('IMPORTED'),
-  awsServicecatalog('AWS_SERVICECATALOG'),
-  awsOrganizations('AWS_ORGANIZATIONS'),
-  ;
+class PortfolioShareType {
+  static const imported = PortfolioShareType._('IMPORTED');
+  static const awsServicecatalog = PortfolioShareType._('AWS_SERVICECATALOG');
+  static const awsOrganizations = PortfolioShareType._('AWS_ORGANIZATIONS');
 
   final String value;
 
-  const PortfolioShareType(this.value);
+  const PortfolioShareType._(this.value);
 
-  static PortfolioShareType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum PortfolioShareType'));
+  static const values = [imported, awsServicecatalog, awsOrganizations];
+
+  static PortfolioShareType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => PortfolioShareType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is PortfolioShareType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about a principal.
@@ -9146,50 +9256,84 @@ class Principal {
   }
 }
 
-enum PrincipalType {
-  iam('IAM'),
-  iamPattern('IAM_PATTERN'),
-  ;
+class PrincipalType {
+  static const iam = PrincipalType._('IAM');
+  static const iamPattern = PrincipalType._('IAM_PATTERN');
 
   final String value;
 
-  const PrincipalType(this.value);
+  const PrincipalType._(this.value);
+
+  static const values = [iam, iamPattern];
 
   static PrincipalType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum PrincipalType'));
+          orElse: () => PrincipalType._(value));
+
+  @override
+  bool operator ==(other) => other is PrincipalType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ProductSource {
-  account('ACCOUNT'),
-  ;
+class ProductSource {
+  static const account = ProductSource._('ACCOUNT');
 
   final String value;
 
-  const ProductSource(this.value);
+  const ProductSource._(this.value);
+
+  static const values = [account];
 
   static ProductSource fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ProductSource'));
+          orElse: () => ProductSource._(value));
+
+  @override
+  bool operator ==(other) => other is ProductSource && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ProductType {
-  cloudFormationTemplate('CLOUD_FORMATION_TEMPLATE'),
-  marketplace('MARKETPLACE'),
-  terraformOpenSource('TERRAFORM_OPEN_SOURCE'),
-  terraformCloud('TERRAFORM_CLOUD'),
-  external('EXTERNAL'),
-  ;
+class ProductType {
+  static const cloudFormationTemplate =
+      ProductType._('CLOUD_FORMATION_TEMPLATE');
+  static const marketplace = ProductType._('MARKETPLACE');
+  static const terraformOpenSource = ProductType._('TERRAFORM_OPEN_SOURCE');
+  static const terraformCloud = ProductType._('TERRAFORM_CLOUD');
+  static const external = ProductType._('EXTERNAL');
 
   final String value;
 
-  const ProductType(this.value);
+  const ProductType._(this.value);
 
-  static ProductType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum ProductType'));
+  static const values = [
+    cloudFormationTemplate,
+    marketplace,
+    terraformOpenSource,
+    terraformCloud,
+    external
+  ];
+
+  static ProductType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ProductType._(value));
+
+  @override
+  bool operator ==(other) => other is ProductType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A single product view aggregation value/count pair, containing metadata
@@ -9299,37 +9443,56 @@ class ProductViewDetail {
   }
 }
 
-enum ProductViewFilterBy {
-  fullTextSearch('FullTextSearch'),
-  owner('Owner'),
-  productType('ProductType'),
-  sourceProductId('SourceProductId'),
-  ;
+class ProductViewFilterBy {
+  static const fullTextSearch = ProductViewFilterBy._('FullTextSearch');
+  static const owner = ProductViewFilterBy._('Owner');
+  static const productType = ProductViewFilterBy._('ProductType');
+  static const sourceProductId = ProductViewFilterBy._('SourceProductId');
 
   final String value;
 
-  const ProductViewFilterBy(this.value);
+  const ProductViewFilterBy._(this.value);
 
-  static ProductViewFilterBy fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ProductViewFilterBy'));
+  static const values = [fullTextSearch, owner, productType, sourceProductId];
+
+  static ProductViewFilterBy fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ProductViewFilterBy._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ProductViewFilterBy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ProductViewSortBy {
-  title('Title'),
-  versionCount('VersionCount'),
-  creationDate('CreationDate'),
-  ;
+class ProductViewSortBy {
+  static const title = ProductViewSortBy._('Title');
+  static const versionCount = ProductViewSortBy._('VersionCount');
+  static const creationDate = ProductViewSortBy._('CreationDate');
 
   final String value;
 
-  const ProductViewSortBy(this.value);
+  const ProductViewSortBy._(this.value);
+
+  static const values = [title, versionCount, creationDate];
 
   static ProductViewSortBy fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ProductViewSortBy'));
+          orElse: () => ProductViewSortBy._(value));
+
+  @override
+  bool operator ==(other) => other is ProductViewSortBy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Summary information about a product view.
@@ -9433,18 +9596,27 @@ class ProductViewSummary {
   }
 }
 
-enum PropertyKey {
-  owner('OWNER'),
-  launchRole('LAUNCH_ROLE'),
-  ;
+class PropertyKey {
+  static const owner = PropertyKey._('OWNER');
+  static const launchRole = PropertyKey._('LAUNCH_ROLE');
 
   final String value;
 
-  const PropertyKey(this.value);
+  const PropertyKey._(this.value);
 
-  static PropertyKey fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum PropertyKey'));
+  static const values = [owner, launchRole];
+
+  static PropertyKey fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => PropertyKey._(value));
+
+  @override
+  bool operator ==(other) => other is PropertyKey && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class ProvisionProductOutput {
@@ -10030,23 +10202,43 @@ class ProvisionedProductPlanDetails {
   }
 }
 
-enum ProvisionedProductPlanStatus {
-  createInProgress('CREATE_IN_PROGRESS'),
-  createSuccess('CREATE_SUCCESS'),
-  createFailed('CREATE_FAILED'),
-  executeInProgress('EXECUTE_IN_PROGRESS'),
-  executeSuccess('EXECUTE_SUCCESS'),
-  executeFailed('EXECUTE_FAILED'),
-  ;
+class ProvisionedProductPlanStatus {
+  static const createInProgress =
+      ProvisionedProductPlanStatus._('CREATE_IN_PROGRESS');
+  static const createSuccess = ProvisionedProductPlanStatus._('CREATE_SUCCESS');
+  static const createFailed = ProvisionedProductPlanStatus._('CREATE_FAILED');
+  static const executeInProgress =
+      ProvisionedProductPlanStatus._('EXECUTE_IN_PROGRESS');
+  static const executeSuccess =
+      ProvisionedProductPlanStatus._('EXECUTE_SUCCESS');
+  static const executeFailed = ProvisionedProductPlanStatus._('EXECUTE_FAILED');
 
   final String value;
 
-  const ProvisionedProductPlanStatus(this.value);
+  const ProvisionedProductPlanStatus._(this.value);
+
+  static const values = [
+    createInProgress,
+    createSuccess,
+    createFailed,
+    executeInProgress,
+    executeSuccess,
+    executeFailed
+  ];
 
   static ProvisionedProductPlanStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ProvisionedProductPlanStatus'));
+          orElse: () => ProvisionedProductPlanStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ProvisionedProductPlanStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Summary information about a plan.
@@ -10110,50 +10302,86 @@ class ProvisionedProductPlanSummary {
   }
 }
 
-enum ProvisionedProductPlanType {
-  cloudformation('CLOUDFORMATION'),
-  ;
+class ProvisionedProductPlanType {
+  static const cloudformation = ProvisionedProductPlanType._('CLOUDFORMATION');
 
   final String value;
 
-  const ProvisionedProductPlanType(this.value);
+  const ProvisionedProductPlanType._(this.value);
+
+  static const values = [cloudformation];
 
   static ProvisionedProductPlanType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ProvisionedProductPlanType'));
+          orElse: () => ProvisionedProductPlanType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ProvisionedProductPlanType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ProvisionedProductStatus {
-  available('AVAILABLE'),
-  underChange('UNDER_CHANGE'),
-  tainted('TAINTED'),
-  error('ERROR'),
-  planInProgress('PLAN_IN_PROGRESS'),
-  ;
+class ProvisionedProductStatus {
+  static const available = ProvisionedProductStatus._('AVAILABLE');
+  static const underChange = ProvisionedProductStatus._('UNDER_CHANGE');
+  static const tainted = ProvisionedProductStatus._('TAINTED');
+  static const error = ProvisionedProductStatus._('ERROR');
+  static const planInProgress = ProvisionedProductStatus._('PLAN_IN_PROGRESS');
 
   final String value;
 
-  const ProvisionedProductStatus(this.value);
+  const ProvisionedProductStatus._(this.value);
+
+  static const values = [
+    available,
+    underChange,
+    tainted,
+    error,
+    planInProgress
+  ];
 
   static ProvisionedProductStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ProvisionedProductStatus'));
+          orElse: () => ProvisionedProductStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ProvisionedProductStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ProvisionedProductViewFilterBy {
-  searchQuery('SearchQuery'),
-  ;
+class ProvisionedProductViewFilterBy {
+  static const searchQuery = ProvisionedProductViewFilterBy._('SearchQuery');
 
   final String value;
 
-  const ProvisionedProductViewFilterBy(this.value);
+  const ProvisionedProductViewFilterBy._(this.value);
+
+  static const values = [searchQuery];
 
   static ProvisionedProductViewFilterBy fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ProvisionedProductViewFilterBy'));
+          orElse: () => ProvisionedProductViewFilterBy._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ProvisionedProductViewFilterBy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about a provisioning artifact. A provisioning artifact is also
@@ -10311,19 +10539,29 @@ class ProvisioningArtifactDetail {
   }
 }
 
-enum ProvisioningArtifactGuidance {
-  $default('DEFAULT'),
-  deprecated('DEPRECATED'),
-  ;
+class ProvisioningArtifactGuidance {
+  static const $default = ProvisioningArtifactGuidance._('DEFAULT');
+  static const deprecated = ProvisioningArtifactGuidance._('DEPRECATED');
 
   final String value;
 
-  const ProvisioningArtifactGuidance(this.value);
+  const ProvisioningArtifactGuidance._(this.value);
+
+  static const values = [$default, deprecated];
 
   static ProvisioningArtifactGuidance fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ProvisioningArtifactGuidance'));
+          orElse: () => ProvisioningArtifactGuidance._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ProvisioningArtifactGuidance && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Provisioning artifact output.
@@ -10552,18 +10790,28 @@ class ProvisioningArtifactProperties {
   }
 }
 
-enum ProvisioningArtifactPropertyName {
-  id('Id'),
-  ;
+class ProvisioningArtifactPropertyName {
+  static const id = ProvisioningArtifactPropertyName._('Id');
 
   final String value;
 
-  const ProvisioningArtifactPropertyName(this.value);
+  const ProvisioningArtifactPropertyName._(this.value);
+
+  static const values = [id];
 
   static ProvisioningArtifactPropertyName fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ProvisioningArtifactPropertyName'));
+          orElse: () => ProvisioningArtifactPropertyName._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ProvisioningArtifactPropertyName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Summary information about a provisioning artifact (also known as a version)
@@ -10622,23 +10870,42 @@ class ProvisioningArtifactSummary {
   }
 }
 
-enum ProvisioningArtifactType {
-  cloudFormationTemplate('CLOUD_FORMATION_TEMPLATE'),
-  marketplaceAmi('MARKETPLACE_AMI'),
-  marketplaceCar('MARKETPLACE_CAR'),
-  terraformOpenSource('TERRAFORM_OPEN_SOURCE'),
-  terraformCloud('TERRAFORM_CLOUD'),
-  external('EXTERNAL'),
-  ;
+class ProvisioningArtifactType {
+  static const cloudFormationTemplate =
+      ProvisioningArtifactType._('CLOUD_FORMATION_TEMPLATE');
+  static const marketplaceAmi = ProvisioningArtifactType._('MARKETPLACE_AMI');
+  static const marketplaceCar = ProvisioningArtifactType._('MARKETPLACE_CAR');
+  static const terraformOpenSource =
+      ProvisioningArtifactType._('TERRAFORM_OPEN_SOURCE');
+  static const terraformCloud = ProvisioningArtifactType._('TERRAFORM_CLOUD');
+  static const external = ProvisioningArtifactType._('EXTERNAL');
 
   final String value;
 
-  const ProvisioningArtifactType(this.value);
+  const ProvisioningArtifactType._(this.value);
+
+  static const values = [
+    cloudFormationTemplate,
+    marketplaceAmi,
+    marketplaceCar,
+    terraformOpenSource,
+    terraformCloud,
+    external
+  ];
 
   static ProvisioningArtifactType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ProvisioningArtifactType'));
+          orElse: () => ProvisioningArtifactType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ProvisioningArtifactType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// An object that contains summary information about a product view and a
@@ -11075,22 +11342,36 @@ class RecordOutput {
   }
 }
 
-enum RecordStatus {
-  created('CREATED'),
-  inProgress('IN_PROGRESS'),
-  inProgressInError('IN_PROGRESS_IN_ERROR'),
-  succeeded('SUCCEEDED'),
-  failed('FAILED'),
-  ;
+class RecordStatus {
+  static const created = RecordStatus._('CREATED');
+  static const inProgress = RecordStatus._('IN_PROGRESS');
+  static const inProgressInError = RecordStatus._('IN_PROGRESS_IN_ERROR');
+  static const succeeded = RecordStatus._('SUCCEEDED');
+  static const failed = RecordStatus._('FAILED');
 
   final String value;
 
-  const RecordStatus(this.value);
+  const RecordStatus._(this.value);
 
-  static RecordStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum RecordStatus'));
+  static const values = [
+    created,
+    inProgress,
+    inProgressInError,
+    succeeded,
+    failed
+  ];
+
+  static RecordStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => RecordStatus._(value));
+
+  @override
+  bool operator ==(other) => other is RecordStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about a tag, which is a key-value pair.
@@ -11135,54 +11416,89 @@ class RejectPortfolioShareOutput {
   }
 }
 
-enum Replacement {
-  $true('TRUE'),
-  $false('FALSE'),
-  conditional('CONDITIONAL'),
-  ;
+class Replacement {
+  static const $true = Replacement._('TRUE');
+  static const $false = Replacement._('FALSE');
+  static const conditional = Replacement._('CONDITIONAL');
 
   final String value;
 
-  const Replacement(this.value);
+  const Replacement._(this.value);
 
-  static Replacement fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum Replacement'));
+  static const values = [$true, $false, conditional];
+
+  static Replacement fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Replacement._(value));
+
+  @override
+  bool operator ==(other) => other is Replacement && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum RequiresRecreation {
-  never('NEVER'),
-  conditionally('CONDITIONALLY'),
-  always('ALWAYS'),
-  ;
+class RequiresRecreation {
+  static const never = RequiresRecreation._('NEVER');
+  static const conditionally = RequiresRecreation._('CONDITIONALLY');
+  static const always = RequiresRecreation._('ALWAYS');
 
   final String value;
 
-  const RequiresRecreation(this.value);
+  const RequiresRecreation._(this.value);
 
-  static RequiresRecreation fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum RequiresRecreation'));
+  static const values = [never, conditionally, always];
+
+  static RequiresRecreation fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => RequiresRecreation._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RequiresRecreation && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ResourceAttribute {
-  properties('PROPERTIES'),
-  metadata('METADATA'),
-  creationpolicy('CREATIONPOLICY'),
-  updatepolicy('UPDATEPOLICY'),
-  deletionpolicy('DELETIONPOLICY'),
-  tags('TAGS'),
-  ;
+class ResourceAttribute {
+  static const properties = ResourceAttribute._('PROPERTIES');
+  static const metadata = ResourceAttribute._('METADATA');
+  static const creationpolicy = ResourceAttribute._('CREATIONPOLICY');
+  static const updatepolicy = ResourceAttribute._('UPDATEPOLICY');
+  static const deletionpolicy = ResourceAttribute._('DELETIONPOLICY');
+  static const tags = ResourceAttribute._('TAGS');
 
   final String value;
 
-  const ResourceAttribute(this.value);
+  const ResourceAttribute._(this.value);
+
+  static const values = [
+    properties,
+    metadata,
+    creationpolicy,
+    updatepolicy,
+    deletionpolicy,
+    tags
+  ];
 
   static ResourceAttribute fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ResourceAttribute'));
+          orElse: () => ResourceAttribute._(value));
+
+  @override
+  bool operator ==(other) => other is ResourceAttribute && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about a resource change that will occur when a plan is executed.
@@ -11586,54 +11902,96 @@ class ServiceActionAssociation {
   }
 }
 
-enum ServiceActionAssociationErrorCode {
-  duplicateResource('DUPLICATE_RESOURCE'),
-  internalFailure('INTERNAL_FAILURE'),
-  limitExceeded('LIMIT_EXCEEDED'),
-  resourceNotFound('RESOURCE_NOT_FOUND'),
-  throttling('THROTTLING'),
-  invalidParameter('INVALID_PARAMETER'),
-  ;
+class ServiceActionAssociationErrorCode {
+  static const duplicateResource =
+      ServiceActionAssociationErrorCode._('DUPLICATE_RESOURCE');
+  static const internalFailure =
+      ServiceActionAssociationErrorCode._('INTERNAL_FAILURE');
+  static const limitExceeded =
+      ServiceActionAssociationErrorCode._('LIMIT_EXCEEDED');
+  static const resourceNotFound =
+      ServiceActionAssociationErrorCode._('RESOURCE_NOT_FOUND');
+  static const throttling = ServiceActionAssociationErrorCode._('THROTTLING');
+  static const invalidParameter =
+      ServiceActionAssociationErrorCode._('INVALID_PARAMETER');
 
   final String value;
 
-  const ServiceActionAssociationErrorCode(this.value);
+  const ServiceActionAssociationErrorCode._(this.value);
+
+  static const values = [
+    duplicateResource,
+    internalFailure,
+    limitExceeded,
+    resourceNotFound,
+    throttling,
+    invalidParameter
+  ];
 
   static ServiceActionAssociationErrorCode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ServiceActionAssociationErrorCode'));
+          orElse: () => ServiceActionAssociationErrorCode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ServiceActionAssociationErrorCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ServiceActionDefinitionKey {
-  name('Name'),
-  version('Version'),
-  assumeRole('AssumeRole'),
-  parameters('Parameters'),
-  ;
+class ServiceActionDefinitionKey {
+  static const name = ServiceActionDefinitionKey._('Name');
+  static const version = ServiceActionDefinitionKey._('Version');
+  static const assumeRole = ServiceActionDefinitionKey._('AssumeRole');
+  static const parameters = ServiceActionDefinitionKey._('Parameters');
 
   final String value;
 
-  const ServiceActionDefinitionKey(this.value);
+  const ServiceActionDefinitionKey._(this.value);
+
+  static const values = [name, version, assumeRole, parameters];
 
   static ServiceActionDefinitionKey fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ServiceActionDefinitionKey'));
+          orElse: () => ServiceActionDefinitionKey._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ServiceActionDefinitionKey && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ServiceActionDefinitionType {
-  ssmAutomation('SSM_AUTOMATION'),
-  ;
+class ServiceActionDefinitionType {
+  static const ssmAutomation = ServiceActionDefinitionType._('SSM_AUTOMATION');
 
   final String value;
 
-  const ServiceActionDefinitionType(this.value);
+  const ServiceActionDefinitionType._(this.value);
+
+  static const values = [ssmAutomation];
 
   static ServiceActionDefinitionType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ServiceActionDefinitionType'));
+          orElse: () => ServiceActionDefinitionType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ServiceActionDefinitionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// An object containing detailed information about the self-service action.
@@ -11794,35 +12152,59 @@ class ShareError {
   }
 }
 
-enum ShareStatus {
-  notStarted('NOT_STARTED'),
-  inProgress('IN_PROGRESS'),
-  completed('COMPLETED'),
-  completedWithErrors('COMPLETED_WITH_ERRORS'),
-  error('ERROR'),
-  ;
+class ShareStatus {
+  static const notStarted = ShareStatus._('NOT_STARTED');
+  static const inProgress = ShareStatus._('IN_PROGRESS');
+  static const completed = ShareStatus._('COMPLETED');
+  static const completedWithErrors = ShareStatus._('COMPLETED_WITH_ERRORS');
+  static const error = ShareStatus._('ERROR');
 
   final String value;
 
-  const ShareStatus(this.value);
+  const ShareStatus._(this.value);
 
-  static ShareStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum ShareStatus'));
+  static const values = [
+    notStarted,
+    inProgress,
+    completed,
+    completedWithErrors,
+    error
+  ];
+
+  static ShareStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ShareStatus._(value));
+
+  @override
+  bool operator ==(other) => other is ShareStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum SortOrder {
-  ascending('ASCENDING'),
-  descending('DESCENDING'),
-  ;
+class SortOrder {
+  static const ascending = SortOrder._('ASCENDING');
+  static const descending = SortOrder._('DESCENDING');
 
   final String value;
 
-  const SortOrder(this.value);
+  const SortOrder._(this.value);
 
-  static SortOrder fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum SortOrder'));
+  static const values = [ascending, descending];
+
+  static SortOrder fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => SortOrder._(value));
+
+  @override
+  bool operator ==(other) => other is SortOrder && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A top level <code>ProductViewDetail</code> response containing details about
@@ -11942,17 +12324,26 @@ class SourceConnectionParameters {
   }
 }
 
-enum SourceType {
-  codestar('CODESTAR'),
-  ;
+class SourceType {
+  static const codestar = SourceType._('CODESTAR');
 
   final String value;
 
-  const SourceType(this.value);
+  const SourceType._(this.value);
 
-  static SourceType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum SourceType'));
+  static const values = [codestar];
+
+  static SourceType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => SourceType._(value));
+
+  @override
+  bool operator ==(other) => other is SourceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// An CloudFormation stack, in a specific account and Region, that's part of a
@@ -12025,51 +12416,80 @@ class StackInstance {
   }
 }
 
-enum StackInstanceStatus {
-  current('CURRENT'),
-  outdated('OUTDATED'),
-  inoperable('INOPERABLE'),
-  ;
+class StackInstanceStatus {
+  static const current = StackInstanceStatus._('CURRENT');
+  static const outdated = StackInstanceStatus._('OUTDATED');
+  static const inoperable = StackInstanceStatus._('INOPERABLE');
 
   final String value;
 
-  const StackInstanceStatus(this.value);
+  const StackInstanceStatus._(this.value);
 
-  static StackInstanceStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum StackInstanceStatus'));
+  static const values = [current, outdated, inoperable];
+
+  static StackInstanceStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => StackInstanceStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is StackInstanceStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum StackSetOperationType {
-  create('CREATE'),
-  update('UPDATE'),
-  delete('DELETE'),
-  ;
+class StackSetOperationType {
+  static const create = StackSetOperationType._('CREATE');
+  static const update = StackSetOperationType._('UPDATE');
+  static const delete = StackSetOperationType._('DELETE');
 
   final String value;
 
-  const StackSetOperationType(this.value);
+  const StackSetOperationType._(this.value);
 
-  static StackSetOperationType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum StackSetOperationType'));
+  static const values = [create, update, delete];
+
+  static StackSetOperationType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => StackSetOperationType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is StackSetOperationType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum Status {
-  available('AVAILABLE'),
-  creating('CREATING'),
-  failed('FAILED'),
-  ;
+class Status {
+  static const available = Status._('AVAILABLE');
+  static const creating = Status._('CREATING');
+  static const failed = Status._('FAILED');
 
   final String value;
 
-  const Status(this.value);
+  const Status._(this.value);
+
+  static const values = [available, creating, failed];
 
   static Status fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum Status'));
+      values.firstWhere((e) => e.value == value, orElse: () => Status._(value));
+
+  @override
+  bool operator ==(other) => other is Status && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about a tag. A tag is a key-value pair. Tags are propagated to

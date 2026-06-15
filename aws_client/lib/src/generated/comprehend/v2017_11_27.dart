@@ -4589,19 +4589,31 @@ class Comprehend {
   }
 }
 
-enum AugmentedManifestsDocumentTypeFormat {
-  plainTextDocument('PLAIN_TEXT_DOCUMENT'),
-  semiStructuredDocument('SEMI_STRUCTURED_DOCUMENT'),
-  ;
+class AugmentedManifestsDocumentTypeFormat {
+  static const plainTextDocument =
+      AugmentedManifestsDocumentTypeFormat._('PLAIN_TEXT_DOCUMENT');
+  static const semiStructuredDocument =
+      AugmentedManifestsDocumentTypeFormat._('SEMI_STRUCTURED_DOCUMENT');
 
   final String value;
 
-  const AugmentedManifestsDocumentTypeFormat(this.value);
+  const AugmentedManifestsDocumentTypeFormat._(this.value);
+
+  static const values = [plainTextDocument, semiStructuredDocument];
 
   static AugmentedManifestsDocumentTypeFormat fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum AugmentedManifestsDocumentTypeFormat'));
+          orElse: () => AugmentedManifestsDocumentTypeFormat._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AugmentedManifestsDocumentTypeFormat && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// An augmented manifest file that provides training data for your custom
@@ -5337,18 +5349,27 @@ class BlockReference {
   }
 }
 
-enum BlockType {
-  line('LINE'),
-  word('WORD'),
-  ;
+class BlockType {
+  static const line = BlockType._('LINE');
+  static const word = BlockType._('WORD');
 
   final String value;
 
-  const BlockType(this.value);
+  const BlockType._(this.value);
 
-  static BlockType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum BlockType'));
+  static const values = [line, word];
+
+  static BlockType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => BlockType._(value));
+
+  @override
+  bool operator ==(other) => other is BlockType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The bounding box around the detected page or around an element on a document
@@ -5958,19 +5979,28 @@ class DatasetAugmentedManifestsListItem {
   }
 }
 
-enum DatasetDataFormat {
-  comprehendCsv('COMPREHEND_CSV'),
-  augmentedManifest('AUGMENTED_MANIFEST'),
-  ;
+class DatasetDataFormat {
+  static const comprehendCsv = DatasetDataFormat._('COMPREHEND_CSV');
+  static const augmentedManifest = DatasetDataFormat._('AUGMENTED_MANIFEST');
 
   final String value;
 
-  const DatasetDataFormat(this.value);
+  const DatasetDataFormat._(this.value);
+
+  static const values = [comprehendCsv, augmentedManifest];
 
   static DatasetDataFormat fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum DatasetDataFormat'));
+          orElse: () => DatasetDataFormat._(value));
+
+  @override
+  bool operator ==(other) => other is DatasetDataFormat && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes the dataset input data configuration for a document classifier
@@ -6298,34 +6328,52 @@ class DatasetProperties {
   }
 }
 
-enum DatasetStatus {
-  creating('CREATING'),
-  completed('COMPLETED'),
-  failed('FAILED'),
-  ;
+class DatasetStatus {
+  static const creating = DatasetStatus._('CREATING');
+  static const completed = DatasetStatus._('COMPLETED');
+  static const failed = DatasetStatus._('FAILED');
 
   final String value;
 
-  const DatasetStatus(this.value);
+  const DatasetStatus._(this.value);
+
+  static const values = [creating, completed, failed];
 
   static DatasetStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum DatasetStatus'));
+          orElse: () => DatasetStatus._(value));
+
+  @override
+  bool operator ==(other) => other is DatasetStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum DatasetType {
-  train('TRAIN'),
-  test('TEST'),
-  ;
+class DatasetType {
+  static const train = DatasetType._('TRAIN');
+  static const test = DatasetType._('TEST');
 
   final String value;
 
-  const DatasetType(this.value);
+  const DatasetType._(this.value);
 
-  static DatasetType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum DatasetType'));
+  static const values = [train, test];
+
+  static DatasetType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => DatasetType._(value));
+
+  @override
+  bool operator ==(other) => other is DatasetType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class DeleteDocumentClassifierResponse {
@@ -7214,7 +7262,7 @@ class DocumentClassificationConfig {
 
   factory DocumentClassificationConfig.fromJson(Map<String, dynamic> json) {
     return DocumentClassificationConfig(
-      mode: DocumentClassifierMode.fromString((json['Mode'] as String)),
+      mode: DocumentClassifierMode.fromString((json['Mode'] as String?) ?? ''),
       labels:
           (json['Labels'] as List?)?.nonNulls.map((e) => e as String).toList(),
     );
@@ -7429,34 +7477,57 @@ class DocumentClassificationJobProperties {
   }
 }
 
-enum DocumentClassifierDataFormat {
-  comprehendCsv('COMPREHEND_CSV'),
-  augmentedManifest('AUGMENTED_MANIFEST'),
-  ;
+class DocumentClassifierDataFormat {
+  static const comprehendCsv = DocumentClassifierDataFormat._('COMPREHEND_CSV');
+  static const augmentedManifest =
+      DocumentClassifierDataFormat._('AUGMENTED_MANIFEST');
 
   final String value;
 
-  const DocumentClassifierDataFormat(this.value);
+  const DocumentClassifierDataFormat._(this.value);
+
+  static const values = [comprehendCsv, augmentedManifest];
 
   static DocumentClassifierDataFormat fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum DocumentClassifierDataFormat'));
+          orElse: () => DocumentClassifierDataFormat._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DocumentClassifierDataFormat && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum DocumentClassifierDocumentTypeFormat {
-  plainTextDocument('PLAIN_TEXT_DOCUMENT'),
-  semiStructuredDocument('SEMI_STRUCTURED_DOCUMENT'),
-  ;
+class DocumentClassifierDocumentTypeFormat {
+  static const plainTextDocument =
+      DocumentClassifierDocumentTypeFormat._('PLAIN_TEXT_DOCUMENT');
+  static const semiStructuredDocument =
+      DocumentClassifierDocumentTypeFormat._('SEMI_STRUCTURED_DOCUMENT');
 
   final String value;
 
-  const DocumentClassifierDocumentTypeFormat(this.value);
+  const DocumentClassifierDocumentTypeFormat._(this.value);
+
+  static const values = [plainTextDocument, semiStructuredDocument];
 
   static DocumentClassifierDocumentTypeFormat fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum DocumentClassifierDocumentTypeFormat'));
+          orElse: () => DocumentClassifierDocumentTypeFormat._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DocumentClassifierDocumentTypeFormat && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The location of the training documents. This parameter is required in a
@@ -7673,19 +7744,29 @@ class DocumentClassifierInputDataConfig {
   }
 }
 
-enum DocumentClassifierMode {
-  multiClass('MULTI_CLASS'),
-  multiLabel('MULTI_LABEL'),
-  ;
+class DocumentClassifierMode {
+  static const multiClass = DocumentClassifierMode._('MULTI_CLASS');
+  static const multiLabel = DocumentClassifierMode._('MULTI_LABEL');
 
   final String value;
 
-  const DocumentClassifierMode(this.value);
+  const DocumentClassifierMode._(this.value);
+
+  static const values = [multiClass, multiLabel];
 
   static DocumentClassifierMode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum DocumentClassifierMode'));
+          orElse: () => DocumentClassifierMode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DocumentClassifierMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Provide the location for output data from a custom classifier job. This
@@ -8102,50 +8183,82 @@ class DocumentMetadata {
   }
 }
 
-enum DocumentReadAction {
-  textractDetectDocumentText('TEXTRACT_DETECT_DOCUMENT_TEXT'),
-  textractAnalyzeDocument('TEXTRACT_ANALYZE_DOCUMENT'),
-  ;
+class DocumentReadAction {
+  static const textractDetectDocumentText =
+      DocumentReadAction._('TEXTRACT_DETECT_DOCUMENT_TEXT');
+  static const textractAnalyzeDocument =
+      DocumentReadAction._('TEXTRACT_ANALYZE_DOCUMENT');
 
   final String value;
 
-  const DocumentReadAction(this.value);
+  const DocumentReadAction._(this.value);
 
-  static DocumentReadAction fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum DocumentReadAction'));
+  static const values = [textractDetectDocumentText, textractAnalyzeDocument];
+
+  static DocumentReadAction fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DocumentReadAction._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DocumentReadAction && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// TABLES or FORMS
-enum DocumentReadFeatureTypes {
-  tables('TABLES'),
-  forms('FORMS'),
-  ;
+class DocumentReadFeatureTypes {
+  static const tables = DocumentReadFeatureTypes._('TABLES');
+  static const forms = DocumentReadFeatureTypes._('FORMS');
 
   final String value;
 
-  const DocumentReadFeatureTypes(this.value);
+  const DocumentReadFeatureTypes._(this.value);
+
+  static const values = [tables, forms];
 
   static DocumentReadFeatureTypes fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum DocumentReadFeatureTypes'));
+          orElse: () => DocumentReadFeatureTypes._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DocumentReadFeatureTypes && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum DocumentReadMode {
-  serviceDefault('SERVICE_DEFAULT'),
-  forceDocumentReadAction('FORCE_DOCUMENT_READ_ACTION'),
-  ;
+class DocumentReadMode {
+  static const serviceDefault = DocumentReadMode._('SERVICE_DEFAULT');
+  static const forceDocumentReadAction =
+      DocumentReadMode._('FORCE_DOCUMENT_READ_ACTION');
 
   final String value;
 
-  const DocumentReadMode(this.value);
+  const DocumentReadMode._(this.value);
+
+  static const values = [serviceDefault, forceDocumentReadAction];
 
   static DocumentReadMode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum DocumentReadMode'));
+          orElse: () => DocumentReadMode._(value));
+
+  @override
+  bool operator ==(other) => other is DocumentReadMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Provides configuration parameters to override the default actions for
@@ -8230,8 +8343,8 @@ class DocumentReaderConfig {
 
   factory DocumentReaderConfig.fromJson(Map<String, dynamic> json) {
     return DocumentReaderConfig(
-      documentReadAction:
-          DocumentReadAction.fromString((json['DocumentReadAction'] as String)),
+      documentReadAction: DocumentReadAction.fromString(
+          (json['DocumentReadAction'] as String?) ?? ''),
       documentReadMode: (json['DocumentReadMode'] as String?)
           ?.let(DocumentReadMode.fromString),
       featureTypes: (json['FeatureTypes'] as List?)
@@ -8254,24 +8367,42 @@ class DocumentReaderConfig {
   }
 }
 
-enum DocumentType {
-  nativePdf('NATIVE_PDF'),
-  scannedPdf('SCANNED_PDF'),
-  msWord('MS_WORD'),
-  image('IMAGE'),
-  plainText('PLAIN_TEXT'),
-  textractDetectDocumentTextJson('TEXTRACT_DETECT_DOCUMENT_TEXT_JSON'),
-  textractAnalyzeDocumentJson('TEXTRACT_ANALYZE_DOCUMENT_JSON'),
-  ;
+class DocumentType {
+  static const nativePdf = DocumentType._('NATIVE_PDF');
+  static const scannedPdf = DocumentType._('SCANNED_PDF');
+  static const msWord = DocumentType._('MS_WORD');
+  static const image = DocumentType._('IMAGE');
+  static const plainText = DocumentType._('PLAIN_TEXT');
+  static const textractDetectDocumentTextJson =
+      DocumentType._('TEXTRACT_DETECT_DOCUMENT_TEXT_JSON');
+  static const textractAnalyzeDocumentJson =
+      DocumentType._('TEXTRACT_ANALYZE_DOCUMENT_JSON');
 
   final String value;
 
-  const DocumentType(this.value);
+  const DocumentType._(this.value);
 
-  static DocumentType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum DocumentType'));
+  static const values = [
+    nativePdf,
+    scannedPdf,
+    msWord,
+    image,
+    plainText,
+    textractDetectDocumentTextJson,
+    textractAnalyzeDocumentJson
+  ];
+
+  static DocumentType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => DocumentType._(value));
+
+  @override
+  bool operator ==(other) => other is DocumentType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Document type for each page in the document.
@@ -8683,22 +8814,31 @@ class EndpointProperties {
   }
 }
 
-enum EndpointStatus {
-  creating('CREATING'),
-  deleting('DELETING'),
-  failed('FAILED'),
-  inService('IN_SERVICE'),
-  updating('UPDATING'),
-  ;
+class EndpointStatus {
+  static const creating = EndpointStatus._('CREATING');
+  static const deleting = EndpointStatus._('DELETING');
+  static const failed = EndpointStatus._('FAILED');
+  static const inService = EndpointStatus._('IN_SERVICE');
+  static const updating = EndpointStatus._('UPDATING');
 
   final String value;
 
-  const EndpointStatus(this.value);
+  const EndpointStatus._(this.value);
+
+  static const values = [creating, deleting, failed, inService, updating];
 
   static EndpointStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum EndpointStatus'));
+          orElse: () => EndpointStatus._(value));
+
+  @override
+  bool operator ==(other) => other is EndpointStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Provides information for filtering a list of dominant language detection
@@ -9073,19 +9213,30 @@ class EntityRecognizerAnnotations {
   }
 }
 
-enum EntityRecognizerDataFormat {
-  comprehendCsv('COMPREHEND_CSV'),
-  augmentedManifest('AUGMENTED_MANIFEST'),
-  ;
+class EntityRecognizerDataFormat {
+  static const comprehendCsv = EntityRecognizerDataFormat._('COMPREHEND_CSV');
+  static const augmentedManifest =
+      EntityRecognizerDataFormat._('AUGMENTED_MANIFEST');
 
   final String value;
 
-  const EntityRecognizerDataFormat(this.value);
+  const EntityRecognizerDataFormat._(this.value);
+
+  static const values = [comprehendCsv, augmentedManifest];
 
   static EntityRecognizerDataFormat fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum EntityRecognizerDataFormat'));
+          orElse: () => EntityRecognizerDataFormat._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is EntityRecognizerDataFormat && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes the training documents submitted with an entity recognizer.
@@ -9736,25 +9887,44 @@ class EntityRecognizerSummary {
   }
 }
 
-enum EntityType {
-  person('PERSON'),
-  location('LOCATION'),
-  organization('ORGANIZATION'),
-  commercialItem('COMMERCIAL_ITEM'),
-  event('EVENT'),
-  date('DATE'),
-  quantity('QUANTITY'),
-  title('TITLE'),
-  other('OTHER'),
-  ;
+class EntityType {
+  static const person = EntityType._('PERSON');
+  static const location = EntityType._('LOCATION');
+  static const organization = EntityType._('ORGANIZATION');
+  static const commercialItem = EntityType._('COMMERCIAL_ITEM');
+  static const event = EntityType._('EVENT');
+  static const date = EntityType._('DATE');
+  static const quantity = EntityType._('QUANTITY');
+  static const title = EntityType._('TITLE');
+  static const other = EntityType._('OTHER');
 
   final String value;
 
-  const EntityType(this.value);
+  const EntityType._(this.value);
 
-  static EntityType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum EntityType'));
+  static const values = [
+    person,
+    location,
+    organization,
+    commercialItem,
+    event,
+    date,
+    quantity,
+    title,
+    other
+  ];
+
+  static EntityType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => EntityType._(value));
+
+  @override
+  bool operator ==(other) => other is EntityType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Detailed information about the accuracy of an entity recognizer for a
@@ -10254,23 +10424,40 @@ class FlywheelIterationProperties {
   }
 }
 
-enum FlywheelIterationStatus {
-  training('TRAINING'),
-  evaluating('EVALUATING'),
-  completed('COMPLETED'),
-  failed('FAILED'),
-  stopRequested('STOP_REQUESTED'),
-  stopped('STOPPED'),
-  ;
+class FlywheelIterationStatus {
+  static const training = FlywheelIterationStatus._('TRAINING');
+  static const evaluating = FlywheelIterationStatus._('EVALUATING');
+  static const completed = FlywheelIterationStatus._('COMPLETED');
+  static const failed = FlywheelIterationStatus._('FAILED');
+  static const stopRequested = FlywheelIterationStatus._('STOP_REQUESTED');
+  static const stopped = FlywheelIterationStatus._('STOPPED');
 
   final String value;
 
-  const FlywheelIterationStatus(this.value);
+  const FlywheelIterationStatus._(this.value);
+
+  static const values = [
+    training,
+    evaluating,
+    completed,
+    failed,
+    stopRequested,
+    stopped
+  ];
 
   static FlywheelIterationStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum FlywheelIterationStatus'));
+          orElse: () => FlywheelIterationStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is FlywheelIterationStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The evaluation metrics associated with the evaluated model.
@@ -10426,22 +10613,31 @@ class FlywheelProperties {
   }
 }
 
-enum FlywheelStatus {
-  creating('CREATING'),
-  active('ACTIVE'),
-  updating('UPDATING'),
-  deleting('DELETING'),
-  failed('FAILED'),
-  ;
+class FlywheelStatus {
+  static const creating = FlywheelStatus._('CREATING');
+  static const active = FlywheelStatus._('ACTIVE');
+  static const updating = FlywheelStatus._('UPDATING');
+  static const deleting = FlywheelStatus._('DELETING');
+  static const failed = FlywheelStatus._('FAILED');
 
   final String value;
 
-  const FlywheelStatus(this.value);
+  const FlywheelStatus._(this.value);
+
+  static const values = [creating, active, updating, deleting, failed];
 
   static FlywheelStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum FlywheelStatus'));
+          orElse: () => FlywheelStatus._(value));
+
+  @override
+  bool operator ==(other) => other is FlywheelStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Flywheel summary information.
@@ -10652,36 +10848,61 @@ class InputDataConfig {
   }
 }
 
-enum InputFormat {
-  oneDocPerFile('ONE_DOC_PER_FILE'),
-  oneDocPerLine('ONE_DOC_PER_LINE'),
-  ;
+class InputFormat {
+  static const oneDocPerFile = InputFormat._('ONE_DOC_PER_FILE');
+  static const oneDocPerLine = InputFormat._('ONE_DOC_PER_LINE');
 
   final String value;
 
-  const InputFormat(this.value);
+  const InputFormat._(this.value);
 
-  static InputFormat fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum InputFormat'));
+  static const values = [oneDocPerFile, oneDocPerLine];
+
+  static InputFormat fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => InputFormat._(value));
+
+  @override
+  bool operator ==(other) => other is InputFormat && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum JobStatus {
-  submitted('SUBMITTED'),
-  inProgress('IN_PROGRESS'),
-  completed('COMPLETED'),
-  failed('FAILED'),
-  stopRequested('STOP_REQUESTED'),
-  stopped('STOPPED'),
-  ;
+class JobStatus {
+  static const submitted = JobStatus._('SUBMITTED');
+  static const inProgress = JobStatus._('IN_PROGRESS');
+  static const completed = JobStatus._('COMPLETED');
+  static const failed = JobStatus._('FAILED');
+  static const stopRequested = JobStatus._('STOP_REQUESTED');
+  static const stopped = JobStatus._('STOPPED');
 
   final String value;
 
-  const JobStatus(this.value);
+  const JobStatus._(this.value);
 
-  static JobStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum JobStatus'));
+  static const values = [
+    submitted,
+    inProgress,
+    completed,
+    failed,
+    stopRequested,
+    stopped
+  ];
+
+  static JobStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => JobStatus._(value));
+
+  @override
+  bool operator ==(other) => other is JobStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes a key noun phrase.
@@ -10920,29 +11141,37 @@ class KeyPhrasesDetectionJobProperties {
   }
 }
 
-enum LanguageCode {
-  en('en'),
-  es('es'),
-  fr('fr'),
-  de('de'),
-  it('it'),
-  pt('pt'),
-  ar('ar'),
-  hi('hi'),
-  ja('ja'),
-  ko('ko'),
-  zh('zh'),
-  zhTw('zh-TW'),
-  ;
+class LanguageCode {
+  static const en = LanguageCode._('en');
+  static const es = LanguageCode._('es');
+  static const fr = LanguageCode._('fr');
+  static const de = LanguageCode._('de');
+  static const it = LanguageCode._('it');
+  static const pt = LanguageCode._('pt');
+  static const ar = LanguageCode._('ar');
+  static const hi = LanguageCode._('hi');
+  static const ja = LanguageCode._('ja');
+  static const ko = LanguageCode._('ko');
+  static const zh = LanguageCode._('zh');
+  static const zhTw = LanguageCode._('zh-TW');
 
   final String value;
 
-  const LanguageCode(this.value);
+  const LanguageCode._(this.value);
 
-  static LanguageCode fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum LanguageCode'));
+  static const values = [en, es, fr, de, it, pt, ar, hi, ja, ko, zh, zhTw];
+
+  static LanguageCode fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => LanguageCode._(value));
+
+  @override
+  bool operator ==(other) => other is LanguageCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class ListDatasetsResponse {
@@ -11643,38 +11872,65 @@ class MentionSentiment {
   }
 }
 
-enum ModelStatus {
-  submitted('SUBMITTED'),
-  training('TRAINING'),
-  deleting('DELETING'),
-  stopRequested('STOP_REQUESTED'),
-  stopped('STOPPED'),
-  inError('IN_ERROR'),
-  trained('TRAINED'),
-  trainedWithWarning('TRAINED_WITH_WARNING'),
-  ;
+class ModelStatus {
+  static const submitted = ModelStatus._('SUBMITTED');
+  static const training = ModelStatus._('TRAINING');
+  static const deleting = ModelStatus._('DELETING');
+  static const stopRequested = ModelStatus._('STOP_REQUESTED');
+  static const stopped = ModelStatus._('STOPPED');
+  static const inError = ModelStatus._('IN_ERROR');
+  static const trained = ModelStatus._('TRAINED');
+  static const trainedWithWarning = ModelStatus._('TRAINED_WITH_WARNING');
 
   final String value;
 
-  const ModelStatus(this.value);
+  const ModelStatus._(this.value);
 
-  static ModelStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum ModelStatus'));
+  static const values = [
+    submitted,
+    training,
+    deleting,
+    stopRequested,
+    stopped,
+    inError,
+    trained,
+    trainedWithWarning
+  ];
+
+  static ModelStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ModelStatus._(value));
+
+  @override
+  bool operator ==(other) => other is ModelStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ModelType {
-  documentClassifier('DOCUMENT_CLASSIFIER'),
-  entityRecognizer('ENTITY_RECOGNIZER'),
-  ;
+class ModelType {
+  static const documentClassifier = ModelType._('DOCUMENT_CLASSIFIER');
+  static const entityRecognizer = ModelType._('ENTITY_RECOGNIZER');
 
   final String value;
 
-  const ModelType(this.value);
+  const ModelType._(this.value);
 
-  static ModelType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum ModelType'));
+  static const values = [documentClassifier, entityRecognizer];
+
+  static ModelType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ModelType._(value));
+
+  @override
+  bool operator ==(other) => other is ModelType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Provides configuration parameters for the output of inference jobs.
@@ -11743,40 +11999,72 @@ class OutputDataConfig {
   }
 }
 
-enum PageBasedErrorCode {
-  textractBadPage('TEXTRACT_BAD_PAGE'),
-  textractProvisionedThroughputExceeded(
-      'TEXTRACT_PROVISIONED_THROUGHPUT_EXCEEDED'),
-  pageCharactersExceeded('PAGE_CHARACTERS_EXCEEDED'),
-  pageSizeExceeded('PAGE_SIZE_EXCEEDED'),
-  internalServerError('INTERNAL_SERVER_ERROR'),
-  ;
+class PageBasedErrorCode {
+  static const textractBadPage = PageBasedErrorCode._('TEXTRACT_BAD_PAGE');
+  static const textractProvisionedThroughputExceeded =
+      PageBasedErrorCode._('TEXTRACT_PROVISIONED_THROUGHPUT_EXCEEDED');
+  static const pageCharactersExceeded =
+      PageBasedErrorCode._('PAGE_CHARACTERS_EXCEEDED');
+  static const pageSizeExceeded = PageBasedErrorCode._('PAGE_SIZE_EXCEEDED');
+  static const internalServerError =
+      PageBasedErrorCode._('INTERNAL_SERVER_ERROR');
 
   final String value;
 
-  const PageBasedErrorCode(this.value);
+  const PageBasedErrorCode._(this.value);
 
-  static PageBasedErrorCode fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum PageBasedErrorCode'));
+  static const values = [
+    textractBadPage,
+    textractProvisionedThroughputExceeded,
+    pageCharactersExceeded,
+    pageSizeExceeded,
+    internalServerError
+  ];
+
+  static PageBasedErrorCode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => PageBasedErrorCode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is PageBasedErrorCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum PageBasedWarningCode {
-  inferencingPlaintextWithNativeTrainedModel(
-      'INFERENCING_PLAINTEXT_WITH_NATIVE_TRAINED_MODEL'),
-  inferencingNativeDocumentWithPlaintextTrainedModel(
-      'INFERENCING_NATIVE_DOCUMENT_WITH_PLAINTEXT_TRAINED_MODEL'),
-  ;
+class PageBasedWarningCode {
+  static const inferencingPlaintextWithNativeTrainedModel =
+      PageBasedWarningCode._('INFERENCING_PLAINTEXT_WITH_NATIVE_TRAINED_MODEL');
+  static const inferencingNativeDocumentWithPlaintextTrainedModel =
+      PageBasedWarningCode._(
+          'INFERENCING_NATIVE_DOCUMENT_WITH_PLAINTEXT_TRAINED_MODEL');
 
   final String value;
 
-  const PageBasedWarningCode(this.value);
+  const PageBasedWarningCode._(this.value);
 
-  static PageBasedWarningCode fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum PageBasedWarningCode'));
+  static const values = [
+    inferencingPlaintextWithNativeTrainedModel,
+    inferencingNativeDocumentWithPlaintextTrainedModel
+  ];
+
+  static PageBasedWarningCode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => PageBasedWarningCode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is PageBasedWarningCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Identifies the part of speech represented by the token and gives the
@@ -11815,35 +12103,64 @@ class PartOfSpeechTag {
   }
 }
 
-enum PartOfSpeechTagType {
-  adj('ADJ'),
-  adp('ADP'),
-  adv('ADV'),
-  aux('AUX'),
-  conj('CONJ'),
-  cconj('CCONJ'),
-  det('DET'),
-  intj('INTJ'),
-  noun('NOUN'),
-  num('NUM'),
-  o('O'),
-  part('PART'),
-  pron('PRON'),
-  propn('PROPN'),
-  punct('PUNCT'),
-  sconj('SCONJ'),
-  sym('SYM'),
-  verb('VERB'),
-  ;
+class PartOfSpeechTagType {
+  static const adj = PartOfSpeechTagType._('ADJ');
+  static const adp = PartOfSpeechTagType._('ADP');
+  static const adv = PartOfSpeechTagType._('ADV');
+  static const aux = PartOfSpeechTagType._('AUX');
+  static const conj = PartOfSpeechTagType._('CONJ');
+  static const cconj = PartOfSpeechTagType._('CCONJ');
+  static const det = PartOfSpeechTagType._('DET');
+  static const intj = PartOfSpeechTagType._('INTJ');
+  static const noun = PartOfSpeechTagType._('NOUN');
+  static const num = PartOfSpeechTagType._('NUM');
+  static const o = PartOfSpeechTagType._('O');
+  static const part = PartOfSpeechTagType._('PART');
+  static const pron = PartOfSpeechTagType._('PRON');
+  static const propn = PartOfSpeechTagType._('PROPN');
+  static const punct = PartOfSpeechTagType._('PUNCT');
+  static const sconj = PartOfSpeechTagType._('SCONJ');
+  static const sym = PartOfSpeechTagType._('SYM');
+  static const verb = PartOfSpeechTagType._('VERB');
 
   final String value;
 
-  const PartOfSpeechTagType(this.value);
+  const PartOfSpeechTagType._(this.value);
 
-  static PartOfSpeechTagType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum PartOfSpeechTagType'));
+  static const values = [
+    adj,
+    adp,
+    adv,
+    aux,
+    conj,
+    cconj,
+    det,
+    intj,
+    noun,
+    num,
+    o,
+    part,
+    pron,
+    propn,
+    punct,
+    sconj,
+    sym,
+    verb
+  ];
+
+  static PartOfSpeechTagType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => PartOfSpeechTagType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is PartOfSpeechTagType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Provides information for filtering a list of PII entity detection jobs.
@@ -12025,34 +12342,55 @@ class PiiEntitiesDetectionJobProperties {
   }
 }
 
-enum PiiEntitiesDetectionMaskMode {
-  mask('MASK'),
-  replaceWithPiiEntityType('REPLACE_WITH_PII_ENTITY_TYPE'),
-  ;
+class PiiEntitiesDetectionMaskMode {
+  static const mask = PiiEntitiesDetectionMaskMode._('MASK');
+  static const replaceWithPiiEntityType =
+      PiiEntitiesDetectionMaskMode._('REPLACE_WITH_PII_ENTITY_TYPE');
 
   final String value;
 
-  const PiiEntitiesDetectionMaskMode(this.value);
+  const PiiEntitiesDetectionMaskMode._(this.value);
+
+  static const values = [mask, replaceWithPiiEntityType];
 
   static PiiEntitiesDetectionMaskMode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum PiiEntitiesDetectionMaskMode'));
+          orElse: () => PiiEntitiesDetectionMaskMode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is PiiEntitiesDetectionMaskMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum PiiEntitiesDetectionMode {
-  onlyRedaction('ONLY_REDACTION'),
-  onlyOffsets('ONLY_OFFSETS'),
-  ;
+class PiiEntitiesDetectionMode {
+  static const onlyRedaction = PiiEntitiesDetectionMode._('ONLY_REDACTION');
+  static const onlyOffsets = PiiEntitiesDetectionMode._('ONLY_OFFSETS');
 
   final String value;
 
-  const PiiEntitiesDetectionMode(this.value);
+  const PiiEntitiesDetectionMode._(this.value);
+
+  static const values = [onlyRedaction, onlyOffsets];
 
   static PiiEntitiesDetectionMode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum PiiEntitiesDetectionMode'));
+          orElse: () => PiiEntitiesDetectionMode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is PiiEntitiesDetectionMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Provides information about a PII entity.
@@ -12102,55 +12440,109 @@ class PiiEntity {
   }
 }
 
-enum PiiEntityType {
-  bankAccountNumber('BANK_ACCOUNT_NUMBER'),
-  bankRouting('BANK_ROUTING'),
-  creditDebitNumber('CREDIT_DEBIT_NUMBER'),
-  creditDebitCvv('CREDIT_DEBIT_CVV'),
-  creditDebitExpiry('CREDIT_DEBIT_EXPIRY'),
-  pin('PIN'),
-  email('EMAIL'),
-  address('ADDRESS'),
-  name('NAME'),
-  phone('PHONE'),
-  ssn('SSN'),
-  dateTime('DATE_TIME'),
-  passportNumber('PASSPORT_NUMBER'),
-  driverId('DRIVER_ID'),
-  url('URL'),
-  age('AGE'),
-  username('USERNAME'),
-  password('PASSWORD'),
-  awsAccessKey('AWS_ACCESS_KEY'),
-  awsSecretKey('AWS_SECRET_KEY'),
-  ipAddress('IP_ADDRESS'),
-  macAddress('MAC_ADDRESS'),
-  all('ALL'),
-  licensePlate('LICENSE_PLATE'),
-  vehicleIdentificationNumber('VEHICLE_IDENTIFICATION_NUMBER'),
-  ukNationalInsuranceNumber('UK_NATIONAL_INSURANCE_NUMBER'),
-  caSocialInsuranceNumber('CA_SOCIAL_INSURANCE_NUMBER'),
-  usIndividualTaxIdentificationNumber(
-      'US_INDIVIDUAL_TAX_IDENTIFICATION_NUMBER'),
-  ukUniqueTaxpayerReferenceNumber('UK_UNIQUE_TAXPAYER_REFERENCE_NUMBER'),
-  inPermanentAccountNumber('IN_PERMANENT_ACCOUNT_NUMBER'),
-  inNrega('IN_NREGA'),
-  internationalBankAccountNumber('INTERNATIONAL_BANK_ACCOUNT_NUMBER'),
-  swiftCode('SWIFT_CODE'),
-  ukNationalHealthServiceNumber('UK_NATIONAL_HEALTH_SERVICE_NUMBER'),
-  caHealthNumber('CA_HEALTH_NUMBER'),
-  inAadhaar('IN_AADHAAR'),
-  inVoterNumber('IN_VOTER_NUMBER'),
-  ;
+class PiiEntityType {
+  static const bankAccountNumber = PiiEntityType._('BANK_ACCOUNT_NUMBER');
+  static const bankRouting = PiiEntityType._('BANK_ROUTING');
+  static const creditDebitNumber = PiiEntityType._('CREDIT_DEBIT_NUMBER');
+  static const creditDebitCvv = PiiEntityType._('CREDIT_DEBIT_CVV');
+  static const creditDebitExpiry = PiiEntityType._('CREDIT_DEBIT_EXPIRY');
+  static const pin = PiiEntityType._('PIN');
+  static const email = PiiEntityType._('EMAIL');
+  static const address = PiiEntityType._('ADDRESS');
+  static const name = PiiEntityType._('NAME');
+  static const phone = PiiEntityType._('PHONE');
+  static const ssn = PiiEntityType._('SSN');
+  static const dateTime = PiiEntityType._('DATE_TIME');
+  static const passportNumber = PiiEntityType._('PASSPORT_NUMBER');
+  static const driverId = PiiEntityType._('DRIVER_ID');
+  static const url = PiiEntityType._('URL');
+  static const age = PiiEntityType._('AGE');
+  static const username = PiiEntityType._('USERNAME');
+  static const password = PiiEntityType._('PASSWORD');
+  static const awsAccessKey = PiiEntityType._('AWS_ACCESS_KEY');
+  static const awsSecretKey = PiiEntityType._('AWS_SECRET_KEY');
+  static const ipAddress = PiiEntityType._('IP_ADDRESS');
+  static const macAddress = PiiEntityType._('MAC_ADDRESS');
+  static const all = PiiEntityType._('ALL');
+  static const licensePlate = PiiEntityType._('LICENSE_PLATE');
+  static const vehicleIdentificationNumber =
+      PiiEntityType._('VEHICLE_IDENTIFICATION_NUMBER');
+  static const ukNationalInsuranceNumber =
+      PiiEntityType._('UK_NATIONAL_INSURANCE_NUMBER');
+  static const caSocialInsuranceNumber =
+      PiiEntityType._('CA_SOCIAL_INSURANCE_NUMBER');
+  static const usIndividualTaxIdentificationNumber =
+      PiiEntityType._('US_INDIVIDUAL_TAX_IDENTIFICATION_NUMBER');
+  static const ukUniqueTaxpayerReferenceNumber =
+      PiiEntityType._('UK_UNIQUE_TAXPAYER_REFERENCE_NUMBER');
+  static const inPermanentAccountNumber =
+      PiiEntityType._('IN_PERMANENT_ACCOUNT_NUMBER');
+  static const inNrega = PiiEntityType._('IN_NREGA');
+  static const internationalBankAccountNumber =
+      PiiEntityType._('INTERNATIONAL_BANK_ACCOUNT_NUMBER');
+  static const swiftCode = PiiEntityType._('SWIFT_CODE');
+  static const ukNationalHealthServiceNumber =
+      PiiEntityType._('UK_NATIONAL_HEALTH_SERVICE_NUMBER');
+  static const caHealthNumber = PiiEntityType._('CA_HEALTH_NUMBER');
+  static const inAadhaar = PiiEntityType._('IN_AADHAAR');
+  static const inVoterNumber = PiiEntityType._('IN_VOTER_NUMBER');
 
   final String value;
 
-  const PiiEntityType(this.value);
+  const PiiEntityType._(this.value);
+
+  static const values = [
+    bankAccountNumber,
+    bankRouting,
+    creditDebitNumber,
+    creditDebitCvv,
+    creditDebitExpiry,
+    pin,
+    email,
+    address,
+    name,
+    phone,
+    ssn,
+    dateTime,
+    passportNumber,
+    driverId,
+    url,
+    age,
+    username,
+    password,
+    awsAccessKey,
+    awsSecretKey,
+    ipAddress,
+    macAddress,
+    all,
+    licensePlate,
+    vehicleIdentificationNumber,
+    ukNationalInsuranceNumber,
+    caSocialInsuranceNumber,
+    usIndividualTaxIdentificationNumber,
+    ukUniqueTaxpayerReferenceNumber,
+    inPermanentAccountNumber,
+    inNrega,
+    internationalBankAccountNumber,
+    swiftCode,
+    ukNationalHealthServiceNumber,
+    caHealthNumber,
+    inAadhaar,
+    inVoterNumber
+  ];
 
   static PiiEntityType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum PiiEntityType'));
+          orElse: () => PiiEntityType._(value));
+
+  @override
+  bool operator ==(other) => other is PiiEntityType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Provides configuration parameters for the output of PII entity detection
@@ -12293,18 +12685,27 @@ class RedactionConfig {
   }
 }
 
-enum RelationshipType {
-  child('CHILD'),
-  ;
+class RelationshipType {
+  static const child = RelationshipType._('CHILD');
 
   final String value;
 
-  const RelationshipType(this.value);
+  const RelationshipType._(this.value);
+
+  static const values = [child];
 
   static RelationshipType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum RelationshipType'));
+          orElse: () => RelationshipType._(value));
+
+  @override
+  bool operator ==(other) => other is RelationshipType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// List of child blocks for the current block.
@@ -12576,35 +12977,53 @@ class SentimentScore {
   }
 }
 
-enum SentimentType {
-  positive('POSITIVE'),
-  negative('NEGATIVE'),
-  neutral('NEUTRAL'),
-  mixed('MIXED'),
-  ;
+class SentimentType {
+  static const positive = SentimentType._('POSITIVE');
+  static const negative = SentimentType._('NEGATIVE');
+  static const neutral = SentimentType._('NEUTRAL');
+  static const mixed = SentimentType._('MIXED');
 
   final String value;
 
-  const SentimentType(this.value);
+  const SentimentType._(this.value);
+
+  static const values = [positive, negative, neutral, mixed];
 
   static SentimentType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum SentimentType'));
+          orElse: () => SentimentType._(value));
+
+  @override
+  bool operator ==(other) => other is SentimentType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum Split {
-  train('TRAIN'),
-  test('TEST'),
-  ;
+class Split {
+  static const train = Split._('TRAIN');
+  static const test = Split._('TEST');
 
   final String value;
 
-  const Split(this.value);
+  const Split._(this.value);
+
+  static const values = [train, test];
 
   static Split fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum Split'));
+      values.firstWhere((e) => e.value == value, orElse: () => Split._(value));
+
+  @override
+  bool operator ==(other) => other is Split && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class StartDocumentClassificationJobResponse {
@@ -13441,23 +13860,33 @@ class StopTrainingEntityRecognizerResponse {
   }
 }
 
-enum SyntaxLanguageCode {
-  en('en'),
-  es('es'),
-  fr('fr'),
-  de('de'),
-  it('it'),
-  pt('pt'),
-  ;
+class SyntaxLanguageCode {
+  static const en = SyntaxLanguageCode._('en');
+  static const es = SyntaxLanguageCode._('es');
+  static const fr = SyntaxLanguageCode._('fr');
+  static const de = SyntaxLanguageCode._('de');
+  static const it = SyntaxLanguageCode._('it');
+  static const pt = SyntaxLanguageCode._('pt');
 
   final String value;
 
-  const SyntaxLanguageCode(this.value);
+  const SyntaxLanguageCode._(this.value);
 
-  static SyntaxLanguageCode fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum SyntaxLanguageCode'));
+  static const values = [en, es, fr, de, it, pt];
+
+  static SyntaxLanguageCode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => SyntaxLanguageCode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SyntaxLanguageCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Represents a work in the input text that was recognized and assigned a part
@@ -13800,34 +14229,63 @@ class TargetedSentimentEntity {
   }
 }
 
-enum TargetedSentimentEntityType {
-  person('PERSON'),
-  location('LOCATION'),
-  organization('ORGANIZATION'),
-  facility('FACILITY'),
-  brand('BRAND'),
-  commercialItem('COMMERCIAL_ITEM'),
-  movie('MOVIE'),
-  music('MUSIC'),
-  book('BOOK'),
-  software('SOFTWARE'),
-  game('GAME'),
-  personalTitle('PERSONAL_TITLE'),
-  event('EVENT'),
-  date('DATE'),
-  quantity('QUANTITY'),
-  attribute('ATTRIBUTE'),
-  other('OTHER'),
-  ;
+class TargetedSentimentEntityType {
+  static const person = TargetedSentimentEntityType._('PERSON');
+  static const location = TargetedSentimentEntityType._('LOCATION');
+  static const organization = TargetedSentimentEntityType._('ORGANIZATION');
+  static const facility = TargetedSentimentEntityType._('FACILITY');
+  static const brand = TargetedSentimentEntityType._('BRAND');
+  static const commercialItem =
+      TargetedSentimentEntityType._('COMMERCIAL_ITEM');
+  static const movie = TargetedSentimentEntityType._('MOVIE');
+  static const music = TargetedSentimentEntityType._('MUSIC');
+  static const book = TargetedSentimentEntityType._('BOOK');
+  static const software = TargetedSentimentEntityType._('SOFTWARE');
+  static const game = TargetedSentimentEntityType._('GAME');
+  static const personalTitle = TargetedSentimentEntityType._('PERSONAL_TITLE');
+  static const event = TargetedSentimentEntityType._('EVENT');
+  static const date = TargetedSentimentEntityType._('DATE');
+  static const quantity = TargetedSentimentEntityType._('QUANTITY');
+  static const attribute = TargetedSentimentEntityType._('ATTRIBUTE');
+  static const other = TargetedSentimentEntityType._('OTHER');
 
   final String value;
 
-  const TargetedSentimentEntityType(this.value);
+  const TargetedSentimentEntityType._(this.value);
+
+  static const values = [
+    person,
+    location,
+    organization,
+    facility,
+    brand,
+    commercialItem,
+    movie,
+    music,
+    book,
+    software,
+    game,
+    personalTitle,
+    event,
+    date,
+    quantity,
+    attribute,
+    other
+  ];
 
   static TargetedSentimentEntityType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum TargetedSentimentEntityType'));
+          orElse: () => TargetedSentimentEntityType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TargetedSentimentEntityType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about one mention of an entity. The mention information includes
@@ -13927,7 +14385,8 @@ class TaskConfig {
 
   factory TaskConfig.fromJson(Map<String, dynamic> json) {
     return TaskConfig(
-      languageCode: LanguageCode.fromString((json['LanguageCode'] as String)),
+      languageCode:
+          LanguageCode.fromString((json['LanguageCode'] as String?) ?? ''),
       documentClassificationConfig: json['DocumentClassificationConfig'] != null
           ? DocumentClassificationConfig.fromJson(
               json['DocumentClassificationConfig'] as Map<String, dynamic>)
@@ -14194,24 +14653,41 @@ class ToxicContent {
   }
 }
 
-enum ToxicContentType {
-  graphic('GRAPHIC'),
-  harassmentOrAbuse('HARASSMENT_OR_ABUSE'),
-  hateSpeech('HATE_SPEECH'),
-  insult('INSULT'),
-  profanity('PROFANITY'),
-  sexual('SEXUAL'),
-  violenceOrThreat('VIOLENCE_OR_THREAT'),
-  ;
+class ToxicContentType {
+  static const graphic = ToxicContentType._('GRAPHIC');
+  static const harassmentOrAbuse = ToxicContentType._('HARASSMENT_OR_ABUSE');
+  static const hateSpeech = ToxicContentType._('HATE_SPEECH');
+  static const insult = ToxicContentType._('INSULT');
+  static const profanity = ToxicContentType._('PROFANITY');
+  static const sexual = ToxicContentType._('SEXUAL');
+  static const violenceOrThreat = ToxicContentType._('VIOLENCE_OR_THREAT');
 
   final String value;
 
-  const ToxicContentType(this.value);
+  const ToxicContentType._(this.value);
+
+  static const values = [
+    graphic,
+    harassmentOrAbuse,
+    hateSpeech,
+    insult,
+    profanity,
+    sexual,
+    violenceOrThreat
+  ];
 
   static ToxicContentType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ToxicContentType'));
+          orElse: () => ToxicContentType._(value));
+
+  @override
+  bool operator ==(other) => other is ToxicContentType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Toxicity analysis result for one string. For more information about toxicity

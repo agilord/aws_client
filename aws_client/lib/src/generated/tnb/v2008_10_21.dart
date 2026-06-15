@@ -1357,11 +1357,11 @@ class CreateSolFunctionPackageOutput {
     return CreateSolFunctionPackageOutput(
       arn: (json['arn'] as String?) ?? '',
       id: (json['id'] as String?) ?? '',
-      onboardingState:
-          OnboardingState.fromString((json['onboardingState'] as String)),
-      operationalState:
-          OperationalState.fromString((json['operationalState'] as String)),
-      usageState: UsageState.fromString((json['usageState'] as String)),
+      onboardingState: OnboardingState.fromString(
+          (json['onboardingState'] as String?) ?? ''),
+      operationalState: OperationalState.fromString(
+          (json['operationalState'] as String?) ?? ''),
+      usageState: UsageState.fromString((json['usageState'] as String?) ?? ''),
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
     );
@@ -1472,12 +1472,12 @@ class CreateSolNetworkPackageOutput {
     return CreateSolNetworkPackageOutput(
       arn: (json['arn'] as String?) ?? '',
       id: (json['id'] as String?) ?? '',
-      nsdOnboardingState:
-          NsdOnboardingState.fromString((json['nsdOnboardingState'] as String)),
+      nsdOnboardingState: NsdOnboardingState.fromString(
+          (json['nsdOnboardingState'] as String?) ?? ''),
       nsdOperationalState: NsdOperationalState.fromString(
-          (json['nsdOperationalState'] as String)),
+          (json['nsdOperationalState'] as String?) ?? ''),
       nsdUsageState:
-          NsdUsageState.fromString((json['nsdUsageState'] as String)),
+          NsdUsageState.fromString((json['nsdUsageState'] as String?) ?? ''),
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
     );
@@ -1501,18 +1501,28 @@ class CreateSolNetworkPackageOutput {
   }
 }
 
-enum DescriptorContentType {
-  textPlain('text/plain'),
-  ;
+class DescriptorContentType {
+  static const textPlain = DescriptorContentType._('text/plain');
 
   final String value;
 
-  const DescriptorContentType(this.value);
+  const DescriptorContentType._(this.value);
 
-  static DescriptorContentType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum DescriptorContentType'));
+  static const values = [textPlain];
+
+  static DescriptorContentType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DescriptorContentType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DescriptorContentType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class Document {
@@ -1673,7 +1683,7 @@ class GetSolFunctionInstanceOutput {
       arn: (json['arn'] as String?) ?? '',
       id: (json['id'] as String?) ?? '',
       instantiationState: VnfInstantiationState.fromString(
-          (json['instantiationState'] as String)),
+          (json['instantiationState'] as String?) ?? ''),
       metadata: GetSolFunctionInstanceMetadata.fromJson(
           (json['metadata'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
@@ -1862,11 +1872,11 @@ class GetSolFunctionPackageOutput {
     return GetSolFunctionPackageOutput(
       arn: (json['arn'] as String?) ?? '',
       id: (json['id'] as String?) ?? '',
-      onboardingState:
-          OnboardingState.fromString((json['onboardingState'] as String)),
-      operationalState:
-          OperationalState.fromString((json['operationalState'] as String)),
-      usageState: UsageState.fromString((json['usageState'] as String)),
+      onboardingState: OnboardingState.fromString(
+          (json['onboardingState'] as String?) ?? ''),
+      operationalState: OperationalState.fromString(
+          (json['operationalState'] as String?) ?? ''),
+      usageState: UsageState.fromString((json['usageState'] as String?) ?? ''),
       metadata: json['metadata'] != null
           ? GetSolFunctionPackageMetadata.fromJson(
               json['metadata'] as Map<String, dynamic>)
@@ -2440,12 +2450,12 @@ class GetSolNetworkPackageOutput {
               const <String, dynamic>{}),
       nsdId: (json['nsdId'] as String?) ?? '',
       nsdName: (json['nsdName'] as String?) ?? '',
-      nsdOnboardingState:
-          NsdOnboardingState.fromString((json['nsdOnboardingState'] as String)),
+      nsdOnboardingState: NsdOnboardingState.fromString(
+          (json['nsdOnboardingState'] as String?) ?? ''),
       nsdOperationalState: NsdOperationalState.fromString(
-          (json['nsdOperationalState'] as String)),
+          (json['nsdOperationalState'] as String?) ?? ''),
       nsdUsageState:
-          NsdUsageState.fromString((json['nsdUsageState'] as String)),
+          NsdUsageState.fromString((json['nsdUsageState'] as String?) ?? ''),
       nsdVersion: (json['nsdVersion'] as String?) ?? '',
       vnfPkgIds: ((json['vnfPkgIds'] as List?) ?? const [])
           .nonNulls
@@ -2687,20 +2697,29 @@ class LcmOperationInfo {
   }
 }
 
-enum LcmOperationType {
-  instantiate('INSTANTIATE'),
-  update('UPDATE'),
-  terminate('TERMINATE'),
-  ;
+class LcmOperationType {
+  static const instantiate = LcmOperationType._('INSTANTIATE');
+  static const update = LcmOperationType._('UPDATE');
+  static const terminate = LcmOperationType._('TERMINATE');
 
   final String value;
 
-  const LcmOperationType(this.value);
+  const LcmOperationType._(this.value);
+
+  static const values = [instantiate, update, terminate];
 
   static LcmOperationType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum LcmOperationType'));
+          orElse: () => LcmOperationType._(value));
+
+  @override
+  bool operator ==(other) => other is LcmOperationType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Lists information about a network function instance.
@@ -2745,7 +2764,7 @@ class ListSolFunctionInstanceInfo {
       arn: (json['arn'] as String?) ?? '',
       id: (json['id'] as String?) ?? '',
       instantiationState: VnfInstantiationState.fromString(
-          (json['instantiationState'] as String)),
+          (json['instantiationState'] as String?) ?? ''),
       metadata: ListSolFunctionInstanceMetadata.fromJson(
           (json['metadata'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
@@ -2902,11 +2921,11 @@ class ListSolFunctionPackageInfo {
     return ListSolFunctionPackageInfo(
       arn: (json['arn'] as String?) ?? '',
       id: (json['id'] as String?) ?? '',
-      onboardingState:
-          OnboardingState.fromString((json['onboardingState'] as String)),
-      operationalState:
-          OperationalState.fromString((json['operationalState'] as String)),
-      usageState: UsageState.fromString((json['usageState'] as String)),
+      onboardingState: OnboardingState.fromString(
+          (json['onboardingState'] as String?) ?? ''),
+      operationalState: OperationalState.fromString(
+          (json['operationalState'] as String?) ?? ''),
+      usageState: UsageState.fromString((json['usageState'] as String?) ?? ''),
       metadata: json['metadata'] != null
           ? ListSolFunctionPackageMetadata.fromJson(
               json['metadata'] as Map<String, dynamic>)
@@ -3067,7 +3086,7 @@ class ListSolNetworkInstanceInfo {
               const <String, dynamic>{}),
       nsInstanceDescription: (json['nsInstanceDescription'] as String?) ?? '',
       nsInstanceName: (json['nsInstanceName'] as String?) ?? '',
-      nsState: NsState.fromString((json['nsState'] as String)),
+      nsState: NsState.fromString((json['nsState'] as String?) ?? ''),
       nsdId: (json['nsdId'] as String?) ?? '',
       nsdInfoId: (json['nsdInfoId'] as String?) ?? '',
     );
@@ -3205,11 +3224,11 @@ class ListSolNetworkOperationsInfo {
     return ListSolNetworkOperationsInfo(
       arn: (json['arn'] as String?) ?? '',
       id: (json['id'] as String?) ?? '',
-      lcmOperationType:
-          LcmOperationType.fromString((json['lcmOperationType'] as String)),
+      lcmOperationType: LcmOperationType.fromString(
+          (json['lcmOperationType'] as String?) ?? ''),
       nsInstanceId: (json['nsInstanceId'] as String?) ?? '',
-      operationState:
-          NsLcmOperationState.fromString((json['operationState'] as String)),
+      operationState: NsLcmOperationState.fromString(
+          (json['operationState'] as String?) ?? ''),
       error: json['error'] != null
           ? ProblemDetails.fromJson(json['error'] as Map<String, dynamic>)
           : null,
@@ -3395,12 +3414,12 @@ class ListSolNetworkPackageInfo {
       metadata: ListSolNetworkPackageMetadata.fromJson(
           (json['metadata'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
-      nsdOnboardingState:
-          NsdOnboardingState.fromString((json['nsdOnboardingState'] as String)),
+      nsdOnboardingState: NsdOnboardingState.fromString(
+          (json['nsdOnboardingState'] as String?) ?? ''),
       nsdOperationalState: NsdOperationalState.fromString(
-          (json['nsdOperationalState'] as String)),
+          (json['nsdOperationalState'] as String?) ?? ''),
       nsdUsageState:
-          NsdUsageState.fromString((json['nsdUsageState'] as String)),
+          NsdUsageState.fromString((json['nsdUsageState'] as String?) ?? ''),
       nsdDesigner: json['nsdDesigner'] as String?,
       nsdId: json['nsdId'] as String?,
       nsdInvariantId: json['nsdInvariantId'] as String?,
@@ -3602,136 +3621,225 @@ class NetworkArtifactMeta {
   }
 }
 
-enum NsLcmOperationState {
-  processing('PROCESSING'),
-  completed('COMPLETED'),
-  failed('FAILED'),
-  cancelling('CANCELLING'),
-  cancelled('CANCELLED'),
-  ;
+class NsLcmOperationState {
+  static const processing = NsLcmOperationState._('PROCESSING');
+  static const completed = NsLcmOperationState._('COMPLETED');
+  static const failed = NsLcmOperationState._('FAILED');
+  static const cancelling = NsLcmOperationState._('CANCELLING');
+  static const cancelled = NsLcmOperationState._('CANCELLED');
 
   final String value;
 
-  const NsLcmOperationState(this.value);
+  const NsLcmOperationState._(this.value);
 
-  static NsLcmOperationState fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum NsLcmOperationState'));
-}
+  static const values = [processing, completed, failed, cancelling, cancelled];
 
-enum NsState {
-  instantiated('INSTANTIATED'),
-  notInstantiated('NOT_INSTANTIATED'),
-  updated('UPDATED'),
-  impaired('IMPAIRED'),
-  updateFailed('UPDATE_FAILED'),
-  stopped('STOPPED'),
-  deleted('DELETED'),
-  instantiateInProgress('INSTANTIATE_IN_PROGRESS'),
-  intentToUpdateInProgress('INTENT_TO_UPDATE_IN_PROGRESS'),
-  updateInProgress('UPDATE_IN_PROGRESS'),
-  terminateInProgress('TERMINATE_IN_PROGRESS'),
-  ;
-
-  final String value;
-
-  const NsState(this.value);
-
-  static NsState fromString(String value) =>
+  static NsLcmOperationState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum NsState'));
+          orElse: () => NsLcmOperationState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is NsLcmOperationState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum NsdOnboardingState {
-  created('CREATED'),
-  onboarded('ONBOARDED'),
-  error('ERROR'),
-  ;
+class NsState {
+  static const instantiated = NsState._('INSTANTIATED');
+  static const notInstantiated = NsState._('NOT_INSTANTIATED');
+  static const updated = NsState._('UPDATED');
+  static const impaired = NsState._('IMPAIRED');
+  static const updateFailed = NsState._('UPDATE_FAILED');
+  static const stopped = NsState._('STOPPED');
+  static const deleted = NsState._('DELETED');
+  static const instantiateInProgress = NsState._('INSTANTIATE_IN_PROGRESS');
+  static const intentToUpdateInProgress =
+      NsState._('INTENT_TO_UPDATE_IN_PROGRESS');
+  static const updateInProgress = NsState._('UPDATE_IN_PROGRESS');
+  static const terminateInProgress = NsState._('TERMINATE_IN_PROGRESS');
 
   final String value;
 
-  const NsdOnboardingState(this.value);
+  const NsState._(this.value);
 
-  static NsdOnboardingState fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum NsdOnboardingState'));
+  static const values = [
+    instantiated,
+    notInstantiated,
+    updated,
+    impaired,
+    updateFailed,
+    stopped,
+    deleted,
+    instantiateInProgress,
+    intentToUpdateInProgress,
+    updateInProgress,
+    terminateInProgress
+  ];
+
+  static NsState fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => NsState._(value));
+
+  @override
+  bool operator ==(other) => other is NsState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum NsdOperationalState {
-  enabled('ENABLED'),
-  disabled('DISABLED'),
-  ;
+class NsdOnboardingState {
+  static const created = NsdOnboardingState._('CREATED');
+  static const onboarded = NsdOnboardingState._('ONBOARDED');
+  static const error = NsdOnboardingState._('ERROR');
 
   final String value;
 
-  const NsdOperationalState(this.value);
+  const NsdOnboardingState._(this.value);
 
-  static NsdOperationalState fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum NsdOperationalState'));
+  static const values = [created, onboarded, error];
+
+  static NsdOnboardingState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => NsdOnboardingState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is NsdOnboardingState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum NsdUsageState {
-  inUse('IN_USE'),
-  notInUse('NOT_IN_USE'),
-  ;
+class NsdOperationalState {
+  static const enabled = NsdOperationalState._('ENABLED');
+  static const disabled = NsdOperationalState._('DISABLED');
 
   final String value;
 
-  const NsdUsageState(this.value);
+  const NsdOperationalState._(this.value);
+
+  static const values = [enabled, disabled];
+
+  static NsdOperationalState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => NsdOperationalState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is NsdOperationalState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class NsdUsageState {
+  static const inUse = NsdUsageState._('IN_USE');
+  static const notInUse = NsdUsageState._('NOT_IN_USE');
+
+  final String value;
+
+  const NsdUsageState._(this.value);
+
+  static const values = [inUse, notInUse];
 
   static NsdUsageState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum NsdUsageState'));
+          orElse: () => NsdUsageState._(value));
+
+  @override
+  bool operator ==(other) => other is NsdUsageState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum OnboardingState {
-  created('CREATED'),
-  onboarded('ONBOARDED'),
-  error('ERROR'),
-  ;
+class OnboardingState {
+  static const created = OnboardingState._('CREATED');
+  static const onboarded = OnboardingState._('ONBOARDED');
+  static const error = OnboardingState._('ERROR');
 
   final String value;
 
-  const OnboardingState(this.value);
+  const OnboardingState._(this.value);
+
+  static const values = [created, onboarded, error];
 
   static OnboardingState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum OnboardingState'));
+          orElse: () => OnboardingState._(value));
+
+  @override
+  bool operator ==(other) => other is OnboardingState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum OperationalState {
-  enabled('ENABLED'),
-  disabled('DISABLED'),
-  ;
+class OperationalState {
+  static const enabled = OperationalState._('ENABLED');
+  static const disabled = OperationalState._('DISABLED');
 
   final String value;
 
-  const OperationalState(this.value);
+  const OperationalState._(this.value);
+
+  static const values = [enabled, disabled];
 
   static OperationalState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum OperationalState'));
+          orElse: () => OperationalState._(value));
+
+  @override
+  bool operator ==(other) => other is OperationalState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum PackageContentType {
-  applicationZip('application/zip'),
-  ;
+class PackageContentType {
+  static const applicationZip = PackageContentType._('application/zip');
 
   final String value;
 
-  const PackageContentType(this.value);
+  const PackageContentType._(this.value);
 
-  static PackageContentType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum PackageContentType'));
+  static const values = [applicationZip];
+
+  static PackageContentType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => PackageContentType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is PackageContentType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Details related to problems with AWS TNB resources.
@@ -3965,23 +4073,40 @@ class TagResourceOutput {
   }
 }
 
-enum TaskStatus {
-  scheduled('SCHEDULED'),
-  started('STARTED'),
-  inProgress('IN_PROGRESS'),
-  completed('COMPLETED'),
-  error('ERROR'),
-  skipped('SKIPPED'),
-  cancelled('CANCELLED'),
-  ;
+class TaskStatus {
+  static const scheduled = TaskStatus._('SCHEDULED');
+  static const started = TaskStatus._('STARTED');
+  static const inProgress = TaskStatus._('IN_PROGRESS');
+  static const completed = TaskStatus._('COMPLETED');
+  static const error = TaskStatus._('ERROR');
+  static const skipped = TaskStatus._('SKIPPED');
+  static const cancelled = TaskStatus._('CANCELLED');
 
   final String value;
 
-  const TaskStatus(this.value);
+  const TaskStatus._(this.value);
 
-  static TaskStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum TaskStatus'));
+  static const values = [
+    scheduled,
+    started,
+    inProgress,
+    completed,
+    error,
+    skipped,
+    cancelled
+  ];
+
+  static TaskStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => TaskStatus._(value));
+
+  @override
+  bool operator ==(other) => other is TaskStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class TerminateSolNetworkInstanceOutput {
@@ -4106,8 +4231,8 @@ class UpdateSolFunctionPackageOutput {
 
   factory UpdateSolFunctionPackageOutput.fromJson(Map<String, dynamic> json) {
     return UpdateSolFunctionPackageOutput(
-      operationalState:
-          OperationalState.fromString((json['operationalState'] as String)),
+      operationalState: OperationalState.fromString(
+          (json['operationalState'] as String?) ?? ''),
     );
   }
 
@@ -4193,7 +4318,7 @@ class UpdateSolNetworkPackageOutput {
   factory UpdateSolNetworkPackageOutput.fromJson(Map<String, dynamic> json) {
     return UpdateSolNetworkPackageOutput(
       nsdOperationalState: NsdOperationalState.fromString(
-          (json['nsdOperationalState'] as String)),
+          (json['nsdOperationalState'] as String?) ?? ''),
     );
   }
 
@@ -4231,33 +4356,53 @@ class UpdateSolNetworkServiceData {
   }
 }
 
-enum UpdateSolNetworkType {
-  modifyVnfInformation('MODIFY_VNF_INFORMATION'),
-  updateNs('UPDATE_NS'),
-  ;
+class UpdateSolNetworkType {
+  static const modifyVnfInformation =
+      UpdateSolNetworkType._('MODIFY_VNF_INFORMATION');
+  static const updateNs = UpdateSolNetworkType._('UPDATE_NS');
 
   final String value;
 
-  const UpdateSolNetworkType(this.value);
+  const UpdateSolNetworkType._(this.value);
 
-  static UpdateSolNetworkType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum UpdateSolNetworkType'));
+  static const values = [modifyVnfInformation, updateNs];
+
+  static UpdateSolNetworkType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => UpdateSolNetworkType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is UpdateSolNetworkType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum UsageState {
-  inUse('IN_USE'),
-  notInUse('NOT_IN_USE'),
-  ;
+class UsageState {
+  static const inUse = UsageState._('IN_USE');
+  static const notInUse = UsageState._('NOT_IN_USE');
 
   final String value;
 
-  const UsageState(this.value);
+  const UsageState._(this.value);
 
-  static UsageState fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum UsageState'));
+  static const values = [inUse, notInUse];
+
+  static UsageState fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => UsageState._(value));
+
+  @override
+  bool operator ==(other) => other is UsageState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Validates function package content metadata.
@@ -4449,34 +4594,54 @@ class ValidateSolNetworkPackageContentOutput {
   }
 }
 
-enum VnfInstantiationState {
-  instantiated('INSTANTIATED'),
-  notInstantiated('NOT_INSTANTIATED'),
-  ;
+class VnfInstantiationState {
+  static const instantiated = VnfInstantiationState._('INSTANTIATED');
+  static const notInstantiated = VnfInstantiationState._('NOT_INSTANTIATED');
 
   final String value;
 
-  const VnfInstantiationState(this.value);
+  const VnfInstantiationState._(this.value);
 
-  static VnfInstantiationState fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum VnfInstantiationState'));
+  static const values = [instantiated, notInstantiated];
+
+  static VnfInstantiationState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => VnfInstantiationState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is VnfInstantiationState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum VnfOperationalState {
-  started('STARTED'),
-  stopped('STOPPED'),
-  ;
+class VnfOperationalState {
+  static const started = VnfOperationalState._('STARTED');
+  static const stopped = VnfOperationalState._('STOPPED');
 
   final String value;
 
-  const VnfOperationalState(this.value);
+  const VnfOperationalState._(this.value);
 
-  static VnfOperationalState fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum VnfOperationalState'));
+  static const values = [started, stopped];
+
+  static VnfOperationalState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => VnfOperationalState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is VnfOperationalState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class AccessDeniedException extends _s.GenericAwsException {

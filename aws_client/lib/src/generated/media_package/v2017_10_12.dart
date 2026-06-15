@@ -700,20 +700,29 @@ class MediaPackage {
   }
 }
 
-enum AdMarkers {
-  none('NONE'),
-  scte35Enhanced('SCTE35_ENHANCED'),
-  passthrough('PASSTHROUGH'),
-  daterange('DATERANGE'),
-  ;
+class AdMarkers {
+  static const none = AdMarkers._('NONE');
+  static const scte35Enhanced = AdMarkers._('SCTE35_ENHANCED');
+  static const passthrough = AdMarkers._('PASSTHROUGH');
+  static const daterange = AdMarkers._('DATERANGE');
 
   final String value;
 
-  const AdMarkers(this.value);
+  const AdMarkers._(this.value);
 
-  static AdMarkers fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum AdMarkers'));
+  static const values = [none, scte35Enhanced, passthrough, daterange];
+
+  static AdMarkers fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => AdMarkers._(value));
+
+  @override
+  bool operator ==(other) => other is AdMarkers && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// This setting allows the delivery restriction flags on SCTE-35 segmentation
@@ -731,21 +740,31 @@ enum AdMarkers {
 /// AdTriggers will be treated as ads.  Note that Splice Insert messages do not
 /// have these flags
 /// and are always treated as ads if specified in AdTriggers.
-enum AdsOnDeliveryRestrictions {
-  none('NONE'),
-  restricted('RESTRICTED'),
-  unrestricted('UNRESTRICTED'),
-  both('BOTH'),
-  ;
+class AdsOnDeliveryRestrictions {
+  static const none = AdsOnDeliveryRestrictions._('NONE');
+  static const restricted = AdsOnDeliveryRestrictions._('RESTRICTED');
+  static const unrestricted = AdsOnDeliveryRestrictions._('UNRESTRICTED');
+  static const both = AdsOnDeliveryRestrictions._('BOTH');
 
   final String value;
 
-  const AdsOnDeliveryRestrictions(this.value);
+  const AdsOnDeliveryRestrictions._(this.value);
+
+  static const values = [none, restricted, unrestricted, both];
 
   static AdsOnDeliveryRestrictions fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum AdsOnDeliveryRestrictions'));
+          orElse: () => AdsOnDeliveryRestrictions._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AdsOnDeliveryRestrictions && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// CDN Authorization credentials
@@ -904,19 +923,29 @@ class CmafEncryption {
 }
 
 /// The encryption method to use.
-enum CmafEncryptionMethod {
-  sampleAes('SAMPLE_AES'),
-  aesCtr('AES_CTR'),
-  ;
+class CmafEncryptionMethod {
+  static const sampleAes = CmafEncryptionMethod._('SAMPLE_AES');
+  static const aesCtr = CmafEncryptionMethod._('AES_CTR');
 
   final String value;
 
-  const CmafEncryptionMethod(this.value);
+  const CmafEncryptionMethod._(this.value);
 
-  static CmafEncryptionMethod fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum CmafEncryptionMethod'));
+  static const values = [sampleAes, aesCtr];
+
+  static CmafEncryptionMethod fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => CmafEncryptionMethod._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CmafEncryptionMethod && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A Common Media Application Format (CMAF) packaging configuration.
@@ -1978,10 +2007,10 @@ class EncryptionContractConfiguration {
 
   factory EncryptionContractConfiguration.fromJson(Map<String, dynamic> json) {
     return EncryptionContractConfiguration(
-      presetSpeke20Audio:
-          PresetSpeke20Audio.fromString((json['presetSpeke20Audio'] as String)),
-      presetSpeke20Video:
-          PresetSpeke20Video.fromString((json['presetSpeke20Video'] as String)),
+      presetSpeke20Audio: PresetSpeke20Audio.fromString(
+          (json['presetSpeke20Audio'] as String?) ?? ''),
+      presetSpeke20Video: PresetSpeke20Video.fromString(
+          (json['presetSpeke20Video'] as String?) ?? ''),
     );
   }
 
@@ -1995,19 +2024,28 @@ class EncryptionContractConfiguration {
   }
 }
 
-enum EncryptionMethod {
-  aes_128('AES_128'),
-  sampleAes('SAMPLE_AES'),
-  ;
+class EncryptionMethod {
+  static const aes_128 = EncryptionMethod._('AES_128');
+  static const sampleAes = EncryptionMethod._('SAMPLE_AES');
 
   final String value;
 
-  const EncryptionMethod(this.value);
+  const EncryptionMethod._(this.value);
+
+  static const values = [aes_128, sampleAes];
 
   static EncryptionMethod fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum EncryptionMethod'));
+          orElse: () => EncryptionMethod._(value));
+
+  @override
+  bool operator ==(other) => other is EncryptionMethod && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A HarvestJob resource configuration
@@ -2716,20 +2754,29 @@ class ListTagsForResourceResponse {
   }
 }
 
-enum ManifestLayout {
-  full('FULL'),
-  compact('COMPACT'),
-  drmTopLevelCompact('DRM_TOP_LEVEL_COMPACT'),
-  ;
+class ManifestLayout {
+  static const full = ManifestLayout._('FULL');
+  static const compact = ManifestLayout._('COMPACT');
+  static const drmTopLevelCompact = ManifestLayout._('DRM_TOP_LEVEL_COMPACT');
 
   final String value;
 
-  const ManifestLayout(this.value);
+  const ManifestLayout._(this.value);
+
+  static const values = [full, compact, drmTopLevelCompact];
 
   static ManifestLayout fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ManifestLayout'));
+          orElse: () => ManifestLayout._(value));
+
+  @override
+  bool operator ==(other) => other is ManifestLayout && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A Microsoft Smooth Streaming (MSS) encryption configuration.
@@ -2954,91 +3001,154 @@ class OriginEndpoint {
   }
 }
 
-enum Origination {
-  allow('ALLOW'),
-  deny('DENY'),
-  ;
+class Origination {
+  static const allow = Origination._('ALLOW');
+  static const deny = Origination._('DENY');
 
   final String value;
 
-  const Origination(this.value);
+  const Origination._(this.value);
 
-  static Origination fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum Origination'));
+  static const values = [allow, deny];
+
+  static Origination fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Origination._(value));
+
+  @override
+  bool operator ==(other) => other is Origination && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum PlaylistType {
-  none('NONE'),
-  event('EVENT'),
-  vod('VOD'),
-  ;
+class PlaylistType {
+  static const none = PlaylistType._('NONE');
+  static const event = PlaylistType._('EVENT');
+  static const vod = PlaylistType._('VOD');
 
   final String value;
 
-  const PlaylistType(this.value);
+  const PlaylistType._(this.value);
 
-  static PlaylistType fromString(String value) =>
+  static const values = [none, event, vod];
+
+  static PlaylistType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => PlaylistType._(value));
+
+  @override
+  bool operator ==(other) => other is PlaylistType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class PresetSpeke20Audio {
+  static const presetAudio_1 = PresetSpeke20Audio._('PRESET-AUDIO-1');
+  static const presetAudio_2 = PresetSpeke20Audio._('PRESET-AUDIO-2');
+  static const presetAudio_3 = PresetSpeke20Audio._('PRESET-AUDIO-3');
+  static const shared = PresetSpeke20Audio._('SHARED');
+  static const unencrypted = PresetSpeke20Audio._('UNENCRYPTED');
+
+  final String value;
+
+  const PresetSpeke20Audio._(this.value);
+
+  static const values = [
+    presetAudio_1,
+    presetAudio_2,
+    presetAudio_3,
+    shared,
+    unencrypted
+  ];
+
+  static PresetSpeke20Audio fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum PlaylistType'));
+          orElse: () => PresetSpeke20Audio._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is PresetSpeke20Audio && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum PresetSpeke20Audio {
-  presetAudio_1('PRESET-AUDIO-1'),
-  presetAudio_2('PRESET-AUDIO-2'),
-  presetAudio_3('PRESET-AUDIO-3'),
-  shared('SHARED'),
-  unencrypted('UNENCRYPTED'),
-  ;
+class PresetSpeke20Video {
+  static const presetVideo_1 = PresetSpeke20Video._('PRESET-VIDEO-1');
+  static const presetVideo_2 = PresetSpeke20Video._('PRESET-VIDEO-2');
+  static const presetVideo_3 = PresetSpeke20Video._('PRESET-VIDEO-3');
+  static const presetVideo_4 = PresetSpeke20Video._('PRESET-VIDEO-4');
+  static const presetVideo_5 = PresetSpeke20Video._('PRESET-VIDEO-5');
+  static const presetVideo_6 = PresetSpeke20Video._('PRESET-VIDEO-6');
+  static const presetVideo_7 = PresetSpeke20Video._('PRESET-VIDEO-7');
+  static const presetVideo_8 = PresetSpeke20Video._('PRESET-VIDEO-8');
+  static const shared = PresetSpeke20Video._('SHARED');
+  static const unencrypted = PresetSpeke20Video._('UNENCRYPTED');
 
   final String value;
 
-  const PresetSpeke20Audio(this.value);
+  const PresetSpeke20Video._(this.value);
 
-  static PresetSpeke20Audio fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum PresetSpeke20Audio'));
-}
+  static const values = [
+    presetVideo_1,
+    presetVideo_2,
+    presetVideo_3,
+    presetVideo_4,
+    presetVideo_5,
+    presetVideo_6,
+    presetVideo_7,
+    presetVideo_8,
+    shared,
+    unencrypted
+  ];
 
-enum PresetSpeke20Video {
-  presetVideo_1('PRESET-VIDEO-1'),
-  presetVideo_2('PRESET-VIDEO-2'),
-  presetVideo_3('PRESET-VIDEO-3'),
-  presetVideo_4('PRESET-VIDEO-4'),
-  presetVideo_5('PRESET-VIDEO-5'),
-  presetVideo_6('PRESET-VIDEO-6'),
-  presetVideo_7('PRESET-VIDEO-7'),
-  presetVideo_8('PRESET-VIDEO-8'),
-  shared('SHARED'),
-  unencrypted('UNENCRYPTED'),
-  ;
-
-  final String value;
-
-  const PresetSpeke20Video(this.value);
-
-  static PresetSpeke20Video fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum PresetSpeke20Video'));
-}
-
-enum Profile {
-  none('NONE'),
-  hbbtv_1_5('HBBTV_1_5'),
-  hybridcast('HYBRIDCAST'),
-  dvbDash_2014('DVB_DASH_2014'),
-  ;
-
-  final String value;
-
-  const Profile(this.value);
-
-  static Profile fromString(String value) =>
+  static PresetSpeke20Video fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum Profile'));
+          orElse: () => PresetSpeke20Video._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is PresetSpeke20Video && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class Profile {
+  static const none = Profile._('NONE');
+  static const hbbtv_1_5 = Profile._('HBBTV_1_5');
+  static const hybridcast = Profile._('HYBRIDCAST');
+  static const dvbDash_2014 = Profile._('DVB_DASH_2014');
+
+  final String value;
+
+  const Profile._(this.value);
+
+  static const values = [none, hbbtv_1_5, hybridcast, dvbDash_2014];
+
+  static Profile fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Profile._(value));
+
+  @override
+  bool operator ==(other) => other is Profile && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 @Deprecated('Deprecated')
@@ -3226,20 +3336,36 @@ class S3Destination {
   }
 }
 
-enum SegmentTemplateFormat {
-  numberWithTimeline('NUMBER_WITH_TIMELINE'),
-  timeWithTimeline('TIME_WITH_TIMELINE'),
-  numberWithDuration('NUMBER_WITH_DURATION'),
-  ;
+class SegmentTemplateFormat {
+  static const numberWithTimeline =
+      SegmentTemplateFormat._('NUMBER_WITH_TIMELINE');
+  static const timeWithTimeline = SegmentTemplateFormat._('TIME_WITH_TIMELINE');
+  static const numberWithDuration =
+      SegmentTemplateFormat._('NUMBER_WITH_DURATION');
 
   final String value;
 
-  const SegmentTemplateFormat(this.value);
+  const SegmentTemplateFormat._(this.value);
 
-  static SegmentTemplateFormat fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum SegmentTemplateFormat'));
+  static const values = [
+    numberWithTimeline,
+    timeWithTimeline,
+    numberWithDuration
+  ];
+
+  static SegmentTemplateFormat fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => SegmentTemplateFormat._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SegmentTemplateFormat && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A configuration for accessing an external Secure Packager and Encoder Key
@@ -3312,34 +3438,57 @@ class SpekeKeyProvider {
   }
 }
 
-enum Status {
-  inProgress('IN_PROGRESS'),
-  succeeded('SUCCEEDED'),
-  failed('FAILED'),
-  ;
+class Status {
+  static const inProgress = Status._('IN_PROGRESS');
+  static const succeeded = Status._('SUCCEEDED');
+  static const failed = Status._('FAILED');
 
   final String value;
 
-  const Status(this.value);
+  const Status._(this.value);
+
+  static const values = [inProgress, succeeded, failed];
 
   static Status fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum Status'));
+      values.firstWhere((e) => e.value == value, orElse: () => Status._(value));
+
+  @override
+  bool operator ==(other) => other is Status && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum StreamOrder {
-  original('ORIGINAL'),
-  videoBitrateAscending('VIDEO_BITRATE_ASCENDING'),
-  videoBitrateDescending('VIDEO_BITRATE_DESCENDING'),
-  ;
+class StreamOrder {
+  static const original = StreamOrder._('ORIGINAL');
+  static const videoBitrateAscending = StreamOrder._('VIDEO_BITRATE_ASCENDING');
+  static const videoBitrateDescending =
+      StreamOrder._('VIDEO_BITRATE_DESCENDING');
 
   final String value;
 
-  const StreamOrder(this.value);
+  const StreamOrder._(this.value);
 
-  static StreamOrder fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum StreamOrder'));
+  static const values = [
+    original,
+    videoBitrateAscending,
+    videoBitrateDescending
+  ];
+
+  static StreamOrder fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => StreamOrder._(value));
+
+  @override
+  bool operator ==(other) => other is StreamOrder && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A StreamSelection configuration.
@@ -3603,56 +3752,98 @@ class UpdateOriginEndpointResponse {
   }
 }
 
-enum UtcTiming {
-  none('NONE'),
-  httpHead('HTTP-HEAD'),
-  httpIso('HTTP-ISO'),
-  httpXsdate('HTTP-XSDATE'),
-  ;
+class UtcTiming {
+  static const none = UtcTiming._('NONE');
+  static const httpHead = UtcTiming._('HTTP-HEAD');
+  static const httpIso = UtcTiming._('HTTP-ISO');
+  static const httpXsdate = UtcTiming._('HTTP-XSDATE');
 
   final String value;
 
-  const UtcTiming(this.value);
+  const UtcTiming._(this.value);
 
-  static UtcTiming fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum UtcTiming'));
+  static const values = [none, httpHead, httpIso, httpXsdate];
+
+  static UtcTiming fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => UtcTiming._(value));
+
+  @override
+  bool operator ==(other) => other is UtcTiming && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum AdTriggersElement {
-  spliceInsert('SPLICE_INSERT'),
-  $break('BREAK'),
-  providerAdvertisement('PROVIDER_ADVERTISEMENT'),
-  distributorAdvertisement('DISTRIBUTOR_ADVERTISEMENT'),
-  providerPlacementOpportunity('PROVIDER_PLACEMENT_OPPORTUNITY'),
-  distributorPlacementOpportunity('DISTRIBUTOR_PLACEMENT_OPPORTUNITY'),
-  providerOverlayPlacementOpportunity('PROVIDER_OVERLAY_PLACEMENT_OPPORTUNITY'),
-  distributorOverlayPlacementOpportunity(
-      'DISTRIBUTOR_OVERLAY_PLACEMENT_OPPORTUNITY'),
-  ;
+class AdTriggersElement {
+  static const spliceInsert = AdTriggersElement._('SPLICE_INSERT');
+  static const $break = AdTriggersElement._('BREAK');
+  static const providerAdvertisement =
+      AdTriggersElement._('PROVIDER_ADVERTISEMENT');
+  static const distributorAdvertisement =
+      AdTriggersElement._('DISTRIBUTOR_ADVERTISEMENT');
+  static const providerPlacementOpportunity =
+      AdTriggersElement._('PROVIDER_PLACEMENT_OPPORTUNITY');
+  static const distributorPlacementOpportunity =
+      AdTriggersElement._('DISTRIBUTOR_PLACEMENT_OPPORTUNITY');
+  static const providerOverlayPlacementOpportunity =
+      AdTriggersElement._('PROVIDER_OVERLAY_PLACEMENT_OPPORTUNITY');
+  static const distributorOverlayPlacementOpportunity =
+      AdTriggersElement._('DISTRIBUTOR_OVERLAY_PLACEMENT_OPPORTUNITY');
 
   final String value;
 
-  const AdTriggersElement(this.value);
+  const AdTriggersElement._(this.value);
+
+  static const values = [
+    spliceInsert,
+    $break,
+    providerAdvertisement,
+    distributorAdvertisement,
+    providerPlacementOpportunity,
+    distributorPlacementOpportunity,
+    providerOverlayPlacementOpportunity,
+    distributorOverlayPlacementOpportunity
+  ];
 
   static AdTriggersElement fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum AdTriggersElement'));
+          orElse: () => AdTriggersElement._(value));
+
+  @override
+  bool operator ==(other) => other is AdTriggersElement && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum PeriodTriggersElement {
-  ads('ADS'),
-  ;
+class PeriodTriggersElement {
+  static const ads = PeriodTriggersElement._('ADS');
 
   final String value;
 
-  const PeriodTriggersElement(this.value);
+  const PeriodTriggersElement._(this.value);
 
-  static PeriodTriggersElement fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum PeriodTriggersElement'));
+  static const values = [ads];
+
+  static PeriodTriggersElement fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => PeriodTriggersElement._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is PeriodTriggersElement && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class ForbiddenException extends _s.GenericAwsException {

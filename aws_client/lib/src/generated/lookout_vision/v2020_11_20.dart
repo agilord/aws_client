@@ -1683,27 +1683,49 @@ class DatasetSource {
   }
 }
 
-enum DatasetStatus {
-  createInProgress('CREATE_IN_PROGRESS'),
-  createComplete('CREATE_COMPLETE'),
-  createFailed('CREATE_FAILED'),
-  updateInProgress('UPDATE_IN_PROGRESS'),
-  updateComplete('UPDATE_COMPLETE'),
-  updateFailedRollbackInProgress('UPDATE_FAILED_ROLLBACK_IN_PROGRESS'),
-  updateFailedRollbackComplete('UPDATE_FAILED_ROLLBACK_COMPLETE'),
-  deleteInProgress('DELETE_IN_PROGRESS'),
-  deleteComplete('DELETE_COMPLETE'),
-  deleteFailed('DELETE_FAILED'),
-  ;
+class DatasetStatus {
+  static const createInProgress = DatasetStatus._('CREATE_IN_PROGRESS');
+  static const createComplete = DatasetStatus._('CREATE_COMPLETE');
+  static const createFailed = DatasetStatus._('CREATE_FAILED');
+  static const updateInProgress = DatasetStatus._('UPDATE_IN_PROGRESS');
+  static const updateComplete = DatasetStatus._('UPDATE_COMPLETE');
+  static const updateFailedRollbackInProgress =
+      DatasetStatus._('UPDATE_FAILED_ROLLBACK_IN_PROGRESS');
+  static const updateFailedRollbackComplete =
+      DatasetStatus._('UPDATE_FAILED_ROLLBACK_COMPLETE');
+  static const deleteInProgress = DatasetStatus._('DELETE_IN_PROGRESS');
+  static const deleteComplete = DatasetStatus._('DELETE_COMPLETE');
+  static const deleteFailed = DatasetStatus._('DELETE_FAILED');
 
   final String value;
 
-  const DatasetStatus(this.value);
+  const DatasetStatus._(this.value);
+
+  static const values = [
+    createInProgress,
+    createComplete,
+    createFailed,
+    updateInProgress,
+    updateComplete,
+    updateFailedRollbackInProgress,
+    updateFailedRollbackComplete,
+    deleteInProgress,
+    deleteComplete,
+    deleteFailed
+  ];
 
   static DatasetStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum DatasetStatus'));
+          orElse: () => DatasetStatus._(value));
+
+  @override
+  bool operator ==(other) => other is DatasetStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class DeleteDatasetResponse {
@@ -2461,22 +2483,38 @@ class ModelDescription {
   }
 }
 
-enum ModelHostingStatus {
-  startingHosting('STARTING_HOSTING'),
-  hosted('HOSTED'),
-  hostingFailed('HOSTING_FAILED'),
-  stoppingHosting('STOPPING_HOSTING'),
-  systemUpdating('SYSTEM_UPDATING'),
-  ;
+class ModelHostingStatus {
+  static const startingHosting = ModelHostingStatus._('STARTING_HOSTING');
+  static const hosted = ModelHostingStatus._('HOSTED');
+  static const hostingFailed = ModelHostingStatus._('HOSTING_FAILED');
+  static const stoppingHosting = ModelHostingStatus._('STOPPING_HOSTING');
+  static const systemUpdating = ModelHostingStatus._('SYSTEM_UPDATING');
 
   final String value;
 
-  const ModelHostingStatus(this.value);
+  const ModelHostingStatus._(this.value);
 
-  static ModelHostingStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ModelHostingStatus'));
+  static const values = [
+    startingHosting,
+    hosted,
+    hostingFailed,
+    stoppingHosting,
+    systemUpdating
+  ];
+
+  static ModelHostingStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ModelHostingStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ModelHostingStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes an Amazon Lookout for Vision model.
@@ -2778,21 +2816,31 @@ class ModelPackagingJobMetadata {
   }
 }
 
-enum ModelPackagingJobStatus {
-  created('CREATED'),
-  running('RUNNING'),
-  succeeded('SUCCEEDED'),
-  failed('FAILED'),
-  ;
+class ModelPackagingJobStatus {
+  static const created = ModelPackagingJobStatus._('CREATED');
+  static const running = ModelPackagingJobStatus._('RUNNING');
+  static const succeeded = ModelPackagingJobStatus._('SUCCEEDED');
+  static const failed = ModelPackagingJobStatus._('FAILED');
 
   final String value;
 
-  const ModelPackagingJobStatus(this.value);
+  const ModelPackagingJobStatus._(this.value);
+
+  static const values = [created, running, succeeded, failed];
 
   static ModelPackagingJobStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ModelPackagingJobStatus'));
+          orElse: () => ModelPackagingJobStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ModelPackagingJobStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about the output from a model packaging job.
@@ -2858,25 +2906,44 @@ class ModelPerformance {
   }
 }
 
-enum ModelStatus {
-  training('TRAINING'),
-  trained('TRAINED'),
-  trainingFailed('TRAINING_FAILED'),
-  startingHosting('STARTING_HOSTING'),
-  hosted('HOSTED'),
-  hostingFailed('HOSTING_FAILED'),
-  stoppingHosting('STOPPING_HOSTING'),
-  systemUpdating('SYSTEM_UPDATING'),
-  deleting('DELETING'),
-  ;
+class ModelStatus {
+  static const training = ModelStatus._('TRAINING');
+  static const trained = ModelStatus._('TRAINED');
+  static const trainingFailed = ModelStatus._('TRAINING_FAILED');
+  static const startingHosting = ModelStatus._('STARTING_HOSTING');
+  static const hosted = ModelStatus._('HOSTED');
+  static const hostingFailed = ModelStatus._('HOSTING_FAILED');
+  static const stoppingHosting = ModelStatus._('STOPPING_HOSTING');
+  static const systemUpdating = ModelStatus._('SYSTEM_UPDATING');
+  static const deleting = ModelStatus._('DELETING');
 
   final String value;
 
-  const ModelStatus(this.value);
+  const ModelStatus._(this.value);
 
-  static ModelStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum ModelStatus'));
+  static const values = [
+    training,
+    trained,
+    trainingFailed,
+    startingHosting,
+    hosted,
+    hostingFailed,
+    stoppingHosting,
+    systemUpdating,
+    deleting
+  ];
+
+  static ModelStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ModelStatus._(value));
+
+  @override
+  bool operator ==(other) => other is ModelStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The S3 location where Amazon Lookout for Vision saves model training files.
@@ -3201,18 +3268,26 @@ class TagResourceResponse {
   }
 }
 
-enum TargetDevice {
-  jetsonXavier('jetson_xavier'),
-  ;
+class TargetDevice {
+  static const jetsonXavier = TargetDevice._('jetson_xavier');
 
   final String value;
 
-  const TargetDevice(this.value);
+  const TargetDevice._(this.value);
 
-  static TargetDevice fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum TargetDevice'));
+  static const values = [jetsonXavier];
+
+  static TargetDevice fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => TargetDevice._(value));
+
+  @override
+  bool operator ==(other) => other is TargetDevice && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The platform on which a model runs on an AWS IoT Greengrass core device.
@@ -3255,8 +3330,8 @@ class TargetPlatform {
 
   factory TargetPlatform.fromJson(Map<String, dynamic> json) {
     return TargetPlatform(
-      arch: TargetPlatformArch.fromString((json['Arch'] as String)),
-      os: TargetPlatformOs.fromString((json['Os'] as String)),
+      arch: TargetPlatformArch.fromString((json['Arch'] as String?) ?? ''),
+      os: TargetPlatformOs.fromString((json['Os'] as String?) ?? ''),
       accelerator: (json['Accelerator'] as String?)
           ?.let(TargetPlatformAccelerator.fromString),
     );
@@ -3274,47 +3349,76 @@ class TargetPlatform {
   }
 }
 
-enum TargetPlatformAccelerator {
-  nvidia('NVIDIA'),
-  ;
+class TargetPlatformAccelerator {
+  static const nvidia = TargetPlatformAccelerator._('NVIDIA');
 
   final String value;
 
-  const TargetPlatformAccelerator(this.value);
+  const TargetPlatformAccelerator._(this.value);
+
+  static const values = [nvidia];
 
   static TargetPlatformAccelerator fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum TargetPlatformAccelerator'));
+          orElse: () => TargetPlatformAccelerator._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TargetPlatformAccelerator && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum TargetPlatformArch {
-  arm64('ARM64'),
-  x86_64('X86_64'),
-  ;
+class TargetPlatformArch {
+  static const arm64 = TargetPlatformArch._('ARM64');
+  static const x86_64 = TargetPlatformArch._('X86_64');
 
   final String value;
 
-  const TargetPlatformArch(this.value);
+  const TargetPlatformArch._(this.value);
 
-  static TargetPlatformArch fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum TargetPlatformArch'));
+  static const values = [arm64, x86_64];
+
+  static TargetPlatformArch fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => TargetPlatformArch._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TargetPlatformArch && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum TargetPlatformOs {
-  linux('LINUX'),
-  ;
+class TargetPlatformOs {
+  static const linux = TargetPlatformOs._('LINUX');
 
   final String value;
 
-  const TargetPlatformOs(this.value);
+  const TargetPlatformOs._(this.value);
+
+  static const values = [linux];
 
   static TargetPlatformOs fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum TargetPlatformOs'));
+          orElse: () => TargetPlatformOs._(value));
+
+  @override
+  bool operator ==(other) => other is TargetPlatformOs && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class UntagResourceResponse {

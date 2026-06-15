@@ -2506,24 +2506,42 @@ class ActionInvocation {
   }
 }
 
-enum ActionPoint {
-  preCreateHostedConfigurationVersion(
-      'PRE_CREATE_HOSTED_CONFIGURATION_VERSION'),
-  preStartDeployment('PRE_START_DEPLOYMENT'),
-  onDeploymentStart('ON_DEPLOYMENT_START'),
-  onDeploymentStep('ON_DEPLOYMENT_STEP'),
-  onDeploymentBaking('ON_DEPLOYMENT_BAKING'),
-  onDeploymentComplete('ON_DEPLOYMENT_COMPLETE'),
-  onDeploymentRolledBack('ON_DEPLOYMENT_ROLLED_BACK'),
-  ;
+class ActionPoint {
+  static const preCreateHostedConfigurationVersion =
+      ActionPoint._('PRE_CREATE_HOSTED_CONFIGURATION_VERSION');
+  static const preStartDeployment = ActionPoint._('PRE_START_DEPLOYMENT');
+  static const onDeploymentStart = ActionPoint._('ON_DEPLOYMENT_START');
+  static const onDeploymentStep = ActionPoint._('ON_DEPLOYMENT_STEP');
+  static const onDeploymentBaking = ActionPoint._('ON_DEPLOYMENT_BAKING');
+  static const onDeploymentComplete = ActionPoint._('ON_DEPLOYMENT_COMPLETE');
+  static const onDeploymentRolledBack =
+      ActionPoint._('ON_DEPLOYMENT_ROLLED_BACK');
 
   final String value;
 
-  const ActionPoint(this.value);
+  const ActionPoint._(this.value);
 
-  static ActionPoint fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum ActionPoint'));
+  static const values = [
+    preCreateHostedConfigurationVersion,
+    preStartDeployment,
+    onDeploymentStart,
+    onDeploymentStep,
+    onDeploymentBaking,
+    onDeploymentComplete,
+    onDeploymentRolledBack
+  ];
+
+  static ActionPoint fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ActionPoint._(value));
+
+  @override
+  bool operator ==(other) => other is ActionPoint && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class Application {
@@ -2884,20 +2902,30 @@ class ConfigurationProfiles {
   }
 }
 
-enum DeletionProtectionCheck {
-  accountDefault('ACCOUNT_DEFAULT'),
-  apply('APPLY'),
-  bypass('BYPASS'),
-  ;
+class DeletionProtectionCheck {
+  static const accountDefault = DeletionProtectionCheck._('ACCOUNT_DEFAULT');
+  static const apply = DeletionProtectionCheck._('APPLY');
+  static const bypass = DeletionProtectionCheck._('BYPASS');
 
   final String value;
 
-  const DeletionProtectionCheck(this.value);
+  const DeletionProtectionCheck._(this.value);
+
+  static const values = [accountDefault, apply, bypass];
 
   static DeletionProtectionCheck fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum DeletionProtectionCheck'));
+          orElse: () => DeletionProtectionCheck._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DeletionProtectionCheck && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A parameter to configure deletion protection. If enabled, deletion
@@ -3224,42 +3252,76 @@ class DeploymentEvent {
   }
 }
 
-enum DeploymentEventType {
-  percentageUpdated('PERCENTAGE_UPDATED'),
-  rollbackStarted('ROLLBACK_STARTED'),
-  rollbackCompleted('ROLLBACK_COMPLETED'),
-  bakeTimeStarted('BAKE_TIME_STARTED'),
-  deploymentStarted('DEPLOYMENT_STARTED'),
-  deploymentCompleted('DEPLOYMENT_COMPLETED'),
-  ;
+class DeploymentEventType {
+  static const percentageUpdated = DeploymentEventType._('PERCENTAGE_UPDATED');
+  static const rollbackStarted = DeploymentEventType._('ROLLBACK_STARTED');
+  static const rollbackCompleted = DeploymentEventType._('ROLLBACK_COMPLETED');
+  static const bakeTimeStarted = DeploymentEventType._('BAKE_TIME_STARTED');
+  static const deploymentStarted = DeploymentEventType._('DEPLOYMENT_STARTED');
+  static const deploymentCompleted =
+      DeploymentEventType._('DEPLOYMENT_COMPLETED');
 
   final String value;
 
-  const DeploymentEventType(this.value);
+  const DeploymentEventType._(this.value);
 
-  static DeploymentEventType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum DeploymentEventType'));
+  static const values = [
+    percentageUpdated,
+    rollbackStarted,
+    rollbackCompleted,
+    bakeTimeStarted,
+    deploymentStarted,
+    deploymentCompleted
+  ];
+
+  static DeploymentEventType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DeploymentEventType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DeploymentEventType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum DeploymentState {
-  baking('BAKING'),
-  validating('VALIDATING'),
-  deploying('DEPLOYING'),
-  complete('COMPLETE'),
-  rollingBack('ROLLING_BACK'),
-  rolledBack('ROLLED_BACK'),
-  ;
+class DeploymentState {
+  static const baking = DeploymentState._('BAKING');
+  static const validating = DeploymentState._('VALIDATING');
+  static const deploying = DeploymentState._('DEPLOYING');
+  static const complete = DeploymentState._('COMPLETE');
+  static const rollingBack = DeploymentState._('ROLLING_BACK');
+  static const rolledBack = DeploymentState._('ROLLED_BACK');
 
   final String value;
 
-  const DeploymentState(this.value);
+  const DeploymentState._(this.value);
+
+  static const values = [
+    baking,
+    validating,
+    deploying,
+    complete,
+    rollingBack,
+    rolledBack
+  ];
 
   static DeploymentState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum DeploymentState'));
+          orElse: () => DeploymentState._(value));
+
+  @override
+  bool operator ==(other) => other is DeploymentState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class DeploymentStrategies {
@@ -3571,21 +3633,35 @@ class Environment {
   }
 }
 
-enum EnvironmentState {
-  readyForDeployment('READY_FOR_DEPLOYMENT'),
-  deploying('DEPLOYING'),
-  rollingBack('ROLLING_BACK'),
-  rolledBack('ROLLED_BACK'),
-  ;
+class EnvironmentState {
+  static const readyForDeployment = EnvironmentState._('READY_FOR_DEPLOYMENT');
+  static const deploying = EnvironmentState._('DEPLOYING');
+  static const rollingBack = EnvironmentState._('ROLLING_BACK');
+  static const rolledBack = EnvironmentState._('ROLLED_BACK');
 
   final String value;
 
-  const EnvironmentState(this.value);
+  const EnvironmentState._(this.value);
+
+  static const values = [
+    readyForDeployment,
+    deploying,
+    rollingBack,
+    rolledBack
+  ];
 
   static EnvironmentState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum EnvironmentState'));
+          orElse: () => EnvironmentState._(value));
+
+  @override
+  bool operator ==(other) => other is EnvironmentState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class Environments {
@@ -3921,18 +3997,27 @@ class Extensions {
   }
 }
 
-enum GrowthType {
-  linear('LINEAR'),
-  exponential('EXPONENTIAL'),
-  ;
+class GrowthType {
+  static const linear = GrowthType._('LINEAR');
+  static const exponential = GrowthType._('EXPONENTIAL');
 
   final String value;
 
-  const GrowthType(this.value);
+  const GrowthType._(this.value);
 
-  static GrowthType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum GrowthType'));
+  static const values = [linear, exponential];
+
+  static GrowthType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => GrowthType._(value));
+
+  @override
+  bool operator ==(other) => other is GrowthType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class HostedConfigurationVersion {
@@ -4170,18 +4255,27 @@ class Parameter {
   }
 }
 
-enum ReplicateTo {
-  none('NONE'),
-  ssmDocument('SSM_DOCUMENT'),
-  ;
+class ReplicateTo {
+  static const none = ReplicateTo._('NONE');
+  static const ssmDocument = ReplicateTo._('SSM_DOCUMENT');
 
   final String value;
 
-  const ReplicateTo(this.value);
+  const ReplicateTo._(this.value);
 
-  static ReplicateTo fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum ReplicateTo'));
+  static const values = [none, ssmDocument];
+
+  static ReplicateTo fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ReplicateTo._(value));
+
+  @override
+  bool operator ==(other) => other is ReplicateTo && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class ResourceTags {
@@ -4209,20 +4303,29 @@ class ResourceTags {
   }
 }
 
-enum TriggeredBy {
-  user('USER'),
-  appconfig('APPCONFIG'),
-  cloudwatchAlarm('CLOUDWATCH_ALARM'),
-  internalError('INTERNAL_ERROR'),
-  ;
+class TriggeredBy {
+  static const user = TriggeredBy._('USER');
+  static const appconfig = TriggeredBy._('APPCONFIG');
+  static const cloudwatchAlarm = TriggeredBy._('CLOUDWATCH_ALARM');
+  static const internalError = TriggeredBy._('INTERNAL_ERROR');
 
   final String value;
 
-  const TriggeredBy(this.value);
+  const TriggeredBy._(this.value);
 
-  static TriggeredBy fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum TriggeredBy'));
+  static const values = [user, appconfig, cloudwatchAlarm, internalError];
+
+  static TriggeredBy fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => TriggeredBy._(value));
+
+  @override
+  bool operator ==(other) => other is TriggeredBy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A validator provides a syntactic or semantic check to ensure the
@@ -4250,7 +4353,7 @@ class Validator {
   factory Validator.fromJson(Map<String, dynamic> json) {
     return Validator(
       content: (json['Content'] as String?) ?? '',
-      type: ValidatorType.fromString((json['Type'] as String)),
+      type: ValidatorType.fromString((json['Type'] as String?) ?? ''),
     );
   }
 
@@ -4264,19 +4367,28 @@ class Validator {
   }
 }
 
-enum ValidatorType {
-  jsonSchema('JSON_SCHEMA'),
-  lambda('LAMBDA'),
-  ;
+class ValidatorType {
+  static const jsonSchema = ValidatorType._('JSON_SCHEMA');
+  static const lambda = ValidatorType._('LAMBDA');
 
   final String value;
 
-  const ValidatorType(this.value);
+  const ValidatorType._(this.value);
+
+  static const values = [jsonSchema, lambda];
 
   static ValidatorType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ValidatorType'));
+          orElse: () => ValidatorType._(value));
+
+  @override
+  bool operator ==(other) => other is ValidatorType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class BadRequestException extends _s.GenericAwsException {

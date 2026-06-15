@@ -730,22 +730,32 @@ class ListTagsForResourceResponse {
   }
 }
 
-enum RescoreExecutionPlanStatus {
-  creating('CREATING'),
-  updating('UPDATING'),
-  active('ACTIVE'),
-  deleting('DELETING'),
-  failed('FAILED'),
-  ;
+class RescoreExecutionPlanStatus {
+  static const creating = RescoreExecutionPlanStatus._('CREATING');
+  static const updating = RescoreExecutionPlanStatus._('UPDATING');
+  static const active = RescoreExecutionPlanStatus._('ACTIVE');
+  static const deleting = RescoreExecutionPlanStatus._('DELETING');
+  static const failed = RescoreExecutionPlanStatus._('FAILED');
 
   final String value;
 
-  const RescoreExecutionPlanStatus(this.value);
+  const RescoreExecutionPlanStatus._(this.value);
+
+  static const values = [creating, updating, active, deleting, failed];
 
   static RescoreExecutionPlanStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum RescoreExecutionPlanStatus'));
+          orElse: () => RescoreExecutionPlanStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RescoreExecutionPlanStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Summary information for a rescore execution plan. A rescore execution plan

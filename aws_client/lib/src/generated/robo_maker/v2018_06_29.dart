@@ -2256,20 +2256,28 @@ class RoboMaker {
   }
 }
 
-enum Architecture {
-  x86_64('X86_64'),
-  arm64('ARM64'),
-  armhf('ARMHF'),
-  ;
+class Architecture {
+  static const x86_64 = Architecture._('X86_64');
+  static const arm64 = Architecture._('ARM64');
+  static const armhf = Architecture._('ARMHF');
 
   final String value;
 
-  const Architecture(this.value);
+  const Architecture._(this.value);
 
-  static Architecture fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum Architecture'));
+  static const values = [x86_64, arm64, armhf];
+
+  static Architecture fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Architecture._(value));
+
+  @override
+  bool operator ==(other) => other is Architecture && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class BatchDeleteWorldsResponse {
@@ -2524,18 +2532,27 @@ class ComputeResponse {
   }
 }
 
-enum ComputeType {
-  cpu('CPU'),
-  gpuAndCpu('GPU_AND_CPU'),
-  ;
+class ComputeType {
+  static const cpu = ComputeType._('CPU');
+  static const gpuAndCpu = ComputeType._('GPU_AND_CPU');
 
   final String value;
 
-  const ComputeType(this.value);
+  const ComputeType._(this.value);
 
-  static ComputeType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum ComputeType'));
+  static const values = [cpu, gpuAndCpu];
+
+  static ComputeType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ComputeType._(value));
+
+  @override
+  bool operator ==(other) => other is ComputeType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 @Deprecated(
@@ -3789,20 +3806,29 @@ class DataSourceConfig {
   }
 }
 
-enum DataSourceType {
-  prefix('Prefix'),
-  archive('Archive'),
-  file('File'),
-  ;
+class DataSourceType {
+  static const prefix = DataSourceType._('Prefix');
+  static const archive = DataSourceType._('Archive');
+  static const file = DataSourceType._('File');
 
   final String value;
 
-  const DataSourceType(this.value);
+  const DataSourceType._(this.value);
+
+  static const values = [prefix, archive, file];
 
   static DataSourceType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum DataSourceType'));
+          orElse: () => DataSourceType._(value));
+
+  @override
+  bool operator ==(other) => other is DataSourceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 @Deprecated(
@@ -4046,41 +4072,97 @@ class DeploymentJob {
   }
 }
 
-enum DeploymentJobErrorCode {
-  resourceNotFound('ResourceNotFound'),
-  environmentSetupError('EnvironmentSetupError'),
-  etagMismatch('EtagMismatch'),
-  failureThresholdBreached('FailureThresholdBreached'),
-  robotDeploymentAborted('RobotDeploymentAborted'),
-  robotDeploymentNoResponse('RobotDeploymentNoResponse'),
-  robotAgentConnectionTimeout('RobotAgentConnectionTimeout'),
-  greengrassDeploymentFailed('GreengrassDeploymentFailed'),
-  invalidGreengrassGroup('InvalidGreengrassGroup'),
-  missingRobotArchitecture('MissingRobotArchitecture'),
-  missingRobotApplicationArchitecture('MissingRobotApplicationArchitecture'),
-  missingRobotDeploymentResource('MissingRobotDeploymentResource'),
-  greengrassGroupVersionDoesNotExist('GreengrassGroupVersionDoesNotExist'),
-  lambdaDeleted('LambdaDeleted'),
-  extractingBundleFailure('ExtractingBundleFailure'),
-  preLaunchFileFailure('PreLaunchFileFailure'),
-  postLaunchFileFailure('PostLaunchFileFailure'),
-  badPermissionError('BadPermissionError'),
-  downloadConditionFailed('DownloadConditionFailed'),
-  badLambdaAssociated('BadLambdaAssociated'),
-  internalServerError('InternalServerError'),
-  robotApplicationDoesNotExist('RobotApplicationDoesNotExist'),
-  deploymentFleetDoesNotExist('DeploymentFleetDoesNotExist'),
-  fleetDeploymentTimeout('FleetDeploymentTimeout'),
-  ;
+class DeploymentJobErrorCode {
+  static const resourceNotFound = DeploymentJobErrorCode._('ResourceNotFound');
+  static const environmentSetupError =
+      DeploymentJobErrorCode._('EnvironmentSetupError');
+  static const etagMismatch = DeploymentJobErrorCode._('EtagMismatch');
+  static const failureThresholdBreached =
+      DeploymentJobErrorCode._('FailureThresholdBreached');
+  static const robotDeploymentAborted =
+      DeploymentJobErrorCode._('RobotDeploymentAborted');
+  static const robotDeploymentNoResponse =
+      DeploymentJobErrorCode._('RobotDeploymentNoResponse');
+  static const robotAgentConnectionTimeout =
+      DeploymentJobErrorCode._('RobotAgentConnectionTimeout');
+  static const greengrassDeploymentFailed =
+      DeploymentJobErrorCode._('GreengrassDeploymentFailed');
+  static const invalidGreengrassGroup =
+      DeploymentJobErrorCode._('InvalidGreengrassGroup');
+  static const missingRobotArchitecture =
+      DeploymentJobErrorCode._('MissingRobotArchitecture');
+  static const missingRobotApplicationArchitecture =
+      DeploymentJobErrorCode._('MissingRobotApplicationArchitecture');
+  static const missingRobotDeploymentResource =
+      DeploymentJobErrorCode._('MissingRobotDeploymentResource');
+  static const greengrassGroupVersionDoesNotExist =
+      DeploymentJobErrorCode._('GreengrassGroupVersionDoesNotExist');
+  static const lambdaDeleted = DeploymentJobErrorCode._('LambdaDeleted');
+  static const extractingBundleFailure =
+      DeploymentJobErrorCode._('ExtractingBundleFailure');
+  static const preLaunchFileFailure =
+      DeploymentJobErrorCode._('PreLaunchFileFailure');
+  static const postLaunchFileFailure =
+      DeploymentJobErrorCode._('PostLaunchFileFailure');
+  static const badPermissionError =
+      DeploymentJobErrorCode._('BadPermissionError');
+  static const downloadConditionFailed =
+      DeploymentJobErrorCode._('DownloadConditionFailed');
+  static const badLambdaAssociated =
+      DeploymentJobErrorCode._('BadLambdaAssociated');
+  static const internalServerError =
+      DeploymentJobErrorCode._('InternalServerError');
+  static const robotApplicationDoesNotExist =
+      DeploymentJobErrorCode._('RobotApplicationDoesNotExist');
+  static const deploymentFleetDoesNotExist =
+      DeploymentJobErrorCode._('DeploymentFleetDoesNotExist');
+  static const fleetDeploymentTimeout =
+      DeploymentJobErrorCode._('FleetDeploymentTimeout');
 
   final String value;
 
-  const DeploymentJobErrorCode(this.value);
+  const DeploymentJobErrorCode._(this.value);
+
+  static const values = [
+    resourceNotFound,
+    environmentSetupError,
+    etagMismatch,
+    failureThresholdBreached,
+    robotDeploymentAborted,
+    robotDeploymentNoResponse,
+    robotAgentConnectionTimeout,
+    greengrassDeploymentFailed,
+    invalidGreengrassGroup,
+    missingRobotArchitecture,
+    missingRobotApplicationArchitecture,
+    missingRobotDeploymentResource,
+    greengrassGroupVersionDoesNotExist,
+    lambdaDeleted,
+    extractingBundleFailure,
+    preLaunchFileFailure,
+    postLaunchFileFailure,
+    badPermissionError,
+    downloadConditionFailed,
+    badLambdaAssociated,
+    internalServerError,
+    robotApplicationDoesNotExist,
+    deploymentFleetDoesNotExist,
+    fleetDeploymentTimeout
+  ];
 
   static DeploymentJobErrorCode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum DeploymentJobErrorCode'));
+          orElse: () => DeploymentJobErrorCode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DeploymentJobErrorCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Configuration information for a deployment launch.
@@ -4140,23 +4222,39 @@ class DeploymentLaunchConfig {
   }
 }
 
-enum DeploymentStatus {
-  pending('Pending'),
-  preparing('Preparing'),
-  inProgress('InProgress'),
-  failed('Failed'),
-  succeeded('Succeeded'),
-  canceled('Canceled'),
-  ;
+class DeploymentStatus {
+  static const pending = DeploymentStatus._('Pending');
+  static const preparing = DeploymentStatus._('Preparing');
+  static const inProgress = DeploymentStatus._('InProgress');
+  static const failed = DeploymentStatus._('Failed');
+  static const succeeded = DeploymentStatus._('Succeeded');
+  static const canceled = DeploymentStatus._('Canceled');
 
   final String value;
 
-  const DeploymentStatus(this.value);
+  const DeploymentStatus._(this.value);
+
+  static const values = [
+    pending,
+    preparing,
+    inProgress,
+    failed,
+    succeeded,
+    canceled
+  ];
 
   static DeploymentStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum DeploymentStatus'));
+          orElse: () => DeploymentStatus._(value));
+
+  @override
+  bool operator ==(other) => other is DeploymentStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 @Deprecated(
@@ -5477,19 +5575,27 @@ class Environment {
   }
 }
 
-enum ExitBehavior {
-  fail('FAIL'),
-  restart('RESTART'),
-  ;
+class ExitBehavior {
+  static const fail = ExitBehavior._('FAIL');
+  static const restart = ExitBehavior._('RESTART');
 
   final String value;
 
-  const ExitBehavior(this.value);
+  const ExitBehavior._(this.value);
 
-  static ExitBehavior fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ExitBehavior'));
+  static const values = [fail, restart];
+
+  static ExitBehavior fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ExitBehavior._(value));
+
+  @override
+  bool operator ==(other) => other is ExitBehavior && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about a failed create simulation job request.
@@ -5541,19 +5647,28 @@ class FailedCreateSimulationJobRequest {
   }
 }
 
-enum FailureBehavior {
-  fail('Fail'),
-  $continue('Continue'),
-  ;
+class FailureBehavior {
+  static const fail = FailureBehavior._('Fail');
+  static const $continue = FailureBehavior._('Continue');
 
   final String value;
 
-  const FailureBehavior(this.value);
+  const FailureBehavior._(this.value);
+
+  static const values = [fail, $continue];
 
   static FailureBehavior fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum FailureBehavior'));
+          orElse: () => FailureBehavior._(value));
+
+  @override
+  bool operator ==(other) => other is FailureBehavior && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about worlds that failed.
@@ -6548,18 +6663,28 @@ class RenderingEngine {
   }
 }
 
-enum RenderingEngineType {
-  ogre('OGRE'),
-  ;
+class RenderingEngineType {
+  static const ogre = RenderingEngineType._('OGRE');
 
   final String value;
 
-  const RenderingEngineType(this.value);
+  const RenderingEngineType._(this.value);
 
-  static RenderingEngineType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum RenderingEngineType'));
+  static const values = [ogre];
+
+  static RenderingEngineType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => RenderingEngineType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RenderingEngineType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class RestartSimulationJobResponse {
@@ -6870,24 +6995,45 @@ class RobotDeployment {
   }
 }
 
-enum RobotDeploymentStep {
-  validating('Validating'),
-  downloadingExtracting('DownloadingExtracting'),
-  executingDownloadCondition('ExecutingDownloadCondition'),
-  executingPreLaunch('ExecutingPreLaunch'),
-  launching('Launching'),
-  executingPostLaunch('ExecutingPostLaunch'),
-  finished('Finished'),
-  ;
+class RobotDeploymentStep {
+  static const validating = RobotDeploymentStep._('Validating');
+  static const downloadingExtracting =
+      RobotDeploymentStep._('DownloadingExtracting');
+  static const executingDownloadCondition =
+      RobotDeploymentStep._('ExecutingDownloadCondition');
+  static const executingPreLaunch = RobotDeploymentStep._('ExecutingPreLaunch');
+  static const launching = RobotDeploymentStep._('Launching');
+  static const executingPostLaunch =
+      RobotDeploymentStep._('ExecutingPostLaunch');
+  static const finished = RobotDeploymentStep._('Finished');
 
   final String value;
 
-  const RobotDeploymentStep(this.value);
+  const RobotDeploymentStep._(this.value);
 
-  static RobotDeploymentStep fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum RobotDeploymentStep'));
+  static const values = [
+    validating,
+    downloadingExtracting,
+    executingDownloadCondition,
+    executingPreLaunch,
+    launching,
+    executingPostLaunch,
+    finished
+  ];
+
+  static RobotDeploymentStep fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => RobotDeploymentStep._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RobotDeploymentStep && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about a robot software suite (ROS distribution).
@@ -6921,56 +7067,93 @@ class RobotSoftwareSuite {
   }
 }
 
-enum RobotSoftwareSuiteType {
-  ros('ROS'),
-  ros2('ROS2'),
-  general('General'),
-  ;
+class RobotSoftwareSuiteType {
+  static const ros = RobotSoftwareSuiteType._('ROS');
+  static const ros2 = RobotSoftwareSuiteType._('ROS2');
+  static const general = RobotSoftwareSuiteType._('General');
 
   final String value;
 
-  const RobotSoftwareSuiteType(this.value);
+  const RobotSoftwareSuiteType._(this.value);
+
+  static const values = [ros, ros2, general];
 
   static RobotSoftwareSuiteType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum RobotSoftwareSuiteType'));
+          orElse: () => RobotSoftwareSuiteType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RobotSoftwareSuiteType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum RobotSoftwareSuiteVersionType {
-  kinetic('Kinetic'),
-  melodic('Melodic'),
-  dashing('Dashing'),
-  foxy('Foxy'),
-  ;
+class RobotSoftwareSuiteVersionType {
+  static const kinetic = RobotSoftwareSuiteVersionType._('Kinetic');
+  static const melodic = RobotSoftwareSuiteVersionType._('Melodic');
+  static const dashing = RobotSoftwareSuiteVersionType._('Dashing');
+  static const foxy = RobotSoftwareSuiteVersionType._('Foxy');
 
   final String value;
 
-  const RobotSoftwareSuiteVersionType(this.value);
+  const RobotSoftwareSuiteVersionType._(this.value);
+
+  static const values = [kinetic, melodic, dashing, foxy];
 
   static RobotSoftwareSuiteVersionType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum RobotSoftwareSuiteVersionType'));
+          orElse: () => RobotSoftwareSuiteVersionType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RobotSoftwareSuiteVersionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum RobotStatus {
-  available('Available'),
-  registered('Registered'),
-  pendingNewDeployment('PendingNewDeployment'),
-  deploying('Deploying'),
-  failed('Failed'),
-  inSync('InSync'),
-  noResponse('NoResponse'),
-  ;
+class RobotStatus {
+  static const available = RobotStatus._('Available');
+  static const registered = RobotStatus._('Registered');
+  static const pendingNewDeployment = RobotStatus._('PendingNewDeployment');
+  static const deploying = RobotStatus._('Deploying');
+  static const failed = RobotStatus._('Failed');
+  static const inSync = RobotStatus._('InSync');
+  static const noResponse = RobotStatus._('NoResponse');
 
   final String value;
 
-  const RobotStatus(this.value);
+  const RobotStatus._(this.value);
 
-  static RobotStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum RobotStatus'));
+  static const values = [
+    available,
+    registered,
+    pendingNewDeployment,
+    deploying,
+    failed,
+    inSync,
+    noResponse
+  ];
+
+  static RobotStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => RobotStatus._(value));
+
+  @override
+  bool operator ==(other) => other is RobotStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about S3 keys.
@@ -7413,40 +7596,71 @@ class SimulationJob {
   }
 }
 
-enum SimulationJobBatchErrorCode {
-  internalServiceError('InternalServiceError'),
-  ;
+class SimulationJobBatchErrorCode {
+  static const internalServiceError =
+      SimulationJobBatchErrorCode._('InternalServiceError');
 
   final String value;
 
-  const SimulationJobBatchErrorCode(this.value);
+  const SimulationJobBatchErrorCode._(this.value);
+
+  static const values = [internalServiceError];
 
   static SimulationJobBatchErrorCode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum SimulationJobBatchErrorCode'));
+          orElse: () => SimulationJobBatchErrorCode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SimulationJobBatchErrorCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum SimulationJobBatchStatus {
-  pending('Pending'),
-  inProgress('InProgress'),
-  failed('Failed'),
-  completed('Completed'),
-  canceled('Canceled'),
-  canceling('Canceling'),
-  completing('Completing'),
-  timingOut('TimingOut'),
-  timedOut('TimedOut'),
-  ;
+class SimulationJobBatchStatus {
+  static const pending = SimulationJobBatchStatus._('Pending');
+  static const inProgress = SimulationJobBatchStatus._('InProgress');
+  static const failed = SimulationJobBatchStatus._('Failed');
+  static const completed = SimulationJobBatchStatus._('Completed');
+  static const canceled = SimulationJobBatchStatus._('Canceled');
+  static const canceling = SimulationJobBatchStatus._('Canceling');
+  static const completing = SimulationJobBatchStatus._('Completing');
+  static const timingOut = SimulationJobBatchStatus._('TimingOut');
+  static const timedOut = SimulationJobBatchStatus._('TimedOut');
 
   final String value;
 
-  const SimulationJobBatchStatus(this.value);
+  const SimulationJobBatchStatus._(this.value);
+
+  static const values = [
+    pending,
+    inProgress,
+    failed,
+    completed,
+    canceled,
+    canceling,
+    completing,
+    timingOut,
+    timedOut
+  ];
 
   static SimulationJobBatchStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum SimulationJobBatchStatus'));
+          orElse: () => SimulationJobBatchStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SimulationJobBatchStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about a simulation job batch.
@@ -7551,51 +7765,112 @@ class SimulationJobBatchSummary {
   }
 }
 
-enum SimulationJobErrorCode {
-  internalServiceError('InternalServiceError'),
-  robotApplicationCrash('RobotApplicationCrash'),
-  simulationApplicationCrash('SimulationApplicationCrash'),
-  robotApplicationHealthCheckFailure('RobotApplicationHealthCheckFailure'),
-  simulationApplicationHealthCheckFailure(
-      'SimulationApplicationHealthCheckFailure'),
-  badPermissionsRobotApplication('BadPermissionsRobotApplication'),
-  badPermissionsSimulationApplication('BadPermissionsSimulationApplication'),
-  badPermissionsS3Object('BadPermissionsS3Object'),
-  badPermissionsS3Output('BadPermissionsS3Output'),
-  badPermissionsCloudwatchLogs('BadPermissionsCloudwatchLogs'),
-  subnetIpLimitExceeded('SubnetIpLimitExceeded'),
-  eNILimitExceeded('ENILimitExceeded'),
-  badPermissionsUserCredentials('BadPermissionsUserCredentials'),
-  invalidBundleRobotApplication('InvalidBundleRobotApplication'),
-  invalidBundleSimulationApplication('InvalidBundleSimulationApplication'),
-  invalidS3Resource('InvalidS3Resource'),
-  throttlingError('ThrottlingError'),
-  limitExceeded('LimitExceeded'),
-  mismatchedEtag('MismatchedEtag'),
-  robotApplicationVersionMismatchedEtag(
-      'RobotApplicationVersionMismatchedEtag'),
-  simulationApplicationVersionMismatchedEtag(
-      'SimulationApplicationVersionMismatchedEtag'),
-  resourceNotFound('ResourceNotFound'),
-  requestThrottled('RequestThrottled'),
-  batchTimedOut('BatchTimedOut'),
-  batchCanceled('BatchCanceled'),
-  invalidInput('InvalidInput'),
-  wrongRegionS3Bucket('WrongRegionS3Bucket'),
-  wrongRegionS3Output('WrongRegionS3Output'),
-  wrongRegionRobotApplication('WrongRegionRobotApplication'),
-  wrongRegionSimulationApplication('WrongRegionSimulationApplication'),
-  uploadContentMismatchError('UploadContentMismatchError'),
-  ;
+class SimulationJobErrorCode {
+  static const internalServiceError =
+      SimulationJobErrorCode._('InternalServiceError');
+  static const robotApplicationCrash =
+      SimulationJobErrorCode._('RobotApplicationCrash');
+  static const simulationApplicationCrash =
+      SimulationJobErrorCode._('SimulationApplicationCrash');
+  static const robotApplicationHealthCheckFailure =
+      SimulationJobErrorCode._('RobotApplicationHealthCheckFailure');
+  static const simulationApplicationHealthCheckFailure =
+      SimulationJobErrorCode._('SimulationApplicationHealthCheckFailure');
+  static const badPermissionsRobotApplication =
+      SimulationJobErrorCode._('BadPermissionsRobotApplication');
+  static const badPermissionsSimulationApplication =
+      SimulationJobErrorCode._('BadPermissionsSimulationApplication');
+  static const badPermissionsS3Object =
+      SimulationJobErrorCode._('BadPermissionsS3Object');
+  static const badPermissionsS3Output =
+      SimulationJobErrorCode._('BadPermissionsS3Output');
+  static const badPermissionsCloudwatchLogs =
+      SimulationJobErrorCode._('BadPermissionsCloudwatchLogs');
+  static const subnetIpLimitExceeded =
+      SimulationJobErrorCode._('SubnetIpLimitExceeded');
+  static const eNILimitExceeded = SimulationJobErrorCode._('ENILimitExceeded');
+  static const badPermissionsUserCredentials =
+      SimulationJobErrorCode._('BadPermissionsUserCredentials');
+  static const invalidBundleRobotApplication =
+      SimulationJobErrorCode._('InvalidBundleRobotApplication');
+  static const invalidBundleSimulationApplication =
+      SimulationJobErrorCode._('InvalidBundleSimulationApplication');
+  static const invalidS3Resource =
+      SimulationJobErrorCode._('InvalidS3Resource');
+  static const throttlingError = SimulationJobErrorCode._('ThrottlingError');
+  static const limitExceeded = SimulationJobErrorCode._('LimitExceeded');
+  static const mismatchedEtag = SimulationJobErrorCode._('MismatchedEtag');
+  static const robotApplicationVersionMismatchedEtag =
+      SimulationJobErrorCode._('RobotApplicationVersionMismatchedEtag');
+  static const simulationApplicationVersionMismatchedEtag =
+      SimulationJobErrorCode._('SimulationApplicationVersionMismatchedEtag');
+  static const resourceNotFound = SimulationJobErrorCode._('ResourceNotFound');
+  static const requestThrottled = SimulationJobErrorCode._('RequestThrottled');
+  static const batchTimedOut = SimulationJobErrorCode._('BatchTimedOut');
+  static const batchCanceled = SimulationJobErrorCode._('BatchCanceled');
+  static const invalidInput = SimulationJobErrorCode._('InvalidInput');
+  static const wrongRegionS3Bucket =
+      SimulationJobErrorCode._('WrongRegionS3Bucket');
+  static const wrongRegionS3Output =
+      SimulationJobErrorCode._('WrongRegionS3Output');
+  static const wrongRegionRobotApplication =
+      SimulationJobErrorCode._('WrongRegionRobotApplication');
+  static const wrongRegionSimulationApplication =
+      SimulationJobErrorCode._('WrongRegionSimulationApplication');
+  static const uploadContentMismatchError =
+      SimulationJobErrorCode._('UploadContentMismatchError');
 
   final String value;
 
-  const SimulationJobErrorCode(this.value);
+  const SimulationJobErrorCode._(this.value);
+
+  static const values = [
+    internalServiceError,
+    robotApplicationCrash,
+    simulationApplicationCrash,
+    robotApplicationHealthCheckFailure,
+    simulationApplicationHealthCheckFailure,
+    badPermissionsRobotApplication,
+    badPermissionsSimulationApplication,
+    badPermissionsS3Object,
+    badPermissionsS3Output,
+    badPermissionsCloudwatchLogs,
+    subnetIpLimitExceeded,
+    eNILimitExceeded,
+    badPermissionsUserCredentials,
+    invalidBundleRobotApplication,
+    invalidBundleSimulationApplication,
+    invalidS3Resource,
+    throttlingError,
+    limitExceeded,
+    mismatchedEtag,
+    robotApplicationVersionMismatchedEtag,
+    simulationApplicationVersionMismatchedEtag,
+    resourceNotFound,
+    requestThrottled,
+    batchTimedOut,
+    batchCanceled,
+    invalidInput,
+    wrongRegionS3Bucket,
+    wrongRegionS3Output,
+    wrongRegionRobotApplication,
+    wrongRegionSimulationApplication,
+    uploadContentMismatchError
+  ];
 
   static SimulationJobErrorCode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum SimulationJobErrorCode'));
+          orElse: () => SimulationJobErrorCode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SimulationJobErrorCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about a simulation job request.
@@ -7734,27 +8009,48 @@ class SimulationJobRequest {
   }
 }
 
-enum SimulationJobStatus {
-  pending('Pending'),
-  preparing('Preparing'),
-  running('Running'),
-  restarting('Restarting'),
-  completed('Completed'),
-  failed('Failed'),
-  runningFailed('RunningFailed'),
-  terminating('Terminating'),
-  terminated('Terminated'),
-  canceled('Canceled'),
-  ;
+class SimulationJobStatus {
+  static const pending = SimulationJobStatus._('Pending');
+  static const preparing = SimulationJobStatus._('Preparing');
+  static const running = SimulationJobStatus._('Running');
+  static const restarting = SimulationJobStatus._('Restarting');
+  static const completed = SimulationJobStatus._('Completed');
+  static const failed = SimulationJobStatus._('Failed');
+  static const runningFailed = SimulationJobStatus._('RunningFailed');
+  static const terminating = SimulationJobStatus._('Terminating');
+  static const terminated = SimulationJobStatus._('Terminated');
+  static const canceled = SimulationJobStatus._('Canceled');
 
   final String value;
 
-  const SimulationJobStatus(this.value);
+  const SimulationJobStatus._(this.value);
 
-  static SimulationJobStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum SimulationJobStatus'));
+  static const values = [
+    pending,
+    preparing,
+    running,
+    restarting,
+    completed,
+    failed,
+    runningFailed,
+    terminating,
+    terminated,
+    canceled
+  ];
+
+  static SimulationJobStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => SimulationJobStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SimulationJobStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Summary information for a simulation job.
@@ -7874,20 +8170,31 @@ class SimulationSoftwareSuite {
   }
 }
 
-enum SimulationSoftwareSuiteType {
-  gazebo('Gazebo'),
-  rosbagPlay('RosbagPlay'),
-  simulationRuntime('SimulationRuntime'),
-  ;
+class SimulationSoftwareSuiteType {
+  static const gazebo = SimulationSoftwareSuiteType._('Gazebo');
+  static const rosbagPlay = SimulationSoftwareSuiteType._('RosbagPlay');
+  static const simulationRuntime =
+      SimulationSoftwareSuiteType._('SimulationRuntime');
 
   final String value;
 
-  const SimulationSoftwareSuiteType(this.value);
+  const SimulationSoftwareSuiteType._(this.value);
+
+  static const values = [gazebo, rosbagPlay, simulationRuntime];
 
   static SimulationSoftwareSuiteType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum SimulationSoftwareSuiteType'));
+          orElse: () => SimulationSoftwareSuiteType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SimulationSoftwareSuiteType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about a source.
@@ -8613,19 +8920,29 @@ class UpdateWorldTemplateResponse {
   }
 }
 
-enum UploadBehavior {
-  uploadOnTerminate('UPLOAD_ON_TERMINATE'),
-  uploadRollingAutoRemove('UPLOAD_ROLLING_AUTO_REMOVE'),
-  ;
+class UploadBehavior {
+  static const uploadOnTerminate = UploadBehavior._('UPLOAD_ON_TERMINATE');
+  static const uploadRollingAutoRemove =
+      UploadBehavior._('UPLOAD_ROLLING_AUTO_REMOVE');
 
   final String value;
 
-  const UploadBehavior(this.value);
+  const UploadBehavior._(this.value);
+
+  static const values = [uploadOnTerminate, uploadRollingAutoRemove];
 
   static UploadBehavior fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum UploadBehavior'));
+          orElse: () => UploadBehavior._(value));
+
+  @override
+  bool operator ==(other) => other is UploadBehavior && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Provides upload configuration information. Files are uploaded from the
@@ -8674,7 +8991,7 @@ class UploadConfiguration {
       name: (json['name'] as String?) ?? '',
       path: (json['path'] as String?) ?? '',
       uploadBehavior:
-          UploadBehavior.fromString((json['uploadBehavior'] as String)),
+          UploadBehavior.fromString((json['uploadBehavior'] as String?) ?? ''),
     );
   }
 
@@ -8847,42 +9164,77 @@ class WorldCount {
   }
 }
 
-enum WorldExportJobErrorCode {
-  internalServiceError('InternalServiceError'),
-  limitExceeded('LimitExceeded'),
-  resourceNotFound('ResourceNotFound'),
-  requestThrottled('RequestThrottled'),
-  invalidInput('InvalidInput'),
-  accessDenied('AccessDenied'),
-  ;
+class WorldExportJobErrorCode {
+  static const internalServiceError =
+      WorldExportJobErrorCode._('InternalServiceError');
+  static const limitExceeded = WorldExportJobErrorCode._('LimitExceeded');
+  static const resourceNotFound = WorldExportJobErrorCode._('ResourceNotFound');
+  static const requestThrottled = WorldExportJobErrorCode._('RequestThrottled');
+  static const invalidInput = WorldExportJobErrorCode._('InvalidInput');
+  static const accessDenied = WorldExportJobErrorCode._('AccessDenied');
 
   final String value;
 
-  const WorldExportJobErrorCode(this.value);
+  const WorldExportJobErrorCode._(this.value);
+
+  static const values = [
+    internalServiceError,
+    limitExceeded,
+    resourceNotFound,
+    requestThrottled,
+    invalidInput,
+    accessDenied
+  ];
 
   static WorldExportJobErrorCode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum WorldExportJobErrorCode'));
+          orElse: () => WorldExportJobErrorCode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is WorldExportJobErrorCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum WorldExportJobStatus {
-  pending('Pending'),
-  running('Running'),
-  completed('Completed'),
-  failed('Failed'),
-  canceling('Canceling'),
-  canceled('Canceled'),
-  ;
+class WorldExportJobStatus {
+  static const pending = WorldExportJobStatus._('Pending');
+  static const running = WorldExportJobStatus._('Running');
+  static const completed = WorldExportJobStatus._('Completed');
+  static const failed = WorldExportJobStatus._('Failed');
+  static const canceling = WorldExportJobStatus._('Canceling');
+  static const canceled = WorldExportJobStatus._('Canceled');
 
   final String value;
 
-  const WorldExportJobStatus(this.value);
+  const WorldExportJobStatus._(this.value);
 
-  static WorldExportJobStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum WorldExportJobStatus'));
+  static const values = [
+    pending,
+    running,
+    completed,
+    failed,
+    canceling,
+    canceled
+  ];
+
+  static WorldExportJobStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => WorldExportJobStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is WorldExportJobStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about a world export job.
@@ -9005,43 +9357,82 @@ class WorldFailure {
   }
 }
 
-enum WorldGenerationJobErrorCode {
-  internalServiceError('InternalServiceError'),
-  limitExceeded('LimitExceeded'),
-  resourceNotFound('ResourceNotFound'),
-  requestThrottled('RequestThrottled'),
-  invalidInput('InvalidInput'),
-  allWorldGenerationFailed('AllWorldGenerationFailed'),
-  ;
+class WorldGenerationJobErrorCode {
+  static const internalServiceError =
+      WorldGenerationJobErrorCode._('InternalServiceError');
+  static const limitExceeded = WorldGenerationJobErrorCode._('LimitExceeded');
+  static const resourceNotFound =
+      WorldGenerationJobErrorCode._('ResourceNotFound');
+  static const requestThrottled =
+      WorldGenerationJobErrorCode._('RequestThrottled');
+  static const invalidInput = WorldGenerationJobErrorCode._('InvalidInput');
+  static const allWorldGenerationFailed =
+      WorldGenerationJobErrorCode._('AllWorldGenerationFailed');
 
   final String value;
 
-  const WorldGenerationJobErrorCode(this.value);
+  const WorldGenerationJobErrorCode._(this.value);
+
+  static const values = [
+    internalServiceError,
+    limitExceeded,
+    resourceNotFound,
+    requestThrottled,
+    invalidInput,
+    allWorldGenerationFailed
+  ];
 
   static WorldGenerationJobErrorCode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum WorldGenerationJobErrorCode'));
+          orElse: () => WorldGenerationJobErrorCode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is WorldGenerationJobErrorCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum WorldGenerationJobStatus {
-  pending('Pending'),
-  running('Running'),
-  completed('Completed'),
-  failed('Failed'),
-  partialFailed('PartialFailed'),
-  canceling('Canceling'),
-  canceled('Canceled'),
-  ;
+class WorldGenerationJobStatus {
+  static const pending = WorldGenerationJobStatus._('Pending');
+  static const running = WorldGenerationJobStatus._('Running');
+  static const completed = WorldGenerationJobStatus._('Completed');
+  static const failed = WorldGenerationJobStatus._('Failed');
+  static const partialFailed = WorldGenerationJobStatus._('PartialFailed');
+  static const canceling = WorldGenerationJobStatus._('Canceling');
+  static const canceled = WorldGenerationJobStatus._('Canceled');
 
   final String value;
 
-  const WorldGenerationJobStatus(this.value);
+  const WorldGenerationJobStatus._(this.value);
+
+  static const values = [
+    pending,
+    running,
+    completed,
+    failed,
+    partialFailed,
+    canceling,
+    canceled
+  ];
 
   static WorldGenerationJobStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum WorldGenerationJobStatus'));
+          orElse: () => WorldGenerationJobStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is WorldGenerationJobStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about a world generator job.

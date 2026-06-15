@@ -2137,19 +2137,28 @@ class Glacier {
   }
 }
 
-enum ActionCode {
-  archiveRetrieval('ArchiveRetrieval'),
-  inventoryRetrieval('InventoryRetrieval'),
-  select('Select'),
-  ;
+class ActionCode {
+  static const archiveRetrieval = ActionCode._('ArchiveRetrieval');
+  static const inventoryRetrieval = ActionCode._('InventoryRetrieval');
+  static const select = ActionCode._('Select');
 
   final String value;
 
-  const ActionCode(this.value);
+  const ActionCode._(this.value);
 
-  static ActionCode fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum ActionCode'));
+  static const values = [archiveRetrieval, inventoryRetrieval, select];
+
+  static ActionCode fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ActionCode._(value));
+
+  @override
+  bool operator ==(other) => other is ActionCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains the Amazon S3 Glacier response to your request.
@@ -2305,23 +2314,41 @@ class CSVOutput {
   }
 }
 
-enum CannedACL {
-  private('private'),
-  publicRead('public-read'),
-  publicReadWrite('public-read-write'),
-  awsExecRead('aws-exec-read'),
-  authenticatedRead('authenticated-read'),
-  bucketOwnerRead('bucket-owner-read'),
-  bucketOwnerFullControl('bucket-owner-full-control'),
-  ;
+class CannedACL {
+  static const private = CannedACL._('private');
+  static const publicRead = CannedACL._('public-read');
+  static const publicReadWrite = CannedACL._('public-read-write');
+  static const awsExecRead = CannedACL._('aws-exec-read');
+  static const authenticatedRead = CannedACL._('authenticated-read');
+  static const bucketOwnerRead = CannedACL._('bucket-owner-read');
+  static const bucketOwnerFullControl =
+      CannedACL._('bucket-owner-full-control');
 
   final String value;
 
-  const CannedACL(this.value);
+  const CannedACL._(this.value);
 
-  static CannedACL fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum CannedACL'));
+  static const values = [
+    private,
+    publicRead,
+    publicReadWrite,
+    awsExecRead,
+    authenticatedRead,
+    bucketOwnerRead,
+    bucketOwnerFullControl
+  ];
+
+  static CannedACL fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => CannedACL._(value));
+
+  @override
+  bool operator ==(other) => other is CannedACL && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains the Amazon S3 Glacier response to your request.
@@ -2513,49 +2540,76 @@ class Encryption {
   }
 }
 
-enum EncryptionType {
-  awsKms('aws:kms'),
-  aes256('AES256'),
-  ;
+class EncryptionType {
+  static const awsKms = EncryptionType._('aws:kms');
+  static const aes256 = EncryptionType._('AES256');
 
   final String value;
 
-  const EncryptionType(this.value);
+  const EncryptionType._(this.value);
+
+  static const values = [awsKms, aes256];
 
   static EncryptionType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum EncryptionType'));
+          orElse: () => EncryptionType._(value));
+
+  @override
+  bool operator ==(other) => other is EncryptionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ExpressionType {
-  sql('SQL'),
-  ;
+class ExpressionType {
+  static const sql = ExpressionType._('SQL');
 
   final String value;
 
-  const ExpressionType(this.value);
+  const ExpressionType._(this.value);
+
+  static const values = [sql];
 
   static ExpressionType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ExpressionType'));
+          orElse: () => ExpressionType._(value));
+
+  @override
+  bool operator ==(other) => other is ExpressionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum FileHeaderInfo {
-  use('USE'),
-  ignore('IGNORE'),
-  none('NONE'),
-  ;
+class FileHeaderInfo {
+  static const use = FileHeaderInfo._('USE');
+  static const ignore = FileHeaderInfo._('IGNORE');
+  static const none = FileHeaderInfo._('NONE');
 
   final String value;
 
-  const FileHeaderInfo(this.value);
+  const FileHeaderInfo._(this.value);
+
+  static const values = [use, ignore, none];
 
   static FileHeaderInfo fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum FileHeaderInfo'));
+          orElse: () => FileHeaderInfo._(value));
+
+  @override
+  bool operator ==(other) => other is FileHeaderInfo && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains the Amazon S3 Glacier response to the
@@ -3027,7 +3081,7 @@ class Grantee {
 
   factory Grantee.fromJson(Map<String, dynamic> json) {
     return Grantee(
-      type: Type.fromString((json['Type'] as String)),
+      type: Type.fromString((json['Type'] as String?) ?? ''),
       displayName: json['DisplayName'] as String?,
       emailAddress: json['EmailAddress'] as String?,
       id: json['ID'] as String?,
@@ -3660,21 +3714,30 @@ class PartListElement {
   }
 }
 
-enum Permission {
-  fullControl('FULL_CONTROL'),
-  write('WRITE'),
-  writeAcp('WRITE_ACP'),
-  read('READ'),
-  readAcp('READ_ACP'),
-  ;
+class Permission {
+  static const fullControl = Permission._('FULL_CONTROL');
+  static const write = Permission._('WRITE');
+  static const writeAcp = Permission._('WRITE_ACP');
+  static const read = Permission._('READ');
+  static const readAcp = Permission._('READ_ACP');
 
   final String value;
 
-  const Permission(this.value);
+  const Permission._(this.value);
 
-  static Permission fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum Permission'));
+  static const values = [fullControl, write, writeAcp, read, readAcp];
+
+  static Permission fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Permission._(value));
+
+  @override
+  bool operator ==(other) => other is Permission && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The definition for a provisioned capacity unit.
@@ -3730,18 +3793,27 @@ class PurchaseProvisionedCapacityOutput {
   }
 }
 
-enum QuoteFields {
-  always('ALWAYS'),
-  asneeded('ASNEEDED'),
-  ;
+class QuoteFields {
+  static const always = QuoteFields._('ALWAYS');
+  static const asneeded = QuoteFields._('ASNEEDED');
 
   final String value;
 
-  const QuoteFields(this.value);
+  const QuoteFields._(this.value);
 
-  static QuoteFields fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum QuoteFields'));
+  static const values = [always, asneeded];
+
+  static QuoteFields fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => QuoteFields._(value));
+
+  @override
+  bool operator ==(other) => other is QuoteFields && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains information about the location in Amazon S3 where the select job
@@ -3878,50 +3950,76 @@ class SelectParameters {
   }
 }
 
-enum StatusCode {
-  inProgress('InProgress'),
-  succeeded('Succeeded'),
-  failed('Failed'),
-  ;
+class StatusCode {
+  static const inProgress = StatusCode._('InProgress');
+  static const succeeded = StatusCode._('Succeeded');
+  static const failed = StatusCode._('Failed');
 
   final String value;
 
-  const StatusCode(this.value);
+  const StatusCode._(this.value);
 
-  static StatusCode fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum StatusCode'));
+  static const values = [inProgress, succeeded, failed];
+
+  static StatusCode fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => StatusCode._(value));
+
+  @override
+  bool operator ==(other) => other is StatusCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum StorageClass {
-  standard('STANDARD'),
-  reducedRedundancy('REDUCED_REDUNDANCY'),
-  standardIa('STANDARD_IA'),
-  ;
+class StorageClass {
+  static const standard = StorageClass._('STANDARD');
+  static const reducedRedundancy = StorageClass._('REDUCED_REDUNDANCY');
+  static const standardIa = StorageClass._('STANDARD_IA');
 
   final String value;
 
-  const StorageClass(this.value);
+  const StorageClass._(this.value);
 
-  static StorageClass fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum StorageClass'));
+  static const values = [standard, reducedRedundancy, standardIa];
+
+  static StorageClass fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => StorageClass._(value));
+
+  @override
+  bool operator ==(other) => other is StorageClass && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum Type {
-  amazonCustomerByEmail('AmazonCustomerByEmail'),
-  canonicalUser('CanonicalUser'),
-  group('Group'),
-  ;
+class Type {
+  static const amazonCustomerByEmail = Type._('AmazonCustomerByEmail');
+  static const canonicalUser = Type._('CanonicalUser');
+  static const group = Type._('Group');
 
   final String value;
 
-  const Type(this.value);
+  const Type._(this.value);
+
+  static const values = [amazonCustomerByEmail, canonicalUser, group];
 
   static Type fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum Type'));
+      values.firstWhere((e) => e.value == value, orElse: () => Type._(value));
+
+  @override
+  bool operator ==(other) => other is Type && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A list of in-progress multipart uploads for a vault.

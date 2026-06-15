@@ -763,32 +763,51 @@ class ChangedBlock {
   }
 }
 
-enum ChecksumAggregationMethod {
-  linear('LINEAR'),
-  ;
+class ChecksumAggregationMethod {
+  static const linear = ChecksumAggregationMethod._('LINEAR');
 
   final String value;
 
-  const ChecksumAggregationMethod(this.value);
+  const ChecksumAggregationMethod._(this.value);
+
+  static const values = [linear];
 
   static ChecksumAggregationMethod fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ChecksumAggregationMethod'));
+          orElse: () => ChecksumAggregationMethod._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ChecksumAggregationMethod && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ChecksumAlgorithm {
-  sha256('SHA256'),
-  ;
+class ChecksumAlgorithm {
+  static const sha256 = ChecksumAlgorithm._('SHA256');
 
   final String value;
 
-  const ChecksumAlgorithm(this.value);
+  const ChecksumAlgorithm._(this.value);
+
+  static const values = [sha256];
 
   static ChecksumAlgorithm fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ChecksumAlgorithm'));
+          orElse: () => ChecksumAlgorithm._(value));
+
+  @override
+  bool operator ==(other) => other is ChecksumAlgorithm && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class CompleteSnapshotResponse {
@@ -971,19 +990,28 @@ class PutSnapshotBlockResponse {
   }
 }
 
-enum SSEType {
-  sseEbs('sse-ebs'),
-  sseKms('sse-kms'),
-  none('none'),
-  ;
+class SSEType {
+  static const sseEbs = SSEType._('sse-ebs');
+  static const sseKms = SSEType._('sse-kms');
+  static const none = SSEType._('none');
 
   final String value;
 
-  const SSEType(this.value);
+  const SSEType._(this.value);
 
-  static SSEType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum SSEType'));
+  static const values = [sseEbs, sseKms, none];
+
+  static SSEType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => SSEType._(value));
+
+  @override
+  bool operator ==(other) => other is SSEType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class StartSnapshotResponse {
@@ -1086,19 +1114,28 @@ class StartSnapshotResponse {
   }
 }
 
-enum Status {
-  completed('completed'),
-  pending('pending'),
-  error('error'),
-  ;
+class Status {
+  static const completed = Status._('completed');
+  static const pending = Status._('pending');
+  static const error = Status._('error');
 
   final String value;
 
-  const Status(this.value);
+  const Status._(this.value);
+
+  static const values = [completed, pending, error];
 
   static Status fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum Status'));
+      values.firstWhere((e) => e.value == value, orElse: () => Status._(value));
+
+  @override
+  bool operator ==(other) => other is Status && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes a tag.

@@ -2963,23 +2963,32 @@ class Attachment {
   }
 }
 
-enum AttachmentStatus {
-  creating('CREATING'),
-  deleting('DELETING'),
-  failed('FAILED'),
-  error('ERROR'),
-  scaling('SCALING'),
-  ready('READY'),
-  ;
+class AttachmentStatus {
+  static const creating = AttachmentStatus._('CREATING');
+  static const deleting = AttachmentStatus._('DELETING');
+  static const failed = AttachmentStatus._('FAILED');
+  static const error = AttachmentStatus._('ERROR');
+  static const scaling = AttachmentStatus._('SCALING');
+  static const ready = AttachmentStatus._('READY');
 
   final String value;
 
-  const AttachmentStatus(this.value);
+  const AttachmentStatus._(this.value);
+
+  static const values = [creating, deleting, failed, error, scaling, ready];
 
   static AttachmentStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum AttachmentStatus'));
+          orElse: () => AttachmentStatus._(value));
+
+  @override
+  bool operator ==(other) => other is AttachmentStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Summarizes the CIDR blocks used by the IP set references in a firewall.
@@ -3125,20 +3134,31 @@ class CheckCertificateRevocationStatusActions {
   }
 }
 
-enum ConfigurationSyncState {
-  pending('PENDING'),
-  inSync('IN_SYNC'),
-  capacityConstrained('CAPACITY_CONSTRAINED'),
-  ;
+class ConfigurationSyncState {
+  static const pending = ConfigurationSyncState._('PENDING');
+  static const inSync = ConfigurationSyncState._('IN_SYNC');
+  static const capacityConstrained =
+      ConfigurationSyncState._('CAPACITY_CONSTRAINED');
 
   final String value;
 
-  const ConfigurationSyncState(this.value);
+  const ConfigurationSyncState._(this.value);
+
+  static const values = [pending, inSync, capacityConstrained];
 
   static ConfigurationSyncState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ConfigurationSyncState'));
+          orElse: () => ConfigurationSyncState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ConfigurationSyncState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class CreateFirewallPolicyResponse {
@@ -4010,7 +4030,7 @@ class EncryptionConfiguration {
 
   factory EncryptionConfiguration.fromJson(Map<String, dynamic> json) {
     return EncryptionConfiguration(
-      type: EncryptionType.fromString((json['Type'] as String)),
+      type: EncryptionType.fromString((json['Type'] as String?) ?? ''),
       keyId: json['KeyId'] as String?,
     );
   }
@@ -4025,19 +4045,28 @@ class EncryptionConfiguration {
   }
 }
 
-enum EncryptionType {
-  customerKms('CUSTOMER_KMS'),
-  awsOwnedKmsKey('AWS_OWNED_KMS_KEY'),
-  ;
+class EncryptionType {
+  static const customerKms = EncryptionType._('CUSTOMER_KMS');
+  static const awsOwnedKmsKey = EncryptionType._('AWS_OWNED_KMS_KEY');
 
   final String value;
 
-  const EncryptionType(this.value);
+  const EncryptionType._(this.value);
+
+  static const values = [customerKms, awsOwnedKmsKey];
 
   static EncryptionType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum EncryptionType'));
+          orElse: () => EncryptionType._(value));
+
+  @override
+  bool operator ==(other) => other is EncryptionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The firewall defines the configuration settings for an Network Firewall
@@ -4594,8 +4623,8 @@ class FirewallStatus {
   factory FirewallStatus.fromJson(Map<String, dynamic> json) {
     return FirewallStatus(
       configurationSyncStateSummary: ConfigurationSyncState.fromString(
-          (json['ConfigurationSyncStateSummary'] as String)),
-      status: FirewallStatusValue.fromString((json['Status'] as String)),
+          (json['ConfigurationSyncStateSummary'] as String?) ?? ''),
+      status: FirewallStatusValue.fromString((json['Status'] as String?) ?? ''),
       capacityUsageSummary: json['CapacityUsageSummary'] != null
           ? CapacityUsageSummary.fromJson(
               json['CapacityUsageSummary'] as Map<String, dynamic>)
@@ -4620,35 +4649,55 @@ class FirewallStatus {
   }
 }
 
-enum FirewallStatusValue {
-  provisioning('PROVISIONING'),
-  deleting('DELETING'),
-  ready('READY'),
-  ;
+class FirewallStatusValue {
+  static const provisioning = FirewallStatusValue._('PROVISIONING');
+  static const deleting = FirewallStatusValue._('DELETING');
+  static const ready = FirewallStatusValue._('READY');
 
   final String value;
 
-  const FirewallStatusValue(this.value);
+  const FirewallStatusValue._(this.value);
 
-  static FirewallStatusValue fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum FirewallStatusValue'));
+  static const values = [provisioning, deleting, ready];
+
+  static FirewallStatusValue fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => FirewallStatusValue._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is FirewallStatusValue && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum GeneratedRulesType {
-  allowlist('ALLOWLIST'),
-  denylist('DENYLIST'),
-  ;
+class GeneratedRulesType {
+  static const allowlist = GeneratedRulesType._('ALLOWLIST');
+  static const denylist = GeneratedRulesType._('DENYLIST');
 
   final String value;
 
-  const GeneratedRulesType(this.value);
+  const GeneratedRulesType._(this.value);
 
-  static GeneratedRulesType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum GeneratedRulesType'));
+  static const values = [allowlist, denylist];
+
+  static GeneratedRulesType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => GeneratedRulesType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is GeneratedRulesType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The basic rule criteria for Network Firewall to use to inspect packet
@@ -4759,9 +4808,10 @@ class Header {
     return Header(
       destination: (json['Destination'] as String?) ?? '',
       destinationPort: (json['DestinationPort'] as String?) ?? '',
-      direction:
-          StatefulRuleDirection.fromString((json['Direction'] as String)),
-      protocol: StatefulRuleProtocol.fromString((json['Protocol'] as String)),
+      direction: StatefulRuleDirection.fromString(
+          (json['Direction'] as String?) ?? ''),
+      protocol:
+          StatefulRuleProtocol.fromString((json['Protocol'] as String?) ?? ''),
       source: (json['Source'] as String?) ?? '',
       sourcePort: (json['SourcePort'] as String?) ?? '',
     );
@@ -4785,20 +4835,29 @@ class Header {
   }
 }
 
-enum IPAddressType {
-  dualstack('DUALSTACK'),
-  ipv4('IPV4'),
-  ipv6('IPV6'),
-  ;
+class IPAddressType {
+  static const dualstack = IPAddressType._('DUALSTACK');
+  static const ipv4 = IPAddressType._('IPV4');
+  static const ipv6 = IPAddressType._('IPV6');
 
   final String value;
 
-  const IPAddressType(this.value);
+  const IPAddressType._(this.value);
+
+  static const values = [dualstack, ipv4, ipv6];
 
   static IPAddressType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum IPAddressType'));
+          orElse: () => IPAddressType._(value));
+
+  @override
+  bool operator ==(other) => other is IPAddressType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A list of IP addresses and address ranges, in CIDR notation. This is part of
@@ -4893,20 +4952,33 @@ class IPSetReference {
   }
 }
 
-enum IdentifiedType {
-  statelessRuleForwardingAsymmetrically(
-      'STATELESS_RULE_FORWARDING_ASYMMETRICALLY'),
-  statelessRuleContainsTcpFlags('STATELESS_RULE_CONTAINS_TCP_FLAGS'),
-  ;
+class IdentifiedType {
+  static const statelessRuleForwardingAsymmetrically =
+      IdentifiedType._('STATELESS_RULE_FORWARDING_ASYMMETRICALLY');
+  static const statelessRuleContainsTcpFlags =
+      IdentifiedType._('STATELESS_RULE_CONTAINS_TCP_FLAGS');
 
   final String value;
 
-  const IdentifiedType(this.value);
+  const IdentifiedType._(this.value);
+
+  static const values = [
+    statelessRuleForwardingAsymmetrically,
+    statelessRuleContainsTcpFlags
+  ];
 
   static IdentifiedType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum IdentifiedType'));
+          orElse: () => IdentifiedType._(value));
+
+  @override
+  bool operator ==(other) => other is IdentifiedType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class ListFirewallPoliciesResponse {
@@ -5183,9 +5255,9 @@ class LogDestinationConfig {
       logDestination: ((json['LogDestination'] as Map<String, dynamic>?) ??
               const <String, dynamic>{})
           .map((k, e) => MapEntry(k, e as String)),
-      logDestinationType:
-          LogDestinationType.fromString((json['LogDestinationType'] as String)),
-      logType: LogType.fromString((json['LogType'] as String)),
+      logDestinationType: LogDestinationType.fromString(
+          (json['LogDestinationType'] as String?) ?? ''),
+      logType: LogType.fromString((json['LogType'] as String?) ?? ''),
     );
   }
 
@@ -5201,35 +5273,55 @@ class LogDestinationConfig {
   }
 }
 
-enum LogDestinationType {
-  s3('S3'),
-  cloudWatchLogs('CloudWatchLogs'),
-  kinesisDataFirehose('KinesisDataFirehose'),
-  ;
+class LogDestinationType {
+  static const s3 = LogDestinationType._('S3');
+  static const cloudWatchLogs = LogDestinationType._('CloudWatchLogs');
+  static const kinesisDataFirehose =
+      LogDestinationType._('KinesisDataFirehose');
 
   final String value;
 
-  const LogDestinationType(this.value);
+  const LogDestinationType._(this.value);
 
-  static LogDestinationType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum LogDestinationType'));
+  static const values = [s3, cloudWatchLogs, kinesisDataFirehose];
+
+  static LogDestinationType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => LogDestinationType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is LogDestinationType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum LogType {
-  alert('ALERT'),
-  flow('FLOW'),
-  tls('TLS'),
-  ;
+class LogType {
+  static const alert = LogType._('ALERT');
+  static const flow = LogType._('FLOW');
+  static const tls = LogType._('TLS');
 
   final String value;
 
-  const LogType(this.value);
+  const LogType._(this.value);
 
-  static LogType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum LogType'));
+  static const values = [alert, flow, tls];
+
+  static LogType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => LogType._(value));
+
+  @override
+  bool operator ==(other) => other is LogType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Defines how Network Firewall performs logging for a <a>Firewall</a>.
@@ -5350,18 +5442,27 @@ class MatchAttributes {
   }
 }
 
-enum OverrideAction {
-  dropToAlert('DROP_TO_ALERT'),
-  ;
+class OverrideAction {
+  static const dropToAlert = OverrideAction._('DROP_TO_ALERT');
 
   final String value;
 
-  const OverrideAction(this.value);
+  const OverrideAction._(this.value);
+
+  static const values = [dropToAlert];
 
   static OverrideAction fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum OverrideAction'));
+          orElse: () => OverrideAction._(value));
+
+  @override
+  bool operator ==(other) => other is OverrideAction && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Provides configuration status for a single policy or rule group that is used
@@ -5402,20 +5503,31 @@ class PerObjectStatus {
   }
 }
 
-enum PerObjectSyncStatus {
-  pending('PENDING'),
-  inSync('IN_SYNC'),
-  capacityConstrained('CAPACITY_CONSTRAINED'),
-  ;
+class PerObjectSyncStatus {
+  static const pending = PerObjectSyncStatus._('PENDING');
+  static const inSync = PerObjectSyncStatus._('IN_SYNC');
+  static const capacityConstrained =
+      PerObjectSyncStatus._('CAPACITY_CONSTRAINED');
 
   final String value;
 
-  const PerObjectSyncStatus(this.value);
+  const PerObjectSyncStatus._(this.value);
 
-  static PerObjectSyncStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum PerObjectSyncStatus'));
+  static const values = [pending, inSync, capacityConstrained];
+
+  static PerObjectSyncStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => PerObjectSyncStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is PerObjectSyncStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains variables that you can use to override default Suricata settings in
@@ -5572,66 +5684,107 @@ class ReferenceSets {
   }
 }
 
-enum ResourceManagedStatus {
-  managed('MANAGED'),
-  account('ACCOUNT'),
-  ;
+class ResourceManagedStatus {
+  static const managed = ResourceManagedStatus._('MANAGED');
+  static const account = ResourceManagedStatus._('ACCOUNT');
 
   final String value;
 
-  const ResourceManagedStatus(this.value);
+  const ResourceManagedStatus._(this.value);
 
-  static ResourceManagedStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ResourceManagedStatus'));
+  static const values = [managed, account];
+
+  static ResourceManagedStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ResourceManagedStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ResourceManagedStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ResourceManagedType {
-  awsManagedThreatSignatures('AWS_MANAGED_THREAT_SIGNATURES'),
-  awsManagedDomainLists('AWS_MANAGED_DOMAIN_LISTS'),
-  ;
+class ResourceManagedType {
+  static const awsManagedThreatSignatures =
+      ResourceManagedType._('AWS_MANAGED_THREAT_SIGNATURES');
+  static const awsManagedDomainLists =
+      ResourceManagedType._('AWS_MANAGED_DOMAIN_LISTS');
 
   final String value;
 
-  const ResourceManagedType(this.value);
+  const ResourceManagedType._(this.value);
 
-  static ResourceManagedType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ResourceManagedType'));
+  static const values = [awsManagedThreatSignatures, awsManagedDomainLists];
+
+  static ResourceManagedType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ResourceManagedType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ResourceManagedType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ResourceStatus {
-  active('ACTIVE'),
-  deleting('DELETING'),
-  error('ERROR'),
-  ;
+class ResourceStatus {
+  static const active = ResourceStatus._('ACTIVE');
+  static const deleting = ResourceStatus._('DELETING');
+  static const error = ResourceStatus._('ERROR');
 
   final String value;
 
-  const ResourceStatus(this.value);
+  const ResourceStatus._(this.value);
+
+  static const values = [active, deleting, error];
 
   static ResourceStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ResourceStatus'));
+          orElse: () => ResourceStatus._(value));
+
+  @override
+  bool operator ==(other) => other is ResourceStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum RevocationCheckAction {
-  pass('PASS'),
-  drop('DROP'),
-  reject('REJECT'),
-  ;
+class RevocationCheckAction {
+  static const pass = RevocationCheckAction._('PASS');
+  static const drop = RevocationCheckAction._('DROP');
+  static const reject = RevocationCheckAction._('REJECT');
 
   final String value;
 
-  const RevocationCheckAction(this.value);
+  const RevocationCheckAction._(this.value);
 
-  static RevocationCheckAction fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum RevocationCheckAction'));
+  static const values = [pass, drop, reject];
+
+  static RevocationCheckAction fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => RevocationCheckAction._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RevocationCheckAction && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The inspection criteria and action for a single stateless rule. Network
@@ -5987,19 +6140,28 @@ class RuleGroupResponse {
   }
 }
 
-enum RuleGroupType {
-  stateless('STATELESS'),
-  stateful('STATEFUL'),
-  ;
+class RuleGroupType {
+  static const stateless = RuleGroupType._('STATELESS');
+  static const stateful = RuleGroupType._('STATEFUL');
 
   final String value;
 
-  const RuleGroupType(this.value);
+  const RuleGroupType._(this.value);
+
+  static const values = [stateless, stateful];
 
   static RuleGroupType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum RuleGroupType'));
+          orElse: () => RuleGroupType._(value));
+
+  @override
+  bool operator ==(other) => other is RuleGroupType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Additional settings for a stateful rule. This is part of the
@@ -6045,18 +6207,27 @@ class RuleOption {
   }
 }
 
-enum RuleOrder {
-  defaultActionOrder('DEFAULT_ACTION_ORDER'),
-  strictOrder('STRICT_ORDER'),
-  ;
+class RuleOrder {
+  static const defaultActionOrder = RuleOrder._('DEFAULT_ACTION_ORDER');
+  static const strictOrder = RuleOrder._('STRICT_ORDER');
 
   final String value;
 
-  const RuleOrder(this.value);
+  const RuleOrder._(this.value);
 
-  static RuleOrder fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum RuleOrder'));
+  static const values = [defaultActionOrder, strictOrder];
+
+  static RuleOrder fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => RuleOrder._(value));
+
+  @override
+  bool operator ==(other) => other is RuleOrder && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Settings that are available for use in the rules in the <a>RuleGroup</a>
@@ -6215,8 +6386,8 @@ class RulesSourceList {
 
   factory RulesSourceList.fromJson(Map<String, dynamic> json) {
     return RulesSourceList(
-      generatedRulesType:
-          GeneratedRulesType.fromString((json['GeneratedRulesType'] as String)),
+      generatedRulesType: GeneratedRulesType.fromString(
+          (json['GeneratedRulesType'] as String?) ?? ''),
       targetTypes: ((json['TargetTypes'] as List?) ?? const [])
           .nonNulls
           .map((e) => TargetType.fromString((e as String)))
@@ -6497,21 +6668,30 @@ class SourceMetadata {
   }
 }
 
-enum StatefulAction {
-  pass('PASS'),
-  drop('DROP'),
-  alert('ALERT'),
-  reject('REJECT'),
-  ;
+class StatefulAction {
+  static const pass = StatefulAction._('PASS');
+  static const drop = StatefulAction._('DROP');
+  static const alert = StatefulAction._('ALERT');
+  static const reject = StatefulAction._('REJECT');
 
   final String value;
 
-  const StatefulAction(this.value);
+  const StatefulAction._(this.value);
+
+  static const values = [pass, drop, alert, reject];
 
   static StatefulAction fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum StatefulAction'));
+          orElse: () => StatefulAction._(value));
+
+  @override
+  bool operator ==(other) => other is StatefulAction && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Configuration settings for the handling of the stateful rule groups in a
@@ -6644,7 +6824,7 @@ class StatefulRule {
 
   factory StatefulRule.fromJson(Map<String, dynamic> json) {
     return StatefulRule(
-      action: StatefulAction.fromString((json['Action'] as String)),
+      action: StatefulAction.fromString((json['Action'] as String?) ?? ''),
       header: Header.fromJson((json['Header'] as Map<String, dynamic>?) ??
           const <String, dynamic>{}),
       ruleOptions: ((json['RuleOptions'] as List?) ?? const [])
@@ -6666,19 +6846,29 @@ class StatefulRule {
   }
 }
 
-enum StatefulRuleDirection {
-  forward('FORWARD'),
-  any('ANY'),
-  ;
+class StatefulRuleDirection {
+  static const forward = StatefulRuleDirection._('FORWARD');
+  static const any = StatefulRuleDirection._('ANY');
 
   final String value;
 
-  const StatefulRuleDirection(this.value);
+  const StatefulRuleDirection._(this.value);
 
-  static StatefulRuleDirection fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum StatefulRuleDirection'));
+  static const values = [forward, any];
+
+  static StatefulRuleDirection fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => StatefulRuleDirection._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is StatefulRuleDirection && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The setting that allows the policy owner to change the behavior of the rule
@@ -6788,36 +6978,66 @@ class StatefulRuleOptions {
   }
 }
 
-enum StatefulRuleProtocol {
-  ip('IP'),
-  tcp('TCP'),
-  udp('UDP'),
-  icmp('ICMP'),
-  http('HTTP'),
-  ftp('FTP'),
-  tls('TLS'),
-  smb('SMB'),
-  dns('DNS'),
-  dcerpc('DCERPC'),
-  ssh('SSH'),
-  smtp('SMTP'),
-  imap('IMAP'),
-  msn('MSN'),
-  krb5('KRB5'),
-  ikev2('IKEV2'),
-  tftp('TFTP'),
-  ntp('NTP'),
-  dhcp('DHCP'),
-  ;
+class StatefulRuleProtocol {
+  static const ip = StatefulRuleProtocol._('IP');
+  static const tcp = StatefulRuleProtocol._('TCP');
+  static const udp = StatefulRuleProtocol._('UDP');
+  static const icmp = StatefulRuleProtocol._('ICMP');
+  static const http = StatefulRuleProtocol._('HTTP');
+  static const ftp = StatefulRuleProtocol._('FTP');
+  static const tls = StatefulRuleProtocol._('TLS');
+  static const smb = StatefulRuleProtocol._('SMB');
+  static const dns = StatefulRuleProtocol._('DNS');
+  static const dcerpc = StatefulRuleProtocol._('DCERPC');
+  static const ssh = StatefulRuleProtocol._('SSH');
+  static const smtp = StatefulRuleProtocol._('SMTP');
+  static const imap = StatefulRuleProtocol._('IMAP');
+  static const msn = StatefulRuleProtocol._('MSN');
+  static const krb5 = StatefulRuleProtocol._('KRB5');
+  static const ikev2 = StatefulRuleProtocol._('IKEV2');
+  static const tftp = StatefulRuleProtocol._('TFTP');
+  static const ntp = StatefulRuleProtocol._('NTP');
+  static const dhcp = StatefulRuleProtocol._('DHCP');
 
   final String value;
 
-  const StatefulRuleProtocol(this.value);
+  const StatefulRuleProtocol._(this.value);
 
-  static StatefulRuleProtocol fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum StatefulRuleProtocol'));
+  static const values = [
+    ip,
+    tcp,
+    udp,
+    icmp,
+    http,
+    ftp,
+    tls,
+    smb,
+    dns,
+    dcerpc,
+    ssh,
+    smtp,
+    imap,
+    msn,
+    krb5,
+    ikev2,
+    tftp,
+    ntp,
+    dhcp
+  ];
+
+  static StatefulRuleProtocol fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => StatefulRuleProtocol._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is StatefulRuleProtocol && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A single stateless rule. This is used in
@@ -6945,20 +7165,30 @@ class StatelessRulesAndCustomActions {
   }
 }
 
-enum StreamExceptionPolicy {
-  drop('DROP'),
-  $continue('CONTINUE'),
-  reject('REJECT'),
-  ;
+class StreamExceptionPolicy {
+  static const drop = StreamExceptionPolicy._('DROP');
+  static const $continue = StreamExceptionPolicy._('CONTINUE');
+  static const reject = StreamExceptionPolicy._('REJECT');
 
   final String value;
 
-  const StreamExceptionPolicy(this.value);
+  const StreamExceptionPolicy._(this.value);
 
-  static StreamExceptionPolicy fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum StreamExceptionPolicy'));
+  static const values = [drop, $continue, reject];
+
+  static StreamExceptionPolicy fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => StreamExceptionPolicy._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is StreamExceptionPolicy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The ID for a subnet that you want to associate with the firewall. This is
@@ -7054,24 +7284,33 @@ class SyncState {
   }
 }
 
-enum TCPFlag {
-  fin('FIN'),
-  syn('SYN'),
-  rst('RST'),
-  psh('PSH'),
-  ack('ACK'),
-  urg('URG'),
-  ece('ECE'),
-  cwr('CWR'),
-  ;
+class TCPFlag {
+  static const fin = TCPFlag._('FIN');
+  static const syn = TCPFlag._('SYN');
+  static const rst = TCPFlag._('RST');
+  static const psh = TCPFlag._('PSH');
+  static const ack = TCPFlag._('ACK');
+  static const urg = TCPFlag._('URG');
+  static const ece = TCPFlag._('ECE');
+  static const cwr = TCPFlag._('CWR');
 
   final String value;
 
-  const TCPFlag(this.value);
+  const TCPFlag._(this.value);
 
-  static TCPFlag fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum TCPFlag'));
+  static const values = [fin, syn, rst, psh, ack, urg, ece, cwr];
+
+  static TCPFlag fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => TCPFlag._(value));
+
+  @override
+  bool operator ==(other) => other is TCPFlag && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// TCP flags and masks to inspect packets for, used in stateless rules
@@ -7388,18 +7627,27 @@ class TagResourceResponse {
   }
 }
 
-enum TargetType {
-  tlsSni('TLS_SNI'),
-  httpHost('HTTP_HOST'),
-  ;
+class TargetType {
+  static const tlsSni = TargetType._('TLS_SNI');
+  static const httpHost = TargetType._('HTTP_HOST');
 
   final String value;
 
-  const TargetType(this.value);
+  const TargetType._(this.value);
 
-  static TargetType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum TargetType'));
+  static const values = [tlsSni, httpHost];
+
+  static TargetType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => TargetType._(value));
+
+  @override
+  bool operator ==(other) => other is TargetType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains metadata about an Certificate Manager certificate.

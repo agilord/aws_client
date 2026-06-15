@@ -32711,47 +32711,80 @@ class AcceleratorCountRequest {
   }
 }
 
-enum AcceleratorManufacturer {
-  amazonWebServices('amazon-web-services'),
-  amd('amd'),
-  nvidia('nvidia'),
-  xilinx('xilinx'),
-  habana('habana'),
-  ;
+class AcceleratorManufacturer {
+  static const amazonWebServices =
+      AcceleratorManufacturer._('amazon-web-services');
+  static const amd = AcceleratorManufacturer._('amd');
+  static const nvidia = AcceleratorManufacturer._('nvidia');
+  static const xilinx = AcceleratorManufacturer._('xilinx');
+  static const habana = AcceleratorManufacturer._('habana');
 
   final String value;
 
-  const AcceleratorManufacturer(this.value);
+  const AcceleratorManufacturer._(this.value);
+
+  static const values = [amazonWebServices, amd, nvidia, xilinx, habana];
 
   static AcceleratorManufacturer fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum AcceleratorManufacturer'));
+          orElse: () => AcceleratorManufacturer._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AcceleratorManufacturer && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum AcceleratorName {
-  a100('a100'),
-  inferentia('inferentia'),
-  k520('k520'),
-  k80('k80'),
-  m60('m60'),
-  radeonProV520('radeon-pro-v520'),
-  t4('t4'),
-  vu9p('vu9p'),
-  v100('v100'),
-  a10g('a10g'),
-  h100('h100'),
-  t4g('t4g'),
-  ;
+class AcceleratorName {
+  static const a100 = AcceleratorName._('a100');
+  static const inferentia = AcceleratorName._('inferentia');
+  static const k520 = AcceleratorName._('k520');
+  static const k80 = AcceleratorName._('k80');
+  static const m60 = AcceleratorName._('m60');
+  static const radeonProV520 = AcceleratorName._('radeon-pro-v520');
+  static const t4 = AcceleratorName._('t4');
+  static const vu9p = AcceleratorName._('vu9p');
+  static const v100 = AcceleratorName._('v100');
+  static const a10g = AcceleratorName._('a10g');
+  static const h100 = AcceleratorName._('h100');
+  static const t4g = AcceleratorName._('t4g');
 
   final String value;
 
-  const AcceleratorName(this.value);
+  const AcceleratorName._(this.value);
+
+  static const values = [
+    a100,
+    inferentia,
+    k520,
+    k80,
+    m60,
+    radeonProV520,
+    t4,
+    vu9p,
+    v100,
+    a10g,
+    h100,
+    t4g
+  ];
 
   static AcceleratorName fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum AcceleratorName'));
+          orElse: () => AcceleratorName._(value));
+
+  @override
+  bool operator ==(other) => other is AcceleratorName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The minimum and maximum amount of total accelerator memory, in MiB.
@@ -32804,20 +32837,29 @@ class AcceleratorTotalMemoryMiBRequest {
   }
 }
 
-enum AcceleratorType {
-  gpu('gpu'),
-  fpga('fpga'),
-  inference('inference'),
-  ;
+class AcceleratorType {
+  static const gpu = AcceleratorType._('gpu');
+  static const fpga = AcceleratorType._('fpga');
+  static const inference = AcceleratorType._('inference');
 
   final String value;
 
-  const AcceleratorType(this.value);
+  const AcceleratorType._(this.value);
+
+  static const values = [gpu, fpga, inference];
 
   static AcceleratorType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum AcceleratorType'));
+          orElse: () => AcceleratorType._(value));
+
+  @override
+  bool operator ==(other) => other is AcceleratorType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class AcceptAddressTransferResult {
@@ -33058,19 +33100,30 @@ class AccountAttribute {
   }
 }
 
-enum AccountAttributeName {
-  supportedPlatforms('supported-platforms'),
-  defaultVpc('default-vpc'),
-  ;
+class AccountAttributeName {
+  static const supportedPlatforms =
+      AccountAttributeName._('supported-platforms');
+  static const defaultVpc = AccountAttributeName._('default-vpc');
 
   final String value;
 
-  const AccountAttributeName(this.value);
+  const AccountAttributeName._(this.value);
 
-  static AccountAttributeName fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum AccountAttributeName'));
+  static const values = [supportedPlatforms, defaultVpc];
+
+  static AccountAttributeName fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AccountAttributeName._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AccountAttributeName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes a value of an account attribute.
@@ -33129,21 +33182,35 @@ class ActiveInstance {
   }
 }
 
-enum ActivityStatus {
-  error('error'),
-  pendingFulfillment('pending_fulfillment'),
-  pendingTermination('pending_termination'),
-  fulfilled('fulfilled'),
-  ;
+class ActivityStatus {
+  static const error = ActivityStatus._('error');
+  static const pendingFulfillment = ActivityStatus._('pending_fulfillment');
+  static const pendingTermination = ActivityStatus._('pending_termination');
+  static const fulfilled = ActivityStatus._('fulfilled');
 
   final String value;
 
-  const ActivityStatus(this.value);
+  const ActivityStatus._(this.value);
+
+  static const values = [
+    error,
+    pendingFulfillment,
+    pendingTermination,
+    fulfilled
+  ];
 
   static ActivityStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ActivityStatus'));
+          orElse: () => ActivityStatus._(value));
+
+  @override
+  bool operator ==(other) => other is ActivityStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Add an operating Region to an IPAM. Operating Regions are Amazon Web
@@ -33431,33 +33498,52 @@ class AddressAttribute {
   }
 }
 
-enum AddressAttributeName {
-  domainName('domain-name'),
-  ;
+class AddressAttributeName {
+  static const domainName = AddressAttributeName._('domain-name');
 
   final String value;
 
-  const AddressAttributeName(this.value);
+  const AddressAttributeName._(this.value);
 
-  static AddressAttributeName fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum AddressAttributeName'));
+  static const values = [domainName];
+
+  static AddressAttributeName fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AddressAttributeName._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AddressAttributeName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum AddressFamily {
-  ipv4('ipv4'),
-  ipv6('ipv6'),
-  ;
+class AddressFamily {
+  static const ipv4 = AddressFamily._('ipv4');
+  static const ipv6 = AddressFamily._('ipv6');
 
   final String value;
 
-  const AddressFamily(this.value);
+  const AddressFamily._(this.value);
+
+  static const values = [ipv4, ipv6];
 
   static AddressFamily fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum AddressFamily'));
+          orElse: () => AddressFamily._(value));
+
+  @override
+  bool operator ==(other) => other is AddressFamily && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Details on the Elastic IP address transfer. For more information, see <a
@@ -33518,20 +33604,30 @@ class AddressTransfer {
   }
 }
 
-enum AddressTransferStatus {
-  pending('pending'),
-  disabled('disabled'),
-  accepted('accepted'),
-  ;
+class AddressTransferStatus {
+  static const pending = AddressTransferStatus._('pending');
+  static const disabled = AddressTransferStatus._('disabled');
+  static const accepted = AddressTransferStatus._('accepted');
 
   final String value;
 
-  const AddressTransferStatus(this.value);
+  const AddressTransferStatus._(this.value);
 
-  static AddressTransferStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum AddressTransferStatus'));
+  static const values = [pending, disabled, accepted];
+
+  static AddressTransferStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AddressTransferStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AddressTransferStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class AdvertiseByoipCidrResult {
@@ -33550,18 +33646,27 @@ class AdvertiseByoipCidrResult {
   }
 }
 
-enum Affinity {
-  $default('default'),
-  host('host'),
-  ;
+class Affinity {
+  static const $default = Affinity._('default');
+  static const host = Affinity._('host');
 
   final String value;
 
-  const Affinity(this.value);
+  const Affinity._(this.value);
 
-  static Affinity fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum Affinity'));
+  static const values = [$default, host];
+
+  static Affinity fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Affinity._(value));
+
+  @override
+  bool operator ==(other) => other is Affinity && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class AllocateAddressResult {
@@ -33659,55 +33764,99 @@ class AllocateIpamPoolCidrResult {
   }
 }
 
-enum AllocationState {
-  available('available'),
-  underAssessment('under-assessment'),
-  permanentFailure('permanent-failure'),
-  released('released'),
-  releasedPermanentFailure('released-permanent-failure'),
-  pending('pending'),
-  ;
+class AllocationState {
+  static const available = AllocationState._('available');
+  static const underAssessment = AllocationState._('under-assessment');
+  static const permanentFailure = AllocationState._('permanent-failure');
+  static const released = AllocationState._('released');
+  static const releasedPermanentFailure =
+      AllocationState._('released-permanent-failure');
+  static const pending = AllocationState._('pending');
 
   final String value;
 
-  const AllocationState(this.value);
+  const AllocationState._(this.value);
+
+  static const values = [
+    available,
+    underAssessment,
+    permanentFailure,
+    released,
+    releasedPermanentFailure,
+    pending
+  ];
 
   static AllocationState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum AllocationState'));
+          orElse: () => AllocationState._(value));
+
+  @override
+  bool operator ==(other) => other is AllocationState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum AllocationStrategy {
-  lowestPrice('lowestPrice'),
-  diversified('diversified'),
-  capacityOptimized('capacityOptimized'),
-  capacityOptimizedPrioritized('capacityOptimizedPrioritized'),
-  priceCapacityOptimized('priceCapacityOptimized'),
-  ;
+class AllocationStrategy {
+  static const lowestPrice = AllocationStrategy._('lowestPrice');
+  static const diversified = AllocationStrategy._('diversified');
+  static const capacityOptimized = AllocationStrategy._('capacityOptimized');
+  static const capacityOptimizedPrioritized =
+      AllocationStrategy._('capacityOptimizedPrioritized');
+  static const priceCapacityOptimized =
+      AllocationStrategy._('priceCapacityOptimized');
 
   final String value;
 
-  const AllocationStrategy(this.value);
+  const AllocationStrategy._(this.value);
 
-  static AllocationStrategy fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum AllocationStrategy'));
+  static const values = [
+    lowestPrice,
+    diversified,
+    capacityOptimized,
+    capacityOptimizedPrioritized,
+    priceCapacityOptimized
+  ];
+
+  static AllocationStrategy fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AllocationStrategy._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AllocationStrategy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum AllocationType {
-  used('used'),
-  ;
+class AllocationType {
+  static const used = AllocationType._('used');
 
   final String value;
 
-  const AllocationType(this.value);
+  const AllocationType._(this.value);
+
+  static const values = [used];
 
   static AllocationType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum AllocationType'));
+          orElse: () => AllocationType._(value));
+
+  @override
+  bool operator ==(other) => other is AllocationType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes a principal.
@@ -33752,19 +33901,29 @@ class AllowedPrincipal {
   }
 }
 
-enum AllowsMultipleInstanceTypes {
-  on('on'),
-  off('off'),
-  ;
+class AllowsMultipleInstanceTypes {
+  static const on = AllowsMultipleInstanceTypes._('on');
+  static const off = AllowsMultipleInstanceTypes._('off');
 
   final String value;
 
-  const AllowsMultipleInstanceTypes(this.value);
+  const AllowsMultipleInstanceTypes._(this.value);
+
+  static const values = [on, off];
 
   static AllowsMultipleInstanceTypes fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum AllowsMultipleInstanceTypes'));
+          orElse: () => AllowsMultipleInstanceTypes._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AllowsMultipleInstanceTypes && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes an potential intermediate component of a feasible path.
@@ -33790,19 +33949,29 @@ class AlternatePathHint {
   }
 }
 
-enum AmdSevSnpSpecification {
-  enabled('enabled'),
-  disabled('disabled'),
-  ;
+class AmdSevSnpSpecification {
+  static const enabled = AmdSevSnpSpecification._('enabled');
+  static const disabled = AmdSevSnpSpecification._('disabled');
 
   final String value;
 
-  const AmdSevSnpSpecification(this.value);
+  const AmdSevSnpSpecification._(this.value);
+
+  static const values = [enabled, disabled];
 
   static AmdSevSnpSpecification fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum AmdSevSnpSpecification'));
+          orElse: () => AmdSevSnpSpecification._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AmdSevSnpSpecification && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes a network access control (ACL) rule.
@@ -34161,35 +34330,54 @@ class AnalysisSecurityGroupRule {
   }
 }
 
-enum AnalysisStatus {
-  running('running'),
-  succeeded('succeeded'),
-  failed('failed'),
-  ;
+class AnalysisStatus {
+  static const running = AnalysisStatus._('running');
+  static const succeeded = AnalysisStatus._('succeeded');
+  static const failed = AnalysisStatus._('failed');
 
   final String value;
 
-  const AnalysisStatus(this.value);
+  const AnalysisStatus._(this.value);
+
+  static const values = [running, succeeded, failed];
 
   static AnalysisStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum AnalysisStatus'));
+          orElse: () => AnalysisStatus._(value));
+
+  @override
+  bool operator ==(other) => other is AnalysisStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ApplianceModeSupportValue {
-  enable('enable'),
-  disable('disable'),
-  ;
+class ApplianceModeSupportValue {
+  static const enable = ApplianceModeSupportValue._('enable');
+  static const disable = ApplianceModeSupportValue._('disable');
 
   final String value;
 
-  const ApplianceModeSupportValue(this.value);
+  const ApplianceModeSupportValue._(this.value);
+
+  static const values = [enable, disable];
 
   static ApplianceModeSupportValue fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ApplianceModeSupportValue'));
+          orElse: () => ApplianceModeSupportValue._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ApplianceModeSupportValue && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class ApplySecurityGroupsToClientVpnTargetNetworkResult {
@@ -34208,40 +34396,59 @@ class ApplySecurityGroupsToClientVpnTargetNetworkResult {
   }
 }
 
-enum ArchitectureType {
-  i386('i386'),
-  x86_64('x86_64'),
-  arm64('arm64'),
-  x86_64Mac('x86_64_mac'),
-  arm64Mac('arm64_mac'),
-  ;
+class ArchitectureType {
+  static const i386 = ArchitectureType._('i386');
+  static const x86_64 = ArchitectureType._('x86_64');
+  static const arm64 = ArchitectureType._('arm64');
+  static const x86_64Mac = ArchitectureType._('x86_64_mac');
+  static const arm64Mac = ArchitectureType._('arm64_mac');
 
   final String value;
 
-  const ArchitectureType(this.value);
+  const ArchitectureType._(this.value);
+
+  static const values = [i386, x86_64, arm64, x86_64Mac, arm64Mac];
 
   static ArchitectureType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ArchitectureType'));
+          orElse: () => ArchitectureType._(value));
+
+  @override
+  bool operator ==(other) => other is ArchitectureType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ArchitectureValues {
-  i386('i386'),
-  x86_64('x86_64'),
-  arm64('arm64'),
-  x86_64Mac('x86_64_mac'),
-  arm64Mac('arm64_mac'),
-  ;
+class ArchitectureValues {
+  static const i386 = ArchitectureValues._('i386');
+  static const x86_64 = ArchitectureValues._('x86_64');
+  static const arm64 = ArchitectureValues._('arm64');
+  static const x86_64Mac = ArchitectureValues._('x86_64_mac');
+  static const arm64Mac = ArchitectureValues._('arm64_mac');
 
   final String value;
 
-  const ArchitectureValues(this.value);
+  const ArchitectureValues._(this.value);
 
-  static ArchitectureValues fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ArchitectureValues'));
+  static const values = [i386, x86_64, arm64, x86_64Mac, arm64Mac];
+
+  static ArchitectureValues fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ArchitectureValues._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ArchitectureValues && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// An Autonomous System Number (ASN) and BYOIP CIDR association.
@@ -34279,23 +34486,43 @@ class AsnAssociation {
   }
 }
 
-enum AsnAssociationState {
-  disassociated('disassociated'),
-  failedDisassociation('failed-disassociation'),
-  failedAssociation('failed-association'),
-  pendingDisassociation('pending-disassociation'),
-  pendingAssociation('pending-association'),
-  associated('associated'),
-  ;
+class AsnAssociationState {
+  static const disassociated = AsnAssociationState._('disassociated');
+  static const failedDisassociation =
+      AsnAssociationState._('failed-disassociation');
+  static const failedAssociation = AsnAssociationState._('failed-association');
+  static const pendingDisassociation =
+      AsnAssociationState._('pending-disassociation');
+  static const pendingAssociation =
+      AsnAssociationState._('pending-association');
+  static const associated = AsnAssociationState._('associated');
 
   final String value;
 
-  const AsnAssociationState(this.value);
+  const AsnAssociationState._(this.value);
 
-  static AsnAssociationState fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum AsnAssociationState'));
+  static const values = [
+    disassociated,
+    failedDisassociation,
+    failedAssociation,
+    pendingDisassociation,
+    pendingAssociation,
+    associated
+  ];
+
+  static AsnAssociationState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AsnAssociationState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AsnAssociationState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Provides authorization for Amazon to bring an Autonomous System Number (ASN)
@@ -34325,22 +34552,38 @@ class AsnAuthorizationContext {
   }
 }
 
-enum AsnState {
-  deprovisioned('deprovisioned'),
-  failedDeprovision('failed-deprovision'),
-  failedProvision('failed-provision'),
-  pendingDeprovision('pending-deprovision'),
-  pendingProvision('pending-provision'),
-  provisioned('provisioned'),
-  ;
+class AsnState {
+  static const deprovisioned = AsnState._('deprovisioned');
+  static const failedDeprovision = AsnState._('failed-deprovision');
+  static const failedProvision = AsnState._('failed-provision');
+  static const pendingDeprovision = AsnState._('pending-deprovision');
+  static const pendingProvision = AsnState._('pending-provision');
+  static const provisioned = AsnState._('provisioned');
 
   final String value;
 
-  const AsnState(this.value);
+  const AsnState._(this.value);
 
-  static AsnState fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum AsnState'));
+  static const values = [
+    deprovisioned,
+    failedDeprovision,
+    failedProvision,
+    pendingDeprovision,
+    pendingProvision,
+    provisioned
+  ];
+
+  static AsnState fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => AsnState._(value));
+
+  @override
+  bool operator ==(other) => other is AsnState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class AssignIpv6AddressesResult {
@@ -34760,18 +35003,28 @@ class AssociateVpcCidrBlockResult {
   }
 }
 
-enum AssociatedNetworkType {
-  vpc('vpc'),
-  ;
+class AssociatedNetworkType {
+  static const vpc = AssociatedNetworkType._('vpc');
 
   final String value;
 
-  const AssociatedNetworkType(this.value);
+  const AssociatedNetworkType._(this.value);
 
-  static AssociatedNetworkType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum AssociatedNetworkType'));
+  static const values = [vpc];
+
+  static AssociatedNetworkType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AssociatedNetworkType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AssociatedNetworkType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about the associated IAM roles.
@@ -34860,22 +35113,39 @@ class AssociationStatus {
   }
 }
 
-enum AssociationStatusCode {
-  associating('associating'),
-  associated('associated'),
-  associationFailed('association-failed'),
-  disassociating('disassociating'),
-  disassociated('disassociated'),
-  ;
+class AssociationStatusCode {
+  static const associating = AssociationStatusCode._('associating');
+  static const associated = AssociationStatusCode._('associated');
+  static const associationFailed =
+      AssociationStatusCode._('association-failed');
+  static const disassociating = AssociationStatusCode._('disassociating');
+  static const disassociated = AssociationStatusCode._('disassociated');
 
   final String value;
 
-  const AssociationStatusCode(this.value);
+  const AssociationStatusCode._(this.value);
 
-  static AssociationStatusCode fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum AssociationStatusCode'));
+  static const values = [
+    associating,
+    associated,
+    associationFailed,
+    disassociating,
+    disassociated
+  ];
+
+  static AssociationStatusCode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AssociationStatusCode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AssociationStatusCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes integration options for Amazon Athena.
@@ -35055,21 +35325,30 @@ class AttachmentEnaSrdUdpSpecification {
   }
 }
 
-enum AttachmentStatus {
-  attaching('attaching'),
-  attached('attached'),
-  detaching('detaching'),
-  detached('detached'),
-  ;
+class AttachmentStatus {
+  static const attaching = AttachmentStatus._('attaching');
+  static const attached = AttachmentStatus._('attached');
+  static const detaching = AttachmentStatus._('detaching');
+  static const detached = AttachmentStatus._('detached');
 
   final String value;
 
-  const AttachmentStatus(this.value);
+  const AttachmentStatus._(this.value);
+
+  static const values = [attaching, attached, detaching, detached];
 
   static AttachmentStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum AttachmentStatus'));
+          orElse: () => AttachmentStatus._(value));
+
+  @override
+  bool operator ==(other) => other is AttachmentStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes a value for a resource attribute that is a Boolean value.
@@ -35224,49 +35503,78 @@ class AuthorizeSecurityGroupIngressResult {
   }
 }
 
-enum AutoAcceptSharedAssociationsValue {
-  enable('enable'),
-  disable('disable'),
-  ;
+class AutoAcceptSharedAssociationsValue {
+  static const enable = AutoAcceptSharedAssociationsValue._('enable');
+  static const disable = AutoAcceptSharedAssociationsValue._('disable');
 
   final String value;
 
-  const AutoAcceptSharedAssociationsValue(this.value);
+  const AutoAcceptSharedAssociationsValue._(this.value);
+
+  static const values = [enable, disable];
 
   static AutoAcceptSharedAssociationsValue fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum AutoAcceptSharedAssociationsValue'));
+          orElse: () => AutoAcceptSharedAssociationsValue._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AutoAcceptSharedAssociationsValue && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum AutoAcceptSharedAttachmentsValue {
-  enable('enable'),
-  disable('disable'),
-  ;
+class AutoAcceptSharedAttachmentsValue {
+  static const enable = AutoAcceptSharedAttachmentsValue._('enable');
+  static const disable = AutoAcceptSharedAttachmentsValue._('disable');
 
   final String value;
 
-  const AutoAcceptSharedAttachmentsValue(this.value);
+  const AutoAcceptSharedAttachmentsValue._(this.value);
+
+  static const values = [enable, disable];
 
   static AutoAcceptSharedAttachmentsValue fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum AutoAcceptSharedAttachmentsValue'));
+          orElse: () => AutoAcceptSharedAttachmentsValue._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AutoAcceptSharedAttachmentsValue && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum AutoPlacement {
-  on('on'),
-  off('off'),
-  ;
+class AutoPlacement {
+  static const on = AutoPlacement._('on');
+  static const off = AutoPlacement._('off');
 
   final String value;
 
-  const AutoPlacement(this.value);
+  const AutoPlacement._(this.value);
+
+  static const values = [on, off];
 
   static AutoPlacement fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum AutoPlacement'));
+          orElse: () => AutoPlacement._(value));
+
+  @override
+  bool operator ==(other) => other is AutoPlacement && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes Availability Zones, Local Zones, and Wavelength Zones.
@@ -35380,38 +35688,65 @@ class AvailabilityZoneMessage {
   }
 }
 
-enum AvailabilityZoneOptInStatus {
-  optInNotRequired('opt-in-not-required'),
-  optedIn('opted-in'),
-  notOptedIn('not-opted-in'),
-  ;
+class AvailabilityZoneOptInStatus {
+  static const optInNotRequired =
+      AvailabilityZoneOptInStatus._('opt-in-not-required');
+  static const optedIn = AvailabilityZoneOptInStatus._('opted-in');
+  static const notOptedIn = AvailabilityZoneOptInStatus._('not-opted-in');
 
   final String value;
 
-  const AvailabilityZoneOptInStatus(this.value);
+  const AvailabilityZoneOptInStatus._(this.value);
+
+  static const values = [optInNotRequired, optedIn, notOptedIn];
 
   static AvailabilityZoneOptInStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum AvailabilityZoneOptInStatus'));
+          orElse: () => AvailabilityZoneOptInStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AvailabilityZoneOptInStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum AvailabilityZoneState {
-  available('available'),
-  information('information'),
-  impaired('impaired'),
-  unavailable('unavailable'),
-  constrained('constrained'),
-  ;
+class AvailabilityZoneState {
+  static const available = AvailabilityZoneState._('available');
+  static const information = AvailabilityZoneState._('information');
+  static const impaired = AvailabilityZoneState._('impaired');
+  static const unavailable = AvailabilityZoneState._('unavailable');
+  static const constrained = AvailabilityZoneState._('constrained');
 
   final String value;
 
-  const AvailabilityZoneState(this.value);
+  const AvailabilityZoneState._(this.value);
 
-  static AvailabilityZoneState fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum AvailabilityZoneState'));
+  static const values = [
+    available,
+    information,
+    impaired,
+    unavailable,
+    constrained
+  ];
+
+  static AvailabilityZoneState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AvailabilityZoneState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AvailabilityZoneState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The capacity information for instances that can be launched onto the
@@ -35443,19 +35778,28 @@ class AvailableCapacity {
   }
 }
 
-enum BareMetal {
-  included('included'),
-  required('required'),
-  excluded('excluded'),
-  ;
+class BareMetal {
+  static const included = BareMetal._('included');
+  static const required = BareMetal._('required');
+  static const excluded = BareMetal._('excluded');
 
   final String value;
 
-  const BareMetal(this.value);
+  const BareMetal._(this.value);
 
-  static BareMetal fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum BareMetal'));
+  static const values = [included, required, excluded];
+
+  static BareMetal fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => BareMetal._(value));
+
+  @override
+  bool operator ==(other) => other is BareMetal && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The minimum and maximum baseline bandwidth to Amazon EBS, in Mbps. For more
@@ -35514,37 +35858,63 @@ class BaselineEbsBandwidthMbpsRequest {
   }
 }
 
-enum BatchState {
-  submitted('submitted'),
-  active('active'),
-  cancelled('cancelled'),
-  failed('failed'),
-  cancelledRunning('cancelled_running'),
-  cancelledTerminating('cancelled_terminating'),
-  modifying('modifying'),
-  ;
+class BatchState {
+  static const submitted = BatchState._('submitted');
+  static const active = BatchState._('active');
+  static const cancelled = BatchState._('cancelled');
+  static const failed = BatchState._('failed');
+  static const cancelledRunning = BatchState._('cancelled_running');
+  static const cancelledTerminating = BatchState._('cancelled_terminating');
+  static const modifying = BatchState._('modifying');
 
   final String value;
 
-  const BatchState(this.value);
+  const BatchState._(this.value);
 
-  static BatchState fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum BatchState'));
+  static const values = [
+    submitted,
+    active,
+    cancelled,
+    failed,
+    cancelledRunning,
+    cancelledTerminating,
+    modifying
+  ];
+
+  static BatchState fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => BatchState._(value));
+
+  @override
+  bool operator ==(other) => other is BatchState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum BgpStatus {
-  up('up'),
-  down('down'),
-  ;
+class BgpStatus {
+  static const up = BgpStatus._('up');
+  static const down = BgpStatus._('down');
 
   final String value;
 
-  const BgpStatus(this.value);
+  const BgpStatus._(this.value);
 
-  static BgpStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum BgpStatus'));
+  static const values = [up, down];
+
+  static BgpStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => BgpStatus._(value));
+
+  @override
+  bool operator ==(other) => other is BgpStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class BlobAttributeValue {
@@ -35614,35 +35984,52 @@ class BlockDeviceMapping {
   }
 }
 
-enum BootModeType {
-  legacyBios('legacy-bios'),
-  uefi('uefi'),
-  ;
+class BootModeType {
+  static const legacyBios = BootModeType._('legacy-bios');
+  static const uefi = BootModeType._('uefi');
 
   final String value;
 
-  const BootModeType(this.value);
+  const BootModeType._(this.value);
 
-  static BootModeType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum BootModeType'));
+  static const values = [legacyBios, uefi];
+
+  static BootModeType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => BootModeType._(value));
+
+  @override
+  bool operator ==(other) => other is BootModeType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum BootModeValues {
-  legacyBios('legacy-bios'),
-  uefi('uefi'),
-  uefiPreferred('uefi-preferred'),
-  ;
+class BootModeValues {
+  static const legacyBios = BootModeValues._('legacy-bios');
+  static const uefi = BootModeValues._('uefi');
+  static const uefiPreferred = BootModeValues._('uefi-preferred');
 
   final String value;
 
-  const BootModeValues(this.value);
+  const BootModeValues._(this.value);
+
+  static const values = [legacyBios, uefi, uefiPreferred];
 
   static BootModeValues fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum BootModeValues'));
+          orElse: () => BootModeValues._(value));
+
+  @override
+  bool operator ==(other) => other is BootModeValues && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains the output of BundleInstance.
@@ -35744,40 +36131,67 @@ class BundleTaskError {
   }
 }
 
-enum BundleTaskState {
-  pending('pending'),
-  waitingForShutdown('waiting-for-shutdown'),
-  bundling('bundling'),
-  storing('storing'),
-  cancelling('cancelling'),
-  complete('complete'),
-  failed('failed'),
-  ;
+class BundleTaskState {
+  static const pending = BundleTaskState._('pending');
+  static const waitingForShutdown = BundleTaskState._('waiting-for-shutdown');
+  static const bundling = BundleTaskState._('bundling');
+  static const storing = BundleTaskState._('storing');
+  static const cancelling = BundleTaskState._('cancelling');
+  static const complete = BundleTaskState._('complete');
+  static const failed = BundleTaskState._('failed');
 
   final String value;
 
-  const BundleTaskState(this.value);
+  const BundleTaskState._(this.value);
+
+  static const values = [
+    pending,
+    waitingForShutdown,
+    bundling,
+    storing,
+    cancelling,
+    complete,
+    failed
+  ];
 
   static BundleTaskState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum BundleTaskState'));
+          orElse: () => BundleTaskState._(value));
+
+  @override
+  bool operator ==(other) => other is BundleTaskState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum BurstablePerformance {
-  included('included'),
-  required('required'),
-  excluded('excluded'),
-  ;
+class BurstablePerformance {
+  static const included = BurstablePerformance._('included');
+  static const required = BurstablePerformance._('required');
+  static const excluded = BurstablePerformance._('excluded');
 
   final String value;
 
-  const BurstablePerformance(this.value);
+  const BurstablePerformance._(this.value);
 
-  static BurstablePerformance fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum BurstablePerformance'));
+  static const values = [included, required, excluded];
+
+  static BurstablePerformance fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => BurstablePerformance._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is BurstablePerformance && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The Autonomous System Number (ASN) and BYOIP CIDR association.
@@ -35922,42 +36336,79 @@ class ByoipCidr {
   }
 }
 
-enum ByoipCidrState {
-  advertised('advertised'),
-  deprovisioned('deprovisioned'),
-  failedDeprovision('failed-deprovision'),
-  failedProvision('failed-provision'),
-  pendingDeprovision('pending-deprovision'),
-  pendingProvision('pending-provision'),
-  provisioned('provisioned'),
-  provisionedNotPubliclyAdvertisable('provisioned-not-publicly-advertisable'),
-  ;
+class ByoipCidrState {
+  static const advertised = ByoipCidrState._('advertised');
+  static const deprovisioned = ByoipCidrState._('deprovisioned');
+  static const failedDeprovision = ByoipCidrState._('failed-deprovision');
+  static const failedProvision = ByoipCidrState._('failed-provision');
+  static const pendingDeprovision = ByoipCidrState._('pending-deprovision');
+  static const pendingProvision = ByoipCidrState._('pending-provision');
+  static const provisioned = ByoipCidrState._('provisioned');
+  static const provisionedNotPubliclyAdvertisable =
+      ByoipCidrState._('provisioned-not-publicly-advertisable');
 
   final String value;
 
-  const ByoipCidrState(this.value);
+  const ByoipCidrState._(this.value);
+
+  static const values = [
+    advertised,
+    deprovisioned,
+    failedDeprovision,
+    failedProvision,
+    pendingDeprovision,
+    pendingProvision,
+    provisioned,
+    provisionedNotPubliclyAdvertisable
+  ];
 
   static ByoipCidrState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ByoipCidrState'));
+          orElse: () => ByoipCidrState._(value));
+
+  @override
+  bool operator ==(other) => other is ByoipCidrState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum CancelBatchErrorCode {
-  fleetRequestIdDoesNotExist('fleetRequestIdDoesNotExist'),
-  fleetRequestIdMalformed('fleetRequestIdMalformed'),
-  fleetRequestNotInCancellableState('fleetRequestNotInCancellableState'),
-  unexpectedError('unexpectedError'),
-  ;
+class CancelBatchErrorCode {
+  static const fleetRequestIdDoesNotExist =
+      CancelBatchErrorCode._('fleetRequestIdDoesNotExist');
+  static const fleetRequestIdMalformed =
+      CancelBatchErrorCode._('fleetRequestIdMalformed');
+  static const fleetRequestNotInCancellableState =
+      CancelBatchErrorCode._('fleetRequestNotInCancellableState');
+  static const unexpectedError = CancelBatchErrorCode._('unexpectedError');
 
   final String value;
 
-  const CancelBatchErrorCode(this.value);
+  const CancelBatchErrorCode._(this.value);
 
-  static CancelBatchErrorCode fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum CancelBatchErrorCode'));
+  static const values = [
+    fleetRequestIdDoesNotExist,
+    fleetRequestIdMalformed,
+    fleetRequestNotInCancellableState,
+    unexpectedError
+  ];
+
+  static CancelBatchErrorCode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => CancelBatchErrorCode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CancelBatchErrorCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains the output of CancelBundleTask.
@@ -36211,22 +36662,32 @@ class CancelSpotFleetRequestsSuccessItem {
   }
 }
 
-enum CancelSpotInstanceRequestState {
-  active('active'),
-  open('open'),
-  closed('closed'),
-  cancelled('cancelled'),
-  completed('completed'),
-  ;
+class CancelSpotInstanceRequestState {
+  static const active = CancelSpotInstanceRequestState._('active');
+  static const open = CancelSpotInstanceRequestState._('open');
+  static const closed = CancelSpotInstanceRequestState._('closed');
+  static const cancelled = CancelSpotInstanceRequestState._('cancelled');
+  static const completed = CancelSpotInstanceRequestState._('completed');
 
   final String value;
 
-  const CancelSpotInstanceRequestState(this.value);
+  const CancelSpotInstanceRequestState._(this.value);
+
+  static const values = [active, open, closed, cancelled, completed];
 
   static CancelSpotInstanceRequestState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum CancelSpotInstanceRequestState'));
+          orElse: () => CancelSpotInstanceRequestState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CancelSpotInstanceRequestState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains the output of CancelSpotInstanceRequests.
@@ -36811,26 +37272,47 @@ class CapacityReservationFleetCancellationState {
   }
 }
 
-enum CapacityReservationFleetState {
-  submitted('submitted'),
-  modifying('modifying'),
-  active('active'),
-  partiallyFulfilled('partially_fulfilled'),
-  expiring('expiring'),
-  expired('expired'),
-  cancelling('cancelling'),
-  cancelled('cancelled'),
-  failed('failed'),
-  ;
+class CapacityReservationFleetState {
+  static const submitted = CapacityReservationFleetState._('submitted');
+  static const modifying = CapacityReservationFleetState._('modifying');
+  static const active = CapacityReservationFleetState._('active');
+  static const partiallyFulfilled =
+      CapacityReservationFleetState._('partially_fulfilled');
+  static const expiring = CapacityReservationFleetState._('expiring');
+  static const expired = CapacityReservationFleetState._('expired');
+  static const cancelling = CapacityReservationFleetState._('cancelling');
+  static const cancelled = CapacityReservationFleetState._('cancelled');
+  static const failed = CapacityReservationFleetState._('failed');
 
   final String value;
 
-  const CapacityReservationFleetState(this.value);
+  const CapacityReservationFleetState._(this.value);
+
+  static const values = [
+    submitted,
+    modifying,
+    active,
+    partiallyFulfilled,
+    expiring,
+    expired,
+    cancelling,
+    cancelled,
+    failed
+  ];
 
   static CapacityReservationFleetState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum CapacityReservationFleetState'));
+          orElse: () => CapacityReservationFleetState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CapacityReservationFleetState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes a resource group to which a Capacity Reservation has been added.
@@ -36856,35 +37338,81 @@ class CapacityReservationGroup {
   }
 }
 
-enum CapacityReservationInstancePlatform {
-  linuxUnix('Linux/UNIX'),
-  redHatEnterpriseLinux('Red Hat Enterprise Linux'),
-  suseLinux('SUSE Linux'),
-  windows('Windows'),
-  windowsWithSqlServer('Windows with SQL Server'),
-  windowsWithSqlServerEnterprise('Windows with SQL Server Enterprise'),
-  windowsWithSqlServerStandard('Windows with SQL Server Standard'),
-  windowsWithSqlServerWeb('Windows with SQL Server Web'),
-  linuxWithSqlServerStandard('Linux with SQL Server Standard'),
-  linuxWithSqlServerWeb('Linux with SQL Server Web'),
-  linuxWithSqlServerEnterprise('Linux with SQL Server Enterprise'),
-  rhelWithSqlServerStandard('RHEL with SQL Server Standard'),
-  rhelWithSqlServerEnterprise('RHEL with SQL Server Enterprise'),
-  rhelWithSqlServerWeb('RHEL with SQL Server Web'),
-  rhelWithHa('RHEL with HA'),
-  rhelWithHaAndSqlServerStandard('RHEL with HA and SQL Server Standard'),
-  rhelWithHaAndSqlServerEnterprise('RHEL with HA and SQL Server Enterprise'),
-  ubuntuPro('Ubuntu Pro'),
-  ;
+class CapacityReservationInstancePlatform {
+  static const linuxUnix = CapacityReservationInstancePlatform._('Linux/UNIX');
+  static const redHatEnterpriseLinux =
+      CapacityReservationInstancePlatform._('Red Hat Enterprise Linux');
+  static const suseLinux = CapacityReservationInstancePlatform._('SUSE Linux');
+  static const windows = CapacityReservationInstancePlatform._('Windows');
+  static const windowsWithSqlServer =
+      CapacityReservationInstancePlatform._('Windows with SQL Server');
+  static const windowsWithSqlServerEnterprise =
+      CapacityReservationInstancePlatform._(
+          'Windows with SQL Server Enterprise');
+  static const windowsWithSqlServerStandard =
+      CapacityReservationInstancePlatform._('Windows with SQL Server Standard');
+  static const windowsWithSqlServerWeb =
+      CapacityReservationInstancePlatform._('Windows with SQL Server Web');
+  static const linuxWithSqlServerStandard =
+      CapacityReservationInstancePlatform._('Linux with SQL Server Standard');
+  static const linuxWithSqlServerWeb =
+      CapacityReservationInstancePlatform._('Linux with SQL Server Web');
+  static const linuxWithSqlServerEnterprise =
+      CapacityReservationInstancePlatform._('Linux with SQL Server Enterprise');
+  static const rhelWithSqlServerStandard =
+      CapacityReservationInstancePlatform._('RHEL with SQL Server Standard');
+  static const rhelWithSqlServerEnterprise =
+      CapacityReservationInstancePlatform._('RHEL with SQL Server Enterprise');
+  static const rhelWithSqlServerWeb =
+      CapacityReservationInstancePlatform._('RHEL with SQL Server Web');
+  static const rhelWithHa =
+      CapacityReservationInstancePlatform._('RHEL with HA');
+  static const rhelWithHaAndSqlServerStandard =
+      CapacityReservationInstancePlatform._(
+          'RHEL with HA and SQL Server Standard');
+  static const rhelWithHaAndSqlServerEnterprise =
+      CapacityReservationInstancePlatform._(
+          'RHEL with HA and SQL Server Enterprise');
+  static const ubuntuPro = CapacityReservationInstancePlatform._('Ubuntu Pro');
 
   final String value;
 
-  const CapacityReservationInstancePlatform(this.value);
+  const CapacityReservationInstancePlatform._(this.value);
+
+  static const values = [
+    linuxUnix,
+    redHatEnterpriseLinux,
+    suseLinux,
+    windows,
+    windowsWithSqlServer,
+    windowsWithSqlServerEnterprise,
+    windowsWithSqlServerStandard,
+    windowsWithSqlServerWeb,
+    linuxWithSqlServerStandard,
+    linuxWithSqlServerWeb,
+    linuxWithSqlServerEnterprise,
+    rhelWithSqlServerStandard,
+    rhelWithSqlServerEnterprise,
+    rhelWithSqlServerWeb,
+    rhelWithHa,
+    rhelWithHaAndSqlServerStandard,
+    rhelWithHaAndSqlServerEnterprise,
+    ubuntuPro
+  ];
 
   static CapacityReservationInstancePlatform fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum CapacityReservationInstancePlatform'));
+          orElse: () => CapacityReservationInstancePlatform._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CapacityReservationInstancePlatform && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes the strategy for using unused Capacity Reservations for fulfilling
@@ -36969,19 +37497,29 @@ class CapacityReservationOptionsRequest {
   }
 }
 
-enum CapacityReservationPreference {
-  open('open'),
-  none('none'),
-  ;
+class CapacityReservationPreference {
+  static const open = CapacityReservationPreference._('open');
+  static const none = CapacityReservationPreference._('none');
 
   final String value;
 
-  const CapacityReservationPreference(this.value);
+  const CapacityReservationPreference._(this.value);
+
+  static const values = [open, none];
 
   static CapacityReservationPreference fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum CapacityReservationPreference'));
+          orElse: () => CapacityReservationPreference._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CapacityReservationPreference && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes an instance's Capacity Reservation targeting option. You can
@@ -37079,25 +37617,44 @@ class CapacityReservationSpecificationResponse {
   }
 }
 
-enum CapacityReservationState {
-  active('active'),
-  expired('expired'),
-  cancelled('cancelled'),
-  pending('pending'),
-  failed('failed'),
-  scheduled('scheduled'),
-  paymentPending('payment-pending'),
-  paymentFailed('payment-failed'),
-  ;
+class CapacityReservationState {
+  static const active = CapacityReservationState._('active');
+  static const expired = CapacityReservationState._('expired');
+  static const cancelled = CapacityReservationState._('cancelled');
+  static const pending = CapacityReservationState._('pending');
+  static const failed = CapacityReservationState._('failed');
+  static const scheduled = CapacityReservationState._('scheduled');
+  static const paymentPending = CapacityReservationState._('payment-pending');
+  static const paymentFailed = CapacityReservationState._('payment-failed');
 
   final String value;
 
-  const CapacityReservationState(this.value);
+  const CapacityReservationState._(this.value);
+
+  static const values = [
+    active,
+    expired,
+    cancelled,
+    pending,
+    failed,
+    scheduled,
+    paymentPending,
+    paymentFailed
+  ];
 
   static CapacityReservationState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum CapacityReservationState'));
+          orElse: () => CapacityReservationState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CapacityReservationState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes a target Capacity Reservation or Capacity Reservation group.
@@ -37155,34 +37712,54 @@ class CapacityReservationTargetResponse {
   }
 }
 
-enum CapacityReservationTenancy {
-  $default('default'),
-  dedicated('dedicated'),
-  ;
+class CapacityReservationTenancy {
+  static const $default = CapacityReservationTenancy._('default');
+  static const dedicated = CapacityReservationTenancy._('dedicated');
 
   final String value;
 
-  const CapacityReservationTenancy(this.value);
+  const CapacityReservationTenancy._(this.value);
+
+  static const values = [$default, dedicated];
 
   static CapacityReservationTenancy fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum CapacityReservationTenancy'));
+          orElse: () => CapacityReservationTenancy._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CapacityReservationTenancy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum CapacityReservationType {
-  $default('default'),
-  capacityBlock('capacity-block'),
-  ;
+class CapacityReservationType {
+  static const $default = CapacityReservationType._('default');
+  static const capacityBlock = CapacityReservationType._('capacity-block');
 
   final String value;
 
-  const CapacityReservationType(this.value);
+  const CapacityReservationType._(this.value);
+
+  static const values = [$default, capacityBlock];
 
   static CapacityReservationType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum CapacityReservationType'));
+          orElse: () => CapacityReservationType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CapacityReservationType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes a carrier gateway.
@@ -37226,21 +37803,31 @@ class CarrierGateway {
   }
 }
 
-enum CarrierGatewayState {
-  pending('pending'),
-  available('available'),
-  deleting('deleting'),
-  deleted('deleted'),
-  ;
+class CarrierGatewayState {
+  static const pending = CarrierGatewayState._('pending');
+  static const available = CarrierGatewayState._('available');
+  static const deleting = CarrierGatewayState._('deleting');
+  static const deleted = CarrierGatewayState._('deleted');
 
   final String value;
 
-  const CarrierGatewayState(this.value);
+  const CarrierGatewayState._(this.value);
 
-  static CarrierGatewayState fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum CarrierGatewayState'));
+  static const values = [pending, available, deleting, deleted];
+
+  static CarrierGatewayState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => CarrierGatewayState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CarrierGatewayState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about the client certificate used for authentication.
@@ -37450,19 +38037,30 @@ class ClientCertificateRevocationListStatus {
   }
 }
 
-enum ClientCertificateRevocationListStatusCode {
-  pending('pending'),
-  active('active'),
-  ;
+class ClientCertificateRevocationListStatusCode {
+  static const pending = ClientCertificateRevocationListStatusCode._('pending');
+  static const active = ClientCertificateRevocationListStatusCode._('active');
 
   final String value;
 
-  const ClientCertificateRevocationListStatusCode(this.value);
+  const ClientCertificateRevocationListStatusCode._(this.value);
+
+  static const values = [pending, active];
 
   static ClientCertificateRevocationListStatusCode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ClientCertificateRevocationListStatusCode'));
+          orElse: () => ClientCertificateRevocationListStatusCode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ClientCertificateRevocationListStatusCode &&
+      other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The options for managing connection authorization for new client
@@ -37702,20 +38300,37 @@ class ClientVpnAuthenticationRequest {
   }
 }
 
-enum ClientVpnAuthenticationType {
-  certificateAuthentication('certificate-authentication'),
-  directoryServiceAuthentication('directory-service-authentication'),
-  federatedAuthentication('federated-authentication'),
-  ;
+class ClientVpnAuthenticationType {
+  static const certificateAuthentication =
+      ClientVpnAuthenticationType._('certificate-authentication');
+  static const directoryServiceAuthentication =
+      ClientVpnAuthenticationType._('directory-service-authentication');
+  static const federatedAuthentication =
+      ClientVpnAuthenticationType._('federated-authentication');
 
   final String value;
 
-  const ClientVpnAuthenticationType(this.value);
+  const ClientVpnAuthenticationType._(this.value);
+
+  static const values = [
+    certificateAuthentication,
+    directoryServiceAuthentication,
+    federatedAuthentication
+  ];
 
   static ClientVpnAuthenticationType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ClientVpnAuthenticationType'));
+          orElse: () => ClientVpnAuthenticationType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ClientVpnAuthenticationType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes the state of an authorization rule.
@@ -37741,21 +38356,32 @@ class ClientVpnAuthorizationRuleStatus {
   }
 }
 
-enum ClientVpnAuthorizationRuleStatusCode {
-  authorizing('authorizing'),
-  active('active'),
-  failed('failed'),
-  revoking('revoking'),
-  ;
+class ClientVpnAuthorizationRuleStatusCode {
+  static const authorizing =
+      ClientVpnAuthorizationRuleStatusCode._('authorizing');
+  static const active = ClientVpnAuthorizationRuleStatusCode._('active');
+  static const failed = ClientVpnAuthorizationRuleStatusCode._('failed');
+  static const revoking = ClientVpnAuthorizationRuleStatusCode._('revoking');
 
   final String value;
 
-  const ClientVpnAuthorizationRuleStatusCode(this.value);
+  const ClientVpnAuthorizationRuleStatusCode._(this.value);
+
+  static const values = [authorizing, active, failed, revoking];
 
   static ClientVpnAuthorizationRuleStatusCode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ClientVpnAuthorizationRuleStatusCode'));
+          orElse: () => ClientVpnAuthorizationRuleStatusCode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ClientVpnAuthorizationRuleStatusCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes a client connection.
@@ -37883,21 +38509,32 @@ class ClientVpnConnectionStatus {
   }
 }
 
-enum ClientVpnConnectionStatusCode {
-  active('active'),
-  failedToTerminate('failed-to-terminate'),
-  terminating('terminating'),
-  terminated('terminated'),
-  ;
+class ClientVpnConnectionStatusCode {
+  static const active = ClientVpnConnectionStatusCode._('active');
+  static const failedToTerminate =
+      ClientVpnConnectionStatusCode._('failed-to-terminate');
+  static const terminating = ClientVpnConnectionStatusCode._('terminating');
+  static const terminated = ClientVpnConnectionStatusCode._('terminated');
 
   final String value;
 
-  const ClientVpnConnectionStatusCode(this.value);
+  const ClientVpnConnectionStatusCode._(this.value);
+
+  static const values = [active, failedToTerminate, terminating, terminated];
 
   static ClientVpnConnectionStatusCode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ClientVpnConnectionStatusCode'));
+          orElse: () => ClientVpnConnectionStatusCode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ClientVpnConnectionStatusCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes a Client VPN endpoint.
@@ -38096,19 +38733,29 @@ class ClientVpnEndpointAttributeStatus {
   }
 }
 
-enum ClientVpnEndpointAttributeStatusCode {
-  applying('applying'),
-  applied('applied'),
-  ;
+class ClientVpnEndpointAttributeStatusCode {
+  static const applying = ClientVpnEndpointAttributeStatusCode._('applying');
+  static const applied = ClientVpnEndpointAttributeStatusCode._('applied');
 
   final String value;
 
-  const ClientVpnEndpointAttributeStatusCode(this.value);
+  const ClientVpnEndpointAttributeStatusCode._(this.value);
+
+  static const values = [applying, applied];
 
   static ClientVpnEndpointAttributeStatusCode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ClientVpnEndpointAttributeStatusCode'));
+          orElse: () => ClientVpnEndpointAttributeStatusCode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ClientVpnEndpointAttributeStatusCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes the state of a Client VPN endpoint.
@@ -38155,21 +38802,32 @@ class ClientVpnEndpointStatus {
   }
 }
 
-enum ClientVpnEndpointStatusCode {
-  pendingAssociate('pending-associate'),
-  available('available'),
-  deleting('deleting'),
-  deleted('deleted'),
-  ;
+class ClientVpnEndpointStatusCode {
+  static const pendingAssociate =
+      ClientVpnEndpointStatusCode._('pending-associate');
+  static const available = ClientVpnEndpointStatusCode._('available');
+  static const deleting = ClientVpnEndpointStatusCode._('deleting');
+  static const deleted = ClientVpnEndpointStatusCode._('deleted');
 
   final String value;
 
-  const ClientVpnEndpointStatusCode(this.value);
+  const ClientVpnEndpointStatusCode._(this.value);
+
+  static const values = [pendingAssociate, available, deleting, deleted];
 
   static ClientVpnEndpointStatusCode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ClientVpnEndpointStatusCode'));
+          orElse: () => ClientVpnEndpointStatusCode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ClientVpnEndpointStatusCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about a Client VPN endpoint route.
@@ -38253,21 +38911,31 @@ class ClientVpnRouteStatus {
   }
 }
 
-enum ClientVpnRouteStatusCode {
-  creating('creating'),
-  active('active'),
-  failed('failed'),
-  deleting('deleting'),
-  ;
+class ClientVpnRouteStatusCode {
+  static const creating = ClientVpnRouteStatusCode._('creating');
+  static const active = ClientVpnRouteStatusCode._('active');
+  static const failed = ClientVpnRouteStatusCode._('failed');
+  static const deleting = ClientVpnRouteStatusCode._('deleting');
 
   final String value;
 
-  const ClientVpnRouteStatusCode(this.value);
+  const ClientVpnRouteStatusCode._(this.value);
+
+  static const values = [creating, active, failed, deleting];
 
   static ClientVpnRouteStatusCode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ClientVpnRouteStatusCode'));
+          orElse: () => ClientVpnRouteStatusCode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ClientVpnRouteStatusCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Options for sending VPN tunnel logs to CloudWatch.
@@ -38594,33 +39262,53 @@ class ConnectionNotification {
   }
 }
 
-enum ConnectionNotificationState {
-  enabled('Enabled'),
-  disabled('Disabled'),
-  ;
+class ConnectionNotificationState {
+  static const enabled = ConnectionNotificationState._('Enabled');
+  static const disabled = ConnectionNotificationState._('Disabled');
 
   final String value;
 
-  const ConnectionNotificationState(this.value);
+  const ConnectionNotificationState._(this.value);
+
+  static const values = [enabled, disabled];
 
   static ConnectionNotificationState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ConnectionNotificationState'));
+          orElse: () => ConnectionNotificationState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ConnectionNotificationState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ConnectionNotificationType {
-  topic('Topic'),
-  ;
+class ConnectionNotificationType {
+  static const topic = ConnectionNotificationType._('Topic');
 
   final String value;
 
-  const ConnectionNotificationType(this.value);
+  const ConnectionNotificationType._(this.value);
+
+  static const values = [topic];
 
   static ConnectionNotificationType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ConnectionNotificationType'));
+          orElse: () => ConnectionNotificationType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ConnectionNotificationType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A security group connection tracking configuration that enables you to set
@@ -38783,33 +39471,51 @@ class ConnectionTrackingSpecificationResponse {
   }
 }
 
-enum ConnectivityType {
-  private('private'),
-  public('public'),
-  ;
+class ConnectivityType {
+  static const private = ConnectivityType._('private');
+  static const public = ConnectivityType._('public');
 
   final String value;
 
-  const ConnectivityType(this.value);
+  const ConnectivityType._(this.value);
+
+  static const values = [private, public];
 
   static ConnectivityType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ConnectivityType'));
+          orElse: () => ConnectivityType._(value));
+
+  @override
+  bool operator ==(other) => other is ConnectivityType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ContainerFormat {
-  ova('ova'),
-  ;
+class ContainerFormat {
+  static const ova = ContainerFormat._('ova');
 
   final String value;
 
-  const ContainerFormat(this.value);
+  const ContainerFormat._(this.value);
+
+  static const values = [ova];
 
   static ContainerFormat fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ContainerFormat'));
+          orElse: () => ContainerFormat._(value));
+
+  @override
+  bool operator ==(other) => other is ContainerFormat && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes a conversion task.
@@ -38868,21 +39574,31 @@ class ConversionTask {
   }
 }
 
-enum ConversionTaskState {
-  active('active'),
-  cancelling('cancelling'),
-  cancelled('cancelled'),
-  completed('completed'),
-  ;
+class ConversionTaskState {
+  static const active = ConversionTaskState._('active');
+  static const cancelling = ConversionTaskState._('cancelling');
+  static const cancelled = ConversionTaskState._('cancelled');
+  static const completed = ConversionTaskState._('completed');
 
   final String value;
 
-  const ConversionTaskState(this.value);
+  const ConversionTaskState._(this.value);
 
-  static ConversionTaskState fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ConversionTaskState'));
+  static const values = [active, cancelling, cancelled, completed];
+
+  static ConversionTaskState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ConversionTaskState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ConversionTaskState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class CopyFpgaImageResult {
@@ -38940,34 +39656,53 @@ class CopySnapshotResult {
   }
 }
 
-enum CopyTagsFromSource {
-  volume('volume'),
-  ;
+class CopyTagsFromSource {
+  static const volume = CopyTagsFromSource._('volume');
 
   final String value;
 
-  const CopyTagsFromSource(this.value);
+  const CopyTagsFromSource._(this.value);
 
-  static CopyTagsFromSource fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum CopyTagsFromSource'));
+  static const values = [volume];
+
+  static CopyTagsFromSource fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => CopyTagsFromSource._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CopyTagsFromSource && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum CpuManufacturer {
-  intel('intel'),
-  amd('amd'),
-  amazonWebServices('amazon-web-services'),
-  ;
+class CpuManufacturer {
+  static const intel = CpuManufacturer._('intel');
+  static const amd = CpuManufacturer._('amd');
+  static const amazonWebServices = CpuManufacturer._('amazon-web-services');
 
   final String value;
 
-  const CpuManufacturer(this.value);
+  const CpuManufacturer._(this.value);
+
+  static const values = [intel, amd, amazonWebServices];
 
   static CpuManufacturer fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum CpuManufacturer'));
+          orElse: () => CpuManufacturer._(value));
+
+  @override
+  bool operator ==(other) => other is CpuManufacturer && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The CPU options for the instance.
@@ -41052,18 +41787,28 @@ class CreditSpecificationRequest {
   }
 }
 
-enum CurrencyCodeValues {
-  usd('USD'),
-  ;
+class CurrencyCodeValues {
+  static const usd = CurrencyCodeValues._('USD');
 
   final String value;
 
-  const CurrencyCodeValues(this.value);
+  const CurrencyCodeValues._(this.value);
 
-  static CurrencyCodeValues fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum CurrencyCodeValues'));
+  static const values = [usd];
+
+  static CurrencyCodeValues fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => CurrencyCodeValues._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CurrencyCodeValues && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes a customer gateway.
@@ -41254,97 +41999,159 @@ class DataResponse {
   }
 }
 
-enum DatafeedSubscriptionState {
-  active('Active'),
-  inactive('Inactive'),
-  ;
+class DatafeedSubscriptionState {
+  static const active = DatafeedSubscriptionState._('Active');
+  static const inactive = DatafeedSubscriptionState._('Inactive');
 
   final String value;
 
-  const DatafeedSubscriptionState(this.value);
+  const DatafeedSubscriptionState._(this.value);
+
+  static const values = [active, inactive];
 
   static DatafeedSubscriptionState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum DatafeedSubscriptionState'));
+          orElse: () => DatafeedSubscriptionState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DatafeedSubscriptionState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum DefaultInstanceMetadataEndpointState {
-  disabled('disabled'),
-  enabled('enabled'),
-  noPreference('no-preference'),
-  ;
+class DefaultInstanceMetadataEndpointState {
+  static const disabled = DefaultInstanceMetadataEndpointState._('disabled');
+  static const enabled = DefaultInstanceMetadataEndpointState._('enabled');
+  static const noPreference =
+      DefaultInstanceMetadataEndpointState._('no-preference');
 
   final String value;
 
-  const DefaultInstanceMetadataEndpointState(this.value);
+  const DefaultInstanceMetadataEndpointState._(this.value);
+
+  static const values = [disabled, enabled, noPreference];
 
   static DefaultInstanceMetadataEndpointState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum DefaultInstanceMetadataEndpointState'));
+          orElse: () => DefaultInstanceMetadataEndpointState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DefaultInstanceMetadataEndpointState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum DefaultInstanceMetadataTagsState {
-  disabled('disabled'),
-  enabled('enabled'),
-  noPreference('no-preference'),
-  ;
+class DefaultInstanceMetadataTagsState {
+  static const disabled = DefaultInstanceMetadataTagsState._('disabled');
+  static const enabled = DefaultInstanceMetadataTagsState._('enabled');
+  static const noPreference =
+      DefaultInstanceMetadataTagsState._('no-preference');
 
   final String value;
 
-  const DefaultInstanceMetadataTagsState(this.value);
+  const DefaultInstanceMetadataTagsState._(this.value);
+
+  static const values = [disabled, enabled, noPreference];
 
   static DefaultInstanceMetadataTagsState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum DefaultInstanceMetadataTagsState'));
+          orElse: () => DefaultInstanceMetadataTagsState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DefaultInstanceMetadataTagsState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum DefaultRouteTableAssociationValue {
-  enable('enable'),
-  disable('disable'),
-  ;
+class DefaultRouteTableAssociationValue {
+  static const enable = DefaultRouteTableAssociationValue._('enable');
+  static const disable = DefaultRouteTableAssociationValue._('disable');
 
   final String value;
 
-  const DefaultRouteTableAssociationValue(this.value);
+  const DefaultRouteTableAssociationValue._(this.value);
+
+  static const values = [enable, disable];
 
   static DefaultRouteTableAssociationValue fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum DefaultRouteTableAssociationValue'));
+          orElse: () => DefaultRouteTableAssociationValue._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DefaultRouteTableAssociationValue && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum DefaultRouteTablePropagationValue {
-  enable('enable'),
-  disable('disable'),
-  ;
+class DefaultRouteTablePropagationValue {
+  static const enable = DefaultRouteTablePropagationValue._('enable');
+  static const disable = DefaultRouteTablePropagationValue._('disable');
 
   final String value;
 
-  const DefaultRouteTablePropagationValue(this.value);
+  const DefaultRouteTablePropagationValue._(this.value);
+
+  static const values = [enable, disable];
 
   static DefaultRouteTablePropagationValue fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum DefaultRouteTablePropagationValue'));
+          orElse: () => DefaultRouteTablePropagationValue._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DefaultRouteTablePropagationValue && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum DefaultTargetCapacityType {
-  spot('spot'),
-  onDemand('on-demand'),
-  capacityBlock('capacity-block'),
-  ;
+class DefaultTargetCapacityType {
+  static const spot = DefaultTargetCapacityType._('spot');
+  static const onDemand = DefaultTargetCapacityType._('on-demand');
+  static const capacityBlock = DefaultTargetCapacityType._('capacity-block');
 
   final String value;
 
-  const DefaultTargetCapacityType(this.value);
+  const DefaultTargetCapacityType._(this.value);
+
+  static const values = [spot, onDemand, capacityBlock];
 
   static DefaultTargetCapacityType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum DefaultTargetCapacityType'));
+          orElse: () => DefaultTargetCapacityType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DefaultTargetCapacityType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class DeleteCarrierGatewayResult {
@@ -41467,21 +42274,38 @@ class DeleteFleetError {
   }
 }
 
-enum DeleteFleetErrorCode {
-  fleetIdDoesNotExist('fleetIdDoesNotExist'),
-  fleetIdMalformed('fleetIdMalformed'),
-  fleetNotInDeletableState('fleetNotInDeletableState'),
-  unexpectedError('unexpectedError'),
-  ;
+class DeleteFleetErrorCode {
+  static const fleetIdDoesNotExist =
+      DeleteFleetErrorCode._('fleetIdDoesNotExist');
+  static const fleetIdMalformed = DeleteFleetErrorCode._('fleetIdMalformed');
+  static const fleetNotInDeletableState =
+      DeleteFleetErrorCode._('fleetNotInDeletableState');
+  static const unexpectedError = DeleteFleetErrorCode._('unexpectedError');
 
   final String value;
 
-  const DeleteFleetErrorCode(this.value);
+  const DeleteFleetErrorCode._(this.value);
 
-  static DeleteFleetErrorCode fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum DeleteFleetErrorCode'));
+  static const values = [
+    fleetIdDoesNotExist,
+    fleetIdMalformed,
+    fleetNotInDeletableState,
+    unexpectedError
+  ];
+
+  static DeleteFleetErrorCode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DeleteFleetErrorCode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DeleteFleetErrorCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes an EC2 Fleet that was not successfully deleted.
@@ -42079,20 +42903,38 @@ class DeleteQueuedReservedInstancesError {
   }
 }
 
-enum DeleteQueuedReservedInstancesErrorCode {
-  reservedInstancesIdInvalid('reserved-instances-id-invalid'),
-  reservedInstancesNotInQueuedState('reserved-instances-not-in-queued-state'),
-  unexpectedError('unexpected-error'),
-  ;
+class DeleteQueuedReservedInstancesErrorCode {
+  static const reservedInstancesIdInvalid =
+      DeleteQueuedReservedInstancesErrorCode._('reserved-instances-id-invalid');
+  static const reservedInstancesNotInQueuedState =
+      DeleteQueuedReservedInstancesErrorCode._(
+          'reserved-instances-not-in-queued-state');
+  static const unexpectedError =
+      DeleteQueuedReservedInstancesErrorCode._('unexpected-error');
 
   final String value;
 
-  const DeleteQueuedReservedInstancesErrorCode(this.value);
+  const DeleteQueuedReservedInstancesErrorCode._(this.value);
+
+  static const values = [
+    reservedInstancesIdInvalid,
+    reservedInstancesNotInQueuedState,
+    unexpectedError
+  ];
 
   static DeleteQueuedReservedInstancesErrorCode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum DeleteQueuedReservedInstancesErrorCode'));
+          orElse: () => DeleteQueuedReservedInstancesErrorCode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DeleteQueuedReservedInstancesErrorCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class DeleteQueuedReservedInstancesResult {
@@ -46497,19 +47339,29 @@ class DescribeVpnGatewaysResult {
   }
 }
 
-enum DestinationFileFormat {
-  plainText('plain-text'),
-  parquet('parquet'),
-  ;
+class DestinationFileFormat {
+  static const plainText = DestinationFileFormat._('plain-text');
+  static const parquet = DestinationFileFormat._('parquet');
 
   final String value;
 
-  const DestinationFileFormat(this.value);
+  const DestinationFileFormat._(this.value);
 
-  static DestinationFileFormat fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum DestinationFileFormat'));
+  static const values = [plainText, parquet];
+
+  static DestinationFileFormat fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DestinationFileFormat._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DestinationFileFormat && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes the destination options for a flow log.
@@ -46642,34 +47494,53 @@ class DeviceOptions {
   }
 }
 
-enum DeviceTrustProviderType {
-  jamf('jamf'),
-  crowdstrike('crowdstrike'),
-  jumpcloud('jumpcloud'),
-  ;
+class DeviceTrustProviderType {
+  static const jamf = DeviceTrustProviderType._('jamf');
+  static const crowdstrike = DeviceTrustProviderType._('crowdstrike');
+  static const jumpcloud = DeviceTrustProviderType._('jumpcloud');
 
   final String value;
 
-  const DeviceTrustProviderType(this.value);
+  const DeviceTrustProviderType._(this.value);
+
+  static const values = [jamf, crowdstrike, jumpcloud];
 
   static DeviceTrustProviderType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum DeviceTrustProviderType'));
+          orElse: () => DeviceTrustProviderType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DeviceTrustProviderType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum DeviceType {
-  ebs('ebs'),
-  instanceStore('instance-store'),
-  ;
+class DeviceType {
+  static const ebs = DeviceType._('ebs');
+  static const instanceStore = DeviceType._('instance-store');
 
   final String value;
 
-  const DeviceType(this.value);
+  const DeviceType._(this.value);
 
-  static DeviceType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum DeviceType'));
+  static const values = [ebs, instanceStore];
+
+  static DeviceType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => DeviceType._(value));
+
+  @override
+  bool operator ==(other) => other is DeviceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes a DHCP configuration option.
@@ -47624,20 +48495,29 @@ class DiskImageDetail {
   }
 }
 
-enum DiskImageFormat {
-  vmdk('VMDK'),
-  raw('RAW'),
-  vhd('VHD'),
-  ;
+class DiskImageFormat {
+  static const vmdk = DiskImageFormat._('VMDK');
+  static const raw = DiskImageFormat._('RAW');
+  static const vhd = DiskImageFormat._('VHD');
 
   final String value;
 
-  const DiskImageFormat(this.value);
+  const DiskImageFormat._(this.value);
+
+  static const values = [vmdk, raw, vhd];
 
   static DiskImageFormat fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum DiskImageFormat'));
+          orElse: () => DiskImageFormat._(value));
+
+  @override
+  bool operator ==(other) => other is DiskImageFormat && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes a disk image volume.
@@ -47692,18 +48572,27 @@ class DiskInfo {
   }
 }
 
-enum DiskType {
-  hdd('hdd'),
-  ssd('ssd'),
-  ;
+class DiskType {
+  static const hdd = DiskType._('hdd');
+  static const ssd = DiskType._('ssd');
 
   final String value;
 
-  const DiskType(this.value);
+  const DiskType._(this.value);
 
-  static DiskType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum DiskType'));
+  static const values = [hdd, ssd];
+
+  static DiskType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => DiskType._(value));
+
+  @override
+  bool operator ==(other) => other is DiskType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes a DNS entry.
@@ -47729,20 +48618,28 @@ class DnsEntry {
   }
 }
 
-enum DnsNameState {
-  pendingVerification('pendingVerification'),
-  verified('verified'),
-  failed('failed'),
-  ;
+class DnsNameState {
+  static const pendingVerification = DnsNameState._('pendingVerification');
+  static const verified = DnsNameState._('verified');
+  static const failed = DnsNameState._('failed');
 
   final String value;
 
-  const DnsNameState(this.value);
+  const DnsNameState._(this.value);
 
-  static DnsNameState fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum DnsNameState'));
+  static const values = [pendingVerification, verified, failed];
+
+  static DnsNameState fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => DnsNameState._(value));
+
+  @override
+  bool operator ==(other) => other is DnsNameState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes the DNS options for an endpoint.
@@ -47801,21 +48698,30 @@ class DnsOptionsSpecification {
   }
 }
 
-enum DnsRecordIpType {
-  ipv4('ipv4'),
-  dualstack('dualstack'),
-  ipv6('ipv6'),
-  serviceDefined('service-defined'),
-  ;
+class DnsRecordIpType {
+  static const ipv4 = DnsRecordIpType._('ipv4');
+  static const dualstack = DnsRecordIpType._('dualstack');
+  static const ipv6 = DnsRecordIpType._('ipv6');
+  static const serviceDefined = DnsRecordIpType._('service-defined');
 
   final String value;
 
-  const DnsRecordIpType(this.value);
+  const DnsRecordIpType._(this.value);
+
+  static const values = [ipv4, dualstack, ipv6, serviceDefined];
 
   static DnsRecordIpType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum DnsRecordIpType'));
+          orElse: () => DnsRecordIpType._(value));
+
+  @override
+  bool operator ==(other) => other is DnsRecordIpType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about the DNS server to be used.
@@ -47844,48 +48750,76 @@ class DnsServersOptionsModifyStructure {
   }
 }
 
-enum DnsSupportValue {
-  enable('enable'),
-  disable('disable'),
-  ;
+class DnsSupportValue {
+  static const enable = DnsSupportValue._('enable');
+  static const disable = DnsSupportValue._('disable');
 
   final String value;
 
-  const DnsSupportValue(this.value);
+  const DnsSupportValue._(this.value);
+
+  static const values = [enable, disable];
 
   static DnsSupportValue fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum DnsSupportValue'));
+          orElse: () => DnsSupportValue._(value));
+
+  @override
+  bool operator ==(other) => other is DnsSupportValue && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum DomainType {
-  vpc('vpc'),
-  standard('standard'),
-  ;
+class DomainType {
+  static const vpc = DomainType._('vpc');
+  static const standard = DomainType._('standard');
 
   final String value;
 
-  const DomainType(this.value);
+  const DomainType._(this.value);
 
-  static DomainType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum DomainType'));
+  static const values = [vpc, standard];
+
+  static DomainType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => DomainType._(value));
+
+  @override
+  bool operator ==(other) => other is DomainType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum DynamicRoutingValue {
-  enable('enable'),
-  disable('disable'),
-  ;
+class DynamicRoutingValue {
+  static const enable = DynamicRoutingValue._('enable');
+  static const disable = DynamicRoutingValue._('disable');
 
   final String value;
 
-  const DynamicRoutingValue(this.value);
+  const DynamicRoutingValue._(this.value);
 
-  static DynamicRoutingValue fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum DynamicRoutingValue'));
+  static const values = [enable, disable];
+
+  static DynamicRoutingValue fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DynamicRoutingValue._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DynamicRoutingValue && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes a block device for an EBS volume.
@@ -48070,19 +49004,29 @@ class EbsBlockDevice {
   }
 }
 
-enum EbsEncryptionSupport {
-  unsupported('unsupported'),
-  supported('supported'),
-  ;
+class EbsEncryptionSupport {
+  static const unsupported = EbsEncryptionSupport._('unsupported');
+  static const supported = EbsEncryptionSupport._('supported');
 
   final String value;
 
-  const EbsEncryptionSupport(this.value);
+  const EbsEncryptionSupport._(this.value);
 
-  static EbsEncryptionSupport fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum EbsEncryptionSupport'));
+  static const values = [unsupported, supported];
+
+  static EbsEncryptionSupport fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => EbsEncryptionSupport._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is EbsEncryptionSupport && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes the Amazon EBS features supported by the instance type.
@@ -48202,20 +49146,29 @@ class EbsInstanceBlockDeviceSpecification {
   }
 }
 
-enum EbsNvmeSupport {
-  unsupported('unsupported'),
-  supported('supported'),
-  required('required'),
-  ;
+class EbsNvmeSupport {
+  static const unsupported = EbsNvmeSupport._('unsupported');
+  static const supported = EbsNvmeSupport._('supported');
+  static const required = EbsNvmeSupport._('required');
 
   final String value;
 
-  const EbsNvmeSupport(this.value);
+  const EbsNvmeSupport._(this.value);
+
+  static const values = [unsupported, supported, required];
 
   static EbsNvmeSupport fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum EbsNvmeSupport'));
+          orElse: () => EbsNvmeSupport._(value));
+
+  @override
+  bool operator ==(other) => other is EbsNvmeSupport && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes the optimized EBS performance for supported instance types.
@@ -48275,20 +49228,30 @@ class EbsOptimizedInfo {
   }
 }
 
-enum EbsOptimizedSupport {
-  unsupported('unsupported'),
-  supported('supported'),
-  $default('default'),
-  ;
+class EbsOptimizedSupport {
+  static const unsupported = EbsOptimizedSupport._('unsupported');
+  static const supported = EbsOptimizedSupport._('supported');
+  static const $default = EbsOptimizedSupport._('default');
 
   final String value;
 
-  const EbsOptimizedSupport(this.value);
+  const EbsOptimizedSupport._(this.value);
 
-  static EbsOptimizedSupport fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum EbsOptimizedSupport'));
+  static const values = [unsupported, supported, $default];
+
+  static EbsOptimizedSupport fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => EbsOptimizedSupport._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is EbsOptimizedSupport && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes the attached EBS status check for an instance.
@@ -48465,23 +49428,46 @@ class Ec2InstanceConnectEndpoint {
   }
 }
 
-enum Ec2InstanceConnectEndpointState {
-  createInProgress('create-in-progress'),
-  createComplete('create-complete'),
-  createFailed('create-failed'),
-  deleteInProgress('delete-in-progress'),
-  deleteComplete('delete-complete'),
-  deleteFailed('delete-failed'),
-  ;
+class Ec2InstanceConnectEndpointState {
+  static const createInProgress =
+      Ec2InstanceConnectEndpointState._('create-in-progress');
+  static const createComplete =
+      Ec2InstanceConnectEndpointState._('create-complete');
+  static const createFailed =
+      Ec2InstanceConnectEndpointState._('create-failed');
+  static const deleteInProgress =
+      Ec2InstanceConnectEndpointState._('delete-in-progress');
+  static const deleteComplete =
+      Ec2InstanceConnectEndpointState._('delete-complete');
+  static const deleteFailed =
+      Ec2InstanceConnectEndpointState._('delete-failed');
 
   final String value;
 
-  const Ec2InstanceConnectEndpointState(this.value);
+  const Ec2InstanceConnectEndpointState._(this.value);
+
+  static const values = [
+    createInProgress,
+    createComplete,
+    createFailed,
+    deleteInProgress,
+    deleteComplete,
+    deleteFailed
+  ];
 
   static Ec2InstanceConnectEndpointState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum Ec2InstanceConnectEndpointState'));
+          orElse: () => Ec2InstanceConnectEndpointState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is Ec2InstanceConnectEndpointState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes the Elastic Fabric Adapters for the instance type.
@@ -48532,34 +49518,51 @@ class EgressOnlyInternetGateway {
   }
 }
 
-enum EkPubKeyFormat {
-  der('der'),
-  tpmt('tpmt'),
-  ;
+class EkPubKeyFormat {
+  static const der = EkPubKeyFormat._('der');
+  static const tpmt = EkPubKeyFormat._('tpmt');
 
   final String value;
 
-  const EkPubKeyFormat(this.value);
+  const EkPubKeyFormat._(this.value);
+
+  static const values = [der, tpmt];
 
   static EkPubKeyFormat fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum EkPubKeyFormat'));
+          orElse: () => EkPubKeyFormat._(value));
+
+  @override
+  bool operator ==(other) => other is EkPubKeyFormat && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum EkPubKeyType {
-  rsa_2048('rsa-2048'),
-  eccSecP384('ecc-sec-p384'),
-  ;
+class EkPubKeyType {
+  static const rsa_2048 = EkPubKeyType._('rsa-2048');
+  static const eccSecP384 = EkPubKeyType._('ecc-sec-p384');
 
   final String value;
 
-  const EkPubKeyType(this.value);
+  const EkPubKeyType._(this.value);
 
-  static EkPubKeyType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum EkPubKeyType'));
+  static const values = [rsa_2048, eccSecP384];
+
+  static EkPubKeyType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => EkPubKeyType._(value));
+
+  @override
+  bool operator ==(other) => other is EkPubKeyType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// <note>
@@ -48678,33 +49681,51 @@ class ElasticGpuSpecificationResponse {
   }
 }
 
-enum ElasticGpuState {
-  attached('ATTACHED'),
-  ;
+class ElasticGpuState {
+  static const attached = ElasticGpuState._('ATTACHED');
 
   final String value;
 
-  const ElasticGpuState(this.value);
+  const ElasticGpuState._(this.value);
+
+  static const values = [attached];
 
   static ElasticGpuState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ElasticGpuState'));
+          orElse: () => ElasticGpuState._(value));
+
+  @override
+  bool operator ==(other) => other is ElasticGpuState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ElasticGpuStatus {
-  ok('OK'),
-  impaired('IMPAIRED'),
-  ;
+class ElasticGpuStatus {
+  static const ok = ElasticGpuStatus._('OK');
+  static const impaired = ElasticGpuStatus._('IMPAIRED');
 
   final String value;
 
-  const ElasticGpuStatus(this.value);
+  const ElasticGpuStatus._(this.value);
+
+  static const values = [ok, impaired];
 
   static ElasticGpuStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ElasticGpuStatus'));
+          orElse: () => ElasticGpuStatus._(value));
+
+  @override
+  bool operator ==(other) => other is ElasticGpuStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// <note>
@@ -48946,19 +49967,28 @@ class EnaSrdUdpSpecificationRequest {
   }
 }
 
-enum EnaSupport {
-  unsupported('unsupported'),
-  supported('supported'),
-  required('required'),
-  ;
+class EnaSupport {
+  static const unsupported = EnaSupport._('unsupported');
+  static const supported = EnaSupport._('supported');
+  static const required = EnaSupport._('required');
 
   final String value;
 
-  const EnaSupport(this.value);
+  const EnaSupport._(this.value);
 
-  static EnaSupport fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum EnaSupport'));
+  static const values = [unsupported, supported, required];
+
+  static EnaSupport fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => EnaSupport._(value));
+
+  @override
+  bool operator ==(other) => other is EnaSupport && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class EnableAddressTransferResult {
@@ -49510,51 +50540,85 @@ class EnclaveOptionsRequest {
   }
 }
 
-enum EndDateType {
-  unlimited('unlimited'),
-  limited('limited'),
-  ;
+class EndDateType {
+  static const unlimited = EndDateType._('unlimited');
+  static const limited = EndDateType._('limited');
 
   final String value;
 
-  const EndDateType(this.value);
+  const EndDateType._(this.value);
 
-  static EndDateType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum EndDateType'));
+  static const values = [unlimited, limited];
+
+  static EndDateType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => EndDateType._(value));
+
+  @override
+  bool operator ==(other) => other is EndDateType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum EphemeralNvmeSupport {
-  unsupported('unsupported'),
-  supported('supported'),
-  required('required'),
-  ;
+class EphemeralNvmeSupport {
+  static const unsupported = EphemeralNvmeSupport._('unsupported');
+  static const supported = EphemeralNvmeSupport._('supported');
+  static const required = EphemeralNvmeSupport._('required');
 
   final String value;
 
-  const EphemeralNvmeSupport(this.value);
+  const EphemeralNvmeSupport._(this.value);
 
-  static EphemeralNvmeSupport fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum EphemeralNvmeSupport'));
+  static const values = [unsupported, supported, required];
+
+  static EphemeralNvmeSupport fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => EphemeralNvmeSupport._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is EphemeralNvmeSupport && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum EventCode {
-  instanceReboot('instance-reboot'),
-  systemReboot('system-reboot'),
-  systemMaintenance('system-maintenance'),
-  instanceRetirement('instance-retirement'),
-  instanceStop('instance-stop'),
-  ;
+class EventCode {
+  static const instanceReboot = EventCode._('instance-reboot');
+  static const systemReboot = EventCode._('system-reboot');
+  static const systemMaintenance = EventCode._('system-maintenance');
+  static const instanceRetirement = EventCode._('instance-retirement');
+  static const instanceStop = EventCode._('instance-stop');
 
   final String value;
 
-  const EventCode(this.value);
+  const EventCode._(this.value);
 
-  static EventCode fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum EventCode'));
+  static const values = [
+    instanceReboot,
+    systemReboot,
+    systemMaintenance,
+    instanceRetirement,
+    instanceStop
+  ];
+
+  static EventCode fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => EventCode._(value));
+
+  @override
+  bool operator ==(other) => other is EventCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes an EC2 Fleet or Spot Fleet event.
@@ -49701,35 +50765,60 @@ class EventInformation {
   }
 }
 
-enum EventType {
-  instanceChange('instanceChange'),
-  fleetRequestChange('fleetRequestChange'),
-  error('error'),
-  information('information'),
-  ;
+class EventType {
+  static const instanceChange = EventType._('instanceChange');
+  static const fleetRequestChange = EventType._('fleetRequestChange');
+  static const error = EventType._('error');
+  static const information = EventType._('information');
 
   final String value;
 
-  const EventType(this.value);
+  const EventType._(this.value);
 
-  static EventType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum EventType'));
+  static const values = [
+    instanceChange,
+    fleetRequestChange,
+    error,
+    information
+  ];
+
+  static EventType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => EventType._(value));
+
+  @override
+  bool operator ==(other) => other is EventType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ExcessCapacityTerminationPolicy {
-  noTermination('noTermination'),
-  $default('default'),
-  ;
+class ExcessCapacityTerminationPolicy {
+  static const noTermination =
+      ExcessCapacityTerminationPolicy._('noTermination');
+  static const $default = ExcessCapacityTerminationPolicy._('default');
 
   final String value;
 
-  const ExcessCapacityTerminationPolicy(this.value);
+  const ExcessCapacityTerminationPolicy._(this.value);
+
+  static const values = [noTermination, $default];
 
   static ExcessCapacityTerminationPolicy fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ExcessCapacityTerminationPolicy'));
+          orElse: () => ExcessCapacityTerminationPolicy._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ExcessCapacityTerminationPolicy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes an explanation code for an unreachable path. For more information,
@@ -50125,20 +51214,29 @@ class ExportClientVpnClientConfigurationResult {
   }
 }
 
-enum ExportEnvironment {
-  citrix('citrix'),
-  vmware('vmware'),
-  microsoft('microsoft'),
-  ;
+class ExportEnvironment {
+  static const citrix = ExportEnvironment._('citrix');
+  static const vmware = ExportEnvironment._('vmware');
+  static const microsoft = ExportEnvironment._('microsoft');
 
   final String value;
 
-  const ExportEnvironment(this.value);
+  const ExportEnvironment._(this.value);
+
+  static const values = [citrix, vmware, microsoft];
 
   static ExportEnvironment fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ExportEnvironment'));
+          orElse: () => ExportEnvironment._(value));
+
+  @override
+  bool operator ==(other) => other is ExportEnvironment && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class ExportImageResult {
@@ -50375,21 +51473,30 @@ class ExportTaskS3LocationRequest {
   }
 }
 
-enum ExportTaskState {
-  active('active'),
-  cancelling('cancelling'),
-  cancelled('cancelled'),
-  completed('completed'),
-  ;
+class ExportTaskState {
+  static const active = ExportTaskState._('active');
+  static const cancelling = ExportTaskState._('cancelling');
+  static const cancelled = ExportTaskState._('cancelled');
+  static const completed = ExportTaskState._('completed');
 
   final String value;
 
-  const ExportTaskState(this.value);
+  const ExportTaskState._(this.value);
+
+  static const values = [active, cancelling, cancelled, completed];
 
   static ExportTaskState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ExportTaskState'));
+          orElse: () => ExportTaskState._(value));
+
+  @override
+  bool operator ==(other) => other is ExportTaskState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes the format and location for the export task.
@@ -50610,18 +51717,28 @@ class FastLaunchLaunchTemplateSpecificationResponse {
   }
 }
 
-enum FastLaunchResourceType {
-  snapshot('snapshot'),
-  ;
+class FastLaunchResourceType {
+  static const snapshot = FastLaunchResourceType._('snapshot');
 
   final String value;
 
-  const FastLaunchResourceType(this.value);
+  const FastLaunchResourceType._(this.value);
+
+  static const values = [snapshot];
 
   static FastLaunchResourceType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum FastLaunchResourceType'));
+          orElse: () => FastLaunchResourceType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is FastLaunchResourceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Configuration settings for creating and managing pre-provisioned snapshots
@@ -50664,41 +51781,68 @@ class FastLaunchSnapshotConfigurationResponse {
   }
 }
 
-enum FastLaunchStateCode {
-  enabling('enabling'),
-  enablingFailed('enabling-failed'),
-  enabled('enabled'),
-  enabledFailed('enabled-failed'),
-  disabling('disabling'),
-  disablingFailed('disabling-failed'),
-  ;
+class FastLaunchStateCode {
+  static const enabling = FastLaunchStateCode._('enabling');
+  static const enablingFailed = FastLaunchStateCode._('enabling-failed');
+  static const enabled = FastLaunchStateCode._('enabled');
+  static const enabledFailed = FastLaunchStateCode._('enabled-failed');
+  static const disabling = FastLaunchStateCode._('disabling');
+  static const disablingFailed = FastLaunchStateCode._('disabling-failed');
 
   final String value;
 
-  const FastLaunchStateCode(this.value);
+  const FastLaunchStateCode._(this.value);
 
-  static FastLaunchStateCode fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum FastLaunchStateCode'));
+  static const values = [
+    enabling,
+    enablingFailed,
+    enabled,
+    enabledFailed,
+    disabling,
+    disablingFailed
+  ];
+
+  static FastLaunchStateCode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => FastLaunchStateCode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is FastLaunchStateCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum FastSnapshotRestoreStateCode {
-  enabling('enabling'),
-  optimizing('optimizing'),
-  enabled('enabled'),
-  disabling('disabling'),
-  disabled('disabled'),
-  ;
+class FastSnapshotRestoreStateCode {
+  static const enabling = FastSnapshotRestoreStateCode._('enabling');
+  static const optimizing = FastSnapshotRestoreStateCode._('optimizing');
+  static const enabled = FastSnapshotRestoreStateCode._('enabled');
+  static const disabling = FastSnapshotRestoreStateCode._('disabling');
+  static const disabled = FastSnapshotRestoreStateCode._('disabled');
 
   final String value;
 
-  const FastSnapshotRestoreStateCode(this.value);
+  const FastSnapshotRestoreStateCode._(this.value);
+
+  static const values = [enabling, optimizing, enabled, disabling, disabled];
 
   static FastSnapshotRestoreStateCode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum FastSnapshotRestoreStateCode'));
+          orElse: () => FastSnapshotRestoreStateCode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is FastSnapshotRestoreStateCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes the IAM SAML identity providers used for federated authentication.
@@ -50805,20 +51949,29 @@ class FilterPortRange {
   }
 }
 
-enum FindingsFound {
-  $true('true'),
-  $false('false'),
-  unknown('unknown'),
-  ;
+class FindingsFound {
+  static const $true = FindingsFound._('true');
+  static const $false = FindingsFound._('false');
+  static const unknown = FindingsFound._('unknown');
 
   final String value;
 
-  const FindingsFound(this.value);
+  const FindingsFound._(this.value);
+
+  static const values = [$true, $false, unknown];
 
   static FindingsFound fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum FindingsFound'));
+          orElse: () => FindingsFound._(value));
+
+  @override
+  bool operator ==(other) => other is FindingsFound && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes a stateful rule.
@@ -50942,21 +52095,38 @@ class FirewallStatelessRule {
   }
 }
 
-enum FleetActivityStatus {
-  error('error'),
-  pendingFulfillment('pending_fulfillment'),
-  pendingTermination('pending_termination'),
-  fulfilled('fulfilled'),
-  ;
+class FleetActivityStatus {
+  static const error = FleetActivityStatus._('error');
+  static const pendingFulfillment =
+      FleetActivityStatus._('pending_fulfillment');
+  static const pendingTermination =
+      FleetActivityStatus._('pending_termination');
+  static const fulfilled = FleetActivityStatus._('fulfilled');
 
   final String value;
 
-  const FleetActivityStatus(this.value);
+  const FleetActivityStatus._(this.value);
 
-  static FleetActivityStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum FleetActivityStatus'));
+  static const values = [
+    error,
+    pendingFulfillment,
+    pendingTermination,
+    fulfilled
+  ];
+
+  static FleetActivityStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => FleetActivityStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is FleetActivityStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about a Capacity Reservation in a Capacity Reservation Fleet.
@@ -51050,32 +52220,54 @@ class FleetCapacityReservation {
   }
 }
 
-enum FleetCapacityReservationTenancy {
-  $default('default'),
-  ;
+class FleetCapacityReservationTenancy {
+  static const $default = FleetCapacityReservationTenancy._('default');
 
   final String value;
 
-  const FleetCapacityReservationTenancy(this.value);
+  const FleetCapacityReservationTenancy._(this.value);
+
+  static const values = [$default];
 
   static FleetCapacityReservationTenancy fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum FleetCapacityReservationTenancy'));
+          orElse: () => FleetCapacityReservationTenancy._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is FleetCapacityReservationTenancy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum FleetCapacityReservationUsageStrategy {
-  useCapacityReservationsFirst('use-capacity-reservations-first'),
-  ;
+class FleetCapacityReservationUsageStrategy {
+  static const useCapacityReservationsFirst =
+      FleetCapacityReservationUsageStrategy._(
+          'use-capacity-reservations-first');
 
   final String value;
 
-  const FleetCapacityReservationUsageStrategy(this.value);
+  const FleetCapacityReservationUsageStrategy._(this.value);
+
+  static const values = [useCapacityReservationsFirst];
 
   static FleetCapacityReservationUsageStrategy fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum FleetCapacityReservationUsageStrategy'));
+          orElse: () => FleetCapacityReservationUsageStrategy._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is FleetCapacityReservationUsageStrategy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes an EC2 Fleet.
@@ -51264,49 +52456,80 @@ class FleetData {
   }
 }
 
-enum FleetEventType {
-  instanceChange('instance-change'),
-  fleetChange('fleet-change'),
-  serviceError('service-error'),
-  ;
+class FleetEventType {
+  static const instanceChange = FleetEventType._('instance-change');
+  static const fleetChange = FleetEventType._('fleet-change');
+  static const serviceError = FleetEventType._('service-error');
 
   final String value;
 
-  const FleetEventType(this.value);
+  const FleetEventType._(this.value);
+
+  static const values = [instanceChange, fleetChange, serviceError];
 
   static FleetEventType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum FleetEventType'));
+          orElse: () => FleetEventType._(value));
+
+  @override
+  bool operator ==(other) => other is FleetEventType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum FleetExcessCapacityTerminationPolicy {
-  noTermination('no-termination'),
-  termination('termination'),
-  ;
+class FleetExcessCapacityTerminationPolicy {
+  static const noTermination =
+      FleetExcessCapacityTerminationPolicy._('no-termination');
+  static const termination =
+      FleetExcessCapacityTerminationPolicy._('termination');
 
   final String value;
 
-  const FleetExcessCapacityTerminationPolicy(this.value);
+  const FleetExcessCapacityTerminationPolicy._(this.value);
+
+  static const values = [noTermination, termination];
 
   static FleetExcessCapacityTerminationPolicy fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum FleetExcessCapacityTerminationPolicy'));
+          orElse: () => FleetExcessCapacityTerminationPolicy._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is FleetExcessCapacityTerminationPolicy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum FleetInstanceMatchCriteria {
-  open('open'),
-  ;
+class FleetInstanceMatchCriteria {
+  static const open = FleetInstanceMatchCriteria._('open');
 
   final String value;
 
-  const FleetInstanceMatchCriteria(this.value);
+  const FleetInstanceMatchCriteria._(this.value);
+
+  static const values = [open];
 
   static FleetInstanceMatchCriteria fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum FleetInstanceMatchCriteria'));
+          orElse: () => FleetInstanceMatchCriteria._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is FleetInstanceMatchCriteria && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes a launch template and overrides.
@@ -51784,34 +53007,55 @@ class FleetLaunchTemplateSpecificationRequest {
   }
 }
 
-enum FleetOnDemandAllocationStrategy {
-  lowestPrice('lowest-price'),
-  prioritized('prioritized'),
-  ;
+class FleetOnDemandAllocationStrategy {
+  static const lowestPrice = FleetOnDemandAllocationStrategy._('lowest-price');
+  static const prioritized = FleetOnDemandAllocationStrategy._('prioritized');
 
   final String value;
 
-  const FleetOnDemandAllocationStrategy(this.value);
+  const FleetOnDemandAllocationStrategy._(this.value);
+
+  static const values = [lowestPrice, prioritized];
 
   static FleetOnDemandAllocationStrategy fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum FleetOnDemandAllocationStrategy'));
+          orElse: () => FleetOnDemandAllocationStrategy._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is FleetOnDemandAllocationStrategy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum FleetReplacementStrategy {
-  launch('launch'),
-  launchBeforeTerminate('launch-before-terminate'),
-  ;
+class FleetReplacementStrategy {
+  static const launch = FleetReplacementStrategy._('launch');
+  static const launchBeforeTerminate =
+      FleetReplacementStrategy._('launch-before-terminate');
 
   final String value;
 
-  const FleetReplacementStrategy(this.value);
+  const FleetReplacementStrategy._(this.value);
+
+  static const values = [launch, launchBeforeTerminate];
 
   static FleetReplacementStrategy fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum FleetReplacementStrategy'));
+          orElse: () => FleetReplacementStrategy._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is FleetReplacementStrategy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The strategy to use when Amazon EC2 emits a signal that your Spot Instance
@@ -51952,39 +53196,65 @@ class FleetSpotMaintenanceStrategiesRequest {
   }
 }
 
-enum FleetStateCode {
-  submitted('submitted'),
-  active('active'),
-  deleted('deleted'),
-  failed('failed'),
-  deletedRunning('deleted_running'),
-  deletedTerminating('deleted_terminating'),
-  modifying('modifying'),
-  ;
+class FleetStateCode {
+  static const submitted = FleetStateCode._('submitted');
+  static const active = FleetStateCode._('active');
+  static const deleted = FleetStateCode._('deleted');
+  static const failed = FleetStateCode._('failed');
+  static const deletedRunning = FleetStateCode._('deleted_running');
+  static const deletedTerminating = FleetStateCode._('deleted_terminating');
+  static const modifying = FleetStateCode._('modifying');
 
   final String value;
 
-  const FleetStateCode(this.value);
+  const FleetStateCode._(this.value);
+
+  static const values = [
+    submitted,
+    active,
+    deleted,
+    failed,
+    deletedRunning,
+    deletedTerminating,
+    modifying
+  ];
 
   static FleetStateCode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum FleetStateCode'));
+          orElse: () => FleetStateCode._(value));
+
+  @override
+  bool operator ==(other) => other is FleetStateCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum FleetType {
-  request('request'),
-  maintain('maintain'),
-  instant('instant'),
-  ;
+class FleetType {
+  static const request = FleetType._('request');
+  static const maintain = FleetType._('maintain');
+  static const instant = FleetType._('instant');
 
   final String value;
 
-  const FleetType(this.value);
+  const FleetType._(this.value);
 
-  static FleetType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum FleetType'));
+  static const values = [request, maintain, instant];
+
+  static FleetType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => FleetType._(value));
+
+  @override
+  bool operator ==(other) => other is FleetType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes a flow log.
@@ -52116,22 +53386,39 @@ class FlowLog {
   }
 }
 
-enum FlowLogsResourceType {
-  vpc('VPC'),
-  subnet('Subnet'),
-  networkInterface('NetworkInterface'),
-  transitGateway('TransitGateway'),
-  transitGatewayAttachment('TransitGatewayAttachment'),
-  ;
+class FlowLogsResourceType {
+  static const vpc = FlowLogsResourceType._('VPC');
+  static const subnet = FlowLogsResourceType._('Subnet');
+  static const networkInterface = FlowLogsResourceType._('NetworkInterface');
+  static const transitGateway = FlowLogsResourceType._('TransitGateway');
+  static const transitGatewayAttachment =
+      FlowLogsResourceType._('TransitGatewayAttachment');
 
   final String value;
 
-  const FlowLogsResourceType(this.value);
+  const FlowLogsResourceType._(this.value);
 
-  static FlowLogsResourceType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum FlowLogsResourceType'));
+  static const values = [
+    vpc,
+    subnet,
+    networkInterface,
+    transitGateway,
+    transitGatewayAttachment
+  ];
+
+  static FlowLogsResourceType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => FlowLogsResourceType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is FlowLogsResourceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes the FPGA accelerator for the instance type.
@@ -52337,21 +53624,31 @@ class FpgaImageAttribute {
   }
 }
 
-enum FpgaImageAttributeName {
-  description('description'),
-  name('name'),
-  loadPermission('loadPermission'),
-  productCodes('productCodes'),
-  ;
+class FpgaImageAttributeName {
+  static const description = FpgaImageAttributeName._('description');
+  static const name = FpgaImageAttributeName._('name');
+  static const loadPermission = FpgaImageAttributeName._('loadPermission');
+  static const productCodes = FpgaImageAttributeName._('productCodes');
 
   final String value;
 
-  const FpgaImageAttributeName(this.value);
+  const FpgaImageAttributeName._(this.value);
+
+  static const values = [description, name, loadPermission, productCodes];
 
   static FpgaImageAttributeName fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum FpgaImageAttributeName'));
+          orElse: () => FpgaImageAttributeName._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is FpgaImageAttributeName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes the state of the bitstream generation process for an Amazon FPGA
@@ -52393,21 +53690,31 @@ class FpgaImageState {
   }
 }
 
-enum FpgaImageStateCode {
-  pending('pending'),
-  failed('failed'),
-  available('available'),
-  unavailable('unavailable'),
-  ;
+class FpgaImageStateCode {
+  static const pending = FpgaImageStateCode._('pending');
+  static const failed = FpgaImageStateCode._('failed');
+  static const available = FpgaImageStateCode._('available');
+  static const unavailable = FpgaImageStateCode._('unavailable');
 
   final String value;
 
-  const FpgaImageStateCode(this.value);
+  const FpgaImageStateCode._(this.value);
 
-  static FpgaImageStateCode fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum FpgaImageStateCode'));
+  static const values = [pending, failed, available, unavailable];
+
+  static FpgaImageStateCode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => FpgaImageStateCode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is FpgaImageStateCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes the FPGAs for the instance type.
@@ -52434,34 +53741,58 @@ class FpgaInfo {
   }
 }
 
-enum GatewayAssociationState {
-  associated('associated'),
-  notAssociated('not-associated'),
-  associating('associating'),
-  disassociating('disassociating'),
-  ;
+class GatewayAssociationState {
+  static const associated = GatewayAssociationState._('associated');
+  static const notAssociated = GatewayAssociationState._('not-associated');
+  static const associating = GatewayAssociationState._('associating');
+  static const disassociating = GatewayAssociationState._('disassociating');
 
   final String value;
 
-  const GatewayAssociationState(this.value);
+  const GatewayAssociationState._(this.value);
+
+  static const values = [
+    associated,
+    notAssociated,
+    associating,
+    disassociating
+  ];
 
   static GatewayAssociationState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum GatewayAssociationState'));
+          orElse: () => GatewayAssociationState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is GatewayAssociationState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum GatewayType {
-  ipsec_1('ipsec.1'),
-  ;
+class GatewayType {
+  static const ipsec_1 = GatewayType._('ipsec.1');
 
   final String value;
 
-  const GatewayType(this.value);
+  const GatewayType._(this.value);
 
-  static GatewayType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum GatewayType'));
+  static const values = [ipsec_1];
+
+  static GatewayType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => GatewayType._(value));
+
+  @override
+  bool operator ==(other) => other is GatewayType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class GetAssociatedEnclaveCertificateIamRolesResult {
@@ -54231,19 +55562,28 @@ class HostInstance {
   }
 }
 
-enum HostMaintenance {
-  on('on'),
-  off('off'),
-  ;
+class HostMaintenance {
+  static const on = HostMaintenance._('on');
+  static const off = HostMaintenance._('off');
 
   final String value;
 
-  const HostMaintenance(this.value);
+  const HostMaintenance._(this.value);
+
+  static const values = [on, off];
 
   static HostMaintenance fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum HostMaintenance'));
+          orElse: () => HostMaintenance._(value));
+
+  @override
+  bool operator ==(other) => other is HostMaintenance && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Details about the Dedicated Host Reservation offering.
@@ -54343,19 +55683,27 @@ class HostProperties {
   }
 }
 
-enum HostRecovery {
-  on('on'),
-  off('off'),
-  ;
+class HostRecovery {
+  static const on = HostRecovery._('on');
+  static const off = HostRecovery._('off');
 
   final String value;
 
-  const HostRecovery(this.value);
+  const HostRecovery._(this.value);
 
-  static HostRecovery fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum HostRecovery'));
+  static const values = [on, off];
+
+  static HostRecovery fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => HostRecovery._(value));
+
+  @override
+  bool operator ==(other) => other is HostRecovery && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Details about the Dedicated Host Reservation and associated Dedicated Hosts.
@@ -54459,64 +55807,99 @@ class HostReservation {
   }
 }
 
-enum HostTenancy {
-  $default('default'),
-  dedicated('dedicated'),
-  host('host'),
-  ;
+class HostTenancy {
+  static const $default = HostTenancy._('default');
+  static const dedicated = HostTenancy._('dedicated');
+  static const host = HostTenancy._('host');
 
   final String value;
 
-  const HostTenancy(this.value);
+  const HostTenancy._(this.value);
 
-  static HostTenancy fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum HostTenancy'));
+  static const values = [$default, dedicated, host];
+
+  static HostTenancy fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => HostTenancy._(value));
+
+  @override
+  bool operator ==(other) => other is HostTenancy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum HostnameType {
-  ipName('ip-name'),
-  resourceName('resource-name'),
-  ;
+class HostnameType {
+  static const ipName = HostnameType._('ip-name');
+  static const resourceName = HostnameType._('resource-name');
 
   final String value;
 
-  const HostnameType(this.value);
+  const HostnameType._(this.value);
 
-  static HostnameType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum HostnameType'));
+  static const values = [ipName, resourceName];
+
+  static HostnameType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => HostnameType._(value));
+
+  @override
+  bool operator ==(other) => other is HostnameType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum HttpTokensState {
-  optional('optional'),
-  required('required'),
-  ;
+class HttpTokensState {
+  static const optional = HttpTokensState._('optional');
+  static const required = HttpTokensState._('required');
 
   final String value;
 
-  const HttpTokensState(this.value);
+  const HttpTokensState._(this.value);
+
+  static const values = [optional, required];
 
   static HttpTokensState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum HttpTokensState'));
+          orElse: () => HttpTokensState._(value));
+
+  @override
+  bool operator ==(other) => other is HttpTokensState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum HypervisorType {
-  ovm('ovm'),
-  xen('xen'),
-  ;
+class HypervisorType {
+  static const ovm = HypervisorType._('ovm');
+  static const xen = HypervisorType._('xen');
 
   final String value;
 
-  const HypervisorType(this.value);
+  const HypervisorType._(this.value);
+
+  static const values = [ovm, xen];
 
   static HypervisorType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum HypervisorType'));
+          orElse: () => HypervisorType._(value));
+
+  @override
+  bool operator ==(other) => other is HypervisorType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The internet key exchange (IKE) version permitted for the VPN tunnel.
@@ -54617,21 +56000,39 @@ class IamInstanceProfileAssociation {
   }
 }
 
-enum IamInstanceProfileAssociationState {
-  associating('associating'),
-  associated('associated'),
-  disassociating('disassociating'),
-  disassociated('disassociated'),
-  ;
+class IamInstanceProfileAssociationState {
+  static const associating =
+      IamInstanceProfileAssociationState._('associating');
+  static const associated = IamInstanceProfileAssociationState._('associated');
+  static const disassociating =
+      IamInstanceProfileAssociationState._('disassociating');
+  static const disassociated =
+      IamInstanceProfileAssociationState._('disassociated');
 
   final String value;
 
-  const IamInstanceProfileAssociationState(this.value);
+  const IamInstanceProfileAssociationState._(this.value);
+
+  static const values = [
+    associating,
+    associated,
+    disassociating,
+    disassociated
+  ];
 
   static IamInstanceProfileAssociationState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum IamInstanceProfileAssociationState'));
+          orElse: () => IamInstanceProfileAssociationState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is IamInstanceProfileAssociationState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes an IAM instance profile.
@@ -54712,19 +56113,29 @@ class IdFormat {
   }
 }
 
-enum Igmpv2SupportValue {
-  enable('enable'),
-  disable('disable'),
-  ;
+class Igmpv2SupportValue {
+  static const enable = Igmpv2SupportValue._('enable');
+  static const disable = Igmpv2SupportValue._('disable');
 
   final String value;
 
-  const Igmpv2SupportValue(this.value);
+  const Igmpv2SupportValue._(this.value);
 
-  static Igmpv2SupportValue fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum Igmpv2SupportValue'));
+  static const values = [enable, disable];
+
+  static Igmpv2SupportValue fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => Igmpv2SupportValue._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is Igmpv2SupportValue && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes an image.
@@ -55106,58 +56517,104 @@ class ImageAttribute {
   }
 }
 
-enum ImageAttributeName {
-  description('description'),
-  kernel('kernel'),
-  ramdisk('ramdisk'),
-  launchPermission('launchPermission'),
-  productCodes('productCodes'),
-  blockDeviceMapping('blockDeviceMapping'),
-  sriovNetSupport('sriovNetSupport'),
-  bootMode('bootMode'),
-  tpmSupport('tpmSupport'),
-  uefiData('uefiData'),
-  lastLaunchedTime('lastLaunchedTime'),
-  imdsSupport('imdsSupport'),
-  deregistrationProtection('deregistrationProtection'),
-  ;
+class ImageAttributeName {
+  static const description = ImageAttributeName._('description');
+  static const kernel = ImageAttributeName._('kernel');
+  static const ramdisk = ImageAttributeName._('ramdisk');
+  static const launchPermission = ImageAttributeName._('launchPermission');
+  static const productCodes = ImageAttributeName._('productCodes');
+  static const blockDeviceMapping = ImageAttributeName._('blockDeviceMapping');
+  static const sriovNetSupport = ImageAttributeName._('sriovNetSupport');
+  static const bootMode = ImageAttributeName._('bootMode');
+  static const tpmSupport = ImageAttributeName._('tpmSupport');
+  static const uefiData = ImageAttributeName._('uefiData');
+  static const lastLaunchedTime = ImageAttributeName._('lastLaunchedTime');
+  static const imdsSupport = ImageAttributeName._('imdsSupport');
+  static const deregistrationProtection =
+      ImageAttributeName._('deregistrationProtection');
 
   final String value;
 
-  const ImageAttributeName(this.value);
+  const ImageAttributeName._(this.value);
 
-  static ImageAttributeName fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ImageAttributeName'));
+  static const values = [
+    description,
+    kernel,
+    ramdisk,
+    launchPermission,
+    productCodes,
+    blockDeviceMapping,
+    sriovNetSupport,
+    bootMode,
+    tpmSupport,
+    uefiData,
+    lastLaunchedTime,
+    imdsSupport,
+    deregistrationProtection
+  ];
+
+  static ImageAttributeName fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ImageAttributeName._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ImageAttributeName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ImageBlockPublicAccessDisabledState {
-  unblocked('unblocked'),
-  ;
+class ImageBlockPublicAccessDisabledState {
+  static const unblocked = ImageBlockPublicAccessDisabledState._('unblocked');
 
   final String value;
 
-  const ImageBlockPublicAccessDisabledState(this.value);
+  const ImageBlockPublicAccessDisabledState._(this.value);
+
+  static const values = [unblocked];
 
   static ImageBlockPublicAccessDisabledState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ImageBlockPublicAccessDisabledState'));
+          orElse: () => ImageBlockPublicAccessDisabledState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ImageBlockPublicAccessDisabledState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ImageBlockPublicAccessEnabledState {
-  blockNewSharing('block-new-sharing'),
-  ;
+class ImageBlockPublicAccessEnabledState {
+  static const blockNewSharing =
+      ImageBlockPublicAccessEnabledState._('block-new-sharing');
 
   final String value;
 
-  const ImageBlockPublicAccessEnabledState(this.value);
+  const ImageBlockPublicAccessEnabledState._(this.value);
+
+  static const values = [blockNewSharing];
 
   static ImageBlockPublicAccessEnabledState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ImageBlockPublicAccessEnabledState'));
+          orElse: () => ImageBlockPublicAccessEnabledState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ImageBlockPublicAccessEnabledState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes the disk container object for an import image task.
@@ -55255,54 +56712,90 @@ class ImageRecycleBinInfo {
   }
 }
 
-enum ImageState {
-  pending('pending'),
-  available('available'),
-  invalid('invalid'),
-  deregistered('deregistered'),
-  transient('transient'),
-  failed('failed'),
-  error('error'),
-  disabled('disabled'),
-  ;
+class ImageState {
+  static const pending = ImageState._('pending');
+  static const available = ImageState._('available');
+  static const invalid = ImageState._('invalid');
+  static const deregistered = ImageState._('deregistered');
+  static const transient = ImageState._('transient');
+  static const failed = ImageState._('failed');
+  static const error = ImageState._('error');
+  static const disabled = ImageState._('disabled');
 
   final String value;
 
-  const ImageState(this.value);
+  const ImageState._(this.value);
 
-  static ImageState fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum ImageState'));
+  static const values = [
+    pending,
+    available,
+    invalid,
+    deregistered,
+    transient,
+    failed,
+    error,
+    disabled
+  ];
+
+  static ImageState fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ImageState._(value));
+
+  @override
+  bool operator ==(other) => other is ImageState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ImageTypeValues {
-  machine('machine'),
-  kernel('kernel'),
-  ramdisk('ramdisk'),
-  ;
+class ImageTypeValues {
+  static const machine = ImageTypeValues._('machine');
+  static const kernel = ImageTypeValues._('kernel');
+  static const ramdisk = ImageTypeValues._('ramdisk');
 
   final String value;
 
-  const ImageTypeValues(this.value);
+  const ImageTypeValues._(this.value);
+
+  static const values = [machine, kernel, ramdisk];
 
   static ImageTypeValues fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ImageTypeValues'));
+          orElse: () => ImageTypeValues._(value));
+
+  @override
+  bool operator ==(other) => other is ImageTypeValues && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ImdsSupportValues {
-  v2_0('v2.0'),
-  ;
+class ImdsSupportValues {
+  static const v2_0 = ImdsSupportValues._('v2.0');
 
   final String value;
 
-  const ImdsSupportValues(this.value);
+  const ImdsSupportValues._(this.value);
+
+  static const values = [v2_0];
 
   static ImdsSupportValues fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ImdsSupportValues'));
+          orElse: () => ImdsSupportValues._(value));
+
+  @override
+  bool operator ==(other) => other is ImdsSupportValues && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class ImportClientVpnClientCertificateRevocationListResult {
@@ -56628,48 +58121,88 @@ class InstanceAttribute {
   }
 }
 
-enum InstanceAttributeName {
-  instanceType('instanceType'),
-  kernel('kernel'),
-  ramdisk('ramdisk'),
-  userData('userData'),
-  disableApiTermination('disableApiTermination'),
-  instanceInitiatedShutdownBehavior('instanceInitiatedShutdownBehavior'),
-  rootDeviceName('rootDeviceName'),
-  blockDeviceMapping('blockDeviceMapping'),
-  productCodes('productCodes'),
-  sourceDestCheck('sourceDestCheck'),
-  groupSet('groupSet'),
-  ebsOptimized('ebsOptimized'),
-  sriovNetSupport('sriovNetSupport'),
-  enaSupport('enaSupport'),
-  enclaveOptions('enclaveOptions'),
-  disableApiStop('disableApiStop'),
-  ;
+class InstanceAttributeName {
+  static const instanceType = InstanceAttributeName._('instanceType');
+  static const kernel = InstanceAttributeName._('kernel');
+  static const ramdisk = InstanceAttributeName._('ramdisk');
+  static const userData = InstanceAttributeName._('userData');
+  static const disableApiTermination =
+      InstanceAttributeName._('disableApiTermination');
+  static const instanceInitiatedShutdownBehavior =
+      InstanceAttributeName._('instanceInitiatedShutdownBehavior');
+  static const rootDeviceName = InstanceAttributeName._('rootDeviceName');
+  static const blockDeviceMapping =
+      InstanceAttributeName._('blockDeviceMapping');
+  static const productCodes = InstanceAttributeName._('productCodes');
+  static const sourceDestCheck = InstanceAttributeName._('sourceDestCheck');
+  static const groupSet = InstanceAttributeName._('groupSet');
+  static const ebsOptimized = InstanceAttributeName._('ebsOptimized');
+  static const sriovNetSupport = InstanceAttributeName._('sriovNetSupport');
+  static const enaSupport = InstanceAttributeName._('enaSupport');
+  static const enclaveOptions = InstanceAttributeName._('enclaveOptions');
+  static const disableApiStop = InstanceAttributeName._('disableApiStop');
 
   final String value;
 
-  const InstanceAttributeName(this.value);
+  const InstanceAttributeName._(this.value);
 
-  static InstanceAttributeName fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum InstanceAttributeName'));
+  static const values = [
+    instanceType,
+    kernel,
+    ramdisk,
+    userData,
+    disableApiTermination,
+    instanceInitiatedShutdownBehavior,
+    rootDeviceName,
+    blockDeviceMapping,
+    productCodes,
+    sourceDestCheck,
+    groupSet,
+    ebsOptimized,
+    sriovNetSupport,
+    enaSupport,
+    enclaveOptions,
+    disableApiStop
+  ];
+
+  static InstanceAttributeName fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => InstanceAttributeName._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is InstanceAttributeName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum InstanceAutoRecoveryState {
-  disabled('disabled'),
-  $default('default'),
-  ;
+class InstanceAutoRecoveryState {
+  static const disabled = InstanceAutoRecoveryState._('disabled');
+  static const $default = InstanceAutoRecoveryState._('default');
 
   final String value;
 
-  const InstanceAutoRecoveryState(this.value);
+  const InstanceAutoRecoveryState._(this.value);
+
+  static const values = [disabled, $default];
 
   static InstanceAutoRecoveryState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum InstanceAutoRecoveryState'));
+          orElse: () => InstanceAutoRecoveryState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is InstanceAutoRecoveryState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes a block device mapping.
@@ -56732,19 +58265,29 @@ class InstanceBlockDeviceMappingSpecification {
   }
 }
 
-enum InstanceBootModeValues {
-  legacyBios('legacy-bios'),
-  uefi('uefi'),
-  ;
+class InstanceBootModeValues {
+  static const legacyBios = InstanceBootModeValues._('legacy-bios');
+  static const uefi = InstanceBootModeValues._('uefi');
 
   final String value;
 
-  const InstanceBootModeValues(this.value);
+  const InstanceBootModeValues._(this.value);
+
+  static const values = [legacyBios, uefi];
 
   static InstanceBootModeValues fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum InstanceBootModeValues'));
+          orElse: () => InstanceBootModeValues._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is InstanceBootModeValues && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about the number of instances that can be launched onto the
@@ -57006,21 +58549,31 @@ class InstanceEventWindowDisassociationRequest {
   }
 }
 
-enum InstanceEventWindowState {
-  creating('creating'),
-  deleting('deleting'),
-  active('active'),
-  deleted('deleted'),
-  ;
+class InstanceEventWindowState {
+  static const creating = InstanceEventWindowState._('creating');
+  static const deleting = InstanceEventWindowState._('deleting');
+  static const active = InstanceEventWindowState._('active');
+  static const deleted = InstanceEventWindowState._('deleted');
 
   final String value;
 
-  const InstanceEventWindowState(this.value);
+  const InstanceEventWindowState._(this.value);
+
+  static const values = [creating, deleting, active, deleted];
 
   static InstanceEventWindowState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum InstanceEventWindowState'));
+          orElse: () => InstanceEventWindowState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is InstanceEventWindowState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The state of the event window.
@@ -57166,50 +58719,80 @@ class InstanceFamilyCreditSpecification {
   }
 }
 
-enum InstanceGeneration {
-  current('current'),
-  previous('previous'),
-  ;
+class InstanceGeneration {
+  static const current = InstanceGeneration._('current');
+  static const previous = InstanceGeneration._('previous');
 
   final String value;
 
-  const InstanceGeneration(this.value);
+  const InstanceGeneration._(this.value);
 
-  static InstanceGeneration fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum InstanceGeneration'));
+  static const values = [current, previous];
+
+  static InstanceGeneration fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => InstanceGeneration._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is InstanceGeneration && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum InstanceHealthStatus {
-  healthy('healthy'),
-  unhealthy('unhealthy'),
-  ;
+class InstanceHealthStatus {
+  static const healthy = InstanceHealthStatus._('healthy');
+  static const unhealthy = InstanceHealthStatus._('unhealthy');
 
   final String value;
 
-  const InstanceHealthStatus(this.value);
+  const InstanceHealthStatus._(this.value);
 
-  static InstanceHealthStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum InstanceHealthStatus'));
+  static const values = [healthy, unhealthy];
+
+  static InstanceHealthStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => InstanceHealthStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is InstanceHealthStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum InstanceInterruptionBehavior {
-  hibernate('hibernate'),
-  stop('stop'),
-  terminate('terminate'),
-  ;
+class InstanceInterruptionBehavior {
+  static const hibernate = InstanceInterruptionBehavior._('hibernate');
+  static const stop = InstanceInterruptionBehavior._('stop');
+  static const terminate = InstanceInterruptionBehavior._('terminate');
 
   final String value;
 
-  const InstanceInterruptionBehavior(this.value);
+  const InstanceInterruptionBehavior._(this.value);
+
+  static const values = [hibernate, stop, terminate];
 
   static InstanceInterruptionBehavior fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum InstanceInterruptionBehavior'));
+          orElse: () => InstanceInterruptionBehavior._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is InstanceInterruptionBehavior && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about an IPv4 prefix.
@@ -57291,35 +58874,54 @@ class InstanceIpv6Prefix {
   }
 }
 
-enum InstanceLifecycle {
-  spot('spot'),
-  onDemand('on-demand'),
-  ;
+class InstanceLifecycle {
+  static const spot = InstanceLifecycle._('spot');
+  static const onDemand = InstanceLifecycle._('on-demand');
 
   final String value;
 
-  const InstanceLifecycle(this.value);
+  const InstanceLifecycle._(this.value);
+
+  static const values = [spot, onDemand];
 
   static InstanceLifecycle fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum InstanceLifecycle'));
+          orElse: () => InstanceLifecycle._(value));
+
+  @override
+  bool operator ==(other) => other is InstanceLifecycle && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum InstanceLifecycleType {
-  spot('spot'),
-  scheduled('scheduled'),
-  capacityBlock('capacity-block'),
-  ;
+class InstanceLifecycleType {
+  static const spot = InstanceLifecycleType._('spot');
+  static const scheduled = InstanceLifecycleType._('scheduled');
+  static const capacityBlock = InstanceLifecycleType._('capacity-block');
 
   final String value;
 
-  const InstanceLifecycleType(this.value);
+  const InstanceLifecycleType._(this.value);
 
-  static InstanceLifecycleType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum InstanceLifecycleType'));
+  static const values = [spot, scheduled, capacityBlock];
+
+  static InstanceLifecycleType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => InstanceLifecycleType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is InstanceLifecycleType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The maintenance options for the instance.
@@ -57383,19 +58985,29 @@ class InstanceMarketOptionsRequest {
   }
 }
 
-enum InstanceMatchCriteria {
-  open('open'),
-  targeted('targeted'),
-  ;
+class InstanceMatchCriteria {
+  static const open = InstanceMatchCriteria._('open');
+  static const targeted = InstanceMatchCriteria._('targeted');
 
   final String value;
 
-  const InstanceMatchCriteria(this.value);
+  const InstanceMatchCriteria._(this.value);
 
-  static InstanceMatchCriteria fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum InstanceMatchCriteria'));
+  static const values = [open, targeted];
+
+  static InstanceMatchCriteria fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => InstanceMatchCriteria._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is InstanceMatchCriteria && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The default instance metadata service (IMDS) settings that were set at the
@@ -57452,19 +59064,29 @@ class InstanceMetadataDefaultsResponse {
   }
 }
 
-enum InstanceMetadataEndpointState {
-  disabled('disabled'),
-  enabled('enabled'),
-  ;
+class InstanceMetadataEndpointState {
+  static const disabled = InstanceMetadataEndpointState._('disabled');
+  static const enabled = InstanceMetadataEndpointState._('enabled');
 
   final String value;
 
-  const InstanceMetadataEndpointState(this.value);
+  const InstanceMetadataEndpointState._(this.value);
+
+  static const values = [disabled, enabled];
 
   static InstanceMetadataEndpointState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum InstanceMetadataEndpointState'));
+          orElse: () => InstanceMetadataEndpointState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is InstanceMetadataEndpointState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The metadata options for the instance.
@@ -57633,49 +59255,79 @@ class InstanceMetadataOptionsResponse {
   }
 }
 
-enum InstanceMetadataOptionsState {
-  pending('pending'),
-  applied('applied'),
-  ;
+class InstanceMetadataOptionsState {
+  static const pending = InstanceMetadataOptionsState._('pending');
+  static const applied = InstanceMetadataOptionsState._('applied');
 
   final String value;
 
-  const InstanceMetadataOptionsState(this.value);
+  const InstanceMetadataOptionsState._(this.value);
+
+  static const values = [pending, applied];
 
   static InstanceMetadataOptionsState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum InstanceMetadataOptionsState'));
+          orElse: () => InstanceMetadataOptionsState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is InstanceMetadataOptionsState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum InstanceMetadataProtocolState {
-  disabled('disabled'),
-  enabled('enabled'),
-  ;
+class InstanceMetadataProtocolState {
+  static const disabled = InstanceMetadataProtocolState._('disabled');
+  static const enabled = InstanceMetadataProtocolState._('enabled');
 
   final String value;
 
-  const InstanceMetadataProtocolState(this.value);
+  const InstanceMetadataProtocolState._(this.value);
+
+  static const values = [disabled, enabled];
 
   static InstanceMetadataProtocolState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum InstanceMetadataProtocolState'));
+          orElse: () => InstanceMetadataProtocolState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is InstanceMetadataProtocolState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum InstanceMetadataTagsState {
-  disabled('disabled'),
-  enabled('enabled'),
-  ;
+class InstanceMetadataTagsState {
+  static const disabled = InstanceMetadataTagsState._('disabled');
+  static const enabled = InstanceMetadataTagsState._('enabled');
 
   final String value;
 
-  const InstanceMetadataTagsState(this.value);
+  const InstanceMetadataTagsState._(this.value);
+
+  static const values = [disabled, enabled];
 
   static InstanceMetadataTagsState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum InstanceMetadataTagsState'));
+          orElse: () => InstanceMetadataTagsState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is InstanceMetadataTagsState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes the monitoring of an instance.
@@ -59428,23 +61080,39 @@ class InstanceStateChange {
   }
 }
 
-enum InstanceStateName {
-  pending('pending'),
-  running('running'),
-  shuttingDown('shutting-down'),
-  terminated('terminated'),
-  stopping('stopping'),
-  stopped('stopped'),
-  ;
+class InstanceStateName {
+  static const pending = InstanceStateName._('pending');
+  static const running = InstanceStateName._('running');
+  static const shuttingDown = InstanceStateName._('shutting-down');
+  static const terminated = InstanceStateName._('terminated');
+  static const stopping = InstanceStateName._('stopping');
+  static const stopped = InstanceStateName._('stopped');
 
   final String value;
 
-  const InstanceStateName(this.value);
+  const InstanceStateName._(this.value);
+
+  static const values = [
+    pending,
+    running,
+    shuttingDown,
+    terminated,
+    stopping,
+    stopped
+  ];
 
   static InstanceStateName fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum InstanceStateName'));
+          orElse: () => InstanceStateName._(value));
+
+  @override
+  bool operator ==(other) => other is InstanceStateName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes the status of an instance.
@@ -59616,19 +61284,29 @@ class InstanceStatusSummary {
   }
 }
 
-enum InstanceStorageEncryptionSupport {
-  unsupported('unsupported'),
-  required('required'),
-  ;
+class InstanceStorageEncryptionSupport {
+  static const unsupported = InstanceStorageEncryptionSupport._('unsupported');
+  static const required = InstanceStorageEncryptionSupport._('required');
 
   final String value;
 
-  const InstanceStorageEncryptionSupport(this.value);
+  const InstanceStorageEncryptionSupport._(this.value);
+
+  static const values = [unsupported, required];
 
   static InstanceStorageEncryptionSupport fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum InstanceStorageEncryptionSupport'));
+          orElse: () => InstanceStorageEncryptionSupport._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is InstanceStorageEncryptionSupport && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes the instance store features that are supported by the instance
@@ -59743,852 +61421,1691 @@ class InstanceTopology {
   }
 }
 
-enum InstanceType {
-  a1Medium('a1.medium'),
-  a1Large('a1.large'),
-  a1Xlarge('a1.xlarge'),
-  a1_2xlarge('a1.2xlarge'),
-  a1_4xlarge('a1.4xlarge'),
-  a1Metal('a1.metal'),
-  c1Medium('c1.medium'),
-  c1Xlarge('c1.xlarge'),
-  c3Large('c3.large'),
-  c3Xlarge('c3.xlarge'),
-  c3_2xlarge('c3.2xlarge'),
-  c3_4xlarge('c3.4xlarge'),
-  c3_8xlarge('c3.8xlarge'),
-  c4Large('c4.large'),
-  c4Xlarge('c4.xlarge'),
-  c4_2xlarge('c4.2xlarge'),
-  c4_4xlarge('c4.4xlarge'),
-  c4_8xlarge('c4.8xlarge'),
-  c5Large('c5.large'),
-  c5Xlarge('c5.xlarge'),
-  c5_2xlarge('c5.2xlarge'),
-  c5_4xlarge('c5.4xlarge'),
-  c5_9xlarge('c5.9xlarge'),
-  c5_12xlarge('c5.12xlarge'),
-  c5_18xlarge('c5.18xlarge'),
-  c5_24xlarge('c5.24xlarge'),
-  c5Metal('c5.metal'),
-  c5aLarge('c5a.large'),
-  c5aXlarge('c5a.xlarge'),
-  c5a_2xlarge('c5a.2xlarge'),
-  c5a_4xlarge('c5a.4xlarge'),
-  c5a_8xlarge('c5a.8xlarge'),
-  c5a_12xlarge('c5a.12xlarge'),
-  c5a_16xlarge('c5a.16xlarge'),
-  c5a_24xlarge('c5a.24xlarge'),
-  c5adLarge('c5ad.large'),
-  c5adXlarge('c5ad.xlarge'),
-  c5ad_2xlarge('c5ad.2xlarge'),
-  c5ad_4xlarge('c5ad.4xlarge'),
-  c5ad_8xlarge('c5ad.8xlarge'),
-  c5ad_12xlarge('c5ad.12xlarge'),
-  c5ad_16xlarge('c5ad.16xlarge'),
-  c5ad_24xlarge('c5ad.24xlarge'),
-  c5dLarge('c5d.large'),
-  c5dXlarge('c5d.xlarge'),
-  c5d_2xlarge('c5d.2xlarge'),
-  c5d_4xlarge('c5d.4xlarge'),
-  c5d_9xlarge('c5d.9xlarge'),
-  c5d_12xlarge('c5d.12xlarge'),
-  c5d_18xlarge('c5d.18xlarge'),
-  c5d_24xlarge('c5d.24xlarge'),
-  c5dMetal('c5d.metal'),
-  c5nLarge('c5n.large'),
-  c5nXlarge('c5n.xlarge'),
-  c5n_2xlarge('c5n.2xlarge'),
-  c5n_4xlarge('c5n.4xlarge'),
-  c5n_9xlarge('c5n.9xlarge'),
-  c5n_18xlarge('c5n.18xlarge'),
-  c5nMetal('c5n.metal'),
-  c6gMedium('c6g.medium'),
-  c6gLarge('c6g.large'),
-  c6gXlarge('c6g.xlarge'),
-  c6g_2xlarge('c6g.2xlarge'),
-  c6g_4xlarge('c6g.4xlarge'),
-  c6g_8xlarge('c6g.8xlarge'),
-  c6g_12xlarge('c6g.12xlarge'),
-  c6g_16xlarge('c6g.16xlarge'),
-  c6gMetal('c6g.metal'),
-  c6gdMedium('c6gd.medium'),
-  c6gdLarge('c6gd.large'),
-  c6gdXlarge('c6gd.xlarge'),
-  c6gd_2xlarge('c6gd.2xlarge'),
-  c6gd_4xlarge('c6gd.4xlarge'),
-  c6gd_8xlarge('c6gd.8xlarge'),
-  c6gd_12xlarge('c6gd.12xlarge'),
-  c6gd_16xlarge('c6gd.16xlarge'),
-  c6gdMetal('c6gd.metal'),
-  c6gnMedium('c6gn.medium'),
-  c6gnLarge('c6gn.large'),
-  c6gnXlarge('c6gn.xlarge'),
-  c6gn_2xlarge('c6gn.2xlarge'),
-  c6gn_4xlarge('c6gn.4xlarge'),
-  c6gn_8xlarge('c6gn.8xlarge'),
-  c6gn_12xlarge('c6gn.12xlarge'),
-  c6gn_16xlarge('c6gn.16xlarge'),
-  c6iLarge('c6i.large'),
-  c6iXlarge('c6i.xlarge'),
-  c6i_2xlarge('c6i.2xlarge'),
-  c6i_4xlarge('c6i.4xlarge'),
-  c6i_8xlarge('c6i.8xlarge'),
-  c6i_12xlarge('c6i.12xlarge'),
-  c6i_16xlarge('c6i.16xlarge'),
-  c6i_24xlarge('c6i.24xlarge'),
-  c6i_32xlarge('c6i.32xlarge'),
-  c6iMetal('c6i.metal'),
-  cc1_4xlarge('cc1.4xlarge'),
-  cc2_8xlarge('cc2.8xlarge'),
-  cg1_4xlarge('cg1.4xlarge'),
-  cr1_8xlarge('cr1.8xlarge'),
-  d2Xlarge('d2.xlarge'),
-  d2_2xlarge('d2.2xlarge'),
-  d2_4xlarge('d2.4xlarge'),
-  d2_8xlarge('d2.8xlarge'),
-  d3Xlarge('d3.xlarge'),
-  d3_2xlarge('d3.2xlarge'),
-  d3_4xlarge('d3.4xlarge'),
-  d3_8xlarge('d3.8xlarge'),
-  d3enXlarge('d3en.xlarge'),
-  d3en_2xlarge('d3en.2xlarge'),
-  d3en_4xlarge('d3en.4xlarge'),
-  d3en_6xlarge('d3en.6xlarge'),
-  d3en_8xlarge('d3en.8xlarge'),
-  d3en_12xlarge('d3en.12xlarge'),
-  dl1_24xlarge('dl1.24xlarge'),
-  f1_2xlarge('f1.2xlarge'),
-  f1_4xlarge('f1.4xlarge'),
-  f1_16xlarge('f1.16xlarge'),
-  g2_2xlarge('g2.2xlarge'),
-  g2_8xlarge('g2.8xlarge'),
-  g3_4xlarge('g3.4xlarge'),
-  g3_8xlarge('g3.8xlarge'),
-  g3_16xlarge('g3.16xlarge'),
-  g3sXlarge('g3s.xlarge'),
-  g4adXlarge('g4ad.xlarge'),
-  g4ad_2xlarge('g4ad.2xlarge'),
-  g4ad_4xlarge('g4ad.4xlarge'),
-  g4ad_8xlarge('g4ad.8xlarge'),
-  g4ad_16xlarge('g4ad.16xlarge'),
-  g4dnXlarge('g4dn.xlarge'),
-  g4dn_2xlarge('g4dn.2xlarge'),
-  g4dn_4xlarge('g4dn.4xlarge'),
-  g4dn_8xlarge('g4dn.8xlarge'),
-  g4dn_12xlarge('g4dn.12xlarge'),
-  g4dn_16xlarge('g4dn.16xlarge'),
-  g4dnMetal('g4dn.metal'),
-  g5Xlarge('g5.xlarge'),
-  g5_2xlarge('g5.2xlarge'),
-  g5_4xlarge('g5.4xlarge'),
-  g5_8xlarge('g5.8xlarge'),
-  g5_12xlarge('g5.12xlarge'),
-  g5_16xlarge('g5.16xlarge'),
-  g5_24xlarge('g5.24xlarge'),
-  g5_48xlarge('g5.48xlarge'),
-  g5gXlarge('g5g.xlarge'),
-  g5g_2xlarge('g5g.2xlarge'),
-  g5g_4xlarge('g5g.4xlarge'),
-  g5g_8xlarge('g5g.8xlarge'),
-  g5g_16xlarge('g5g.16xlarge'),
-  g5gMetal('g5g.metal'),
-  hi1_4xlarge('hi1.4xlarge'),
-  hpc6a_48xlarge('hpc6a.48xlarge'),
-  hs1_8xlarge('hs1.8xlarge'),
-  h1_2xlarge('h1.2xlarge'),
-  h1_4xlarge('h1.4xlarge'),
-  h1_8xlarge('h1.8xlarge'),
-  h1_16xlarge('h1.16xlarge'),
-  i2Xlarge('i2.xlarge'),
-  i2_2xlarge('i2.2xlarge'),
-  i2_4xlarge('i2.4xlarge'),
-  i2_8xlarge('i2.8xlarge'),
-  i3Large('i3.large'),
-  i3Xlarge('i3.xlarge'),
-  i3_2xlarge('i3.2xlarge'),
-  i3_4xlarge('i3.4xlarge'),
-  i3_8xlarge('i3.8xlarge'),
-  i3_16xlarge('i3.16xlarge'),
-  i3Metal('i3.metal'),
-  i3enLarge('i3en.large'),
-  i3enXlarge('i3en.xlarge'),
-  i3en_2xlarge('i3en.2xlarge'),
-  i3en_3xlarge('i3en.3xlarge'),
-  i3en_6xlarge('i3en.6xlarge'),
-  i3en_12xlarge('i3en.12xlarge'),
-  i3en_24xlarge('i3en.24xlarge'),
-  i3enMetal('i3en.metal'),
-  im4gnLarge('im4gn.large'),
-  im4gnXlarge('im4gn.xlarge'),
-  im4gn_2xlarge('im4gn.2xlarge'),
-  im4gn_4xlarge('im4gn.4xlarge'),
-  im4gn_8xlarge('im4gn.8xlarge'),
-  im4gn_16xlarge('im4gn.16xlarge'),
-  inf1Xlarge('inf1.xlarge'),
-  inf1_2xlarge('inf1.2xlarge'),
-  inf1_6xlarge('inf1.6xlarge'),
-  inf1_24xlarge('inf1.24xlarge'),
-  is4genMedium('is4gen.medium'),
-  is4genLarge('is4gen.large'),
-  is4genXlarge('is4gen.xlarge'),
-  is4gen_2xlarge('is4gen.2xlarge'),
-  is4gen_4xlarge('is4gen.4xlarge'),
-  is4gen_8xlarge('is4gen.8xlarge'),
-  m1Small('m1.small'),
-  m1Medium('m1.medium'),
-  m1Large('m1.large'),
-  m1Xlarge('m1.xlarge'),
-  m2Xlarge('m2.xlarge'),
-  m2_2xlarge('m2.2xlarge'),
-  m2_4xlarge('m2.4xlarge'),
-  m3Medium('m3.medium'),
-  m3Large('m3.large'),
-  m3Xlarge('m3.xlarge'),
-  m3_2xlarge('m3.2xlarge'),
-  m4Large('m4.large'),
-  m4Xlarge('m4.xlarge'),
-  m4_2xlarge('m4.2xlarge'),
-  m4_4xlarge('m4.4xlarge'),
-  m4_10xlarge('m4.10xlarge'),
-  m4_16xlarge('m4.16xlarge'),
-  m5Large('m5.large'),
-  m5Xlarge('m5.xlarge'),
-  m5_2xlarge('m5.2xlarge'),
-  m5_4xlarge('m5.4xlarge'),
-  m5_8xlarge('m5.8xlarge'),
-  m5_12xlarge('m5.12xlarge'),
-  m5_16xlarge('m5.16xlarge'),
-  m5_24xlarge('m5.24xlarge'),
-  m5Metal('m5.metal'),
-  m5aLarge('m5a.large'),
-  m5aXlarge('m5a.xlarge'),
-  m5a_2xlarge('m5a.2xlarge'),
-  m5a_4xlarge('m5a.4xlarge'),
-  m5a_8xlarge('m5a.8xlarge'),
-  m5a_12xlarge('m5a.12xlarge'),
-  m5a_16xlarge('m5a.16xlarge'),
-  m5a_24xlarge('m5a.24xlarge'),
-  m5adLarge('m5ad.large'),
-  m5adXlarge('m5ad.xlarge'),
-  m5ad_2xlarge('m5ad.2xlarge'),
-  m5ad_4xlarge('m5ad.4xlarge'),
-  m5ad_8xlarge('m5ad.8xlarge'),
-  m5ad_12xlarge('m5ad.12xlarge'),
-  m5ad_16xlarge('m5ad.16xlarge'),
-  m5ad_24xlarge('m5ad.24xlarge'),
-  m5dLarge('m5d.large'),
-  m5dXlarge('m5d.xlarge'),
-  m5d_2xlarge('m5d.2xlarge'),
-  m5d_4xlarge('m5d.4xlarge'),
-  m5d_8xlarge('m5d.8xlarge'),
-  m5d_12xlarge('m5d.12xlarge'),
-  m5d_16xlarge('m5d.16xlarge'),
-  m5d_24xlarge('m5d.24xlarge'),
-  m5dMetal('m5d.metal'),
-  m5dnLarge('m5dn.large'),
-  m5dnXlarge('m5dn.xlarge'),
-  m5dn_2xlarge('m5dn.2xlarge'),
-  m5dn_4xlarge('m5dn.4xlarge'),
-  m5dn_8xlarge('m5dn.8xlarge'),
-  m5dn_12xlarge('m5dn.12xlarge'),
-  m5dn_16xlarge('m5dn.16xlarge'),
-  m5dn_24xlarge('m5dn.24xlarge'),
-  m5dnMetal('m5dn.metal'),
-  m5nLarge('m5n.large'),
-  m5nXlarge('m5n.xlarge'),
-  m5n_2xlarge('m5n.2xlarge'),
-  m5n_4xlarge('m5n.4xlarge'),
-  m5n_8xlarge('m5n.8xlarge'),
-  m5n_12xlarge('m5n.12xlarge'),
-  m5n_16xlarge('m5n.16xlarge'),
-  m5n_24xlarge('m5n.24xlarge'),
-  m5nMetal('m5n.metal'),
-  m5znLarge('m5zn.large'),
-  m5znXlarge('m5zn.xlarge'),
-  m5zn_2xlarge('m5zn.2xlarge'),
-  m5zn_3xlarge('m5zn.3xlarge'),
-  m5zn_6xlarge('m5zn.6xlarge'),
-  m5zn_12xlarge('m5zn.12xlarge'),
-  m5znMetal('m5zn.metal'),
-  m6aLarge('m6a.large'),
-  m6aXlarge('m6a.xlarge'),
-  m6a_2xlarge('m6a.2xlarge'),
-  m6a_4xlarge('m6a.4xlarge'),
-  m6a_8xlarge('m6a.8xlarge'),
-  m6a_12xlarge('m6a.12xlarge'),
-  m6a_16xlarge('m6a.16xlarge'),
-  m6a_24xlarge('m6a.24xlarge'),
-  m6a_32xlarge('m6a.32xlarge'),
-  m6a_48xlarge('m6a.48xlarge'),
-  m6gMetal('m6g.metal'),
-  m6gMedium('m6g.medium'),
-  m6gLarge('m6g.large'),
-  m6gXlarge('m6g.xlarge'),
-  m6g_2xlarge('m6g.2xlarge'),
-  m6g_4xlarge('m6g.4xlarge'),
-  m6g_8xlarge('m6g.8xlarge'),
-  m6g_12xlarge('m6g.12xlarge'),
-  m6g_16xlarge('m6g.16xlarge'),
-  m6gdMetal('m6gd.metal'),
-  m6gdMedium('m6gd.medium'),
-  m6gdLarge('m6gd.large'),
-  m6gdXlarge('m6gd.xlarge'),
-  m6gd_2xlarge('m6gd.2xlarge'),
-  m6gd_4xlarge('m6gd.4xlarge'),
-  m6gd_8xlarge('m6gd.8xlarge'),
-  m6gd_12xlarge('m6gd.12xlarge'),
-  m6gd_16xlarge('m6gd.16xlarge'),
-  m6iLarge('m6i.large'),
-  m6iXlarge('m6i.xlarge'),
-  m6i_2xlarge('m6i.2xlarge'),
-  m6i_4xlarge('m6i.4xlarge'),
-  m6i_8xlarge('m6i.8xlarge'),
-  m6i_12xlarge('m6i.12xlarge'),
-  m6i_16xlarge('m6i.16xlarge'),
-  m6i_24xlarge('m6i.24xlarge'),
-  m6i_32xlarge('m6i.32xlarge'),
-  m6iMetal('m6i.metal'),
-  mac1Metal('mac1.metal'),
-  p2Xlarge('p2.xlarge'),
-  p2_8xlarge('p2.8xlarge'),
-  p2_16xlarge('p2.16xlarge'),
-  p3_2xlarge('p3.2xlarge'),
-  p3_8xlarge('p3.8xlarge'),
-  p3_16xlarge('p3.16xlarge'),
-  p3dn_24xlarge('p3dn.24xlarge'),
-  p4d_24xlarge('p4d.24xlarge'),
-  r3Large('r3.large'),
-  r3Xlarge('r3.xlarge'),
-  r3_2xlarge('r3.2xlarge'),
-  r3_4xlarge('r3.4xlarge'),
-  r3_8xlarge('r3.8xlarge'),
-  r4Large('r4.large'),
-  r4Xlarge('r4.xlarge'),
-  r4_2xlarge('r4.2xlarge'),
-  r4_4xlarge('r4.4xlarge'),
-  r4_8xlarge('r4.8xlarge'),
-  r4_16xlarge('r4.16xlarge'),
-  r5Large('r5.large'),
-  r5Xlarge('r5.xlarge'),
-  r5_2xlarge('r5.2xlarge'),
-  r5_4xlarge('r5.4xlarge'),
-  r5_8xlarge('r5.8xlarge'),
-  r5_12xlarge('r5.12xlarge'),
-  r5_16xlarge('r5.16xlarge'),
-  r5_24xlarge('r5.24xlarge'),
-  r5Metal('r5.metal'),
-  r5aLarge('r5a.large'),
-  r5aXlarge('r5a.xlarge'),
-  r5a_2xlarge('r5a.2xlarge'),
-  r5a_4xlarge('r5a.4xlarge'),
-  r5a_8xlarge('r5a.8xlarge'),
-  r5a_12xlarge('r5a.12xlarge'),
-  r5a_16xlarge('r5a.16xlarge'),
-  r5a_24xlarge('r5a.24xlarge'),
-  r5adLarge('r5ad.large'),
-  r5adXlarge('r5ad.xlarge'),
-  r5ad_2xlarge('r5ad.2xlarge'),
-  r5ad_4xlarge('r5ad.4xlarge'),
-  r5ad_8xlarge('r5ad.8xlarge'),
-  r5ad_12xlarge('r5ad.12xlarge'),
-  r5ad_16xlarge('r5ad.16xlarge'),
-  r5ad_24xlarge('r5ad.24xlarge'),
-  r5bLarge('r5b.large'),
-  r5bXlarge('r5b.xlarge'),
-  r5b_2xlarge('r5b.2xlarge'),
-  r5b_4xlarge('r5b.4xlarge'),
-  r5b_8xlarge('r5b.8xlarge'),
-  r5b_12xlarge('r5b.12xlarge'),
-  r5b_16xlarge('r5b.16xlarge'),
-  r5b_24xlarge('r5b.24xlarge'),
-  r5bMetal('r5b.metal'),
-  r5dLarge('r5d.large'),
-  r5dXlarge('r5d.xlarge'),
-  r5d_2xlarge('r5d.2xlarge'),
-  r5d_4xlarge('r5d.4xlarge'),
-  r5d_8xlarge('r5d.8xlarge'),
-  r5d_12xlarge('r5d.12xlarge'),
-  r5d_16xlarge('r5d.16xlarge'),
-  r5d_24xlarge('r5d.24xlarge'),
-  r5dMetal('r5d.metal'),
-  r5dnLarge('r5dn.large'),
-  r5dnXlarge('r5dn.xlarge'),
-  r5dn_2xlarge('r5dn.2xlarge'),
-  r5dn_4xlarge('r5dn.4xlarge'),
-  r5dn_8xlarge('r5dn.8xlarge'),
-  r5dn_12xlarge('r5dn.12xlarge'),
-  r5dn_16xlarge('r5dn.16xlarge'),
-  r5dn_24xlarge('r5dn.24xlarge'),
-  r5dnMetal('r5dn.metal'),
-  r5nLarge('r5n.large'),
-  r5nXlarge('r5n.xlarge'),
-  r5n_2xlarge('r5n.2xlarge'),
-  r5n_4xlarge('r5n.4xlarge'),
-  r5n_8xlarge('r5n.8xlarge'),
-  r5n_12xlarge('r5n.12xlarge'),
-  r5n_16xlarge('r5n.16xlarge'),
-  r5n_24xlarge('r5n.24xlarge'),
-  r5nMetal('r5n.metal'),
-  r6gMedium('r6g.medium'),
-  r6gLarge('r6g.large'),
-  r6gXlarge('r6g.xlarge'),
-  r6g_2xlarge('r6g.2xlarge'),
-  r6g_4xlarge('r6g.4xlarge'),
-  r6g_8xlarge('r6g.8xlarge'),
-  r6g_12xlarge('r6g.12xlarge'),
-  r6g_16xlarge('r6g.16xlarge'),
-  r6gMetal('r6g.metal'),
-  r6gdMedium('r6gd.medium'),
-  r6gdLarge('r6gd.large'),
-  r6gdXlarge('r6gd.xlarge'),
-  r6gd_2xlarge('r6gd.2xlarge'),
-  r6gd_4xlarge('r6gd.4xlarge'),
-  r6gd_8xlarge('r6gd.8xlarge'),
-  r6gd_12xlarge('r6gd.12xlarge'),
-  r6gd_16xlarge('r6gd.16xlarge'),
-  r6gdMetal('r6gd.metal'),
-  r6iLarge('r6i.large'),
-  r6iXlarge('r6i.xlarge'),
-  r6i_2xlarge('r6i.2xlarge'),
-  r6i_4xlarge('r6i.4xlarge'),
-  r6i_8xlarge('r6i.8xlarge'),
-  r6i_12xlarge('r6i.12xlarge'),
-  r6i_16xlarge('r6i.16xlarge'),
-  r6i_24xlarge('r6i.24xlarge'),
-  r6i_32xlarge('r6i.32xlarge'),
-  r6iMetal('r6i.metal'),
-  t1Micro('t1.micro'),
-  t2Nano('t2.nano'),
-  t2Micro('t2.micro'),
-  t2Small('t2.small'),
-  t2Medium('t2.medium'),
-  t2Large('t2.large'),
-  t2Xlarge('t2.xlarge'),
-  t2_2xlarge('t2.2xlarge'),
-  t3Nano('t3.nano'),
-  t3Micro('t3.micro'),
-  t3Small('t3.small'),
-  t3Medium('t3.medium'),
-  t3Large('t3.large'),
-  t3Xlarge('t3.xlarge'),
-  t3_2xlarge('t3.2xlarge'),
-  t3aNano('t3a.nano'),
-  t3aMicro('t3a.micro'),
-  t3aSmall('t3a.small'),
-  t3aMedium('t3a.medium'),
-  t3aLarge('t3a.large'),
-  t3aXlarge('t3a.xlarge'),
-  t3a_2xlarge('t3a.2xlarge'),
-  t4gNano('t4g.nano'),
-  t4gMicro('t4g.micro'),
-  t4gSmall('t4g.small'),
-  t4gMedium('t4g.medium'),
-  t4gLarge('t4g.large'),
-  t4gXlarge('t4g.xlarge'),
-  t4g_2xlarge('t4g.2xlarge'),
-  u_6tb1_56xlarge('u-6tb1.56xlarge'),
-  u_6tb1_112xlarge('u-6tb1.112xlarge'),
-  u_9tb1_112xlarge('u-9tb1.112xlarge'),
-  u_12tb1_112xlarge('u-12tb1.112xlarge'),
-  u_6tb1Metal('u-6tb1.metal'),
-  u_9tb1Metal('u-9tb1.metal'),
-  u_12tb1Metal('u-12tb1.metal'),
-  u_18tb1Metal('u-18tb1.metal'),
-  u_24tb1Metal('u-24tb1.metal'),
-  vt1_3xlarge('vt1.3xlarge'),
-  vt1_6xlarge('vt1.6xlarge'),
-  vt1_24xlarge('vt1.24xlarge'),
-  x1_16xlarge('x1.16xlarge'),
-  x1_32xlarge('x1.32xlarge'),
-  x1eXlarge('x1e.xlarge'),
-  x1e_2xlarge('x1e.2xlarge'),
-  x1e_4xlarge('x1e.4xlarge'),
-  x1e_8xlarge('x1e.8xlarge'),
-  x1e_16xlarge('x1e.16xlarge'),
-  x1e_32xlarge('x1e.32xlarge'),
-  x2iezn_2xlarge('x2iezn.2xlarge'),
-  x2iezn_4xlarge('x2iezn.4xlarge'),
-  x2iezn_6xlarge('x2iezn.6xlarge'),
-  x2iezn_8xlarge('x2iezn.8xlarge'),
-  x2iezn_12xlarge('x2iezn.12xlarge'),
-  x2ieznMetal('x2iezn.metal'),
-  x2gdMedium('x2gd.medium'),
-  x2gdLarge('x2gd.large'),
-  x2gdXlarge('x2gd.xlarge'),
-  x2gd_2xlarge('x2gd.2xlarge'),
-  x2gd_4xlarge('x2gd.4xlarge'),
-  x2gd_8xlarge('x2gd.8xlarge'),
-  x2gd_12xlarge('x2gd.12xlarge'),
-  x2gd_16xlarge('x2gd.16xlarge'),
-  x2gdMetal('x2gd.metal'),
-  z1dLarge('z1d.large'),
-  z1dXlarge('z1d.xlarge'),
-  z1d_2xlarge('z1d.2xlarge'),
-  z1d_3xlarge('z1d.3xlarge'),
-  z1d_6xlarge('z1d.6xlarge'),
-  z1d_12xlarge('z1d.12xlarge'),
-  z1dMetal('z1d.metal'),
-  x2idn_16xlarge('x2idn.16xlarge'),
-  x2idn_24xlarge('x2idn.24xlarge'),
-  x2idn_32xlarge('x2idn.32xlarge'),
-  x2iednXlarge('x2iedn.xlarge'),
-  x2iedn_2xlarge('x2iedn.2xlarge'),
-  x2iedn_4xlarge('x2iedn.4xlarge'),
-  x2iedn_8xlarge('x2iedn.8xlarge'),
-  x2iedn_16xlarge('x2iedn.16xlarge'),
-  x2iedn_24xlarge('x2iedn.24xlarge'),
-  x2iedn_32xlarge('x2iedn.32xlarge'),
-  c6aLarge('c6a.large'),
-  c6aXlarge('c6a.xlarge'),
-  c6a_2xlarge('c6a.2xlarge'),
-  c6a_4xlarge('c6a.4xlarge'),
-  c6a_8xlarge('c6a.8xlarge'),
-  c6a_12xlarge('c6a.12xlarge'),
-  c6a_16xlarge('c6a.16xlarge'),
-  c6a_24xlarge('c6a.24xlarge'),
-  c6a_32xlarge('c6a.32xlarge'),
-  c6a_48xlarge('c6a.48xlarge'),
-  c6aMetal('c6a.metal'),
-  m6aMetal('m6a.metal'),
-  i4iLarge('i4i.large'),
-  i4iXlarge('i4i.xlarge'),
-  i4i_2xlarge('i4i.2xlarge'),
-  i4i_4xlarge('i4i.4xlarge'),
-  i4i_8xlarge('i4i.8xlarge'),
-  i4i_16xlarge('i4i.16xlarge'),
-  i4i_32xlarge('i4i.32xlarge'),
-  i4iMetal('i4i.metal'),
-  x2idnMetal('x2idn.metal'),
-  x2iednMetal('x2iedn.metal'),
-  c7gMedium('c7g.medium'),
-  c7gLarge('c7g.large'),
-  c7gXlarge('c7g.xlarge'),
-  c7g_2xlarge('c7g.2xlarge'),
-  c7g_4xlarge('c7g.4xlarge'),
-  c7g_8xlarge('c7g.8xlarge'),
-  c7g_12xlarge('c7g.12xlarge'),
-  c7g_16xlarge('c7g.16xlarge'),
-  mac2Metal('mac2.metal'),
-  c6idLarge('c6id.large'),
-  c6idXlarge('c6id.xlarge'),
-  c6id_2xlarge('c6id.2xlarge'),
-  c6id_4xlarge('c6id.4xlarge'),
-  c6id_8xlarge('c6id.8xlarge'),
-  c6id_12xlarge('c6id.12xlarge'),
-  c6id_16xlarge('c6id.16xlarge'),
-  c6id_24xlarge('c6id.24xlarge'),
-  c6id_32xlarge('c6id.32xlarge'),
-  c6idMetal('c6id.metal'),
-  m6idLarge('m6id.large'),
-  m6idXlarge('m6id.xlarge'),
-  m6id_2xlarge('m6id.2xlarge'),
-  m6id_4xlarge('m6id.4xlarge'),
-  m6id_8xlarge('m6id.8xlarge'),
-  m6id_12xlarge('m6id.12xlarge'),
-  m6id_16xlarge('m6id.16xlarge'),
-  m6id_24xlarge('m6id.24xlarge'),
-  m6id_32xlarge('m6id.32xlarge'),
-  m6idMetal('m6id.metal'),
-  r6idLarge('r6id.large'),
-  r6idXlarge('r6id.xlarge'),
-  r6id_2xlarge('r6id.2xlarge'),
-  r6id_4xlarge('r6id.4xlarge'),
-  r6id_8xlarge('r6id.8xlarge'),
-  r6id_12xlarge('r6id.12xlarge'),
-  r6id_16xlarge('r6id.16xlarge'),
-  r6id_24xlarge('r6id.24xlarge'),
-  r6id_32xlarge('r6id.32xlarge'),
-  r6idMetal('r6id.metal'),
-  r6aLarge('r6a.large'),
-  r6aXlarge('r6a.xlarge'),
-  r6a_2xlarge('r6a.2xlarge'),
-  r6a_4xlarge('r6a.4xlarge'),
-  r6a_8xlarge('r6a.8xlarge'),
-  r6a_12xlarge('r6a.12xlarge'),
-  r6a_16xlarge('r6a.16xlarge'),
-  r6a_24xlarge('r6a.24xlarge'),
-  r6a_32xlarge('r6a.32xlarge'),
-  r6a_48xlarge('r6a.48xlarge'),
-  r6aMetal('r6a.metal'),
-  p4de_24xlarge('p4de.24xlarge'),
-  u_3tb1_56xlarge('u-3tb1.56xlarge'),
-  u_18tb1_112xlarge('u-18tb1.112xlarge'),
-  u_24tb1_112xlarge('u-24tb1.112xlarge'),
-  trn1_2xlarge('trn1.2xlarge'),
-  trn1_32xlarge('trn1.32xlarge'),
-  hpc6id_32xlarge('hpc6id.32xlarge'),
-  c6inLarge('c6in.large'),
-  c6inXlarge('c6in.xlarge'),
-  c6in_2xlarge('c6in.2xlarge'),
-  c6in_4xlarge('c6in.4xlarge'),
-  c6in_8xlarge('c6in.8xlarge'),
-  c6in_12xlarge('c6in.12xlarge'),
-  c6in_16xlarge('c6in.16xlarge'),
-  c6in_24xlarge('c6in.24xlarge'),
-  c6in_32xlarge('c6in.32xlarge'),
-  m6inLarge('m6in.large'),
-  m6inXlarge('m6in.xlarge'),
-  m6in_2xlarge('m6in.2xlarge'),
-  m6in_4xlarge('m6in.4xlarge'),
-  m6in_8xlarge('m6in.8xlarge'),
-  m6in_12xlarge('m6in.12xlarge'),
-  m6in_16xlarge('m6in.16xlarge'),
-  m6in_24xlarge('m6in.24xlarge'),
-  m6in_32xlarge('m6in.32xlarge'),
-  m6idnLarge('m6idn.large'),
-  m6idnXlarge('m6idn.xlarge'),
-  m6idn_2xlarge('m6idn.2xlarge'),
-  m6idn_4xlarge('m6idn.4xlarge'),
-  m6idn_8xlarge('m6idn.8xlarge'),
-  m6idn_12xlarge('m6idn.12xlarge'),
-  m6idn_16xlarge('m6idn.16xlarge'),
-  m6idn_24xlarge('m6idn.24xlarge'),
-  m6idn_32xlarge('m6idn.32xlarge'),
-  r6inLarge('r6in.large'),
-  r6inXlarge('r6in.xlarge'),
-  r6in_2xlarge('r6in.2xlarge'),
-  r6in_4xlarge('r6in.4xlarge'),
-  r6in_8xlarge('r6in.8xlarge'),
-  r6in_12xlarge('r6in.12xlarge'),
-  r6in_16xlarge('r6in.16xlarge'),
-  r6in_24xlarge('r6in.24xlarge'),
-  r6in_32xlarge('r6in.32xlarge'),
-  r6idnLarge('r6idn.large'),
-  r6idnXlarge('r6idn.xlarge'),
-  r6idn_2xlarge('r6idn.2xlarge'),
-  r6idn_4xlarge('r6idn.4xlarge'),
-  r6idn_8xlarge('r6idn.8xlarge'),
-  r6idn_12xlarge('r6idn.12xlarge'),
-  r6idn_16xlarge('r6idn.16xlarge'),
-  r6idn_24xlarge('r6idn.24xlarge'),
-  r6idn_32xlarge('r6idn.32xlarge'),
-  c7gMetal('c7g.metal'),
-  m7gMedium('m7g.medium'),
-  m7gLarge('m7g.large'),
-  m7gXlarge('m7g.xlarge'),
-  m7g_2xlarge('m7g.2xlarge'),
-  m7g_4xlarge('m7g.4xlarge'),
-  m7g_8xlarge('m7g.8xlarge'),
-  m7g_12xlarge('m7g.12xlarge'),
-  m7g_16xlarge('m7g.16xlarge'),
-  m7gMetal('m7g.metal'),
-  r7gMedium('r7g.medium'),
-  r7gLarge('r7g.large'),
-  r7gXlarge('r7g.xlarge'),
-  r7g_2xlarge('r7g.2xlarge'),
-  r7g_4xlarge('r7g.4xlarge'),
-  r7g_8xlarge('r7g.8xlarge'),
-  r7g_12xlarge('r7g.12xlarge'),
-  r7g_16xlarge('r7g.16xlarge'),
-  r7gMetal('r7g.metal'),
-  c6inMetal('c6in.metal'),
-  m6inMetal('m6in.metal'),
-  m6idnMetal('m6idn.metal'),
-  r6inMetal('r6in.metal'),
-  r6idnMetal('r6idn.metal'),
-  inf2Xlarge('inf2.xlarge'),
-  inf2_8xlarge('inf2.8xlarge'),
-  inf2_24xlarge('inf2.24xlarge'),
-  inf2_48xlarge('inf2.48xlarge'),
-  trn1n_32xlarge('trn1n.32xlarge'),
-  i4gLarge('i4g.large'),
-  i4gXlarge('i4g.xlarge'),
-  i4g_2xlarge('i4g.2xlarge'),
-  i4g_4xlarge('i4g.4xlarge'),
-  i4g_8xlarge('i4g.8xlarge'),
-  i4g_16xlarge('i4g.16xlarge'),
-  hpc7g_4xlarge('hpc7g.4xlarge'),
-  hpc7g_8xlarge('hpc7g.8xlarge'),
-  hpc7g_16xlarge('hpc7g.16xlarge'),
-  c7gnMedium('c7gn.medium'),
-  c7gnLarge('c7gn.large'),
-  c7gnXlarge('c7gn.xlarge'),
-  c7gn_2xlarge('c7gn.2xlarge'),
-  c7gn_4xlarge('c7gn.4xlarge'),
-  c7gn_8xlarge('c7gn.8xlarge'),
-  c7gn_12xlarge('c7gn.12xlarge'),
-  c7gn_16xlarge('c7gn.16xlarge'),
-  p5_48xlarge('p5.48xlarge'),
-  m7iLarge('m7i.large'),
-  m7iXlarge('m7i.xlarge'),
-  m7i_2xlarge('m7i.2xlarge'),
-  m7i_4xlarge('m7i.4xlarge'),
-  m7i_8xlarge('m7i.8xlarge'),
-  m7i_12xlarge('m7i.12xlarge'),
-  m7i_16xlarge('m7i.16xlarge'),
-  m7i_24xlarge('m7i.24xlarge'),
-  m7i_48xlarge('m7i.48xlarge'),
-  m7iFlexLarge('m7i-flex.large'),
-  m7iFlexXlarge('m7i-flex.xlarge'),
-  m7iFlex_2xlarge('m7i-flex.2xlarge'),
-  m7iFlex_4xlarge('m7i-flex.4xlarge'),
-  m7iFlex_8xlarge('m7i-flex.8xlarge'),
-  m7aMedium('m7a.medium'),
-  m7aLarge('m7a.large'),
-  m7aXlarge('m7a.xlarge'),
-  m7a_2xlarge('m7a.2xlarge'),
-  m7a_4xlarge('m7a.4xlarge'),
-  m7a_8xlarge('m7a.8xlarge'),
-  m7a_12xlarge('m7a.12xlarge'),
-  m7a_16xlarge('m7a.16xlarge'),
-  m7a_24xlarge('m7a.24xlarge'),
-  m7a_32xlarge('m7a.32xlarge'),
-  m7a_48xlarge('m7a.48xlarge'),
-  m7aMetal_48xl('m7a.metal-48xl'),
-  hpc7a_12xlarge('hpc7a.12xlarge'),
-  hpc7a_24xlarge('hpc7a.24xlarge'),
-  hpc7a_48xlarge('hpc7a.48xlarge'),
-  hpc7a_96xlarge('hpc7a.96xlarge'),
-  c7gdMedium('c7gd.medium'),
-  c7gdLarge('c7gd.large'),
-  c7gdXlarge('c7gd.xlarge'),
-  c7gd_2xlarge('c7gd.2xlarge'),
-  c7gd_4xlarge('c7gd.4xlarge'),
-  c7gd_8xlarge('c7gd.8xlarge'),
-  c7gd_12xlarge('c7gd.12xlarge'),
-  c7gd_16xlarge('c7gd.16xlarge'),
-  m7gdMedium('m7gd.medium'),
-  m7gdLarge('m7gd.large'),
-  m7gdXlarge('m7gd.xlarge'),
-  m7gd_2xlarge('m7gd.2xlarge'),
-  m7gd_4xlarge('m7gd.4xlarge'),
-  m7gd_8xlarge('m7gd.8xlarge'),
-  m7gd_12xlarge('m7gd.12xlarge'),
-  m7gd_16xlarge('m7gd.16xlarge'),
-  r7gdMedium('r7gd.medium'),
-  r7gdLarge('r7gd.large'),
-  r7gdXlarge('r7gd.xlarge'),
-  r7gd_2xlarge('r7gd.2xlarge'),
-  r7gd_4xlarge('r7gd.4xlarge'),
-  r7gd_8xlarge('r7gd.8xlarge'),
-  r7gd_12xlarge('r7gd.12xlarge'),
-  r7gd_16xlarge('r7gd.16xlarge'),
-  r7aMedium('r7a.medium'),
-  r7aLarge('r7a.large'),
-  r7aXlarge('r7a.xlarge'),
-  r7a_2xlarge('r7a.2xlarge'),
-  r7a_4xlarge('r7a.4xlarge'),
-  r7a_8xlarge('r7a.8xlarge'),
-  r7a_12xlarge('r7a.12xlarge'),
-  r7a_16xlarge('r7a.16xlarge'),
-  r7a_24xlarge('r7a.24xlarge'),
-  r7a_32xlarge('r7a.32xlarge'),
-  r7a_48xlarge('r7a.48xlarge'),
-  c7iLarge('c7i.large'),
-  c7iXlarge('c7i.xlarge'),
-  c7i_2xlarge('c7i.2xlarge'),
-  c7i_4xlarge('c7i.4xlarge'),
-  c7i_8xlarge('c7i.8xlarge'),
-  c7i_12xlarge('c7i.12xlarge'),
-  c7i_16xlarge('c7i.16xlarge'),
-  c7i_24xlarge('c7i.24xlarge'),
-  c7i_48xlarge('c7i.48xlarge'),
-  mac2M2proMetal('mac2-m2pro.metal'),
-  r7izLarge('r7iz.large'),
-  r7izXlarge('r7iz.xlarge'),
-  r7iz_2xlarge('r7iz.2xlarge'),
-  r7iz_4xlarge('r7iz.4xlarge'),
-  r7iz_8xlarge('r7iz.8xlarge'),
-  r7iz_12xlarge('r7iz.12xlarge'),
-  r7iz_16xlarge('r7iz.16xlarge'),
-  r7iz_32xlarge('r7iz.32xlarge'),
-  c7aMedium('c7a.medium'),
-  c7aLarge('c7a.large'),
-  c7aXlarge('c7a.xlarge'),
-  c7a_2xlarge('c7a.2xlarge'),
-  c7a_4xlarge('c7a.4xlarge'),
-  c7a_8xlarge('c7a.8xlarge'),
-  c7a_12xlarge('c7a.12xlarge'),
-  c7a_16xlarge('c7a.16xlarge'),
-  c7a_24xlarge('c7a.24xlarge'),
-  c7a_32xlarge('c7a.32xlarge'),
-  c7a_48xlarge('c7a.48xlarge'),
-  c7aMetal_48xl('c7a.metal-48xl'),
-  r7aMetal_48xl('r7a.metal-48xl'),
-  r7iLarge('r7i.large'),
-  r7iXlarge('r7i.xlarge'),
-  r7i_2xlarge('r7i.2xlarge'),
-  r7i_4xlarge('r7i.4xlarge'),
-  r7i_8xlarge('r7i.8xlarge'),
-  r7i_12xlarge('r7i.12xlarge'),
-  r7i_16xlarge('r7i.16xlarge'),
-  r7i_24xlarge('r7i.24xlarge'),
-  r7i_48xlarge('r7i.48xlarge'),
-  dl2q_24xlarge('dl2q.24xlarge'),
-  mac2M2Metal('mac2-m2.metal'),
-  i4i_12xlarge('i4i.12xlarge'),
-  i4i_24xlarge('i4i.24xlarge'),
-  c7iMetal_24xl('c7i.metal-24xl'),
-  c7iMetal_48xl('c7i.metal-48xl'),
-  m7iMetal_24xl('m7i.metal-24xl'),
-  m7iMetal_48xl('m7i.metal-48xl'),
-  r7iMetal_24xl('r7i.metal-24xl'),
-  r7iMetal_48xl('r7i.metal-48xl'),
-  r7izMetal_16xl('r7iz.metal-16xl'),
-  r7izMetal_32xl('r7iz.metal-32xl'),
-  c7gdMetal('c7gd.metal'),
-  m7gdMetal('m7gd.metal'),
-  r7gdMetal('r7gd.metal'),
-  g6Xlarge('g6.xlarge'),
-  g6_2xlarge('g6.2xlarge'),
-  g6_4xlarge('g6.4xlarge'),
-  g6_8xlarge('g6.8xlarge'),
-  g6_12xlarge('g6.12xlarge'),
-  g6_16xlarge('g6.16xlarge'),
-  g6_24xlarge('g6.24xlarge'),
-  g6_48xlarge('g6.48xlarge'),
-  gr6_4xlarge('gr6.4xlarge'),
-  gr6_8xlarge('gr6.8xlarge'),
-  c7iFlexLarge('c7i-flex.large'),
-  c7iFlexXlarge('c7i-flex.xlarge'),
-  c7iFlex_2xlarge('c7i-flex.2xlarge'),
-  c7iFlex_4xlarge('c7i-flex.4xlarge'),
-  c7iFlex_8xlarge('c7i-flex.8xlarge'),
-  u7i_12tb_224xlarge('u7i-12tb.224xlarge'),
-  u7in_16tb_224xlarge('u7in-16tb.224xlarge'),
-  u7in_24tb_224xlarge('u7in-24tb.224xlarge'),
-  u7in_32tb_224xlarge('u7in-32tb.224xlarge'),
-  u7ib_12tb_224xlarge('u7ib-12tb.224xlarge'),
-  c7gnMetal('c7gn.metal'),
-  r8gMedium('r8g.medium'),
-  r8gLarge('r8g.large'),
-  r8gXlarge('r8g.xlarge'),
-  r8g_2xlarge('r8g.2xlarge'),
-  r8g_4xlarge('r8g.4xlarge'),
-  r8g_8xlarge('r8g.8xlarge'),
-  r8g_12xlarge('r8g.12xlarge'),
-  r8g_16xlarge('r8g.16xlarge'),
-  r8g_24xlarge('r8g.24xlarge'),
-  r8g_48xlarge('r8g.48xlarge'),
-  r8gMetal_24xl('r8g.metal-24xl'),
-  r8gMetal_48xl('r8g.metal-48xl'),
-  mac2M1ultraMetal('mac2-m1ultra.metal'),
-  ;
+class InstanceType {
+  static const a1Medium = InstanceType._('a1.medium');
+  static const a1Large = InstanceType._('a1.large');
+  static const a1Xlarge = InstanceType._('a1.xlarge');
+  static const a1_2xlarge = InstanceType._('a1.2xlarge');
+  static const a1_4xlarge = InstanceType._('a1.4xlarge');
+  static const a1Metal = InstanceType._('a1.metal');
+  static const c1Medium = InstanceType._('c1.medium');
+  static const c1Xlarge = InstanceType._('c1.xlarge');
+  static const c3Large = InstanceType._('c3.large');
+  static const c3Xlarge = InstanceType._('c3.xlarge');
+  static const c3_2xlarge = InstanceType._('c3.2xlarge');
+  static const c3_4xlarge = InstanceType._('c3.4xlarge');
+  static const c3_8xlarge = InstanceType._('c3.8xlarge');
+  static const c4Large = InstanceType._('c4.large');
+  static const c4Xlarge = InstanceType._('c4.xlarge');
+  static const c4_2xlarge = InstanceType._('c4.2xlarge');
+  static const c4_4xlarge = InstanceType._('c4.4xlarge');
+  static const c4_8xlarge = InstanceType._('c4.8xlarge');
+  static const c5Large = InstanceType._('c5.large');
+  static const c5Xlarge = InstanceType._('c5.xlarge');
+  static const c5_2xlarge = InstanceType._('c5.2xlarge');
+  static const c5_4xlarge = InstanceType._('c5.4xlarge');
+  static const c5_9xlarge = InstanceType._('c5.9xlarge');
+  static const c5_12xlarge = InstanceType._('c5.12xlarge');
+  static const c5_18xlarge = InstanceType._('c5.18xlarge');
+  static const c5_24xlarge = InstanceType._('c5.24xlarge');
+  static const c5Metal = InstanceType._('c5.metal');
+  static const c5aLarge = InstanceType._('c5a.large');
+  static const c5aXlarge = InstanceType._('c5a.xlarge');
+  static const c5a_2xlarge = InstanceType._('c5a.2xlarge');
+  static const c5a_4xlarge = InstanceType._('c5a.4xlarge');
+  static const c5a_8xlarge = InstanceType._('c5a.8xlarge');
+  static const c5a_12xlarge = InstanceType._('c5a.12xlarge');
+  static const c5a_16xlarge = InstanceType._('c5a.16xlarge');
+  static const c5a_24xlarge = InstanceType._('c5a.24xlarge');
+  static const c5adLarge = InstanceType._('c5ad.large');
+  static const c5adXlarge = InstanceType._('c5ad.xlarge');
+  static const c5ad_2xlarge = InstanceType._('c5ad.2xlarge');
+  static const c5ad_4xlarge = InstanceType._('c5ad.4xlarge');
+  static const c5ad_8xlarge = InstanceType._('c5ad.8xlarge');
+  static const c5ad_12xlarge = InstanceType._('c5ad.12xlarge');
+  static const c5ad_16xlarge = InstanceType._('c5ad.16xlarge');
+  static const c5ad_24xlarge = InstanceType._('c5ad.24xlarge');
+  static const c5dLarge = InstanceType._('c5d.large');
+  static const c5dXlarge = InstanceType._('c5d.xlarge');
+  static const c5d_2xlarge = InstanceType._('c5d.2xlarge');
+  static const c5d_4xlarge = InstanceType._('c5d.4xlarge');
+  static const c5d_9xlarge = InstanceType._('c5d.9xlarge');
+  static const c5d_12xlarge = InstanceType._('c5d.12xlarge');
+  static const c5d_18xlarge = InstanceType._('c5d.18xlarge');
+  static const c5d_24xlarge = InstanceType._('c5d.24xlarge');
+  static const c5dMetal = InstanceType._('c5d.metal');
+  static const c5nLarge = InstanceType._('c5n.large');
+  static const c5nXlarge = InstanceType._('c5n.xlarge');
+  static const c5n_2xlarge = InstanceType._('c5n.2xlarge');
+  static const c5n_4xlarge = InstanceType._('c5n.4xlarge');
+  static const c5n_9xlarge = InstanceType._('c5n.9xlarge');
+  static const c5n_18xlarge = InstanceType._('c5n.18xlarge');
+  static const c5nMetal = InstanceType._('c5n.metal');
+  static const c6gMedium = InstanceType._('c6g.medium');
+  static const c6gLarge = InstanceType._('c6g.large');
+  static const c6gXlarge = InstanceType._('c6g.xlarge');
+  static const c6g_2xlarge = InstanceType._('c6g.2xlarge');
+  static const c6g_4xlarge = InstanceType._('c6g.4xlarge');
+  static const c6g_8xlarge = InstanceType._('c6g.8xlarge');
+  static const c6g_12xlarge = InstanceType._('c6g.12xlarge');
+  static const c6g_16xlarge = InstanceType._('c6g.16xlarge');
+  static const c6gMetal = InstanceType._('c6g.metal');
+  static const c6gdMedium = InstanceType._('c6gd.medium');
+  static const c6gdLarge = InstanceType._('c6gd.large');
+  static const c6gdXlarge = InstanceType._('c6gd.xlarge');
+  static const c6gd_2xlarge = InstanceType._('c6gd.2xlarge');
+  static const c6gd_4xlarge = InstanceType._('c6gd.4xlarge');
+  static const c6gd_8xlarge = InstanceType._('c6gd.8xlarge');
+  static const c6gd_12xlarge = InstanceType._('c6gd.12xlarge');
+  static const c6gd_16xlarge = InstanceType._('c6gd.16xlarge');
+  static const c6gdMetal = InstanceType._('c6gd.metal');
+  static const c6gnMedium = InstanceType._('c6gn.medium');
+  static const c6gnLarge = InstanceType._('c6gn.large');
+  static const c6gnXlarge = InstanceType._('c6gn.xlarge');
+  static const c6gn_2xlarge = InstanceType._('c6gn.2xlarge');
+  static const c6gn_4xlarge = InstanceType._('c6gn.4xlarge');
+  static const c6gn_8xlarge = InstanceType._('c6gn.8xlarge');
+  static const c6gn_12xlarge = InstanceType._('c6gn.12xlarge');
+  static const c6gn_16xlarge = InstanceType._('c6gn.16xlarge');
+  static const c6iLarge = InstanceType._('c6i.large');
+  static const c6iXlarge = InstanceType._('c6i.xlarge');
+  static const c6i_2xlarge = InstanceType._('c6i.2xlarge');
+  static const c6i_4xlarge = InstanceType._('c6i.4xlarge');
+  static const c6i_8xlarge = InstanceType._('c6i.8xlarge');
+  static const c6i_12xlarge = InstanceType._('c6i.12xlarge');
+  static const c6i_16xlarge = InstanceType._('c6i.16xlarge');
+  static const c6i_24xlarge = InstanceType._('c6i.24xlarge');
+  static const c6i_32xlarge = InstanceType._('c6i.32xlarge');
+  static const c6iMetal = InstanceType._('c6i.metal');
+  static const cc1_4xlarge = InstanceType._('cc1.4xlarge');
+  static const cc2_8xlarge = InstanceType._('cc2.8xlarge');
+  static const cg1_4xlarge = InstanceType._('cg1.4xlarge');
+  static const cr1_8xlarge = InstanceType._('cr1.8xlarge');
+  static const d2Xlarge = InstanceType._('d2.xlarge');
+  static const d2_2xlarge = InstanceType._('d2.2xlarge');
+  static const d2_4xlarge = InstanceType._('d2.4xlarge');
+  static const d2_8xlarge = InstanceType._('d2.8xlarge');
+  static const d3Xlarge = InstanceType._('d3.xlarge');
+  static const d3_2xlarge = InstanceType._('d3.2xlarge');
+  static const d3_4xlarge = InstanceType._('d3.4xlarge');
+  static const d3_8xlarge = InstanceType._('d3.8xlarge');
+  static const d3enXlarge = InstanceType._('d3en.xlarge');
+  static const d3en_2xlarge = InstanceType._('d3en.2xlarge');
+  static const d3en_4xlarge = InstanceType._('d3en.4xlarge');
+  static const d3en_6xlarge = InstanceType._('d3en.6xlarge');
+  static const d3en_8xlarge = InstanceType._('d3en.8xlarge');
+  static const d3en_12xlarge = InstanceType._('d3en.12xlarge');
+  static const dl1_24xlarge = InstanceType._('dl1.24xlarge');
+  static const f1_2xlarge = InstanceType._('f1.2xlarge');
+  static const f1_4xlarge = InstanceType._('f1.4xlarge');
+  static const f1_16xlarge = InstanceType._('f1.16xlarge');
+  static const g2_2xlarge = InstanceType._('g2.2xlarge');
+  static const g2_8xlarge = InstanceType._('g2.8xlarge');
+  static const g3_4xlarge = InstanceType._('g3.4xlarge');
+  static const g3_8xlarge = InstanceType._('g3.8xlarge');
+  static const g3_16xlarge = InstanceType._('g3.16xlarge');
+  static const g3sXlarge = InstanceType._('g3s.xlarge');
+  static const g4adXlarge = InstanceType._('g4ad.xlarge');
+  static const g4ad_2xlarge = InstanceType._('g4ad.2xlarge');
+  static const g4ad_4xlarge = InstanceType._('g4ad.4xlarge');
+  static const g4ad_8xlarge = InstanceType._('g4ad.8xlarge');
+  static const g4ad_16xlarge = InstanceType._('g4ad.16xlarge');
+  static const g4dnXlarge = InstanceType._('g4dn.xlarge');
+  static const g4dn_2xlarge = InstanceType._('g4dn.2xlarge');
+  static const g4dn_4xlarge = InstanceType._('g4dn.4xlarge');
+  static const g4dn_8xlarge = InstanceType._('g4dn.8xlarge');
+  static const g4dn_12xlarge = InstanceType._('g4dn.12xlarge');
+  static const g4dn_16xlarge = InstanceType._('g4dn.16xlarge');
+  static const g4dnMetal = InstanceType._('g4dn.metal');
+  static const g5Xlarge = InstanceType._('g5.xlarge');
+  static const g5_2xlarge = InstanceType._('g5.2xlarge');
+  static const g5_4xlarge = InstanceType._('g5.4xlarge');
+  static const g5_8xlarge = InstanceType._('g5.8xlarge');
+  static const g5_12xlarge = InstanceType._('g5.12xlarge');
+  static const g5_16xlarge = InstanceType._('g5.16xlarge');
+  static const g5_24xlarge = InstanceType._('g5.24xlarge');
+  static const g5_48xlarge = InstanceType._('g5.48xlarge');
+  static const g5gXlarge = InstanceType._('g5g.xlarge');
+  static const g5g_2xlarge = InstanceType._('g5g.2xlarge');
+  static const g5g_4xlarge = InstanceType._('g5g.4xlarge');
+  static const g5g_8xlarge = InstanceType._('g5g.8xlarge');
+  static const g5g_16xlarge = InstanceType._('g5g.16xlarge');
+  static const g5gMetal = InstanceType._('g5g.metal');
+  static const hi1_4xlarge = InstanceType._('hi1.4xlarge');
+  static const hpc6a_48xlarge = InstanceType._('hpc6a.48xlarge');
+  static const hs1_8xlarge = InstanceType._('hs1.8xlarge');
+  static const h1_2xlarge = InstanceType._('h1.2xlarge');
+  static const h1_4xlarge = InstanceType._('h1.4xlarge');
+  static const h1_8xlarge = InstanceType._('h1.8xlarge');
+  static const h1_16xlarge = InstanceType._('h1.16xlarge');
+  static const i2Xlarge = InstanceType._('i2.xlarge');
+  static const i2_2xlarge = InstanceType._('i2.2xlarge');
+  static const i2_4xlarge = InstanceType._('i2.4xlarge');
+  static const i2_8xlarge = InstanceType._('i2.8xlarge');
+  static const i3Large = InstanceType._('i3.large');
+  static const i3Xlarge = InstanceType._('i3.xlarge');
+  static const i3_2xlarge = InstanceType._('i3.2xlarge');
+  static const i3_4xlarge = InstanceType._('i3.4xlarge');
+  static const i3_8xlarge = InstanceType._('i3.8xlarge');
+  static const i3_16xlarge = InstanceType._('i3.16xlarge');
+  static const i3Metal = InstanceType._('i3.metal');
+  static const i3enLarge = InstanceType._('i3en.large');
+  static const i3enXlarge = InstanceType._('i3en.xlarge');
+  static const i3en_2xlarge = InstanceType._('i3en.2xlarge');
+  static const i3en_3xlarge = InstanceType._('i3en.3xlarge');
+  static const i3en_6xlarge = InstanceType._('i3en.6xlarge');
+  static const i3en_12xlarge = InstanceType._('i3en.12xlarge');
+  static const i3en_24xlarge = InstanceType._('i3en.24xlarge');
+  static const i3enMetal = InstanceType._('i3en.metal');
+  static const im4gnLarge = InstanceType._('im4gn.large');
+  static const im4gnXlarge = InstanceType._('im4gn.xlarge');
+  static const im4gn_2xlarge = InstanceType._('im4gn.2xlarge');
+  static const im4gn_4xlarge = InstanceType._('im4gn.4xlarge');
+  static const im4gn_8xlarge = InstanceType._('im4gn.8xlarge');
+  static const im4gn_16xlarge = InstanceType._('im4gn.16xlarge');
+  static const inf1Xlarge = InstanceType._('inf1.xlarge');
+  static const inf1_2xlarge = InstanceType._('inf1.2xlarge');
+  static const inf1_6xlarge = InstanceType._('inf1.6xlarge');
+  static const inf1_24xlarge = InstanceType._('inf1.24xlarge');
+  static const is4genMedium = InstanceType._('is4gen.medium');
+  static const is4genLarge = InstanceType._('is4gen.large');
+  static const is4genXlarge = InstanceType._('is4gen.xlarge');
+  static const is4gen_2xlarge = InstanceType._('is4gen.2xlarge');
+  static const is4gen_4xlarge = InstanceType._('is4gen.4xlarge');
+  static const is4gen_8xlarge = InstanceType._('is4gen.8xlarge');
+  static const m1Small = InstanceType._('m1.small');
+  static const m1Medium = InstanceType._('m1.medium');
+  static const m1Large = InstanceType._('m1.large');
+  static const m1Xlarge = InstanceType._('m1.xlarge');
+  static const m2Xlarge = InstanceType._('m2.xlarge');
+  static const m2_2xlarge = InstanceType._('m2.2xlarge');
+  static const m2_4xlarge = InstanceType._('m2.4xlarge');
+  static const m3Medium = InstanceType._('m3.medium');
+  static const m3Large = InstanceType._('m3.large');
+  static const m3Xlarge = InstanceType._('m3.xlarge');
+  static const m3_2xlarge = InstanceType._('m3.2xlarge');
+  static const m4Large = InstanceType._('m4.large');
+  static const m4Xlarge = InstanceType._('m4.xlarge');
+  static const m4_2xlarge = InstanceType._('m4.2xlarge');
+  static const m4_4xlarge = InstanceType._('m4.4xlarge');
+  static const m4_10xlarge = InstanceType._('m4.10xlarge');
+  static const m4_16xlarge = InstanceType._('m4.16xlarge');
+  static const m5Large = InstanceType._('m5.large');
+  static const m5Xlarge = InstanceType._('m5.xlarge');
+  static const m5_2xlarge = InstanceType._('m5.2xlarge');
+  static const m5_4xlarge = InstanceType._('m5.4xlarge');
+  static const m5_8xlarge = InstanceType._('m5.8xlarge');
+  static const m5_12xlarge = InstanceType._('m5.12xlarge');
+  static const m5_16xlarge = InstanceType._('m5.16xlarge');
+  static const m5_24xlarge = InstanceType._('m5.24xlarge');
+  static const m5Metal = InstanceType._('m5.metal');
+  static const m5aLarge = InstanceType._('m5a.large');
+  static const m5aXlarge = InstanceType._('m5a.xlarge');
+  static const m5a_2xlarge = InstanceType._('m5a.2xlarge');
+  static const m5a_4xlarge = InstanceType._('m5a.4xlarge');
+  static const m5a_8xlarge = InstanceType._('m5a.8xlarge');
+  static const m5a_12xlarge = InstanceType._('m5a.12xlarge');
+  static const m5a_16xlarge = InstanceType._('m5a.16xlarge');
+  static const m5a_24xlarge = InstanceType._('m5a.24xlarge');
+  static const m5adLarge = InstanceType._('m5ad.large');
+  static const m5adXlarge = InstanceType._('m5ad.xlarge');
+  static const m5ad_2xlarge = InstanceType._('m5ad.2xlarge');
+  static const m5ad_4xlarge = InstanceType._('m5ad.4xlarge');
+  static const m5ad_8xlarge = InstanceType._('m5ad.8xlarge');
+  static const m5ad_12xlarge = InstanceType._('m5ad.12xlarge');
+  static const m5ad_16xlarge = InstanceType._('m5ad.16xlarge');
+  static const m5ad_24xlarge = InstanceType._('m5ad.24xlarge');
+  static const m5dLarge = InstanceType._('m5d.large');
+  static const m5dXlarge = InstanceType._('m5d.xlarge');
+  static const m5d_2xlarge = InstanceType._('m5d.2xlarge');
+  static const m5d_4xlarge = InstanceType._('m5d.4xlarge');
+  static const m5d_8xlarge = InstanceType._('m5d.8xlarge');
+  static const m5d_12xlarge = InstanceType._('m5d.12xlarge');
+  static const m5d_16xlarge = InstanceType._('m5d.16xlarge');
+  static const m5d_24xlarge = InstanceType._('m5d.24xlarge');
+  static const m5dMetal = InstanceType._('m5d.metal');
+  static const m5dnLarge = InstanceType._('m5dn.large');
+  static const m5dnXlarge = InstanceType._('m5dn.xlarge');
+  static const m5dn_2xlarge = InstanceType._('m5dn.2xlarge');
+  static const m5dn_4xlarge = InstanceType._('m5dn.4xlarge');
+  static const m5dn_8xlarge = InstanceType._('m5dn.8xlarge');
+  static const m5dn_12xlarge = InstanceType._('m5dn.12xlarge');
+  static const m5dn_16xlarge = InstanceType._('m5dn.16xlarge');
+  static const m5dn_24xlarge = InstanceType._('m5dn.24xlarge');
+  static const m5dnMetal = InstanceType._('m5dn.metal');
+  static const m5nLarge = InstanceType._('m5n.large');
+  static const m5nXlarge = InstanceType._('m5n.xlarge');
+  static const m5n_2xlarge = InstanceType._('m5n.2xlarge');
+  static const m5n_4xlarge = InstanceType._('m5n.4xlarge');
+  static const m5n_8xlarge = InstanceType._('m5n.8xlarge');
+  static const m5n_12xlarge = InstanceType._('m5n.12xlarge');
+  static const m5n_16xlarge = InstanceType._('m5n.16xlarge');
+  static const m5n_24xlarge = InstanceType._('m5n.24xlarge');
+  static const m5nMetal = InstanceType._('m5n.metal');
+  static const m5znLarge = InstanceType._('m5zn.large');
+  static const m5znXlarge = InstanceType._('m5zn.xlarge');
+  static const m5zn_2xlarge = InstanceType._('m5zn.2xlarge');
+  static const m5zn_3xlarge = InstanceType._('m5zn.3xlarge');
+  static const m5zn_6xlarge = InstanceType._('m5zn.6xlarge');
+  static const m5zn_12xlarge = InstanceType._('m5zn.12xlarge');
+  static const m5znMetal = InstanceType._('m5zn.metal');
+  static const m6aLarge = InstanceType._('m6a.large');
+  static const m6aXlarge = InstanceType._('m6a.xlarge');
+  static const m6a_2xlarge = InstanceType._('m6a.2xlarge');
+  static const m6a_4xlarge = InstanceType._('m6a.4xlarge');
+  static const m6a_8xlarge = InstanceType._('m6a.8xlarge');
+  static const m6a_12xlarge = InstanceType._('m6a.12xlarge');
+  static const m6a_16xlarge = InstanceType._('m6a.16xlarge');
+  static const m6a_24xlarge = InstanceType._('m6a.24xlarge');
+  static const m6a_32xlarge = InstanceType._('m6a.32xlarge');
+  static const m6a_48xlarge = InstanceType._('m6a.48xlarge');
+  static const m6gMetal = InstanceType._('m6g.metal');
+  static const m6gMedium = InstanceType._('m6g.medium');
+  static const m6gLarge = InstanceType._('m6g.large');
+  static const m6gXlarge = InstanceType._('m6g.xlarge');
+  static const m6g_2xlarge = InstanceType._('m6g.2xlarge');
+  static const m6g_4xlarge = InstanceType._('m6g.4xlarge');
+  static const m6g_8xlarge = InstanceType._('m6g.8xlarge');
+  static const m6g_12xlarge = InstanceType._('m6g.12xlarge');
+  static const m6g_16xlarge = InstanceType._('m6g.16xlarge');
+  static const m6gdMetal = InstanceType._('m6gd.metal');
+  static const m6gdMedium = InstanceType._('m6gd.medium');
+  static const m6gdLarge = InstanceType._('m6gd.large');
+  static const m6gdXlarge = InstanceType._('m6gd.xlarge');
+  static const m6gd_2xlarge = InstanceType._('m6gd.2xlarge');
+  static const m6gd_4xlarge = InstanceType._('m6gd.4xlarge');
+  static const m6gd_8xlarge = InstanceType._('m6gd.8xlarge');
+  static const m6gd_12xlarge = InstanceType._('m6gd.12xlarge');
+  static const m6gd_16xlarge = InstanceType._('m6gd.16xlarge');
+  static const m6iLarge = InstanceType._('m6i.large');
+  static const m6iXlarge = InstanceType._('m6i.xlarge');
+  static const m6i_2xlarge = InstanceType._('m6i.2xlarge');
+  static const m6i_4xlarge = InstanceType._('m6i.4xlarge');
+  static const m6i_8xlarge = InstanceType._('m6i.8xlarge');
+  static const m6i_12xlarge = InstanceType._('m6i.12xlarge');
+  static const m6i_16xlarge = InstanceType._('m6i.16xlarge');
+  static const m6i_24xlarge = InstanceType._('m6i.24xlarge');
+  static const m6i_32xlarge = InstanceType._('m6i.32xlarge');
+  static const m6iMetal = InstanceType._('m6i.metal');
+  static const mac1Metal = InstanceType._('mac1.metal');
+  static const p2Xlarge = InstanceType._('p2.xlarge');
+  static const p2_8xlarge = InstanceType._('p2.8xlarge');
+  static const p2_16xlarge = InstanceType._('p2.16xlarge');
+  static const p3_2xlarge = InstanceType._('p3.2xlarge');
+  static const p3_8xlarge = InstanceType._('p3.8xlarge');
+  static const p3_16xlarge = InstanceType._('p3.16xlarge');
+  static const p3dn_24xlarge = InstanceType._('p3dn.24xlarge');
+  static const p4d_24xlarge = InstanceType._('p4d.24xlarge');
+  static const r3Large = InstanceType._('r3.large');
+  static const r3Xlarge = InstanceType._('r3.xlarge');
+  static const r3_2xlarge = InstanceType._('r3.2xlarge');
+  static const r3_4xlarge = InstanceType._('r3.4xlarge');
+  static const r3_8xlarge = InstanceType._('r3.8xlarge');
+  static const r4Large = InstanceType._('r4.large');
+  static const r4Xlarge = InstanceType._('r4.xlarge');
+  static const r4_2xlarge = InstanceType._('r4.2xlarge');
+  static const r4_4xlarge = InstanceType._('r4.4xlarge');
+  static const r4_8xlarge = InstanceType._('r4.8xlarge');
+  static const r4_16xlarge = InstanceType._('r4.16xlarge');
+  static const r5Large = InstanceType._('r5.large');
+  static const r5Xlarge = InstanceType._('r5.xlarge');
+  static const r5_2xlarge = InstanceType._('r5.2xlarge');
+  static const r5_4xlarge = InstanceType._('r5.4xlarge');
+  static const r5_8xlarge = InstanceType._('r5.8xlarge');
+  static const r5_12xlarge = InstanceType._('r5.12xlarge');
+  static const r5_16xlarge = InstanceType._('r5.16xlarge');
+  static const r5_24xlarge = InstanceType._('r5.24xlarge');
+  static const r5Metal = InstanceType._('r5.metal');
+  static const r5aLarge = InstanceType._('r5a.large');
+  static const r5aXlarge = InstanceType._('r5a.xlarge');
+  static const r5a_2xlarge = InstanceType._('r5a.2xlarge');
+  static const r5a_4xlarge = InstanceType._('r5a.4xlarge');
+  static const r5a_8xlarge = InstanceType._('r5a.8xlarge');
+  static const r5a_12xlarge = InstanceType._('r5a.12xlarge');
+  static const r5a_16xlarge = InstanceType._('r5a.16xlarge');
+  static const r5a_24xlarge = InstanceType._('r5a.24xlarge');
+  static const r5adLarge = InstanceType._('r5ad.large');
+  static const r5adXlarge = InstanceType._('r5ad.xlarge');
+  static const r5ad_2xlarge = InstanceType._('r5ad.2xlarge');
+  static const r5ad_4xlarge = InstanceType._('r5ad.4xlarge');
+  static const r5ad_8xlarge = InstanceType._('r5ad.8xlarge');
+  static const r5ad_12xlarge = InstanceType._('r5ad.12xlarge');
+  static const r5ad_16xlarge = InstanceType._('r5ad.16xlarge');
+  static const r5ad_24xlarge = InstanceType._('r5ad.24xlarge');
+  static const r5bLarge = InstanceType._('r5b.large');
+  static const r5bXlarge = InstanceType._('r5b.xlarge');
+  static const r5b_2xlarge = InstanceType._('r5b.2xlarge');
+  static const r5b_4xlarge = InstanceType._('r5b.4xlarge');
+  static const r5b_8xlarge = InstanceType._('r5b.8xlarge');
+  static const r5b_12xlarge = InstanceType._('r5b.12xlarge');
+  static const r5b_16xlarge = InstanceType._('r5b.16xlarge');
+  static const r5b_24xlarge = InstanceType._('r5b.24xlarge');
+  static const r5bMetal = InstanceType._('r5b.metal');
+  static const r5dLarge = InstanceType._('r5d.large');
+  static const r5dXlarge = InstanceType._('r5d.xlarge');
+  static const r5d_2xlarge = InstanceType._('r5d.2xlarge');
+  static const r5d_4xlarge = InstanceType._('r5d.4xlarge');
+  static const r5d_8xlarge = InstanceType._('r5d.8xlarge');
+  static const r5d_12xlarge = InstanceType._('r5d.12xlarge');
+  static const r5d_16xlarge = InstanceType._('r5d.16xlarge');
+  static const r5d_24xlarge = InstanceType._('r5d.24xlarge');
+  static const r5dMetal = InstanceType._('r5d.metal');
+  static const r5dnLarge = InstanceType._('r5dn.large');
+  static const r5dnXlarge = InstanceType._('r5dn.xlarge');
+  static const r5dn_2xlarge = InstanceType._('r5dn.2xlarge');
+  static const r5dn_4xlarge = InstanceType._('r5dn.4xlarge');
+  static const r5dn_8xlarge = InstanceType._('r5dn.8xlarge');
+  static const r5dn_12xlarge = InstanceType._('r5dn.12xlarge');
+  static const r5dn_16xlarge = InstanceType._('r5dn.16xlarge');
+  static const r5dn_24xlarge = InstanceType._('r5dn.24xlarge');
+  static const r5dnMetal = InstanceType._('r5dn.metal');
+  static const r5nLarge = InstanceType._('r5n.large');
+  static const r5nXlarge = InstanceType._('r5n.xlarge');
+  static const r5n_2xlarge = InstanceType._('r5n.2xlarge');
+  static const r5n_4xlarge = InstanceType._('r5n.4xlarge');
+  static const r5n_8xlarge = InstanceType._('r5n.8xlarge');
+  static const r5n_12xlarge = InstanceType._('r5n.12xlarge');
+  static const r5n_16xlarge = InstanceType._('r5n.16xlarge');
+  static const r5n_24xlarge = InstanceType._('r5n.24xlarge');
+  static const r5nMetal = InstanceType._('r5n.metal');
+  static const r6gMedium = InstanceType._('r6g.medium');
+  static const r6gLarge = InstanceType._('r6g.large');
+  static const r6gXlarge = InstanceType._('r6g.xlarge');
+  static const r6g_2xlarge = InstanceType._('r6g.2xlarge');
+  static const r6g_4xlarge = InstanceType._('r6g.4xlarge');
+  static const r6g_8xlarge = InstanceType._('r6g.8xlarge');
+  static const r6g_12xlarge = InstanceType._('r6g.12xlarge');
+  static const r6g_16xlarge = InstanceType._('r6g.16xlarge');
+  static const r6gMetal = InstanceType._('r6g.metal');
+  static const r6gdMedium = InstanceType._('r6gd.medium');
+  static const r6gdLarge = InstanceType._('r6gd.large');
+  static const r6gdXlarge = InstanceType._('r6gd.xlarge');
+  static const r6gd_2xlarge = InstanceType._('r6gd.2xlarge');
+  static const r6gd_4xlarge = InstanceType._('r6gd.4xlarge');
+  static const r6gd_8xlarge = InstanceType._('r6gd.8xlarge');
+  static const r6gd_12xlarge = InstanceType._('r6gd.12xlarge');
+  static const r6gd_16xlarge = InstanceType._('r6gd.16xlarge');
+  static const r6gdMetal = InstanceType._('r6gd.metal');
+  static const r6iLarge = InstanceType._('r6i.large');
+  static const r6iXlarge = InstanceType._('r6i.xlarge');
+  static const r6i_2xlarge = InstanceType._('r6i.2xlarge');
+  static const r6i_4xlarge = InstanceType._('r6i.4xlarge');
+  static const r6i_8xlarge = InstanceType._('r6i.8xlarge');
+  static const r6i_12xlarge = InstanceType._('r6i.12xlarge');
+  static const r6i_16xlarge = InstanceType._('r6i.16xlarge');
+  static const r6i_24xlarge = InstanceType._('r6i.24xlarge');
+  static const r6i_32xlarge = InstanceType._('r6i.32xlarge');
+  static const r6iMetal = InstanceType._('r6i.metal');
+  static const t1Micro = InstanceType._('t1.micro');
+  static const t2Nano = InstanceType._('t2.nano');
+  static const t2Micro = InstanceType._('t2.micro');
+  static const t2Small = InstanceType._('t2.small');
+  static const t2Medium = InstanceType._('t2.medium');
+  static const t2Large = InstanceType._('t2.large');
+  static const t2Xlarge = InstanceType._('t2.xlarge');
+  static const t2_2xlarge = InstanceType._('t2.2xlarge');
+  static const t3Nano = InstanceType._('t3.nano');
+  static const t3Micro = InstanceType._('t3.micro');
+  static const t3Small = InstanceType._('t3.small');
+  static const t3Medium = InstanceType._('t3.medium');
+  static const t3Large = InstanceType._('t3.large');
+  static const t3Xlarge = InstanceType._('t3.xlarge');
+  static const t3_2xlarge = InstanceType._('t3.2xlarge');
+  static const t3aNano = InstanceType._('t3a.nano');
+  static const t3aMicro = InstanceType._('t3a.micro');
+  static const t3aSmall = InstanceType._('t3a.small');
+  static const t3aMedium = InstanceType._('t3a.medium');
+  static const t3aLarge = InstanceType._('t3a.large');
+  static const t3aXlarge = InstanceType._('t3a.xlarge');
+  static const t3a_2xlarge = InstanceType._('t3a.2xlarge');
+  static const t4gNano = InstanceType._('t4g.nano');
+  static const t4gMicro = InstanceType._('t4g.micro');
+  static const t4gSmall = InstanceType._('t4g.small');
+  static const t4gMedium = InstanceType._('t4g.medium');
+  static const t4gLarge = InstanceType._('t4g.large');
+  static const t4gXlarge = InstanceType._('t4g.xlarge');
+  static const t4g_2xlarge = InstanceType._('t4g.2xlarge');
+  static const u_6tb1_56xlarge = InstanceType._('u-6tb1.56xlarge');
+  static const u_6tb1_112xlarge = InstanceType._('u-6tb1.112xlarge');
+  static const u_9tb1_112xlarge = InstanceType._('u-9tb1.112xlarge');
+  static const u_12tb1_112xlarge = InstanceType._('u-12tb1.112xlarge');
+  static const u_6tb1Metal = InstanceType._('u-6tb1.metal');
+  static const u_9tb1Metal = InstanceType._('u-9tb1.metal');
+  static const u_12tb1Metal = InstanceType._('u-12tb1.metal');
+  static const u_18tb1Metal = InstanceType._('u-18tb1.metal');
+  static const u_24tb1Metal = InstanceType._('u-24tb1.metal');
+  static const vt1_3xlarge = InstanceType._('vt1.3xlarge');
+  static const vt1_6xlarge = InstanceType._('vt1.6xlarge');
+  static const vt1_24xlarge = InstanceType._('vt1.24xlarge');
+  static const x1_16xlarge = InstanceType._('x1.16xlarge');
+  static const x1_32xlarge = InstanceType._('x1.32xlarge');
+  static const x1eXlarge = InstanceType._('x1e.xlarge');
+  static const x1e_2xlarge = InstanceType._('x1e.2xlarge');
+  static const x1e_4xlarge = InstanceType._('x1e.4xlarge');
+  static const x1e_8xlarge = InstanceType._('x1e.8xlarge');
+  static const x1e_16xlarge = InstanceType._('x1e.16xlarge');
+  static const x1e_32xlarge = InstanceType._('x1e.32xlarge');
+  static const x2iezn_2xlarge = InstanceType._('x2iezn.2xlarge');
+  static const x2iezn_4xlarge = InstanceType._('x2iezn.4xlarge');
+  static const x2iezn_6xlarge = InstanceType._('x2iezn.6xlarge');
+  static const x2iezn_8xlarge = InstanceType._('x2iezn.8xlarge');
+  static const x2iezn_12xlarge = InstanceType._('x2iezn.12xlarge');
+  static const x2ieznMetal = InstanceType._('x2iezn.metal');
+  static const x2gdMedium = InstanceType._('x2gd.medium');
+  static const x2gdLarge = InstanceType._('x2gd.large');
+  static const x2gdXlarge = InstanceType._('x2gd.xlarge');
+  static const x2gd_2xlarge = InstanceType._('x2gd.2xlarge');
+  static const x2gd_4xlarge = InstanceType._('x2gd.4xlarge');
+  static const x2gd_8xlarge = InstanceType._('x2gd.8xlarge');
+  static const x2gd_12xlarge = InstanceType._('x2gd.12xlarge');
+  static const x2gd_16xlarge = InstanceType._('x2gd.16xlarge');
+  static const x2gdMetal = InstanceType._('x2gd.metal');
+  static const z1dLarge = InstanceType._('z1d.large');
+  static const z1dXlarge = InstanceType._('z1d.xlarge');
+  static const z1d_2xlarge = InstanceType._('z1d.2xlarge');
+  static const z1d_3xlarge = InstanceType._('z1d.3xlarge');
+  static const z1d_6xlarge = InstanceType._('z1d.6xlarge');
+  static const z1d_12xlarge = InstanceType._('z1d.12xlarge');
+  static const z1dMetal = InstanceType._('z1d.metal');
+  static const x2idn_16xlarge = InstanceType._('x2idn.16xlarge');
+  static const x2idn_24xlarge = InstanceType._('x2idn.24xlarge');
+  static const x2idn_32xlarge = InstanceType._('x2idn.32xlarge');
+  static const x2iednXlarge = InstanceType._('x2iedn.xlarge');
+  static const x2iedn_2xlarge = InstanceType._('x2iedn.2xlarge');
+  static const x2iedn_4xlarge = InstanceType._('x2iedn.4xlarge');
+  static const x2iedn_8xlarge = InstanceType._('x2iedn.8xlarge');
+  static const x2iedn_16xlarge = InstanceType._('x2iedn.16xlarge');
+  static const x2iedn_24xlarge = InstanceType._('x2iedn.24xlarge');
+  static const x2iedn_32xlarge = InstanceType._('x2iedn.32xlarge');
+  static const c6aLarge = InstanceType._('c6a.large');
+  static const c6aXlarge = InstanceType._('c6a.xlarge');
+  static const c6a_2xlarge = InstanceType._('c6a.2xlarge');
+  static const c6a_4xlarge = InstanceType._('c6a.4xlarge');
+  static const c6a_8xlarge = InstanceType._('c6a.8xlarge');
+  static const c6a_12xlarge = InstanceType._('c6a.12xlarge');
+  static const c6a_16xlarge = InstanceType._('c6a.16xlarge');
+  static const c6a_24xlarge = InstanceType._('c6a.24xlarge');
+  static const c6a_32xlarge = InstanceType._('c6a.32xlarge');
+  static const c6a_48xlarge = InstanceType._('c6a.48xlarge');
+  static const c6aMetal = InstanceType._('c6a.metal');
+  static const m6aMetal = InstanceType._('m6a.metal');
+  static const i4iLarge = InstanceType._('i4i.large');
+  static const i4iXlarge = InstanceType._('i4i.xlarge');
+  static const i4i_2xlarge = InstanceType._('i4i.2xlarge');
+  static const i4i_4xlarge = InstanceType._('i4i.4xlarge');
+  static const i4i_8xlarge = InstanceType._('i4i.8xlarge');
+  static const i4i_16xlarge = InstanceType._('i4i.16xlarge');
+  static const i4i_32xlarge = InstanceType._('i4i.32xlarge');
+  static const i4iMetal = InstanceType._('i4i.metal');
+  static const x2idnMetal = InstanceType._('x2idn.metal');
+  static const x2iednMetal = InstanceType._('x2iedn.metal');
+  static const c7gMedium = InstanceType._('c7g.medium');
+  static const c7gLarge = InstanceType._('c7g.large');
+  static const c7gXlarge = InstanceType._('c7g.xlarge');
+  static const c7g_2xlarge = InstanceType._('c7g.2xlarge');
+  static const c7g_4xlarge = InstanceType._('c7g.4xlarge');
+  static const c7g_8xlarge = InstanceType._('c7g.8xlarge');
+  static const c7g_12xlarge = InstanceType._('c7g.12xlarge');
+  static const c7g_16xlarge = InstanceType._('c7g.16xlarge');
+  static const mac2Metal = InstanceType._('mac2.metal');
+  static const c6idLarge = InstanceType._('c6id.large');
+  static const c6idXlarge = InstanceType._('c6id.xlarge');
+  static const c6id_2xlarge = InstanceType._('c6id.2xlarge');
+  static const c6id_4xlarge = InstanceType._('c6id.4xlarge');
+  static const c6id_8xlarge = InstanceType._('c6id.8xlarge');
+  static const c6id_12xlarge = InstanceType._('c6id.12xlarge');
+  static const c6id_16xlarge = InstanceType._('c6id.16xlarge');
+  static const c6id_24xlarge = InstanceType._('c6id.24xlarge');
+  static const c6id_32xlarge = InstanceType._('c6id.32xlarge');
+  static const c6idMetal = InstanceType._('c6id.metal');
+  static const m6idLarge = InstanceType._('m6id.large');
+  static const m6idXlarge = InstanceType._('m6id.xlarge');
+  static const m6id_2xlarge = InstanceType._('m6id.2xlarge');
+  static const m6id_4xlarge = InstanceType._('m6id.4xlarge');
+  static const m6id_8xlarge = InstanceType._('m6id.8xlarge');
+  static const m6id_12xlarge = InstanceType._('m6id.12xlarge');
+  static const m6id_16xlarge = InstanceType._('m6id.16xlarge');
+  static const m6id_24xlarge = InstanceType._('m6id.24xlarge');
+  static const m6id_32xlarge = InstanceType._('m6id.32xlarge');
+  static const m6idMetal = InstanceType._('m6id.metal');
+  static const r6idLarge = InstanceType._('r6id.large');
+  static const r6idXlarge = InstanceType._('r6id.xlarge');
+  static const r6id_2xlarge = InstanceType._('r6id.2xlarge');
+  static const r6id_4xlarge = InstanceType._('r6id.4xlarge');
+  static const r6id_8xlarge = InstanceType._('r6id.8xlarge');
+  static const r6id_12xlarge = InstanceType._('r6id.12xlarge');
+  static const r6id_16xlarge = InstanceType._('r6id.16xlarge');
+  static const r6id_24xlarge = InstanceType._('r6id.24xlarge');
+  static const r6id_32xlarge = InstanceType._('r6id.32xlarge');
+  static const r6idMetal = InstanceType._('r6id.metal');
+  static const r6aLarge = InstanceType._('r6a.large');
+  static const r6aXlarge = InstanceType._('r6a.xlarge');
+  static const r6a_2xlarge = InstanceType._('r6a.2xlarge');
+  static const r6a_4xlarge = InstanceType._('r6a.4xlarge');
+  static const r6a_8xlarge = InstanceType._('r6a.8xlarge');
+  static const r6a_12xlarge = InstanceType._('r6a.12xlarge');
+  static const r6a_16xlarge = InstanceType._('r6a.16xlarge');
+  static const r6a_24xlarge = InstanceType._('r6a.24xlarge');
+  static const r6a_32xlarge = InstanceType._('r6a.32xlarge');
+  static const r6a_48xlarge = InstanceType._('r6a.48xlarge');
+  static const r6aMetal = InstanceType._('r6a.metal');
+  static const p4de_24xlarge = InstanceType._('p4de.24xlarge');
+  static const u_3tb1_56xlarge = InstanceType._('u-3tb1.56xlarge');
+  static const u_18tb1_112xlarge = InstanceType._('u-18tb1.112xlarge');
+  static const u_24tb1_112xlarge = InstanceType._('u-24tb1.112xlarge');
+  static const trn1_2xlarge = InstanceType._('trn1.2xlarge');
+  static const trn1_32xlarge = InstanceType._('trn1.32xlarge');
+  static const hpc6id_32xlarge = InstanceType._('hpc6id.32xlarge');
+  static const c6inLarge = InstanceType._('c6in.large');
+  static const c6inXlarge = InstanceType._('c6in.xlarge');
+  static const c6in_2xlarge = InstanceType._('c6in.2xlarge');
+  static const c6in_4xlarge = InstanceType._('c6in.4xlarge');
+  static const c6in_8xlarge = InstanceType._('c6in.8xlarge');
+  static const c6in_12xlarge = InstanceType._('c6in.12xlarge');
+  static const c6in_16xlarge = InstanceType._('c6in.16xlarge');
+  static const c6in_24xlarge = InstanceType._('c6in.24xlarge');
+  static const c6in_32xlarge = InstanceType._('c6in.32xlarge');
+  static const m6inLarge = InstanceType._('m6in.large');
+  static const m6inXlarge = InstanceType._('m6in.xlarge');
+  static const m6in_2xlarge = InstanceType._('m6in.2xlarge');
+  static const m6in_4xlarge = InstanceType._('m6in.4xlarge');
+  static const m6in_8xlarge = InstanceType._('m6in.8xlarge');
+  static const m6in_12xlarge = InstanceType._('m6in.12xlarge');
+  static const m6in_16xlarge = InstanceType._('m6in.16xlarge');
+  static const m6in_24xlarge = InstanceType._('m6in.24xlarge');
+  static const m6in_32xlarge = InstanceType._('m6in.32xlarge');
+  static const m6idnLarge = InstanceType._('m6idn.large');
+  static const m6idnXlarge = InstanceType._('m6idn.xlarge');
+  static const m6idn_2xlarge = InstanceType._('m6idn.2xlarge');
+  static const m6idn_4xlarge = InstanceType._('m6idn.4xlarge');
+  static const m6idn_8xlarge = InstanceType._('m6idn.8xlarge');
+  static const m6idn_12xlarge = InstanceType._('m6idn.12xlarge');
+  static const m6idn_16xlarge = InstanceType._('m6idn.16xlarge');
+  static const m6idn_24xlarge = InstanceType._('m6idn.24xlarge');
+  static const m6idn_32xlarge = InstanceType._('m6idn.32xlarge');
+  static const r6inLarge = InstanceType._('r6in.large');
+  static const r6inXlarge = InstanceType._('r6in.xlarge');
+  static const r6in_2xlarge = InstanceType._('r6in.2xlarge');
+  static const r6in_4xlarge = InstanceType._('r6in.4xlarge');
+  static const r6in_8xlarge = InstanceType._('r6in.8xlarge');
+  static const r6in_12xlarge = InstanceType._('r6in.12xlarge');
+  static const r6in_16xlarge = InstanceType._('r6in.16xlarge');
+  static const r6in_24xlarge = InstanceType._('r6in.24xlarge');
+  static const r6in_32xlarge = InstanceType._('r6in.32xlarge');
+  static const r6idnLarge = InstanceType._('r6idn.large');
+  static const r6idnXlarge = InstanceType._('r6idn.xlarge');
+  static const r6idn_2xlarge = InstanceType._('r6idn.2xlarge');
+  static const r6idn_4xlarge = InstanceType._('r6idn.4xlarge');
+  static const r6idn_8xlarge = InstanceType._('r6idn.8xlarge');
+  static const r6idn_12xlarge = InstanceType._('r6idn.12xlarge');
+  static const r6idn_16xlarge = InstanceType._('r6idn.16xlarge');
+  static const r6idn_24xlarge = InstanceType._('r6idn.24xlarge');
+  static const r6idn_32xlarge = InstanceType._('r6idn.32xlarge');
+  static const c7gMetal = InstanceType._('c7g.metal');
+  static const m7gMedium = InstanceType._('m7g.medium');
+  static const m7gLarge = InstanceType._('m7g.large');
+  static const m7gXlarge = InstanceType._('m7g.xlarge');
+  static const m7g_2xlarge = InstanceType._('m7g.2xlarge');
+  static const m7g_4xlarge = InstanceType._('m7g.4xlarge');
+  static const m7g_8xlarge = InstanceType._('m7g.8xlarge');
+  static const m7g_12xlarge = InstanceType._('m7g.12xlarge');
+  static const m7g_16xlarge = InstanceType._('m7g.16xlarge');
+  static const m7gMetal = InstanceType._('m7g.metal');
+  static const r7gMedium = InstanceType._('r7g.medium');
+  static const r7gLarge = InstanceType._('r7g.large');
+  static const r7gXlarge = InstanceType._('r7g.xlarge');
+  static const r7g_2xlarge = InstanceType._('r7g.2xlarge');
+  static const r7g_4xlarge = InstanceType._('r7g.4xlarge');
+  static const r7g_8xlarge = InstanceType._('r7g.8xlarge');
+  static const r7g_12xlarge = InstanceType._('r7g.12xlarge');
+  static const r7g_16xlarge = InstanceType._('r7g.16xlarge');
+  static const r7gMetal = InstanceType._('r7g.metal');
+  static const c6inMetal = InstanceType._('c6in.metal');
+  static const m6inMetal = InstanceType._('m6in.metal');
+  static const m6idnMetal = InstanceType._('m6idn.metal');
+  static const r6inMetal = InstanceType._('r6in.metal');
+  static const r6idnMetal = InstanceType._('r6idn.metal');
+  static const inf2Xlarge = InstanceType._('inf2.xlarge');
+  static const inf2_8xlarge = InstanceType._('inf2.8xlarge');
+  static const inf2_24xlarge = InstanceType._('inf2.24xlarge');
+  static const inf2_48xlarge = InstanceType._('inf2.48xlarge');
+  static const trn1n_32xlarge = InstanceType._('trn1n.32xlarge');
+  static const i4gLarge = InstanceType._('i4g.large');
+  static const i4gXlarge = InstanceType._('i4g.xlarge');
+  static const i4g_2xlarge = InstanceType._('i4g.2xlarge');
+  static const i4g_4xlarge = InstanceType._('i4g.4xlarge');
+  static const i4g_8xlarge = InstanceType._('i4g.8xlarge');
+  static const i4g_16xlarge = InstanceType._('i4g.16xlarge');
+  static const hpc7g_4xlarge = InstanceType._('hpc7g.4xlarge');
+  static const hpc7g_8xlarge = InstanceType._('hpc7g.8xlarge');
+  static const hpc7g_16xlarge = InstanceType._('hpc7g.16xlarge');
+  static const c7gnMedium = InstanceType._('c7gn.medium');
+  static const c7gnLarge = InstanceType._('c7gn.large');
+  static const c7gnXlarge = InstanceType._('c7gn.xlarge');
+  static const c7gn_2xlarge = InstanceType._('c7gn.2xlarge');
+  static const c7gn_4xlarge = InstanceType._('c7gn.4xlarge');
+  static const c7gn_8xlarge = InstanceType._('c7gn.8xlarge');
+  static const c7gn_12xlarge = InstanceType._('c7gn.12xlarge');
+  static const c7gn_16xlarge = InstanceType._('c7gn.16xlarge');
+  static const p5_48xlarge = InstanceType._('p5.48xlarge');
+  static const m7iLarge = InstanceType._('m7i.large');
+  static const m7iXlarge = InstanceType._('m7i.xlarge');
+  static const m7i_2xlarge = InstanceType._('m7i.2xlarge');
+  static const m7i_4xlarge = InstanceType._('m7i.4xlarge');
+  static const m7i_8xlarge = InstanceType._('m7i.8xlarge');
+  static const m7i_12xlarge = InstanceType._('m7i.12xlarge');
+  static const m7i_16xlarge = InstanceType._('m7i.16xlarge');
+  static const m7i_24xlarge = InstanceType._('m7i.24xlarge');
+  static const m7i_48xlarge = InstanceType._('m7i.48xlarge');
+  static const m7iFlexLarge = InstanceType._('m7i-flex.large');
+  static const m7iFlexXlarge = InstanceType._('m7i-flex.xlarge');
+  static const m7iFlex_2xlarge = InstanceType._('m7i-flex.2xlarge');
+  static const m7iFlex_4xlarge = InstanceType._('m7i-flex.4xlarge');
+  static const m7iFlex_8xlarge = InstanceType._('m7i-flex.8xlarge');
+  static const m7aMedium = InstanceType._('m7a.medium');
+  static const m7aLarge = InstanceType._('m7a.large');
+  static const m7aXlarge = InstanceType._('m7a.xlarge');
+  static const m7a_2xlarge = InstanceType._('m7a.2xlarge');
+  static const m7a_4xlarge = InstanceType._('m7a.4xlarge');
+  static const m7a_8xlarge = InstanceType._('m7a.8xlarge');
+  static const m7a_12xlarge = InstanceType._('m7a.12xlarge');
+  static const m7a_16xlarge = InstanceType._('m7a.16xlarge');
+  static const m7a_24xlarge = InstanceType._('m7a.24xlarge');
+  static const m7a_32xlarge = InstanceType._('m7a.32xlarge');
+  static const m7a_48xlarge = InstanceType._('m7a.48xlarge');
+  static const m7aMetal_48xl = InstanceType._('m7a.metal-48xl');
+  static const hpc7a_12xlarge = InstanceType._('hpc7a.12xlarge');
+  static const hpc7a_24xlarge = InstanceType._('hpc7a.24xlarge');
+  static const hpc7a_48xlarge = InstanceType._('hpc7a.48xlarge');
+  static const hpc7a_96xlarge = InstanceType._('hpc7a.96xlarge');
+  static const c7gdMedium = InstanceType._('c7gd.medium');
+  static const c7gdLarge = InstanceType._('c7gd.large');
+  static const c7gdXlarge = InstanceType._('c7gd.xlarge');
+  static const c7gd_2xlarge = InstanceType._('c7gd.2xlarge');
+  static const c7gd_4xlarge = InstanceType._('c7gd.4xlarge');
+  static const c7gd_8xlarge = InstanceType._('c7gd.8xlarge');
+  static const c7gd_12xlarge = InstanceType._('c7gd.12xlarge');
+  static const c7gd_16xlarge = InstanceType._('c7gd.16xlarge');
+  static const m7gdMedium = InstanceType._('m7gd.medium');
+  static const m7gdLarge = InstanceType._('m7gd.large');
+  static const m7gdXlarge = InstanceType._('m7gd.xlarge');
+  static const m7gd_2xlarge = InstanceType._('m7gd.2xlarge');
+  static const m7gd_4xlarge = InstanceType._('m7gd.4xlarge');
+  static const m7gd_8xlarge = InstanceType._('m7gd.8xlarge');
+  static const m7gd_12xlarge = InstanceType._('m7gd.12xlarge');
+  static const m7gd_16xlarge = InstanceType._('m7gd.16xlarge');
+  static const r7gdMedium = InstanceType._('r7gd.medium');
+  static const r7gdLarge = InstanceType._('r7gd.large');
+  static const r7gdXlarge = InstanceType._('r7gd.xlarge');
+  static const r7gd_2xlarge = InstanceType._('r7gd.2xlarge');
+  static const r7gd_4xlarge = InstanceType._('r7gd.4xlarge');
+  static const r7gd_8xlarge = InstanceType._('r7gd.8xlarge');
+  static const r7gd_12xlarge = InstanceType._('r7gd.12xlarge');
+  static const r7gd_16xlarge = InstanceType._('r7gd.16xlarge');
+  static const r7aMedium = InstanceType._('r7a.medium');
+  static const r7aLarge = InstanceType._('r7a.large');
+  static const r7aXlarge = InstanceType._('r7a.xlarge');
+  static const r7a_2xlarge = InstanceType._('r7a.2xlarge');
+  static const r7a_4xlarge = InstanceType._('r7a.4xlarge');
+  static const r7a_8xlarge = InstanceType._('r7a.8xlarge');
+  static const r7a_12xlarge = InstanceType._('r7a.12xlarge');
+  static const r7a_16xlarge = InstanceType._('r7a.16xlarge');
+  static const r7a_24xlarge = InstanceType._('r7a.24xlarge');
+  static const r7a_32xlarge = InstanceType._('r7a.32xlarge');
+  static const r7a_48xlarge = InstanceType._('r7a.48xlarge');
+  static const c7iLarge = InstanceType._('c7i.large');
+  static const c7iXlarge = InstanceType._('c7i.xlarge');
+  static const c7i_2xlarge = InstanceType._('c7i.2xlarge');
+  static const c7i_4xlarge = InstanceType._('c7i.4xlarge');
+  static const c7i_8xlarge = InstanceType._('c7i.8xlarge');
+  static const c7i_12xlarge = InstanceType._('c7i.12xlarge');
+  static const c7i_16xlarge = InstanceType._('c7i.16xlarge');
+  static const c7i_24xlarge = InstanceType._('c7i.24xlarge');
+  static const c7i_48xlarge = InstanceType._('c7i.48xlarge');
+  static const mac2M2proMetal = InstanceType._('mac2-m2pro.metal');
+  static const r7izLarge = InstanceType._('r7iz.large');
+  static const r7izXlarge = InstanceType._('r7iz.xlarge');
+  static const r7iz_2xlarge = InstanceType._('r7iz.2xlarge');
+  static const r7iz_4xlarge = InstanceType._('r7iz.4xlarge');
+  static const r7iz_8xlarge = InstanceType._('r7iz.8xlarge');
+  static const r7iz_12xlarge = InstanceType._('r7iz.12xlarge');
+  static const r7iz_16xlarge = InstanceType._('r7iz.16xlarge');
+  static const r7iz_32xlarge = InstanceType._('r7iz.32xlarge');
+  static const c7aMedium = InstanceType._('c7a.medium');
+  static const c7aLarge = InstanceType._('c7a.large');
+  static const c7aXlarge = InstanceType._('c7a.xlarge');
+  static const c7a_2xlarge = InstanceType._('c7a.2xlarge');
+  static const c7a_4xlarge = InstanceType._('c7a.4xlarge');
+  static const c7a_8xlarge = InstanceType._('c7a.8xlarge');
+  static const c7a_12xlarge = InstanceType._('c7a.12xlarge');
+  static const c7a_16xlarge = InstanceType._('c7a.16xlarge');
+  static const c7a_24xlarge = InstanceType._('c7a.24xlarge');
+  static const c7a_32xlarge = InstanceType._('c7a.32xlarge');
+  static const c7a_48xlarge = InstanceType._('c7a.48xlarge');
+  static const c7aMetal_48xl = InstanceType._('c7a.metal-48xl');
+  static const r7aMetal_48xl = InstanceType._('r7a.metal-48xl');
+  static const r7iLarge = InstanceType._('r7i.large');
+  static const r7iXlarge = InstanceType._('r7i.xlarge');
+  static const r7i_2xlarge = InstanceType._('r7i.2xlarge');
+  static const r7i_4xlarge = InstanceType._('r7i.4xlarge');
+  static const r7i_8xlarge = InstanceType._('r7i.8xlarge');
+  static const r7i_12xlarge = InstanceType._('r7i.12xlarge');
+  static const r7i_16xlarge = InstanceType._('r7i.16xlarge');
+  static const r7i_24xlarge = InstanceType._('r7i.24xlarge');
+  static const r7i_48xlarge = InstanceType._('r7i.48xlarge');
+  static const dl2q_24xlarge = InstanceType._('dl2q.24xlarge');
+  static const mac2M2Metal = InstanceType._('mac2-m2.metal');
+  static const i4i_12xlarge = InstanceType._('i4i.12xlarge');
+  static const i4i_24xlarge = InstanceType._('i4i.24xlarge');
+  static const c7iMetal_24xl = InstanceType._('c7i.metal-24xl');
+  static const c7iMetal_48xl = InstanceType._('c7i.metal-48xl');
+  static const m7iMetal_24xl = InstanceType._('m7i.metal-24xl');
+  static const m7iMetal_48xl = InstanceType._('m7i.metal-48xl');
+  static const r7iMetal_24xl = InstanceType._('r7i.metal-24xl');
+  static const r7iMetal_48xl = InstanceType._('r7i.metal-48xl');
+  static const r7izMetal_16xl = InstanceType._('r7iz.metal-16xl');
+  static const r7izMetal_32xl = InstanceType._('r7iz.metal-32xl');
+  static const c7gdMetal = InstanceType._('c7gd.metal');
+  static const m7gdMetal = InstanceType._('m7gd.metal');
+  static const r7gdMetal = InstanceType._('r7gd.metal');
+  static const g6Xlarge = InstanceType._('g6.xlarge');
+  static const g6_2xlarge = InstanceType._('g6.2xlarge');
+  static const g6_4xlarge = InstanceType._('g6.4xlarge');
+  static const g6_8xlarge = InstanceType._('g6.8xlarge');
+  static const g6_12xlarge = InstanceType._('g6.12xlarge');
+  static const g6_16xlarge = InstanceType._('g6.16xlarge');
+  static const g6_24xlarge = InstanceType._('g6.24xlarge');
+  static const g6_48xlarge = InstanceType._('g6.48xlarge');
+  static const gr6_4xlarge = InstanceType._('gr6.4xlarge');
+  static const gr6_8xlarge = InstanceType._('gr6.8xlarge');
+  static const c7iFlexLarge = InstanceType._('c7i-flex.large');
+  static const c7iFlexXlarge = InstanceType._('c7i-flex.xlarge');
+  static const c7iFlex_2xlarge = InstanceType._('c7i-flex.2xlarge');
+  static const c7iFlex_4xlarge = InstanceType._('c7i-flex.4xlarge');
+  static const c7iFlex_8xlarge = InstanceType._('c7i-flex.8xlarge');
+  static const u7i_12tb_224xlarge = InstanceType._('u7i-12tb.224xlarge');
+  static const u7in_16tb_224xlarge = InstanceType._('u7in-16tb.224xlarge');
+  static const u7in_24tb_224xlarge = InstanceType._('u7in-24tb.224xlarge');
+  static const u7in_32tb_224xlarge = InstanceType._('u7in-32tb.224xlarge');
+  static const u7ib_12tb_224xlarge = InstanceType._('u7ib-12tb.224xlarge');
+  static const c7gnMetal = InstanceType._('c7gn.metal');
+  static const r8gMedium = InstanceType._('r8g.medium');
+  static const r8gLarge = InstanceType._('r8g.large');
+  static const r8gXlarge = InstanceType._('r8g.xlarge');
+  static const r8g_2xlarge = InstanceType._('r8g.2xlarge');
+  static const r8g_4xlarge = InstanceType._('r8g.4xlarge');
+  static const r8g_8xlarge = InstanceType._('r8g.8xlarge');
+  static const r8g_12xlarge = InstanceType._('r8g.12xlarge');
+  static const r8g_16xlarge = InstanceType._('r8g.16xlarge');
+  static const r8g_24xlarge = InstanceType._('r8g.24xlarge');
+  static const r8g_48xlarge = InstanceType._('r8g.48xlarge');
+  static const r8gMetal_24xl = InstanceType._('r8g.metal-24xl');
+  static const r8gMetal_48xl = InstanceType._('r8g.metal-48xl');
+  static const mac2M1ultraMetal = InstanceType._('mac2-m1ultra.metal');
 
   final String value;
 
-  const InstanceType(this.value);
+  const InstanceType._(this.value);
 
-  static InstanceType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum InstanceType'));
+  static const values = [
+    a1Medium,
+    a1Large,
+    a1Xlarge,
+    a1_2xlarge,
+    a1_4xlarge,
+    a1Metal,
+    c1Medium,
+    c1Xlarge,
+    c3Large,
+    c3Xlarge,
+    c3_2xlarge,
+    c3_4xlarge,
+    c3_8xlarge,
+    c4Large,
+    c4Xlarge,
+    c4_2xlarge,
+    c4_4xlarge,
+    c4_8xlarge,
+    c5Large,
+    c5Xlarge,
+    c5_2xlarge,
+    c5_4xlarge,
+    c5_9xlarge,
+    c5_12xlarge,
+    c5_18xlarge,
+    c5_24xlarge,
+    c5Metal,
+    c5aLarge,
+    c5aXlarge,
+    c5a_2xlarge,
+    c5a_4xlarge,
+    c5a_8xlarge,
+    c5a_12xlarge,
+    c5a_16xlarge,
+    c5a_24xlarge,
+    c5adLarge,
+    c5adXlarge,
+    c5ad_2xlarge,
+    c5ad_4xlarge,
+    c5ad_8xlarge,
+    c5ad_12xlarge,
+    c5ad_16xlarge,
+    c5ad_24xlarge,
+    c5dLarge,
+    c5dXlarge,
+    c5d_2xlarge,
+    c5d_4xlarge,
+    c5d_9xlarge,
+    c5d_12xlarge,
+    c5d_18xlarge,
+    c5d_24xlarge,
+    c5dMetal,
+    c5nLarge,
+    c5nXlarge,
+    c5n_2xlarge,
+    c5n_4xlarge,
+    c5n_9xlarge,
+    c5n_18xlarge,
+    c5nMetal,
+    c6gMedium,
+    c6gLarge,
+    c6gXlarge,
+    c6g_2xlarge,
+    c6g_4xlarge,
+    c6g_8xlarge,
+    c6g_12xlarge,
+    c6g_16xlarge,
+    c6gMetal,
+    c6gdMedium,
+    c6gdLarge,
+    c6gdXlarge,
+    c6gd_2xlarge,
+    c6gd_4xlarge,
+    c6gd_8xlarge,
+    c6gd_12xlarge,
+    c6gd_16xlarge,
+    c6gdMetal,
+    c6gnMedium,
+    c6gnLarge,
+    c6gnXlarge,
+    c6gn_2xlarge,
+    c6gn_4xlarge,
+    c6gn_8xlarge,
+    c6gn_12xlarge,
+    c6gn_16xlarge,
+    c6iLarge,
+    c6iXlarge,
+    c6i_2xlarge,
+    c6i_4xlarge,
+    c6i_8xlarge,
+    c6i_12xlarge,
+    c6i_16xlarge,
+    c6i_24xlarge,
+    c6i_32xlarge,
+    c6iMetal,
+    cc1_4xlarge,
+    cc2_8xlarge,
+    cg1_4xlarge,
+    cr1_8xlarge,
+    d2Xlarge,
+    d2_2xlarge,
+    d2_4xlarge,
+    d2_8xlarge,
+    d3Xlarge,
+    d3_2xlarge,
+    d3_4xlarge,
+    d3_8xlarge,
+    d3enXlarge,
+    d3en_2xlarge,
+    d3en_4xlarge,
+    d3en_6xlarge,
+    d3en_8xlarge,
+    d3en_12xlarge,
+    dl1_24xlarge,
+    f1_2xlarge,
+    f1_4xlarge,
+    f1_16xlarge,
+    g2_2xlarge,
+    g2_8xlarge,
+    g3_4xlarge,
+    g3_8xlarge,
+    g3_16xlarge,
+    g3sXlarge,
+    g4adXlarge,
+    g4ad_2xlarge,
+    g4ad_4xlarge,
+    g4ad_8xlarge,
+    g4ad_16xlarge,
+    g4dnXlarge,
+    g4dn_2xlarge,
+    g4dn_4xlarge,
+    g4dn_8xlarge,
+    g4dn_12xlarge,
+    g4dn_16xlarge,
+    g4dnMetal,
+    g5Xlarge,
+    g5_2xlarge,
+    g5_4xlarge,
+    g5_8xlarge,
+    g5_12xlarge,
+    g5_16xlarge,
+    g5_24xlarge,
+    g5_48xlarge,
+    g5gXlarge,
+    g5g_2xlarge,
+    g5g_4xlarge,
+    g5g_8xlarge,
+    g5g_16xlarge,
+    g5gMetal,
+    hi1_4xlarge,
+    hpc6a_48xlarge,
+    hs1_8xlarge,
+    h1_2xlarge,
+    h1_4xlarge,
+    h1_8xlarge,
+    h1_16xlarge,
+    i2Xlarge,
+    i2_2xlarge,
+    i2_4xlarge,
+    i2_8xlarge,
+    i3Large,
+    i3Xlarge,
+    i3_2xlarge,
+    i3_4xlarge,
+    i3_8xlarge,
+    i3_16xlarge,
+    i3Metal,
+    i3enLarge,
+    i3enXlarge,
+    i3en_2xlarge,
+    i3en_3xlarge,
+    i3en_6xlarge,
+    i3en_12xlarge,
+    i3en_24xlarge,
+    i3enMetal,
+    im4gnLarge,
+    im4gnXlarge,
+    im4gn_2xlarge,
+    im4gn_4xlarge,
+    im4gn_8xlarge,
+    im4gn_16xlarge,
+    inf1Xlarge,
+    inf1_2xlarge,
+    inf1_6xlarge,
+    inf1_24xlarge,
+    is4genMedium,
+    is4genLarge,
+    is4genXlarge,
+    is4gen_2xlarge,
+    is4gen_4xlarge,
+    is4gen_8xlarge,
+    m1Small,
+    m1Medium,
+    m1Large,
+    m1Xlarge,
+    m2Xlarge,
+    m2_2xlarge,
+    m2_4xlarge,
+    m3Medium,
+    m3Large,
+    m3Xlarge,
+    m3_2xlarge,
+    m4Large,
+    m4Xlarge,
+    m4_2xlarge,
+    m4_4xlarge,
+    m4_10xlarge,
+    m4_16xlarge,
+    m5Large,
+    m5Xlarge,
+    m5_2xlarge,
+    m5_4xlarge,
+    m5_8xlarge,
+    m5_12xlarge,
+    m5_16xlarge,
+    m5_24xlarge,
+    m5Metal,
+    m5aLarge,
+    m5aXlarge,
+    m5a_2xlarge,
+    m5a_4xlarge,
+    m5a_8xlarge,
+    m5a_12xlarge,
+    m5a_16xlarge,
+    m5a_24xlarge,
+    m5adLarge,
+    m5adXlarge,
+    m5ad_2xlarge,
+    m5ad_4xlarge,
+    m5ad_8xlarge,
+    m5ad_12xlarge,
+    m5ad_16xlarge,
+    m5ad_24xlarge,
+    m5dLarge,
+    m5dXlarge,
+    m5d_2xlarge,
+    m5d_4xlarge,
+    m5d_8xlarge,
+    m5d_12xlarge,
+    m5d_16xlarge,
+    m5d_24xlarge,
+    m5dMetal,
+    m5dnLarge,
+    m5dnXlarge,
+    m5dn_2xlarge,
+    m5dn_4xlarge,
+    m5dn_8xlarge,
+    m5dn_12xlarge,
+    m5dn_16xlarge,
+    m5dn_24xlarge,
+    m5dnMetal,
+    m5nLarge,
+    m5nXlarge,
+    m5n_2xlarge,
+    m5n_4xlarge,
+    m5n_8xlarge,
+    m5n_12xlarge,
+    m5n_16xlarge,
+    m5n_24xlarge,
+    m5nMetal,
+    m5znLarge,
+    m5znXlarge,
+    m5zn_2xlarge,
+    m5zn_3xlarge,
+    m5zn_6xlarge,
+    m5zn_12xlarge,
+    m5znMetal,
+    m6aLarge,
+    m6aXlarge,
+    m6a_2xlarge,
+    m6a_4xlarge,
+    m6a_8xlarge,
+    m6a_12xlarge,
+    m6a_16xlarge,
+    m6a_24xlarge,
+    m6a_32xlarge,
+    m6a_48xlarge,
+    m6gMetal,
+    m6gMedium,
+    m6gLarge,
+    m6gXlarge,
+    m6g_2xlarge,
+    m6g_4xlarge,
+    m6g_8xlarge,
+    m6g_12xlarge,
+    m6g_16xlarge,
+    m6gdMetal,
+    m6gdMedium,
+    m6gdLarge,
+    m6gdXlarge,
+    m6gd_2xlarge,
+    m6gd_4xlarge,
+    m6gd_8xlarge,
+    m6gd_12xlarge,
+    m6gd_16xlarge,
+    m6iLarge,
+    m6iXlarge,
+    m6i_2xlarge,
+    m6i_4xlarge,
+    m6i_8xlarge,
+    m6i_12xlarge,
+    m6i_16xlarge,
+    m6i_24xlarge,
+    m6i_32xlarge,
+    m6iMetal,
+    mac1Metal,
+    p2Xlarge,
+    p2_8xlarge,
+    p2_16xlarge,
+    p3_2xlarge,
+    p3_8xlarge,
+    p3_16xlarge,
+    p3dn_24xlarge,
+    p4d_24xlarge,
+    r3Large,
+    r3Xlarge,
+    r3_2xlarge,
+    r3_4xlarge,
+    r3_8xlarge,
+    r4Large,
+    r4Xlarge,
+    r4_2xlarge,
+    r4_4xlarge,
+    r4_8xlarge,
+    r4_16xlarge,
+    r5Large,
+    r5Xlarge,
+    r5_2xlarge,
+    r5_4xlarge,
+    r5_8xlarge,
+    r5_12xlarge,
+    r5_16xlarge,
+    r5_24xlarge,
+    r5Metal,
+    r5aLarge,
+    r5aXlarge,
+    r5a_2xlarge,
+    r5a_4xlarge,
+    r5a_8xlarge,
+    r5a_12xlarge,
+    r5a_16xlarge,
+    r5a_24xlarge,
+    r5adLarge,
+    r5adXlarge,
+    r5ad_2xlarge,
+    r5ad_4xlarge,
+    r5ad_8xlarge,
+    r5ad_12xlarge,
+    r5ad_16xlarge,
+    r5ad_24xlarge,
+    r5bLarge,
+    r5bXlarge,
+    r5b_2xlarge,
+    r5b_4xlarge,
+    r5b_8xlarge,
+    r5b_12xlarge,
+    r5b_16xlarge,
+    r5b_24xlarge,
+    r5bMetal,
+    r5dLarge,
+    r5dXlarge,
+    r5d_2xlarge,
+    r5d_4xlarge,
+    r5d_8xlarge,
+    r5d_12xlarge,
+    r5d_16xlarge,
+    r5d_24xlarge,
+    r5dMetal,
+    r5dnLarge,
+    r5dnXlarge,
+    r5dn_2xlarge,
+    r5dn_4xlarge,
+    r5dn_8xlarge,
+    r5dn_12xlarge,
+    r5dn_16xlarge,
+    r5dn_24xlarge,
+    r5dnMetal,
+    r5nLarge,
+    r5nXlarge,
+    r5n_2xlarge,
+    r5n_4xlarge,
+    r5n_8xlarge,
+    r5n_12xlarge,
+    r5n_16xlarge,
+    r5n_24xlarge,
+    r5nMetal,
+    r6gMedium,
+    r6gLarge,
+    r6gXlarge,
+    r6g_2xlarge,
+    r6g_4xlarge,
+    r6g_8xlarge,
+    r6g_12xlarge,
+    r6g_16xlarge,
+    r6gMetal,
+    r6gdMedium,
+    r6gdLarge,
+    r6gdXlarge,
+    r6gd_2xlarge,
+    r6gd_4xlarge,
+    r6gd_8xlarge,
+    r6gd_12xlarge,
+    r6gd_16xlarge,
+    r6gdMetal,
+    r6iLarge,
+    r6iXlarge,
+    r6i_2xlarge,
+    r6i_4xlarge,
+    r6i_8xlarge,
+    r6i_12xlarge,
+    r6i_16xlarge,
+    r6i_24xlarge,
+    r6i_32xlarge,
+    r6iMetal,
+    t1Micro,
+    t2Nano,
+    t2Micro,
+    t2Small,
+    t2Medium,
+    t2Large,
+    t2Xlarge,
+    t2_2xlarge,
+    t3Nano,
+    t3Micro,
+    t3Small,
+    t3Medium,
+    t3Large,
+    t3Xlarge,
+    t3_2xlarge,
+    t3aNano,
+    t3aMicro,
+    t3aSmall,
+    t3aMedium,
+    t3aLarge,
+    t3aXlarge,
+    t3a_2xlarge,
+    t4gNano,
+    t4gMicro,
+    t4gSmall,
+    t4gMedium,
+    t4gLarge,
+    t4gXlarge,
+    t4g_2xlarge,
+    u_6tb1_56xlarge,
+    u_6tb1_112xlarge,
+    u_9tb1_112xlarge,
+    u_12tb1_112xlarge,
+    u_6tb1Metal,
+    u_9tb1Metal,
+    u_12tb1Metal,
+    u_18tb1Metal,
+    u_24tb1Metal,
+    vt1_3xlarge,
+    vt1_6xlarge,
+    vt1_24xlarge,
+    x1_16xlarge,
+    x1_32xlarge,
+    x1eXlarge,
+    x1e_2xlarge,
+    x1e_4xlarge,
+    x1e_8xlarge,
+    x1e_16xlarge,
+    x1e_32xlarge,
+    x2iezn_2xlarge,
+    x2iezn_4xlarge,
+    x2iezn_6xlarge,
+    x2iezn_8xlarge,
+    x2iezn_12xlarge,
+    x2ieznMetal,
+    x2gdMedium,
+    x2gdLarge,
+    x2gdXlarge,
+    x2gd_2xlarge,
+    x2gd_4xlarge,
+    x2gd_8xlarge,
+    x2gd_12xlarge,
+    x2gd_16xlarge,
+    x2gdMetal,
+    z1dLarge,
+    z1dXlarge,
+    z1d_2xlarge,
+    z1d_3xlarge,
+    z1d_6xlarge,
+    z1d_12xlarge,
+    z1dMetal,
+    x2idn_16xlarge,
+    x2idn_24xlarge,
+    x2idn_32xlarge,
+    x2iednXlarge,
+    x2iedn_2xlarge,
+    x2iedn_4xlarge,
+    x2iedn_8xlarge,
+    x2iedn_16xlarge,
+    x2iedn_24xlarge,
+    x2iedn_32xlarge,
+    c6aLarge,
+    c6aXlarge,
+    c6a_2xlarge,
+    c6a_4xlarge,
+    c6a_8xlarge,
+    c6a_12xlarge,
+    c6a_16xlarge,
+    c6a_24xlarge,
+    c6a_32xlarge,
+    c6a_48xlarge,
+    c6aMetal,
+    m6aMetal,
+    i4iLarge,
+    i4iXlarge,
+    i4i_2xlarge,
+    i4i_4xlarge,
+    i4i_8xlarge,
+    i4i_16xlarge,
+    i4i_32xlarge,
+    i4iMetal,
+    x2idnMetal,
+    x2iednMetal,
+    c7gMedium,
+    c7gLarge,
+    c7gXlarge,
+    c7g_2xlarge,
+    c7g_4xlarge,
+    c7g_8xlarge,
+    c7g_12xlarge,
+    c7g_16xlarge,
+    mac2Metal,
+    c6idLarge,
+    c6idXlarge,
+    c6id_2xlarge,
+    c6id_4xlarge,
+    c6id_8xlarge,
+    c6id_12xlarge,
+    c6id_16xlarge,
+    c6id_24xlarge,
+    c6id_32xlarge,
+    c6idMetal,
+    m6idLarge,
+    m6idXlarge,
+    m6id_2xlarge,
+    m6id_4xlarge,
+    m6id_8xlarge,
+    m6id_12xlarge,
+    m6id_16xlarge,
+    m6id_24xlarge,
+    m6id_32xlarge,
+    m6idMetal,
+    r6idLarge,
+    r6idXlarge,
+    r6id_2xlarge,
+    r6id_4xlarge,
+    r6id_8xlarge,
+    r6id_12xlarge,
+    r6id_16xlarge,
+    r6id_24xlarge,
+    r6id_32xlarge,
+    r6idMetal,
+    r6aLarge,
+    r6aXlarge,
+    r6a_2xlarge,
+    r6a_4xlarge,
+    r6a_8xlarge,
+    r6a_12xlarge,
+    r6a_16xlarge,
+    r6a_24xlarge,
+    r6a_32xlarge,
+    r6a_48xlarge,
+    r6aMetal,
+    p4de_24xlarge,
+    u_3tb1_56xlarge,
+    u_18tb1_112xlarge,
+    u_24tb1_112xlarge,
+    trn1_2xlarge,
+    trn1_32xlarge,
+    hpc6id_32xlarge,
+    c6inLarge,
+    c6inXlarge,
+    c6in_2xlarge,
+    c6in_4xlarge,
+    c6in_8xlarge,
+    c6in_12xlarge,
+    c6in_16xlarge,
+    c6in_24xlarge,
+    c6in_32xlarge,
+    m6inLarge,
+    m6inXlarge,
+    m6in_2xlarge,
+    m6in_4xlarge,
+    m6in_8xlarge,
+    m6in_12xlarge,
+    m6in_16xlarge,
+    m6in_24xlarge,
+    m6in_32xlarge,
+    m6idnLarge,
+    m6idnXlarge,
+    m6idn_2xlarge,
+    m6idn_4xlarge,
+    m6idn_8xlarge,
+    m6idn_12xlarge,
+    m6idn_16xlarge,
+    m6idn_24xlarge,
+    m6idn_32xlarge,
+    r6inLarge,
+    r6inXlarge,
+    r6in_2xlarge,
+    r6in_4xlarge,
+    r6in_8xlarge,
+    r6in_12xlarge,
+    r6in_16xlarge,
+    r6in_24xlarge,
+    r6in_32xlarge,
+    r6idnLarge,
+    r6idnXlarge,
+    r6idn_2xlarge,
+    r6idn_4xlarge,
+    r6idn_8xlarge,
+    r6idn_12xlarge,
+    r6idn_16xlarge,
+    r6idn_24xlarge,
+    r6idn_32xlarge,
+    c7gMetal,
+    m7gMedium,
+    m7gLarge,
+    m7gXlarge,
+    m7g_2xlarge,
+    m7g_4xlarge,
+    m7g_8xlarge,
+    m7g_12xlarge,
+    m7g_16xlarge,
+    m7gMetal,
+    r7gMedium,
+    r7gLarge,
+    r7gXlarge,
+    r7g_2xlarge,
+    r7g_4xlarge,
+    r7g_8xlarge,
+    r7g_12xlarge,
+    r7g_16xlarge,
+    r7gMetal,
+    c6inMetal,
+    m6inMetal,
+    m6idnMetal,
+    r6inMetal,
+    r6idnMetal,
+    inf2Xlarge,
+    inf2_8xlarge,
+    inf2_24xlarge,
+    inf2_48xlarge,
+    trn1n_32xlarge,
+    i4gLarge,
+    i4gXlarge,
+    i4g_2xlarge,
+    i4g_4xlarge,
+    i4g_8xlarge,
+    i4g_16xlarge,
+    hpc7g_4xlarge,
+    hpc7g_8xlarge,
+    hpc7g_16xlarge,
+    c7gnMedium,
+    c7gnLarge,
+    c7gnXlarge,
+    c7gn_2xlarge,
+    c7gn_4xlarge,
+    c7gn_8xlarge,
+    c7gn_12xlarge,
+    c7gn_16xlarge,
+    p5_48xlarge,
+    m7iLarge,
+    m7iXlarge,
+    m7i_2xlarge,
+    m7i_4xlarge,
+    m7i_8xlarge,
+    m7i_12xlarge,
+    m7i_16xlarge,
+    m7i_24xlarge,
+    m7i_48xlarge,
+    m7iFlexLarge,
+    m7iFlexXlarge,
+    m7iFlex_2xlarge,
+    m7iFlex_4xlarge,
+    m7iFlex_8xlarge,
+    m7aMedium,
+    m7aLarge,
+    m7aXlarge,
+    m7a_2xlarge,
+    m7a_4xlarge,
+    m7a_8xlarge,
+    m7a_12xlarge,
+    m7a_16xlarge,
+    m7a_24xlarge,
+    m7a_32xlarge,
+    m7a_48xlarge,
+    m7aMetal_48xl,
+    hpc7a_12xlarge,
+    hpc7a_24xlarge,
+    hpc7a_48xlarge,
+    hpc7a_96xlarge,
+    c7gdMedium,
+    c7gdLarge,
+    c7gdXlarge,
+    c7gd_2xlarge,
+    c7gd_4xlarge,
+    c7gd_8xlarge,
+    c7gd_12xlarge,
+    c7gd_16xlarge,
+    m7gdMedium,
+    m7gdLarge,
+    m7gdXlarge,
+    m7gd_2xlarge,
+    m7gd_4xlarge,
+    m7gd_8xlarge,
+    m7gd_12xlarge,
+    m7gd_16xlarge,
+    r7gdMedium,
+    r7gdLarge,
+    r7gdXlarge,
+    r7gd_2xlarge,
+    r7gd_4xlarge,
+    r7gd_8xlarge,
+    r7gd_12xlarge,
+    r7gd_16xlarge,
+    r7aMedium,
+    r7aLarge,
+    r7aXlarge,
+    r7a_2xlarge,
+    r7a_4xlarge,
+    r7a_8xlarge,
+    r7a_12xlarge,
+    r7a_16xlarge,
+    r7a_24xlarge,
+    r7a_32xlarge,
+    r7a_48xlarge,
+    c7iLarge,
+    c7iXlarge,
+    c7i_2xlarge,
+    c7i_4xlarge,
+    c7i_8xlarge,
+    c7i_12xlarge,
+    c7i_16xlarge,
+    c7i_24xlarge,
+    c7i_48xlarge,
+    mac2M2proMetal,
+    r7izLarge,
+    r7izXlarge,
+    r7iz_2xlarge,
+    r7iz_4xlarge,
+    r7iz_8xlarge,
+    r7iz_12xlarge,
+    r7iz_16xlarge,
+    r7iz_32xlarge,
+    c7aMedium,
+    c7aLarge,
+    c7aXlarge,
+    c7a_2xlarge,
+    c7a_4xlarge,
+    c7a_8xlarge,
+    c7a_12xlarge,
+    c7a_16xlarge,
+    c7a_24xlarge,
+    c7a_32xlarge,
+    c7a_48xlarge,
+    c7aMetal_48xl,
+    r7aMetal_48xl,
+    r7iLarge,
+    r7iXlarge,
+    r7i_2xlarge,
+    r7i_4xlarge,
+    r7i_8xlarge,
+    r7i_12xlarge,
+    r7i_16xlarge,
+    r7i_24xlarge,
+    r7i_48xlarge,
+    dl2q_24xlarge,
+    mac2M2Metal,
+    i4i_12xlarge,
+    i4i_24xlarge,
+    c7iMetal_24xl,
+    c7iMetal_48xl,
+    m7iMetal_24xl,
+    m7iMetal_48xl,
+    r7iMetal_24xl,
+    r7iMetal_48xl,
+    r7izMetal_16xl,
+    r7izMetal_32xl,
+    c7gdMetal,
+    m7gdMetal,
+    r7gdMetal,
+    g6Xlarge,
+    g6_2xlarge,
+    g6_4xlarge,
+    g6_8xlarge,
+    g6_12xlarge,
+    g6_16xlarge,
+    g6_24xlarge,
+    g6_48xlarge,
+    gr6_4xlarge,
+    gr6_8xlarge,
+    c7iFlexLarge,
+    c7iFlexXlarge,
+    c7iFlex_2xlarge,
+    c7iFlex_4xlarge,
+    c7iFlex_8xlarge,
+    u7i_12tb_224xlarge,
+    u7in_16tb_224xlarge,
+    u7in_24tb_224xlarge,
+    u7in_32tb_224xlarge,
+    u7ib_12tb_224xlarge,
+    c7gnMetal,
+    r8gMedium,
+    r8gLarge,
+    r8gXlarge,
+    r8g_2xlarge,
+    r8g_4xlarge,
+    r8g_8xlarge,
+    r8g_12xlarge,
+    r8g_16xlarge,
+    r8g_24xlarge,
+    r8g_48xlarge,
+    r8gMetal_24xl,
+    r8gMetal_48xl,
+    mac2M1ultraMetal
+  ];
+
+  static InstanceType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => InstanceType._(value));
+
+  @override
+  bool operator ==(other) => other is InstanceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum InstanceTypeHypervisor {
-  nitro('nitro'),
-  xen('xen'),
-  ;
+class InstanceTypeHypervisor {
+  static const nitro = InstanceTypeHypervisor._('nitro');
+  static const xen = InstanceTypeHypervisor._('xen');
 
   final String value;
 
-  const InstanceTypeHypervisor(this.value);
+  const InstanceTypeHypervisor._(this.value);
+
+  static const values = [nitro, xen];
 
   static InstanceTypeHypervisor fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum InstanceTypeHypervisor'));
+          orElse: () => InstanceTypeHypervisor._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is InstanceTypeHypervisor && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes the instance type.
@@ -60898,34 +63415,54 @@ class IntegrateServices {
   }
 }
 
-enum InterfacePermissionType {
-  instanceAttach('INSTANCE-ATTACH'),
-  eipAssociate('EIP-ASSOCIATE'),
-  ;
+class InterfacePermissionType {
+  static const instanceAttach = InterfacePermissionType._('INSTANCE-ATTACH');
+  static const eipAssociate = InterfacePermissionType._('EIP-ASSOCIATE');
 
   final String value;
 
-  const InterfacePermissionType(this.value);
+  const InterfacePermissionType._(this.value);
+
+  static const values = [instanceAttach, eipAssociate];
 
   static InterfacePermissionType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum InterfacePermissionType'));
+          orElse: () => InterfacePermissionType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is InterfacePermissionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum InterfaceProtocolType {
-  vlan('VLAN'),
-  gre('GRE'),
-  ;
+class InterfaceProtocolType {
+  static const vlan = InterfaceProtocolType._('VLAN');
+  static const gre = InterfaceProtocolType._('GRE');
 
   final String value;
 
-  const InterfaceProtocolType(this.value);
+  const InterfaceProtocolType._(this.value);
 
-  static InterfaceProtocolType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum InterfaceProtocolType'));
+  static const values = [vlan, gre];
+
+  static InterfaceProtocolType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => InterfaceProtocolType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is InterfaceProtocolType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes an internet gateway.
@@ -60989,20 +63526,29 @@ class InternetGatewayAttachment {
   }
 }
 
-enum IpAddressType {
-  ipv4('ipv4'),
-  dualstack('dualstack'),
-  ipv6('ipv6'),
-  ;
+class IpAddressType {
+  static const ipv4 = IpAddressType._('ipv4');
+  static const dualstack = IpAddressType._('dualstack');
+  static const ipv6 = IpAddressType._('ipv6');
 
   final String value;
 
-  const IpAddressType(this.value);
+  const IpAddressType._(this.value);
+
+  static const values = [ipv4, dualstack, ipv6];
 
   static IpAddressType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum IpAddressType'));
+          orElse: () => IpAddressType._(value));
+
+  @override
+  bool operator ==(other) => other is IpAddressType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes the permissions for a security group rule.
@@ -61103,19 +63649,28 @@ class IpRange {
   }
 }
 
-enum IpSource {
-  amazon('amazon'),
-  byoip('byoip'),
-  none('none'),
-  ;
+class IpSource {
+  static const amazon = IpSource._('amazon');
+  static const byoip = IpSource._('byoip');
+  static const none = IpSource._('none');
 
   final String value;
 
-  const IpSource(this.value);
+  const IpSource._(this.value);
 
-  static IpSource fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum IpSource'));
+  static const values = [amazon, byoip, none];
+
+  static IpSource fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => IpSource._(value));
+
+  @override
+  bool operator ==(other) => other is IpSource && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// IPAM is a VPC feature that you can use to automate your IP address
@@ -61358,37 +63913,58 @@ class IpamAddressHistoryRecord {
   }
 }
 
-enum IpamAddressHistoryResourceType {
-  eip('eip'),
-  vpc('vpc'),
-  subnet('subnet'),
-  networkInterface('network-interface'),
-  instance('instance'),
-  ;
+class IpamAddressHistoryResourceType {
+  static const eip = IpamAddressHistoryResourceType._('eip');
+  static const vpc = IpamAddressHistoryResourceType._('vpc');
+  static const subnet = IpamAddressHistoryResourceType._('subnet');
+  static const networkInterface =
+      IpamAddressHistoryResourceType._('network-interface');
+  static const instance = IpamAddressHistoryResourceType._('instance');
 
   final String value;
 
-  const IpamAddressHistoryResourceType(this.value);
+  const IpamAddressHistoryResourceType._(this.value);
+
+  static const values = [eip, vpc, subnet, networkInterface, instance];
 
   static IpamAddressHistoryResourceType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum IpamAddressHistoryResourceType'));
+          orElse: () => IpamAddressHistoryResourceType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is IpamAddressHistoryResourceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum IpamAssociatedResourceDiscoveryStatus {
-  active('active'),
-  notFound('not-found'),
-  ;
+class IpamAssociatedResourceDiscoveryStatus {
+  static const active = IpamAssociatedResourceDiscoveryStatus._('active');
+  static const notFound = IpamAssociatedResourceDiscoveryStatus._('not-found');
 
   final String value;
 
-  const IpamAssociatedResourceDiscoveryStatus(this.value);
+  const IpamAssociatedResourceDiscoveryStatus._(this.value);
+
+  static const values = [active, notFound];
 
   static IpamAssociatedResourceDiscoveryStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum IpamAssociatedResourceDiscoveryStatus'));
+          orElse: () => IpamAssociatedResourceDiscoveryStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is IpamAssociatedResourceDiscoveryStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A signed document that proves that you are authorized to bring the specified
@@ -61415,21 +63991,31 @@ class IpamCidrAuthorizationContext {
   }
 }
 
-enum IpamComplianceStatus {
-  compliant('compliant'),
-  noncompliant('noncompliant'),
-  unmanaged('unmanaged'),
-  ignored('ignored'),
-  ;
+class IpamComplianceStatus {
+  static const compliant = IpamComplianceStatus._('compliant');
+  static const noncompliant = IpamComplianceStatus._('noncompliant');
+  static const unmanaged = IpamComplianceStatus._('unmanaged');
+  static const ignored = IpamComplianceStatus._('ignored');
 
   final String value;
 
-  const IpamComplianceStatus(this.value);
+  const IpamComplianceStatus._(this.value);
 
-  static IpamComplianceStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum IpamComplianceStatus'));
+  static const values = [compliant, noncompliant, unmanaged, ignored];
+
+  static IpamComplianceStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => IpamComplianceStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is IpamComplianceStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// An IPAM discovered account. A discovered account is an Amazon Web Services
@@ -61737,20 +64323,37 @@ class IpamDiscoveredResourceCidr {
   }
 }
 
-enum IpamDiscoveryFailureCode {
-  assumeRoleFailure('assume-role-failure'),
-  throttlingFailure('throttling-failure'),
-  unauthorizedFailure('unauthorized-failure'),
-  ;
+class IpamDiscoveryFailureCode {
+  static const assumeRoleFailure =
+      IpamDiscoveryFailureCode._('assume-role-failure');
+  static const throttlingFailure =
+      IpamDiscoveryFailureCode._('throttling-failure');
+  static const unauthorizedFailure =
+      IpamDiscoveryFailureCode._('unauthorized-failure');
 
   final String value;
 
-  const IpamDiscoveryFailureCode(this.value);
+  const IpamDiscoveryFailureCode._(this.value);
+
+  static const values = [
+    assumeRoleFailure,
+    throttlingFailure,
+    unauthorizedFailure
+  ];
 
   static IpamDiscoveryFailureCode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum IpamDiscoveryFailureCode'));
+          orElse: () => IpamDiscoveryFailureCode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is IpamDiscoveryFailureCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The discovery failure reason.
@@ -61892,54 +64495,98 @@ class IpamExternalResourceVerificationToken {
   }
 }
 
-enum IpamExternalResourceVerificationTokenState {
-  createInProgress('create-in-progress'),
-  createComplete('create-complete'),
-  createFailed('create-failed'),
-  deleteInProgress('delete-in-progress'),
-  deleteComplete('delete-complete'),
-  deleteFailed('delete-failed'),
-  ;
+class IpamExternalResourceVerificationTokenState {
+  static const createInProgress =
+      IpamExternalResourceVerificationTokenState._('create-in-progress');
+  static const createComplete =
+      IpamExternalResourceVerificationTokenState._('create-complete');
+  static const createFailed =
+      IpamExternalResourceVerificationTokenState._('create-failed');
+  static const deleteInProgress =
+      IpamExternalResourceVerificationTokenState._('delete-in-progress');
+  static const deleteComplete =
+      IpamExternalResourceVerificationTokenState._('delete-complete');
+  static const deleteFailed =
+      IpamExternalResourceVerificationTokenState._('delete-failed');
 
   final String value;
 
-  const IpamExternalResourceVerificationTokenState(this.value);
+  const IpamExternalResourceVerificationTokenState._(this.value);
+
+  static const values = [
+    createInProgress,
+    createComplete,
+    createFailed,
+    deleteInProgress,
+    deleteComplete,
+    deleteFailed
+  ];
 
   static IpamExternalResourceVerificationTokenState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum IpamExternalResourceVerificationTokenState'));
+          orElse: () => IpamExternalResourceVerificationTokenState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is IpamExternalResourceVerificationTokenState &&
+      other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum IpamManagementState {
-  managed('managed'),
-  unmanaged('unmanaged'),
-  ignored('ignored'),
-  ;
+class IpamManagementState {
+  static const managed = IpamManagementState._('managed');
+  static const unmanaged = IpamManagementState._('unmanaged');
+  static const ignored = IpamManagementState._('ignored');
 
   final String value;
 
-  const IpamManagementState(this.value);
+  const IpamManagementState._(this.value);
 
-  static IpamManagementState fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum IpamManagementState'));
+  static const values = [managed, unmanaged, ignored];
+
+  static IpamManagementState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => IpamManagementState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is IpamManagementState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum IpamNetworkInterfaceAttachmentStatus {
-  available('available'),
-  inUse('in-use'),
-  ;
+class IpamNetworkInterfaceAttachmentStatus {
+  static const available = IpamNetworkInterfaceAttachmentStatus._('available');
+  static const inUse = IpamNetworkInterfaceAttachmentStatus._('in-use');
 
   final String value;
 
-  const IpamNetworkInterfaceAttachmentStatus(this.value);
+  const IpamNetworkInterfaceAttachmentStatus._(this.value);
+
+  static const values = [available, inUse];
 
   static IpamNetworkInterfaceAttachmentStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum IpamNetworkInterfaceAttachmentStatus'));
+          orElse: () => IpamNetworkInterfaceAttachmentStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is IpamNetworkInterfaceAttachmentStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The operating Regions for an IPAM. Operating Regions are Amazon Web Services
@@ -61966,20 +64613,29 @@ class IpamOperatingRegion {
   }
 }
 
-enum IpamOverlapStatus {
-  overlapping('overlapping'),
-  nonoverlapping('nonoverlapping'),
-  ignored('ignored'),
-  ;
+class IpamOverlapStatus {
+  static const overlapping = IpamOverlapStatus._('overlapping');
+  static const nonoverlapping = IpamOverlapStatus._('nonoverlapping');
+  static const ignored = IpamOverlapStatus._('ignored');
 
   final String value;
 
-  const IpamOverlapStatus(this.value);
+  const IpamOverlapStatus._(this.value);
+
+  static const values = [overlapping, nonoverlapping, ignored];
 
   static IpamOverlapStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum IpamOverlapStatus'));
+          orElse: () => IpamOverlapStatus._(value));
+
+  @override
+  bool operator ==(other) => other is IpamOverlapStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// In IPAM, a pool is a collection of contiguous IP addresses CIDRs. Pools
@@ -62267,37 +64923,58 @@ class IpamPoolAllocation {
   }
 }
 
-enum IpamPoolAllocationResourceType {
-  ipamPool('ipam-pool'),
-  vpc('vpc'),
-  ec2PublicIpv4Pool('ec2-public-ipv4-pool'),
-  custom('custom'),
-  subnet('subnet'),
-  eip('eip'),
-  ;
+class IpamPoolAllocationResourceType {
+  static const ipamPool = IpamPoolAllocationResourceType._('ipam-pool');
+  static const vpc = IpamPoolAllocationResourceType._('vpc');
+  static const ec2PublicIpv4Pool =
+      IpamPoolAllocationResourceType._('ec2-public-ipv4-pool');
+  static const custom = IpamPoolAllocationResourceType._('custom');
+  static const subnet = IpamPoolAllocationResourceType._('subnet');
+  static const eip = IpamPoolAllocationResourceType._('eip');
 
   final String value;
 
-  const IpamPoolAllocationResourceType(this.value);
+  const IpamPoolAllocationResourceType._(this.value);
+
+  static const values = [ipamPool, vpc, ec2PublicIpv4Pool, custom, subnet, eip];
 
   static IpamPoolAllocationResourceType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum IpamPoolAllocationResourceType'));
+          orElse: () => IpamPoolAllocationResourceType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is IpamPoolAllocationResourceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum IpamPoolAwsService {
-  ec2('ec2'),
-  ;
+class IpamPoolAwsService {
+  static const ec2 = IpamPoolAwsService._('ec2');
 
   final String value;
 
-  const IpamPoolAwsService(this.value);
+  const IpamPoolAwsService._(this.value);
 
-  static IpamPoolAwsService fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum IpamPoolAwsService'));
+  static const values = [ec2];
+
+  static IpamPoolAwsService fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => IpamPoolAwsService._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is IpamPoolAwsService && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A CIDR provisioned to an IPAM pool.
@@ -62347,19 +65024,30 @@ class IpamPoolCidr {
   }
 }
 
-enum IpamPoolCidrFailureCode {
-  cidrNotAvailable('cidr-not-available'),
-  limitExceeded('limit-exceeded'),
-  ;
+class IpamPoolCidrFailureCode {
+  static const cidrNotAvailable =
+      IpamPoolCidrFailureCode._('cidr-not-available');
+  static const limitExceeded = IpamPoolCidrFailureCode._('limit-exceeded');
 
   final String value;
 
-  const IpamPoolCidrFailureCode(this.value);
+  const IpamPoolCidrFailureCode._(this.value);
+
+  static const values = [cidrNotAvailable, limitExceeded];
 
   static IpamPoolCidrFailureCode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum IpamPoolCidrFailureCode'));
+          orElse: () => IpamPoolCidrFailureCode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is IpamPoolCidrFailureCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Details related to why an IPAM pool CIDR failed to be provisioned.
@@ -62385,40 +65073,68 @@ class IpamPoolCidrFailureReason {
   }
 }
 
-enum IpamPoolCidrState {
-  pendingProvision('pending-provision'),
-  provisioned('provisioned'),
-  failedProvision('failed-provision'),
-  pendingDeprovision('pending-deprovision'),
-  deprovisioned('deprovisioned'),
-  failedDeprovision('failed-deprovision'),
-  pendingImport('pending-import'),
-  failedImport('failed-import'),
-  ;
+class IpamPoolCidrState {
+  static const pendingProvision = IpamPoolCidrState._('pending-provision');
+  static const provisioned = IpamPoolCidrState._('provisioned');
+  static const failedProvision = IpamPoolCidrState._('failed-provision');
+  static const pendingDeprovision = IpamPoolCidrState._('pending-deprovision');
+  static const deprovisioned = IpamPoolCidrState._('deprovisioned');
+  static const failedDeprovision = IpamPoolCidrState._('failed-deprovision');
+  static const pendingImport = IpamPoolCidrState._('pending-import');
+  static const failedImport = IpamPoolCidrState._('failed-import');
 
   final String value;
 
-  const IpamPoolCidrState(this.value);
+  const IpamPoolCidrState._(this.value);
+
+  static const values = [
+    pendingProvision,
+    provisioned,
+    failedProvision,
+    pendingDeprovision,
+    deprovisioned,
+    failedDeprovision,
+    pendingImport,
+    failedImport
+  ];
 
   static IpamPoolCidrState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum IpamPoolCidrState'));
+          orElse: () => IpamPoolCidrState._(value));
+
+  @override
+  bool operator ==(other) => other is IpamPoolCidrState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum IpamPoolPublicIpSource {
-  amazon('amazon'),
-  byoip('byoip'),
-  ;
+class IpamPoolPublicIpSource {
+  static const amazon = IpamPoolPublicIpSource._('amazon');
+  static const byoip = IpamPoolPublicIpSource._('byoip');
 
   final String value;
 
-  const IpamPoolPublicIpSource(this.value);
+  const IpamPoolPublicIpSource._(this.value);
+
+  static const values = [amazon, byoip];
 
   static IpamPoolPublicIpSource fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum IpamPoolPublicIpSource'));
+          orElse: () => IpamPoolPublicIpSource._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is IpamPoolPublicIpSource && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The resource used to provision CIDRs to a resource planning pool.
@@ -62491,80 +65207,148 @@ class IpamPoolSourceResourceRequest {
   }
 }
 
-enum IpamPoolSourceResourceType {
-  vpc('vpc'),
-  ;
+class IpamPoolSourceResourceType {
+  static const vpc = IpamPoolSourceResourceType._('vpc');
 
   final String value;
 
-  const IpamPoolSourceResourceType(this.value);
+  const IpamPoolSourceResourceType._(this.value);
+
+  static const values = [vpc];
 
   static IpamPoolSourceResourceType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum IpamPoolSourceResourceType'));
+          orElse: () => IpamPoolSourceResourceType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is IpamPoolSourceResourceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum IpamPoolState {
-  createInProgress('create-in-progress'),
-  createComplete('create-complete'),
-  createFailed('create-failed'),
-  modifyInProgress('modify-in-progress'),
-  modifyComplete('modify-complete'),
-  modifyFailed('modify-failed'),
-  deleteInProgress('delete-in-progress'),
-  deleteComplete('delete-complete'),
-  deleteFailed('delete-failed'),
-  isolateInProgress('isolate-in-progress'),
-  isolateComplete('isolate-complete'),
-  restoreInProgress('restore-in-progress'),
-  ;
+class IpamPoolState {
+  static const createInProgress = IpamPoolState._('create-in-progress');
+  static const createComplete = IpamPoolState._('create-complete');
+  static const createFailed = IpamPoolState._('create-failed');
+  static const modifyInProgress = IpamPoolState._('modify-in-progress');
+  static const modifyComplete = IpamPoolState._('modify-complete');
+  static const modifyFailed = IpamPoolState._('modify-failed');
+  static const deleteInProgress = IpamPoolState._('delete-in-progress');
+  static const deleteComplete = IpamPoolState._('delete-complete');
+  static const deleteFailed = IpamPoolState._('delete-failed');
+  static const isolateInProgress = IpamPoolState._('isolate-in-progress');
+  static const isolateComplete = IpamPoolState._('isolate-complete');
+  static const restoreInProgress = IpamPoolState._('restore-in-progress');
 
   final String value;
 
-  const IpamPoolState(this.value);
+  const IpamPoolState._(this.value);
+
+  static const values = [
+    createInProgress,
+    createComplete,
+    createFailed,
+    modifyInProgress,
+    modifyComplete,
+    modifyFailed,
+    deleteInProgress,
+    deleteComplete,
+    deleteFailed,
+    isolateInProgress,
+    isolateComplete,
+    restoreInProgress
+  ];
 
   static IpamPoolState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum IpamPoolState'));
+          orElse: () => IpamPoolState._(value));
+
+  @override
+  bool operator ==(other) => other is IpamPoolState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum IpamPublicAddressAssociationStatus {
-  associated('associated'),
-  disassociated('disassociated'),
-  ;
+class IpamPublicAddressAssociationStatus {
+  static const associated = IpamPublicAddressAssociationStatus._('associated');
+  static const disassociated =
+      IpamPublicAddressAssociationStatus._('disassociated');
 
   final String value;
 
-  const IpamPublicAddressAssociationStatus(this.value);
+  const IpamPublicAddressAssociationStatus._(this.value);
+
+  static const values = [associated, disassociated];
 
   static IpamPublicAddressAssociationStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum IpamPublicAddressAssociationStatus'));
+          orElse: () => IpamPublicAddressAssociationStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is IpamPublicAddressAssociationStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum IpamPublicAddressAwsService {
-  natGateway('nat-gateway'),
-  databaseMigrationService('database-migration-service'),
-  redshift('redshift'),
-  elasticContainerService('elastic-container-service'),
-  relationalDatabaseService('relational-database-service'),
-  siteToSiteVpn('site-to-site-vpn'),
-  loadBalancer('load-balancer'),
-  globalAccelerator('global-accelerator'),
-  other('other'),
-  ;
+class IpamPublicAddressAwsService {
+  static const natGateway = IpamPublicAddressAwsService._('nat-gateway');
+  static const databaseMigrationService =
+      IpamPublicAddressAwsService._('database-migration-service');
+  static const redshift = IpamPublicAddressAwsService._('redshift');
+  static const elasticContainerService =
+      IpamPublicAddressAwsService._('elastic-container-service');
+  static const relationalDatabaseService =
+      IpamPublicAddressAwsService._('relational-database-service');
+  static const siteToSiteVpn =
+      IpamPublicAddressAwsService._('site-to-site-vpn');
+  static const loadBalancer = IpamPublicAddressAwsService._('load-balancer');
+  static const globalAccelerator =
+      IpamPublicAddressAwsService._('global-accelerator');
+  static const other = IpamPublicAddressAwsService._('other');
 
   final String value;
 
-  const IpamPublicAddressAwsService(this.value);
+  const IpamPublicAddressAwsService._(this.value);
+
+  static const values = [
+    natGateway,
+    databaseMigrationService,
+    redshift,
+    elasticContainerService,
+    relationalDatabaseService,
+    siteToSiteVpn,
+    loadBalancer,
+    globalAccelerator,
+    other
+  ];
 
   static IpamPublicAddressAwsService fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum IpamPublicAddressAwsService'));
+          orElse: () => IpamPublicAddressAwsService._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is IpamPublicAddressAwsService && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The security group that the resource with the public IP address is in.
@@ -62630,23 +65414,42 @@ class IpamPublicAddressTags {
   }
 }
 
-enum IpamPublicAddressType {
-  serviceManagedIp('service-managed-ip'),
-  serviceManagedByoip('service-managed-byoip'),
-  amazonOwnedEip('amazon-owned-eip'),
-  amazonOwnedContig('amazon-owned-contig'),
-  byoip('byoip'),
-  ec2PublicIp('ec2-public-ip'),
-  ;
+class IpamPublicAddressType {
+  static const serviceManagedIp = IpamPublicAddressType._('service-managed-ip');
+  static const serviceManagedByoip =
+      IpamPublicAddressType._('service-managed-byoip');
+  static const amazonOwnedEip = IpamPublicAddressType._('amazon-owned-eip');
+  static const amazonOwnedContig =
+      IpamPublicAddressType._('amazon-owned-contig');
+  static const byoip = IpamPublicAddressType._('byoip');
+  static const ec2PublicIp = IpamPublicAddressType._('ec2-public-ip');
 
   final String value;
 
-  const IpamPublicAddressType(this.value);
+  const IpamPublicAddressType._(this.value);
 
-  static IpamPublicAddressType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum IpamPublicAddressType'));
+  static const values = [
+    serviceManagedIp,
+    serviceManagedByoip,
+    amazonOwnedEip,
+    amazonOwnedContig,
+    byoip,
+    ec2PublicIp
+  ];
+
+  static IpamPublicAddressType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => IpamPublicAddressType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is IpamPublicAddressType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The CIDR for an IPAM resource.
@@ -62786,20 +65589,30 @@ class IpamResourceCidr {
   }
 }
 
-enum IpamResourceCidrIpSource {
-  amazon('amazon'),
-  byoip('byoip'),
-  none('none'),
-  ;
+class IpamResourceCidrIpSource {
+  static const amazon = IpamResourceCidrIpSource._('amazon');
+  static const byoip = IpamResourceCidrIpSource._('byoip');
+  static const none = IpamResourceCidrIpSource._('none');
 
   final String value;
 
-  const IpamResourceCidrIpSource(this.value);
+  const IpamResourceCidrIpSource._(this.value);
+
+  static const values = [amazon, byoip, none];
 
   static IpamResourceCidrIpSource fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum IpamResourceCidrIpSource'));
+          orElse: () => IpamResourceCidrIpSource._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is IpamResourceCidrIpSource && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A resource discovery is an IPAM component that enables IPAM to manage and
@@ -63062,51 +65875,109 @@ class IpamResourceDiscoveryAssociation {
   }
 }
 
-enum IpamResourceDiscoveryAssociationState {
-  associateInProgress('associate-in-progress'),
-  associateComplete('associate-complete'),
-  associateFailed('associate-failed'),
-  disassociateInProgress('disassociate-in-progress'),
-  disassociateComplete('disassociate-complete'),
-  disassociateFailed('disassociate-failed'),
-  isolateInProgress('isolate-in-progress'),
-  isolateComplete('isolate-complete'),
-  restoreInProgress('restore-in-progress'),
-  ;
+class IpamResourceDiscoveryAssociationState {
+  static const associateInProgress =
+      IpamResourceDiscoveryAssociationState._('associate-in-progress');
+  static const associateComplete =
+      IpamResourceDiscoveryAssociationState._('associate-complete');
+  static const associateFailed =
+      IpamResourceDiscoveryAssociationState._('associate-failed');
+  static const disassociateInProgress =
+      IpamResourceDiscoveryAssociationState._('disassociate-in-progress');
+  static const disassociateComplete =
+      IpamResourceDiscoveryAssociationState._('disassociate-complete');
+  static const disassociateFailed =
+      IpamResourceDiscoveryAssociationState._('disassociate-failed');
+  static const isolateInProgress =
+      IpamResourceDiscoveryAssociationState._('isolate-in-progress');
+  static const isolateComplete =
+      IpamResourceDiscoveryAssociationState._('isolate-complete');
+  static const restoreInProgress =
+      IpamResourceDiscoveryAssociationState._('restore-in-progress');
 
   final String value;
 
-  const IpamResourceDiscoveryAssociationState(this.value);
+  const IpamResourceDiscoveryAssociationState._(this.value);
+
+  static const values = [
+    associateInProgress,
+    associateComplete,
+    associateFailed,
+    disassociateInProgress,
+    disassociateComplete,
+    disassociateFailed,
+    isolateInProgress,
+    isolateComplete,
+    restoreInProgress
+  ];
 
   static IpamResourceDiscoveryAssociationState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum IpamResourceDiscoveryAssociationState'));
+          orElse: () => IpamResourceDiscoveryAssociationState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is IpamResourceDiscoveryAssociationState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum IpamResourceDiscoveryState {
-  createInProgress('create-in-progress'),
-  createComplete('create-complete'),
-  createFailed('create-failed'),
-  modifyInProgress('modify-in-progress'),
-  modifyComplete('modify-complete'),
-  modifyFailed('modify-failed'),
-  deleteInProgress('delete-in-progress'),
-  deleteComplete('delete-complete'),
-  deleteFailed('delete-failed'),
-  isolateInProgress('isolate-in-progress'),
-  isolateComplete('isolate-complete'),
-  restoreInProgress('restore-in-progress'),
-  ;
+class IpamResourceDiscoveryState {
+  static const createInProgress =
+      IpamResourceDiscoveryState._('create-in-progress');
+  static const createComplete = IpamResourceDiscoveryState._('create-complete');
+  static const createFailed = IpamResourceDiscoveryState._('create-failed');
+  static const modifyInProgress =
+      IpamResourceDiscoveryState._('modify-in-progress');
+  static const modifyComplete = IpamResourceDiscoveryState._('modify-complete');
+  static const modifyFailed = IpamResourceDiscoveryState._('modify-failed');
+  static const deleteInProgress =
+      IpamResourceDiscoveryState._('delete-in-progress');
+  static const deleteComplete = IpamResourceDiscoveryState._('delete-complete');
+  static const deleteFailed = IpamResourceDiscoveryState._('delete-failed');
+  static const isolateInProgress =
+      IpamResourceDiscoveryState._('isolate-in-progress');
+  static const isolateComplete =
+      IpamResourceDiscoveryState._('isolate-complete');
+  static const restoreInProgress =
+      IpamResourceDiscoveryState._('restore-in-progress');
 
   final String value;
 
-  const IpamResourceDiscoveryState(this.value);
+  const IpamResourceDiscoveryState._(this.value);
+
+  static const values = [
+    createInProgress,
+    createComplete,
+    createFailed,
+    modifyInProgress,
+    modifyComplete,
+    modifyFailed,
+    deleteInProgress,
+    deleteComplete,
+    deleteFailed,
+    isolateInProgress,
+    isolateComplete,
+    restoreInProgress
+  ];
 
   static IpamResourceDiscoveryState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum IpamResourceDiscoveryState'));
+          orElse: () => IpamResourceDiscoveryState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is IpamResourceDiscoveryState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The key/value combination of a tag assigned to the resource. Use the tag key
@@ -63137,23 +66008,32 @@ class IpamResourceTag {
   }
 }
 
-enum IpamResourceType {
-  vpc('vpc'),
-  subnet('subnet'),
-  eip('eip'),
-  publicIpv4Pool('public-ipv4-pool'),
-  ipv6Pool('ipv6-pool'),
-  eni('eni'),
-  ;
+class IpamResourceType {
+  static const vpc = IpamResourceType._('vpc');
+  static const subnet = IpamResourceType._('subnet');
+  static const eip = IpamResourceType._('eip');
+  static const publicIpv4Pool = IpamResourceType._('public-ipv4-pool');
+  static const ipv6Pool = IpamResourceType._('ipv6-pool');
+  static const eni = IpamResourceType._('eni');
 
   final String value;
 
-  const IpamResourceType(this.value);
+  const IpamResourceType._(this.value);
+
+  static const values = [vpc, subnet, eip, publicIpv4Pool, ipv6Pool, eni];
 
   static IpamResourceType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum IpamResourceType'));
+          orElse: () => IpamResourceType._(value));
+
+  @override
+  bool operator ==(other) => other is IpamResourceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// In IPAM, a scope is the highest-level container within IPAM. An IPAM
@@ -63246,82 +66126,144 @@ class IpamScope {
   }
 }
 
-enum IpamScopeState {
-  createInProgress('create-in-progress'),
-  createComplete('create-complete'),
-  createFailed('create-failed'),
-  modifyInProgress('modify-in-progress'),
-  modifyComplete('modify-complete'),
-  modifyFailed('modify-failed'),
-  deleteInProgress('delete-in-progress'),
-  deleteComplete('delete-complete'),
-  deleteFailed('delete-failed'),
-  isolateInProgress('isolate-in-progress'),
-  isolateComplete('isolate-complete'),
-  restoreInProgress('restore-in-progress'),
-  ;
+class IpamScopeState {
+  static const createInProgress = IpamScopeState._('create-in-progress');
+  static const createComplete = IpamScopeState._('create-complete');
+  static const createFailed = IpamScopeState._('create-failed');
+  static const modifyInProgress = IpamScopeState._('modify-in-progress');
+  static const modifyComplete = IpamScopeState._('modify-complete');
+  static const modifyFailed = IpamScopeState._('modify-failed');
+  static const deleteInProgress = IpamScopeState._('delete-in-progress');
+  static const deleteComplete = IpamScopeState._('delete-complete');
+  static const deleteFailed = IpamScopeState._('delete-failed');
+  static const isolateInProgress = IpamScopeState._('isolate-in-progress');
+  static const isolateComplete = IpamScopeState._('isolate-complete');
+  static const restoreInProgress = IpamScopeState._('restore-in-progress');
 
   final String value;
 
-  const IpamScopeState(this.value);
+  const IpamScopeState._(this.value);
+
+  static const values = [
+    createInProgress,
+    createComplete,
+    createFailed,
+    modifyInProgress,
+    modifyComplete,
+    modifyFailed,
+    deleteInProgress,
+    deleteComplete,
+    deleteFailed,
+    isolateInProgress,
+    isolateComplete,
+    restoreInProgress
+  ];
 
   static IpamScopeState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum IpamScopeState'));
+          orElse: () => IpamScopeState._(value));
+
+  @override
+  bool operator ==(other) => other is IpamScopeState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum IpamScopeType {
-  public('public'),
-  private('private'),
-  ;
+class IpamScopeType {
+  static const public = IpamScopeType._('public');
+  static const private = IpamScopeType._('private');
 
   final String value;
 
-  const IpamScopeType(this.value);
+  const IpamScopeType._(this.value);
+
+  static const values = [public, private];
 
   static IpamScopeType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum IpamScopeType'));
+          orElse: () => IpamScopeType._(value));
+
+  @override
+  bool operator ==(other) => other is IpamScopeType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum IpamState {
-  createInProgress('create-in-progress'),
-  createComplete('create-complete'),
-  createFailed('create-failed'),
-  modifyInProgress('modify-in-progress'),
-  modifyComplete('modify-complete'),
-  modifyFailed('modify-failed'),
-  deleteInProgress('delete-in-progress'),
-  deleteComplete('delete-complete'),
-  deleteFailed('delete-failed'),
-  isolateInProgress('isolate-in-progress'),
-  isolateComplete('isolate-complete'),
-  restoreInProgress('restore-in-progress'),
-  ;
+class IpamState {
+  static const createInProgress = IpamState._('create-in-progress');
+  static const createComplete = IpamState._('create-complete');
+  static const createFailed = IpamState._('create-failed');
+  static const modifyInProgress = IpamState._('modify-in-progress');
+  static const modifyComplete = IpamState._('modify-complete');
+  static const modifyFailed = IpamState._('modify-failed');
+  static const deleteInProgress = IpamState._('delete-in-progress');
+  static const deleteComplete = IpamState._('delete-complete');
+  static const deleteFailed = IpamState._('delete-failed');
+  static const isolateInProgress = IpamState._('isolate-in-progress');
+  static const isolateComplete = IpamState._('isolate-complete');
+  static const restoreInProgress = IpamState._('restore-in-progress');
 
   final String value;
 
-  const IpamState(this.value);
+  const IpamState._(this.value);
 
-  static IpamState fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum IpamState'));
+  static const values = [
+    createInProgress,
+    createComplete,
+    createFailed,
+    modifyInProgress,
+    modifyComplete,
+    modifyFailed,
+    deleteInProgress,
+    deleteComplete,
+    deleteFailed,
+    isolateInProgress,
+    isolateComplete,
+    restoreInProgress
+  ];
+
+  static IpamState fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => IpamState._(value));
+
+  @override
+  bool operator ==(other) => other is IpamState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum IpamTier {
-  free('free'),
-  advanced('advanced'),
-  ;
+class IpamTier {
+  static const free = IpamTier._('free');
+  static const advanced = IpamTier._('advanced');
 
   final String value;
 
-  const IpamTier(this.value);
+  const IpamTier._(this.value);
 
-  static IpamTier fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum IpamTier'));
+  static const values = [free, advanced];
+
+  static IpamTier fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => IpamTier._(value));
+
+  @override
+  bool operator ==(other) => other is IpamTier && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes an IPv4 prefix.
@@ -63382,19 +66324,29 @@ class Ipv4PrefixSpecificationResponse {
   }
 }
 
-enum Ipv6AddressAttribute {
-  public('public'),
-  private('private'),
-  ;
+class Ipv6AddressAttribute {
+  static const public = Ipv6AddressAttribute._('public');
+  static const private = Ipv6AddressAttribute._('private');
 
   final String value;
 
-  const Ipv6AddressAttribute(this.value);
+  const Ipv6AddressAttribute._(this.value);
 
-  static Ipv6AddressAttribute fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum Ipv6AddressAttribute'));
+  static const values = [public, private];
+
+  static Ipv6AddressAttribute fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => Ipv6AddressAttribute._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is Ipv6AddressAttribute && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes an IPv6 CIDR block association.
@@ -63553,33 +66505,51 @@ class Ipv6Range {
   }
 }
 
-enum Ipv6SupportValue {
-  enable('enable'),
-  disable('disable'),
-  ;
+class Ipv6SupportValue {
+  static const enable = Ipv6SupportValue._('enable');
+  static const disable = Ipv6SupportValue._('disable');
 
   final String value;
 
-  const Ipv6SupportValue(this.value);
+  const Ipv6SupportValue._(this.value);
+
+  static const values = [enable, disable];
 
   static Ipv6SupportValue fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum Ipv6SupportValue'));
+          orElse: () => Ipv6SupportValue._(value));
+
+  @override
+  bool operator ==(other) => other is Ipv6SupportValue && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum KeyFormat {
-  pem('pem'),
-  ppk('ppk'),
-  ;
+class KeyFormat {
+  static const pem = KeyFormat._('pem');
+  static const ppk = KeyFormat._('ppk');
 
   final String value;
 
-  const KeyFormat(this.value);
+  const KeyFormat._(this.value);
 
-  static KeyFormat fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum KeyFormat'));
+  static const values = [pem, ppk];
+
+  static KeyFormat fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => KeyFormat._(value));
+
+  @override
+  bool operator ==(other) => other is KeyFormat && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes a key pair.
@@ -63719,18 +66689,27 @@ class KeyPairInfo {
   }
 }
 
-enum KeyType {
-  rsa('rsa'),
-  ed25519('ed25519'),
-  ;
+class KeyType {
+  static const rsa = KeyType._('rsa');
+  static const ed25519 = KeyType._('ed25519');
 
   final String value;
 
-  const KeyType(this.value);
+  const KeyType._(this.value);
 
-  static KeyType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum KeyType'));
+  static const values = [rsa, ed25519];
+
+  static KeyType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => KeyType._(value));
+
+  @override
+  bool operator ==(other) => other is KeyType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The last error that occurred for a VPC endpoint.
@@ -64007,19 +66986,29 @@ class LaunchTemplateAndOverridesResponse {
   }
 }
 
-enum LaunchTemplateAutoRecoveryState {
-  $default('default'),
-  disabled('disabled'),
-  ;
+class LaunchTemplateAutoRecoveryState {
+  static const $default = LaunchTemplateAutoRecoveryState._('default');
+  static const disabled = LaunchTemplateAutoRecoveryState._('disabled');
 
   final String value;
 
-  const LaunchTemplateAutoRecoveryState(this.value);
+  const LaunchTemplateAutoRecoveryState._(this.value);
+
+  static const values = [$default, disabled];
 
   static LaunchTemplateAutoRecoveryState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum LaunchTemplateAutoRecoveryState'));
+          orElse: () => LaunchTemplateAutoRecoveryState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is LaunchTemplateAutoRecoveryState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes a block device mapping.
@@ -64602,23 +67591,45 @@ class LaunchTemplateEnclaveOptionsRequest {
   }
 }
 
-enum LaunchTemplateErrorCode {
-  launchTemplateIdDoesNotExist('launchTemplateIdDoesNotExist'),
-  launchTemplateIdMalformed('launchTemplateIdMalformed'),
-  launchTemplateNameDoesNotExist('launchTemplateNameDoesNotExist'),
-  launchTemplateNameMalformed('launchTemplateNameMalformed'),
-  launchTemplateVersionDoesNotExist('launchTemplateVersionDoesNotExist'),
-  unexpectedError('unexpectedError'),
-  ;
+class LaunchTemplateErrorCode {
+  static const launchTemplateIdDoesNotExist =
+      LaunchTemplateErrorCode._('launchTemplateIdDoesNotExist');
+  static const launchTemplateIdMalformed =
+      LaunchTemplateErrorCode._('launchTemplateIdMalformed');
+  static const launchTemplateNameDoesNotExist =
+      LaunchTemplateErrorCode._('launchTemplateNameDoesNotExist');
+  static const launchTemplateNameMalformed =
+      LaunchTemplateErrorCode._('launchTemplateNameMalformed');
+  static const launchTemplateVersionDoesNotExist =
+      LaunchTemplateErrorCode._('launchTemplateVersionDoesNotExist');
+  static const unexpectedError = LaunchTemplateErrorCode._('unexpectedError');
 
   final String value;
 
-  const LaunchTemplateErrorCode(this.value);
+  const LaunchTemplateErrorCode._(this.value);
+
+  static const values = [
+    launchTemplateIdDoesNotExist,
+    launchTemplateIdMalformed,
+    launchTemplateNameDoesNotExist,
+    launchTemplateNameMalformed,
+    launchTemplateVersionDoesNotExist,
+    unexpectedError
+  ];
 
   static LaunchTemplateErrorCode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum LaunchTemplateErrorCode'));
+          orElse: () => LaunchTemplateErrorCode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is LaunchTemplateErrorCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Indicates whether an instance is configured for hibernation.
@@ -64662,19 +67673,29 @@ class LaunchTemplateHibernationOptionsRequest {
   }
 }
 
-enum LaunchTemplateHttpTokensState {
-  optional('optional'),
-  required('required'),
-  ;
+class LaunchTemplateHttpTokensState {
+  static const optional = LaunchTemplateHttpTokensState._('optional');
+  static const required = LaunchTemplateHttpTokensState._('required');
 
   final String value;
 
-  const LaunchTemplateHttpTokensState(this.value);
+  const LaunchTemplateHttpTokensState._(this.value);
+
+  static const values = [optional, required];
 
   static LaunchTemplateHttpTokensState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum LaunchTemplateHttpTokensState'));
+          orElse: () => LaunchTemplateHttpTokensState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is LaunchTemplateHttpTokensState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes an IAM instance profile.
@@ -64807,19 +67828,32 @@ class LaunchTemplateInstanceMarketOptionsRequest {
   }
 }
 
-enum LaunchTemplateInstanceMetadataEndpointState {
-  disabled('disabled'),
-  enabled('enabled'),
-  ;
+class LaunchTemplateInstanceMetadataEndpointState {
+  static const disabled =
+      LaunchTemplateInstanceMetadataEndpointState._('disabled');
+  static const enabled =
+      LaunchTemplateInstanceMetadataEndpointState._('enabled');
 
   final String value;
 
-  const LaunchTemplateInstanceMetadataEndpointState(this.value);
+  const LaunchTemplateInstanceMetadataEndpointState._(this.value);
+
+  static const values = [disabled, enabled];
 
   static LaunchTemplateInstanceMetadataEndpointState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum LaunchTemplateInstanceMetadataEndpointState'));
+          orElse: () => LaunchTemplateInstanceMetadataEndpointState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is LaunchTemplateInstanceMetadataEndpointState &&
+      other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The metadata options for the instance. For more information, see <a
@@ -64995,49 +68029,85 @@ class LaunchTemplateInstanceMetadataOptionsRequest {
   }
 }
 
-enum LaunchTemplateInstanceMetadataOptionsState {
-  pending('pending'),
-  applied('applied'),
-  ;
+class LaunchTemplateInstanceMetadataOptionsState {
+  static const pending =
+      LaunchTemplateInstanceMetadataOptionsState._('pending');
+  static const applied =
+      LaunchTemplateInstanceMetadataOptionsState._('applied');
 
   final String value;
 
-  const LaunchTemplateInstanceMetadataOptionsState(this.value);
+  const LaunchTemplateInstanceMetadataOptionsState._(this.value);
+
+  static const values = [pending, applied];
 
   static LaunchTemplateInstanceMetadataOptionsState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum LaunchTemplateInstanceMetadataOptionsState'));
+          orElse: () => LaunchTemplateInstanceMetadataOptionsState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is LaunchTemplateInstanceMetadataOptionsState &&
+      other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum LaunchTemplateInstanceMetadataProtocolIpv6 {
-  disabled('disabled'),
-  enabled('enabled'),
-  ;
+class LaunchTemplateInstanceMetadataProtocolIpv6 {
+  static const disabled =
+      LaunchTemplateInstanceMetadataProtocolIpv6._('disabled');
+  static const enabled =
+      LaunchTemplateInstanceMetadataProtocolIpv6._('enabled');
 
   final String value;
 
-  const LaunchTemplateInstanceMetadataProtocolIpv6(this.value);
+  const LaunchTemplateInstanceMetadataProtocolIpv6._(this.value);
+
+  static const values = [disabled, enabled];
 
   static LaunchTemplateInstanceMetadataProtocolIpv6 fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum LaunchTemplateInstanceMetadataProtocolIpv6'));
+          orElse: () => LaunchTemplateInstanceMetadataProtocolIpv6._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is LaunchTemplateInstanceMetadataProtocolIpv6 &&
+      other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum LaunchTemplateInstanceMetadataTagsState {
-  disabled('disabled'),
-  enabled('enabled'),
-  ;
+class LaunchTemplateInstanceMetadataTagsState {
+  static const disabled = LaunchTemplateInstanceMetadataTagsState._('disabled');
+  static const enabled = LaunchTemplateInstanceMetadataTagsState._('enabled');
 
   final String value;
 
-  const LaunchTemplateInstanceMetadataTagsState(this.value);
+  const LaunchTemplateInstanceMetadataTagsState._(this.value);
+
+  static const values = [disabled, enabled];
 
   static LaunchTemplateInstanceMetadataTagsState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum LaunchTemplateInstanceMetadataTagsState'));
+          orElse: () => LaunchTemplateInstanceMetadataTagsState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is LaunchTemplateInstanceMetadataTagsState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes a network interface.
@@ -66158,38 +69228,55 @@ class ListSnapshotsInRecycleBinResult {
   }
 }
 
-enum ListingState {
-  available('available'),
-  sold('sold'),
-  cancelled('cancelled'),
-  pending('pending'),
-  ;
+class ListingState {
+  static const available = ListingState._('available');
+  static const sold = ListingState._('sold');
+  static const cancelled = ListingState._('cancelled');
+  static const pending = ListingState._('pending');
 
   final String value;
 
-  const ListingState(this.value);
+  const ListingState._(this.value);
 
-  static ListingState fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ListingState'));
+  static const values = [available, sold, cancelled, pending];
+
+  static ListingState fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ListingState._(value));
+
+  @override
+  bool operator ==(other) => other is ListingState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ListingStatus {
-  active('active'),
-  pending('pending'),
-  cancelled('cancelled'),
-  closed('closed'),
-  ;
+class ListingStatus {
+  static const active = ListingStatus._('active');
+  static const pending = ListingStatus._('pending');
+  static const cancelled = ListingStatus._('cancelled');
+  static const closed = ListingStatus._('closed');
 
   final String value;
 
-  const ListingStatus(this.value);
+  const ListingStatus._(this.value);
+
+  static const values = [active, pending, cancelled, closed];
 
   static ListingStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ListingStatus'));
+          orElse: () => ListingStatus._(value));
+
+  @override
+  bool operator ==(other) => other is ListingStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes the Classic Load Balancers and target groups to attach to a Spot
@@ -66412,22 +69499,32 @@ class LocalGatewayRoute {
   }
 }
 
-enum LocalGatewayRouteState {
-  pending('pending'),
-  active('active'),
-  blackhole('blackhole'),
-  deleting('deleting'),
-  deleted('deleted'),
-  ;
+class LocalGatewayRouteState {
+  static const pending = LocalGatewayRouteState._('pending');
+  static const active = LocalGatewayRouteState._('active');
+  static const blackhole = LocalGatewayRouteState._('blackhole');
+  static const deleting = LocalGatewayRouteState._('deleting');
+  static const deleted = LocalGatewayRouteState._('deleted');
 
   final String value;
 
-  const LocalGatewayRouteState(this.value);
+  const LocalGatewayRouteState._(this.value);
+
+  static const values = [pending, active, blackhole, deleting, deleted];
 
   static LocalGatewayRouteState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum LocalGatewayRouteState'));
+          orElse: () => LocalGatewayRouteState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is LocalGatewayRouteState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes a local gateway route table.
@@ -66498,19 +69595,30 @@ class LocalGatewayRouteTable {
   }
 }
 
-enum LocalGatewayRouteTableMode {
-  directVpcRouting('direct-vpc-routing'),
-  coip('coip'),
-  ;
+class LocalGatewayRouteTableMode {
+  static const directVpcRouting =
+      LocalGatewayRouteTableMode._('direct-vpc-routing');
+  static const coip = LocalGatewayRouteTableMode._('coip');
 
   final String value;
 
-  const LocalGatewayRouteTableMode(this.value);
+  const LocalGatewayRouteTableMode._(this.value);
+
+  static const values = [directVpcRouting, coip];
 
   static LocalGatewayRouteTableMode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum LocalGatewayRouteTableMode'));
+          orElse: () => LocalGatewayRouteTableMode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is LocalGatewayRouteTableMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes an association between a local gateway route table and a virtual
@@ -66649,19 +69757,29 @@ class LocalGatewayRouteTableVpcAssociation {
   }
 }
 
-enum LocalGatewayRouteType {
-  static('static'),
-  propagated('propagated'),
-  ;
+class LocalGatewayRouteType {
+  static const static = LocalGatewayRouteType._('static');
+  static const propagated = LocalGatewayRouteType._('propagated');
 
   final String value;
 
-  const LocalGatewayRouteType(this.value);
+  const LocalGatewayRouteType._(this.value);
 
-  static LocalGatewayRouteType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum LocalGatewayRouteType'));
+  static const values = [static, propagated];
+
+  static LocalGatewayRouteType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => LocalGatewayRouteType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is LocalGatewayRouteType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes a local gateway virtual interface.
@@ -66779,66 +69897,100 @@ class LocalGatewayVirtualInterfaceGroup {
   }
 }
 
-enum LocalStorage {
-  included('included'),
-  required('required'),
-  excluded('excluded'),
-  ;
+class LocalStorage {
+  static const included = LocalStorage._('included');
+  static const required = LocalStorage._('required');
+  static const excluded = LocalStorage._('excluded');
 
   final String value;
 
-  const LocalStorage(this.value);
+  const LocalStorage._(this.value);
 
-  static LocalStorage fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum LocalStorage'));
+  static const values = [included, required, excluded];
+
+  static LocalStorage fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => LocalStorage._(value));
+
+  @override
+  bool operator ==(other) => other is LocalStorage && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum LocalStorageType {
-  hdd('hdd'),
-  ssd('ssd'),
-  ;
+class LocalStorageType {
+  static const hdd = LocalStorageType._('hdd');
+  static const ssd = LocalStorageType._('ssd');
 
   final String value;
 
-  const LocalStorageType(this.value);
+  const LocalStorageType._(this.value);
+
+  static const values = [hdd, ssd];
 
   static LocalStorageType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum LocalStorageType'));
+          orElse: () => LocalStorageType._(value));
+
+  @override
+  bool operator ==(other) => other is LocalStorageType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum LocationType {
-  region('region'),
-  availabilityZone('availability-zone'),
-  availabilityZoneId('availability-zone-id'),
-  outpost('outpost'),
-  ;
+class LocationType {
+  static const region = LocationType._('region');
+  static const availabilityZone = LocationType._('availability-zone');
+  static const availabilityZoneId = LocationType._('availability-zone-id');
+  static const outpost = LocationType._('outpost');
 
   final String value;
 
-  const LocationType(this.value);
+  const LocationType._(this.value);
 
-  static LocationType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum LocationType'));
+  static const values = [region, availabilityZone, availabilityZoneId, outpost];
+
+  static LocationType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => LocationType._(value));
+
+  @override
+  bool operator ==(other) => other is LocationType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum LockMode {
-  compliance('compliance'),
-  governance('governance'),
-  ;
+class LockMode {
+  static const compliance = LockMode._('compliance');
+  static const governance = LockMode._('governance');
 
   final String value;
 
-  const LockMode(this.value);
+  const LockMode._(this.value);
 
-  static LockMode fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum LockMode'));
+  static const values = [compliance, governance];
+
+  static LockMode fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => LockMode._(value));
+
+  @override
+  bool operator ==(other) => other is LockMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class LockSnapshotResult {
@@ -66930,20 +70082,29 @@ class LockSnapshotResult {
   }
 }
 
-enum LockState {
-  compliance('compliance'),
-  governance('governance'),
-  complianceCooloff('compliance-cooloff'),
-  expired('expired'),
-  ;
+class LockState {
+  static const compliance = LockState._('compliance');
+  static const governance = LockState._('governance');
+  static const complianceCooloff = LockState._('compliance-cooloff');
+  static const expired = LockState._('expired');
 
   final String value;
 
-  const LockState(this.value);
+  const LockState._(this.value);
 
-  static LockState fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum LockState'));
+  static const values = [compliance, governance, complianceCooloff, expired];
+
+  static LockState fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => LockState._(value));
+
+  @override
+  bool operator ==(other) => other is LockState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about a locked snapshot.
@@ -67046,20 +70207,31 @@ class LockedSnapshotsInfo {
   }
 }
 
-enum LogDestinationType {
-  cloudWatchLogs('cloud-watch-logs'),
-  s3('s3'),
-  kinesisDataFirehose('kinesis-data-firehose'),
-  ;
+class LogDestinationType {
+  static const cloudWatchLogs = LogDestinationType._('cloud-watch-logs');
+  static const s3 = LogDestinationType._('s3');
+  static const kinesisDataFirehose =
+      LogDestinationType._('kinesis-data-firehose');
 
   final String value;
 
-  const LogDestinationType(this.value);
+  const LogDestinationType._(this.value);
 
-  static LogDestinationType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum LogDestinationType'));
+  static const values = [cloudWatchLogs, s3, kinesisDataFirehose];
+
+  static LogDestinationType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => LogDestinationType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is LogDestinationType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about the EC2 Mac Dedicated Host.
@@ -67191,18 +70363,27 @@ class ManagedPrefixList {
   }
 }
 
-enum MarketType {
-  spot('spot'),
-  capacityBlock('capacity-block'),
-  ;
+class MarketType {
+  static const spot = MarketType._('spot');
+  static const capacityBlock = MarketType._('capacity-block');
 
   final String value;
 
-  const MarketType(this.value);
+  const MarketType._(this.value);
 
-  static MarketType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum MarketType'));
+  static const values = [spot, capacityBlock];
+
+  static MarketType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => MarketType._(value));
+
+  @override
+  bool operator ==(other) => other is MarketType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes the media accelerators for the instance type.
@@ -67282,19 +70463,28 @@ class MediaDeviceMemoryInfo {
   }
 }
 
-enum MembershipType {
-  static('static'),
-  igmp('igmp'),
-  ;
+class MembershipType {
+  static const static = MembershipType._('static');
+  static const igmp = MembershipType._('igmp');
 
   final String value;
 
-  const MembershipType(this.value);
+  const MembershipType._(this.value);
+
+  static const values = [static, igmp];
 
   static MembershipType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum MembershipType'));
+          orElse: () => MembershipType._(value));
+
+  @override
+  bool operator ==(other) => other is MembershipType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The minimum and maximum amount of memory per vCPU, in GiB.
@@ -67415,20 +70605,30 @@ class MemoryMiBRequest {
   }
 }
 
-enum MetadataDefaultHttpTokensState {
-  optional('optional'),
-  required('required'),
-  noPreference('no-preference'),
-  ;
+class MetadataDefaultHttpTokensState {
+  static const optional = MetadataDefaultHttpTokensState._('optional');
+  static const required = MetadataDefaultHttpTokensState._('required');
+  static const noPreference = MetadataDefaultHttpTokensState._('no-preference');
 
   final String value;
 
-  const MetadataDefaultHttpTokensState(this.value);
+  const MetadataDefaultHttpTokensState._(this.value);
+
+  static const values = [optional, required, noPreference];
 
   static MetadataDefaultHttpTokensState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum MetadataDefaultHttpTokensState'));
+          orElse: () => MetadataDefaultHttpTokensState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is MetadataDefaultHttpTokensState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Indicates whether the network was healthy or degraded at a particular point.
@@ -67470,17 +70670,26 @@ class MetricPoint {
   }
 }
 
-enum MetricType {
-  aggregateLatency('aggregate-latency'),
-  ;
+class MetricType {
+  static const aggregateLatency = MetricType._('aggregate-latency');
 
   final String value;
 
-  const MetricType(this.value);
+  const MetricType._(this.value);
 
-  static MetricType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum MetricType'));
+  static const values = [aggregateLatency];
+
+  static MetricType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => MetricType._(value));
+
+  @override
+  bool operator ==(other) => other is MetricType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class ModifyAddressAttributeResult {
@@ -67515,19 +70724,29 @@ class ModifyAvailabilityZoneGroupResult {
   }
 }
 
-enum ModifyAvailabilityZoneOptInStatus {
-  optedIn('opted-in'),
-  notOptedIn('not-opted-in'),
-  ;
+class ModifyAvailabilityZoneOptInStatus {
+  static const optedIn = ModifyAvailabilityZoneOptInStatus._('opted-in');
+  static const notOptedIn = ModifyAvailabilityZoneOptInStatus._('not-opted-in');
 
   final String value;
 
-  const ModifyAvailabilityZoneOptInStatus(this.value);
+  const ModifyAvailabilityZoneOptInStatus._(this.value);
+
+  static const values = [optedIn, notOptedIn];
 
   static ModifyAvailabilityZoneOptInStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ModifyAvailabilityZoneOptInStatus'));
+          orElse: () => ModifyAvailabilityZoneOptInStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ModifyAvailabilityZoneOptInStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class ModifyCapacityReservationFleetResult {
@@ -69116,21 +72335,30 @@ class Monitoring {
   }
 }
 
-enum MonitoringState {
-  disabled('disabled'),
-  disabling('disabling'),
-  enabled('enabled'),
-  pending('pending'),
-  ;
+class MonitoringState {
+  static const disabled = MonitoringState._('disabled');
+  static const disabling = MonitoringState._('disabling');
+  static const enabled = MonitoringState._('enabled');
+  static const pending = MonitoringState._('pending');
 
   final String value;
 
-  const MonitoringState(this.value);
+  const MonitoringState._(this.value);
+
+  static const values = [disabled, disabling, enabled, pending];
 
   static MonitoringState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum MonitoringState'));
+          orElse: () => MonitoringState._(value));
+
+  @override
+  bool operator ==(other) => other is MonitoringState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class MoveAddressToVpcResult {
@@ -69202,18 +72430,27 @@ class MoveCapacityReservationInstancesResult {
   }
 }
 
-enum MoveStatus {
-  movingToVpc('movingToVpc'),
-  restoringToClassic('restoringToClassic'),
-  ;
+class MoveStatus {
+  static const movingToVpc = MoveStatus._('movingToVpc');
+  static const restoringToClassic = MoveStatus._('restoringToClassic');
 
   final String value;
 
-  const MoveStatus(this.value);
+  const MoveStatus._(this.value);
 
-  static MoveStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum MoveStatus'));
+  static const values = [movingToVpc, restoringToClassic];
+
+  static MoveStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => MoveStatus._(value));
+
+  @override
+  bool operator ==(other) => other is MoveStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// <note>
@@ -69242,19 +72479,29 @@ class MovingAddressStatus {
   }
 }
 
-enum MulticastSupportValue {
-  enable('enable'),
-  disable('disable'),
-  ;
+class MulticastSupportValue {
+  static const enable = MulticastSupportValue._('enable');
+  static const disable = MulticastSupportValue._('disable');
 
   final String value;
 
-  const MulticastSupportValue(this.value);
+  const MulticastSupportValue._(this.value);
 
-  static MulticastSupportValue fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum MulticastSupportValue'));
+  static const values = [enable, disable];
+
+  static MulticastSupportValue fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => MulticastSupportValue._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is MulticastSupportValue && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes a NAT gateway.
@@ -69465,41 +72712,67 @@ class NatGatewayAddress {
   }
 }
 
-enum NatGatewayAddressStatus {
-  assigning('assigning'),
-  unassigning('unassigning'),
-  associating('associating'),
-  disassociating('disassociating'),
-  succeeded('succeeded'),
-  failed('failed'),
-  ;
+class NatGatewayAddressStatus {
+  static const assigning = NatGatewayAddressStatus._('assigning');
+  static const unassigning = NatGatewayAddressStatus._('unassigning');
+  static const associating = NatGatewayAddressStatus._('associating');
+  static const disassociating = NatGatewayAddressStatus._('disassociating');
+  static const succeeded = NatGatewayAddressStatus._('succeeded');
+  static const failed = NatGatewayAddressStatus._('failed');
 
   final String value;
 
-  const NatGatewayAddressStatus(this.value);
+  const NatGatewayAddressStatus._(this.value);
+
+  static const values = [
+    assigning,
+    unassigning,
+    associating,
+    disassociating,
+    succeeded,
+    failed
+  ];
 
   static NatGatewayAddressStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum NatGatewayAddressStatus'));
+          orElse: () => NatGatewayAddressStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is NatGatewayAddressStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum NatGatewayState {
-  pending('pending'),
-  failed('failed'),
-  available('available'),
-  deleting('deleting'),
-  deleted('deleted'),
-  ;
+class NatGatewayState {
+  static const pending = NatGatewayState._('pending');
+  static const failed = NatGatewayState._('failed');
+  static const available = NatGatewayState._('available');
+  static const deleting = NatGatewayState._('deleting');
+  static const deleted = NatGatewayState._('deleted');
 
   final String value;
 
-  const NatGatewayState(this.value);
+  const NatGatewayState._(this.value);
+
+  static const values = [pending, failed, available, deleting, deleted];
 
   static NatGatewayState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum NatGatewayState'));
+          orElse: () => NatGatewayState._(value));
+
+  @override
+  bool operator ==(other) => other is NatGatewayState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes a network ACL.
@@ -70574,22 +73847,39 @@ class NetworkInterfaceAttachmentChanges {
   }
 }
 
-enum NetworkInterfaceAttribute {
-  description('description'),
-  groupSet('groupSet'),
-  sourceDestCheck('sourceDestCheck'),
-  attachment('attachment'),
-  associatePublicIpAddress('associatePublicIpAddress'),
-  ;
+class NetworkInterfaceAttribute {
+  static const description = NetworkInterfaceAttribute._('description');
+  static const groupSet = NetworkInterfaceAttribute._('groupSet');
+  static const sourceDestCheck = NetworkInterfaceAttribute._('sourceDestCheck');
+  static const attachment = NetworkInterfaceAttribute._('attachment');
+  static const associatePublicIpAddress =
+      NetworkInterfaceAttribute._('associatePublicIpAddress');
 
   final String value;
 
-  const NetworkInterfaceAttribute(this.value);
+  const NetworkInterfaceAttribute._(this.value);
+
+  static const values = [
+    description,
+    groupSet,
+    sourceDestCheck,
+    attachment,
+    associatePublicIpAddress
+  ];
 
   static NetworkInterfaceAttribute fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum NetworkInterfaceAttribute'));
+          orElse: () => NetworkInterfaceAttribute._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is NetworkInterfaceAttribute && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The minimum and maximum number of network interfaces.
@@ -70642,20 +73932,30 @@ class NetworkInterfaceCountRequest {
   }
 }
 
-enum NetworkInterfaceCreationType {
-  efa('efa'),
-  branch('branch'),
-  trunk('trunk'),
-  ;
+class NetworkInterfaceCreationType {
+  static const efa = NetworkInterfaceCreationType._('efa');
+  static const branch = NetworkInterfaceCreationType._('branch');
+  static const trunk = NetworkInterfaceCreationType._('trunk');
 
   final String value;
 
-  const NetworkInterfaceCreationType(this.value);
+  const NetworkInterfaceCreationType._(this.value);
+
+  static const values = [efa, branch, trunk];
 
   static NetworkInterfaceCreationType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum NetworkInterfaceCreationType'));
+          orElse: () => NetworkInterfaceCreationType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is NetworkInterfaceCreationType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes an IPv6 address associated with a network interface.
@@ -70757,21 +74057,31 @@ class NetworkInterfacePermissionState {
   }
 }
 
-enum NetworkInterfacePermissionStateCode {
-  pending('pending'),
-  granted('granted'),
-  revoking('revoking'),
-  revoked('revoked'),
-  ;
+class NetworkInterfacePermissionStateCode {
+  static const pending = NetworkInterfacePermissionStateCode._('pending');
+  static const granted = NetworkInterfacePermissionStateCode._('granted');
+  static const revoking = NetworkInterfacePermissionStateCode._('revoking');
+  static const revoked = NetworkInterfacePermissionStateCode._('revoked');
 
   final String value;
 
-  const NetworkInterfacePermissionStateCode(this.value);
+  const NetworkInterfacePermissionStateCode._(this.value);
+
+  static const values = [pending, granted, revoking, revoked];
 
   static NetworkInterfacePermissionStateCode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum NetworkInterfacePermissionStateCode'));
+          orElse: () => NetworkInterfacePermissionStateCode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is NetworkInterfacePermissionStateCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes the private IPv4 address of a network interface.
@@ -70811,52 +74121,96 @@ class NetworkInterfacePrivateIpAddress {
   }
 }
 
-enum NetworkInterfaceStatus {
-  available('available'),
-  associated('associated'),
-  attaching('attaching'),
-  inUse('in-use'),
-  detaching('detaching'),
-  ;
+class NetworkInterfaceStatus {
+  static const available = NetworkInterfaceStatus._('available');
+  static const associated = NetworkInterfaceStatus._('associated');
+  static const attaching = NetworkInterfaceStatus._('attaching');
+  static const inUse = NetworkInterfaceStatus._('in-use');
+  static const detaching = NetworkInterfaceStatus._('detaching');
 
   final String value;
 
-  const NetworkInterfaceStatus(this.value);
+  const NetworkInterfaceStatus._(this.value);
+
+  static const values = [available, associated, attaching, inUse, detaching];
 
   static NetworkInterfaceStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum NetworkInterfaceStatus'));
+          orElse: () => NetworkInterfaceStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is NetworkInterfaceStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum NetworkInterfaceType {
-  interface('interface'),
-  natGateway('natGateway'),
-  efa('efa'),
-  trunk('trunk'),
-  loadBalancer('load_balancer'),
-  networkLoadBalancer('network_load_balancer'),
-  vpcEndpoint('vpc_endpoint'),
-  branch('branch'),
-  transitGateway('transit_gateway'),
-  lambda('lambda'),
-  quicksight('quicksight'),
-  globalAcceleratorManaged('global_accelerator_managed'),
-  apiGatewayManaged('api_gateway_managed'),
-  gatewayLoadBalancer('gateway_load_balancer'),
-  gatewayLoadBalancerEndpoint('gateway_load_balancer_endpoint'),
-  iotRulesManaged('iot_rules_managed'),
-  awsCodestarConnectionsManaged('aws_codestar_connections_managed'),
-  ;
+class NetworkInterfaceType {
+  static const interface = NetworkInterfaceType._('interface');
+  static const natGateway = NetworkInterfaceType._('natGateway');
+  static const efa = NetworkInterfaceType._('efa');
+  static const trunk = NetworkInterfaceType._('trunk');
+  static const loadBalancer = NetworkInterfaceType._('load_balancer');
+  static const networkLoadBalancer =
+      NetworkInterfaceType._('network_load_balancer');
+  static const vpcEndpoint = NetworkInterfaceType._('vpc_endpoint');
+  static const branch = NetworkInterfaceType._('branch');
+  static const transitGateway = NetworkInterfaceType._('transit_gateway');
+  static const lambda = NetworkInterfaceType._('lambda');
+  static const quicksight = NetworkInterfaceType._('quicksight');
+  static const globalAcceleratorManaged =
+      NetworkInterfaceType._('global_accelerator_managed');
+  static const apiGatewayManaged =
+      NetworkInterfaceType._('api_gateway_managed');
+  static const gatewayLoadBalancer =
+      NetworkInterfaceType._('gateway_load_balancer');
+  static const gatewayLoadBalancerEndpoint =
+      NetworkInterfaceType._('gateway_load_balancer_endpoint');
+  static const iotRulesManaged = NetworkInterfaceType._('iot_rules_managed');
+  static const awsCodestarConnectionsManaged =
+      NetworkInterfaceType._('aws_codestar_connections_managed');
 
   final String value;
 
-  const NetworkInterfaceType(this.value);
+  const NetworkInterfaceType._(this.value);
 
-  static NetworkInterfaceType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum NetworkInterfaceType'));
+  static const values = [
+    interface,
+    natGateway,
+    efa,
+    trunk,
+    loadBalancer,
+    networkLoadBalancer,
+    vpcEndpoint,
+    branch,
+    transitGateway,
+    lambda,
+    quicksight,
+    globalAcceleratorManaged,
+    apiGatewayManaged,
+    gatewayLoadBalancer,
+    gatewayLoadBalancerEndpoint,
+    iotRulesManaged,
+    awsCodestarConnectionsManaged
+  ];
+
+  static NetworkInterfaceType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => NetworkInterfaceType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is NetworkInterfaceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes the cores available to the neuron accelerator.
@@ -70982,19 +74336,29 @@ class NewDhcpConfiguration {
   }
 }
 
-enum NitroEnclavesSupport {
-  unsupported('unsupported'),
-  supported('supported'),
-  ;
+class NitroEnclavesSupport {
+  static const unsupported = NitroEnclavesSupport._('unsupported');
+  static const supported = NitroEnclavesSupport._('supported');
 
   final String value;
 
-  const NitroEnclavesSupport(this.value);
+  const NitroEnclavesSupport._(this.value);
 
-  static NitroEnclavesSupport fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum NitroEnclavesSupport'));
+  static const values = [unsupported, supported];
+
+  static NitroEnclavesSupport fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => NitroEnclavesSupport._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is NitroEnclavesSupport && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes the supported NitroTPM versions for the instance type.
@@ -71014,53 +74378,88 @@ class NitroTpmInfo {
   }
 }
 
-enum NitroTpmSupport {
-  unsupported('unsupported'),
-  supported('supported'),
-  ;
+class NitroTpmSupport {
+  static const unsupported = NitroTpmSupport._('unsupported');
+  static const supported = NitroTpmSupport._('supported');
 
   final String value;
 
-  const NitroTpmSupport(this.value);
+  const NitroTpmSupport._(this.value);
+
+  static const values = [unsupported, supported];
 
   static NitroTpmSupport fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum NitroTpmSupport'));
+          orElse: () => NitroTpmSupport._(value));
+
+  @override
+  bool operator ==(other) => other is NitroTpmSupport && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum OfferingClassType {
-  standard('standard'),
-  convertible('convertible'),
-  ;
+class OfferingClassType {
+  static const standard = OfferingClassType._('standard');
+  static const convertible = OfferingClassType._('convertible');
 
   final String value;
 
-  const OfferingClassType(this.value);
+  const OfferingClassType._(this.value);
+
+  static const values = [standard, convertible];
 
   static OfferingClassType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum OfferingClassType'));
+          orElse: () => OfferingClassType._(value));
+
+  @override
+  bool operator ==(other) => other is OfferingClassType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum OfferingTypeValues {
-  heavyUtilization('Heavy Utilization'),
-  mediumUtilization('Medium Utilization'),
-  lightUtilization('Light Utilization'),
-  noUpfront('No Upfront'),
-  partialUpfront('Partial Upfront'),
-  allUpfront('All Upfront'),
-  ;
+class OfferingTypeValues {
+  static const heavyUtilization = OfferingTypeValues._('Heavy Utilization');
+  static const mediumUtilization = OfferingTypeValues._('Medium Utilization');
+  static const lightUtilization = OfferingTypeValues._('Light Utilization');
+  static const noUpfront = OfferingTypeValues._('No Upfront');
+  static const partialUpfront = OfferingTypeValues._('Partial Upfront');
+  static const allUpfront = OfferingTypeValues._('All Upfront');
 
   final String value;
 
-  const OfferingTypeValues(this.value);
+  const OfferingTypeValues._(this.value);
 
-  static OfferingTypeValues fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum OfferingTypeValues'));
+  static const values = [
+    heavyUtilization,
+    mediumUtilization,
+    lightUtilization,
+    noUpfront,
+    partialUpfront,
+    allUpfront
+  ];
+
+  static OfferingTypeValues fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => OfferingTypeValues._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is OfferingTypeValues && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes the options for an OpenID Connect-compatible user-identity trust
@@ -71118,19 +74517,29 @@ class OidcOptions {
   }
 }
 
-enum OnDemandAllocationStrategy {
-  lowestPrice('lowestPrice'),
-  prioritized('prioritized'),
-  ;
+class OnDemandAllocationStrategy {
+  static const lowestPrice = OnDemandAllocationStrategy._('lowestPrice');
+  static const prioritized = OnDemandAllocationStrategy._('prioritized');
 
   final String value;
 
-  const OnDemandAllocationStrategy(this.value);
+  const OnDemandAllocationStrategy._(this.value);
+
+  static const values = [lowestPrice, prioritized];
 
   static OnDemandAllocationStrategy fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum OnDemandAllocationStrategy'));
+          orElse: () => OnDemandAllocationStrategy._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is OnDemandAllocationStrategy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes the configuration of On-Demand Instances in an EC2 Fleet.
@@ -71305,19 +74714,28 @@ class OnDemandOptionsRequest {
   }
 }
 
-enum OperationType {
-  add('add'),
-  remove('remove'),
-  ;
+class OperationType {
+  static const add = OperationType._('add');
+  static const remove = OperationType._('remove');
 
   final String value;
 
-  const OperationType(this.value);
+  const OperationType._(this.value);
+
+  static const values = [add, remove];
 
   static OperationType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum OperationType'));
+          orElse: () => OperationType._(value));
+
+  @override
+  bool operator ==(other) => other is OperationType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes a packet header statement.
@@ -71431,21 +74849,31 @@ class PacketHeaderStatementRequest {
   }
 }
 
-enum PartitionLoadFrequency {
-  none('none'),
-  daily('daily'),
-  weekly('weekly'),
-  monthly('monthly'),
-  ;
+class PartitionLoadFrequency {
+  static const none = PartitionLoadFrequency._('none');
+  static const daily = PartitionLoadFrequency._('daily');
+  static const weekly = PartitionLoadFrequency._('weekly');
+  static const monthly = PartitionLoadFrequency._('monthly');
 
   final String value;
 
-  const PartitionLoadFrequency(this.value);
+  const PartitionLoadFrequency._(this.value);
+
+  static const values = [none, daily, weekly, monthly];
 
   static PartitionLoadFrequency fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum PartitionLoadFrequency'));
+          orElse: () => PartitionLoadFrequency._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is PartitionLoadFrequency && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes a path component.
@@ -71705,34 +75133,53 @@ class PathStatementRequest {
   }
 }
 
-enum PayerResponsibility {
-  serviceOwner('ServiceOwner'),
-  ;
+class PayerResponsibility {
+  static const serviceOwner = PayerResponsibility._('ServiceOwner');
 
   final String value;
 
-  const PayerResponsibility(this.value);
+  const PayerResponsibility._(this.value);
 
-  static PayerResponsibility fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum PayerResponsibility'));
+  static const values = [serviceOwner];
+
+  static PayerResponsibility fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => PayerResponsibility._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is PayerResponsibility && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum PaymentOption {
-  allUpfront('AllUpfront'),
-  partialUpfront('PartialUpfront'),
-  noUpfront('NoUpfront'),
-  ;
+class PaymentOption {
+  static const allUpfront = PaymentOption._('AllUpfront');
+  static const partialUpfront = PaymentOption._('PartialUpfront');
+  static const noUpfront = PaymentOption._('NoUpfront');
 
   final String value;
 
-  const PaymentOption(this.value);
+  const PaymentOption._(this.value);
+
+  static const values = [allUpfront, partialUpfront, noUpfront];
 
   static PaymentOption fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum PaymentOption'));
+          orElse: () => PaymentOption._(value));
+
+  @override
+  bool operator ==(other) => other is PaymentOption && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes the data that identifies an Amazon FPGA image (AFI) on the PCI
@@ -71905,36 +75352,61 @@ class PeeringTgwInfo {
   }
 }
 
-enum PeriodType {
-  fiveMinutes('five-minutes'),
-  fifteenMinutes('fifteen-minutes'),
-  oneHour('one-hour'),
-  threeHours('three-hours'),
-  oneDay('one-day'),
-  oneWeek('one-week'),
-  ;
+class PeriodType {
+  static const fiveMinutes = PeriodType._('five-minutes');
+  static const fifteenMinutes = PeriodType._('fifteen-minutes');
+  static const oneHour = PeriodType._('one-hour');
+  static const threeHours = PeriodType._('three-hours');
+  static const oneDay = PeriodType._('one-day');
+  static const oneWeek = PeriodType._('one-week');
 
   final String value;
 
-  const PeriodType(this.value);
+  const PeriodType._(this.value);
 
-  static PeriodType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum PeriodType'));
+  static const values = [
+    fiveMinutes,
+    fifteenMinutes,
+    oneHour,
+    threeHours,
+    oneDay,
+    oneWeek
+  ];
+
+  static PeriodType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => PeriodType._(value));
+
+  @override
+  bool operator ==(other) => other is PeriodType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum PermissionGroup {
-  all('all'),
-  ;
+class PermissionGroup {
+  static const all = PermissionGroup._('all');
 
   final String value;
 
-  const PermissionGroup(this.value);
+  const PermissionGroup._(this.value);
+
+  static const values = [all];
 
   static PermissionGroup fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum PermissionGroup'));
+          orElse: () => PermissionGroup._(value));
+
+  @override
+  bool operator ==(other) => other is PermissionGroup && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The Diffie-Hellmann group number for phase 1 IKE negotiations.
@@ -72147,18 +75619,27 @@ class Phase2IntegrityAlgorithmsRequestListValue {
   }
 }
 
-enum PhcSupport {
-  unsupported('unsupported'),
-  supported('supported'),
-  ;
+class PhcSupport {
+  static const unsupported = PhcSupport._('unsupported');
+  static const supported = PhcSupport._('supported');
 
   final String value;
 
-  const PhcSupport(this.value);
+  const PhcSupport._(this.value);
 
-  static PhcSupport fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum PhcSupport'));
+  static const values = [unsupported, supported];
+
+  static PhcSupport fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => PhcSupport._(value));
+
+  @override
+  bool operator ==(other) => other is PhcSupport && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes the placement of an instance.
@@ -72342,37 +75823,57 @@ class PlacementGroupInfo {
   }
 }
 
-enum PlacementGroupState {
-  pending('pending'),
-  available('available'),
-  deleting('deleting'),
-  deleted('deleted'),
-  ;
+class PlacementGroupState {
+  static const pending = PlacementGroupState._('pending');
+  static const available = PlacementGroupState._('available');
+  static const deleting = PlacementGroupState._('deleting');
+  static const deleted = PlacementGroupState._('deleted');
 
   final String value;
 
-  const PlacementGroupState(this.value);
+  const PlacementGroupState._(this.value);
 
-  static PlacementGroupState fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum PlacementGroupState'));
+  static const values = [pending, available, deleting, deleted];
+
+  static PlacementGroupState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => PlacementGroupState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is PlacementGroupState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum PlacementGroupStrategy {
-  cluster('cluster'),
-  partition('partition'),
-  spread('spread'),
-  ;
+class PlacementGroupStrategy {
+  static const cluster = PlacementGroupStrategy._('cluster');
+  static const partition = PlacementGroupStrategy._('partition');
+  static const spread = PlacementGroupStrategy._('spread');
 
   final String value;
 
-  const PlacementGroupStrategy(this.value);
+  const PlacementGroupStrategy._(this.value);
+
+  static const values = [cluster, partition, spread];
 
   static PlacementGroupStrategy fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum PlacementGroupStrategy'));
+          orElse: () => PlacementGroupStrategy._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is PlacementGroupStrategy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes the placement of an instance.
@@ -72392,34 +75893,52 @@ class PlacementResponse {
   }
 }
 
-enum PlacementStrategy {
-  cluster('cluster'),
-  spread('spread'),
-  partition('partition'),
-  ;
+class PlacementStrategy {
+  static const cluster = PlacementStrategy._('cluster');
+  static const spread = PlacementStrategy._('spread');
+  static const partition = PlacementStrategy._('partition');
 
   final String value;
 
-  const PlacementStrategy(this.value);
+  const PlacementStrategy._(this.value);
+
+  static const values = [cluster, spread, partition];
 
   static PlacementStrategy fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum PlacementStrategy'));
+          orElse: () => PlacementStrategy._(value));
+
+  @override
+  bool operator ==(other) => other is PlacementStrategy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum PlatformValues {
-  windows('Windows'),
-  ;
+class PlatformValues {
+  static const windows = PlatformValues._('Windows');
 
   final String value;
 
-  const PlatformValues(this.value);
+  const PlatformValues._(this.value);
+
+  static const values = [windows];
 
   static PlatformValues fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum PlatformValues'));
+          orElse: () => PlatformValues._(value));
+
+  @override
+  bool operator ==(other) => other is PlatformValues && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes a CIDR block for an address pool.
@@ -72564,29 +76083,51 @@ class PrefixListId {
   }
 }
 
-enum PrefixListState {
-  createInProgress('create-in-progress'),
-  createComplete('create-complete'),
-  createFailed('create-failed'),
-  modifyInProgress('modify-in-progress'),
-  modifyComplete('modify-complete'),
-  modifyFailed('modify-failed'),
-  restoreInProgress('restore-in-progress'),
-  restoreComplete('restore-complete'),
-  restoreFailed('restore-failed'),
-  deleteInProgress('delete-in-progress'),
-  deleteComplete('delete-complete'),
-  deleteFailed('delete-failed'),
-  ;
+class PrefixListState {
+  static const createInProgress = PrefixListState._('create-in-progress');
+  static const createComplete = PrefixListState._('create-complete');
+  static const createFailed = PrefixListState._('create-failed');
+  static const modifyInProgress = PrefixListState._('modify-in-progress');
+  static const modifyComplete = PrefixListState._('modify-complete');
+  static const modifyFailed = PrefixListState._('modify-failed');
+  static const restoreInProgress = PrefixListState._('restore-in-progress');
+  static const restoreComplete = PrefixListState._('restore-complete');
+  static const restoreFailed = PrefixListState._('restore-failed');
+  static const deleteInProgress = PrefixListState._('delete-in-progress');
+  static const deleteComplete = PrefixListState._('delete-complete');
+  static const deleteFailed = PrefixListState._('delete-failed');
 
   final String value;
 
-  const PrefixListState(this.value);
+  const PrefixListState._(this.value);
+
+  static const values = [
+    createInProgress,
+    createComplete,
+    createFailed,
+    modifyInProgress,
+    modifyComplete,
+    modifyFailed,
+    restoreInProgress,
+    restoreComplete,
+    restoreFailed,
+    deleteInProgress,
+    deleteComplete,
+    deleteFailed
+  ];
 
   static PrefixListState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum PrefixListState'));
+          orElse: () => PrefixListState._(value));
+
+  @override
+  bool operator ==(other) => other is PrefixListState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes the price for a Reserved Instance.
@@ -72712,23 +76253,32 @@ class PrincipalIdFormat {
   }
 }
 
-enum PrincipalType {
-  all('All'),
-  service('Service'),
-  organizationUnit('OrganizationUnit'),
-  account('Account'),
-  user('User'),
-  role('Role'),
-  ;
+class PrincipalType {
+  static const all = PrincipalType._('All');
+  static const service = PrincipalType._('Service');
+  static const organizationUnit = PrincipalType._('OrganizationUnit');
+  static const account = PrincipalType._('Account');
+  static const user = PrincipalType._('User');
+  static const role = PrincipalType._('Role');
 
   final String value;
 
-  const PrincipalType(this.value);
+  const PrincipalType._(this.value);
+
+  static const values = [all, service, organizationUnit, account, user, role];
 
   static PrincipalType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum PrincipalType'));
+          orElse: () => PrincipalType._(value));
+
+  @override
+  bool operator ==(other) => other is PrincipalType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about the Private DNS name for interface endpoints.
@@ -72988,19 +76538,28 @@ class ProductCode {
   }
 }
 
-enum ProductCodeValues {
-  devpay('devpay'),
-  marketplace('marketplace'),
-  ;
+class ProductCodeValues {
+  static const devpay = ProductCodeValues._('devpay');
+  static const marketplace = ProductCodeValues._('marketplace');
 
   final String value;
 
-  const ProductCodeValues(this.value);
+  const ProductCodeValues._(this.value);
+
+  static const values = [devpay, marketplace];
 
   static ProductCodeValues fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ProductCodeValues'));
+          orElse: () => ProductCodeValues._(value));
+
+  @override
+  bool operator ==(other) => other is ProductCodeValues && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes a virtual private gateway propagating route.
@@ -73020,32 +76579,50 @@ class PropagatingVgw {
   }
 }
 
-enum Protocol {
-  tcp('tcp'),
-  udp('udp'),
-  ;
+class Protocol {
+  static const tcp = Protocol._('tcp');
+  static const udp = Protocol._('udp');
 
   final String value;
 
-  const Protocol(this.value);
+  const Protocol._(this.value);
 
-  static Protocol fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum Protocol'));
+  static const values = [tcp, udp];
+
+  static Protocol fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Protocol._(value));
+
+  @override
+  bool operator ==(other) => other is Protocol && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ProtocolValue {
-  gre('gre'),
-  ;
+class ProtocolValue {
+  static const gre = ProtocolValue._('gre');
 
   final String value;
 
-  const ProtocolValue(this.value);
+  const ProtocolValue._(this.value);
+
+  static const values = [gre];
 
   static ProtocolValue fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ProtocolValue'));
+          orElse: () => ProtocolValue._(value));
+
+  @override
+  bool operator ==(other) => other is ProtocolValue && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class ProvisionByoipCidrResult {
@@ -73469,21 +77046,38 @@ class PurchaseScheduledInstancesResult {
   }
 }
 
-enum RIProductDescription {
-  linuxUnix('Linux/UNIX'),
-  linuxUnixAmazonVpc('Linux/UNIX (Amazon VPC)'),
-  windows('Windows'),
-  windowsAmazonVpc('Windows (Amazon VPC)'),
-  ;
+class RIProductDescription {
+  static const linuxUnix = RIProductDescription._('Linux/UNIX');
+  static const linuxUnixAmazonVpc =
+      RIProductDescription._('Linux/UNIX (Amazon VPC)');
+  static const windows = RIProductDescription._('Windows');
+  static const windowsAmazonVpc =
+      RIProductDescription._('Windows (Amazon VPC)');
 
   final String value;
 
-  const RIProductDescription(this.value);
+  const RIProductDescription._(this.value);
 
-  static RIProductDescription fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum RIProductDescription'));
+  static const values = [
+    linuxUnix,
+    linuxUnixAmazonVpc,
+    windows,
+    windowsAmazonVpc
+  ];
+
+  static RIProductDescription fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => RIProductDescription._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RIProductDescription && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes a recurring charge.
@@ -73509,18 +77103,28 @@ class RecurringCharge {
   }
 }
 
-enum RecurringChargeFrequency {
-  hourly('Hourly'),
-  ;
+class RecurringChargeFrequency {
+  static const hourly = RecurringChargeFrequency._('Hourly');
 
   final String value;
 
-  const RecurringChargeFrequency(this.value);
+  const RecurringChargeFrequency._(this.value);
+
+  static const values = [hourly];
 
   static RecurringChargeFrequency fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum RecurringChargeFrequency'));
+          orElse: () => RecurringChargeFrequency._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RecurringChargeFrequency && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes the security group that is referenced in the security group rule.
@@ -73991,23 +77595,40 @@ class ReplaceRootVolumeTask {
   }
 }
 
-enum ReplaceRootVolumeTaskState {
-  pending('pending'),
-  inProgress('in-progress'),
-  failing('failing'),
-  succeeded('succeeded'),
-  failed('failed'),
-  failedDetached('failed-detached'),
-  ;
+class ReplaceRootVolumeTaskState {
+  static const pending = ReplaceRootVolumeTaskState._('pending');
+  static const inProgress = ReplaceRootVolumeTaskState._('in-progress');
+  static const failing = ReplaceRootVolumeTaskState._('failing');
+  static const succeeded = ReplaceRootVolumeTaskState._('succeeded');
+  static const failed = ReplaceRootVolumeTaskState._('failed');
+  static const failedDetached = ReplaceRootVolumeTaskState._('failed-detached');
 
   final String value;
 
-  const ReplaceRootVolumeTaskState(this.value);
+  const ReplaceRootVolumeTaskState._(this.value);
+
+  static const values = [
+    pending,
+    inProgress,
+    failing,
+    succeeded,
+    failed,
+    failedDetached
+  ];
 
   static ReplaceRootVolumeTaskState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ReplaceRootVolumeTaskState'));
+          orElse: () => ReplaceRootVolumeTaskState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ReplaceRootVolumeTaskState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class ReplaceRouteTableAssociationResult {
@@ -74064,56 +77685,103 @@ class ReplaceVpnTunnelResult {
   }
 }
 
-enum ReplacementStrategy {
-  launch('launch'),
-  launchBeforeTerminate('launch-before-terminate'),
-  ;
+class ReplacementStrategy {
+  static const launch = ReplacementStrategy._('launch');
+  static const launchBeforeTerminate =
+      ReplacementStrategy._('launch-before-terminate');
 
   final String value;
 
-  const ReplacementStrategy(this.value);
+  const ReplacementStrategy._(this.value);
 
-  static ReplacementStrategy fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ReplacementStrategy'));
+  static const values = [launch, launchBeforeTerminate];
+
+  static ReplacementStrategy fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ReplacementStrategy._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ReplacementStrategy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ReportInstanceReasonCodes {
-  instanceStuckInState('instance-stuck-in-state'),
-  unresponsive('unresponsive'),
-  notAcceptingCredentials('not-accepting-credentials'),
-  passwordNotAvailable('password-not-available'),
-  performanceNetwork('performance-network'),
-  performanceInstanceStore('performance-instance-store'),
-  performanceEbsVolume('performance-ebs-volume'),
-  performanceOther('performance-other'),
-  other('other'),
-  ;
+class ReportInstanceReasonCodes {
+  static const instanceStuckInState =
+      ReportInstanceReasonCodes._('instance-stuck-in-state');
+  static const unresponsive = ReportInstanceReasonCodes._('unresponsive');
+  static const notAcceptingCredentials =
+      ReportInstanceReasonCodes._('not-accepting-credentials');
+  static const passwordNotAvailable =
+      ReportInstanceReasonCodes._('password-not-available');
+  static const performanceNetwork =
+      ReportInstanceReasonCodes._('performance-network');
+  static const performanceInstanceStore =
+      ReportInstanceReasonCodes._('performance-instance-store');
+  static const performanceEbsVolume =
+      ReportInstanceReasonCodes._('performance-ebs-volume');
+  static const performanceOther =
+      ReportInstanceReasonCodes._('performance-other');
+  static const other = ReportInstanceReasonCodes._('other');
 
   final String value;
 
-  const ReportInstanceReasonCodes(this.value);
+  const ReportInstanceReasonCodes._(this.value);
+
+  static const values = [
+    instanceStuckInState,
+    unresponsive,
+    notAcceptingCredentials,
+    passwordNotAvailable,
+    performanceNetwork,
+    performanceInstanceStore,
+    performanceEbsVolume,
+    performanceOther,
+    other
+  ];
 
   static ReportInstanceReasonCodes fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ReportInstanceReasonCodes'));
+          orElse: () => ReportInstanceReasonCodes._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ReportInstanceReasonCodes && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ReportStatusType {
-  ok('ok'),
-  impaired('impaired'),
-  ;
+class ReportStatusType {
+  static const ok = ReportStatusType._('ok');
+  static const impaired = ReportStatusType._('impaired');
 
   final String value;
 
-  const ReportStatusType(this.value);
+  const ReportStatusType._(this.value);
+
+  static const values = [ok, impaired];
 
   static ReportStatusType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ReportStatusType'));
+          orElse: () => ReportStatusType._(value));
+
+  @override
+  bool operator ==(other) => other is ReportStatusType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes a port range.
@@ -74859,21 +78527,30 @@ class ReservationFleetInstanceSpecification {
   }
 }
 
-enum ReservationState {
-  paymentPending('payment-pending'),
-  paymentFailed('payment-failed'),
-  active('active'),
-  retired('retired'),
-  ;
+class ReservationState {
+  static const paymentPending = ReservationState._('payment-pending');
+  static const paymentFailed = ReservationState._('payment-failed');
+  static const active = ReservationState._('active');
+  static const retired = ReservationState._('retired');
 
   final String value;
 
-  const ReservationState(this.value);
+  const ReservationState._(this.value);
+
+  static const values = [paymentPending, paymentFailed, active, retired];
 
   static ReservationState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ReservationState'));
+          orElse: () => ReservationState._(value));
+
+  @override
+  bool operator ==(other) => other is ReservationState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The cost associated with the Reserved Instance.
@@ -74957,23 +78634,40 @@ class ReservedInstanceReservationValue {
   }
 }
 
-enum ReservedInstanceState {
-  paymentPending('payment-pending'),
-  active('active'),
-  paymentFailed('payment-failed'),
-  retired('retired'),
-  queued('queued'),
-  queuedDeleted('queued-deleted'),
-  ;
+class ReservedInstanceState {
+  static const paymentPending = ReservedInstanceState._('payment-pending');
+  static const active = ReservedInstanceState._('active');
+  static const paymentFailed = ReservedInstanceState._('payment-failed');
+  static const retired = ReservedInstanceState._('retired');
+  static const queued = ReservedInstanceState._('queued');
+  static const queuedDeleted = ReservedInstanceState._('queued-deleted');
 
   final String value;
 
-  const ReservedInstanceState(this.value);
+  const ReservedInstanceState._(this.value);
 
-  static ReservedInstanceState fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ReservedInstanceState'));
+  static const values = [
+    paymentPending,
+    active,
+    paymentFailed,
+    retired,
+    queued,
+    queuedDeleted
+  ];
+
+  static ReservedInstanceState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ReservedInstanceState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ReservedInstanceState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes a Reserved Instance.
@@ -75485,18 +79179,28 @@ class ResetEbsDefaultKmsKeyIdResult {
   }
 }
 
-enum ResetFpgaImageAttributeName {
-  loadPermission('loadPermission'),
-  ;
+class ResetFpgaImageAttributeName {
+  static const loadPermission = ResetFpgaImageAttributeName._('loadPermission');
 
   final String value;
 
-  const ResetFpgaImageAttributeName(this.value);
+  const ResetFpgaImageAttributeName._(this.value);
+
+  static const values = [loadPermission];
 
   static ResetFpgaImageAttributeName fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ResetFpgaImageAttributeName'));
+          orElse: () => ResetFpgaImageAttributeName._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ResetFpgaImageAttributeName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class ResetFpgaImageAttributeResult {
@@ -75515,18 +79219,28 @@ class ResetFpgaImageAttributeResult {
   }
 }
 
-enum ResetImageAttributeName {
-  launchPermission('launchPermission'),
-  ;
+class ResetImageAttributeName {
+  static const launchPermission = ResetImageAttributeName._('launchPermission');
 
   final String value;
 
-  const ResetImageAttributeName(this.value);
+  const ResetImageAttributeName._(this.value);
+
+  static const values = [launchPermission];
 
   static ResetImageAttributeName fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ResetImageAttributeName'));
+          orElse: () => ResetImageAttributeName._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ResetImageAttributeName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes a resource statement.
@@ -75575,108 +79289,232 @@ class ResourceStatementRequest {
   }
 }
 
-enum ResourceType {
-  capacityReservation('capacity-reservation'),
-  clientVpnEndpoint('client-vpn-endpoint'),
-  customerGateway('customer-gateway'),
-  carrierGateway('carrier-gateway'),
-  coipPool('coip-pool'),
-  dedicatedHost('dedicated-host'),
-  dhcpOptions('dhcp-options'),
-  egressOnlyInternetGateway('egress-only-internet-gateway'),
-  elasticIp('elastic-ip'),
-  elasticGpu('elastic-gpu'),
-  exportImageTask('export-image-task'),
-  exportInstanceTask('export-instance-task'),
-  fleet('fleet'),
-  fpgaImage('fpga-image'),
-  hostReservation('host-reservation'),
-  image('image'),
-  importImageTask('import-image-task'),
-  importSnapshotTask('import-snapshot-task'),
-  instance('instance'),
-  instanceEventWindow('instance-event-window'),
-  internetGateway('internet-gateway'),
-  ipam('ipam'),
-  ipamPool('ipam-pool'),
-  ipamScope('ipam-scope'),
-  ipv4poolEc2('ipv4pool-ec2'),
-  ipv6poolEc2('ipv6pool-ec2'),
-  keyPair('key-pair'),
-  launchTemplate('launch-template'),
-  localGateway('local-gateway'),
-  localGatewayRouteTable('local-gateway-route-table'),
-  localGatewayVirtualInterface('local-gateway-virtual-interface'),
-  localGatewayVirtualInterfaceGroup('local-gateway-virtual-interface-group'),
-  localGatewayRouteTableVpcAssociation(
-      'local-gateway-route-table-vpc-association'),
-  localGatewayRouteTableVirtualInterfaceGroupAssociation(
-      'local-gateway-route-table-virtual-interface-group-association'),
-  natgateway('natgateway'),
-  networkAcl('network-acl'),
-  networkInterface('network-interface'),
-  networkInsightsAnalysis('network-insights-analysis'),
-  networkInsightsPath('network-insights-path'),
-  networkInsightsAccessScope('network-insights-access-scope'),
-  networkInsightsAccessScopeAnalysis('network-insights-access-scope-analysis'),
-  placementGroup('placement-group'),
-  prefixList('prefix-list'),
-  replaceRootVolumeTask('replace-root-volume-task'),
-  reservedInstances('reserved-instances'),
-  routeTable('route-table'),
-  securityGroup('security-group'),
-  securityGroupRule('security-group-rule'),
-  snapshot('snapshot'),
-  spotFleetRequest('spot-fleet-request'),
-  spotInstancesRequest('spot-instances-request'),
-  subnet('subnet'),
-  subnetCidrReservation('subnet-cidr-reservation'),
-  trafficMirrorFilter('traffic-mirror-filter'),
-  trafficMirrorSession('traffic-mirror-session'),
-  trafficMirrorTarget('traffic-mirror-target'),
-  transitGateway('transit-gateway'),
-  transitGatewayAttachment('transit-gateway-attachment'),
-  transitGatewayConnectPeer('transit-gateway-connect-peer'),
-  transitGatewayMulticastDomain('transit-gateway-multicast-domain'),
-  transitGatewayPolicyTable('transit-gateway-policy-table'),
-  transitGatewayRouteTable('transit-gateway-route-table'),
-  transitGatewayRouteTableAnnouncement(
-      'transit-gateway-route-table-announcement'),
-  volume('volume'),
-  vpc('vpc'),
-  vpcEndpoint('vpc-endpoint'),
-  vpcEndpointConnection('vpc-endpoint-connection'),
-  vpcEndpointService('vpc-endpoint-service'),
-  vpcEndpointServicePermission('vpc-endpoint-service-permission'),
-  vpcPeeringConnection('vpc-peering-connection'),
-  vpnConnection('vpn-connection'),
-  vpnGateway('vpn-gateway'),
-  vpcFlowLog('vpc-flow-log'),
-  capacityReservationFleet('capacity-reservation-fleet'),
-  trafficMirrorFilterRule('traffic-mirror-filter-rule'),
-  vpcEndpointConnectionDeviceType('vpc-endpoint-connection-device-type'),
-  verifiedAccessInstance('verified-access-instance'),
-  verifiedAccessGroup('verified-access-group'),
-  verifiedAccessEndpoint('verified-access-endpoint'),
-  verifiedAccessPolicy('verified-access-policy'),
-  verifiedAccessTrustProvider('verified-access-trust-provider'),
-  vpnConnectionDeviceType('vpn-connection-device-type'),
-  vpcBlockPublicAccessExclusion('vpc-block-public-access-exclusion'),
-  ipamResourceDiscovery('ipam-resource-discovery'),
-  ipamResourceDiscoveryAssociation('ipam-resource-discovery-association'),
-  instanceConnectEndpoint('instance-connect-endpoint'),
-  ipamExternalResourceVerificationToken(
-      'ipam-external-resource-verification-token'),
-  ;
+class ResourceType {
+  static const capacityReservation = ResourceType._('capacity-reservation');
+  static const clientVpnEndpoint = ResourceType._('client-vpn-endpoint');
+  static const customerGateway = ResourceType._('customer-gateway');
+  static const carrierGateway = ResourceType._('carrier-gateway');
+  static const coipPool = ResourceType._('coip-pool');
+  static const dedicatedHost = ResourceType._('dedicated-host');
+  static const dhcpOptions = ResourceType._('dhcp-options');
+  static const egressOnlyInternetGateway =
+      ResourceType._('egress-only-internet-gateway');
+  static const elasticIp = ResourceType._('elastic-ip');
+  static const elasticGpu = ResourceType._('elastic-gpu');
+  static const exportImageTask = ResourceType._('export-image-task');
+  static const exportInstanceTask = ResourceType._('export-instance-task');
+  static const fleet = ResourceType._('fleet');
+  static const fpgaImage = ResourceType._('fpga-image');
+  static const hostReservation = ResourceType._('host-reservation');
+  static const image = ResourceType._('image');
+  static const importImageTask = ResourceType._('import-image-task');
+  static const importSnapshotTask = ResourceType._('import-snapshot-task');
+  static const instance = ResourceType._('instance');
+  static const instanceEventWindow = ResourceType._('instance-event-window');
+  static const internetGateway = ResourceType._('internet-gateway');
+  static const ipam = ResourceType._('ipam');
+  static const ipamPool = ResourceType._('ipam-pool');
+  static const ipamScope = ResourceType._('ipam-scope');
+  static const ipv4poolEc2 = ResourceType._('ipv4pool-ec2');
+  static const ipv6poolEc2 = ResourceType._('ipv6pool-ec2');
+  static const keyPair = ResourceType._('key-pair');
+  static const launchTemplate = ResourceType._('launch-template');
+  static const localGateway = ResourceType._('local-gateway');
+  static const localGatewayRouteTable =
+      ResourceType._('local-gateway-route-table');
+  static const localGatewayVirtualInterface =
+      ResourceType._('local-gateway-virtual-interface');
+  static const localGatewayVirtualInterfaceGroup =
+      ResourceType._('local-gateway-virtual-interface-group');
+  static const localGatewayRouteTableVpcAssociation =
+      ResourceType._('local-gateway-route-table-vpc-association');
+  static const localGatewayRouteTableVirtualInterfaceGroupAssociation =
+      ResourceType._(
+          'local-gateway-route-table-virtual-interface-group-association');
+  static const natgateway = ResourceType._('natgateway');
+  static const networkAcl = ResourceType._('network-acl');
+  static const networkInterface = ResourceType._('network-interface');
+  static const networkInsightsAnalysis =
+      ResourceType._('network-insights-analysis');
+  static const networkInsightsPath = ResourceType._('network-insights-path');
+  static const networkInsightsAccessScope =
+      ResourceType._('network-insights-access-scope');
+  static const networkInsightsAccessScopeAnalysis =
+      ResourceType._('network-insights-access-scope-analysis');
+  static const placementGroup = ResourceType._('placement-group');
+  static const prefixList = ResourceType._('prefix-list');
+  static const replaceRootVolumeTask =
+      ResourceType._('replace-root-volume-task');
+  static const reservedInstances = ResourceType._('reserved-instances');
+  static const routeTable = ResourceType._('route-table');
+  static const securityGroup = ResourceType._('security-group');
+  static const securityGroupRule = ResourceType._('security-group-rule');
+  static const snapshot = ResourceType._('snapshot');
+  static const spotFleetRequest = ResourceType._('spot-fleet-request');
+  static const spotInstancesRequest = ResourceType._('spot-instances-request');
+  static const subnet = ResourceType._('subnet');
+  static const subnetCidrReservation =
+      ResourceType._('subnet-cidr-reservation');
+  static const trafficMirrorFilter = ResourceType._('traffic-mirror-filter');
+  static const trafficMirrorSession = ResourceType._('traffic-mirror-session');
+  static const trafficMirrorTarget = ResourceType._('traffic-mirror-target');
+  static const transitGateway = ResourceType._('transit-gateway');
+  static const transitGatewayAttachment =
+      ResourceType._('transit-gateway-attachment');
+  static const transitGatewayConnectPeer =
+      ResourceType._('transit-gateway-connect-peer');
+  static const transitGatewayMulticastDomain =
+      ResourceType._('transit-gateway-multicast-domain');
+  static const transitGatewayPolicyTable =
+      ResourceType._('transit-gateway-policy-table');
+  static const transitGatewayRouteTable =
+      ResourceType._('transit-gateway-route-table');
+  static const transitGatewayRouteTableAnnouncement =
+      ResourceType._('transit-gateway-route-table-announcement');
+  static const volume = ResourceType._('volume');
+  static const vpc = ResourceType._('vpc');
+  static const vpcEndpoint = ResourceType._('vpc-endpoint');
+  static const vpcEndpointConnection =
+      ResourceType._('vpc-endpoint-connection');
+  static const vpcEndpointService = ResourceType._('vpc-endpoint-service');
+  static const vpcEndpointServicePermission =
+      ResourceType._('vpc-endpoint-service-permission');
+  static const vpcPeeringConnection = ResourceType._('vpc-peering-connection');
+  static const vpnConnection = ResourceType._('vpn-connection');
+  static const vpnGateway = ResourceType._('vpn-gateway');
+  static const vpcFlowLog = ResourceType._('vpc-flow-log');
+  static const capacityReservationFleet =
+      ResourceType._('capacity-reservation-fleet');
+  static const trafficMirrorFilterRule =
+      ResourceType._('traffic-mirror-filter-rule');
+  static const vpcEndpointConnectionDeviceType =
+      ResourceType._('vpc-endpoint-connection-device-type');
+  static const verifiedAccessInstance =
+      ResourceType._('verified-access-instance');
+  static const verifiedAccessGroup = ResourceType._('verified-access-group');
+  static const verifiedAccessEndpoint =
+      ResourceType._('verified-access-endpoint');
+  static const verifiedAccessPolicy = ResourceType._('verified-access-policy');
+  static const verifiedAccessTrustProvider =
+      ResourceType._('verified-access-trust-provider');
+  static const vpnConnectionDeviceType =
+      ResourceType._('vpn-connection-device-type');
+  static const vpcBlockPublicAccessExclusion =
+      ResourceType._('vpc-block-public-access-exclusion');
+  static const ipamResourceDiscovery =
+      ResourceType._('ipam-resource-discovery');
+  static const ipamResourceDiscoveryAssociation =
+      ResourceType._('ipam-resource-discovery-association');
+  static const instanceConnectEndpoint =
+      ResourceType._('instance-connect-endpoint');
+  static const ipamExternalResourceVerificationToken =
+      ResourceType._('ipam-external-resource-verification-token');
 
   final String value;
 
-  const ResourceType(this.value);
+  const ResourceType._(this.value);
 
-  static ResourceType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ResourceType'));
+  static const values = [
+    capacityReservation,
+    clientVpnEndpoint,
+    customerGateway,
+    carrierGateway,
+    coipPool,
+    dedicatedHost,
+    dhcpOptions,
+    egressOnlyInternetGateway,
+    elasticIp,
+    elasticGpu,
+    exportImageTask,
+    exportInstanceTask,
+    fleet,
+    fpgaImage,
+    hostReservation,
+    image,
+    importImageTask,
+    importSnapshotTask,
+    instance,
+    instanceEventWindow,
+    internetGateway,
+    ipam,
+    ipamPool,
+    ipamScope,
+    ipv4poolEc2,
+    ipv6poolEc2,
+    keyPair,
+    launchTemplate,
+    localGateway,
+    localGatewayRouteTable,
+    localGatewayVirtualInterface,
+    localGatewayVirtualInterfaceGroup,
+    localGatewayRouteTableVpcAssociation,
+    localGatewayRouteTableVirtualInterfaceGroupAssociation,
+    natgateway,
+    networkAcl,
+    networkInterface,
+    networkInsightsAnalysis,
+    networkInsightsPath,
+    networkInsightsAccessScope,
+    networkInsightsAccessScopeAnalysis,
+    placementGroup,
+    prefixList,
+    replaceRootVolumeTask,
+    reservedInstances,
+    routeTable,
+    securityGroup,
+    securityGroupRule,
+    snapshot,
+    spotFleetRequest,
+    spotInstancesRequest,
+    subnet,
+    subnetCidrReservation,
+    trafficMirrorFilter,
+    trafficMirrorSession,
+    trafficMirrorTarget,
+    transitGateway,
+    transitGatewayAttachment,
+    transitGatewayConnectPeer,
+    transitGatewayMulticastDomain,
+    transitGatewayPolicyTable,
+    transitGatewayRouteTable,
+    transitGatewayRouteTableAnnouncement,
+    volume,
+    vpc,
+    vpcEndpoint,
+    vpcEndpointConnection,
+    vpcEndpointService,
+    vpcEndpointServicePermission,
+    vpcPeeringConnection,
+    vpnConnection,
+    vpnGateway,
+    vpcFlowLog,
+    capacityReservationFleet,
+    trafficMirrorFilterRule,
+    vpcEndpointConnectionDeviceType,
+    verifiedAccessInstance,
+    verifiedAccessGroup,
+    verifiedAccessEndpoint,
+    verifiedAccessPolicy,
+    verifiedAccessTrustProvider,
+    vpnConnectionDeviceType,
+    vpcBlockPublicAccessExclusion,
+    ipamResourceDiscovery,
+    ipamResourceDiscoveryAssociation,
+    instanceConnectEndpoint,
+    ipamExternalResourceVerificationToken
+  ];
+
+  static ResourceType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ResourceType._(value));
+
+  @override
+  bool operator ==(other) => other is ResourceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes the error that's returned when you cannot delete a launch template
@@ -76218,19 +80056,28 @@ class RevokeSecurityGroupIngressResult {
   }
 }
 
-enum RootDeviceType {
-  ebs('ebs'),
-  instanceStore('instance-store'),
-  ;
+class RootDeviceType {
+  static const ebs = RootDeviceType._('ebs');
+  static const instanceStore = RootDeviceType._('instance-store');
 
   final String value;
 
-  const RootDeviceType(this.value);
+  const RootDeviceType._(this.value);
+
+  static const values = [ebs, instanceStore];
 
   static RootDeviceType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum RootDeviceType'));
+          orElse: () => RootDeviceType._(value));
+
+  @override
+  bool operator ==(other) => other is RootDeviceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes a route in a route table.
@@ -76361,33 +80208,56 @@ class Route {
   }
 }
 
-enum RouteOrigin {
-  createRouteTable('CreateRouteTable'),
-  createRoute('CreateRoute'),
-  enableVgwRoutePropagation('EnableVgwRoutePropagation'),
-  ;
+class RouteOrigin {
+  static const createRouteTable = RouteOrigin._('CreateRouteTable');
+  static const createRoute = RouteOrigin._('CreateRoute');
+  static const enableVgwRoutePropagation =
+      RouteOrigin._('EnableVgwRoutePropagation');
 
   final String value;
 
-  const RouteOrigin(this.value);
+  const RouteOrigin._(this.value);
 
-  static RouteOrigin fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum RouteOrigin'));
+  static const values = [
+    createRouteTable,
+    createRoute,
+    enableVgwRoutePropagation
+  ];
+
+  static RouteOrigin fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => RouteOrigin._(value));
+
+  @override
+  bool operator ==(other) => other is RouteOrigin && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum RouteState {
-  active('active'),
-  blackhole('blackhole'),
-  ;
+class RouteState {
+  static const active = RouteState._('active');
+  static const blackhole = RouteState._('blackhole');
 
   final String value;
 
-  const RouteState(this.value);
+  const RouteState._(this.value);
 
-  static RouteState fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum RouteState'));
+  static const values = [active, blackhole];
+
+  static RouteState fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => RouteState._(value));
+
+  @override
+  bool operator ==(other) => other is RouteState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes a route table.
@@ -76516,36 +80386,63 @@ class RouteTableAssociationState {
   }
 }
 
-enum RouteTableAssociationStateCode {
-  associating('associating'),
-  associated('associated'),
-  disassociating('disassociating'),
-  disassociated('disassociated'),
-  failed('failed'),
-  ;
+class RouteTableAssociationStateCode {
+  static const associating = RouteTableAssociationStateCode._('associating');
+  static const associated = RouteTableAssociationStateCode._('associated');
+  static const disassociating =
+      RouteTableAssociationStateCode._('disassociating');
+  static const disassociated =
+      RouteTableAssociationStateCode._('disassociated');
+  static const failed = RouteTableAssociationStateCode._('failed');
 
   final String value;
 
-  const RouteTableAssociationStateCode(this.value);
+  const RouteTableAssociationStateCode._(this.value);
+
+  static const values = [
+    associating,
+    associated,
+    disassociating,
+    disassociated,
+    failed
+  ];
 
   static RouteTableAssociationStateCode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum RouteTableAssociationStateCode'));
+          orElse: () => RouteTableAssociationStateCode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RouteTableAssociationStateCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum RuleAction {
-  allow('allow'),
-  deny('deny'),
-  ;
+class RuleAction {
+  static const allow = RuleAction._('allow');
+  static const deny = RuleAction._('deny');
 
   final String value;
 
-  const RuleAction(this.value);
+  const RuleAction._(this.value);
 
-  static RuleAction fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum RuleAction'));
+  static const values = [allow, deny];
+
+  static RuleAction fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => RuleAction._(value));
+
+  @override
+  bool operator ==(other) => other is RuleAction && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes the rule options for a stateful rule group.
@@ -76736,19 +80633,28 @@ class S3Storage {
   }
 }
 
-enum SSEType {
-  sseEbs('sse-ebs'),
-  sseKms('sse-kms'),
-  none('none'),
-  ;
+class SSEType {
+  static const sseEbs = SSEType._('sse-ebs');
+  static const sseKms = SSEType._('sse-kms');
+  static const none = SSEType._('none');
 
   final String value;
 
-  const SSEType(this.value);
+  const SSEType._(this.value);
 
-  static SSEType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum SSEType'));
+  static const values = [sseEbs, sseKms, none];
+
+  static SSEType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => SSEType._(value));
+
+  @override
+  bool operator ==(other) => other is SSEType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes a Scheduled Instance.
@@ -77703,19 +81609,29 @@ class SecurityGroupReference {
   }
 }
 
-enum SecurityGroupReferencingSupportValue {
-  enable('enable'),
-  disable('disable'),
-  ;
+class SecurityGroupReferencingSupportValue {
+  static const enable = SecurityGroupReferencingSupportValue._('enable');
+  static const disable = SecurityGroupReferencingSupportValue._('disable');
 
   final String value;
 
-  const SecurityGroupReferencingSupportValue(this.value);
+  const SecurityGroupReferencingSupportValue._(this.value);
+
+  static const values = [enable, disable];
 
   static SecurityGroupReferencingSupportValue fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum SecurityGroupReferencingSupportValue'));
+          orElse: () => SecurityGroupReferencingSupportValue._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SecurityGroupReferencingSupportValue && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes a security group rule.
@@ -77959,19 +81875,28 @@ class SecurityGroupRuleUpdate {
   }
 }
 
-enum SelfServicePortal {
-  enabled('enabled'),
-  disabled('disabled'),
-  ;
+class SelfServicePortal {
+  static const enabled = SelfServicePortal._('enabled');
+  static const disabled = SelfServicePortal._('disabled');
 
   final String value;
 
-  const SelfServicePortal(this.value);
+  const SelfServicePortal._(this.value);
+
+  static const values = [enabled, disabled];
 
   static SelfServicePortal fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum SelfServicePortal'));
+          orElse: () => SelfServicePortal._(value));
+
+  @override
+  bool operator ==(other) => other is SelfServicePortal && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes a service configuration for a VPC endpoint service.
@@ -78087,19 +82012,29 @@ class ServiceConfiguration {
   }
 }
 
-enum ServiceConnectivityType {
-  ipv4('ipv4'),
-  ipv6('ipv6'),
-  ;
+class ServiceConnectivityType {
+  static const ipv4 = ServiceConnectivityType._('ipv4');
+  static const ipv6 = ServiceConnectivityType._('ipv6');
 
   final String value;
 
-  const ServiceConnectivityType(this.value);
+  const ServiceConnectivityType._(this.value);
+
+  static const values = [ipv4, ipv6];
 
   static ServiceConnectivityType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ServiceConnectivityType'));
+          orElse: () => ServiceConnectivityType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ServiceConnectivityType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes a VPC endpoint service.
@@ -78217,37 +82152,54 @@ class ServiceDetail {
   }
 }
 
-enum ServiceState {
-  pending('Pending'),
-  available('Available'),
-  deleting('Deleting'),
-  deleted('Deleted'),
-  failed('Failed'),
-  ;
+class ServiceState {
+  static const pending = ServiceState._('Pending');
+  static const available = ServiceState._('Available');
+  static const deleting = ServiceState._('Deleting');
+  static const deleted = ServiceState._('Deleted');
+  static const failed = ServiceState._('Failed');
 
   final String value;
 
-  const ServiceState(this.value);
+  const ServiceState._(this.value);
 
-  static ServiceState fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ServiceState'));
+  static const values = [pending, available, deleting, deleted, failed];
+
+  static ServiceState fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ServiceState._(value));
+
+  @override
+  bool operator ==(other) => other is ServiceState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ServiceType {
-  interface('Interface'),
-  gateway('Gateway'),
-  gatewayLoadBalancer('GatewayLoadBalancer'),
-  ;
+class ServiceType {
+  static const interface = ServiceType._('Interface');
+  static const gateway = ServiceType._('Gateway');
+  static const gatewayLoadBalancer = ServiceType._('GatewayLoadBalancer');
 
   final String value;
 
-  const ServiceType(this.value);
+  const ServiceType._(this.value);
 
-  static ServiceType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum ServiceType'));
+  static const values = [interface, gateway, gatewayLoadBalancer];
+
+  static ServiceType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ServiceType._(value));
+
+  @override
+  bool operator ==(other) => other is ServiceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes the type of service for a VPC endpoint.
@@ -78267,19 +82219,28 @@ class ServiceTypeDetail {
   }
 }
 
-enum ShutdownBehavior {
-  stop('stop'),
-  terminate('terminate'),
-  ;
+class ShutdownBehavior {
+  static const stop = ShutdownBehavior._('stop');
+  static const terminate = ShutdownBehavior._('terminate');
 
   final String value;
 
-  const ShutdownBehavior(this.value);
+  const ShutdownBehavior._(this.value);
+
+  static const values = [stop, terminate];
 
   static ShutdownBehavior fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ShutdownBehavior'));
+          orElse: () => ShutdownBehavior._(value));
+
+  @override
+  bool operator ==(other) => other is ShutdownBehavior && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes the time period for a Scheduled Instance to start its first
@@ -78478,35 +82439,58 @@ class Snapshot {
   }
 }
 
-enum SnapshotAttributeName {
-  productCodes('productCodes'),
-  createVolumePermission('createVolumePermission'),
-  ;
+class SnapshotAttributeName {
+  static const productCodes = SnapshotAttributeName._('productCodes');
+  static const createVolumePermission =
+      SnapshotAttributeName._('createVolumePermission');
 
   final String value;
 
-  const SnapshotAttributeName(this.value);
+  const SnapshotAttributeName._(this.value);
 
-  static SnapshotAttributeName fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum SnapshotAttributeName'));
+  static const values = [productCodes, createVolumePermission];
+
+  static SnapshotAttributeName fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => SnapshotAttributeName._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SnapshotAttributeName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum SnapshotBlockPublicAccessState {
-  blockAllSharing('block-all-sharing'),
-  blockNewSharing('block-new-sharing'),
-  unblocked('unblocked'),
-  ;
+class SnapshotBlockPublicAccessState {
+  static const blockAllSharing =
+      SnapshotBlockPublicAccessState._('block-all-sharing');
+  static const blockNewSharing =
+      SnapshotBlockPublicAccessState._('block-new-sharing');
+  static const unblocked = SnapshotBlockPublicAccessState._('unblocked');
 
   final String value;
 
-  const SnapshotBlockPublicAccessState(this.value);
+  const SnapshotBlockPublicAccessState._(this.value);
+
+  static const values = [blockAllSharing, blockNewSharing, unblocked];
 
   static SnapshotBlockPublicAccessState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum SnapshotBlockPublicAccessState'));
+          orElse: () => SnapshotBlockPublicAccessState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SnapshotBlockPublicAccessState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes the snapshot created from the imported disk.
@@ -78750,22 +82734,31 @@ class SnapshotRecycleBinInfo {
   }
 }
 
-enum SnapshotState {
-  pending('pending'),
-  completed('completed'),
-  error('error'),
-  recoverable('recoverable'),
-  recovering('recovering'),
-  ;
+class SnapshotState {
+  static const pending = SnapshotState._('pending');
+  static const completed = SnapshotState._('completed');
+  static const error = SnapshotState._('error');
+  static const recoverable = SnapshotState._('recoverable');
+  static const recovering = SnapshotState._('recovering');
 
   final String value;
 
-  const SnapshotState(this.value);
+  const SnapshotState._(this.value);
+
+  static const values = [pending, completed, error, recoverable, recovering];
 
   static SnapshotState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum SnapshotState'));
+          orElse: () => SnapshotState._(value));
+
+  @override
+  bool operator ==(other) => other is SnapshotState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Details about the import snapshot task.
@@ -78942,22 +82935,41 @@ class SnapshotTierStatus {
   }
 }
 
-enum SpotAllocationStrategy {
-  lowestPrice('lowest-price'),
-  diversified('diversified'),
-  capacityOptimized('capacity-optimized'),
-  capacityOptimizedPrioritized('capacity-optimized-prioritized'),
-  priceCapacityOptimized('price-capacity-optimized'),
-  ;
+class SpotAllocationStrategy {
+  static const lowestPrice = SpotAllocationStrategy._('lowest-price');
+  static const diversified = SpotAllocationStrategy._('diversified');
+  static const capacityOptimized =
+      SpotAllocationStrategy._('capacity-optimized');
+  static const capacityOptimizedPrioritized =
+      SpotAllocationStrategy._('capacity-optimized-prioritized');
+  static const priceCapacityOptimized =
+      SpotAllocationStrategy._('price-capacity-optimized');
 
   final String value;
 
-  const SpotAllocationStrategy(this.value);
+  const SpotAllocationStrategy._(this.value);
+
+  static const values = [
+    lowestPrice,
+    diversified,
+    capacityOptimized,
+    capacityOptimizedPrioritized,
+    priceCapacityOptimized
+  ];
 
   static SpotAllocationStrategy fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum SpotAllocationStrategy'));
+          orElse: () => SpotAllocationStrategy._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SpotAllocationStrategy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The Spot Instance replacement strategy to use when Amazon EC2 emits a signal
@@ -79705,20 +83717,30 @@ class SpotFleetTagSpecification {
   }
 }
 
-enum SpotInstanceInterruptionBehavior {
-  hibernate('hibernate'),
-  stop('stop'),
-  terminate('terminate'),
-  ;
+class SpotInstanceInterruptionBehavior {
+  static const hibernate = SpotInstanceInterruptionBehavior._('hibernate');
+  static const stop = SpotInstanceInterruptionBehavior._('stop');
+  static const terminate = SpotInstanceInterruptionBehavior._('terminate');
 
   final String value;
 
-  const SpotInstanceInterruptionBehavior(this.value);
+  const SpotInstanceInterruptionBehavior._(this.value);
+
+  static const values = [hibernate, stop, terminate];
 
   static SpotInstanceInterruptionBehavior fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum SpotInstanceInterruptionBehavior'));
+          orElse: () => SpotInstanceInterruptionBehavior._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SpotInstanceInterruptionBehavior && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes a Spot Instance request.
@@ -79887,23 +83909,32 @@ class SpotInstanceRequest {
   }
 }
 
-enum SpotInstanceState {
-  open('open'),
-  active('active'),
-  closed('closed'),
-  cancelled('cancelled'),
-  failed('failed'),
-  disabled('disabled'),
-  ;
+class SpotInstanceState {
+  static const open = SpotInstanceState._('open');
+  static const active = SpotInstanceState._('active');
+  static const closed = SpotInstanceState._('closed');
+  static const cancelled = SpotInstanceState._('cancelled');
+  static const failed = SpotInstanceState._('failed');
+  static const disabled = SpotInstanceState._('disabled');
 
   final String value;
 
-  const SpotInstanceState(this.value);
+  const SpotInstanceState._(this.value);
+
+  static const values = [open, active, closed, cancelled, failed, disabled];
 
   static SpotInstanceState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum SpotInstanceState'));
+          orElse: () => SpotInstanceState._(value));
+
+  @override
+  bool operator ==(other) => other is SpotInstanceState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes a Spot Instance state change.
@@ -79961,19 +83992,28 @@ class SpotInstanceStatus {
   }
 }
 
-enum SpotInstanceType {
-  oneTime('one-time'),
-  persistent('persistent'),
-  ;
+class SpotInstanceType {
+  static const oneTime = SpotInstanceType._('one-time');
+  static const persistent = SpotInstanceType._('persistent');
 
   final String value;
 
-  const SpotInstanceType(this.value);
+  const SpotInstanceType._(this.value);
+
+  static const values = [oneTime, persistent];
 
   static SpotInstanceType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum SpotInstanceType'));
+          orElse: () => SpotInstanceType._(value));
+
+  @override
+  bool operator ==(other) => other is SpotInstanceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The strategies for managing your Spot Instances that are at an elevated risk
@@ -80511,18 +84551,27 @@ class SpotPrice {
   }
 }
 
-enum SpreadLevel {
-  host('host'),
-  rack('rack'),
-  ;
+class SpreadLevel {
+  static const host = SpreadLevel._('host');
+  static const rack = SpreadLevel._('rack');
 
   final String value;
 
-  const SpreadLevel(this.value);
+  const SpreadLevel._(this.value);
 
-  static SpreadLevel fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum SpreadLevel'));
+  static const values = [host, rack];
+
+  static SpreadLevel fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => SpreadLevel._(value));
+
+  @override
+  bool operator ==(other) => other is SpreadLevel && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes a stale rule in a security group.
@@ -80696,24 +84745,42 @@ class StartVpcEndpointServicePrivateDnsVerificationResult {
   }
 }
 
-enum State {
-  pendingAcceptance('PendingAcceptance'),
-  pending('Pending'),
-  available('Available'),
-  deleting('Deleting'),
-  deleted('Deleted'),
-  rejected('Rejected'),
-  failed('Failed'),
-  expired('Expired'),
-  ;
+class State {
+  static const pendingAcceptance = State._('PendingAcceptance');
+  static const pending = State._('Pending');
+  static const available = State._('Available');
+  static const deleting = State._('Deleting');
+  static const deleted = State._('Deleted');
+  static const rejected = State._('Rejected');
+  static const failed = State._('Failed');
+  static const expired = State._('Expired');
 
   final String value;
 
-  const State(this.value);
+  const State._(this.value);
+
+  static const values = [
+    pendingAcceptance,
+    pending,
+    available,
+    deleting,
+    deleted,
+    rejected,
+    failed,
+    expired
+  ];
 
   static State fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum State'));
+      values.firstWhere((e) => e.value == value, orElse: () => State._(value));
+
+  @override
+  bool operator ==(other) => other is State && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes a state change.
@@ -80795,77 +84862,123 @@ class StateReason {
   }
 }
 
-enum StaticSourcesSupportValue {
-  enable('enable'),
-  disable('disable'),
-  ;
+class StaticSourcesSupportValue {
+  static const enable = StaticSourcesSupportValue._('enable');
+  static const disable = StaticSourcesSupportValue._('disable');
 
   final String value;
 
-  const StaticSourcesSupportValue(this.value);
+  const StaticSourcesSupportValue._(this.value);
+
+  static const values = [enable, disable];
 
   static StaticSourcesSupportValue fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum StaticSourcesSupportValue'));
+          orElse: () => StaticSourcesSupportValue._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is StaticSourcesSupportValue && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum StatisticType {
-  p50('p50'),
-  ;
+class StatisticType {
+  static const p50 = StatisticType._('p50');
 
   final String value;
 
-  const StatisticType(this.value);
+  const StatisticType._(this.value);
+
+  static const values = [p50];
 
   static StatisticType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum StatisticType'));
+          orElse: () => StatisticType._(value));
+
+  @override
+  bool operator ==(other) => other is StatisticType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum Status {
-  moveInProgress('MoveInProgress'),
-  inVpc('InVpc'),
-  inClassic('InClassic'),
-  ;
+class Status {
+  static const moveInProgress = Status._('MoveInProgress');
+  static const inVpc = Status._('InVpc');
+  static const inClassic = Status._('InClassic');
 
   final String value;
 
-  const Status(this.value);
+  const Status._(this.value);
+
+  static const values = [moveInProgress, inVpc, inClassic];
 
   static Status fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum Status'));
+      values.firstWhere((e) => e.value == value, orElse: () => Status._(value));
+
+  @override
+  bool operator ==(other) => other is Status && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum StatusName {
-  reachability('reachability'),
-  ;
+class StatusName {
+  static const reachability = StatusName._('reachability');
 
   final String value;
 
-  const StatusName(this.value);
+  const StatusName._(this.value);
 
-  static StatusName fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum StatusName'));
+  static const values = [reachability];
+
+  static StatusName fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => StatusName._(value));
+
+  @override
+  bool operator ==(other) => other is StatusName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum StatusType {
-  passed('passed'),
-  failed('failed'),
-  insufficientData('insufficient-data'),
-  initializing('initializing'),
-  ;
+class StatusType {
+  static const passed = StatusType._('passed');
+  static const failed = StatusType._('failed');
+  static const insufficientData = StatusType._('insufficient-data');
+  static const initializing = StatusType._('initializing');
 
   final String value;
 
-  const StatusType(this.value);
+  const StatusType._(this.value);
 
-  static StatusType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum StatusType'));
+  static const values = [passed, failed, insufficientData, initializing];
+
+  static StatusType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => StatusType._(value));
+
+  @override
+  bool operator ==(other) => other is StatusType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class StopInstancesResult {
@@ -80924,18 +85037,27 @@ class StorageLocation {
   }
 }
 
-enum StorageTier {
-  archive('archive'),
-  standard('standard'),
-  ;
+class StorageTier {
+  static const archive = StorageTier._('archive');
+  static const standard = StorageTier._('standard');
 
   final String value;
 
-  const StorageTier(this.value);
+  const StorageTier._(this.value);
 
-  static StorageTier fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum StorageTier'));
+  static const values = [archive, standard];
+
+  static StorageTier fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => StorageTier._(value));
+
+  @override
+  bool operator ==(other) => other is StorageTier && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The information about the AMI store task, including the progress of the
@@ -81201,23 +85323,40 @@ class SubnetCidrBlockState {
   }
 }
 
-enum SubnetCidrBlockStateCode {
-  associating('associating'),
-  associated('associated'),
-  disassociating('disassociating'),
-  disassociated('disassociated'),
-  failing('failing'),
-  failed('failed'),
-  ;
+class SubnetCidrBlockStateCode {
+  static const associating = SubnetCidrBlockStateCode._('associating');
+  static const associated = SubnetCidrBlockStateCode._('associated');
+  static const disassociating = SubnetCidrBlockStateCode._('disassociating');
+  static const disassociated = SubnetCidrBlockStateCode._('disassociated');
+  static const failing = SubnetCidrBlockStateCode._('failing');
+  static const failed = SubnetCidrBlockStateCode._('failed');
 
   final String value;
 
-  const SubnetCidrBlockStateCode(this.value);
+  const SubnetCidrBlockStateCode._(this.value);
+
+  static const values = [
+    associating,
+    associated,
+    disassociating,
+    disassociated,
+    failing,
+    failed
+  ];
 
   static SubnetCidrBlockStateCode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum SubnetCidrBlockStateCode'));
+          orElse: () => SubnetCidrBlockStateCode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SubnetCidrBlockStateCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes a subnet CIDR reservation.
@@ -81274,19 +85413,29 @@ class SubnetCidrReservation {
   }
 }
 
-enum SubnetCidrReservationType {
-  prefix('prefix'),
-  explicit('explicit'),
-  ;
+class SubnetCidrReservationType {
+  static const prefix = SubnetCidrReservationType._('prefix');
+  static const explicit = SubnetCidrReservationType._('explicit');
 
   final String value;
 
-  const SubnetCidrReservationType(this.value);
+  const SubnetCidrReservationType._(this.value);
+
+  static const values = [prefix, explicit];
 
   static SubnetCidrReservationType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum SubnetCidrReservationType'));
+          orElse: () => SubnetCidrReservationType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SubnetCidrReservationType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes the configuration of a subnet for a VPC endpoint.
@@ -81377,19 +85526,28 @@ class SubnetIpv6CidrBlockAssociation {
   }
 }
 
-enum SubnetState {
-  pending('pending'),
-  available('available'),
-  unavailable('unavailable'),
-  ;
+class SubnetState {
+  static const pending = SubnetState._('pending');
+  static const available = SubnetState._('available');
+  static const unavailable = SubnetState._('unavailable');
 
   final String value;
 
-  const SubnetState(this.value);
+  const SubnetState._(this.value);
 
-  static SubnetState fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum SubnetState'));
+  static const values = [pending, available, unavailable];
+
+  static SubnetState fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => SubnetState._(value));
+
+  @override
+  bool operator ==(other) => other is SubnetState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes an Infrastructure Performance subscription.
@@ -81472,36 +85630,61 @@ class SuccessfulQueuedPurchaseDeletion {
   }
 }
 
-enum SummaryStatus {
-  ok('ok'),
-  impaired('impaired'),
-  insufficientData('insufficient-data'),
-  notApplicable('not-applicable'),
-  initializing('initializing'),
-  ;
+class SummaryStatus {
+  static const ok = SummaryStatus._('ok');
+  static const impaired = SummaryStatus._('impaired');
+  static const insufficientData = SummaryStatus._('insufficient-data');
+  static const notApplicable = SummaryStatus._('not-applicable');
+  static const initializing = SummaryStatus._('initializing');
 
   final String value;
 
-  const SummaryStatus(this.value);
+  const SummaryStatus._(this.value);
+
+  static const values = [
+    ok,
+    impaired,
+    insufficientData,
+    notApplicable,
+    initializing
+  ];
 
   static SummaryStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum SummaryStatus'));
+          orElse: () => SummaryStatus._(value));
+
+  @override
+  bool operator ==(other) => other is SummaryStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum SupportedAdditionalProcessorFeature {
-  amdSevSnp('amd-sev-snp'),
-  ;
+class SupportedAdditionalProcessorFeature {
+  static const amdSevSnp = SupportedAdditionalProcessorFeature._('amd-sev-snp');
 
   final String value;
 
-  const SupportedAdditionalProcessorFeature(this.value);
+  const SupportedAdditionalProcessorFeature._(this.value);
+
+  static const values = [amdSevSnp];
 
   static SupportedAdditionalProcessorFeature fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum SupportedAdditionalProcessorFeature'));
+          orElse: () => SupportedAdditionalProcessorFeature._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SupportedAdditionalProcessorFeature && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes a tag.
@@ -81727,20 +85910,30 @@ class TargetCapacitySpecificationRequest {
   }
 }
 
-enum TargetCapacityUnitType {
-  vcpu('vcpu'),
-  memoryMib('memory-mib'),
-  units('units'),
-  ;
+class TargetCapacityUnitType {
+  static const vcpu = TargetCapacityUnitType._('vcpu');
+  static const memoryMib = TargetCapacityUnitType._('memory-mib');
+  static const units = TargetCapacityUnitType._('units');
 
   final String value;
 
-  const TargetCapacityUnitType(this.value);
+  const TargetCapacityUnitType._(this.value);
+
+  static const values = [vcpu, memoryMib, units];
 
   static TargetCapacityUnitType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum TargetCapacityUnitType'));
+          orElse: () => TargetCapacityUnitType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TargetCapacityUnitType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about the Convertible Reserved Instance offering.
@@ -81902,48 +86095,75 @@ class TargetReservationValue {
   }
 }
 
-enum TargetStorageTier {
-  archive('archive'),
-  ;
+class TargetStorageTier {
+  static const archive = TargetStorageTier._('archive');
 
   final String value;
 
-  const TargetStorageTier(this.value);
+  const TargetStorageTier._(this.value);
+
+  static const values = [archive];
 
   static TargetStorageTier fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum TargetStorageTier'));
+          orElse: () => TargetStorageTier._(value));
+
+  @override
+  bool operator ==(other) => other is TargetStorageTier && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum TelemetryStatus {
-  up('UP'),
-  down('DOWN'),
-  ;
+class TelemetryStatus {
+  static const up = TelemetryStatus._('UP');
+  static const down = TelemetryStatus._('DOWN');
 
   final String value;
 
-  const TelemetryStatus(this.value);
+  const TelemetryStatus._(this.value);
+
+  static const values = [up, down];
 
   static TelemetryStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum TelemetryStatus'));
+          orElse: () => TelemetryStatus._(value));
+
+  @override
+  bool operator ==(other) => other is TelemetryStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum Tenancy {
-  $default('default'),
-  dedicated('dedicated'),
-  host('host'),
-  ;
+class Tenancy {
+  static const $default = Tenancy._('default');
+  static const dedicated = Tenancy._('dedicated');
+  static const host = Tenancy._('host');
 
   final String value;
 
-  const Tenancy(this.value);
+  const Tenancy._(this.value);
 
-  static Tenancy fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum Tenancy'));
+  static const values = [$default, dedicated, host];
+
+  static Tenancy fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Tenancy._(value));
+
+  @override
+  bool operator ==(other) => other is Tenancy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class TerminateClientVpnConnectionsResult {
@@ -82054,40 +86274,77 @@ class ThroughResourcesStatementRequest {
   }
 }
 
-enum TieringOperationStatus {
-  archivalInProgress('archival-in-progress'),
-  archivalCompleted('archival-completed'),
-  archivalFailed('archival-failed'),
-  temporaryRestoreInProgress('temporary-restore-in-progress'),
-  temporaryRestoreCompleted('temporary-restore-completed'),
-  temporaryRestoreFailed('temporary-restore-failed'),
-  permanentRestoreInProgress('permanent-restore-in-progress'),
-  permanentRestoreCompleted('permanent-restore-completed'),
-  permanentRestoreFailed('permanent-restore-failed'),
-  ;
+class TieringOperationStatus {
+  static const archivalInProgress =
+      TieringOperationStatus._('archival-in-progress');
+  static const archivalCompleted =
+      TieringOperationStatus._('archival-completed');
+  static const archivalFailed = TieringOperationStatus._('archival-failed');
+  static const temporaryRestoreInProgress =
+      TieringOperationStatus._('temporary-restore-in-progress');
+  static const temporaryRestoreCompleted =
+      TieringOperationStatus._('temporary-restore-completed');
+  static const temporaryRestoreFailed =
+      TieringOperationStatus._('temporary-restore-failed');
+  static const permanentRestoreInProgress =
+      TieringOperationStatus._('permanent-restore-in-progress');
+  static const permanentRestoreCompleted =
+      TieringOperationStatus._('permanent-restore-completed');
+  static const permanentRestoreFailed =
+      TieringOperationStatus._('permanent-restore-failed');
 
   final String value;
 
-  const TieringOperationStatus(this.value);
+  const TieringOperationStatus._(this.value);
+
+  static const values = [
+    archivalInProgress,
+    archivalCompleted,
+    archivalFailed,
+    temporaryRestoreInProgress,
+    temporaryRestoreCompleted,
+    temporaryRestoreFailed,
+    permanentRestoreInProgress,
+    permanentRestoreCompleted,
+    permanentRestoreFailed
+  ];
 
   static TieringOperationStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum TieringOperationStatus'));
+          orElse: () => TieringOperationStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TieringOperationStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum TokenState {
-  valid('valid'),
-  expired('expired'),
-  ;
+class TokenState {
+  static const valid = TokenState._('valid');
+  static const expired = TokenState._('expired');
 
   final String value;
 
-  const TokenState(this.value);
+  const TokenState._(this.value);
 
-  static TokenState fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum TokenState'));
+  static const values = [valid, expired];
+
+  static TokenState fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => TokenState._(value));
+
+  @override
+  bool operator ==(other) => other is TokenState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The minimum and maximum amount of total local storage, in GB.
@@ -82140,33 +86397,51 @@ class TotalLocalStorageGBRequest {
   }
 }
 
-enum TpmSupportValues {
-  v2_0('v2.0'),
-  ;
+class TpmSupportValues {
+  static const v2_0 = TpmSupportValues._('v2.0');
 
   final String value;
 
-  const TpmSupportValues(this.value);
+  const TpmSupportValues._(this.value);
+
+  static const values = [v2_0];
 
   static TpmSupportValues fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum TpmSupportValues'));
+          orElse: () => TpmSupportValues._(value));
+
+  @override
+  bool operator ==(other) => other is TpmSupportValues && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum TrafficDirection {
-  ingress('ingress'),
-  egress('egress'),
-  ;
+class TrafficDirection {
+  static const ingress = TrafficDirection._('ingress');
+  static const egress = TrafficDirection._('egress');
 
   final String value;
 
-  const TrafficDirection(this.value);
+  const TrafficDirection._(this.value);
+
+  static const values = [ingress, egress];
 
   static TrafficDirection fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum TrafficDirection'));
+          orElse: () => TrafficDirection._(value));
+
+  @override
+  bool operator ==(other) => other is TrafficDirection && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes the Traffic Mirror filter.
@@ -82309,35 +86584,62 @@ class TrafficMirrorFilterRule {
   }
 }
 
-enum TrafficMirrorFilterRuleField {
-  destinationPortRange('destination-port-range'),
-  sourcePortRange('source-port-range'),
-  protocol('protocol'),
-  description('description'),
-  ;
+class TrafficMirrorFilterRuleField {
+  static const destinationPortRange =
+      TrafficMirrorFilterRuleField._('destination-port-range');
+  static const sourcePortRange =
+      TrafficMirrorFilterRuleField._('source-port-range');
+  static const protocol = TrafficMirrorFilterRuleField._('protocol');
+  static const description = TrafficMirrorFilterRuleField._('description');
 
   final String value;
 
-  const TrafficMirrorFilterRuleField(this.value);
+  const TrafficMirrorFilterRuleField._(this.value);
+
+  static const values = [
+    destinationPortRange,
+    sourcePortRange,
+    protocol,
+    description
+  ];
 
   static TrafficMirrorFilterRuleField fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum TrafficMirrorFilterRuleField'));
+          orElse: () => TrafficMirrorFilterRuleField._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TrafficMirrorFilterRuleField && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum TrafficMirrorNetworkService {
-  amazonDns('amazon-dns'),
-  ;
+class TrafficMirrorNetworkService {
+  static const amazonDns = TrafficMirrorNetworkService._('amazon-dns');
 
   final String value;
 
-  const TrafficMirrorNetworkService(this.value);
+  const TrafficMirrorNetworkService._(this.value);
+
+  static const values = [amazonDns];
 
   static TrafficMirrorNetworkService fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum TrafficMirrorNetworkService'));
+          orElse: () => TrafficMirrorNetworkService._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TrafficMirrorNetworkService && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes the Traffic Mirror port range.
@@ -82390,19 +86692,29 @@ class TrafficMirrorPortRangeRequest {
   }
 }
 
-enum TrafficMirrorRuleAction {
-  accept('accept'),
-  reject('reject'),
-  ;
+class TrafficMirrorRuleAction {
+  static const accept = TrafficMirrorRuleAction._('accept');
+  static const reject = TrafficMirrorRuleAction._('reject');
 
   final String value;
 
-  const TrafficMirrorRuleAction(this.value);
+  const TrafficMirrorRuleAction._(this.value);
+
+  static const values = [accept, reject];
 
   static TrafficMirrorRuleAction fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum TrafficMirrorRuleAction'));
+          orElse: () => TrafficMirrorRuleAction._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TrafficMirrorRuleAction && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes a Traffic Mirror session.
@@ -82487,20 +86799,31 @@ class TrafficMirrorSession {
   }
 }
 
-enum TrafficMirrorSessionField {
-  packetLength('packet-length'),
-  description('description'),
-  virtualNetworkId('virtual-network-id'),
-  ;
+class TrafficMirrorSessionField {
+  static const packetLength = TrafficMirrorSessionField._('packet-length');
+  static const description = TrafficMirrorSessionField._('description');
+  static const virtualNetworkId =
+      TrafficMirrorSessionField._('virtual-network-id');
 
   final String value;
 
-  const TrafficMirrorSessionField(this.value);
+  const TrafficMirrorSessionField._(this.value);
+
+  static const values = [packetLength, description, virtualNetworkId];
 
   static TrafficMirrorSessionField fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum TrafficMirrorSessionField'));
+          orElse: () => TrafficMirrorSessionField._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TrafficMirrorSessionField && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes a Traffic Mirror target.
@@ -82565,35 +86888,61 @@ class TrafficMirrorTarget {
   }
 }
 
-enum TrafficMirrorTargetType {
-  networkInterface('network-interface'),
-  networkLoadBalancer('network-load-balancer'),
-  gatewayLoadBalancerEndpoint('gateway-load-balancer-endpoint'),
-  ;
+class TrafficMirrorTargetType {
+  static const networkInterface =
+      TrafficMirrorTargetType._('network-interface');
+  static const networkLoadBalancer =
+      TrafficMirrorTargetType._('network-load-balancer');
+  static const gatewayLoadBalancerEndpoint =
+      TrafficMirrorTargetType._('gateway-load-balancer-endpoint');
 
   final String value;
 
-  const TrafficMirrorTargetType(this.value);
+  const TrafficMirrorTargetType._(this.value);
+
+  static const values = [
+    networkInterface,
+    networkLoadBalancer,
+    gatewayLoadBalancerEndpoint
+  ];
 
   static TrafficMirrorTargetType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum TrafficMirrorTargetType'));
+          orElse: () => TrafficMirrorTargetType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TrafficMirrorTargetType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum TrafficType {
-  accept('ACCEPT'),
-  reject('REJECT'),
-  all('ALL'),
-  ;
+class TrafficType {
+  static const accept = TrafficType._('ACCEPT');
+  static const reject = TrafficType._('REJECT');
+  static const all = TrafficType._('ALL');
 
   final String value;
 
-  const TrafficType(this.value);
+  const TrafficType._(this.value);
 
-  static TrafficType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum TrafficType'));
+  static const values = [accept, reject, all];
+
+  static TrafficType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => TrafficType._(value));
+
+  @override
+  bool operator ==(other) => other is TrafficType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes a transit gateway.
@@ -82700,21 +87049,38 @@ class TransitGatewayAssociation {
   }
 }
 
-enum TransitGatewayAssociationState {
-  associating('associating'),
-  associated('associated'),
-  disassociating('disassociating'),
-  disassociated('disassociated'),
-  ;
+class TransitGatewayAssociationState {
+  static const associating = TransitGatewayAssociationState._('associating');
+  static const associated = TransitGatewayAssociationState._('associated');
+  static const disassociating =
+      TransitGatewayAssociationState._('disassociating');
+  static const disassociated =
+      TransitGatewayAssociationState._('disassociated');
 
   final String value;
 
-  const TransitGatewayAssociationState(this.value);
+  const TransitGatewayAssociationState._(this.value);
+
+  static const values = [
+    associating,
+    associated,
+    disassociating,
+    disassociated
+  ];
 
   static TransitGatewayAssociationState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum TransitGatewayAssociationState'));
+          orElse: () => TransitGatewayAssociationState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TransitGatewayAssociationState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes an attachment between a resource and a transit gateway.
@@ -82882,49 +87248,94 @@ class TransitGatewayAttachmentPropagation {
   }
 }
 
-enum TransitGatewayAttachmentResourceType {
-  vpc('vpc'),
-  vpn('vpn'),
-  directConnectGateway('direct-connect-gateway'),
-  connect('connect'),
-  peering('peering'),
-  tgwPeering('tgw-peering'),
-  ;
+class TransitGatewayAttachmentResourceType {
+  static const vpc = TransitGatewayAttachmentResourceType._('vpc');
+  static const vpn = TransitGatewayAttachmentResourceType._('vpn');
+  static const directConnectGateway =
+      TransitGatewayAttachmentResourceType._('direct-connect-gateway');
+  static const connect = TransitGatewayAttachmentResourceType._('connect');
+  static const peering = TransitGatewayAttachmentResourceType._('peering');
+  static const tgwPeering =
+      TransitGatewayAttachmentResourceType._('tgw-peering');
 
   final String value;
 
-  const TransitGatewayAttachmentResourceType(this.value);
+  const TransitGatewayAttachmentResourceType._(this.value);
+
+  static const values = [
+    vpc,
+    vpn,
+    directConnectGateway,
+    connect,
+    peering,
+    tgwPeering
+  ];
 
   static TransitGatewayAttachmentResourceType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum TransitGatewayAttachmentResourceType'));
+          orElse: () => TransitGatewayAttachmentResourceType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TransitGatewayAttachmentResourceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum TransitGatewayAttachmentState {
-  initiating('initiating'),
-  initiatingRequest('initiatingRequest'),
-  pendingAcceptance('pendingAcceptance'),
-  rollingBack('rollingBack'),
-  pending('pending'),
-  available('available'),
-  modifying('modifying'),
-  deleting('deleting'),
-  deleted('deleted'),
-  failed('failed'),
-  rejected('rejected'),
-  rejecting('rejecting'),
-  failing('failing'),
-  ;
+class TransitGatewayAttachmentState {
+  static const initiating = TransitGatewayAttachmentState._('initiating');
+  static const initiatingRequest =
+      TransitGatewayAttachmentState._('initiatingRequest');
+  static const pendingAcceptance =
+      TransitGatewayAttachmentState._('pendingAcceptance');
+  static const rollingBack = TransitGatewayAttachmentState._('rollingBack');
+  static const pending = TransitGatewayAttachmentState._('pending');
+  static const available = TransitGatewayAttachmentState._('available');
+  static const modifying = TransitGatewayAttachmentState._('modifying');
+  static const deleting = TransitGatewayAttachmentState._('deleting');
+  static const deleted = TransitGatewayAttachmentState._('deleted');
+  static const failed = TransitGatewayAttachmentState._('failed');
+  static const rejected = TransitGatewayAttachmentState._('rejected');
+  static const rejecting = TransitGatewayAttachmentState._('rejecting');
+  static const failing = TransitGatewayAttachmentState._('failing');
 
   final String value;
 
-  const TransitGatewayAttachmentState(this.value);
+  const TransitGatewayAttachmentState._(this.value);
+
+  static const values = [
+    initiating,
+    initiatingRequest,
+    pendingAcceptance,
+    rollingBack,
+    pending,
+    available,
+    modifying,
+    deleting,
+    deleted,
+    failed,
+    rejected,
+    rejecting,
+    failing
+  ];
 
   static TransitGatewayAttachmentState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum TransitGatewayAttachmentState'));
+          orElse: () => TransitGatewayAttachmentState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TransitGatewayAttachmentState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes a transit gateway Connect attachment.
@@ -83093,21 +87504,31 @@ class TransitGatewayConnectPeerConfiguration {
   }
 }
 
-enum TransitGatewayConnectPeerState {
-  pending('pending'),
-  available('available'),
-  deleting('deleting'),
-  deleted('deleted'),
-  ;
+class TransitGatewayConnectPeerState {
+  static const pending = TransitGatewayConnectPeerState._('pending');
+  static const available = TransitGatewayConnectPeerState._('available');
+  static const deleting = TransitGatewayConnectPeerState._('deleting');
+  static const deleted = TransitGatewayConnectPeerState._('deleted');
 
   final String value;
 
-  const TransitGatewayConnectPeerState(this.value);
+  const TransitGatewayConnectPeerState._(this.value);
+
+  static const values = [pending, available, deleting, deleted];
 
   static TransitGatewayConnectPeerState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum TransitGatewayConnectPeerState'));
+          orElse: () => TransitGatewayConnectPeerState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TransitGatewayConnectPeerState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The BGP options for the Connect attachment.
@@ -83127,25 +87548,51 @@ class TransitGatewayConnectRequestBgpOptions {
   }
 }
 
-enum TransitGatewayMulitcastDomainAssociationState {
-  pendingAcceptance('pendingAcceptance'),
-  associating('associating'),
-  associated('associated'),
-  disassociating('disassociating'),
-  disassociated('disassociated'),
-  rejected('rejected'),
-  failed('failed'),
-  ;
+class TransitGatewayMulitcastDomainAssociationState {
+  static const pendingAcceptance =
+      TransitGatewayMulitcastDomainAssociationState._('pendingAcceptance');
+  static const associating =
+      TransitGatewayMulitcastDomainAssociationState._('associating');
+  static const associated =
+      TransitGatewayMulitcastDomainAssociationState._('associated');
+  static const disassociating =
+      TransitGatewayMulitcastDomainAssociationState._('disassociating');
+  static const disassociated =
+      TransitGatewayMulitcastDomainAssociationState._('disassociated');
+  static const rejected =
+      TransitGatewayMulitcastDomainAssociationState._('rejected');
+  static const failed =
+      TransitGatewayMulitcastDomainAssociationState._('failed');
 
   final String value;
 
-  const TransitGatewayMulitcastDomainAssociationState(this.value);
+  const TransitGatewayMulitcastDomainAssociationState._(this.value);
+
+  static const values = [
+    pendingAcceptance,
+    associating,
+    associated,
+    disassociating,
+    disassociated,
+    rejected,
+    failed
+  ];
 
   static TransitGatewayMulitcastDomainAssociationState fromString(
           String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum TransitGatewayMulitcastDomainAssociationState'));
+          orElse: () => TransitGatewayMulitcastDomainAssociationState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TransitGatewayMulitcastDomainAssociationState &&
+      other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes the deregistered transit gateway multicast group members.
@@ -83406,21 +87853,31 @@ class TransitGatewayMulticastDomainOptions {
   }
 }
 
-enum TransitGatewayMulticastDomainState {
-  pending('pending'),
-  available('available'),
-  deleting('deleting'),
-  deleted('deleted'),
-  ;
+class TransitGatewayMulticastDomainState {
+  static const pending = TransitGatewayMulticastDomainState._('pending');
+  static const available = TransitGatewayMulticastDomainState._('available');
+  static const deleting = TransitGatewayMulticastDomainState._('deleting');
+  static const deleted = TransitGatewayMulticastDomainState._('deleted');
 
   final String value;
 
-  const TransitGatewayMulticastDomainState(this.value);
+  const TransitGatewayMulticastDomainState._(this.value);
+
+  static const values = [pending, available, deleting, deleted];
 
   static TransitGatewayMulticastDomainState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum TransitGatewayMulticastDomainState'));
+          orElse: () => TransitGatewayMulticastDomainState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TransitGatewayMulticastDomainState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes the transit gateway multicast group resources.
@@ -83942,21 +88399,31 @@ class TransitGatewayPolicyTableEntry {
   }
 }
 
-enum TransitGatewayPolicyTableState {
-  pending('pending'),
-  available('available'),
-  deleting('deleting'),
-  deleted('deleted'),
-  ;
+class TransitGatewayPolicyTableState {
+  static const pending = TransitGatewayPolicyTableState._('pending');
+  static const available = TransitGatewayPolicyTableState._('available');
+  static const deleting = TransitGatewayPolicyTableState._('deleting');
+  static const deleted = TransitGatewayPolicyTableState._('deleted');
 
   final String value;
 
-  const TransitGatewayPolicyTableState(this.value);
+  const TransitGatewayPolicyTableState._(this.value);
+
+  static const values = [pending, available, deleting, deleted];
 
   static TransitGatewayPolicyTableState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum TransitGatewayPolicyTableState'));
+          orElse: () => TransitGatewayPolicyTableState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TransitGatewayPolicyTableState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes a transit gateway prefix list attachment.
@@ -84039,21 +88506,33 @@ class TransitGatewayPrefixListReference {
   }
 }
 
-enum TransitGatewayPrefixListReferenceState {
-  pending('pending'),
-  available('available'),
-  modifying('modifying'),
-  deleting('deleting'),
-  ;
+class TransitGatewayPrefixListReferenceState {
+  static const pending = TransitGatewayPrefixListReferenceState._('pending');
+  static const available =
+      TransitGatewayPrefixListReferenceState._('available');
+  static const modifying =
+      TransitGatewayPrefixListReferenceState._('modifying');
+  static const deleting = TransitGatewayPrefixListReferenceState._('deleting');
 
   final String value;
 
-  const TransitGatewayPrefixListReferenceState(this.value);
+  const TransitGatewayPrefixListReferenceState._(this.value);
+
+  static const values = [pending, available, modifying, deleting];
 
   static TransitGatewayPrefixListReferenceState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum TransitGatewayPrefixListReferenceState'));
+          orElse: () => TransitGatewayPrefixListReferenceState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TransitGatewayPrefixListReferenceState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes route propagation.
@@ -84109,21 +88588,31 @@ class TransitGatewayPropagation {
   }
 }
 
-enum TransitGatewayPropagationState {
-  enabling('enabling'),
-  enabled('enabled'),
-  disabling('disabling'),
-  disabled('disabled'),
-  ;
+class TransitGatewayPropagationState {
+  static const enabling = TransitGatewayPropagationState._('enabling');
+  static const enabled = TransitGatewayPropagationState._('enabled');
+  static const disabling = TransitGatewayPropagationState._('disabling');
+  static const disabled = TransitGatewayPropagationState._('disabled');
 
   final String value;
 
-  const TransitGatewayPropagationState(this.value);
+  const TransitGatewayPropagationState._(this.value);
+
+  static const values = [enabling, enabled, disabling, disabled];
 
   static TransitGatewayPropagationState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum TransitGatewayPropagationState'));
+          orElse: () => TransitGatewayPropagationState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TransitGatewayPropagationState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes the options for a transit gateway.
@@ -84297,22 +88786,32 @@ class TransitGatewayRouteAttachment {
   }
 }
 
-enum TransitGatewayRouteState {
-  pending('pending'),
-  active('active'),
-  blackhole('blackhole'),
-  deleting('deleting'),
-  deleted('deleted'),
-  ;
+class TransitGatewayRouteState {
+  static const pending = TransitGatewayRouteState._('pending');
+  static const active = TransitGatewayRouteState._('active');
+  static const blackhole = TransitGatewayRouteState._('blackhole');
+  static const deleting = TransitGatewayRouteState._('deleting');
+  static const deleted = TransitGatewayRouteState._('deleted');
 
   final String value;
 
-  const TransitGatewayRouteState(this.value);
+  const TransitGatewayRouteState._(this.value);
+
+  static const values = [pending, active, blackhole, deleting, deleted];
 
   static TransitGatewayRouteState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum TransitGatewayRouteState'));
+          orElse: () => TransitGatewayRouteState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TransitGatewayRouteState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes a transit gateway route table.
@@ -84457,39 +88956,72 @@ class TransitGatewayRouteTableAnnouncement {
   }
 }
 
-enum TransitGatewayRouteTableAnnouncementDirection {
-  outgoing('outgoing'),
-  incoming('incoming'),
-  ;
+class TransitGatewayRouteTableAnnouncementDirection {
+  static const outgoing =
+      TransitGatewayRouteTableAnnouncementDirection._('outgoing');
+  static const incoming =
+      TransitGatewayRouteTableAnnouncementDirection._('incoming');
 
   final String value;
 
-  const TransitGatewayRouteTableAnnouncementDirection(this.value);
+  const TransitGatewayRouteTableAnnouncementDirection._(this.value);
+
+  static const values = [outgoing, incoming];
 
   static TransitGatewayRouteTableAnnouncementDirection fromString(
           String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum TransitGatewayRouteTableAnnouncementDirection'));
+          orElse: () => TransitGatewayRouteTableAnnouncementDirection._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TransitGatewayRouteTableAnnouncementDirection &&
+      other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum TransitGatewayRouteTableAnnouncementState {
-  available('available'),
-  pending('pending'),
-  failing('failing'),
-  failed('failed'),
-  deleting('deleting'),
-  deleted('deleted'),
-  ;
+class TransitGatewayRouteTableAnnouncementState {
+  static const available =
+      TransitGatewayRouteTableAnnouncementState._('available');
+  static const pending = TransitGatewayRouteTableAnnouncementState._('pending');
+  static const failing = TransitGatewayRouteTableAnnouncementState._('failing');
+  static const failed = TransitGatewayRouteTableAnnouncementState._('failed');
+  static const deleting =
+      TransitGatewayRouteTableAnnouncementState._('deleting');
+  static const deleted = TransitGatewayRouteTableAnnouncementState._('deleted');
 
   final String value;
 
-  const TransitGatewayRouteTableAnnouncementState(this.value);
+  const TransitGatewayRouteTableAnnouncementState._(this.value);
+
+  static const values = [
+    available,
+    pending,
+    failing,
+    failed,
+    deleting,
+    deleted
+  ];
 
   static TransitGatewayRouteTableAnnouncementState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum TransitGatewayRouteTableAnnouncementState'));
+          orElse: () => TransitGatewayRouteTableAnnouncementState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TransitGatewayRouteTableAnnouncementState &&
+      other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes an association between a route table and a resource attachment.
@@ -84637,54 +89169,84 @@ class TransitGatewayRouteTableRoute {
   }
 }
 
-enum TransitGatewayRouteTableState {
-  pending('pending'),
-  available('available'),
-  deleting('deleting'),
-  deleted('deleted'),
-  ;
+class TransitGatewayRouteTableState {
+  static const pending = TransitGatewayRouteTableState._('pending');
+  static const available = TransitGatewayRouteTableState._('available');
+  static const deleting = TransitGatewayRouteTableState._('deleting');
+  static const deleted = TransitGatewayRouteTableState._('deleted');
 
   final String value;
 
-  const TransitGatewayRouteTableState(this.value);
+  const TransitGatewayRouteTableState._(this.value);
+
+  static const values = [pending, available, deleting, deleted];
 
   static TransitGatewayRouteTableState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum TransitGatewayRouteTableState'));
+          orElse: () => TransitGatewayRouteTableState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TransitGatewayRouteTableState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum TransitGatewayRouteType {
-  static('static'),
-  propagated('propagated'),
-  ;
+class TransitGatewayRouteType {
+  static const static = TransitGatewayRouteType._('static');
+  static const propagated = TransitGatewayRouteType._('propagated');
 
   final String value;
 
-  const TransitGatewayRouteType(this.value);
+  const TransitGatewayRouteType._(this.value);
+
+  static const values = [static, propagated];
 
   static TransitGatewayRouteType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum TransitGatewayRouteType'));
+          orElse: () => TransitGatewayRouteType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TransitGatewayRouteType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum TransitGatewayState {
-  pending('pending'),
-  available('available'),
-  modifying('modifying'),
-  deleting('deleting'),
-  deleted('deleted'),
-  ;
+class TransitGatewayState {
+  static const pending = TransitGatewayState._('pending');
+  static const available = TransitGatewayState._('available');
+  static const modifying = TransitGatewayState._('modifying');
+  static const deleting = TransitGatewayState._('deleting');
+  static const deleted = TransitGatewayState._('deleted');
 
   final String value;
 
-  const TransitGatewayState(this.value);
+  const TransitGatewayState._(this.value);
 
-  static TransitGatewayState fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum TransitGatewayState'));
+  static const values = [pending, available, modifying, deleting, deleted];
+
+  static TransitGatewayState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => TransitGatewayState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TransitGatewayState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes a VPC attachment.
@@ -84802,19 +89364,28 @@ class TransitGatewayVpcAttachmentOptions {
   }
 }
 
-enum TransportProtocol {
-  tcp('tcp'),
-  udp('udp'),
-  ;
+class TransportProtocol {
+  static const tcp = TransportProtocol._('tcp');
+  static const udp = TransportProtocol._('udp');
 
   final String value;
 
-  const TransportProtocol(this.value);
+  const TransportProtocol._(this.value);
+
+  static const values = [tcp, udp];
 
   static TransportProtocol fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum TransportProtocol'));
+          orElse: () => TransportProtocol._(value));
+
+  @override
+  bool operator ==(other) => other is TransportProtocol && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about an association between a branch network interface with a
@@ -84873,34 +89444,53 @@ class TrunkInterfaceAssociation {
   }
 }
 
-enum TrustProviderType {
-  user('user'),
-  device('device'),
-  ;
+class TrustProviderType {
+  static const user = TrustProviderType._('user');
+  static const device = TrustProviderType._('device');
 
   final String value;
 
-  const TrustProviderType(this.value);
+  const TrustProviderType._(this.value);
+
+  static const values = [user, device];
 
   static TrustProviderType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum TrustProviderType'));
+          orElse: () => TrustProviderType._(value));
+
+  @override
+  bool operator ==(other) => other is TrustProviderType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum TunnelInsideIpVersion {
-  ipv4('ipv4'),
-  ipv6('ipv6'),
-  ;
+class TunnelInsideIpVersion {
+  static const ipv4 = TunnelInsideIpVersion._('ipv4');
+  static const ipv6 = TunnelInsideIpVersion._('ipv6');
 
   final String value;
 
-  const TunnelInsideIpVersion(this.value);
+  const TunnelInsideIpVersion._(this.value);
 
-  static TunnelInsideIpVersion fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum TunnelInsideIpVersion'));
+  static const values = [ipv4, ipv6];
+
+  static TunnelInsideIpVersion fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => TunnelInsideIpVersion._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TunnelInsideIpVersion && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The VPN tunnel options.
@@ -85117,21 +89707,31 @@ class UnassignPrivateNatGatewayAddressResult {
   }
 }
 
-enum UnlimitedSupportedInstanceFamily {
-  t2('t2'),
-  t3('t3'),
-  t3a('t3a'),
-  t4g('t4g'),
-  ;
+class UnlimitedSupportedInstanceFamily {
+  static const t2 = UnlimitedSupportedInstanceFamily._('t2');
+  static const t3 = UnlimitedSupportedInstanceFamily._('t3');
+  static const t3a = UnlimitedSupportedInstanceFamily._('t3a');
+  static const t4g = UnlimitedSupportedInstanceFamily._('t4g');
 
   final String value;
 
-  const UnlimitedSupportedInstanceFamily(this.value);
+  const UnlimitedSupportedInstanceFamily._(this.value);
+
+  static const values = [t2, t3, t3a, t4g];
 
   static UnlimitedSupportedInstanceFamily fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum UnlimitedSupportedInstanceFamily'));
+          orElse: () => UnlimitedSupportedInstanceFamily._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is UnlimitedSupportedInstanceFamily && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class UnlockSnapshotResult {
@@ -85166,23 +89766,47 @@ class UnmonitorInstancesResult {
   }
 }
 
-enum UnsuccessfulInstanceCreditSpecificationErrorCode {
-  invalidInstanceIDMalformed('InvalidInstanceID.Malformed'),
-  invalidInstanceIDNotFound('InvalidInstanceID.NotFound'),
-  incorrectInstanceState('IncorrectInstanceState'),
-  instanceCreditSpecificationNotSupported(
-      'InstanceCreditSpecification.NotSupported'),
-  ;
+class UnsuccessfulInstanceCreditSpecificationErrorCode {
+  static const invalidInstanceIDMalformed =
+      UnsuccessfulInstanceCreditSpecificationErrorCode._(
+          'InvalidInstanceID.Malformed');
+  static const invalidInstanceIDNotFound =
+      UnsuccessfulInstanceCreditSpecificationErrorCode._(
+          'InvalidInstanceID.NotFound');
+  static const incorrectInstanceState =
+      UnsuccessfulInstanceCreditSpecificationErrorCode._(
+          'IncorrectInstanceState');
+  static const instanceCreditSpecificationNotSupported =
+      UnsuccessfulInstanceCreditSpecificationErrorCode._(
+          'InstanceCreditSpecification.NotSupported');
 
   final String value;
 
-  const UnsuccessfulInstanceCreditSpecificationErrorCode(this.value);
+  const UnsuccessfulInstanceCreditSpecificationErrorCode._(this.value);
+
+  static const values = [
+    invalidInstanceIDMalformed,
+    invalidInstanceIDNotFound,
+    incorrectInstanceState,
+    instanceCreditSpecificationNotSupported
+  ];
 
   static UnsuccessfulInstanceCreditSpecificationErrorCode fromString(
           String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum UnsuccessfulInstanceCreditSpecificationErrorCode'));
+          orElse: () =>
+              UnsuccessfulInstanceCreditSpecificationErrorCode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is UnsuccessfulInstanceCreditSpecificationErrorCode &&
+      other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes the burstable performance instance whose credit option for CPU
@@ -85318,20 +89942,29 @@ class UpdateSecurityGroupRuleDescriptionsIngressResult {
   }
 }
 
-enum UsageClassType {
-  spot('spot'),
-  onDemand('on-demand'),
-  capacityBlock('capacity-block'),
-  ;
+class UsageClassType {
+  static const spot = UsageClassType._('spot');
+  static const onDemand = UsageClassType._('on-demand');
+  static const capacityBlock = UsageClassType._('capacity-block');
 
   final String value;
 
-  const UsageClassType(this.value);
+  const UsageClassType._(this.value);
+
+  static const values = [spot, onDemand, capacityBlock];
 
   static UsageClassType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum UsageClassType'));
+          orElse: () => UsageClassType._(value));
+
+  @override
+  bool operator ==(other) => other is UsageClassType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes the Amazon S3 bucket for the disk image.
@@ -85465,19 +90098,30 @@ class UserIdGroupPair {
   }
 }
 
-enum UserTrustProviderType {
-  iamIdentityCenter('iam-identity-center'),
-  oidc('oidc'),
-  ;
+class UserTrustProviderType {
+  static const iamIdentityCenter =
+      UserTrustProviderType._('iam-identity-center');
+  static const oidc = UserTrustProviderType._('oidc');
 
   final String value;
 
-  const UserTrustProviderType(this.value);
+  const UserTrustProviderType._(this.value);
 
-  static UserTrustProviderType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum UserTrustProviderType'));
+  static const values = [iamIdentityCenter, oidc];
+
+  static UserTrustProviderType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => UserTrustProviderType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is UserTrustProviderType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The minimum and maximum number of vCPUs.
@@ -85624,19 +90268,29 @@ class ValidationWarning {
   }
 }
 
-enum VerificationMethod {
-  remarksX509('remarks-x509'),
-  dnsToken('dns-token'),
-  ;
+class VerificationMethod {
+  static const remarksX509 = VerificationMethod._('remarks-x509');
+  static const dnsToken = VerificationMethod._('dns-token');
 
   final String value;
 
-  const VerificationMethod(this.value);
+  const VerificationMethod._(this.value);
 
-  static VerificationMethod fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum VerificationMethod'));
+  static const values = [remarksX509, dnsToken];
+
+  static VerificationMethod fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => VerificationMethod._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is VerificationMethod && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// An Amazon Web Services Verified Access endpoint specifies the application
@@ -85779,18 +90433,28 @@ class VerifiedAccessEndpoint {
   }
 }
 
-enum VerifiedAccessEndpointAttachmentType {
-  vpc('vpc'),
-  ;
+class VerifiedAccessEndpointAttachmentType {
+  static const vpc = VerifiedAccessEndpointAttachmentType._('vpc');
 
   final String value;
 
-  const VerifiedAccessEndpointAttachmentType(this.value);
+  const VerifiedAccessEndpointAttachmentType._(this.value);
+
+  static const values = [vpc];
 
   static VerifiedAccessEndpointAttachmentType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum VerifiedAccessEndpointAttachmentType'));
+          orElse: () => VerifiedAccessEndpointAttachmentType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is VerifiedAccessEndpointAttachmentType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Options for a network-interface type endpoint.
@@ -85858,19 +90522,29 @@ class VerifiedAccessEndpointLoadBalancerOptions {
   }
 }
 
-enum VerifiedAccessEndpointProtocol {
-  http('http'),
-  https('https'),
-  ;
+class VerifiedAccessEndpointProtocol {
+  static const http = VerifiedAccessEndpointProtocol._('http');
+  static const https = VerifiedAccessEndpointProtocol._('https');
 
   final String value;
 
-  const VerifiedAccessEndpointProtocol(this.value);
+  const VerifiedAccessEndpointProtocol._(this.value);
+
+  static const values = [http, https];
 
   static VerifiedAccessEndpointProtocol fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum VerifiedAccessEndpointProtocol'));
+          orElse: () => VerifiedAccessEndpointProtocol._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is VerifiedAccessEndpointProtocol && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes the status of a Verified Access endpoint.
@@ -85896,37 +90570,58 @@ class VerifiedAccessEndpointStatus {
   }
 }
 
-enum VerifiedAccessEndpointStatusCode {
-  pending('pending'),
-  active('active'),
-  updating('updating'),
-  deleting('deleting'),
-  deleted('deleted'),
-  ;
+class VerifiedAccessEndpointStatusCode {
+  static const pending = VerifiedAccessEndpointStatusCode._('pending');
+  static const active = VerifiedAccessEndpointStatusCode._('active');
+  static const updating = VerifiedAccessEndpointStatusCode._('updating');
+  static const deleting = VerifiedAccessEndpointStatusCode._('deleting');
+  static const deleted = VerifiedAccessEndpointStatusCode._('deleted');
 
   final String value;
 
-  const VerifiedAccessEndpointStatusCode(this.value);
+  const VerifiedAccessEndpointStatusCode._(this.value);
+
+  static const values = [pending, active, updating, deleting, deleted];
 
   static VerifiedAccessEndpointStatusCode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum VerifiedAccessEndpointStatusCode'));
+          orElse: () => VerifiedAccessEndpointStatusCode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is VerifiedAccessEndpointStatusCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum VerifiedAccessEndpointType {
-  loadBalancer('load-balancer'),
-  networkInterface('network-interface'),
-  ;
+class VerifiedAccessEndpointType {
+  static const loadBalancer = VerifiedAccessEndpointType._('load-balancer');
+  static const networkInterface =
+      VerifiedAccessEndpointType._('network-interface');
 
   final String value;
 
-  const VerifiedAccessEndpointType(this.value);
+  const VerifiedAccessEndpointType._(this.value);
+
+  static const values = [loadBalancer, networkInterface];
 
   static VerifiedAccessEndpointType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum VerifiedAccessEndpointType'));
+          orElse: () => VerifiedAccessEndpointType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is VerifiedAccessEndpointType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes a Verified Access group.
@@ -86160,19 +90855,29 @@ class VerifiedAccessLogDeliveryStatus {
   }
 }
 
-enum VerifiedAccessLogDeliveryStatusCode {
-  success('success'),
-  failed('failed'),
-  ;
+class VerifiedAccessLogDeliveryStatusCode {
+  static const success = VerifiedAccessLogDeliveryStatusCode._('success');
+  static const failed = VerifiedAccessLogDeliveryStatusCode._('failed');
 
   final String value;
 
-  const VerifiedAccessLogDeliveryStatusCode(this.value);
+  const VerifiedAccessLogDeliveryStatusCode._(this.value);
+
+  static const values = [success, failed];
 
   static VerifiedAccessLogDeliveryStatusCode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum VerifiedAccessLogDeliveryStatusCode'));
+          orElse: () => VerifiedAccessLogDeliveryStatusCode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is VerifiedAccessLogDeliveryStatusCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Options for Kinesis as a logging destination.
@@ -86631,19 +91336,29 @@ class VgwTelemetry {
   }
 }
 
-enum VirtualizationType {
-  hvm('hvm'),
-  paravirtual('paravirtual'),
-  ;
+class VirtualizationType {
+  static const hvm = VirtualizationType._('hvm');
+  static const paravirtual = VirtualizationType._('paravirtual');
 
   final String value;
 
-  const VirtualizationType(this.value);
+  const VirtualizationType._(this.value);
 
-  static VirtualizationType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum VirtualizationType'));
+  static const values = [hvm, paravirtual];
+
+  static VirtualizationType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => VirtualizationType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is VirtualizationType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes a volume.
@@ -86844,37 +91559,57 @@ class VolumeAttachment {
   }
 }
 
-enum VolumeAttachmentState {
-  attaching('attaching'),
-  attached('attached'),
-  detaching('detaching'),
-  detached('detached'),
-  busy('busy'),
-  ;
+class VolumeAttachmentState {
+  static const attaching = VolumeAttachmentState._('attaching');
+  static const attached = VolumeAttachmentState._('attached');
+  static const detaching = VolumeAttachmentState._('detaching');
+  static const detached = VolumeAttachmentState._('detached');
+  static const busy = VolumeAttachmentState._('busy');
 
   final String value;
 
-  const VolumeAttachmentState(this.value);
+  const VolumeAttachmentState._(this.value);
 
-  static VolumeAttachmentState fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum VolumeAttachmentState'));
+  static const values = [attaching, attached, detaching, detached, busy];
+
+  static VolumeAttachmentState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => VolumeAttachmentState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is VolumeAttachmentState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum VolumeAttributeName {
-  autoEnableIO('autoEnableIO'),
-  productCodes('productCodes'),
-  ;
+class VolumeAttributeName {
+  static const autoEnableIO = VolumeAttributeName._('autoEnableIO');
+  static const productCodes = VolumeAttributeName._('productCodes');
 
   final String value;
 
-  const VolumeAttributeName(this.value);
+  const VolumeAttributeName._(this.value);
 
-  static VolumeAttributeName fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum VolumeAttributeName'));
+  static const values = [autoEnableIO, productCodes];
+
+  static VolumeAttributeName fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => VolumeAttributeName._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is VolumeAttributeName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes an EBS volume.
@@ -87005,39 +91740,58 @@ class VolumeModification {
   }
 }
 
-enum VolumeModificationState {
-  modifying('modifying'),
-  optimizing('optimizing'),
-  completed('completed'),
-  failed('failed'),
-  ;
+class VolumeModificationState {
+  static const modifying = VolumeModificationState._('modifying');
+  static const optimizing = VolumeModificationState._('optimizing');
+  static const completed = VolumeModificationState._('completed');
+  static const failed = VolumeModificationState._('failed');
 
   final String value;
 
-  const VolumeModificationState(this.value);
+  const VolumeModificationState._(this.value);
+
+  static const values = [modifying, optimizing, completed, failed];
 
   static VolumeModificationState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum VolumeModificationState'));
+          orElse: () => VolumeModificationState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is VolumeModificationState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum VolumeState {
-  creating('creating'),
-  available('available'),
-  inUse('in-use'),
-  deleting('deleting'),
-  deleted('deleted'),
-  error('error'),
-  ;
+class VolumeState {
+  static const creating = VolumeState._('creating');
+  static const available = VolumeState._('available');
+  static const inUse = VolumeState._('in-use');
+  static const deleting = VolumeState._('deleting');
+  static const deleted = VolumeState._('deleted');
+  static const error = VolumeState._('error');
 
   final String value;
 
-  const VolumeState(this.value);
+  const VolumeState._(this.value);
 
-  static VolumeState fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum VolumeState'));
+  static const values = [creating, available, inUse, deleting, deleted, error];
+
+  static VolumeState fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => VolumeState._(value));
+
+  @override
+  bool operator ==(other) => other is VolumeState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes a volume status operation code.
@@ -87192,20 +91946,30 @@ class VolumeStatusInfo {
   }
 }
 
-enum VolumeStatusInfoStatus {
-  ok('ok'),
-  impaired('impaired'),
-  insufficientData('insufficient-data'),
-  ;
+class VolumeStatusInfoStatus {
+  static const ok = VolumeStatusInfoStatus._('ok');
+  static const impaired = VolumeStatusInfoStatus._('impaired');
+  static const insufficientData = VolumeStatusInfoStatus._('insufficient-data');
 
   final String value;
 
-  const VolumeStatusInfoStatus(this.value);
+  const VolumeStatusInfoStatus._(this.value);
+
+  static const values = [ok, impaired, insufficientData];
 
   static VolumeStatusInfoStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum VolumeStatusInfoStatus'));
+          orElse: () => VolumeStatusInfoStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is VolumeStatusInfoStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes the volume status.
@@ -87261,38 +92025,56 @@ class VolumeStatusItem {
   }
 }
 
-enum VolumeStatusName {
-  ioEnabled('io-enabled'),
-  ioPerformance('io-performance'),
-  ;
+class VolumeStatusName {
+  static const ioEnabled = VolumeStatusName._('io-enabled');
+  static const ioPerformance = VolumeStatusName._('io-performance');
 
   final String value;
 
-  const VolumeStatusName(this.value);
+  const VolumeStatusName._(this.value);
+
+  static const values = [ioEnabled, ioPerformance];
 
   static VolumeStatusName fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum VolumeStatusName'));
+          orElse: () => VolumeStatusName._(value));
+
+  @override
+  bool operator ==(other) => other is VolumeStatusName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum VolumeType {
-  standard('standard'),
-  io1('io1'),
-  io2('io2'),
-  gp2('gp2'),
-  sc1('sc1'),
-  st1('st1'),
-  gp3('gp3'),
-  ;
+class VolumeType {
+  static const standard = VolumeType._('standard');
+  static const io1 = VolumeType._('io1');
+  static const io2 = VolumeType._('io2');
+  static const gp2 = VolumeType._('gp2');
+  static const sc1 = VolumeType._('sc1');
+  static const st1 = VolumeType._('st1');
+  static const gp3 = VolumeType._('gp3');
 
   final String value;
 
-  const VolumeType(this.value);
+  const VolumeType._(this.value);
 
-  static VolumeType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum VolumeType'));
+  static const values = [standard, io1, io2, gp2, sc1, st1, gp3];
+
+  static VolumeType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => VolumeType._(value));
+
+  @override
+  bool operator ==(other) => other is VolumeType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes a VPC.
@@ -87391,20 +92173,34 @@ class VpcAttachment {
   }
 }
 
-enum VpcAttributeName {
-  enableDnsSupport('enableDnsSupport'),
-  enableDnsHostnames('enableDnsHostnames'),
-  enableNetworkAddressUsageMetrics('enableNetworkAddressUsageMetrics'),
-  ;
+class VpcAttributeName {
+  static const enableDnsSupport = VpcAttributeName._('enableDnsSupport');
+  static const enableDnsHostnames = VpcAttributeName._('enableDnsHostnames');
+  static const enableNetworkAddressUsageMetrics =
+      VpcAttributeName._('enableNetworkAddressUsageMetrics');
 
   final String value;
 
-  const VpcAttributeName(this.value);
+  const VpcAttributeName._(this.value);
+
+  static const values = [
+    enableDnsSupport,
+    enableDnsHostnames,
+    enableNetworkAddressUsageMetrics
+  ];
 
   static VpcAttributeName fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum VpcAttributeName'));
+          orElse: () => VpcAttributeName._(value));
+
+  @override
+  bool operator ==(other) => other is VpcAttributeName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes an IPv4 CIDR block associated with a VPC.
@@ -87459,23 +92255,40 @@ class VpcCidrBlockState {
   }
 }
 
-enum VpcCidrBlockStateCode {
-  associating('associating'),
-  associated('associated'),
-  disassociating('disassociating'),
-  disassociated('disassociated'),
-  failing('failing'),
-  failed('failed'),
-  ;
+class VpcCidrBlockStateCode {
+  static const associating = VpcCidrBlockStateCode._('associating');
+  static const associated = VpcCidrBlockStateCode._('associated');
+  static const disassociating = VpcCidrBlockStateCode._('disassociating');
+  static const disassociated = VpcCidrBlockStateCode._('disassociated');
+  static const failing = VpcCidrBlockStateCode._('failing');
+  static const failed = VpcCidrBlockStateCode._('failed');
 
   final String value;
 
-  const VpcCidrBlockStateCode(this.value);
+  const VpcCidrBlockStateCode._(this.value);
 
-  static VpcCidrBlockStateCode fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum VpcCidrBlockStateCode'));
+  static const values = [
+    associating,
+    associated,
+    disassociating,
+    disassociated,
+    failing,
+    failed
+  ];
+
+  static VpcCidrBlockStateCode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => VpcCidrBlockStateCode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is VpcCidrBlockStateCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// <note>
@@ -87722,20 +92535,29 @@ class VpcEndpointConnection {
   }
 }
 
-enum VpcEndpointType {
-  interface('Interface'),
-  gateway('Gateway'),
-  gatewayLoadBalancer('GatewayLoadBalancer'),
-  ;
+class VpcEndpointType {
+  static const interface = VpcEndpointType._('Interface');
+  static const gateway = VpcEndpointType._('Gateway');
+  static const gatewayLoadBalancer = VpcEndpointType._('GatewayLoadBalancer');
 
   final String value;
 
-  const VpcEndpointType(this.value);
+  const VpcEndpointType._(this.value);
+
+  static const values = [interface, gateway, gatewayLoadBalancer];
 
   static VpcEndpointType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum VpcEndpointType'));
+          orElse: () => VpcEndpointType._(value));
+
+  @override
+  bool operator ==(other) => other is VpcEndpointType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes an IPv6 CIDR block associated with a VPC.
@@ -87911,26 +92733,49 @@ class VpcPeeringConnectionStateReason {
   }
 }
 
-enum VpcPeeringConnectionStateReasonCode {
-  initiatingRequest('initiating-request'),
-  pendingAcceptance('pending-acceptance'),
-  active('active'),
-  deleted('deleted'),
-  rejected('rejected'),
-  failed('failed'),
-  expired('expired'),
-  provisioning('provisioning'),
-  deleting('deleting'),
-  ;
+class VpcPeeringConnectionStateReasonCode {
+  static const initiatingRequest =
+      VpcPeeringConnectionStateReasonCode._('initiating-request');
+  static const pendingAcceptance =
+      VpcPeeringConnectionStateReasonCode._('pending-acceptance');
+  static const active = VpcPeeringConnectionStateReasonCode._('active');
+  static const deleted = VpcPeeringConnectionStateReasonCode._('deleted');
+  static const rejected = VpcPeeringConnectionStateReasonCode._('rejected');
+  static const failed = VpcPeeringConnectionStateReasonCode._('failed');
+  static const expired = VpcPeeringConnectionStateReasonCode._('expired');
+  static const provisioning =
+      VpcPeeringConnectionStateReasonCode._('provisioning');
+  static const deleting = VpcPeeringConnectionStateReasonCode._('deleting');
 
   final String value;
 
-  const VpcPeeringConnectionStateReasonCode(this.value);
+  const VpcPeeringConnectionStateReasonCode._(this.value);
+
+  static const values = [
+    initiatingRequest,
+    pendingAcceptance,
+    active,
+    deleted,
+    rejected,
+    failed,
+    expired,
+    provisioning,
+    deleting
+  ];
 
   static VpcPeeringConnectionStateReasonCode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum VpcPeeringConnectionStateReasonCode'));
+          orElse: () => VpcPeeringConnectionStateReasonCode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is VpcPeeringConnectionStateReasonCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes a VPC in a VPC peering connection.
@@ -87987,31 +92832,49 @@ class VpcPeeringConnectionVpcInfo {
   }
 }
 
-enum VpcState {
-  pending('pending'),
-  available('available'),
-  ;
+class VpcState {
+  static const pending = VpcState._('pending');
+  static const available = VpcState._('available');
 
   final String value;
 
-  const VpcState(this.value);
+  const VpcState._(this.value);
 
-  static VpcState fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum VpcState'));
+  static const values = [pending, available];
+
+  static VpcState fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => VpcState._(value));
+
+  @override
+  bool operator ==(other) => other is VpcState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum VpcTenancy {
-  $default('default'),
-  ;
+class VpcTenancy {
+  static const $default = VpcTenancy._('default');
 
   final String value;
 
-  const VpcTenancy(this.value);
+  const VpcTenancy._(this.value);
 
-  static VpcTenancy fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum VpcTenancy'));
+  static const values = [$default];
+
+  static VpcTenancy fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => VpcTenancy._(value));
+
+  @override
+  bool operator ==(other) => other is VpcTenancy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes a VPN connection.
@@ -88361,19 +93224,29 @@ class VpnConnectionOptionsSpecification {
   }
 }
 
-enum VpnEcmpSupportValue {
-  enable('enable'),
-  disable('disable'),
-  ;
+class VpnEcmpSupportValue {
+  static const enable = VpnEcmpSupportValue._('enable');
+  static const disable = VpnEcmpSupportValue._('disable');
 
   final String value;
 
-  const VpnEcmpSupportValue(this.value);
+  const VpnEcmpSupportValue._(this.value);
 
-  static VpnEcmpSupportValue fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum VpnEcmpSupportValue'));
+  static const values = [enable, disable];
+
+  static VpnEcmpSupportValue fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => VpnEcmpSupportValue._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is VpnEcmpSupportValue && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes a virtual private gateway.
@@ -88431,33 +93304,51 @@ class VpnGateway {
   }
 }
 
-enum VpnProtocol {
-  openvpn('openvpn'),
-  ;
+class VpnProtocol {
+  static const openvpn = VpnProtocol._('openvpn');
 
   final String value;
 
-  const VpnProtocol(this.value);
+  const VpnProtocol._(this.value);
 
-  static VpnProtocol fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum VpnProtocol'));
+  static const values = [openvpn];
+
+  static VpnProtocol fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => VpnProtocol._(value));
+
+  @override
+  bool operator ==(other) => other is VpnProtocol && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum VpnState {
-  pending('pending'),
-  available('available'),
-  deleting('deleting'),
-  deleted('deleted'),
-  ;
+class VpnState {
+  static const pending = VpnState._('pending');
+  static const available = VpnState._('available');
+  static const deleting = VpnState._('deleting');
+  static const deleted = VpnState._('deleted');
 
   final String value;
 
-  const VpnState(this.value);
+  const VpnState._(this.value);
 
-  static VpnState fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum VpnState'));
+  static const values = [pending, available, deleting, deleted];
+
+  static VpnState fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => VpnState._(value));
+
+  @override
+  bool operator ==(other) => other is VpnState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes a static route for a VPN connection.
@@ -88490,18 +93381,28 @@ class VpnStaticRoute {
   }
 }
 
-enum VpnStaticRouteSource {
-  static('Static'),
-  ;
+class VpnStaticRouteSource {
+  static const static = VpnStaticRouteSource._('Static');
 
   final String value;
 
-  const VpnStaticRouteSource(this.value);
+  const VpnStaticRouteSource._(this.value);
 
-  static VpnStaticRouteSource fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum VpnStaticRouteSource'));
+  static const values = [static];
+
+  static VpnStaticRouteSource fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => VpnStaticRouteSource._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is VpnStaticRouteSource && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Options for logging VPN tunnel activity.
@@ -88799,23 +93700,40 @@ class VpnTunnelOptionsSpecification {
   }
 }
 
-enum WeekDay {
-  sunday('sunday'),
-  monday('monday'),
-  tuesday('tuesday'),
-  wednesday('wednesday'),
-  thursday('thursday'),
-  friday('friday'),
-  saturday('saturday'),
-  ;
+class WeekDay {
+  static const sunday = WeekDay._('sunday');
+  static const monday = WeekDay._('monday');
+  static const tuesday = WeekDay._('tuesday');
+  static const wednesday = WeekDay._('wednesday');
+  static const thursday = WeekDay._('thursday');
+  static const friday = WeekDay._('friday');
+  static const saturday = WeekDay._('saturday');
 
   final String value;
 
-  const WeekDay(this.value);
+  const WeekDay._(this.value);
 
-  static WeekDay fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum WeekDay'));
+  static const values = [
+    sunday,
+    monday,
+    tuesday,
+    wednesday,
+    thursday,
+    friday,
+    saturday
+  ];
+
+  static WeekDay fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => WeekDay._(value));
+
+  @override
+  bool operator ==(other) => other is WeekDay && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class WithdrawByoipCidrResult {
@@ -88834,18 +93752,27 @@ class WithdrawByoipCidrResult {
   }
 }
 
-enum Scope {
-  availabilityZone('Availability Zone'),
-  region('Region'),
-  ;
+class Scope {
+  static const availabilityZone = Scope._('Availability Zone');
+  static const region = Scope._('Region');
 
   final String value;
 
-  const Scope(this.value);
+  const Scope._(this.value);
+
+  static const values = [availabilityZone, region];
 
   static Scope fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum Scope'));
+      values.firstWhere((e) => e.value == value, orElse: () => Scope._(value));
+
+  @override
+  bool operator ==(other) => other is Scope && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 final _exceptionFns = <String, _s.AwsExceptionFn>{};

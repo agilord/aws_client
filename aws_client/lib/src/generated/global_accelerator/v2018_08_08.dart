@@ -3316,19 +3316,28 @@ class AcceleratorEvent {
   }
 }
 
-enum AcceleratorStatus {
-  deployed('DEPLOYED'),
-  inProgress('IN_PROGRESS'),
-  ;
+class AcceleratorStatus {
+  static const deployed = AcceleratorStatus._('DEPLOYED');
+  static const inProgress = AcceleratorStatus._('IN_PROGRESS');
 
   final String value;
 
-  const AcceleratorStatus(this.value);
+  const AcceleratorStatus._(this.value);
+
+  static const values = [deployed, inProgress];
 
   static AcceleratorStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum AcceleratorStatus'));
+          orElse: () => AcceleratorStatus._(value));
+
+  @override
+  bool operator ==(other) => other is AcceleratorStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class AddCustomRoutingEndpointsResponse {
@@ -3633,28 +3642,50 @@ class ByoipCidrEvent {
   }
 }
 
-enum ByoipCidrState {
-  pendingProvisioning('PENDING_PROVISIONING'),
-  ready('READY'),
-  pendingAdvertising('PENDING_ADVERTISING'),
-  advertising('ADVERTISING'),
-  pendingWithdrawing('PENDING_WITHDRAWING'),
-  pendingDeprovisioning('PENDING_DEPROVISIONING'),
-  deprovisioned('DEPROVISIONED'),
-  failedProvision('FAILED_PROVISION'),
-  failedAdvertising('FAILED_ADVERTISING'),
-  failedWithdraw('FAILED_WITHDRAW'),
-  failedDeprovision('FAILED_DEPROVISION'),
-  ;
+class ByoipCidrState {
+  static const pendingProvisioning = ByoipCidrState._('PENDING_PROVISIONING');
+  static const ready = ByoipCidrState._('READY');
+  static const pendingAdvertising = ByoipCidrState._('PENDING_ADVERTISING');
+  static const advertising = ByoipCidrState._('ADVERTISING');
+  static const pendingWithdrawing = ByoipCidrState._('PENDING_WITHDRAWING');
+  static const pendingDeprovisioning =
+      ByoipCidrState._('PENDING_DEPROVISIONING');
+  static const deprovisioned = ByoipCidrState._('DEPROVISIONED');
+  static const failedProvision = ByoipCidrState._('FAILED_PROVISION');
+  static const failedAdvertising = ByoipCidrState._('FAILED_ADVERTISING');
+  static const failedWithdraw = ByoipCidrState._('FAILED_WITHDRAW');
+  static const failedDeprovision = ByoipCidrState._('FAILED_DEPROVISION');
 
   final String value;
 
-  const ByoipCidrState(this.value);
+  const ByoipCidrState._(this.value);
+
+  static const values = [
+    pendingProvisioning,
+    ready,
+    pendingAdvertising,
+    advertising,
+    pendingWithdrawing,
+    pendingDeprovisioning,
+    deprovisioned,
+    failedProvision,
+    failedAdvertising,
+    failedWithdraw,
+    failedDeprovision
+  ];
 
   static ByoipCidrState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ByoipCidrState'));
+          orElse: () => ByoipCidrState._(value));
+
+  @override
+  bool operator ==(other) => other is ByoipCidrState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Provides authorization for Amazon to bring a specific IP address range to a
@@ -3687,19 +3718,28 @@ class CidrAuthorizationContext {
   }
 }
 
-enum ClientAffinity {
-  none('NONE'),
-  sourceIp('SOURCE_IP'),
-  ;
+class ClientAffinity {
+  static const none = ClientAffinity._('NONE');
+  static const sourceIp = ClientAffinity._('SOURCE_IP');
 
   final String value;
 
-  const ClientAffinity(this.value);
+  const ClientAffinity._(this.value);
+
+  static const values = [none, sourceIp];
 
   static ClientAffinity fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ClientAffinity'));
+          orElse: () => ClientAffinity._(value));
+
+  @override
+  bool operator ==(other) => other is ClientAffinity && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class CreateAcceleratorResponse {
@@ -4100,19 +4140,29 @@ class CustomRoutingAcceleratorAttributes {
   }
 }
 
-enum CustomRoutingAcceleratorStatus {
-  deployed('DEPLOYED'),
-  inProgress('IN_PROGRESS'),
-  ;
+class CustomRoutingAcceleratorStatus {
+  static const deployed = CustomRoutingAcceleratorStatus._('DEPLOYED');
+  static const inProgress = CustomRoutingAcceleratorStatus._('IN_PROGRESS');
 
   final String value;
 
-  const CustomRoutingAcceleratorStatus(this.value);
+  const CustomRoutingAcceleratorStatus._(this.value);
+
+  static const values = [deployed, inProgress];
 
   static CustomRoutingAcceleratorStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum CustomRoutingAcceleratorStatus'));
+          orElse: () => CustomRoutingAcceleratorStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CustomRoutingAcceleratorStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// For a custom routing accelerator, sets the port range and protocol for all
@@ -4196,19 +4246,29 @@ class CustomRoutingDestinationDescription {
   }
 }
 
-enum CustomRoutingDestinationTrafficState {
-  allow('ALLOW'),
-  deny('DENY'),
-  ;
+class CustomRoutingDestinationTrafficState {
+  static const allow = CustomRoutingDestinationTrafficState._('ALLOW');
+  static const deny = CustomRoutingDestinationTrafficState._('DENY');
 
   final String value;
 
-  const CustomRoutingDestinationTrafficState(this.value);
+  const CustomRoutingDestinationTrafficState._(this.value);
+
+  static const values = [allow, deny];
 
   static CustomRoutingDestinationTrafficState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum CustomRoutingDestinationTrafficState'));
+          orElse: () => CustomRoutingDestinationTrafficState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CustomRoutingDestinationTrafficState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The list of endpoint objects. For custom routing, this is a list of virtual
@@ -4361,19 +4421,29 @@ class CustomRoutingListener {
   }
 }
 
-enum CustomRoutingProtocol {
-  tcp('TCP'),
-  udp('UDP'),
-  ;
+class CustomRoutingProtocol {
+  static const tcp = CustomRoutingProtocol._('TCP');
+  static const udp = CustomRoutingProtocol._('UDP');
 
   final String value;
 
-  const CustomRoutingProtocol(this.value);
+  const CustomRoutingProtocol._(this.value);
 
-  static CustomRoutingProtocol fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum CustomRoutingProtocol'));
+  static const values = [tcp, udp];
+
+  static CustomRoutingProtocol fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => CustomRoutingProtocol._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CustomRoutingProtocol && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class DeprovisionByoipCidrResponse {
@@ -5034,65 +5104,102 @@ class EndpointIdentifier {
   }
 }
 
-enum HealthCheckProtocol {
-  tcp('TCP'),
-  http('HTTP'),
-  https('HTTPS'),
-  ;
+class HealthCheckProtocol {
+  static const tcp = HealthCheckProtocol._('TCP');
+  static const http = HealthCheckProtocol._('HTTP');
+  static const https = HealthCheckProtocol._('HTTPS');
 
   final String value;
 
-  const HealthCheckProtocol(this.value);
+  const HealthCheckProtocol._(this.value);
 
-  static HealthCheckProtocol fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum HealthCheckProtocol'));
+  static const values = [tcp, http, https];
+
+  static HealthCheckProtocol fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => HealthCheckProtocol._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is HealthCheckProtocol && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum HealthState {
-  initial('INITIAL'),
-  healthy('HEALTHY'),
-  unhealthy('UNHEALTHY'),
-  ;
+class HealthState {
+  static const initial = HealthState._('INITIAL');
+  static const healthy = HealthState._('HEALTHY');
+  static const unhealthy = HealthState._('UNHEALTHY');
 
   final String value;
 
-  const HealthState(this.value);
+  const HealthState._(this.value);
 
-  static HealthState fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum HealthState'));
+  static const values = [initial, healthy, unhealthy];
+
+  static HealthState fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => HealthState._(value));
+
+  @override
+  bool operator ==(other) => other is HealthState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum IpAddressFamily {
-  iPv4('IPv4'),
-  iPv6('IPv6'),
-  ;
+class IpAddressFamily {
+  static const iPv4 = IpAddressFamily._('IPv4');
+  static const iPv6 = IpAddressFamily._('IPv6');
 
   final String value;
 
-  const IpAddressFamily(this.value);
+  const IpAddressFamily._(this.value);
+
+  static const values = [iPv4, iPv6];
 
   static IpAddressFamily fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum IpAddressFamily'));
+          orElse: () => IpAddressFamily._(value));
+
+  @override
+  bool operator ==(other) => other is IpAddressFamily && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum IpAddressType {
-  ipv4('IPV4'),
-  dualStack('DUAL_STACK'),
-  ;
+class IpAddressType {
+  static const ipv4 = IpAddressType._('IPV4');
+  static const dualStack = IpAddressType._('DUAL_STACK');
 
   final String value;
 
-  const IpAddressType(this.value);
+  const IpAddressType._(this.value);
+
+  static const values = [ipv4, dualStack];
 
   static IpAddressType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum IpAddressType'));
+          orElse: () => IpAddressType._(value));
+
+  @override
+  bool operator ==(other) => other is IpAddressType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A complex type for the set of IP addresses for an accelerator.
@@ -5782,18 +5889,27 @@ class PortRange {
   }
 }
 
-enum Protocol {
-  tcp('TCP'),
-  udp('UDP'),
-  ;
+class Protocol {
+  static const tcp = Protocol._('TCP');
+  static const udp = Protocol._('UDP');
 
   final String value;
 
-  const Protocol(this.value);
+  const Protocol._(this.value);
 
-  static Protocol fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum Protocol'));
+  static const values = [tcp, udp];
+
+  static Protocol fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Protocol._(value));
+
+  @override
+  bool operator ==(other) => other is Protocol && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class ProvisionByoipCidrResponse {

@@ -285,18 +285,27 @@ class DeleteReportDefinitionResult {
   }
 }
 
-enum Format {
-  csv('CSV'),
-  parquet('PARQUET'),
-  ;
+class Format {
+  static const csv = Format._('CSV');
+  static const parquet = Format._('PARQUET');
 
   final String value;
 
-  const Format(this.value);
+  const Format._(this.value);
+
+  static const values = [csv, parquet];
 
   static Format fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum Format'));
+      values.firstWhere((e) => e.value == value, orElse: () => Format._(value));
+
+  @override
+  bool operator ==(other) => other is Format && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class GetReportDefinitionResult {
@@ -338,11 +347,11 @@ class GetReportDefinitionResult {
       destinationS3Location: S3Location.fromJson(
           (json['destinationS3Location'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
-      format: Format.fromString((json['format'] as String)),
+      format: Format.fromString((json['format'] as String?) ?? ''),
       lastUpdated: nonNullableTimeStampFromJson(json['lastUpdated'] ?? 0),
       reportDescription: (json['reportDescription'] as String?) ?? '',
-      reportFrequency:
-          ReportFrequency.fromString((json['reportFrequency'] as String)),
+      reportFrequency: ReportFrequency.fromString(
+          (json['reportFrequency'] as String?) ?? ''),
       reportId: (json['reportId'] as String?) ?? '',
     );
   }
@@ -516,37 +525,55 @@ class ReportDefinition {
   }
 }
 
-enum ReportFrequency {
-  monthly('MONTHLY'),
-  daily('DAILY'),
-  all('ALL'),
-  ;
+class ReportFrequency {
+  static const monthly = ReportFrequency._('MONTHLY');
+  static const daily = ReportFrequency._('DAILY');
+  static const all = ReportFrequency._('ALL');
 
   final String value;
 
-  const ReportFrequency(this.value);
+  const ReportFrequency._(this.value);
+
+  static const values = [monthly, daily, all];
 
   static ReportFrequency fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ReportFrequency'));
+          orElse: () => ReportFrequency._(value));
+
+  @override
+  bool operator ==(other) => other is ReportFrequency && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum S3BucketRegion {
-  apEast_1('ap-east-1'),
-  meSouth_1('me-south-1'),
-  euSouth_1('eu-south-1'),
-  afSouth_1('af-south-1'),
-  ;
+class S3BucketRegion {
+  static const apEast_1 = S3BucketRegion._('ap-east-1');
+  static const meSouth_1 = S3BucketRegion._('me-south-1');
+  static const euSouth_1 = S3BucketRegion._('eu-south-1');
+  static const afSouth_1 = S3BucketRegion._('af-south-1');
 
   final String value;
 
-  const S3BucketRegion(this.value);
+  const S3BucketRegion._(this.value);
+
+  static const values = [apEast_1, meSouth_1, euSouth_1, afSouth_1];
 
   static S3BucketRegion fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum S3BucketRegion'));
+          orElse: () => S3BucketRegion._(value));
+
+  @override
+  bool operator ==(other) => other is S3BucketRegion && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Represents the Amazon Simple Storage Service (Amazon S3) location where AWS

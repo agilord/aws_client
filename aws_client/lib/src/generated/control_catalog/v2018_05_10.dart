@@ -465,35 +465,52 @@ class CommonControlSummary {
   }
 }
 
-enum ControlBehavior {
-  preventive('PREVENTIVE'),
-  proactive('PROACTIVE'),
-  detective('DETECTIVE'),
-  ;
+class ControlBehavior {
+  static const preventive = ControlBehavior._('PREVENTIVE');
+  static const proactive = ControlBehavior._('PROACTIVE');
+  static const detective = ControlBehavior._('DETECTIVE');
 
   final String value;
 
-  const ControlBehavior(this.value);
+  const ControlBehavior._(this.value);
+
+  static const values = [preventive, proactive, detective];
 
   static ControlBehavior fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ControlBehavior'));
+          orElse: () => ControlBehavior._(value));
+
+  @override
+  bool operator ==(other) => other is ControlBehavior && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ControlScope {
-  global('GLOBAL'),
-  regional('REGIONAL'),
-  ;
+class ControlScope {
+  static const global = ControlScope._('GLOBAL');
+  static const regional = ControlScope._('REGIONAL');
 
   final String value;
 
-  const ControlScope(this.value);
+  const ControlScope._(this.value);
 
-  static ControlScope fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ControlScope'));
+  static const values = [global, regional];
+
+  static ControlScope fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ControlScope._(value));
+
+  @override
+  bool operator ==(other) => other is ControlScope && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Overview of information about a control.
@@ -628,7 +645,7 @@ class GetControlResponse {
   factory GetControlResponse.fromJson(Map<String, dynamic> json) {
     return GetControlResponse(
       arn: (json['Arn'] as String?) ?? '',
-      behavior: ControlBehavior.fromString((json['Behavior'] as String)),
+      behavior: ControlBehavior.fromString((json['Behavior'] as String?) ?? ''),
       description: (json['Description'] as String?) ?? '',
       name: (json['Name'] as String?) ?? '',
       regionConfiguration: RegionConfiguration.fromJson(
@@ -917,7 +934,7 @@ class RegionConfiguration {
 
   factory RegionConfiguration.fromJson(Map<String, dynamic> json) {
     return RegionConfiguration(
-      scope: ControlScope.fromString((json['Scope'] as String)),
+      scope: ControlScope.fromString((json['Scope'] as String?) ?? ''),
       deployableRegions: (json['DeployableRegions'] as List?)
           ?.nonNulls
           .map((e) => e as String)

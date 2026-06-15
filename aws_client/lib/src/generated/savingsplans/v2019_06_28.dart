@@ -539,19 +539,27 @@ class CreateSavingsPlanResponse {
   }
 }
 
-enum CurrencyCode {
-  cny('CNY'),
-  usd('USD'),
-  ;
+class CurrencyCode {
+  static const cny = CurrencyCode._('CNY');
+  static const usd = CurrencyCode._('USD');
 
   final String value;
 
-  const CurrencyCode(this.value);
+  const CurrencyCode._(this.value);
 
-  static CurrencyCode fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum CurrencyCode'));
+  static const values = [cny, usd];
+
+  static CurrencyCode fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => CurrencyCode._(value));
+
+  @override
+  bool operator ==(other) => other is CurrencyCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class DeleteQueuedSavingsPlanResponse {
@@ -1099,19 +1107,30 @@ class SavingsPlanOffering {
   }
 }
 
-enum SavingsPlanOfferingFilterAttribute {
-  region('region'),
-  instanceFamily('instanceFamily'),
-  ;
+class SavingsPlanOfferingFilterAttribute {
+  static const region = SavingsPlanOfferingFilterAttribute._('region');
+  static const instanceFamily =
+      SavingsPlanOfferingFilterAttribute._('instanceFamily');
 
   final String value;
 
-  const SavingsPlanOfferingFilterAttribute(this.value);
+  const SavingsPlanOfferingFilterAttribute._(this.value);
+
+  static const values = [region, instanceFamily];
 
   static SavingsPlanOfferingFilterAttribute fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum SavingsPlanOfferingFilterAttribute'));
+          orElse: () => SavingsPlanOfferingFilterAttribute._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SavingsPlanOfferingFilterAttribute && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about a Savings Plan offering filter.
@@ -1168,19 +1187,30 @@ class SavingsPlanOfferingProperty {
   }
 }
 
-enum SavingsPlanOfferingPropertyKey {
-  region('region'),
-  instanceFamily('instanceFamily'),
-  ;
+class SavingsPlanOfferingPropertyKey {
+  static const region = SavingsPlanOfferingPropertyKey._('region');
+  static const instanceFamily =
+      SavingsPlanOfferingPropertyKey._('instanceFamily');
 
   final String value;
 
-  const SavingsPlanOfferingPropertyKey(this.value);
+  const SavingsPlanOfferingPropertyKey._(this.value);
+
+  static const values = [region, instanceFamily];
 
   static SavingsPlanOfferingPropertyKey fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum SavingsPlanOfferingPropertyKey'));
+          orElse: () => SavingsPlanOfferingPropertyKey._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SavingsPlanOfferingPropertyKey && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about a Savings Plan offering rate.
@@ -1319,37 +1349,57 @@ class SavingsPlanOfferingRateProperty {
   }
 }
 
-enum SavingsPlanPaymentOption {
-  allUpfront('All Upfront'),
-  partialUpfront('Partial Upfront'),
-  noUpfront('No Upfront'),
-  ;
+class SavingsPlanPaymentOption {
+  static const allUpfront = SavingsPlanPaymentOption._('All Upfront');
+  static const partialUpfront = SavingsPlanPaymentOption._('Partial Upfront');
+  static const noUpfront = SavingsPlanPaymentOption._('No Upfront');
 
   final String value;
 
-  const SavingsPlanPaymentOption(this.value);
+  const SavingsPlanPaymentOption._(this.value);
+
+  static const values = [allUpfront, partialUpfront, noUpfront];
 
   static SavingsPlanPaymentOption fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum SavingsPlanPaymentOption'));
+          orElse: () => SavingsPlanPaymentOption._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SavingsPlanPaymentOption && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum SavingsPlanProductType {
-  ec2('EC2'),
-  fargate('Fargate'),
-  lambda('Lambda'),
-  sageMaker('SageMaker'),
-  ;
+class SavingsPlanProductType {
+  static const ec2 = SavingsPlanProductType._('EC2');
+  static const fargate = SavingsPlanProductType._('Fargate');
+  static const lambda = SavingsPlanProductType._('Lambda');
+  static const sageMaker = SavingsPlanProductType._('SageMaker');
 
   final String value;
 
-  const SavingsPlanProductType(this.value);
+  const SavingsPlanProductType._(this.value);
+
+  static const values = [ec2, fargate, lambda, sageMaker];
 
   static SavingsPlanProductType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum SavingsPlanProductType'));
+          orElse: () => SavingsPlanProductType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SavingsPlanProductType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about a Savings Plan rate.
@@ -1454,44 +1504,83 @@ class SavingsPlanRateFilter {
   }
 }
 
-enum SavingsPlanRateFilterAttribute {
-  region('region'),
-  instanceFamily('instanceFamily'),
-  instanceType('instanceType'),
-  productDescription('productDescription'),
-  tenancy('tenancy'),
-  productId('productId'),
-  ;
+class SavingsPlanRateFilterAttribute {
+  static const region = SavingsPlanRateFilterAttribute._('region');
+  static const instanceFamily =
+      SavingsPlanRateFilterAttribute._('instanceFamily');
+  static const instanceType = SavingsPlanRateFilterAttribute._('instanceType');
+  static const productDescription =
+      SavingsPlanRateFilterAttribute._('productDescription');
+  static const tenancy = SavingsPlanRateFilterAttribute._('tenancy');
+  static const productId = SavingsPlanRateFilterAttribute._('productId');
 
   final String value;
 
-  const SavingsPlanRateFilterAttribute(this.value);
+  const SavingsPlanRateFilterAttribute._(this.value);
+
+  static const values = [
+    region,
+    instanceFamily,
+    instanceType,
+    productDescription,
+    tenancy,
+    productId
+  ];
 
   static SavingsPlanRateFilterAttribute fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum SavingsPlanRateFilterAttribute'));
+          orElse: () => SavingsPlanRateFilterAttribute._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SavingsPlanRateFilterAttribute && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum SavingsPlanRateFilterName {
-  region('region'),
-  instanceType('instanceType'),
-  productDescription('productDescription'),
-  tenancy('tenancy'),
-  productType('productType'),
-  serviceCode('serviceCode'),
-  usageType('usageType'),
-  operation('operation'),
-  ;
+class SavingsPlanRateFilterName {
+  static const region = SavingsPlanRateFilterName._('region');
+  static const instanceType = SavingsPlanRateFilterName._('instanceType');
+  static const productDescription =
+      SavingsPlanRateFilterName._('productDescription');
+  static const tenancy = SavingsPlanRateFilterName._('tenancy');
+  static const productType = SavingsPlanRateFilterName._('productType');
+  static const serviceCode = SavingsPlanRateFilterName._('serviceCode');
+  static const usageType = SavingsPlanRateFilterName._('usageType');
+  static const operation = SavingsPlanRateFilterName._('operation');
 
   final String value;
 
-  const SavingsPlanRateFilterName(this.value);
+  const SavingsPlanRateFilterName._(this.value);
+
+  static const values = [
+    region,
+    instanceType,
+    productDescription,
+    tenancy,
+    productType,
+    serviceCode,
+    usageType,
+    operation
+  ];
 
   static SavingsPlanRateFilterName fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum SavingsPlanRateFilterName'));
+          orElse: () => SavingsPlanRateFilterName._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SavingsPlanRateFilterName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about a Savings Plan rate property.
@@ -1525,115 +1614,207 @@ class SavingsPlanRateProperty {
   }
 }
 
-enum SavingsPlanRatePropertyKey {
-  region('region'),
-  instanceType('instanceType'),
-  instanceFamily('instanceFamily'),
-  productDescription('productDescription'),
-  tenancy('tenancy'),
-  ;
+class SavingsPlanRatePropertyKey {
+  static const region = SavingsPlanRatePropertyKey._('region');
+  static const instanceType = SavingsPlanRatePropertyKey._('instanceType');
+  static const instanceFamily = SavingsPlanRatePropertyKey._('instanceFamily');
+  static const productDescription =
+      SavingsPlanRatePropertyKey._('productDescription');
+  static const tenancy = SavingsPlanRatePropertyKey._('tenancy');
 
   final String value;
 
-  const SavingsPlanRatePropertyKey(this.value);
+  const SavingsPlanRatePropertyKey._(this.value);
+
+  static const values = [
+    region,
+    instanceType,
+    instanceFamily,
+    productDescription,
+    tenancy
+  ];
 
   static SavingsPlanRatePropertyKey fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum SavingsPlanRatePropertyKey'));
+          orElse: () => SavingsPlanRatePropertyKey._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SavingsPlanRatePropertyKey && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum SavingsPlanRateServiceCode {
-  amazonEC2('AmazonEC2'),
-  amazonECS('AmazonECS'),
-  amazonEKS('AmazonEKS'),
-  awsLambda('AWSLambda'),
-  amazonSageMaker('AmazonSageMaker'),
-  ;
+class SavingsPlanRateServiceCode {
+  static const amazonEC2 = SavingsPlanRateServiceCode._('AmazonEC2');
+  static const amazonECS = SavingsPlanRateServiceCode._('AmazonECS');
+  static const amazonEKS = SavingsPlanRateServiceCode._('AmazonEKS');
+  static const awsLambda = SavingsPlanRateServiceCode._('AWSLambda');
+  static const amazonSageMaker =
+      SavingsPlanRateServiceCode._('AmazonSageMaker');
 
   final String value;
 
-  const SavingsPlanRateServiceCode(this.value);
+  const SavingsPlanRateServiceCode._(this.value);
+
+  static const values = [
+    amazonEC2,
+    amazonECS,
+    amazonEKS,
+    awsLambda,
+    amazonSageMaker
+  ];
 
   static SavingsPlanRateServiceCode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum SavingsPlanRateServiceCode'));
+          orElse: () => SavingsPlanRateServiceCode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SavingsPlanRateServiceCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum SavingsPlanRateUnit {
-  hrs('Hrs'),
-  lambdaGbSecond('Lambda-GB-Second'),
-  request('Request'),
-  ;
+class SavingsPlanRateUnit {
+  static const hrs = SavingsPlanRateUnit._('Hrs');
+  static const lambdaGbSecond = SavingsPlanRateUnit._('Lambda-GB-Second');
+  static const request = SavingsPlanRateUnit._('Request');
 
   final String value;
 
-  const SavingsPlanRateUnit(this.value);
+  const SavingsPlanRateUnit._(this.value);
 
-  static SavingsPlanRateUnit fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum SavingsPlanRateUnit'));
+  static const values = [hrs, lambdaGbSecond, request];
+
+  static SavingsPlanRateUnit fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => SavingsPlanRateUnit._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SavingsPlanRateUnit && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum SavingsPlanState {
-  paymentPending('payment-pending'),
-  paymentFailed('payment-failed'),
-  active('active'),
-  retired('retired'),
-  queued('queued'),
-  queuedDeleted('queued-deleted'),
-  pendingReturn('pending-return'),
-  returned('returned'),
-  ;
+class SavingsPlanState {
+  static const paymentPending = SavingsPlanState._('payment-pending');
+  static const paymentFailed = SavingsPlanState._('payment-failed');
+  static const active = SavingsPlanState._('active');
+  static const retired = SavingsPlanState._('retired');
+  static const queued = SavingsPlanState._('queued');
+  static const queuedDeleted = SavingsPlanState._('queued-deleted');
+  static const pendingReturn = SavingsPlanState._('pending-return');
+  static const returned = SavingsPlanState._('returned');
 
   final String value;
 
-  const SavingsPlanState(this.value);
+  const SavingsPlanState._(this.value);
+
+  static const values = [
+    paymentPending,
+    paymentFailed,
+    active,
+    retired,
+    queued,
+    queuedDeleted,
+    pendingReturn,
+    returned
+  ];
 
   static SavingsPlanState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum SavingsPlanState'));
+          orElse: () => SavingsPlanState._(value));
+
+  @override
+  bool operator ==(other) => other is SavingsPlanState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum SavingsPlanType {
-  compute('Compute'),
-  eC2Instance('EC2Instance'),
-  sageMaker('SageMaker'),
-  ;
+class SavingsPlanType {
+  static const compute = SavingsPlanType._('Compute');
+  static const eC2Instance = SavingsPlanType._('EC2Instance');
+  static const sageMaker = SavingsPlanType._('SageMaker');
 
   final String value;
 
-  const SavingsPlanType(this.value);
+  const SavingsPlanType._(this.value);
+
+  static const values = [compute, eC2Instance, sageMaker];
 
   static SavingsPlanType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum SavingsPlanType'));
+          orElse: () => SavingsPlanType._(value));
+
+  @override
+  bool operator ==(other) => other is SavingsPlanType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum SavingsPlansFilterName {
-  region('region'),
-  ec2InstanceFamily('ec2-instance-family'),
-  commitment('commitment'),
-  upfront('upfront'),
-  term('term'),
-  savingsPlanType('savings-plan-type'),
-  paymentOption('payment-option'),
-  start('start'),
-  end('end'),
-  ;
+class SavingsPlansFilterName {
+  static const region = SavingsPlansFilterName._('region');
+  static const ec2InstanceFamily =
+      SavingsPlansFilterName._('ec2-instance-family');
+  static const commitment = SavingsPlansFilterName._('commitment');
+  static const upfront = SavingsPlansFilterName._('upfront');
+  static const term = SavingsPlansFilterName._('term');
+  static const savingsPlanType = SavingsPlansFilterName._('savings-plan-type');
+  static const paymentOption = SavingsPlansFilterName._('payment-option');
+  static const start = SavingsPlansFilterName._('start');
+  static const end = SavingsPlansFilterName._('end');
 
   final String value;
 
-  const SavingsPlansFilterName(this.value);
+  const SavingsPlansFilterName._(this.value);
+
+  static const values = [
+    region,
+    ec2InstanceFamily,
+    commitment,
+    upfront,
+    term,
+    savingsPlanType,
+    paymentOption,
+    start,
+    end
+  ];
 
   static SavingsPlansFilterName fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum SavingsPlansFilterName'));
+          orElse: () => SavingsPlansFilterName._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SavingsPlansFilterName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class TagResourceResponse {

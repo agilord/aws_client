@@ -1275,26 +1275,45 @@ class Attribute {
   }
 }
 
-enum AttributeName {
-  sign('SIGN'),
-  symptom('SYMPTOM'),
-  diagnosis('DIAGNOSIS'),
-  negation('NEGATION'),
-  pertainsToFamily('PERTAINS_TO_FAMILY'),
-  hypothetical('HYPOTHETICAL'),
-  lowConfidence('LOW_CONFIDENCE'),
-  pastHistory('PAST_HISTORY'),
-  future('FUTURE'),
-  ;
+class AttributeName {
+  static const sign = AttributeName._('SIGN');
+  static const symptom = AttributeName._('SYMPTOM');
+  static const diagnosis = AttributeName._('DIAGNOSIS');
+  static const negation = AttributeName._('NEGATION');
+  static const pertainsToFamily = AttributeName._('PERTAINS_TO_FAMILY');
+  static const hypothetical = AttributeName._('HYPOTHETICAL');
+  static const lowConfidence = AttributeName._('LOW_CONFIDENCE');
+  static const pastHistory = AttributeName._('PAST_HISTORY');
+  static const future = AttributeName._('FUTURE');
 
   final String value;
 
-  const AttributeName(this.value);
+  const AttributeName._(this.value);
+
+  static const values = [
+    sign,
+    symptom,
+    diagnosis,
+    negation,
+    pertainsToFamily,
+    hypothetical,
+    lowConfidence,
+    pastHistory,
+    future
+  ];
 
   static AttributeName fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum AttributeName'));
+          orElse: () => AttributeName._(value));
+
+  @override
+  bool operator ==(other) => other is AttributeName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The number of characters in the input text to be analyzed.
@@ -1907,81 +1926,157 @@ class Entity {
   }
 }
 
-enum EntitySubType {
-  name('NAME'),
-  dxName('DX_NAME'),
-  dosage('DOSAGE'),
-  routeOrMode('ROUTE_OR_MODE'),
-  form('FORM'),
-  frequency('FREQUENCY'),
-  duration('DURATION'),
-  genericName('GENERIC_NAME'),
-  brandName('BRAND_NAME'),
-  strength('STRENGTH'),
-  rate('RATE'),
-  acuity('ACUITY'),
-  testName('TEST_NAME'),
-  testValue('TEST_VALUE'),
-  testUnits('TEST_UNITS'),
-  testUnit('TEST_UNIT'),
-  procedureName('PROCEDURE_NAME'),
-  treatmentName('TREATMENT_NAME'),
-  date('DATE'),
-  age('AGE'),
-  contactPoint('CONTACT_POINT'),
-  phoneOrFax('PHONE_OR_FAX'),
-  email('EMAIL'),
-  identifier('IDENTIFIER'),
-  id('ID'),
-  url('URL'),
-  address('ADDRESS'),
-  profession('PROFESSION'),
-  systemOrganSite('SYSTEM_ORGAN_SITE'),
-  direction('DIRECTION'),
-  quality('QUALITY'),
-  quantity('QUANTITY'),
-  timeExpression('TIME_EXPRESSION'),
-  timeToMedicationName('TIME_TO_MEDICATION_NAME'),
-  timeToDxName('TIME_TO_DX_NAME'),
-  timeToTestName('TIME_TO_TEST_NAME'),
-  timeToProcedureName('TIME_TO_PROCEDURE_NAME'),
-  timeToTreatmentName('TIME_TO_TREATMENT_NAME'),
-  amount('AMOUNT'),
-  gender('GENDER'),
-  raceEthnicity('RACE_ETHNICITY'),
-  allergies('ALLERGIES'),
-  tobaccoUse('TOBACCO_USE'),
-  alcoholConsumption('ALCOHOL_CONSUMPTION'),
-  recDrugUse('REC_DRUG_USE'),
-  ;
+class EntitySubType {
+  static const name = EntitySubType._('NAME');
+  static const dxName = EntitySubType._('DX_NAME');
+  static const dosage = EntitySubType._('DOSAGE');
+  static const routeOrMode = EntitySubType._('ROUTE_OR_MODE');
+  static const form = EntitySubType._('FORM');
+  static const frequency = EntitySubType._('FREQUENCY');
+  static const duration = EntitySubType._('DURATION');
+  static const genericName = EntitySubType._('GENERIC_NAME');
+  static const brandName = EntitySubType._('BRAND_NAME');
+  static const strength = EntitySubType._('STRENGTH');
+  static const rate = EntitySubType._('RATE');
+  static const acuity = EntitySubType._('ACUITY');
+  static const testName = EntitySubType._('TEST_NAME');
+  static const testValue = EntitySubType._('TEST_VALUE');
+  static const testUnits = EntitySubType._('TEST_UNITS');
+  static const testUnit = EntitySubType._('TEST_UNIT');
+  static const procedureName = EntitySubType._('PROCEDURE_NAME');
+  static const treatmentName = EntitySubType._('TREATMENT_NAME');
+  static const date = EntitySubType._('DATE');
+  static const age = EntitySubType._('AGE');
+  static const contactPoint = EntitySubType._('CONTACT_POINT');
+  static const phoneOrFax = EntitySubType._('PHONE_OR_FAX');
+  static const email = EntitySubType._('EMAIL');
+  static const identifier = EntitySubType._('IDENTIFIER');
+  static const id = EntitySubType._('ID');
+  static const url = EntitySubType._('URL');
+  static const address = EntitySubType._('ADDRESS');
+  static const profession = EntitySubType._('PROFESSION');
+  static const systemOrganSite = EntitySubType._('SYSTEM_ORGAN_SITE');
+  static const direction = EntitySubType._('DIRECTION');
+  static const quality = EntitySubType._('QUALITY');
+  static const quantity = EntitySubType._('QUANTITY');
+  static const timeExpression = EntitySubType._('TIME_EXPRESSION');
+  static const timeToMedicationName =
+      EntitySubType._('TIME_TO_MEDICATION_NAME');
+  static const timeToDxName = EntitySubType._('TIME_TO_DX_NAME');
+  static const timeToTestName = EntitySubType._('TIME_TO_TEST_NAME');
+  static const timeToProcedureName = EntitySubType._('TIME_TO_PROCEDURE_NAME');
+  static const timeToTreatmentName = EntitySubType._('TIME_TO_TREATMENT_NAME');
+  static const amount = EntitySubType._('AMOUNT');
+  static const gender = EntitySubType._('GENDER');
+  static const raceEthnicity = EntitySubType._('RACE_ETHNICITY');
+  static const allergies = EntitySubType._('ALLERGIES');
+  static const tobaccoUse = EntitySubType._('TOBACCO_USE');
+  static const alcoholConsumption = EntitySubType._('ALCOHOL_CONSUMPTION');
+  static const recDrugUse = EntitySubType._('REC_DRUG_USE');
 
   final String value;
 
-  const EntitySubType(this.value);
+  const EntitySubType._(this.value);
+
+  static const values = [
+    name,
+    dxName,
+    dosage,
+    routeOrMode,
+    form,
+    frequency,
+    duration,
+    genericName,
+    brandName,
+    strength,
+    rate,
+    acuity,
+    testName,
+    testValue,
+    testUnits,
+    testUnit,
+    procedureName,
+    treatmentName,
+    date,
+    age,
+    contactPoint,
+    phoneOrFax,
+    email,
+    identifier,
+    id,
+    url,
+    address,
+    profession,
+    systemOrganSite,
+    direction,
+    quality,
+    quantity,
+    timeExpression,
+    timeToMedicationName,
+    timeToDxName,
+    timeToTestName,
+    timeToProcedureName,
+    timeToTreatmentName,
+    amount,
+    gender,
+    raceEthnicity,
+    allergies,
+    tobaccoUse,
+    alcoholConsumption,
+    recDrugUse
+  ];
 
   static EntitySubType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum EntitySubType'));
+          orElse: () => EntitySubType._(value));
+
+  @override
+  bool operator ==(other) => other is EntitySubType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum EntityType {
-  medication('MEDICATION'),
-  medicalCondition('MEDICAL_CONDITION'),
-  protectedHealthInformation('PROTECTED_HEALTH_INFORMATION'),
-  testTreatmentProcedure('TEST_TREATMENT_PROCEDURE'),
-  anatomy('ANATOMY'),
-  timeExpression('TIME_EXPRESSION'),
-  behavioralEnvironmentalSocial('BEHAVIORAL_ENVIRONMENTAL_SOCIAL'),
-  ;
+class EntityType {
+  static const medication = EntityType._('MEDICATION');
+  static const medicalCondition = EntityType._('MEDICAL_CONDITION');
+  static const protectedHealthInformation =
+      EntityType._('PROTECTED_HEALTH_INFORMATION');
+  static const testTreatmentProcedure =
+      EntityType._('TEST_TREATMENT_PROCEDURE');
+  static const anatomy = EntityType._('ANATOMY');
+  static const timeExpression = EntityType._('TIME_EXPRESSION');
+  static const behavioralEnvironmentalSocial =
+      EntityType._('BEHAVIORAL_ENVIRONMENTAL_SOCIAL');
 
   final String value;
 
-  const EntityType(this.value);
+  const EntityType._(this.value);
 
-  static EntityType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum EntityType'));
+  static const values = [
+    medication,
+    medicalCondition,
+    protectedHealthInformation,
+    testTreatmentProcedure,
+    anatomy,
+    timeExpression,
+    behavioralEnvironmentalSocial
+  ];
+
+  static EntityType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => EntityType._(value));
+
+  @override
+  bool operator ==(other) => other is EntityType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The detected attributes that relate to an entity. This includes an extracted
@@ -2091,24 +2186,42 @@ class ICD10CMAttribute {
   }
 }
 
-enum ICD10CMAttributeType {
-  acuity('ACUITY'),
-  direction('DIRECTION'),
-  systemOrganSite('SYSTEM_ORGAN_SITE'),
-  quality('QUALITY'),
-  quantity('QUANTITY'),
-  timeToDxName('TIME_TO_DX_NAME'),
-  timeExpression('TIME_EXPRESSION'),
-  ;
+class ICD10CMAttributeType {
+  static const acuity = ICD10CMAttributeType._('ACUITY');
+  static const direction = ICD10CMAttributeType._('DIRECTION');
+  static const systemOrganSite = ICD10CMAttributeType._('SYSTEM_ORGAN_SITE');
+  static const quality = ICD10CMAttributeType._('QUALITY');
+  static const quantity = ICD10CMAttributeType._('QUANTITY');
+  static const timeToDxName = ICD10CMAttributeType._('TIME_TO_DX_NAME');
+  static const timeExpression = ICD10CMAttributeType._('TIME_EXPRESSION');
 
   final String value;
 
-  const ICD10CMAttributeType(this.value);
+  const ICD10CMAttributeType._(this.value);
 
-  static ICD10CMAttributeType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ICD10CMAttributeType'));
+  static const values = [
+    acuity,
+    direction,
+    systemOrganSite,
+    quality,
+    quantity,
+    timeToDxName,
+    timeExpression
+  ];
+
+  static ICD10CMAttributeType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ICD10CMAttributeType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ICD10CMAttributeType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The ICD-10-CM concepts that the entity could refer to, along with a score
@@ -2263,49 +2376,78 @@ class ICD10CMEntity {
   }
 }
 
-enum ICD10CMEntityCategory {
-  medicalCondition('MEDICAL_CONDITION'),
-  ;
+class ICD10CMEntityCategory {
+  static const medicalCondition = ICD10CMEntityCategory._('MEDICAL_CONDITION');
 
   final String value;
 
-  const ICD10CMEntityCategory(this.value);
+  const ICD10CMEntityCategory._(this.value);
 
-  static ICD10CMEntityCategory fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ICD10CMEntityCategory'));
+  static const values = [medicalCondition];
+
+  static ICD10CMEntityCategory fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ICD10CMEntityCategory._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ICD10CMEntityCategory && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ICD10CMEntityType {
-  dxName('DX_NAME'),
-  timeExpression('TIME_EXPRESSION'),
-  ;
+class ICD10CMEntityType {
+  static const dxName = ICD10CMEntityType._('DX_NAME');
+  static const timeExpression = ICD10CMEntityType._('TIME_EXPRESSION');
 
   final String value;
 
-  const ICD10CMEntityType(this.value);
+  const ICD10CMEntityType._(this.value);
+
+  static const values = [dxName, timeExpression];
 
   static ICD10CMEntityType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ICD10CMEntityType'));
+          orElse: () => ICD10CMEntityType._(value));
+
+  @override
+  bool operator ==(other) => other is ICD10CMEntityType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ICD10CMRelationshipType {
-  overlap('OVERLAP'),
-  systemOrganSite('SYSTEM_ORGAN_SITE'),
-  quality('QUALITY'),
-  ;
+class ICD10CMRelationshipType {
+  static const overlap = ICD10CMRelationshipType._('OVERLAP');
+  static const systemOrganSite = ICD10CMRelationshipType._('SYSTEM_ORGAN_SITE');
+  static const quality = ICD10CMRelationshipType._('QUALITY');
 
   final String value;
 
-  const ICD10CMRelationshipType(this.value);
+  const ICD10CMRelationshipType._(this.value);
+
+  static const values = [overlap, systemOrganSite, quality];
 
   static ICD10CMRelationshipType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ICD10CMRelationshipType'));
+          orElse: () => ICD10CMRelationshipType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ICD10CMRelationshipType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contextual information for the entity. The traits recognized by InferICD10CM
@@ -2341,24 +2483,41 @@ class ICD10CMTrait {
   }
 }
 
-enum ICD10CMTraitName {
-  negation('NEGATION'),
-  diagnosis('DIAGNOSIS'),
-  sign('SIGN'),
-  symptom('SYMPTOM'),
-  pertainsToFamily('PERTAINS_TO_FAMILY'),
-  hypothetical('HYPOTHETICAL'),
-  lowConfidence('LOW_CONFIDENCE'),
-  ;
+class ICD10CMTraitName {
+  static const negation = ICD10CMTraitName._('NEGATION');
+  static const diagnosis = ICD10CMTraitName._('DIAGNOSIS');
+  static const sign = ICD10CMTraitName._('SIGN');
+  static const symptom = ICD10CMTraitName._('SYMPTOM');
+  static const pertainsToFamily = ICD10CMTraitName._('PERTAINS_TO_FAMILY');
+  static const hypothetical = ICD10CMTraitName._('HYPOTHETICAL');
+  static const lowConfidence = ICD10CMTraitName._('LOW_CONFIDENCE');
 
   final String value;
 
-  const ICD10CMTraitName(this.value);
+  const ICD10CMTraitName._(this.value);
+
+  static const values = [
+    negation,
+    diagnosis,
+    sign,
+    symptom,
+    pertainsToFamily,
+    hypothetical,
+    lowConfidence
+  ];
 
   static ICD10CMTraitName fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ICD10CMTraitName'));
+          orElse: () => ICD10CMTraitName._(value));
+
+  @override
+  bool operator ==(other) => other is ICD10CMTraitName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class InferICD10CMResponse {
@@ -2549,37 +2708,62 @@ class InputDataConfig {
   }
 }
 
-enum JobStatus {
-  submitted('SUBMITTED'),
-  inProgress('IN_PROGRESS'),
-  completed('COMPLETED'),
-  partialSuccess('PARTIAL_SUCCESS'),
-  failed('FAILED'),
-  stopRequested('STOP_REQUESTED'),
-  stopped('STOPPED'),
-  ;
+class JobStatus {
+  static const submitted = JobStatus._('SUBMITTED');
+  static const inProgress = JobStatus._('IN_PROGRESS');
+  static const completed = JobStatus._('COMPLETED');
+  static const partialSuccess = JobStatus._('PARTIAL_SUCCESS');
+  static const failed = JobStatus._('FAILED');
+  static const stopRequested = JobStatus._('STOP_REQUESTED');
+  static const stopped = JobStatus._('STOPPED');
 
   final String value;
 
-  const JobStatus(this.value);
+  const JobStatus._(this.value);
 
-  static JobStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum JobStatus'));
+  static const values = [
+    submitted,
+    inProgress,
+    completed,
+    partialSuccess,
+    failed,
+    stopRequested,
+    stopped
+  ];
+
+  static JobStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => JobStatus._(value));
+
+  @override
+  bool operator ==(other) => other is JobStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum LanguageCode {
-  en('en'),
-  ;
+class LanguageCode {
+  static const en = LanguageCode._('en');
 
   final String value;
 
-  const LanguageCode(this.value);
+  const LanguageCode._(this.value);
 
-  static LanguageCode fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum LanguageCode'));
+  static const values = [en];
+
+  static LanguageCode fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => LanguageCode._(value));
+
+  @override
+  bool operator ==(other) => other is LanguageCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class ListEntitiesDetectionV2JobsResponse {
@@ -2810,39 +2994,71 @@ class OutputDataConfig {
   }
 }
 
-enum RelationshipType {
-  every('EVERY'),
-  withDosage('WITH_DOSAGE'),
-  administeredVia('ADMINISTERED_VIA'),
-  $for('FOR'),
-  negative('NEGATIVE'),
-  overlap('OVERLAP'),
-  dosage('DOSAGE'),
-  routeOrMode('ROUTE_OR_MODE'),
-  form('FORM'),
-  frequency('FREQUENCY'),
-  duration('DURATION'),
-  strength('STRENGTH'),
-  rate('RATE'),
-  acuity('ACUITY'),
-  testValue('TEST_VALUE'),
-  testUnits('TEST_UNITS'),
-  testUnit('TEST_UNIT'),
-  direction('DIRECTION'),
-  systemOrganSite('SYSTEM_ORGAN_SITE'),
-  amount('AMOUNT'),
-  usage('USAGE'),
-  quality('QUALITY'),
-  ;
+class RelationshipType {
+  static const every = RelationshipType._('EVERY');
+  static const withDosage = RelationshipType._('WITH_DOSAGE');
+  static const administeredVia = RelationshipType._('ADMINISTERED_VIA');
+  static const $for = RelationshipType._('FOR');
+  static const negative = RelationshipType._('NEGATIVE');
+  static const overlap = RelationshipType._('OVERLAP');
+  static const dosage = RelationshipType._('DOSAGE');
+  static const routeOrMode = RelationshipType._('ROUTE_OR_MODE');
+  static const form = RelationshipType._('FORM');
+  static const frequency = RelationshipType._('FREQUENCY');
+  static const duration = RelationshipType._('DURATION');
+  static const strength = RelationshipType._('STRENGTH');
+  static const rate = RelationshipType._('RATE');
+  static const acuity = RelationshipType._('ACUITY');
+  static const testValue = RelationshipType._('TEST_VALUE');
+  static const testUnits = RelationshipType._('TEST_UNITS');
+  static const testUnit = RelationshipType._('TEST_UNIT');
+  static const direction = RelationshipType._('DIRECTION');
+  static const systemOrganSite = RelationshipType._('SYSTEM_ORGAN_SITE');
+  static const amount = RelationshipType._('AMOUNT');
+  static const usage = RelationshipType._('USAGE');
+  static const quality = RelationshipType._('QUALITY');
 
   final String value;
 
-  const RelationshipType(this.value);
+  const RelationshipType._(this.value);
+
+  static const values = [
+    every,
+    withDosage,
+    administeredVia,
+    $for,
+    negative,
+    overlap,
+    dosage,
+    routeOrMode,
+    form,
+    frequency,
+    duration,
+    strength,
+    rate,
+    acuity,
+    testValue,
+    testUnits,
+    testUnit,
+    direction,
+    systemOrganSite,
+    amount,
+    usage,
+    quality
+  ];
 
   static RelationshipType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum RelationshipType'));
+          orElse: () => RelationshipType._(value));
+
+  @override
+  bool operator ==(other) => other is RelationshipType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The extracted attributes that relate to this entity. The attributes
@@ -2932,24 +3148,42 @@ class RxNormAttribute {
   }
 }
 
-enum RxNormAttributeType {
-  dosage('DOSAGE'),
-  duration('DURATION'),
-  form('FORM'),
-  frequency('FREQUENCY'),
-  rate('RATE'),
-  routeOrMode('ROUTE_OR_MODE'),
-  strength('STRENGTH'),
-  ;
+class RxNormAttributeType {
+  static const dosage = RxNormAttributeType._('DOSAGE');
+  static const duration = RxNormAttributeType._('DURATION');
+  static const form = RxNormAttributeType._('FORM');
+  static const frequency = RxNormAttributeType._('FREQUENCY');
+  static const rate = RxNormAttributeType._('RATE');
+  static const routeOrMode = RxNormAttributeType._('ROUTE_OR_MODE');
+  static const strength = RxNormAttributeType._('STRENGTH');
 
   final String value;
 
-  const RxNormAttributeType(this.value);
+  const RxNormAttributeType._(this.value);
 
-  static RxNormAttributeType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum RxNormAttributeType'));
+  static const values = [
+    dosage,
+    duration,
+    form,
+    frequency,
+    rate,
+    routeOrMode,
+    strength
+  ];
+
+  static RxNormAttributeType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => RxNormAttributeType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RxNormAttributeType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The RxNorm concept that the entity could refer to, along with a score
@@ -3101,33 +3335,52 @@ class RxNormEntity {
   }
 }
 
-enum RxNormEntityCategory {
-  medication('MEDICATION'),
-  ;
+class RxNormEntityCategory {
+  static const medication = RxNormEntityCategory._('MEDICATION');
 
   final String value;
 
-  const RxNormEntityCategory(this.value);
+  const RxNormEntityCategory._(this.value);
 
-  static RxNormEntityCategory fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum RxNormEntityCategory'));
+  static const values = [medication];
+
+  static RxNormEntityCategory fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => RxNormEntityCategory._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RxNormEntityCategory && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum RxNormEntityType {
-  brandName('BRAND_NAME'),
-  genericName('GENERIC_NAME'),
-  ;
+class RxNormEntityType {
+  static const brandName = RxNormEntityType._('BRAND_NAME');
+  static const genericName = RxNormEntityType._('GENERIC_NAME');
 
   final String value;
 
-  const RxNormEntityType(this.value);
+  const RxNormEntityType._(this.value);
+
+  static const values = [brandName, genericName];
 
   static RxNormEntityType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum RxNormEntityType'));
+          orElse: () => RxNormEntityType._(value));
+
+  @override
+  bool operator ==(other) => other is RxNormEntityType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The contextual information for the entity. InferRxNorm recognizes the trait
@@ -3163,19 +3416,28 @@ class RxNormTrait {
   }
 }
 
-enum RxNormTraitName {
-  negation('NEGATION'),
-  pastHistory('PAST_HISTORY'),
-  ;
+class RxNormTraitName {
+  static const negation = RxNormTraitName._('NEGATION');
+  static const pastHistory = RxNormTraitName._('PAST_HISTORY');
 
   final String value;
 
-  const RxNormTraitName(this.value);
+  const RxNormTraitName._(this.value);
+
+  static const values = [negation, pastHistory];
 
   static RxNormTraitName fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum RxNormTraitName'));
+          orElse: () => RxNormTraitName._(value));
+
+  @override
+  bool operator ==(other) => other is RxNormTraitName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The extracted attributes that relate to an entity. An extracted segment of
@@ -3293,23 +3555,40 @@ class SNOMEDCTAttribute {
   }
 }
 
-enum SNOMEDCTAttributeType {
-  acuity('ACUITY'),
-  quality('QUALITY'),
-  direction('DIRECTION'),
-  systemOrganSite('SYSTEM_ORGAN_SITE'),
-  testValue('TEST_VALUE'),
-  testUnit('TEST_UNIT'),
-  ;
+class SNOMEDCTAttributeType {
+  static const acuity = SNOMEDCTAttributeType._('ACUITY');
+  static const quality = SNOMEDCTAttributeType._('QUALITY');
+  static const direction = SNOMEDCTAttributeType._('DIRECTION');
+  static const systemOrganSite = SNOMEDCTAttributeType._('SYSTEM_ORGAN_SITE');
+  static const testValue = SNOMEDCTAttributeType._('TEST_VALUE');
+  static const testUnit = SNOMEDCTAttributeType._('TEST_UNIT');
 
   final String value;
 
-  const SNOMEDCTAttributeType(this.value);
+  const SNOMEDCTAttributeType._(this.value);
 
-  static SNOMEDCTAttributeType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum SNOMEDCTAttributeType'));
+  static const values = [
+    acuity,
+    quality,
+    direction,
+    systemOrganSite,
+    testValue,
+    testUnit
+  ];
+
+  static SNOMEDCTAttributeType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => SNOMEDCTAttributeType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SNOMEDCTAttributeType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The SNOMED-CT concepts that the entity could refer to, along with a score
@@ -3501,57 +3780,97 @@ class SNOMEDCTEntity {
   }
 }
 
-enum SNOMEDCTEntityCategory {
-  medicalCondition('MEDICAL_CONDITION'),
-  anatomy('ANATOMY'),
-  testTreatmentProcedure('TEST_TREATMENT_PROCEDURE'),
-  ;
+class SNOMEDCTEntityCategory {
+  static const medicalCondition = SNOMEDCTEntityCategory._('MEDICAL_CONDITION');
+  static const anatomy = SNOMEDCTEntityCategory._('ANATOMY');
+  static const testTreatmentProcedure =
+      SNOMEDCTEntityCategory._('TEST_TREATMENT_PROCEDURE');
 
   final String value;
 
-  const SNOMEDCTEntityCategory(this.value);
+  const SNOMEDCTEntityCategory._(this.value);
+
+  static const values = [medicalCondition, anatomy, testTreatmentProcedure];
 
   static SNOMEDCTEntityCategory fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum SNOMEDCTEntityCategory'));
+          orElse: () => SNOMEDCTEntityCategory._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SNOMEDCTEntityCategory && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum SNOMEDCTEntityType {
-  dxName('DX_NAME'),
-  testName('TEST_NAME'),
-  procedureName('PROCEDURE_NAME'),
-  treatmentName('TREATMENT_NAME'),
-  ;
+class SNOMEDCTEntityType {
+  static const dxName = SNOMEDCTEntityType._('DX_NAME');
+  static const testName = SNOMEDCTEntityType._('TEST_NAME');
+  static const procedureName = SNOMEDCTEntityType._('PROCEDURE_NAME');
+  static const treatmentName = SNOMEDCTEntityType._('TREATMENT_NAME');
 
   final String value;
 
-  const SNOMEDCTEntityType(this.value);
+  const SNOMEDCTEntityType._(this.value);
 
-  static SNOMEDCTEntityType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum SNOMEDCTEntityType'));
+  static const values = [dxName, testName, procedureName, treatmentName];
+
+  static SNOMEDCTEntityType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => SNOMEDCTEntityType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SNOMEDCTEntityType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum SNOMEDCTRelationshipType {
-  acuity('ACUITY'),
-  quality('QUALITY'),
-  testValue('TEST_VALUE'),
-  testUnits('TEST_UNITS'),
-  direction('DIRECTION'),
-  systemOrganSite('SYSTEM_ORGAN_SITE'),
-  testUnit('TEST_UNIT'),
-  ;
+class SNOMEDCTRelationshipType {
+  static const acuity = SNOMEDCTRelationshipType._('ACUITY');
+  static const quality = SNOMEDCTRelationshipType._('QUALITY');
+  static const testValue = SNOMEDCTRelationshipType._('TEST_VALUE');
+  static const testUnits = SNOMEDCTRelationshipType._('TEST_UNITS');
+  static const direction = SNOMEDCTRelationshipType._('DIRECTION');
+  static const systemOrganSite =
+      SNOMEDCTRelationshipType._('SYSTEM_ORGAN_SITE');
+  static const testUnit = SNOMEDCTRelationshipType._('TEST_UNIT');
 
   final String value;
 
-  const SNOMEDCTRelationshipType(this.value);
+  const SNOMEDCTRelationshipType._(this.value);
+
+  static const values = [
+    acuity,
+    quality,
+    testValue,
+    testUnits,
+    direction,
+    systemOrganSite,
+    testUnit
+  ];
 
   static SNOMEDCTRelationshipType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum SNOMEDCTRelationshipType'));
+          orElse: () => SNOMEDCTRelationshipType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SNOMEDCTRelationshipType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contextual information for an entity.
@@ -3585,26 +3904,45 @@ class SNOMEDCTTrait {
   }
 }
 
-enum SNOMEDCTTraitName {
-  negation('NEGATION'),
-  diagnosis('DIAGNOSIS'),
-  sign('SIGN'),
-  symptom('SYMPTOM'),
-  pertainsToFamily('PERTAINS_TO_FAMILY'),
-  hypothetical('HYPOTHETICAL'),
-  lowConfidence('LOW_CONFIDENCE'),
-  pastHistory('PAST_HISTORY'),
-  future('FUTURE'),
-  ;
+class SNOMEDCTTraitName {
+  static const negation = SNOMEDCTTraitName._('NEGATION');
+  static const diagnosis = SNOMEDCTTraitName._('DIAGNOSIS');
+  static const sign = SNOMEDCTTraitName._('SIGN');
+  static const symptom = SNOMEDCTTraitName._('SYMPTOM');
+  static const pertainsToFamily = SNOMEDCTTraitName._('PERTAINS_TO_FAMILY');
+  static const hypothetical = SNOMEDCTTraitName._('HYPOTHETICAL');
+  static const lowConfidence = SNOMEDCTTraitName._('LOW_CONFIDENCE');
+  static const pastHistory = SNOMEDCTTraitName._('PAST_HISTORY');
+  static const future = SNOMEDCTTraitName._('FUTURE');
 
   final String value;
 
-  const SNOMEDCTTraitName(this.value);
+  const SNOMEDCTTraitName._(this.value);
+
+  static const values = [
+    negation,
+    diagnosis,
+    sign,
+    symptom,
+    pertainsToFamily,
+    hypothetical,
+    lowConfidence,
+    pastHistory,
+    future
+  ];
 
   static SNOMEDCTTraitName fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum SNOMEDCTTraitName'));
+          orElse: () => SNOMEDCTTraitName._(value));
+
+  @override
+  bool operator ==(other) => other is SNOMEDCTTraitName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class StartEntitiesDetectionV2JobResponse {

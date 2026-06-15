@@ -3243,20 +3243,34 @@ class ApplicationAutoScaling {
   }
 }
 
-enum AdjustmentType {
-  changeInCapacity('ChangeInCapacity'),
-  percentChangeInCapacity('PercentChangeInCapacity'),
-  exactCapacity('ExactCapacity'),
-  ;
+class AdjustmentType {
+  static const changeInCapacity = AdjustmentType._('ChangeInCapacity');
+  static const percentChangeInCapacity =
+      AdjustmentType._('PercentChangeInCapacity');
+  static const exactCapacity = AdjustmentType._('ExactCapacity');
 
   final String value;
 
-  const AdjustmentType(this.value);
+  const AdjustmentType._(this.value);
+
+  static const values = [
+    changeInCapacity,
+    percentChangeInCapacity,
+    exactCapacity
+  ];
 
   static AdjustmentType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum AdjustmentType'));
+          orElse: () => AdjustmentType._(value));
+
+  @override
+  bool operator ==(other) => other is AdjustmentType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Represents a CloudWatch alarm associated with a scaling policy.
@@ -3586,20 +3600,30 @@ class ListTagsForResourceResponse {
   }
 }
 
-enum MetricAggregationType {
-  average('Average'),
-  minimum('Minimum'),
-  maximum('Maximum'),
-  ;
+class MetricAggregationType {
+  static const average = MetricAggregationType._('Average');
+  static const minimum = MetricAggregationType._('Minimum');
+  static const maximum = MetricAggregationType._('Maximum');
 
   final String value;
 
-  const MetricAggregationType(this.value);
+  const MetricAggregationType._(this.value);
 
-  static MetricAggregationType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum MetricAggregationType'));
+  static const values = [average, minimum, maximum];
+
+  static MetricAggregationType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => MetricAggregationType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is MetricAggregationType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes the dimension names and values associated with a metric.
@@ -3632,73 +3656,135 @@ class MetricDimension {
   }
 }
 
-enum MetricStatistic {
-  average('Average'),
-  minimum('Minimum'),
-  maximum('Maximum'),
-  sampleCount('SampleCount'),
-  sum('Sum'),
-  ;
+class MetricStatistic {
+  static const average = MetricStatistic._('Average');
+  static const minimum = MetricStatistic._('Minimum');
+  static const maximum = MetricStatistic._('Maximum');
+  static const sampleCount = MetricStatistic._('SampleCount');
+  static const sum = MetricStatistic._('Sum');
 
   final String value;
 
-  const MetricStatistic(this.value);
+  const MetricStatistic._(this.value);
+
+  static const values = [average, minimum, maximum, sampleCount, sum];
 
   static MetricStatistic fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum MetricStatistic'));
+          orElse: () => MetricStatistic._(value));
+
+  @override
+  bool operator ==(other) => other is MetricStatistic && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum MetricType {
-  dynamoDBReadCapacityUtilization('DynamoDBReadCapacityUtilization'),
-  dynamoDBWriteCapacityUtilization('DynamoDBWriteCapacityUtilization'),
-  aLBRequestCountPerTarget('ALBRequestCountPerTarget'),
-  rDSReaderAverageCPUUtilization('RDSReaderAverageCPUUtilization'),
-  rDSReaderAverageDatabaseConnections('RDSReaderAverageDatabaseConnections'),
-  eC2SpotFleetRequestAverageCPUUtilization(
-      'EC2SpotFleetRequestAverageCPUUtilization'),
-  eC2SpotFleetRequestAverageNetworkIn('EC2SpotFleetRequestAverageNetworkIn'),
-  eC2SpotFleetRequestAverageNetworkOut('EC2SpotFleetRequestAverageNetworkOut'),
-  sageMakerVariantInvocationsPerInstance(
-      'SageMakerVariantInvocationsPerInstance'),
-  eCSServiceAverageCPUUtilization('ECSServiceAverageCPUUtilization'),
-  eCSServiceAverageMemoryUtilization('ECSServiceAverageMemoryUtilization'),
-  appStreamAverageCapacityUtilization('AppStreamAverageCapacityUtilization'),
-  comprehendInferenceUtilization('ComprehendInferenceUtilization'),
-  lambdaProvisionedConcurrencyUtilization(
-      'LambdaProvisionedConcurrencyUtilization'),
-  cassandraReadCapacityUtilization('CassandraReadCapacityUtilization'),
-  cassandraWriteCapacityUtilization('CassandraWriteCapacityUtilization'),
-  kafkaBrokerStorageUtilization('KafkaBrokerStorageUtilization'),
-  elastiCachePrimaryEngineCPUUtilization(
-      'ElastiCachePrimaryEngineCPUUtilization'),
-  elastiCacheReplicaEngineCPUUtilization(
-      'ElastiCacheReplicaEngineCPUUtilization'),
-  elastiCacheDatabaseMemoryUsageCountedForEvictPercentage(
-      'ElastiCacheDatabaseMemoryUsageCountedForEvictPercentage'),
-  neptuneReaderAverageCPUUtilization('NeptuneReaderAverageCPUUtilization'),
-  sageMakerVariantProvisionedConcurrencyUtilization(
-      'SageMakerVariantProvisionedConcurrencyUtilization'),
-  elastiCacheDatabaseCapacityUsageCountedForEvictPercentage(
-      'ElastiCacheDatabaseCapacityUsageCountedForEvictPercentage'),
-  sageMakerInferenceComponentInvocationsPerCopy(
-      'SageMakerInferenceComponentInvocationsPerCopy'),
-  workSpacesAverageUserSessionsCapacityUtilization(
-      'WorkSpacesAverageUserSessionsCapacityUtilization'),
-  sageMakerInferenceComponentConcurrentRequestsPerCopyHighResolution(
-      'SageMakerInferenceComponentConcurrentRequestsPerCopyHighResolution'),
-  sageMakerVariantConcurrentRequestsPerModelHighResolution(
-      'SageMakerVariantConcurrentRequestsPerModelHighResolution'),
-  ;
+class MetricType {
+  static const dynamoDBReadCapacityUtilization =
+      MetricType._('DynamoDBReadCapacityUtilization');
+  static const dynamoDBWriteCapacityUtilization =
+      MetricType._('DynamoDBWriteCapacityUtilization');
+  static const aLBRequestCountPerTarget =
+      MetricType._('ALBRequestCountPerTarget');
+  static const rDSReaderAverageCPUUtilization =
+      MetricType._('RDSReaderAverageCPUUtilization');
+  static const rDSReaderAverageDatabaseConnections =
+      MetricType._('RDSReaderAverageDatabaseConnections');
+  static const eC2SpotFleetRequestAverageCPUUtilization =
+      MetricType._('EC2SpotFleetRequestAverageCPUUtilization');
+  static const eC2SpotFleetRequestAverageNetworkIn =
+      MetricType._('EC2SpotFleetRequestAverageNetworkIn');
+  static const eC2SpotFleetRequestAverageNetworkOut =
+      MetricType._('EC2SpotFleetRequestAverageNetworkOut');
+  static const sageMakerVariantInvocationsPerInstance =
+      MetricType._('SageMakerVariantInvocationsPerInstance');
+  static const eCSServiceAverageCPUUtilization =
+      MetricType._('ECSServiceAverageCPUUtilization');
+  static const eCSServiceAverageMemoryUtilization =
+      MetricType._('ECSServiceAverageMemoryUtilization');
+  static const appStreamAverageCapacityUtilization =
+      MetricType._('AppStreamAverageCapacityUtilization');
+  static const comprehendInferenceUtilization =
+      MetricType._('ComprehendInferenceUtilization');
+  static const lambdaProvisionedConcurrencyUtilization =
+      MetricType._('LambdaProvisionedConcurrencyUtilization');
+  static const cassandraReadCapacityUtilization =
+      MetricType._('CassandraReadCapacityUtilization');
+  static const cassandraWriteCapacityUtilization =
+      MetricType._('CassandraWriteCapacityUtilization');
+  static const kafkaBrokerStorageUtilization =
+      MetricType._('KafkaBrokerStorageUtilization');
+  static const elastiCachePrimaryEngineCPUUtilization =
+      MetricType._('ElastiCachePrimaryEngineCPUUtilization');
+  static const elastiCacheReplicaEngineCPUUtilization =
+      MetricType._('ElastiCacheReplicaEngineCPUUtilization');
+  static const elastiCacheDatabaseMemoryUsageCountedForEvictPercentage =
+      MetricType._('ElastiCacheDatabaseMemoryUsageCountedForEvictPercentage');
+  static const neptuneReaderAverageCPUUtilization =
+      MetricType._('NeptuneReaderAverageCPUUtilization');
+  static const sageMakerVariantProvisionedConcurrencyUtilization =
+      MetricType._('SageMakerVariantProvisionedConcurrencyUtilization');
+  static const elastiCacheDatabaseCapacityUsageCountedForEvictPercentage =
+      MetricType._('ElastiCacheDatabaseCapacityUsageCountedForEvictPercentage');
+  static const sageMakerInferenceComponentInvocationsPerCopy =
+      MetricType._('SageMakerInferenceComponentInvocationsPerCopy');
+  static const workSpacesAverageUserSessionsCapacityUtilization =
+      MetricType._('WorkSpacesAverageUserSessionsCapacityUtilization');
+  static const sageMakerInferenceComponentConcurrentRequestsPerCopyHighResolution =
+      MetricType._(
+          'SageMakerInferenceComponentConcurrentRequestsPerCopyHighResolution');
+  static const sageMakerVariantConcurrentRequestsPerModelHighResolution =
+      MetricType._('SageMakerVariantConcurrentRequestsPerModelHighResolution');
 
   final String value;
 
-  const MetricType(this.value);
+  const MetricType._(this.value);
 
-  static MetricType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum MetricType'));
+  static const values = [
+    dynamoDBReadCapacityUtilization,
+    dynamoDBWriteCapacityUtilization,
+    aLBRequestCountPerTarget,
+    rDSReaderAverageCPUUtilization,
+    rDSReaderAverageDatabaseConnections,
+    eC2SpotFleetRequestAverageCPUUtilization,
+    eC2SpotFleetRequestAverageNetworkIn,
+    eC2SpotFleetRequestAverageNetworkOut,
+    sageMakerVariantInvocationsPerInstance,
+    eCSServiceAverageCPUUtilization,
+    eCSServiceAverageMemoryUtilization,
+    appStreamAverageCapacityUtilization,
+    comprehendInferenceUtilization,
+    lambdaProvisionedConcurrencyUtilization,
+    cassandraReadCapacityUtilization,
+    cassandraWriteCapacityUtilization,
+    kafkaBrokerStorageUtilization,
+    elastiCachePrimaryEngineCPUUtilization,
+    elastiCacheReplicaEngineCPUUtilization,
+    elastiCacheDatabaseMemoryUsageCountedForEvictPercentage,
+    neptuneReaderAverageCPUUtilization,
+    sageMakerVariantProvisionedConcurrencyUtilization,
+    elastiCacheDatabaseCapacityUsageCountedForEvictPercentage,
+    sageMakerInferenceComponentInvocationsPerCopy,
+    workSpacesAverageUserSessionsCapacityUtilization,
+    sageMakerInferenceComponentConcurrentRequestsPerCopyHighResolution,
+    sageMakerVariantConcurrentRequestsPerModelHighResolution
+  ];
+
+  static MetricType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => MetricType._(value));
+
+  @override
+  bool operator ==(other) => other is MetricType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes the reason for an activity that isn't scaled (<i>not scaled
@@ -3770,18 +3856,27 @@ class NotScaledReason {
   }
 }
 
-enum PolicyType {
-  stepScaling('StepScaling'),
-  targetTrackingScaling('TargetTrackingScaling'),
-  ;
+class PolicyType {
+  static const stepScaling = PolicyType._('StepScaling');
+  static const targetTrackingScaling = PolicyType._('TargetTrackingScaling');
 
   final String value;
 
-  const PolicyType(this.value);
+  const PolicyType._(this.value);
 
-  static PolicyType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum PolicyType'));
+  static const values = [stepScaling, targetTrackingScaling];
+
+  static PolicyType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => PolicyType._(value));
+
+  @override
+  bool operator ==(other) => other is PolicyType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Represents a predefined metric for a target tracking scaling policy to use
@@ -3834,8 +3929,8 @@ class PredefinedMetricSpecification {
 
   factory PredefinedMetricSpecification.fromJson(Map<String, dynamic> json) {
     return PredefinedMetricSpecification(
-      predefinedMetricType:
-          MetricType.fromString((json['PredefinedMetricType'] as String)),
+      predefinedMetricType: MetricType.fromString(
+          (json['PredefinedMetricType'] as String?) ?? ''),
       resourceLabel: json['ResourceLabel'] as String?,
     );
   }
@@ -3916,49 +4011,98 @@ class RegisterScalableTargetResponse {
   }
 }
 
-enum ScalableDimension {
-  ecsServiceDesiredCount('ecs:service:DesiredCount'),
-  ec2SpotFleetRequestTargetCapacity('ec2:spot-fleet-request:TargetCapacity'),
-  elasticmapreduceInstancegroupInstanceCount(
-      'elasticmapreduce:instancegroup:InstanceCount'),
-  appstreamFleetDesiredCapacity('appstream:fleet:DesiredCapacity'),
-  dynamodbTableReadCapacityUnits('dynamodb:table:ReadCapacityUnits'),
-  dynamodbTableWriteCapacityUnits('dynamodb:table:WriteCapacityUnits'),
-  dynamodbIndexReadCapacityUnits('dynamodb:index:ReadCapacityUnits'),
-  dynamodbIndexWriteCapacityUnits('dynamodb:index:WriteCapacityUnits'),
-  rdsClusterReadReplicaCount('rds:cluster:ReadReplicaCount'),
-  sagemakerVariantDesiredInstanceCount(
-      'sagemaker:variant:DesiredInstanceCount'),
-  customResourceResourceTypeProperty('custom-resource:ResourceType:Property'),
-  comprehendDocumentClassifierEndpointDesiredInferenceUnits(
-      'comprehend:document-classifier-endpoint:DesiredInferenceUnits'),
-  comprehendEntityRecognizerEndpointDesiredInferenceUnits(
-      'comprehend:entity-recognizer-endpoint:DesiredInferenceUnits'),
-  lambdaFunctionProvisionedConcurrency(
-      'lambda:function:ProvisionedConcurrency'),
-  cassandraTableReadCapacityUnits('cassandra:table:ReadCapacityUnits'),
-  cassandraTableWriteCapacityUnits('cassandra:table:WriteCapacityUnits'),
-  kafkaBrokerStorageVolumeSize('kafka:broker-storage:VolumeSize'),
-  elasticacheReplicationGroupNodeGroups(
-      'elasticache:replication-group:NodeGroups'),
-  elasticacheReplicationGroupReplicas('elasticache:replication-group:Replicas'),
-  neptuneClusterReadReplicaCount('neptune:cluster:ReadReplicaCount'),
-  sagemakerVariantDesiredProvisionedConcurrency(
-      'sagemaker:variant:DesiredProvisionedConcurrency'),
-  sagemakerInferenceComponentDesiredCopyCount(
-      'sagemaker:inference-component:DesiredCopyCount'),
-  workspacesWorkspacespoolDesiredUserSessions(
-      'workspaces:workspacespool:DesiredUserSessions'),
-  ;
+class ScalableDimension {
+  static const ecsServiceDesiredCount =
+      ScalableDimension._('ecs:service:DesiredCount');
+  static const ec2SpotFleetRequestTargetCapacity =
+      ScalableDimension._('ec2:spot-fleet-request:TargetCapacity');
+  static const elasticmapreduceInstancegroupInstanceCount =
+      ScalableDimension._('elasticmapreduce:instancegroup:InstanceCount');
+  static const appstreamFleetDesiredCapacity =
+      ScalableDimension._('appstream:fleet:DesiredCapacity');
+  static const dynamodbTableReadCapacityUnits =
+      ScalableDimension._('dynamodb:table:ReadCapacityUnits');
+  static const dynamodbTableWriteCapacityUnits =
+      ScalableDimension._('dynamodb:table:WriteCapacityUnits');
+  static const dynamodbIndexReadCapacityUnits =
+      ScalableDimension._('dynamodb:index:ReadCapacityUnits');
+  static const dynamodbIndexWriteCapacityUnits =
+      ScalableDimension._('dynamodb:index:WriteCapacityUnits');
+  static const rdsClusterReadReplicaCount =
+      ScalableDimension._('rds:cluster:ReadReplicaCount');
+  static const sagemakerVariantDesiredInstanceCount =
+      ScalableDimension._('sagemaker:variant:DesiredInstanceCount');
+  static const customResourceResourceTypeProperty =
+      ScalableDimension._('custom-resource:ResourceType:Property');
+  static const comprehendDocumentClassifierEndpointDesiredInferenceUnits =
+      ScalableDimension._(
+          'comprehend:document-classifier-endpoint:DesiredInferenceUnits');
+  static const comprehendEntityRecognizerEndpointDesiredInferenceUnits =
+      ScalableDimension._(
+          'comprehend:entity-recognizer-endpoint:DesiredInferenceUnits');
+  static const lambdaFunctionProvisionedConcurrency =
+      ScalableDimension._('lambda:function:ProvisionedConcurrency');
+  static const cassandraTableReadCapacityUnits =
+      ScalableDimension._('cassandra:table:ReadCapacityUnits');
+  static const cassandraTableWriteCapacityUnits =
+      ScalableDimension._('cassandra:table:WriteCapacityUnits');
+  static const kafkaBrokerStorageVolumeSize =
+      ScalableDimension._('kafka:broker-storage:VolumeSize');
+  static const elasticacheReplicationGroupNodeGroups =
+      ScalableDimension._('elasticache:replication-group:NodeGroups');
+  static const elasticacheReplicationGroupReplicas =
+      ScalableDimension._('elasticache:replication-group:Replicas');
+  static const neptuneClusterReadReplicaCount =
+      ScalableDimension._('neptune:cluster:ReadReplicaCount');
+  static const sagemakerVariantDesiredProvisionedConcurrency =
+      ScalableDimension._('sagemaker:variant:DesiredProvisionedConcurrency');
+  static const sagemakerInferenceComponentDesiredCopyCount =
+      ScalableDimension._('sagemaker:inference-component:DesiredCopyCount');
+  static const workspacesWorkspacespoolDesiredUserSessions =
+      ScalableDimension._('workspaces:workspacespool:DesiredUserSessions');
 
   final String value;
 
-  const ScalableDimension(this.value);
+  const ScalableDimension._(this.value);
+
+  static const values = [
+    ecsServiceDesiredCount,
+    ec2SpotFleetRequestTargetCapacity,
+    elasticmapreduceInstancegroupInstanceCount,
+    appstreamFleetDesiredCapacity,
+    dynamodbTableReadCapacityUnits,
+    dynamodbTableWriteCapacityUnits,
+    dynamodbIndexReadCapacityUnits,
+    dynamodbIndexWriteCapacityUnits,
+    rdsClusterReadReplicaCount,
+    sagemakerVariantDesiredInstanceCount,
+    customResourceResourceTypeProperty,
+    comprehendDocumentClassifierEndpointDesiredInferenceUnits,
+    comprehendEntityRecognizerEndpointDesiredInferenceUnits,
+    lambdaFunctionProvisionedConcurrency,
+    cassandraTableReadCapacityUnits,
+    cassandraTableWriteCapacityUnits,
+    kafkaBrokerStorageVolumeSize,
+    elasticacheReplicationGroupNodeGroups,
+    elasticacheReplicationGroupReplicas,
+    neptuneClusterReadReplicaCount,
+    sagemakerVariantDesiredProvisionedConcurrency,
+    sagemakerInferenceComponentDesiredCopyCount,
+    workspacesWorkspacespoolDesiredUserSessions
+  ];
 
   static ScalableDimension fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ScalableDimension'));
+          orElse: () => ScalableDimension._(value));
+
+  @override
+  bool operator ==(other) => other is ScalableDimension && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Represents a scalable target.
@@ -4210,10 +4354,10 @@ class ScalableTarget {
       minCapacity: (json['MinCapacity'] as int?) ?? 0,
       resourceId: (json['ResourceId'] as String?) ?? '',
       roleARN: (json['RoleARN'] as String?) ?? '',
-      scalableDimension:
-          ScalableDimension.fromString((json['ScalableDimension'] as String)),
-      serviceNamespace:
-          ServiceNamespace.fromString((json['ServiceNamespace'] as String)),
+      scalableDimension: ScalableDimension.fromString(
+          (json['ScalableDimension'] as String?) ?? ''),
+      serviceNamespace: ServiceNamespace.fromString(
+          (json['ServiceNamespace'] as String?) ?? ''),
       scalableTargetARN: json['ScalableTargetARN'] as String?,
       suspendedState: json['SuspendedState'] != null
           ? SuspendedState.fromJson(
@@ -4552,13 +4696,13 @@ class ScalingActivity {
       cause: (json['Cause'] as String?) ?? '',
       description: (json['Description'] as String?) ?? '',
       resourceId: (json['ResourceId'] as String?) ?? '',
-      scalableDimension:
-          ScalableDimension.fromString((json['ScalableDimension'] as String)),
-      serviceNamespace:
-          ServiceNamespace.fromString((json['ServiceNamespace'] as String)),
+      scalableDimension: ScalableDimension.fromString(
+          (json['ScalableDimension'] as String?) ?? ''),
+      serviceNamespace: ServiceNamespace.fromString(
+          (json['ServiceNamespace'] as String?) ?? ''),
       startTime: nonNullableTimeStampFromJson(json['StartTime'] ?? 0),
-      statusCode:
-          ScalingActivityStatusCode.fromString((json['StatusCode'] as String)),
+      statusCode: ScalingActivityStatusCode.fromString(
+          (json['StatusCode'] as String?) ?? ''),
       details: json['Details'] as String?,
       endTime: timeStampFromJson(json['EndTime']),
       notScaledReasons: (json['NotScaledReasons'] as List?)
@@ -4599,23 +4743,40 @@ class ScalingActivity {
   }
 }
 
-enum ScalingActivityStatusCode {
-  pending('Pending'),
-  inProgress('InProgress'),
-  successful('Successful'),
-  overridden('Overridden'),
-  unfulfilled('Unfulfilled'),
-  failed('Failed'),
-  ;
+class ScalingActivityStatusCode {
+  static const pending = ScalingActivityStatusCode._('Pending');
+  static const inProgress = ScalingActivityStatusCode._('InProgress');
+  static const successful = ScalingActivityStatusCode._('Successful');
+  static const overridden = ScalingActivityStatusCode._('Overridden');
+  static const unfulfilled = ScalingActivityStatusCode._('Unfulfilled');
+  static const failed = ScalingActivityStatusCode._('Failed');
 
   final String value;
 
-  const ScalingActivityStatusCode(this.value);
+  const ScalingActivityStatusCode._(this.value);
+
+  static const values = [
+    pending,
+    inProgress,
+    successful,
+    overridden,
+    unfulfilled,
+    failed
+  ];
 
   static ScalingActivityStatusCode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ScalingActivityStatusCode'));
+          orElse: () => ScalingActivityStatusCode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ScalingActivityStatusCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Represents a scaling policy to use with Application Auto Scaling.
@@ -4881,12 +5042,12 @@ class ScalingPolicy {
       creationTime: nonNullableTimeStampFromJson(json['CreationTime'] ?? 0),
       policyARN: (json['PolicyARN'] as String?) ?? '',
       policyName: (json['PolicyName'] as String?) ?? '',
-      policyType: PolicyType.fromString((json['PolicyType'] as String)),
+      policyType: PolicyType.fromString((json['PolicyType'] as String?) ?? ''),
       resourceId: (json['ResourceId'] as String?) ?? '',
-      scalableDimension:
-          ScalableDimension.fromString((json['ScalableDimension'] as String)),
-      serviceNamespace:
-          ServiceNamespace.fromString((json['ServiceNamespace'] as String)),
+      scalableDimension: ScalableDimension.fromString(
+          (json['ScalableDimension'] as String?) ?? ''),
+      serviceNamespace: ServiceNamespace.fromString(
+          (json['ServiceNamespace'] as String?) ?? ''),
       alarms: (json['Alarms'] as List?)
           ?.nonNulls
           .map((e) => Alarm.fromJson(e as Map<String, dynamic>))
@@ -5226,8 +5387,8 @@ class ScheduledAction {
       schedule: (json['Schedule'] as String?) ?? '',
       scheduledActionARN: (json['ScheduledActionARN'] as String?) ?? '',
       scheduledActionName: (json['ScheduledActionName'] as String?) ?? '',
-      serviceNamespace:
-          ServiceNamespace.fromString((json['ServiceNamespace'] as String)),
+      serviceNamespace: ServiceNamespace.fromString(
+          (json['ServiceNamespace'] as String?) ?? ''),
       endTime: timeStampFromJson(json['EndTime']),
       scalableDimension: (json['ScalableDimension'] as String?)
           ?.let(ScalableDimension.fromString),
@@ -5270,32 +5431,57 @@ class ScheduledAction {
   }
 }
 
-enum ServiceNamespace {
-  ecs('ecs'),
-  elasticmapreduce('elasticmapreduce'),
-  ec2('ec2'),
-  appstream('appstream'),
-  dynamodb('dynamodb'),
-  rds('rds'),
-  sagemaker('sagemaker'),
-  customResource('custom-resource'),
-  comprehend('comprehend'),
-  lambda('lambda'),
-  cassandra('cassandra'),
-  kafka('kafka'),
-  elasticache('elasticache'),
-  neptune('neptune'),
-  workspaces('workspaces'),
-  ;
+class ServiceNamespace {
+  static const ecs = ServiceNamespace._('ecs');
+  static const elasticmapreduce = ServiceNamespace._('elasticmapreduce');
+  static const ec2 = ServiceNamespace._('ec2');
+  static const appstream = ServiceNamespace._('appstream');
+  static const dynamodb = ServiceNamespace._('dynamodb');
+  static const rds = ServiceNamespace._('rds');
+  static const sagemaker = ServiceNamespace._('sagemaker');
+  static const customResource = ServiceNamespace._('custom-resource');
+  static const comprehend = ServiceNamespace._('comprehend');
+  static const lambda = ServiceNamespace._('lambda');
+  static const cassandra = ServiceNamespace._('cassandra');
+  static const kafka = ServiceNamespace._('kafka');
+  static const elasticache = ServiceNamespace._('elasticache');
+  static const neptune = ServiceNamespace._('neptune');
+  static const workspaces = ServiceNamespace._('workspaces');
 
   final String value;
 
-  const ServiceNamespace(this.value);
+  const ServiceNamespace._(this.value);
+
+  static const values = [
+    ecs,
+    elasticmapreduce,
+    ec2,
+    appstream,
+    dynamodb,
+    rds,
+    sagemaker,
+    customResource,
+    comprehend,
+    lambda,
+    cassandra,
+    kafka,
+    elasticache,
+    neptune,
+    workspaces
+  ];
 
   static ServiceNamespace fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ServiceNamespace'));
+          orElse: () => ServiceNamespace._(value));
+
+  @override
+  bool operator ==(other) => other is ServiceNamespace && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Represents a step adjustment for a <a

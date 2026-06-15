@@ -4246,8 +4246,8 @@ class ActivityTaskTimedOutEventAttributes {
     return ActivityTaskTimedOutEventAttributes(
       scheduledEventId: (json['scheduledEventId'] as int?) ?? 0,
       startedEventId: (json['startedEventId'] as int?) ?? 0,
-      timeoutType:
-          ActivityTaskTimeoutType.fromString((json['timeoutType'] as String)),
+      timeoutType: ActivityTaskTimeoutType.fromString(
+          (json['timeoutType'] as String?) ?? ''),
       details: json['details'] as String?,
     );
   }
@@ -4266,21 +4266,36 @@ class ActivityTaskTimedOutEventAttributes {
   }
 }
 
-enum ActivityTaskTimeoutType {
-  startToClose('START_TO_CLOSE'),
-  scheduleToStart('SCHEDULE_TO_START'),
-  scheduleToClose('SCHEDULE_TO_CLOSE'),
-  heartbeat('HEARTBEAT'),
-  ;
+class ActivityTaskTimeoutType {
+  static const startToClose = ActivityTaskTimeoutType._('START_TO_CLOSE');
+  static const scheduleToStart = ActivityTaskTimeoutType._('SCHEDULE_TO_START');
+  static const scheduleToClose = ActivityTaskTimeoutType._('SCHEDULE_TO_CLOSE');
+  static const heartbeat = ActivityTaskTimeoutType._('HEARTBEAT');
 
   final String value;
 
-  const ActivityTaskTimeoutType(this.value);
+  const ActivityTaskTimeoutType._(this.value);
+
+  static const values = [
+    startToClose,
+    scheduleToStart,
+    scheduleToClose,
+    heartbeat
+  ];
 
   static ActivityTaskTimeoutType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ActivityTaskTimeoutType'));
+          orElse: () => ActivityTaskTimeoutType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ActivityTaskTimeoutType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Represents an activity type.
@@ -4518,7 +4533,7 @@ class ActivityTypeInfo {
           (json['activityType'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
       creationDate: nonNullableTimeStampFromJson(json['creationDate'] ?? 0),
-      status: RegistrationStatus.fromString((json['status'] as String)),
+      status: RegistrationStatus.fromString((json['status'] as String?) ?? ''),
       deprecationDate: timeStampFromJson(json['deprecationDate']),
       description: json['description'] as String?,
     );
@@ -4624,19 +4639,30 @@ class CancelTimerDecisionAttributes {
   }
 }
 
-enum CancelTimerFailedCause {
-  timerIdUnknown('TIMER_ID_UNKNOWN'),
-  operationNotPermitted('OPERATION_NOT_PERMITTED'),
-  ;
+class CancelTimerFailedCause {
+  static const timerIdUnknown = CancelTimerFailedCause._('TIMER_ID_UNKNOWN');
+  static const operationNotPermitted =
+      CancelTimerFailedCause._('OPERATION_NOT_PERMITTED');
 
   final String value;
 
-  const CancelTimerFailedCause(this.value);
+  const CancelTimerFailedCause._(this.value);
+
+  static const values = [timerIdUnknown, operationNotPermitted];
 
   static CancelTimerFailedCause fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum CancelTimerFailedCause'));
+          orElse: () => CancelTimerFailedCause._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CancelTimerFailedCause && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Provides the details of the <code>CancelTimerFailed</code> event.
@@ -4670,7 +4696,8 @@ class CancelTimerFailedEventAttributes {
 
   factory CancelTimerFailedEventAttributes.fromJson(Map<String, dynamic> json) {
     return CancelTimerFailedEventAttributes(
-      cause: CancelTimerFailedCause.fromString((json['cause'] as String)),
+      cause:
+          CancelTimerFailedCause.fromString((json['cause'] as String?) ?? ''),
       decisionTaskCompletedEventId:
           (json['decisionTaskCompletedEventId'] as int?) ?? 0,
       timerId: (json['timerId'] as String?) ?? '',
@@ -4733,19 +4760,31 @@ class CancelWorkflowExecutionDecisionAttributes {
   }
 }
 
-enum CancelWorkflowExecutionFailedCause {
-  unhandledDecision('UNHANDLED_DECISION'),
-  operationNotPermitted('OPERATION_NOT_PERMITTED'),
-  ;
+class CancelWorkflowExecutionFailedCause {
+  static const unhandledDecision =
+      CancelWorkflowExecutionFailedCause._('UNHANDLED_DECISION');
+  static const operationNotPermitted =
+      CancelWorkflowExecutionFailedCause._('OPERATION_NOT_PERMITTED');
 
   final String value;
 
-  const CancelWorkflowExecutionFailedCause(this.value);
+  const CancelWorkflowExecutionFailedCause._(this.value);
+
+  static const values = [unhandledDecision, operationNotPermitted];
 
   static CancelWorkflowExecutionFailedCause fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum CancelWorkflowExecutionFailedCause'));
+          orElse: () => CancelWorkflowExecutionFailedCause._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CancelWorkflowExecutionFailedCause && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Provides the details of the <code>CancelWorkflowExecutionFailed</code>
@@ -4779,7 +4818,7 @@ class CancelWorkflowExecutionFailedEventAttributes {
       Map<String, dynamic> json) {
     return CancelWorkflowExecutionFailedEventAttributes(
       cause: CancelWorkflowExecutionFailedCause.fromString(
-          (json['cause'] as String)),
+          (json['cause'] as String?) ?? ''),
       decisionTaskCompletedEventId:
           (json['decisionTaskCompletedEventId'] as int?) ?? 0,
     );
@@ -4795,19 +4834,28 @@ class CancelWorkflowExecutionFailedEventAttributes {
   }
 }
 
-enum ChildPolicy {
-  terminate('TERMINATE'),
-  requestCancel('REQUEST_CANCEL'),
-  abandon('ABANDON'),
-  ;
+class ChildPolicy {
+  static const terminate = ChildPolicy._('TERMINATE');
+  static const requestCancel = ChildPolicy._('REQUEST_CANCEL');
+  static const abandon = ChildPolicy._('ABANDON');
 
   final String value;
 
-  const ChildPolicy(this.value);
+  const ChildPolicy._(this.value);
 
-  static ChildPolicy fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum ChildPolicy'));
+  static const values = [terminate, requestCancel, abandon];
+
+  static ChildPolicy fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ChildPolicy._(value));
+
+  @override
+  bool operator ==(other) => other is ChildPolicy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Provide details of the <code>ChildWorkflowExecutionCanceled</code> event.
@@ -5151,7 +5199,7 @@ class ChildWorkflowExecutionTimedOutEventAttributes {
       initiatedEventId: (json['initiatedEventId'] as int?) ?? 0,
       startedEventId: (json['startedEventId'] as int?) ?? 0,
       timeoutType: WorkflowExecutionTimeoutType.fromString(
-          (json['timeoutType'] as String)),
+          (json['timeoutType'] as String?) ?? ''),
       workflowExecution: WorkflowExecution.fromJson(
           (json['workflowExecution'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
@@ -5177,22 +5225,38 @@ class ChildWorkflowExecutionTimedOutEventAttributes {
   }
 }
 
-enum CloseStatus {
-  completed('COMPLETED'),
-  failed('FAILED'),
-  canceled('CANCELED'),
-  terminated('TERMINATED'),
-  continuedAsNew('CONTINUED_AS_NEW'),
-  timedOut('TIMED_OUT'),
-  ;
+class CloseStatus {
+  static const completed = CloseStatus._('COMPLETED');
+  static const failed = CloseStatus._('FAILED');
+  static const canceled = CloseStatus._('CANCELED');
+  static const terminated = CloseStatus._('TERMINATED');
+  static const continuedAsNew = CloseStatus._('CONTINUED_AS_NEW');
+  static const timedOut = CloseStatus._('TIMED_OUT');
 
   final String value;
 
-  const CloseStatus(this.value);
+  const CloseStatus._(this.value);
 
-  static CloseStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum CloseStatus'));
+  static const values = [
+    completed,
+    failed,
+    canceled,
+    terminated,
+    continuedAsNew,
+    timedOut
+  ];
+
+  static CloseStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => CloseStatus._(value));
+
+  @override
+  bool operator ==(other) => other is CloseStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Used to filter the closed workflow executions in visibility APIs by their
@@ -5259,19 +5323,31 @@ class CompleteWorkflowExecutionDecisionAttributes {
   }
 }
 
-enum CompleteWorkflowExecutionFailedCause {
-  unhandledDecision('UNHANDLED_DECISION'),
-  operationNotPermitted('OPERATION_NOT_PERMITTED'),
-  ;
+class CompleteWorkflowExecutionFailedCause {
+  static const unhandledDecision =
+      CompleteWorkflowExecutionFailedCause._('UNHANDLED_DECISION');
+  static const operationNotPermitted =
+      CompleteWorkflowExecutionFailedCause._('OPERATION_NOT_PERMITTED');
 
   final String value;
 
-  const CompleteWorkflowExecutionFailedCause(this.value);
+  const CompleteWorkflowExecutionFailedCause._(this.value);
+
+  static const values = [unhandledDecision, operationNotPermitted];
 
   static CompleteWorkflowExecutionFailedCause fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum CompleteWorkflowExecutionFailedCause'));
+          orElse: () => CompleteWorkflowExecutionFailedCause._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CompleteWorkflowExecutionFailedCause && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Provides the details of the <code>CompleteWorkflowExecutionFailed</code>
@@ -5305,7 +5381,7 @@ class CompleteWorkflowExecutionFailedEventAttributes {
       Map<String, dynamic> json) {
     return CompleteWorkflowExecutionFailedEventAttributes(
       cause: CompleteWorkflowExecutionFailedCause.fromString(
-          (json['cause'] as String)),
+          (json['cause'] as String?) ?? ''),
       decisionTaskCompletedEventId:
           (json['decisionTaskCompletedEventId'] as int?) ?? 0,
     );
@@ -5495,29 +5571,62 @@ class ContinueAsNewWorkflowExecutionDecisionAttributes {
   }
 }
 
-enum ContinueAsNewWorkflowExecutionFailedCause {
-  unhandledDecision('UNHANDLED_DECISION'),
-  workflowTypeDeprecated('WORKFLOW_TYPE_DEPRECATED'),
-  workflowTypeDoesNotExist('WORKFLOW_TYPE_DOES_NOT_EXIST'),
-  defaultExecutionStartToCloseTimeoutUndefined(
-      'DEFAULT_EXECUTION_START_TO_CLOSE_TIMEOUT_UNDEFINED'),
-  defaultTaskStartToCloseTimeoutUndefined(
-      'DEFAULT_TASK_START_TO_CLOSE_TIMEOUT_UNDEFINED'),
-  defaultTaskListUndefined('DEFAULT_TASK_LIST_UNDEFINED'),
-  defaultChildPolicyUndefined('DEFAULT_CHILD_POLICY_UNDEFINED'),
-  continueAsNewWorkflowExecutionRateExceeded(
-      'CONTINUE_AS_NEW_WORKFLOW_EXECUTION_RATE_EXCEEDED'),
-  operationNotPermitted('OPERATION_NOT_PERMITTED'),
-  ;
+class ContinueAsNewWorkflowExecutionFailedCause {
+  static const unhandledDecision =
+      ContinueAsNewWorkflowExecutionFailedCause._('UNHANDLED_DECISION');
+  static const workflowTypeDeprecated =
+      ContinueAsNewWorkflowExecutionFailedCause._('WORKFLOW_TYPE_DEPRECATED');
+  static const workflowTypeDoesNotExist =
+      ContinueAsNewWorkflowExecutionFailedCause._(
+          'WORKFLOW_TYPE_DOES_NOT_EXIST');
+  static const defaultExecutionStartToCloseTimeoutUndefined =
+      ContinueAsNewWorkflowExecutionFailedCause._(
+          'DEFAULT_EXECUTION_START_TO_CLOSE_TIMEOUT_UNDEFINED');
+  static const defaultTaskStartToCloseTimeoutUndefined =
+      ContinueAsNewWorkflowExecutionFailedCause._(
+          'DEFAULT_TASK_START_TO_CLOSE_TIMEOUT_UNDEFINED');
+  static const defaultTaskListUndefined =
+      ContinueAsNewWorkflowExecutionFailedCause._(
+          'DEFAULT_TASK_LIST_UNDEFINED');
+  static const defaultChildPolicyUndefined =
+      ContinueAsNewWorkflowExecutionFailedCause._(
+          'DEFAULT_CHILD_POLICY_UNDEFINED');
+  static const continueAsNewWorkflowExecutionRateExceeded =
+      ContinueAsNewWorkflowExecutionFailedCause._(
+          'CONTINUE_AS_NEW_WORKFLOW_EXECUTION_RATE_EXCEEDED');
+  static const operationNotPermitted =
+      ContinueAsNewWorkflowExecutionFailedCause._('OPERATION_NOT_PERMITTED');
 
   final String value;
 
-  const ContinueAsNewWorkflowExecutionFailedCause(this.value);
+  const ContinueAsNewWorkflowExecutionFailedCause._(this.value);
+
+  static const values = [
+    unhandledDecision,
+    workflowTypeDeprecated,
+    workflowTypeDoesNotExist,
+    defaultExecutionStartToCloseTimeoutUndefined,
+    defaultTaskStartToCloseTimeoutUndefined,
+    defaultTaskListUndefined,
+    defaultChildPolicyUndefined,
+    continueAsNewWorkflowExecutionRateExceeded,
+    operationNotPermitted
+  ];
 
   static ContinueAsNewWorkflowExecutionFailedCause fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ContinueAsNewWorkflowExecutionFailedCause'));
+          orElse: () => ContinueAsNewWorkflowExecutionFailedCause._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ContinueAsNewWorkflowExecutionFailedCause &&
+      other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Provides the details of the
@@ -5551,7 +5660,7 @@ class ContinueAsNewWorkflowExecutionFailedEventAttributes {
       Map<String, dynamic> json) {
     return ContinueAsNewWorkflowExecutionFailedEventAttributes(
       cause: ContinueAsNewWorkflowExecutionFailedCause.fromString(
-          (json['cause'] as String)),
+          (json['cause'] as String?) ?? ''),
       decisionTaskCompletedEventId:
           (json['decisionTaskCompletedEventId'] as int?) ?? 0,
     );
@@ -6217,8 +6326,8 @@ class DecisionTaskTimedOutEventAttributes {
     return DecisionTaskTimedOutEventAttributes(
       scheduledEventId: (json['scheduledEventId'] as int?) ?? 0,
       startedEventId: (json['startedEventId'] as int?) ?? 0,
-      timeoutType:
-          DecisionTaskTimeoutType.fromString((json['timeoutType'] as String)),
+      timeoutType: DecisionTaskTimeoutType.fromString(
+          (json['timeoutType'] as String?) ?? ''),
     );
   }
 
@@ -6234,46 +6343,85 @@ class DecisionTaskTimedOutEventAttributes {
   }
 }
 
-enum DecisionTaskTimeoutType {
-  startToClose('START_TO_CLOSE'),
-  scheduleToStart('SCHEDULE_TO_START'),
-  ;
+class DecisionTaskTimeoutType {
+  static const startToClose = DecisionTaskTimeoutType._('START_TO_CLOSE');
+  static const scheduleToStart = DecisionTaskTimeoutType._('SCHEDULE_TO_START');
 
   final String value;
 
-  const DecisionTaskTimeoutType(this.value);
+  const DecisionTaskTimeoutType._(this.value);
+
+  static const values = [startToClose, scheduleToStart];
 
   static DecisionTaskTimeoutType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum DecisionTaskTimeoutType'));
+          orElse: () => DecisionTaskTimeoutType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DecisionTaskTimeoutType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum DecisionType {
-  scheduleActivityTask('ScheduleActivityTask'),
-  requestCancelActivityTask('RequestCancelActivityTask'),
-  completeWorkflowExecution('CompleteWorkflowExecution'),
-  failWorkflowExecution('FailWorkflowExecution'),
-  cancelWorkflowExecution('CancelWorkflowExecution'),
-  continueAsNewWorkflowExecution('ContinueAsNewWorkflowExecution'),
-  recordMarker('RecordMarker'),
-  startTimer('StartTimer'),
-  cancelTimer('CancelTimer'),
-  signalExternalWorkflowExecution('SignalExternalWorkflowExecution'),
-  requestCancelExternalWorkflowExecution(
-      'RequestCancelExternalWorkflowExecution'),
-  startChildWorkflowExecution('StartChildWorkflowExecution'),
-  scheduleLambdaFunction('ScheduleLambdaFunction'),
-  ;
+class DecisionType {
+  static const scheduleActivityTask = DecisionType._('ScheduleActivityTask');
+  static const requestCancelActivityTask =
+      DecisionType._('RequestCancelActivityTask');
+  static const completeWorkflowExecution =
+      DecisionType._('CompleteWorkflowExecution');
+  static const failWorkflowExecution = DecisionType._('FailWorkflowExecution');
+  static const cancelWorkflowExecution =
+      DecisionType._('CancelWorkflowExecution');
+  static const continueAsNewWorkflowExecution =
+      DecisionType._('ContinueAsNewWorkflowExecution');
+  static const recordMarker = DecisionType._('RecordMarker');
+  static const startTimer = DecisionType._('StartTimer');
+  static const cancelTimer = DecisionType._('CancelTimer');
+  static const signalExternalWorkflowExecution =
+      DecisionType._('SignalExternalWorkflowExecution');
+  static const requestCancelExternalWorkflowExecution =
+      DecisionType._('RequestCancelExternalWorkflowExecution');
+  static const startChildWorkflowExecution =
+      DecisionType._('StartChildWorkflowExecution');
+  static const scheduleLambdaFunction =
+      DecisionType._('ScheduleLambdaFunction');
 
   final String value;
 
-  const DecisionType(this.value);
+  const DecisionType._(this.value);
 
-  static DecisionType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum DecisionType'));
+  static const values = [
+    scheduleActivityTask,
+    requestCancelActivityTask,
+    completeWorkflowExecution,
+    failWorkflowExecution,
+    cancelWorkflowExecution,
+    continueAsNewWorkflowExecution,
+    recordMarker,
+    startTimer,
+    cancelTimer,
+    signalExternalWorkflowExecution,
+    requestCancelExternalWorkflowExecution,
+    startChildWorkflowExecution,
+    scheduleLambdaFunction
+  ];
+
+  static DecisionType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => DecisionType._(value));
+
+  @override
+  bool operator ==(other) => other is DecisionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains the configuration settings of a domain.
@@ -6375,7 +6523,7 @@ class DomainInfo {
   factory DomainInfo.fromJson(Map<String, dynamic> json) {
     return DomainInfo(
       name: (json['name'] as String?) ?? '',
-      status: RegistrationStatus.fromString((json['status'] as String)),
+      status: RegistrationStatus.fromString((json['status'] as String?) ?? ''),
       arn: json['arn'] as String?,
       description: json['description'] as String?,
     );
@@ -6434,90 +6582,189 @@ class DomainInfos {
   }
 }
 
-enum EventType {
-  workflowExecutionStarted('WorkflowExecutionStarted'),
-  workflowExecutionCancelRequested('WorkflowExecutionCancelRequested'),
-  workflowExecutionCompleted('WorkflowExecutionCompleted'),
-  completeWorkflowExecutionFailed('CompleteWorkflowExecutionFailed'),
-  workflowExecutionFailed('WorkflowExecutionFailed'),
-  failWorkflowExecutionFailed('FailWorkflowExecutionFailed'),
-  workflowExecutionTimedOut('WorkflowExecutionTimedOut'),
-  workflowExecutionCanceled('WorkflowExecutionCanceled'),
-  cancelWorkflowExecutionFailed('CancelWorkflowExecutionFailed'),
-  workflowExecutionContinuedAsNew('WorkflowExecutionContinuedAsNew'),
-  continueAsNewWorkflowExecutionFailed('ContinueAsNewWorkflowExecutionFailed'),
-  workflowExecutionTerminated('WorkflowExecutionTerminated'),
-  decisionTaskScheduled('DecisionTaskScheduled'),
-  decisionTaskStarted('DecisionTaskStarted'),
-  decisionTaskCompleted('DecisionTaskCompleted'),
-  decisionTaskTimedOut('DecisionTaskTimedOut'),
-  activityTaskScheduled('ActivityTaskScheduled'),
-  scheduleActivityTaskFailed('ScheduleActivityTaskFailed'),
-  activityTaskStarted('ActivityTaskStarted'),
-  activityTaskCompleted('ActivityTaskCompleted'),
-  activityTaskFailed('ActivityTaskFailed'),
-  activityTaskTimedOut('ActivityTaskTimedOut'),
-  activityTaskCanceled('ActivityTaskCanceled'),
-  activityTaskCancelRequested('ActivityTaskCancelRequested'),
-  requestCancelActivityTaskFailed('RequestCancelActivityTaskFailed'),
-  workflowExecutionSignaled('WorkflowExecutionSignaled'),
-  markerRecorded('MarkerRecorded'),
-  recordMarkerFailed('RecordMarkerFailed'),
-  timerStarted('TimerStarted'),
-  startTimerFailed('StartTimerFailed'),
-  timerFired('TimerFired'),
-  timerCanceled('TimerCanceled'),
-  cancelTimerFailed('CancelTimerFailed'),
-  startChildWorkflowExecutionInitiated('StartChildWorkflowExecutionInitiated'),
-  startChildWorkflowExecutionFailed('StartChildWorkflowExecutionFailed'),
-  childWorkflowExecutionStarted('ChildWorkflowExecutionStarted'),
-  childWorkflowExecutionCompleted('ChildWorkflowExecutionCompleted'),
-  childWorkflowExecutionFailed('ChildWorkflowExecutionFailed'),
-  childWorkflowExecutionTimedOut('ChildWorkflowExecutionTimedOut'),
-  childWorkflowExecutionCanceled('ChildWorkflowExecutionCanceled'),
-  childWorkflowExecutionTerminated('ChildWorkflowExecutionTerminated'),
-  signalExternalWorkflowExecutionInitiated(
-      'SignalExternalWorkflowExecutionInitiated'),
-  signalExternalWorkflowExecutionFailed(
-      'SignalExternalWorkflowExecutionFailed'),
-  externalWorkflowExecutionSignaled('ExternalWorkflowExecutionSignaled'),
-  requestCancelExternalWorkflowExecutionInitiated(
-      'RequestCancelExternalWorkflowExecutionInitiated'),
-  requestCancelExternalWorkflowExecutionFailed(
-      'RequestCancelExternalWorkflowExecutionFailed'),
-  externalWorkflowExecutionCancelRequested(
-      'ExternalWorkflowExecutionCancelRequested'),
-  lambdaFunctionScheduled('LambdaFunctionScheduled'),
-  lambdaFunctionStarted('LambdaFunctionStarted'),
-  lambdaFunctionCompleted('LambdaFunctionCompleted'),
-  lambdaFunctionFailed('LambdaFunctionFailed'),
-  lambdaFunctionTimedOut('LambdaFunctionTimedOut'),
-  scheduleLambdaFunctionFailed('ScheduleLambdaFunctionFailed'),
-  startLambdaFunctionFailed('StartLambdaFunctionFailed'),
-  ;
+class EventType {
+  static const workflowExecutionStarted =
+      EventType._('WorkflowExecutionStarted');
+  static const workflowExecutionCancelRequested =
+      EventType._('WorkflowExecutionCancelRequested');
+  static const workflowExecutionCompleted =
+      EventType._('WorkflowExecutionCompleted');
+  static const completeWorkflowExecutionFailed =
+      EventType._('CompleteWorkflowExecutionFailed');
+  static const workflowExecutionFailed = EventType._('WorkflowExecutionFailed');
+  static const failWorkflowExecutionFailed =
+      EventType._('FailWorkflowExecutionFailed');
+  static const workflowExecutionTimedOut =
+      EventType._('WorkflowExecutionTimedOut');
+  static const workflowExecutionCanceled =
+      EventType._('WorkflowExecutionCanceled');
+  static const cancelWorkflowExecutionFailed =
+      EventType._('CancelWorkflowExecutionFailed');
+  static const workflowExecutionContinuedAsNew =
+      EventType._('WorkflowExecutionContinuedAsNew');
+  static const continueAsNewWorkflowExecutionFailed =
+      EventType._('ContinueAsNewWorkflowExecutionFailed');
+  static const workflowExecutionTerminated =
+      EventType._('WorkflowExecutionTerminated');
+  static const decisionTaskScheduled = EventType._('DecisionTaskScheduled');
+  static const decisionTaskStarted = EventType._('DecisionTaskStarted');
+  static const decisionTaskCompleted = EventType._('DecisionTaskCompleted');
+  static const decisionTaskTimedOut = EventType._('DecisionTaskTimedOut');
+  static const activityTaskScheduled = EventType._('ActivityTaskScheduled');
+  static const scheduleActivityTaskFailed =
+      EventType._('ScheduleActivityTaskFailed');
+  static const activityTaskStarted = EventType._('ActivityTaskStarted');
+  static const activityTaskCompleted = EventType._('ActivityTaskCompleted');
+  static const activityTaskFailed = EventType._('ActivityTaskFailed');
+  static const activityTaskTimedOut = EventType._('ActivityTaskTimedOut');
+  static const activityTaskCanceled = EventType._('ActivityTaskCanceled');
+  static const activityTaskCancelRequested =
+      EventType._('ActivityTaskCancelRequested');
+  static const requestCancelActivityTaskFailed =
+      EventType._('RequestCancelActivityTaskFailed');
+  static const workflowExecutionSignaled =
+      EventType._('WorkflowExecutionSignaled');
+  static const markerRecorded = EventType._('MarkerRecorded');
+  static const recordMarkerFailed = EventType._('RecordMarkerFailed');
+  static const timerStarted = EventType._('TimerStarted');
+  static const startTimerFailed = EventType._('StartTimerFailed');
+  static const timerFired = EventType._('TimerFired');
+  static const timerCanceled = EventType._('TimerCanceled');
+  static const cancelTimerFailed = EventType._('CancelTimerFailed');
+  static const startChildWorkflowExecutionInitiated =
+      EventType._('StartChildWorkflowExecutionInitiated');
+  static const startChildWorkflowExecutionFailed =
+      EventType._('StartChildWorkflowExecutionFailed');
+  static const childWorkflowExecutionStarted =
+      EventType._('ChildWorkflowExecutionStarted');
+  static const childWorkflowExecutionCompleted =
+      EventType._('ChildWorkflowExecutionCompleted');
+  static const childWorkflowExecutionFailed =
+      EventType._('ChildWorkflowExecutionFailed');
+  static const childWorkflowExecutionTimedOut =
+      EventType._('ChildWorkflowExecutionTimedOut');
+  static const childWorkflowExecutionCanceled =
+      EventType._('ChildWorkflowExecutionCanceled');
+  static const childWorkflowExecutionTerminated =
+      EventType._('ChildWorkflowExecutionTerminated');
+  static const signalExternalWorkflowExecutionInitiated =
+      EventType._('SignalExternalWorkflowExecutionInitiated');
+  static const signalExternalWorkflowExecutionFailed =
+      EventType._('SignalExternalWorkflowExecutionFailed');
+  static const externalWorkflowExecutionSignaled =
+      EventType._('ExternalWorkflowExecutionSignaled');
+  static const requestCancelExternalWorkflowExecutionInitiated =
+      EventType._('RequestCancelExternalWorkflowExecutionInitiated');
+  static const requestCancelExternalWorkflowExecutionFailed =
+      EventType._('RequestCancelExternalWorkflowExecutionFailed');
+  static const externalWorkflowExecutionCancelRequested =
+      EventType._('ExternalWorkflowExecutionCancelRequested');
+  static const lambdaFunctionScheduled = EventType._('LambdaFunctionScheduled');
+  static const lambdaFunctionStarted = EventType._('LambdaFunctionStarted');
+  static const lambdaFunctionCompleted = EventType._('LambdaFunctionCompleted');
+  static const lambdaFunctionFailed = EventType._('LambdaFunctionFailed');
+  static const lambdaFunctionTimedOut = EventType._('LambdaFunctionTimedOut');
+  static const scheduleLambdaFunctionFailed =
+      EventType._('ScheduleLambdaFunctionFailed');
+  static const startLambdaFunctionFailed =
+      EventType._('StartLambdaFunctionFailed');
 
   final String value;
 
-  const EventType(this.value);
+  const EventType._(this.value);
 
-  static EventType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum EventType'));
+  static const values = [
+    workflowExecutionStarted,
+    workflowExecutionCancelRequested,
+    workflowExecutionCompleted,
+    completeWorkflowExecutionFailed,
+    workflowExecutionFailed,
+    failWorkflowExecutionFailed,
+    workflowExecutionTimedOut,
+    workflowExecutionCanceled,
+    cancelWorkflowExecutionFailed,
+    workflowExecutionContinuedAsNew,
+    continueAsNewWorkflowExecutionFailed,
+    workflowExecutionTerminated,
+    decisionTaskScheduled,
+    decisionTaskStarted,
+    decisionTaskCompleted,
+    decisionTaskTimedOut,
+    activityTaskScheduled,
+    scheduleActivityTaskFailed,
+    activityTaskStarted,
+    activityTaskCompleted,
+    activityTaskFailed,
+    activityTaskTimedOut,
+    activityTaskCanceled,
+    activityTaskCancelRequested,
+    requestCancelActivityTaskFailed,
+    workflowExecutionSignaled,
+    markerRecorded,
+    recordMarkerFailed,
+    timerStarted,
+    startTimerFailed,
+    timerFired,
+    timerCanceled,
+    cancelTimerFailed,
+    startChildWorkflowExecutionInitiated,
+    startChildWorkflowExecutionFailed,
+    childWorkflowExecutionStarted,
+    childWorkflowExecutionCompleted,
+    childWorkflowExecutionFailed,
+    childWorkflowExecutionTimedOut,
+    childWorkflowExecutionCanceled,
+    childWorkflowExecutionTerminated,
+    signalExternalWorkflowExecutionInitiated,
+    signalExternalWorkflowExecutionFailed,
+    externalWorkflowExecutionSignaled,
+    requestCancelExternalWorkflowExecutionInitiated,
+    requestCancelExternalWorkflowExecutionFailed,
+    externalWorkflowExecutionCancelRequested,
+    lambdaFunctionScheduled,
+    lambdaFunctionStarted,
+    lambdaFunctionCompleted,
+    lambdaFunctionFailed,
+    lambdaFunctionTimedOut,
+    scheduleLambdaFunctionFailed,
+    startLambdaFunctionFailed
+  ];
+
+  static EventType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => EventType._(value));
+
+  @override
+  bool operator ==(other) => other is EventType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ExecutionStatus {
-  open('OPEN'),
-  closed('CLOSED'),
-  ;
+class ExecutionStatus {
+  static const open = ExecutionStatus._('OPEN');
+  static const closed = ExecutionStatus._('CLOSED');
 
   final String value;
 
-  const ExecutionStatus(this.value);
+  const ExecutionStatus._(this.value);
+
+  static const values = [open, closed];
 
   static ExecutionStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ExecutionStatus'));
+          orElse: () => ExecutionStatus._(value));
+
+  @override
+  bool operator ==(other) => other is ExecutionStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Used to filter the workflow executions in visibility APIs by various
@@ -6673,19 +6920,31 @@ class FailWorkflowExecutionDecisionAttributes {
   }
 }
 
-enum FailWorkflowExecutionFailedCause {
-  unhandledDecision('UNHANDLED_DECISION'),
-  operationNotPermitted('OPERATION_NOT_PERMITTED'),
-  ;
+class FailWorkflowExecutionFailedCause {
+  static const unhandledDecision =
+      FailWorkflowExecutionFailedCause._('UNHANDLED_DECISION');
+  static const operationNotPermitted =
+      FailWorkflowExecutionFailedCause._('OPERATION_NOT_PERMITTED');
 
   final String value;
 
-  const FailWorkflowExecutionFailedCause(this.value);
+  const FailWorkflowExecutionFailedCause._(this.value);
+
+  static const values = [unhandledDecision, operationNotPermitted];
 
   static FailWorkflowExecutionFailedCause fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum FailWorkflowExecutionFailedCause'));
+          orElse: () => FailWorkflowExecutionFailedCause._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is FailWorkflowExecutionFailedCause && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Provides the details of the <code>FailWorkflowExecutionFailed</code> event.
@@ -6718,7 +6977,7 @@ class FailWorkflowExecutionFailedEventAttributes {
       Map<String, dynamic> json) {
     return FailWorkflowExecutionFailedEventAttributes(
       cause: FailWorkflowExecutionFailedCause.fromString(
-          (json['cause'] as String)),
+          (json['cause'] as String?) ?? ''),
       decisionTaskCompletedEventId:
           (json['decisionTaskCompletedEventId'] as int?) ?? 0,
     );
@@ -7366,7 +7625,7 @@ class HistoryEvent {
     return HistoryEvent(
       eventId: (json['eventId'] as int?) ?? 0,
       eventTimestamp: nonNullableTimeStampFromJson(json['eventTimestamp'] ?? 0),
-      eventType: EventType.fromString((json['eventType'] as String)),
+      eventType: EventType.fromString((json['eventType'] as String?) ?? ''),
       activityTaskCancelRequestedEventAttributes:
           json['activityTaskCancelRequestedEventAttributes'] != null
               ? ActivityTaskCancelRequestedEventAttributes.fromJson(
@@ -8192,18 +8451,28 @@ class LambdaFunctionTimedOutEventAttributes {
   }
 }
 
-enum LambdaFunctionTimeoutType {
-  startToClose('START_TO_CLOSE'),
-  ;
+class LambdaFunctionTimeoutType {
+  static const startToClose = LambdaFunctionTimeoutType._('START_TO_CLOSE');
 
   final String value;
 
-  const LambdaFunctionTimeoutType(this.value);
+  const LambdaFunctionTimeoutType._(this.value);
+
+  static const values = [startToClose];
 
   static LambdaFunctionTimeoutType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum LambdaFunctionTimeoutType'));
+          orElse: () => LambdaFunctionTimeoutType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is LambdaFunctionTimeoutType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class ListTagsForResourceOutput {
@@ -8353,18 +8622,29 @@ class RecordMarkerDecisionAttributes {
   }
 }
 
-enum RecordMarkerFailedCause {
-  operationNotPermitted('OPERATION_NOT_PERMITTED'),
-  ;
+class RecordMarkerFailedCause {
+  static const operationNotPermitted =
+      RecordMarkerFailedCause._('OPERATION_NOT_PERMITTED');
 
   final String value;
 
-  const RecordMarkerFailedCause(this.value);
+  const RecordMarkerFailedCause._(this.value);
+
+  static const values = [operationNotPermitted];
 
   static RecordMarkerFailedCause fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum RecordMarkerFailedCause'));
+          orElse: () => RecordMarkerFailedCause._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RecordMarkerFailedCause && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Provides the details of the <code>RecordMarkerFailed</code> event.
@@ -8399,7 +8679,8 @@ class RecordMarkerFailedEventAttributes {
   factory RecordMarkerFailedEventAttributes.fromJson(
       Map<String, dynamic> json) {
     return RecordMarkerFailedEventAttributes(
-      cause: RecordMarkerFailedCause.fromString((json['cause'] as String)),
+      cause:
+          RecordMarkerFailedCause.fromString((json['cause'] as String?) ?? ''),
       decisionTaskCompletedEventId:
           (json['decisionTaskCompletedEventId'] as int?) ?? 0,
       markerName: (json['markerName'] as String?) ?? '',
@@ -8418,19 +8699,29 @@ class RecordMarkerFailedEventAttributes {
   }
 }
 
-enum RegistrationStatus {
-  registered('REGISTERED'),
-  deprecated('DEPRECATED'),
-  ;
+class RegistrationStatus {
+  static const registered = RegistrationStatus._('REGISTERED');
+  static const deprecated = RegistrationStatus._('DEPRECATED');
 
   final String value;
 
-  const RegistrationStatus(this.value);
+  const RegistrationStatus._(this.value);
 
-  static RegistrationStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum RegistrationStatus'));
+  static const values = [registered, deprecated];
+
+  static RegistrationStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => RegistrationStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RegistrationStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Provides the details of the <code>RequestCancelActivityTask</code> decision.
@@ -8477,19 +8768,31 @@ class RequestCancelActivityTaskDecisionAttributes {
   }
 }
 
-enum RequestCancelActivityTaskFailedCause {
-  activityIdUnknown('ACTIVITY_ID_UNKNOWN'),
-  operationNotPermitted('OPERATION_NOT_PERMITTED'),
-  ;
+class RequestCancelActivityTaskFailedCause {
+  static const activityIdUnknown =
+      RequestCancelActivityTaskFailedCause._('ACTIVITY_ID_UNKNOWN');
+  static const operationNotPermitted =
+      RequestCancelActivityTaskFailedCause._('OPERATION_NOT_PERMITTED');
 
   final String value;
 
-  const RequestCancelActivityTaskFailedCause(this.value);
+  const RequestCancelActivityTaskFailedCause._(this.value);
+
+  static const values = [activityIdUnknown, operationNotPermitted];
 
   static RequestCancelActivityTaskFailedCause fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum RequestCancelActivityTaskFailedCause'));
+          orElse: () => RequestCancelActivityTaskFailedCause._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RequestCancelActivityTaskFailedCause && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Provides the details of the <code>RequestCancelActivityTaskFailed</code>
@@ -8529,7 +8832,7 @@ class RequestCancelActivityTaskFailedEventAttributes {
     return RequestCancelActivityTaskFailedEventAttributes(
       activityId: (json['activityId'] as String?) ?? '',
       cause: RequestCancelActivityTaskFailedCause.fromString(
-          (json['cause'] as String)),
+          (json['cause'] as String?) ?? ''),
       decisionTaskCompletedEventId:
           (json['decisionTaskCompletedEventId'] as int?) ?? 0,
     );
@@ -8605,22 +8908,43 @@ class RequestCancelExternalWorkflowExecutionDecisionAttributes {
   }
 }
 
-enum RequestCancelExternalWorkflowExecutionFailedCause {
-  unknownExternalWorkflowExecution('UNKNOWN_EXTERNAL_WORKFLOW_EXECUTION'),
-  requestCancelExternalWorkflowExecutionRateExceeded(
-      'REQUEST_CANCEL_EXTERNAL_WORKFLOW_EXECUTION_RATE_EXCEEDED'),
-  operationNotPermitted('OPERATION_NOT_PERMITTED'),
-  ;
+class RequestCancelExternalWorkflowExecutionFailedCause {
+  static const unknownExternalWorkflowExecution =
+      RequestCancelExternalWorkflowExecutionFailedCause._(
+          'UNKNOWN_EXTERNAL_WORKFLOW_EXECUTION');
+  static const requestCancelExternalWorkflowExecutionRateExceeded =
+      RequestCancelExternalWorkflowExecutionFailedCause._(
+          'REQUEST_CANCEL_EXTERNAL_WORKFLOW_EXECUTION_RATE_EXCEEDED');
+  static const operationNotPermitted =
+      RequestCancelExternalWorkflowExecutionFailedCause._(
+          'OPERATION_NOT_PERMITTED');
 
   final String value;
 
-  const RequestCancelExternalWorkflowExecutionFailedCause(this.value);
+  const RequestCancelExternalWorkflowExecutionFailedCause._(this.value);
+
+  static const values = [
+    unknownExternalWorkflowExecution,
+    requestCancelExternalWorkflowExecutionRateExceeded,
+    operationNotPermitted
+  ];
 
   static RequestCancelExternalWorkflowExecutionFailedCause fromString(
           String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum RequestCancelExternalWorkflowExecutionFailedCause'));
+          orElse: () =>
+              RequestCancelExternalWorkflowExecutionFailedCause._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RequestCancelExternalWorkflowExecutionFailedCause &&
+      other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Provides the details of the
@@ -8676,7 +9000,7 @@ class RequestCancelExternalWorkflowExecutionFailedEventAttributes {
       Map<String, dynamic> json) {
     return RequestCancelExternalWorkflowExecutionFailedEventAttributes(
       cause: RequestCancelExternalWorkflowExecutionFailedCause.fromString(
-          (json['cause'] as String)),
+          (json['cause'] as String?) ?? ''),
       decisionTaskCompletedEventId:
           (json['decisionTaskCompletedEventId'] as int?) ?? 0,
       initiatedEventId: (json['initiatedEventId'] as int?) ?? 0,
@@ -9000,31 +9324,64 @@ class ScheduleActivityTaskDecisionAttributes {
   }
 }
 
-enum ScheduleActivityTaskFailedCause {
-  activityTypeDeprecated('ACTIVITY_TYPE_DEPRECATED'),
-  activityTypeDoesNotExist('ACTIVITY_TYPE_DOES_NOT_EXIST'),
-  activityIdAlreadyInUse('ACTIVITY_ID_ALREADY_IN_USE'),
-  openActivitiesLimitExceeded('OPEN_ACTIVITIES_LIMIT_EXCEEDED'),
-  activityCreationRateExceeded('ACTIVITY_CREATION_RATE_EXCEEDED'),
-  defaultScheduleToCloseTimeoutUndefined(
-      'DEFAULT_SCHEDULE_TO_CLOSE_TIMEOUT_UNDEFINED'),
-  defaultTaskListUndefined('DEFAULT_TASK_LIST_UNDEFINED'),
-  defaultScheduleToStartTimeoutUndefined(
-      'DEFAULT_SCHEDULE_TO_START_TIMEOUT_UNDEFINED'),
-  defaultStartToCloseTimeoutUndefined(
-      'DEFAULT_START_TO_CLOSE_TIMEOUT_UNDEFINED'),
-  defaultHeartbeatTimeoutUndefined('DEFAULT_HEARTBEAT_TIMEOUT_UNDEFINED'),
-  operationNotPermitted('OPERATION_NOT_PERMITTED'),
-  ;
+class ScheduleActivityTaskFailedCause {
+  static const activityTypeDeprecated =
+      ScheduleActivityTaskFailedCause._('ACTIVITY_TYPE_DEPRECATED');
+  static const activityTypeDoesNotExist =
+      ScheduleActivityTaskFailedCause._('ACTIVITY_TYPE_DOES_NOT_EXIST');
+  static const activityIdAlreadyInUse =
+      ScheduleActivityTaskFailedCause._('ACTIVITY_ID_ALREADY_IN_USE');
+  static const openActivitiesLimitExceeded =
+      ScheduleActivityTaskFailedCause._('OPEN_ACTIVITIES_LIMIT_EXCEEDED');
+  static const activityCreationRateExceeded =
+      ScheduleActivityTaskFailedCause._('ACTIVITY_CREATION_RATE_EXCEEDED');
+  static const defaultScheduleToCloseTimeoutUndefined =
+      ScheduleActivityTaskFailedCause._(
+          'DEFAULT_SCHEDULE_TO_CLOSE_TIMEOUT_UNDEFINED');
+  static const defaultTaskListUndefined =
+      ScheduleActivityTaskFailedCause._('DEFAULT_TASK_LIST_UNDEFINED');
+  static const defaultScheduleToStartTimeoutUndefined =
+      ScheduleActivityTaskFailedCause._(
+          'DEFAULT_SCHEDULE_TO_START_TIMEOUT_UNDEFINED');
+  static const defaultStartToCloseTimeoutUndefined =
+      ScheduleActivityTaskFailedCause._(
+          'DEFAULT_START_TO_CLOSE_TIMEOUT_UNDEFINED');
+  static const defaultHeartbeatTimeoutUndefined =
+      ScheduleActivityTaskFailedCause._('DEFAULT_HEARTBEAT_TIMEOUT_UNDEFINED');
+  static const operationNotPermitted =
+      ScheduleActivityTaskFailedCause._('OPERATION_NOT_PERMITTED');
 
   final String value;
 
-  const ScheduleActivityTaskFailedCause(this.value);
+  const ScheduleActivityTaskFailedCause._(this.value);
+
+  static const values = [
+    activityTypeDeprecated,
+    activityTypeDoesNotExist,
+    activityIdAlreadyInUse,
+    openActivitiesLimitExceeded,
+    activityCreationRateExceeded,
+    defaultScheduleToCloseTimeoutUndefined,
+    defaultTaskListUndefined,
+    defaultScheduleToStartTimeoutUndefined,
+    defaultStartToCloseTimeoutUndefined,
+    defaultHeartbeatTimeoutUndefined,
+    operationNotPermitted
+  ];
 
   static ScheduleActivityTaskFailedCause fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ScheduleActivityTaskFailedCause'));
+          orElse: () => ScheduleActivityTaskFailedCause._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ScheduleActivityTaskFailedCause && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Provides the details of the <code>ScheduleActivityTaskFailed</code> event.
@@ -9069,8 +9426,8 @@ class ScheduleActivityTaskFailedEventAttributes {
       activityType: ActivityType.fromJson(
           (json['activityType'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
-      cause:
-          ScheduleActivityTaskFailedCause.fromString((json['cause'] as String)),
+      cause: ScheduleActivityTaskFailedCause.fromString(
+          (json['cause'] as String?) ?? ''),
       decisionTaskCompletedEventId:
           (json['decisionTaskCompletedEventId'] as int?) ?? 0,
     );
@@ -9140,21 +9497,43 @@ class ScheduleLambdaFunctionDecisionAttributes {
   }
 }
 
-enum ScheduleLambdaFunctionFailedCause {
-  idAlreadyInUse('ID_ALREADY_IN_USE'),
-  openLambdaFunctionsLimitExceeded('OPEN_LAMBDA_FUNCTIONS_LIMIT_EXCEEDED'),
-  lambdaFunctionCreationRateExceeded('LAMBDA_FUNCTION_CREATION_RATE_EXCEEDED'),
-  lambdaServiceNotAvailableInRegion('LAMBDA_SERVICE_NOT_AVAILABLE_IN_REGION'),
-  ;
+class ScheduleLambdaFunctionFailedCause {
+  static const idAlreadyInUse =
+      ScheduleLambdaFunctionFailedCause._('ID_ALREADY_IN_USE');
+  static const openLambdaFunctionsLimitExceeded =
+      ScheduleLambdaFunctionFailedCause._(
+          'OPEN_LAMBDA_FUNCTIONS_LIMIT_EXCEEDED');
+  static const lambdaFunctionCreationRateExceeded =
+      ScheduleLambdaFunctionFailedCause._(
+          'LAMBDA_FUNCTION_CREATION_RATE_EXCEEDED');
+  static const lambdaServiceNotAvailableInRegion =
+      ScheduleLambdaFunctionFailedCause._(
+          'LAMBDA_SERVICE_NOT_AVAILABLE_IN_REGION');
 
   final String value;
 
-  const ScheduleLambdaFunctionFailedCause(this.value);
+  const ScheduleLambdaFunctionFailedCause._(this.value);
+
+  static const values = [
+    idAlreadyInUse,
+    openLambdaFunctionsLimitExceeded,
+    lambdaFunctionCreationRateExceeded,
+    lambdaServiceNotAvailableInRegion
+  ];
 
   static ScheduleLambdaFunctionFailedCause fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ScheduleLambdaFunctionFailedCause'));
+          orElse: () => ScheduleLambdaFunctionFailedCause._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ScheduleLambdaFunctionFailedCause && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Provides the details of the <code>ScheduleLambdaFunctionFailed</code> event.
@@ -9196,7 +9575,7 @@ class ScheduleLambdaFunctionFailedEventAttributes {
       Map<String, dynamic> json) {
     return ScheduleLambdaFunctionFailedEventAttributes(
       cause: ScheduleLambdaFunctionFailedCause.fromString(
-          (json['cause'] as String)),
+          (json['cause'] as String?) ?? ''),
       decisionTaskCompletedEventId:
           (json['decisionTaskCompletedEventId'] as int?) ?? 0,
       id: (json['id'] as String?) ?? '',
@@ -9290,21 +9669,40 @@ class SignalExternalWorkflowExecutionDecisionAttributes {
   }
 }
 
-enum SignalExternalWorkflowExecutionFailedCause {
-  unknownExternalWorkflowExecution('UNKNOWN_EXTERNAL_WORKFLOW_EXECUTION'),
-  signalExternalWorkflowExecutionRateExceeded(
-      'SIGNAL_EXTERNAL_WORKFLOW_EXECUTION_RATE_EXCEEDED'),
-  operationNotPermitted('OPERATION_NOT_PERMITTED'),
-  ;
+class SignalExternalWorkflowExecutionFailedCause {
+  static const unknownExternalWorkflowExecution =
+      SignalExternalWorkflowExecutionFailedCause._(
+          'UNKNOWN_EXTERNAL_WORKFLOW_EXECUTION');
+  static const signalExternalWorkflowExecutionRateExceeded =
+      SignalExternalWorkflowExecutionFailedCause._(
+          'SIGNAL_EXTERNAL_WORKFLOW_EXECUTION_RATE_EXCEEDED');
+  static const operationNotPermitted =
+      SignalExternalWorkflowExecutionFailedCause._('OPERATION_NOT_PERMITTED');
 
   final String value;
 
-  const SignalExternalWorkflowExecutionFailedCause(this.value);
+  const SignalExternalWorkflowExecutionFailedCause._(this.value);
+
+  static const values = [
+    unknownExternalWorkflowExecution,
+    signalExternalWorkflowExecutionRateExceeded,
+    operationNotPermitted
+  ];
 
   static SignalExternalWorkflowExecutionFailedCause fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum SignalExternalWorkflowExecutionFailedCause'));
+          orElse: () => SignalExternalWorkflowExecutionFailedCause._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SignalExternalWorkflowExecutionFailedCause &&
+      other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Provides the details of the
@@ -9360,7 +9758,7 @@ class SignalExternalWorkflowExecutionFailedEventAttributes {
       Map<String, dynamic> json) {
     return SignalExternalWorkflowExecutionFailedEventAttributes(
       cause: SignalExternalWorkflowExecutionFailedCause.fromString(
-          (json['cause'] as String)),
+          (json['cause'] as String?) ?? ''),
       decisionTaskCompletedEventId:
           (json['decisionTaskCompletedEventId'] as int?) ?? 0,
       initiatedEventId: (json['initiatedEventId'] as int?) ?? 0,
@@ -9662,30 +10060,64 @@ class StartChildWorkflowExecutionDecisionAttributes {
   }
 }
 
-enum StartChildWorkflowExecutionFailedCause {
-  workflowTypeDoesNotExist('WORKFLOW_TYPE_DOES_NOT_EXIST'),
-  workflowTypeDeprecated('WORKFLOW_TYPE_DEPRECATED'),
-  openChildrenLimitExceeded('OPEN_CHILDREN_LIMIT_EXCEEDED'),
-  openWorkflowsLimitExceeded('OPEN_WORKFLOWS_LIMIT_EXCEEDED'),
-  childCreationRateExceeded('CHILD_CREATION_RATE_EXCEEDED'),
-  workflowAlreadyRunning('WORKFLOW_ALREADY_RUNNING'),
-  defaultExecutionStartToCloseTimeoutUndefined(
-      'DEFAULT_EXECUTION_START_TO_CLOSE_TIMEOUT_UNDEFINED'),
-  defaultTaskListUndefined('DEFAULT_TASK_LIST_UNDEFINED'),
-  defaultTaskStartToCloseTimeoutUndefined(
-      'DEFAULT_TASK_START_TO_CLOSE_TIMEOUT_UNDEFINED'),
-  defaultChildPolicyUndefined('DEFAULT_CHILD_POLICY_UNDEFINED'),
-  operationNotPermitted('OPERATION_NOT_PERMITTED'),
-  ;
+class StartChildWorkflowExecutionFailedCause {
+  static const workflowTypeDoesNotExist =
+      StartChildWorkflowExecutionFailedCause._('WORKFLOW_TYPE_DOES_NOT_EXIST');
+  static const workflowTypeDeprecated =
+      StartChildWorkflowExecutionFailedCause._('WORKFLOW_TYPE_DEPRECATED');
+  static const openChildrenLimitExceeded =
+      StartChildWorkflowExecutionFailedCause._('OPEN_CHILDREN_LIMIT_EXCEEDED');
+  static const openWorkflowsLimitExceeded =
+      StartChildWorkflowExecutionFailedCause._('OPEN_WORKFLOWS_LIMIT_EXCEEDED');
+  static const childCreationRateExceeded =
+      StartChildWorkflowExecutionFailedCause._('CHILD_CREATION_RATE_EXCEEDED');
+  static const workflowAlreadyRunning =
+      StartChildWorkflowExecutionFailedCause._('WORKFLOW_ALREADY_RUNNING');
+  static const defaultExecutionStartToCloseTimeoutUndefined =
+      StartChildWorkflowExecutionFailedCause._(
+          'DEFAULT_EXECUTION_START_TO_CLOSE_TIMEOUT_UNDEFINED');
+  static const defaultTaskListUndefined =
+      StartChildWorkflowExecutionFailedCause._('DEFAULT_TASK_LIST_UNDEFINED');
+  static const defaultTaskStartToCloseTimeoutUndefined =
+      StartChildWorkflowExecutionFailedCause._(
+          'DEFAULT_TASK_START_TO_CLOSE_TIMEOUT_UNDEFINED');
+  static const defaultChildPolicyUndefined =
+      StartChildWorkflowExecutionFailedCause._(
+          'DEFAULT_CHILD_POLICY_UNDEFINED');
+  static const operationNotPermitted =
+      StartChildWorkflowExecutionFailedCause._('OPERATION_NOT_PERMITTED');
 
   final String value;
 
-  const StartChildWorkflowExecutionFailedCause(this.value);
+  const StartChildWorkflowExecutionFailedCause._(this.value);
+
+  static const values = [
+    workflowTypeDoesNotExist,
+    workflowTypeDeprecated,
+    openChildrenLimitExceeded,
+    openWorkflowsLimitExceeded,
+    childCreationRateExceeded,
+    workflowAlreadyRunning,
+    defaultExecutionStartToCloseTimeoutUndefined,
+    defaultTaskListUndefined,
+    defaultTaskStartToCloseTimeoutUndefined,
+    defaultChildPolicyUndefined,
+    operationNotPermitted
+  ];
 
   static StartChildWorkflowExecutionFailedCause fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum StartChildWorkflowExecutionFailedCause'));
+          orElse: () => StartChildWorkflowExecutionFailedCause._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is StartChildWorkflowExecutionFailedCause && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Provides the details of the <code>StartChildWorkflowExecutionFailed</code>
@@ -9745,7 +10177,7 @@ class StartChildWorkflowExecutionFailedEventAttributes {
       Map<String, dynamic> json) {
     return StartChildWorkflowExecutionFailedEventAttributes(
       cause: StartChildWorkflowExecutionFailedCause.fromString(
-          (json['cause'] as String)),
+          (json['cause'] as String?) ?? ''),
       decisionTaskCompletedEventId:
           (json['decisionTaskCompletedEventId'] as int?) ?? 0,
       initiatedEventId: (json['initiatedEventId'] as int?) ?? 0,
@@ -9874,7 +10306,8 @@ class StartChildWorkflowExecutionInitiatedEventAttributes {
   factory StartChildWorkflowExecutionInitiatedEventAttributes.fromJson(
       Map<String, dynamic> json) {
     return StartChildWorkflowExecutionInitiatedEventAttributes(
-      childPolicy: ChildPolicy.fromString((json['childPolicy'] as String)),
+      childPolicy:
+          ChildPolicy.fromString((json['childPolicy'] as String?) ?? ''),
       decisionTaskCompletedEventId:
           (json['decisionTaskCompletedEventId'] as int?) ?? 0,
       taskList: TaskList.fromJson((json['taskList'] as Map<String, dynamic>?) ??
@@ -9927,18 +10360,29 @@ class StartChildWorkflowExecutionInitiatedEventAttributes {
   }
 }
 
-enum StartLambdaFunctionFailedCause {
-  assumeRoleFailed('ASSUME_ROLE_FAILED'),
-  ;
+class StartLambdaFunctionFailedCause {
+  static const assumeRoleFailed =
+      StartLambdaFunctionFailedCause._('ASSUME_ROLE_FAILED');
 
   final String value;
 
-  const StartLambdaFunctionFailedCause(this.value);
+  const StartLambdaFunctionFailedCause._(this.value);
+
+  static const values = [assumeRoleFailed];
 
   static StartLambdaFunctionFailedCause fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum StartLambdaFunctionFailedCause'));
+          orElse: () => StartLambdaFunctionFailedCause._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is StartLambdaFunctionFailedCause && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Provides the details of the <code>StartLambdaFunctionFailed</code> event. It
@@ -10056,21 +10500,40 @@ class StartTimerDecisionAttributes {
   }
 }
 
-enum StartTimerFailedCause {
-  timerIdAlreadyInUse('TIMER_ID_ALREADY_IN_USE'),
-  openTimersLimitExceeded('OPEN_TIMERS_LIMIT_EXCEEDED'),
-  timerCreationRateExceeded('TIMER_CREATION_RATE_EXCEEDED'),
-  operationNotPermitted('OPERATION_NOT_PERMITTED'),
-  ;
+class StartTimerFailedCause {
+  static const timerIdAlreadyInUse =
+      StartTimerFailedCause._('TIMER_ID_ALREADY_IN_USE');
+  static const openTimersLimitExceeded =
+      StartTimerFailedCause._('OPEN_TIMERS_LIMIT_EXCEEDED');
+  static const timerCreationRateExceeded =
+      StartTimerFailedCause._('TIMER_CREATION_RATE_EXCEEDED');
+  static const operationNotPermitted =
+      StartTimerFailedCause._('OPERATION_NOT_PERMITTED');
 
   final String value;
 
-  const StartTimerFailedCause(this.value);
+  const StartTimerFailedCause._(this.value);
 
-  static StartTimerFailedCause fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum StartTimerFailedCause'));
+  static const values = [
+    timerIdAlreadyInUse,
+    openTimersLimitExceeded,
+    timerCreationRateExceeded,
+    operationNotPermitted
+  ];
+
+  static StartTimerFailedCause fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => StartTimerFailedCause._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is StartTimerFailedCause && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Provides the details of the <code>StartTimerFailed</code> event.
@@ -10104,7 +10567,7 @@ class StartTimerFailedEventAttributes {
 
   factory StartTimerFailedEventAttributes.fromJson(Map<String, dynamic> json) {
     return StartTimerFailedEventAttributes(
-      cause: StartTimerFailedCause.fromString((json['cause'] as String)),
+      cause: StartTimerFailedCause.fromString((json['cause'] as String?) ?? ''),
       decisionTaskCompletedEventId:
           (json['decisionTaskCompletedEventId'] as int?) ?? 0,
       timerId: (json['timerId'] as String?) ?? '',
@@ -10324,18 +10787,29 @@ class WorkflowExecution {
   }
 }
 
-enum WorkflowExecutionCancelRequestedCause {
-  childPolicyApplied('CHILD_POLICY_APPLIED'),
-  ;
+class WorkflowExecutionCancelRequestedCause {
+  static const childPolicyApplied =
+      WorkflowExecutionCancelRequestedCause._('CHILD_POLICY_APPLIED');
 
   final String value;
 
-  const WorkflowExecutionCancelRequestedCause(this.value);
+  const WorkflowExecutionCancelRequestedCause._(this.value);
+
+  static const values = [childPolicyApplied];
 
   static WorkflowExecutionCancelRequestedCause fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum WorkflowExecutionCancelRequestedCause'));
+          orElse: () => WorkflowExecutionCancelRequestedCause._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is WorkflowExecutionCancelRequestedCause && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Provides the details of the <code>WorkflowExecutionCancelRequested</code>
@@ -10532,7 +11006,8 @@ class WorkflowExecutionConfiguration {
 
   factory WorkflowExecutionConfiguration.fromJson(Map<String, dynamic> json) {
     return WorkflowExecutionConfiguration(
-      childPolicy: ChildPolicy.fromString((json['childPolicy'] as String)),
+      childPolicy:
+          ChildPolicy.fromString((json['childPolicy'] as String?) ?? ''),
       executionStartToCloseTimeout:
           (json['executionStartToCloseTimeout'] as String?) ?? '',
       taskList: TaskList.fromJson((json['taskList'] as Map<String, dynamic>?) ??
@@ -10647,7 +11122,8 @@ class WorkflowExecutionContinuedAsNewEventAttributes {
   factory WorkflowExecutionContinuedAsNewEventAttributes.fromJson(
       Map<String, dynamic> json) {
     return WorkflowExecutionContinuedAsNewEventAttributes(
-      childPolicy: ChildPolicy.fromString((json['childPolicy'] as String)),
+      childPolicy:
+          ChildPolicy.fromString((json['childPolicy'] as String?) ?? ''),
       decisionTaskCompletedEventId:
           (json['decisionTaskCompletedEventId'] as int?) ?? 0,
       newExecutionRunId: (json['newExecutionRunId'] as String?) ?? '',
@@ -10934,8 +11410,8 @@ class WorkflowExecutionInfo {
       execution: WorkflowExecution.fromJson(
           (json['execution'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
-      executionStatus:
-          ExecutionStatus.fromString((json['executionStatus'] as String)),
+      executionStatus: ExecutionStatus.fromString(
+          (json['executionStatus'] as String?) ?? ''),
       startTimestamp: nonNullableTimeStampFromJson(json['startTimestamp'] ?? 0),
       workflowType: WorkflowType.fromJson(
           (json['workflowType'] as Map<String, dynamic>?) ??
@@ -11224,7 +11700,8 @@ class WorkflowExecutionStartedEventAttributes {
   factory WorkflowExecutionStartedEventAttributes.fromJson(
       Map<String, dynamic> json) {
     return WorkflowExecutionStartedEventAttributes(
-      childPolicy: ChildPolicy.fromString((json['childPolicy'] as String)),
+      childPolicy:
+          ChildPolicy.fromString((json['childPolicy'] as String?) ?? ''),
       taskList: TaskList.fromJson((json['taskList'] as Map<String, dynamic>?) ??
           const <String, dynamic>{}),
       workflowType: WorkflowType.fromJson(
@@ -11282,20 +11759,37 @@ class WorkflowExecutionStartedEventAttributes {
   }
 }
 
-enum WorkflowExecutionTerminatedCause {
-  childPolicyApplied('CHILD_POLICY_APPLIED'),
-  eventLimitExceeded('EVENT_LIMIT_EXCEEDED'),
-  operatorInitiated('OPERATOR_INITIATED'),
-  ;
+class WorkflowExecutionTerminatedCause {
+  static const childPolicyApplied =
+      WorkflowExecutionTerminatedCause._('CHILD_POLICY_APPLIED');
+  static const eventLimitExceeded =
+      WorkflowExecutionTerminatedCause._('EVENT_LIMIT_EXCEEDED');
+  static const operatorInitiated =
+      WorkflowExecutionTerminatedCause._('OPERATOR_INITIATED');
 
   final String value;
 
-  const WorkflowExecutionTerminatedCause(this.value);
+  const WorkflowExecutionTerminatedCause._(this.value);
+
+  static const values = [
+    childPolicyApplied,
+    eventLimitExceeded,
+    operatorInitiated
+  ];
 
   static WorkflowExecutionTerminatedCause fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum WorkflowExecutionTerminatedCause'));
+          orElse: () => WorkflowExecutionTerminatedCause._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is WorkflowExecutionTerminatedCause && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Provides the details of the <code>WorkflowExecutionTerminated</code> event.
@@ -11344,7 +11838,8 @@ class WorkflowExecutionTerminatedEventAttributes {
   factory WorkflowExecutionTerminatedEventAttributes.fromJson(
       Map<String, dynamic> json) {
     return WorkflowExecutionTerminatedEventAttributes(
-      childPolicy: ChildPolicy.fromString((json['childPolicy'] as String)),
+      childPolicy:
+          ChildPolicy.fromString((json['childPolicy'] as String?) ?? ''),
       cause: (json['cause'] as String?)
           ?.let(WorkflowExecutionTerminatedCause.fromString),
       details: json['details'] as String?,
@@ -11401,9 +11896,10 @@ class WorkflowExecutionTimedOutEventAttributes {
   factory WorkflowExecutionTimedOutEventAttributes.fromJson(
       Map<String, dynamic> json) {
     return WorkflowExecutionTimedOutEventAttributes(
-      childPolicy: ChildPolicy.fromString((json['childPolicy'] as String)),
+      childPolicy:
+          ChildPolicy.fromString((json['childPolicy'] as String?) ?? ''),
       timeoutType: WorkflowExecutionTimeoutType.fromString(
-          (json['timeoutType'] as String)),
+          (json['timeoutType'] as String?) ?? ''),
     );
   }
 
@@ -11417,18 +11913,28 @@ class WorkflowExecutionTimedOutEventAttributes {
   }
 }
 
-enum WorkflowExecutionTimeoutType {
-  startToClose('START_TO_CLOSE'),
-  ;
+class WorkflowExecutionTimeoutType {
+  static const startToClose = WorkflowExecutionTimeoutType._('START_TO_CLOSE');
 
   final String value;
 
-  const WorkflowExecutionTimeoutType(this.value);
+  const WorkflowExecutionTimeoutType._(this.value);
+
+  static const values = [startToClose];
 
   static WorkflowExecutionTimeoutType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum WorkflowExecutionTimeoutType'));
+          orElse: () => WorkflowExecutionTimeoutType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is WorkflowExecutionTimeoutType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Represents a workflow type.
@@ -11705,7 +12211,7 @@ class WorkflowTypeInfo {
   factory WorkflowTypeInfo.fromJson(Map<String, dynamic> json) {
     return WorkflowTypeInfo(
       creationDate: nonNullableTimeStampFromJson(json['creationDate'] ?? 0),
-      status: RegistrationStatus.fromString((json['status'] as String)),
+      status: RegistrationStatus.fromString((json['status'] as String?) ?? ''),
       workflowType: WorkflowType.fromJson(
           (json['workflowType'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),

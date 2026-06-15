@@ -1101,18 +1101,28 @@ class Certificate {
   }
 }
 
-enum CertificateProviderType {
-  pem('PEM'),
-  ;
+class CertificateProviderType {
+  static const pem = CertificateProviderType._('PEM');
 
   final String value;
 
-  const CertificateProviderType(this.value);
+  const CertificateProviderType._(this.value);
+
+  static const values = [pem];
 
   static CertificateProviderType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum CertificateProviderType'));
+          orElse: () => CertificateProviderType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CertificateProviderType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A configuration for CloudWatch monitoring. You can configure your jobs to
@@ -1311,7 +1321,7 @@ class ContainerProvider {
   factory ContainerProvider.fromJson(Map<String, dynamic> json) {
     return ContainerProvider(
       id: (json['id'] as String?) ?? '',
-      type: ContainerProviderType.fromString((json['type'] as String)),
+      type: ContainerProviderType.fromString((json['type'] as String?) ?? ''),
       info: json['info'] != null
           ? ContainerInfo.fromJson(json['info'] as Map<String, dynamic>)
           : null,
@@ -1330,18 +1340,28 @@ class ContainerProvider {
   }
 }
 
-enum ContainerProviderType {
-  eks('EKS'),
-  ;
+class ContainerProviderType {
+  static const eks = ContainerProviderType._('EKS');
 
   final String value;
 
-  const ContainerProviderType(this.value);
+  const ContainerProviderType._(this.value);
 
-  static ContainerProviderType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ContainerProviderType'));
+  static const values = [eks];
+
+  static ContainerProviderType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ContainerProviderType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ContainerProviderType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class CreateJobTemplateResponse {
@@ -1934,39 +1954,68 @@ class Endpoint {
   }
 }
 
-enum EndpointState {
-  creating('CREATING'),
-  active('ACTIVE'),
-  terminating('TERMINATING'),
-  terminated('TERMINATED'),
-  terminatedWithErrors('TERMINATED_WITH_ERRORS'),
-  ;
+class EndpointState {
+  static const creating = EndpointState._('CREATING');
+  static const active = EndpointState._('ACTIVE');
+  static const terminating = EndpointState._('TERMINATING');
+  static const terminated = EndpointState._('TERMINATED');
+  static const terminatedWithErrors = EndpointState._('TERMINATED_WITH_ERRORS');
 
   final String value;
 
-  const EndpointState(this.value);
+  const EndpointState._(this.value);
+
+  static const values = [
+    creating,
+    active,
+    terminating,
+    terminated,
+    terminatedWithErrors
+  ];
 
   static EndpointState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum EndpointState'));
+          orElse: () => EndpointState._(value));
+
+  @override
+  bool operator ==(other) => other is EndpointState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum FailureReason {
-  internalError('INTERNAL_ERROR'),
-  userError('USER_ERROR'),
-  validationError('VALIDATION_ERROR'),
-  clusterUnavailable('CLUSTER_UNAVAILABLE'),
-  ;
+class FailureReason {
+  static const internalError = FailureReason._('INTERNAL_ERROR');
+  static const userError = FailureReason._('USER_ERROR');
+  static const validationError = FailureReason._('VALIDATION_ERROR');
+  static const clusterUnavailable = FailureReason._('CLUSTER_UNAVAILABLE');
 
   final String value;
 
-  const FailureReason(this.value);
+  const FailureReason._(this.value);
+
+  static const values = [
+    internalError,
+    userError,
+    validationError,
+    clusterUnavailable
+  ];
 
   static FailureReason fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum FailureReason'));
+          orElse: () => FailureReason._(value));
+
+  @override
+  bool operator ==(other) => other is FailureReason && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class GetManagedEndpointSessionCredentialsResponse {
@@ -2234,23 +2283,40 @@ class JobRun {
   }
 }
 
-enum JobRunState {
-  pending('PENDING'),
-  submitted('SUBMITTED'),
-  running('RUNNING'),
-  failed('FAILED'),
-  cancelled('CANCELLED'),
-  cancelPending('CANCEL_PENDING'),
-  completed('COMPLETED'),
-  ;
+class JobRunState {
+  static const pending = JobRunState._('PENDING');
+  static const submitted = JobRunState._('SUBMITTED');
+  static const running = JobRunState._('RUNNING');
+  static const failed = JobRunState._('FAILED');
+  static const cancelled = JobRunState._('CANCELLED');
+  static const cancelPending = JobRunState._('CANCEL_PENDING');
+  static const completed = JobRunState._('COMPLETED');
 
   final String value;
 
-  const JobRunState(this.value);
+  const JobRunState._(this.value);
 
-  static JobRunState fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum JobRunState'));
+  static const values = [
+    pending,
+    submitted,
+    running,
+    failed,
+    cancelled,
+    cancelPending,
+    completed
+  ];
+
+  static JobRunState fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => JobRunState._(value));
+
+  @override
+  bool operator ==(other) => other is JobRunState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// This entity describes a job template. Job template stores values of
@@ -2852,19 +2918,28 @@ class ParametricS3MonitoringConfiguration {
   }
 }
 
-enum PersistentAppUI {
-  enabled('ENABLED'),
-  disabled('DISABLED'),
-  ;
+class PersistentAppUI {
+  static const enabled = PersistentAppUI._('ENABLED');
+  static const disabled = PersistentAppUI._('DISABLED');
 
   final String value;
 
-  const PersistentAppUI(this.value);
+  const PersistentAppUI._(this.value);
+
+  static const values = [enabled, disabled];
 
   static PersistentAppUI fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum PersistentAppUI'));
+          orElse: () => PersistentAppUI._(value));
+
+  @override
+  bool operator ==(other) => other is PersistentAppUI && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The configuration of the retry policy that the job runs on.
@@ -3274,19 +3349,29 @@ class TemplateParameterConfiguration {
   }
 }
 
-enum TemplateParameterDataType {
-  number('NUMBER'),
-  string('STRING'),
-  ;
+class TemplateParameterDataType {
+  static const number = TemplateParameterDataType._('NUMBER');
+  static const string = TemplateParameterDataType._('STRING');
 
   final String value;
 
-  const TemplateParameterDataType(this.value);
+  const TemplateParameterDataType._(this.value);
+
+  static const values = [number, string];
 
   static TemplateParameterDataType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum TemplateParameterDataType'));
+          orElse: () => TemplateParameterDataType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TemplateParameterDataType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class UntagResourceResponse {
@@ -3384,21 +3469,31 @@ class VirtualCluster {
   }
 }
 
-enum VirtualClusterState {
-  running('RUNNING'),
-  terminating('TERMINATING'),
-  terminated('TERMINATED'),
-  arrested('ARRESTED'),
-  ;
+class VirtualClusterState {
+  static const running = VirtualClusterState._('RUNNING');
+  static const terminating = VirtualClusterState._('TERMINATING');
+  static const terminated = VirtualClusterState._('TERMINATED');
+  static const arrested = VirtualClusterState._('ARRESTED');
 
   final String value;
 
-  const VirtualClusterState(this.value);
+  const VirtualClusterState._(this.value);
 
-  static VirtualClusterState fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum VirtualClusterState'));
+  static const values = [running, terminating, terminated, arrested];
+
+  static VirtualClusterState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => VirtualClusterState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is VirtualClusterState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class EKSRequestThrottledException extends _s.GenericAwsException {

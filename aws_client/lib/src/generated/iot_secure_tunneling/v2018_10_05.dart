@@ -350,19 +350,28 @@ class IoTSecureTunneling {
   }
 }
 
-enum ClientMode {
-  source('SOURCE'),
-  destination('DESTINATION'),
-  all('ALL'),
-  ;
+class ClientMode {
+  static const source = ClientMode._('SOURCE');
+  static const destination = ClientMode._('DESTINATION');
+  static const all = ClientMode._('ALL');
 
   final String value;
 
-  const ClientMode(this.value);
+  const ClientMode._(this.value);
 
-  static ClientMode fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum ClientMode'));
+  static const values = [source, destination, all];
+
+  static ClientMode fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ClientMode._(value));
+
+  @override
+  bool operator ==(other) => other is ClientMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class CloseTunnelResponse {
@@ -409,19 +418,28 @@ class ConnectionState {
   }
 }
 
-enum ConnectionStatus {
-  connected('CONNECTED'),
-  disconnected('DISCONNECTED'),
-  ;
+class ConnectionStatus {
+  static const connected = ConnectionStatus._('CONNECTED');
+  static const disconnected = ConnectionStatus._('DISCONNECTED');
 
   final String value;
 
-  const ConnectionStatus(this.value);
+  const ConnectionStatus._(this.value);
+
+  static const values = [connected, disconnected];
 
   static ConnectionStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ConnectionStatus'));
+          orElse: () => ConnectionStatus._(value));
+
+  @override
+  bool operator ==(other) => other is ConnectionStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class DescribeTunnelResponse {
@@ -810,19 +828,27 @@ class Tunnel {
   }
 }
 
-enum TunnelStatus {
-  open('OPEN'),
-  closed('CLOSED'),
-  ;
+class TunnelStatus {
+  static const open = TunnelStatus._('OPEN');
+  static const closed = TunnelStatus._('CLOSED');
 
   final String value;
 
-  const TunnelStatus(this.value);
+  const TunnelStatus._(this.value);
 
-  static TunnelStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum TunnelStatus'));
+  static const values = [open, closed];
+
+  static TunnelStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => TunnelStatus._(value));
+
+  @override
+  bool operator ==(other) => other is TunnelStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about the tunnel.

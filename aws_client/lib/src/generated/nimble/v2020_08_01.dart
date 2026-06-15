@@ -2457,19 +2457,29 @@ class ActiveDirectoryConfiguration {
   }
 }
 
-enum AutomaticTerminationMode {
-  deactivated('DEACTIVATED'),
-  activated('ACTIVATED'),
-  ;
+class AutomaticTerminationMode {
+  static const deactivated = AutomaticTerminationMode._('DEACTIVATED');
+  static const activated = AutomaticTerminationMode._('ACTIVATED');
 
   final String value;
 
-  const AutomaticTerminationMode(this.value);
+  const AutomaticTerminationMode._(this.value);
+
+  static const values = [deactivated, activated];
 
   static AutomaticTerminationMode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum AutomaticTerminationMode'));
+          orElse: () => AutomaticTerminationMode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AutomaticTerminationMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The configuration for a render farm that is associated with a studio
@@ -3712,146 +3722,293 @@ class LaunchProfileMembership {
   }
 }
 
-enum LaunchProfilePersona {
-  user('USER'),
-  ;
+class LaunchProfilePersona {
+  static const user = LaunchProfilePersona._('USER');
 
   final String value;
 
-  const LaunchProfilePersona(this.value);
+  const LaunchProfilePersona._(this.value);
 
-  static LaunchProfilePersona fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum LaunchProfilePersona'));
+  static const values = [user];
+
+  static LaunchProfilePersona fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => LaunchProfilePersona._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is LaunchProfilePersona && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum LaunchProfilePlatform {
-  linux('LINUX'),
-  windows('WINDOWS'),
-  ;
+class LaunchProfilePlatform {
+  static const linux = LaunchProfilePlatform._('LINUX');
+  static const windows = LaunchProfilePlatform._('WINDOWS');
 
   final String value;
 
-  const LaunchProfilePlatform(this.value);
+  const LaunchProfilePlatform._(this.value);
 
-  static LaunchProfilePlatform fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum LaunchProfilePlatform'));
+  static const values = [linux, windows];
+
+  static LaunchProfilePlatform fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => LaunchProfilePlatform._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is LaunchProfilePlatform && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum LaunchProfileState {
-  createInProgress('CREATE_IN_PROGRESS'),
-  ready('READY'),
-  updateInProgress('UPDATE_IN_PROGRESS'),
-  deleteInProgress('DELETE_IN_PROGRESS'),
-  deleted('DELETED'),
-  deleteFailed('DELETE_FAILED'),
-  createFailed('CREATE_FAILED'),
-  updateFailed('UPDATE_FAILED'),
-  ;
+class LaunchProfileState {
+  static const createInProgress = LaunchProfileState._('CREATE_IN_PROGRESS');
+  static const ready = LaunchProfileState._('READY');
+  static const updateInProgress = LaunchProfileState._('UPDATE_IN_PROGRESS');
+  static const deleteInProgress = LaunchProfileState._('DELETE_IN_PROGRESS');
+  static const deleted = LaunchProfileState._('DELETED');
+  static const deleteFailed = LaunchProfileState._('DELETE_FAILED');
+  static const createFailed = LaunchProfileState._('CREATE_FAILED');
+  static const updateFailed = LaunchProfileState._('UPDATE_FAILED');
 
   final String value;
 
-  const LaunchProfileState(this.value);
+  const LaunchProfileState._(this.value);
 
-  static LaunchProfileState fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum LaunchProfileState'));
+  static const values = [
+    createInProgress,
+    ready,
+    updateInProgress,
+    deleteInProgress,
+    deleted,
+    deleteFailed,
+    createFailed,
+    updateFailed
+  ];
+
+  static LaunchProfileState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => LaunchProfileState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is LaunchProfileState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum LaunchProfileStatusCode {
-  launchProfileCreated('LAUNCH_PROFILE_CREATED'),
-  launchProfileUpdated('LAUNCH_PROFILE_UPDATED'),
-  launchProfileDeleted('LAUNCH_PROFILE_DELETED'),
-  launchProfileCreateInProgress('LAUNCH_PROFILE_CREATE_IN_PROGRESS'),
-  launchProfileUpdateInProgress('LAUNCH_PROFILE_UPDATE_IN_PROGRESS'),
-  launchProfileDeleteInProgress('LAUNCH_PROFILE_DELETE_IN_PROGRESS'),
-  internalError('INTERNAL_ERROR'),
-  streamingImageNotFound('STREAMING_IMAGE_NOT_FOUND'),
-  streamingImageNotReady('STREAMING_IMAGE_NOT_READY'),
-  launchProfileWithStreamSessionsNotDeleted(
-      'LAUNCH_PROFILE_WITH_STREAM_SESSIONS_NOT_DELETED'),
-  encryptionKeyAccessDenied('ENCRYPTION_KEY_ACCESS_DENIED'),
-  encryptionKeyNotFound('ENCRYPTION_KEY_NOT_FOUND'),
-  invalidSubnetsProvided('INVALID_SUBNETS_PROVIDED'),
-  invalidInstanceTypesProvided('INVALID_INSTANCE_TYPES_PROVIDED'),
-  invalidSubnetsCombination('INVALID_SUBNETS_COMBINATION'),
-  ;
+class LaunchProfileStatusCode {
+  static const launchProfileCreated =
+      LaunchProfileStatusCode._('LAUNCH_PROFILE_CREATED');
+  static const launchProfileUpdated =
+      LaunchProfileStatusCode._('LAUNCH_PROFILE_UPDATED');
+  static const launchProfileDeleted =
+      LaunchProfileStatusCode._('LAUNCH_PROFILE_DELETED');
+  static const launchProfileCreateInProgress =
+      LaunchProfileStatusCode._('LAUNCH_PROFILE_CREATE_IN_PROGRESS');
+  static const launchProfileUpdateInProgress =
+      LaunchProfileStatusCode._('LAUNCH_PROFILE_UPDATE_IN_PROGRESS');
+  static const launchProfileDeleteInProgress =
+      LaunchProfileStatusCode._('LAUNCH_PROFILE_DELETE_IN_PROGRESS');
+  static const internalError = LaunchProfileStatusCode._('INTERNAL_ERROR');
+  static const streamingImageNotFound =
+      LaunchProfileStatusCode._('STREAMING_IMAGE_NOT_FOUND');
+  static const streamingImageNotReady =
+      LaunchProfileStatusCode._('STREAMING_IMAGE_NOT_READY');
+  static const launchProfileWithStreamSessionsNotDeleted =
+      LaunchProfileStatusCode._(
+          'LAUNCH_PROFILE_WITH_STREAM_SESSIONS_NOT_DELETED');
+  static const encryptionKeyAccessDenied =
+      LaunchProfileStatusCode._('ENCRYPTION_KEY_ACCESS_DENIED');
+  static const encryptionKeyNotFound =
+      LaunchProfileStatusCode._('ENCRYPTION_KEY_NOT_FOUND');
+  static const invalidSubnetsProvided =
+      LaunchProfileStatusCode._('INVALID_SUBNETS_PROVIDED');
+  static const invalidInstanceTypesProvided =
+      LaunchProfileStatusCode._('INVALID_INSTANCE_TYPES_PROVIDED');
+  static const invalidSubnetsCombination =
+      LaunchProfileStatusCode._('INVALID_SUBNETS_COMBINATION');
 
   final String value;
 
-  const LaunchProfileStatusCode(this.value);
+  const LaunchProfileStatusCode._(this.value);
+
+  static const values = [
+    launchProfileCreated,
+    launchProfileUpdated,
+    launchProfileDeleted,
+    launchProfileCreateInProgress,
+    launchProfileUpdateInProgress,
+    launchProfileDeleteInProgress,
+    internalError,
+    streamingImageNotFound,
+    streamingImageNotReady,
+    launchProfileWithStreamSessionsNotDeleted,
+    encryptionKeyAccessDenied,
+    encryptionKeyNotFound,
+    invalidSubnetsProvided,
+    invalidInstanceTypesProvided,
+    invalidSubnetsCombination
+  ];
 
   static LaunchProfileStatusCode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum LaunchProfileStatusCode'));
+          orElse: () => LaunchProfileStatusCode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is LaunchProfileStatusCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum LaunchProfileValidationState {
-  validationNotStarted('VALIDATION_NOT_STARTED'),
-  validationInProgress('VALIDATION_IN_PROGRESS'),
-  validationSuccess('VALIDATION_SUCCESS'),
-  validationFailed('VALIDATION_FAILED'),
-  validationFailedInternalServerError(
-      'VALIDATION_FAILED_INTERNAL_SERVER_ERROR'),
-  ;
+class LaunchProfileValidationState {
+  static const validationNotStarted =
+      LaunchProfileValidationState._('VALIDATION_NOT_STARTED');
+  static const validationInProgress =
+      LaunchProfileValidationState._('VALIDATION_IN_PROGRESS');
+  static const validationSuccess =
+      LaunchProfileValidationState._('VALIDATION_SUCCESS');
+  static const validationFailed =
+      LaunchProfileValidationState._('VALIDATION_FAILED');
+  static const validationFailedInternalServerError =
+      LaunchProfileValidationState._('VALIDATION_FAILED_INTERNAL_SERVER_ERROR');
 
   final String value;
 
-  const LaunchProfileValidationState(this.value);
+  const LaunchProfileValidationState._(this.value);
+
+  static const values = [
+    validationNotStarted,
+    validationInProgress,
+    validationSuccess,
+    validationFailed,
+    validationFailedInternalServerError
+  ];
 
   static LaunchProfileValidationState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum LaunchProfileValidationState'));
+          orElse: () => LaunchProfileValidationState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is LaunchProfileValidationState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum LaunchProfileValidationStatusCode {
-  validationNotStarted('VALIDATION_NOT_STARTED'),
-  validationInProgress('VALIDATION_IN_PROGRESS'),
-  validationSuccess('VALIDATION_SUCCESS'),
-  validationFailedInvalidSubnetRouteTableAssociation(
-      'VALIDATION_FAILED_INVALID_SUBNET_ROUTE_TABLE_ASSOCIATION'),
-  validationFailedSubnetNotFound('VALIDATION_FAILED_SUBNET_NOT_FOUND'),
-  validationFailedInvalidSecurityGroupAssociation(
-      'VALIDATION_FAILED_INVALID_SECURITY_GROUP_ASSOCIATION'),
-  validationFailedInvalidActiveDirectory(
-      'VALIDATION_FAILED_INVALID_ACTIVE_DIRECTORY'),
-  validationFailedUnauthorized('VALIDATION_FAILED_UNAUTHORIZED'),
-  validationFailedInternalServerError(
-      'VALIDATION_FAILED_INTERNAL_SERVER_ERROR'),
-  ;
+class LaunchProfileValidationStatusCode {
+  static const validationNotStarted =
+      LaunchProfileValidationStatusCode._('VALIDATION_NOT_STARTED');
+  static const validationInProgress =
+      LaunchProfileValidationStatusCode._('VALIDATION_IN_PROGRESS');
+  static const validationSuccess =
+      LaunchProfileValidationStatusCode._('VALIDATION_SUCCESS');
+  static const validationFailedInvalidSubnetRouteTableAssociation =
+      LaunchProfileValidationStatusCode._(
+          'VALIDATION_FAILED_INVALID_SUBNET_ROUTE_TABLE_ASSOCIATION');
+  static const validationFailedSubnetNotFound =
+      LaunchProfileValidationStatusCode._('VALIDATION_FAILED_SUBNET_NOT_FOUND');
+  static const validationFailedInvalidSecurityGroupAssociation =
+      LaunchProfileValidationStatusCode._(
+          'VALIDATION_FAILED_INVALID_SECURITY_GROUP_ASSOCIATION');
+  static const validationFailedInvalidActiveDirectory =
+      LaunchProfileValidationStatusCode._(
+          'VALIDATION_FAILED_INVALID_ACTIVE_DIRECTORY');
+  static const validationFailedUnauthorized =
+      LaunchProfileValidationStatusCode._('VALIDATION_FAILED_UNAUTHORIZED');
+  static const validationFailedInternalServerError =
+      LaunchProfileValidationStatusCode._(
+          'VALIDATION_FAILED_INTERNAL_SERVER_ERROR');
 
   final String value;
 
-  const LaunchProfileValidationStatusCode(this.value);
+  const LaunchProfileValidationStatusCode._(this.value);
+
+  static const values = [
+    validationNotStarted,
+    validationInProgress,
+    validationSuccess,
+    validationFailedInvalidSubnetRouteTableAssociation,
+    validationFailedSubnetNotFound,
+    validationFailedInvalidSecurityGroupAssociation,
+    validationFailedInvalidActiveDirectory,
+    validationFailedUnauthorized,
+    validationFailedInternalServerError
+  ];
 
   static LaunchProfileValidationStatusCode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum LaunchProfileValidationStatusCode'));
+          orElse: () => LaunchProfileValidationStatusCode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is LaunchProfileValidationStatusCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum LaunchProfileValidationType {
-  validateActiveDirectoryStudioComponent(
-      'VALIDATE_ACTIVE_DIRECTORY_STUDIO_COMPONENT'),
-  validateSubnetAssociation('VALIDATE_SUBNET_ASSOCIATION'),
-  validateNetworkAclAssociation('VALIDATE_NETWORK_ACL_ASSOCIATION'),
-  validateSecurityGroupAssociation('VALIDATE_SECURITY_GROUP_ASSOCIATION'),
-  ;
+class LaunchProfileValidationType {
+  static const validateActiveDirectoryStudioComponent =
+      LaunchProfileValidationType._(
+          'VALIDATE_ACTIVE_DIRECTORY_STUDIO_COMPONENT');
+  static const validateSubnetAssociation =
+      LaunchProfileValidationType._('VALIDATE_SUBNET_ASSOCIATION');
+  static const validateNetworkAclAssociation =
+      LaunchProfileValidationType._('VALIDATE_NETWORK_ACL_ASSOCIATION');
+  static const validateSecurityGroupAssociation =
+      LaunchProfileValidationType._('VALIDATE_SECURITY_GROUP_ASSOCIATION');
 
   final String value;
 
-  const LaunchProfileValidationType(this.value);
+  const LaunchProfileValidationType._(this.value);
+
+  static const values = [
+    validateActiveDirectoryStudioComponent,
+    validateSubnetAssociation,
+    validateNetworkAclAssociation,
+    validateSecurityGroupAssociation
+  ];
 
   static LaunchProfileValidationType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum LaunchProfileValidationType'));
+          orElse: () => LaunchProfileValidationType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is LaunchProfileValidationType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The configuration for a license service that is associated with a studio
@@ -4327,34 +4484,53 @@ class ScriptParameterKeyValue {
   }
 }
 
-enum SessionBackupMode {
-  automatic('AUTOMATIC'),
-  deactivated('DEACTIVATED'),
-  ;
+class SessionBackupMode {
+  static const automatic = SessionBackupMode._('AUTOMATIC');
+  static const deactivated = SessionBackupMode._('DEACTIVATED');
 
   final String value;
 
-  const SessionBackupMode(this.value);
+  const SessionBackupMode._(this.value);
+
+  static const values = [automatic, deactivated];
 
   static SessionBackupMode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum SessionBackupMode'));
+          orElse: () => SessionBackupMode._(value));
+
+  @override
+  bool operator ==(other) => other is SessionBackupMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum SessionPersistenceMode {
-  deactivated('DEACTIVATED'),
-  activated('ACTIVATED'),
-  ;
+class SessionPersistenceMode {
+  static const deactivated = SessionPersistenceMode._('DEACTIVATED');
+  static const activated = SessionPersistenceMode._('ACTIVATED');
 
   final String value;
 
-  const SessionPersistenceMode(this.value);
+  const SessionPersistenceMode._(this.value);
+
+  static const values = [deactivated, activated];
 
   static SessionPersistenceMode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum SessionPersistenceMode'));
+          orElse: () => SessionPersistenceMode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SessionPersistenceMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The configuration for a shared file storage system that is associated with a
@@ -4576,8 +4752,8 @@ class StreamConfiguration {
 
   factory StreamConfiguration.fromJson(Map<String, dynamic> json) {
     return StreamConfiguration(
-      clipboardMode:
-          StreamingClipboardMode.fromString((json['clipboardMode'] as String)),
+      clipboardMode: StreamingClipboardMode.fromString(
+          (json['clipboardMode'] as String?) ?? ''),
       ec2InstanceTypes: ((json['ec2InstanceTypes'] as List?) ?? const [])
           .nonNulls
           .map((e) => StreamingInstanceType.fromString((e as String)))
@@ -4841,19 +5017,29 @@ class StreamConfigurationSessionStorage {
   }
 }
 
-enum StreamingClipboardMode {
-  enabled('ENABLED'),
-  disabled('DISABLED'),
-  ;
+class StreamingClipboardMode {
+  static const enabled = StreamingClipboardMode._('ENABLED');
+  static const disabled = StreamingClipboardMode._('DISABLED');
 
   final String value;
 
-  const StreamingClipboardMode(this.value);
+  const StreamingClipboardMode._(this.value);
+
+  static const values = [enabled, disabled];
 
   static StreamingClipboardMode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum StreamingClipboardMode'));
+          orElse: () => StreamingClipboardMode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is StreamingClipboardMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Represents a streaming image resource.
@@ -5002,7 +5188,7 @@ class StreamingImageEncryptionConfiguration {
       Map<String, dynamic> json) {
     return StreamingImageEncryptionConfiguration(
       keyType: StreamingImageEncryptionConfigurationKeyType.fromString(
-          (json['keyType'] as String)),
+          (json['keyType'] as String?) ?? ''),
       keyArn: json['keyArn'] as String?,
     );
   }
@@ -5017,87 +5203,165 @@ class StreamingImageEncryptionConfiguration {
   }
 }
 
-enum StreamingImageEncryptionConfigurationKeyType {
-  customerManagedKey('CUSTOMER_MANAGED_KEY'),
-  ;
+class StreamingImageEncryptionConfigurationKeyType {
+  static const customerManagedKey =
+      StreamingImageEncryptionConfigurationKeyType._('CUSTOMER_MANAGED_KEY');
 
   final String value;
 
-  const StreamingImageEncryptionConfigurationKeyType(this.value);
+  const StreamingImageEncryptionConfigurationKeyType._(this.value);
+
+  static const values = [customerManagedKey];
 
   static StreamingImageEncryptionConfigurationKeyType fromString(
           String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum StreamingImageEncryptionConfigurationKeyType'));
+          orElse: () => StreamingImageEncryptionConfigurationKeyType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is StreamingImageEncryptionConfigurationKeyType &&
+      other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum StreamingImageState {
-  createInProgress('CREATE_IN_PROGRESS'),
-  ready('READY'),
-  deleteInProgress('DELETE_IN_PROGRESS'),
-  deleted('DELETED'),
-  updateInProgress('UPDATE_IN_PROGRESS'),
-  updateFailed('UPDATE_FAILED'),
-  createFailed('CREATE_FAILED'),
-  deleteFailed('DELETE_FAILED'),
-  ;
+class StreamingImageState {
+  static const createInProgress = StreamingImageState._('CREATE_IN_PROGRESS');
+  static const ready = StreamingImageState._('READY');
+  static const deleteInProgress = StreamingImageState._('DELETE_IN_PROGRESS');
+  static const deleted = StreamingImageState._('DELETED');
+  static const updateInProgress = StreamingImageState._('UPDATE_IN_PROGRESS');
+  static const updateFailed = StreamingImageState._('UPDATE_FAILED');
+  static const createFailed = StreamingImageState._('CREATE_FAILED');
+  static const deleteFailed = StreamingImageState._('DELETE_FAILED');
 
   final String value;
 
-  const StreamingImageState(this.value);
+  const StreamingImageState._(this.value);
 
-  static StreamingImageState fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum StreamingImageState'));
+  static const values = [
+    createInProgress,
+    ready,
+    deleteInProgress,
+    deleted,
+    updateInProgress,
+    updateFailed,
+    createFailed,
+    deleteFailed
+  ];
+
+  static StreamingImageState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => StreamingImageState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is StreamingImageState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The status code.
-enum StreamingImageStatusCode {
-  streamingImageCreateInProgress('STREAMING_IMAGE_CREATE_IN_PROGRESS'),
-  streamingImageReady('STREAMING_IMAGE_READY'),
-  streamingImageDeleteInProgress('STREAMING_IMAGE_DELETE_IN_PROGRESS'),
-  streamingImageDeleted('STREAMING_IMAGE_DELETED'),
-  streamingImageUpdateInProgress('STREAMING_IMAGE_UPDATE_IN_PROGRESS'),
-  internalError('INTERNAL_ERROR'),
-  accessDenied('ACCESS_DENIED'),
-  ;
+class StreamingImageStatusCode {
+  static const streamingImageCreateInProgress =
+      StreamingImageStatusCode._('STREAMING_IMAGE_CREATE_IN_PROGRESS');
+  static const streamingImageReady =
+      StreamingImageStatusCode._('STREAMING_IMAGE_READY');
+  static const streamingImageDeleteInProgress =
+      StreamingImageStatusCode._('STREAMING_IMAGE_DELETE_IN_PROGRESS');
+  static const streamingImageDeleted =
+      StreamingImageStatusCode._('STREAMING_IMAGE_DELETED');
+  static const streamingImageUpdateInProgress =
+      StreamingImageStatusCode._('STREAMING_IMAGE_UPDATE_IN_PROGRESS');
+  static const internalError = StreamingImageStatusCode._('INTERNAL_ERROR');
+  static const accessDenied = StreamingImageStatusCode._('ACCESS_DENIED');
 
   final String value;
 
-  const StreamingImageStatusCode(this.value);
+  const StreamingImageStatusCode._(this.value);
+
+  static const values = [
+    streamingImageCreateInProgress,
+    streamingImageReady,
+    streamingImageDeleteInProgress,
+    streamingImageDeleted,
+    streamingImageUpdateInProgress,
+    internalError,
+    accessDenied
+  ];
 
   static StreamingImageStatusCode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum StreamingImageStatusCode'));
+          orElse: () => StreamingImageStatusCode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is StreamingImageStatusCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum StreamingInstanceType {
-  g4dnXlarge('g4dn.xlarge'),
-  g4dn_2xlarge('g4dn.2xlarge'),
-  g4dn_4xlarge('g4dn.4xlarge'),
-  g4dn_8xlarge('g4dn.8xlarge'),
-  g4dn_12xlarge('g4dn.12xlarge'),
-  g4dn_16xlarge('g4dn.16xlarge'),
-  g3_4xlarge('g3.4xlarge'),
-  g3sXlarge('g3s.xlarge'),
-  g5Xlarge('g5.xlarge'),
-  g5_2xlarge('g5.2xlarge'),
-  g5_4xlarge('g5.4xlarge'),
-  g5_8xlarge('g5.8xlarge'),
-  g5_16xlarge('g5.16xlarge'),
-  ;
+class StreamingInstanceType {
+  static const g4dnXlarge = StreamingInstanceType._('g4dn.xlarge');
+  static const g4dn_2xlarge = StreamingInstanceType._('g4dn.2xlarge');
+  static const g4dn_4xlarge = StreamingInstanceType._('g4dn.4xlarge');
+  static const g4dn_8xlarge = StreamingInstanceType._('g4dn.8xlarge');
+  static const g4dn_12xlarge = StreamingInstanceType._('g4dn.12xlarge');
+  static const g4dn_16xlarge = StreamingInstanceType._('g4dn.16xlarge');
+  static const g3_4xlarge = StreamingInstanceType._('g3.4xlarge');
+  static const g3sXlarge = StreamingInstanceType._('g3s.xlarge');
+  static const g5Xlarge = StreamingInstanceType._('g5.xlarge');
+  static const g5_2xlarge = StreamingInstanceType._('g5.2xlarge');
+  static const g5_4xlarge = StreamingInstanceType._('g5.4xlarge');
+  static const g5_8xlarge = StreamingInstanceType._('g5.8xlarge');
+  static const g5_16xlarge = StreamingInstanceType._('g5.16xlarge');
 
   final String value;
 
-  const StreamingInstanceType(this.value);
+  const StreamingInstanceType._(this.value);
 
-  static StreamingInstanceType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum StreamingInstanceType'));
+  static const values = [
+    g4dnXlarge,
+    g4dn_2xlarge,
+    g4dn_4xlarge,
+    g4dn_8xlarge,
+    g4dn_12xlarge,
+    g4dn_16xlarge,
+    g3_4xlarge,
+    g3sXlarge,
+    g5Xlarge,
+    g5_2xlarge,
+    g5_4xlarge,
+    g5_8xlarge,
+    g5_16xlarge
+  ];
+
+  static StreamingInstanceType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => StreamingInstanceType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is StreamingInstanceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A streaming session is a virtual workstation created using a particular
@@ -5443,71 +5707,145 @@ class StreamingSessionBackup {
 }
 
 /// The streaming session state.
-enum StreamingSessionState {
-  createInProgress('CREATE_IN_PROGRESS'),
-  deleteInProgress('DELETE_IN_PROGRESS'),
-  ready('READY'),
-  deleted('DELETED'),
-  createFailed('CREATE_FAILED'),
-  deleteFailed('DELETE_FAILED'),
-  stopInProgress('STOP_IN_PROGRESS'),
-  startInProgress('START_IN_PROGRESS'),
-  stopped('STOPPED'),
-  stopFailed('STOP_FAILED'),
-  startFailed('START_FAILED'),
-  ;
+class StreamingSessionState {
+  static const createInProgress = StreamingSessionState._('CREATE_IN_PROGRESS');
+  static const deleteInProgress = StreamingSessionState._('DELETE_IN_PROGRESS');
+  static const ready = StreamingSessionState._('READY');
+  static const deleted = StreamingSessionState._('DELETED');
+  static const createFailed = StreamingSessionState._('CREATE_FAILED');
+  static const deleteFailed = StreamingSessionState._('DELETE_FAILED');
+  static const stopInProgress = StreamingSessionState._('STOP_IN_PROGRESS');
+  static const startInProgress = StreamingSessionState._('START_IN_PROGRESS');
+  static const stopped = StreamingSessionState._('STOPPED');
+  static const stopFailed = StreamingSessionState._('STOP_FAILED');
+  static const startFailed = StreamingSessionState._('START_FAILED');
 
   final String value;
 
-  const StreamingSessionState(this.value);
+  const StreamingSessionState._(this.value);
 
-  static StreamingSessionState fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum StreamingSessionState'));
+  static const values = [
+    createInProgress,
+    deleteInProgress,
+    ready,
+    deleted,
+    createFailed,
+    deleteFailed,
+    stopInProgress,
+    startInProgress,
+    stopped,
+    stopFailed,
+    startFailed
+  ];
+
+  static StreamingSessionState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => StreamingSessionState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is StreamingSessionState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum StreamingSessionStatusCode {
-  streamingSessionReady('STREAMING_SESSION_READY'),
-  streamingSessionDeleted('STREAMING_SESSION_DELETED'),
-  streamingSessionCreateInProgress('STREAMING_SESSION_CREATE_IN_PROGRESS'),
-  streamingSessionDeleteInProgress('STREAMING_SESSION_DELETE_IN_PROGRESS'),
-  internalError('INTERNAL_ERROR'),
-  insufficientCapacity('INSUFFICIENT_CAPACITY'),
-  activeDirectoryDomainJoinError('ACTIVE_DIRECTORY_DOMAIN_JOIN_ERROR'),
-  networkConnectionError('NETWORK_CONNECTION_ERROR'),
-  initializationScriptError('INITIALIZATION_SCRIPT_ERROR'),
-  decryptStreamingImageError('DECRYPT_STREAMING_IMAGE_ERROR'),
-  networkInterfaceError('NETWORK_INTERFACE_ERROR'),
-  streamingSessionStopped('STREAMING_SESSION_STOPPED'),
-  streamingSessionStarted('STREAMING_SESSION_STARTED'),
-  streamingSessionStopInProgress('STREAMING_SESSION_STOP_IN_PROGRESS'),
-  streamingSessionStartInProgress('STREAMING_SESSION_START_IN_PROGRESS'),
-  amiValidationError('AMI_VALIDATION_ERROR'),
-  ;
+class StreamingSessionStatusCode {
+  static const streamingSessionReady =
+      StreamingSessionStatusCode._('STREAMING_SESSION_READY');
+  static const streamingSessionDeleted =
+      StreamingSessionStatusCode._('STREAMING_SESSION_DELETED');
+  static const streamingSessionCreateInProgress =
+      StreamingSessionStatusCode._('STREAMING_SESSION_CREATE_IN_PROGRESS');
+  static const streamingSessionDeleteInProgress =
+      StreamingSessionStatusCode._('STREAMING_SESSION_DELETE_IN_PROGRESS');
+  static const internalError = StreamingSessionStatusCode._('INTERNAL_ERROR');
+  static const insufficientCapacity =
+      StreamingSessionStatusCode._('INSUFFICIENT_CAPACITY');
+  static const activeDirectoryDomainJoinError =
+      StreamingSessionStatusCode._('ACTIVE_DIRECTORY_DOMAIN_JOIN_ERROR');
+  static const networkConnectionError =
+      StreamingSessionStatusCode._('NETWORK_CONNECTION_ERROR');
+  static const initializationScriptError =
+      StreamingSessionStatusCode._('INITIALIZATION_SCRIPT_ERROR');
+  static const decryptStreamingImageError =
+      StreamingSessionStatusCode._('DECRYPT_STREAMING_IMAGE_ERROR');
+  static const networkInterfaceError =
+      StreamingSessionStatusCode._('NETWORK_INTERFACE_ERROR');
+  static const streamingSessionStopped =
+      StreamingSessionStatusCode._('STREAMING_SESSION_STOPPED');
+  static const streamingSessionStarted =
+      StreamingSessionStatusCode._('STREAMING_SESSION_STARTED');
+  static const streamingSessionStopInProgress =
+      StreamingSessionStatusCode._('STREAMING_SESSION_STOP_IN_PROGRESS');
+  static const streamingSessionStartInProgress =
+      StreamingSessionStatusCode._('STREAMING_SESSION_START_IN_PROGRESS');
+  static const amiValidationError =
+      StreamingSessionStatusCode._('AMI_VALIDATION_ERROR');
 
   final String value;
 
-  const StreamingSessionStatusCode(this.value);
+  const StreamingSessionStatusCode._(this.value);
+
+  static const values = [
+    streamingSessionReady,
+    streamingSessionDeleted,
+    streamingSessionCreateInProgress,
+    streamingSessionDeleteInProgress,
+    internalError,
+    insufficientCapacity,
+    activeDirectoryDomainJoinError,
+    networkConnectionError,
+    initializationScriptError,
+    decryptStreamingImageError,
+    networkInterfaceError,
+    streamingSessionStopped,
+    streamingSessionStarted,
+    streamingSessionStopInProgress,
+    streamingSessionStartInProgress,
+    amiValidationError
+  ];
 
   static StreamingSessionStatusCode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum StreamingSessionStatusCode'));
+          orElse: () => StreamingSessionStatusCode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is StreamingSessionStatusCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum StreamingSessionStorageMode {
-  upload('UPLOAD'),
-  ;
+class StreamingSessionStorageMode {
+  static const upload = StreamingSessionStorageMode._('UPLOAD');
 
   final String value;
 
-  const StreamingSessionStorageMode(this.value);
+  const StreamingSessionStorageMode._(this.value);
+
+  static const values = [upload];
 
   static StreamingSessionStorageMode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum StreamingSessionStorageMode'));
+          orElse: () => StreamingSessionStorageMode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is StreamingSessionStorageMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The upload storage root location (folder) on streaming workstations where
@@ -5620,42 +5958,83 @@ class StreamingSessionStream {
   }
 }
 
-enum StreamingSessionStreamState {
-  ready('READY'),
-  createInProgress('CREATE_IN_PROGRESS'),
-  deleteInProgress('DELETE_IN_PROGRESS'),
-  deleted('DELETED'),
-  createFailed('CREATE_FAILED'),
-  deleteFailed('DELETE_FAILED'),
-  ;
+class StreamingSessionStreamState {
+  static const ready = StreamingSessionStreamState._('READY');
+  static const createInProgress =
+      StreamingSessionStreamState._('CREATE_IN_PROGRESS');
+  static const deleteInProgress =
+      StreamingSessionStreamState._('DELETE_IN_PROGRESS');
+  static const deleted = StreamingSessionStreamState._('DELETED');
+  static const createFailed = StreamingSessionStreamState._('CREATE_FAILED');
+  static const deleteFailed = StreamingSessionStreamState._('DELETE_FAILED');
 
   final String value;
 
-  const StreamingSessionStreamState(this.value);
+  const StreamingSessionStreamState._(this.value);
+
+  static const values = [
+    ready,
+    createInProgress,
+    deleteInProgress,
+    deleted,
+    createFailed,
+    deleteFailed
+  ];
 
   static StreamingSessionStreamState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum StreamingSessionStreamState'));
+          orElse: () => StreamingSessionStreamState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is StreamingSessionStreamState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum StreamingSessionStreamStatusCode {
-  streamCreateInProgress('STREAM_CREATE_IN_PROGRESS'),
-  streamReady('STREAM_READY'),
-  streamDeleteInProgress('STREAM_DELETE_IN_PROGRESS'),
-  streamDeleted('STREAM_DELETED'),
-  internalError('INTERNAL_ERROR'),
-  networkConnectionError('NETWORK_CONNECTION_ERROR'),
-  ;
+class StreamingSessionStreamStatusCode {
+  static const streamCreateInProgress =
+      StreamingSessionStreamStatusCode._('STREAM_CREATE_IN_PROGRESS');
+  static const streamReady = StreamingSessionStreamStatusCode._('STREAM_READY');
+  static const streamDeleteInProgress =
+      StreamingSessionStreamStatusCode._('STREAM_DELETE_IN_PROGRESS');
+  static const streamDeleted =
+      StreamingSessionStreamStatusCode._('STREAM_DELETED');
+  static const internalError =
+      StreamingSessionStreamStatusCode._('INTERNAL_ERROR');
+  static const networkConnectionError =
+      StreamingSessionStreamStatusCode._('NETWORK_CONNECTION_ERROR');
 
   final String value;
 
-  const StreamingSessionStreamStatusCode(this.value);
+  const StreamingSessionStreamStatusCode._(this.value);
+
+  static const values = [
+    streamCreateInProgress,
+    streamReady,
+    streamDeleteInProgress,
+    streamDeleted,
+    internalError,
+    networkConnectionError
+  ];
 
   static StreamingSessionStreamStatusCode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum StreamingSessionStreamStatusCode'));
+          orElse: () => StreamingSessionStreamStatusCode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is StreamingSessionStreamStatusCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Represents a studio resource.
@@ -6129,20 +6508,33 @@ class StudioComponentInitializationScript {
   }
 }
 
-enum StudioComponentInitializationScriptRunContext {
-  systemInitialization('SYSTEM_INITIALIZATION'),
-  userInitialization('USER_INITIALIZATION'),
-  ;
+class StudioComponentInitializationScriptRunContext {
+  static const systemInitialization =
+      StudioComponentInitializationScriptRunContext._('SYSTEM_INITIALIZATION');
+  static const userInitialization =
+      StudioComponentInitializationScriptRunContext._('USER_INITIALIZATION');
 
   final String value;
 
-  const StudioComponentInitializationScriptRunContext(this.value);
+  const StudioComponentInitializationScriptRunContext._(this.value);
+
+  static const values = [systemInitialization, userInitialization];
 
   static StudioComponentInitializationScriptRunContext fromString(
           String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum StudioComponentInitializationScriptRunContext'));
+          orElse: () => StudioComponentInitializationScriptRunContext._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is StudioComponentInitializationScriptRunContext &&
+      other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The current state of the studio component resource.
@@ -6176,25 +6568,44 @@ enum StudioComponentInitializationScriptRunContext {
 /// change to the <code>DELETED</code> state. The resource will no longer count
 /// against service quotas and cannot be used or acted upon any futher. It will
 /// be removed from your account after a period of time.
-enum StudioComponentState {
-  createInProgress('CREATE_IN_PROGRESS'),
-  ready('READY'),
-  updateInProgress('UPDATE_IN_PROGRESS'),
-  deleteInProgress('DELETE_IN_PROGRESS'),
-  deleted('DELETED'),
-  deleteFailed('DELETE_FAILED'),
-  createFailed('CREATE_FAILED'),
-  updateFailed('UPDATE_FAILED'),
-  ;
+class StudioComponentState {
+  static const createInProgress = StudioComponentState._('CREATE_IN_PROGRESS');
+  static const ready = StudioComponentState._('READY');
+  static const updateInProgress = StudioComponentState._('UPDATE_IN_PROGRESS');
+  static const deleteInProgress = StudioComponentState._('DELETE_IN_PROGRESS');
+  static const deleted = StudioComponentState._('DELETED');
+  static const deleteFailed = StudioComponentState._('DELETE_FAILED');
+  static const createFailed = StudioComponentState._('CREATE_FAILED');
+  static const updateFailed = StudioComponentState._('UPDATE_FAILED');
 
   final String value;
 
-  const StudioComponentState(this.value);
+  const StudioComponentState._(this.value);
 
-  static StudioComponentState fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum StudioComponentState'));
+  static const values = [
+    createInProgress,
+    ready,
+    updateInProgress,
+    deleteInProgress,
+    deleted,
+    deleteFailed,
+    createFailed,
+    updateFailed
+  ];
+
+  static StudioComponentState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => StudioComponentState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is StudioComponentState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The current status of the studio component resource.
@@ -6205,44 +6616,92 @@ enum StudioComponentState {
 /// When the resource is in a <code>CREATE_FAILED</code>,
 /// <code>UPDATE_FAILED</code>, or <code>DELETE_FAILED</code> state, the status
 /// code signals what went wrong and why the mutation failed.
-enum StudioComponentStatusCode {
-  activeDirectoryAlreadyExists('ACTIVE_DIRECTORY_ALREADY_EXISTS'),
-  studioComponentCreated('STUDIO_COMPONENT_CREATED'),
-  studioComponentUpdated('STUDIO_COMPONENT_UPDATED'),
-  studioComponentDeleted('STUDIO_COMPONENT_DELETED'),
-  encryptionKeyAccessDenied('ENCRYPTION_KEY_ACCESS_DENIED'),
-  encryptionKeyNotFound('ENCRYPTION_KEY_NOT_FOUND'),
-  studioComponentCreateInProgress('STUDIO_COMPONENT_CREATE_IN_PROGRESS'),
-  studioComponentUpdateInProgress('STUDIO_COMPONENT_UPDATE_IN_PROGRESS'),
-  studioComponentDeleteInProgress('STUDIO_COMPONENT_DELETE_IN_PROGRESS'),
-  internalError('INTERNAL_ERROR'),
-  ;
+class StudioComponentStatusCode {
+  static const activeDirectoryAlreadyExists =
+      StudioComponentStatusCode._('ACTIVE_DIRECTORY_ALREADY_EXISTS');
+  static const studioComponentCreated =
+      StudioComponentStatusCode._('STUDIO_COMPONENT_CREATED');
+  static const studioComponentUpdated =
+      StudioComponentStatusCode._('STUDIO_COMPONENT_UPDATED');
+  static const studioComponentDeleted =
+      StudioComponentStatusCode._('STUDIO_COMPONENT_DELETED');
+  static const encryptionKeyAccessDenied =
+      StudioComponentStatusCode._('ENCRYPTION_KEY_ACCESS_DENIED');
+  static const encryptionKeyNotFound =
+      StudioComponentStatusCode._('ENCRYPTION_KEY_NOT_FOUND');
+  static const studioComponentCreateInProgress =
+      StudioComponentStatusCode._('STUDIO_COMPONENT_CREATE_IN_PROGRESS');
+  static const studioComponentUpdateInProgress =
+      StudioComponentStatusCode._('STUDIO_COMPONENT_UPDATE_IN_PROGRESS');
+  static const studioComponentDeleteInProgress =
+      StudioComponentStatusCode._('STUDIO_COMPONENT_DELETE_IN_PROGRESS');
+  static const internalError = StudioComponentStatusCode._('INTERNAL_ERROR');
 
   final String value;
 
-  const StudioComponentStatusCode(this.value);
+  const StudioComponentStatusCode._(this.value);
+
+  static const values = [
+    activeDirectoryAlreadyExists,
+    studioComponentCreated,
+    studioComponentUpdated,
+    studioComponentDeleted,
+    encryptionKeyAccessDenied,
+    encryptionKeyNotFound,
+    studioComponentCreateInProgress,
+    studioComponentUpdateInProgress,
+    studioComponentDeleteInProgress,
+    internalError
+  ];
 
   static StudioComponentStatusCode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum StudioComponentStatusCode'));
+          orElse: () => StudioComponentStatusCode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is StudioComponentStatusCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum StudioComponentSubtype {
-  awsManagedMicrosoftAd('AWS_MANAGED_MICROSOFT_AD'),
-  amazonFsxForWindows('AMAZON_FSX_FOR_WINDOWS'),
-  amazonFsxForLustre('AMAZON_FSX_FOR_LUSTRE'),
-  custom('CUSTOM'),
-  ;
+class StudioComponentSubtype {
+  static const awsManagedMicrosoftAd =
+      StudioComponentSubtype._('AWS_MANAGED_MICROSOFT_AD');
+  static const amazonFsxForWindows =
+      StudioComponentSubtype._('AMAZON_FSX_FOR_WINDOWS');
+  static const amazonFsxForLustre =
+      StudioComponentSubtype._('AMAZON_FSX_FOR_LUSTRE');
+  static const custom = StudioComponentSubtype._('CUSTOM');
 
   final String value;
 
-  const StudioComponentSubtype(this.value);
+  const StudioComponentSubtype._(this.value);
+
+  static const values = [
+    awsManagedMicrosoftAd,
+    amazonFsxForWindows,
+    amazonFsxForLustre,
+    custom
+  ];
 
   static StudioComponentSubtype fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum StudioComponentSubtype'));
+          orElse: () => StudioComponentSubtype._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is StudioComponentSubtype && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The studio component's summary.
@@ -6325,22 +6784,38 @@ class StudioComponentSummary {
   }
 }
 
-enum StudioComponentType {
-  activeDirectory('ACTIVE_DIRECTORY'),
-  sharedFileSystem('SHARED_FILE_SYSTEM'),
-  computeFarm('COMPUTE_FARM'),
-  licenseService('LICENSE_SERVICE'),
-  custom('CUSTOM'),
-  ;
+class StudioComponentType {
+  static const activeDirectory = StudioComponentType._('ACTIVE_DIRECTORY');
+  static const sharedFileSystem = StudioComponentType._('SHARED_FILE_SYSTEM');
+  static const computeFarm = StudioComponentType._('COMPUTE_FARM');
+  static const licenseService = StudioComponentType._('LICENSE_SERVICE');
+  static const custom = StudioComponentType._('CUSTOM');
 
   final String value;
 
-  const StudioComponentType(this.value);
+  const StudioComponentType._(this.value);
 
-  static StudioComponentType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum StudioComponentType'));
+  static const values = [
+    activeDirectory,
+    sharedFileSystem,
+    computeFarm,
+    licenseService,
+    custom
+  ];
+
+  static StudioComponentType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => StudioComponentType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is StudioComponentType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Configuration of the encryption method that is used for the studio.
@@ -6359,7 +6834,7 @@ class StudioEncryptionConfiguration {
   factory StudioEncryptionConfiguration.fromJson(Map<String, dynamic> json) {
     return StudioEncryptionConfiguration(
       keyType: StudioEncryptionConfigurationKeyType.fromString(
-          (json['keyType'] as String)),
+          (json['keyType'] as String?) ?? ''),
       keyArn: json['keyArn'] as String?,
     );
   }
@@ -6375,19 +6850,31 @@ class StudioEncryptionConfiguration {
 }
 
 /// The type of KMS key that is used to encrypt studio data.
-enum StudioEncryptionConfigurationKeyType {
-  awsOwnedKey('AWS_OWNED_KEY'),
-  customerManagedKey('CUSTOMER_MANAGED_KEY'),
-  ;
+class StudioEncryptionConfigurationKeyType {
+  static const awsOwnedKey =
+      StudioEncryptionConfigurationKeyType._('AWS_OWNED_KEY');
+  static const customerManagedKey =
+      StudioEncryptionConfigurationKeyType._('CUSTOMER_MANAGED_KEY');
 
   final String value;
 
-  const StudioEncryptionConfigurationKeyType(this.value);
+  const StudioEncryptionConfigurationKeyType._(this.value);
+
+  static const values = [awsOwnedKey, customerManagedKey];
 
   static StudioEncryptionConfigurationKeyType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum StudioEncryptionConfigurationKeyType'));
+          orElse: () => StudioEncryptionConfigurationKeyType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is StudioEncryptionConfigurationKeyType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A studio member is an association of a user from your studio identity source
@@ -6446,74 +6933,140 @@ class StudioMembership {
   }
 }
 
-enum StudioPersona {
-  administrator('ADMINISTRATOR'),
-  ;
+class StudioPersona {
+  static const administrator = StudioPersona._('ADMINISTRATOR');
 
   final String value;
 
-  const StudioPersona(this.value);
+  const StudioPersona._(this.value);
+
+  static const values = [administrator];
 
   static StudioPersona fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum StudioPersona'));
+          orElse: () => StudioPersona._(value));
+
+  @override
+  bool operator ==(other) => other is StudioPersona && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum StudioState {
-  createInProgress('CREATE_IN_PROGRESS'),
-  ready('READY'),
-  updateInProgress('UPDATE_IN_PROGRESS'),
-  deleteInProgress('DELETE_IN_PROGRESS'),
-  deleted('DELETED'),
-  deleteFailed('DELETE_FAILED'),
-  createFailed('CREATE_FAILED'),
-  updateFailed('UPDATE_FAILED'),
-  ;
+class StudioState {
+  static const createInProgress = StudioState._('CREATE_IN_PROGRESS');
+  static const ready = StudioState._('READY');
+  static const updateInProgress = StudioState._('UPDATE_IN_PROGRESS');
+  static const deleteInProgress = StudioState._('DELETE_IN_PROGRESS');
+  static const deleted = StudioState._('DELETED');
+  static const deleteFailed = StudioState._('DELETE_FAILED');
+  static const createFailed = StudioState._('CREATE_FAILED');
+  static const updateFailed = StudioState._('UPDATE_FAILED');
 
   final String value;
 
-  const StudioState(this.value);
+  const StudioState._(this.value);
 
-  static StudioState fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum StudioState'));
+  static const values = [
+    createInProgress,
+    ready,
+    updateInProgress,
+    deleteInProgress,
+    deleted,
+    deleteFailed,
+    createFailed,
+    updateFailed
+  ];
+
+  static StudioState fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => StudioState._(value));
+
+  @override
+  bool operator ==(other) => other is StudioState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The status code.
-enum StudioStatusCode {
-  studioCreated('STUDIO_CREATED'),
-  studioDeleted('STUDIO_DELETED'),
-  studioUpdated('STUDIO_UPDATED'),
-  studioCreateInProgress('STUDIO_CREATE_IN_PROGRESS'),
-  studioUpdateInProgress('STUDIO_UPDATE_IN_PROGRESS'),
-  studioDeleteInProgress('STUDIO_DELETE_IN_PROGRESS'),
-  studioWithLaunchProfilesNotDeleted('STUDIO_WITH_LAUNCH_PROFILES_NOT_DELETED'),
-  studioWithStudioComponentsNotDeleted(
-      'STUDIO_WITH_STUDIO_COMPONENTS_NOT_DELETED'),
-  studioWithStreamingImagesNotDeleted(
-      'STUDIO_WITH_STREAMING_IMAGES_NOT_DELETED'),
-  awsSsoNotEnabled('AWS_SSO_NOT_ENABLED'),
-  awsSsoAccessDenied('AWS_SSO_ACCESS_DENIED'),
-  roleNotOwnedByStudioOwner('ROLE_NOT_OWNED_BY_STUDIO_OWNER'),
-  roleCouldNotBeAssumed('ROLE_COULD_NOT_BE_ASSUMED'),
-  internalError('INTERNAL_ERROR'),
-  encryptionKeyNotFound('ENCRYPTION_KEY_NOT_FOUND'),
-  encryptionKeyAccessDenied('ENCRYPTION_KEY_ACCESS_DENIED'),
-  awsSsoConfigurationRepaired('AWS_SSO_CONFIGURATION_REPAIRED'),
-  awsSsoConfigurationRepairInProgress(
-      'AWS_SSO_CONFIGURATION_REPAIR_IN_PROGRESS'),
-  awsStsRegionDisabled('AWS_STS_REGION_DISABLED'),
-  ;
+class StudioStatusCode {
+  static const studioCreated = StudioStatusCode._('STUDIO_CREATED');
+  static const studioDeleted = StudioStatusCode._('STUDIO_DELETED');
+  static const studioUpdated = StudioStatusCode._('STUDIO_UPDATED');
+  static const studioCreateInProgress =
+      StudioStatusCode._('STUDIO_CREATE_IN_PROGRESS');
+  static const studioUpdateInProgress =
+      StudioStatusCode._('STUDIO_UPDATE_IN_PROGRESS');
+  static const studioDeleteInProgress =
+      StudioStatusCode._('STUDIO_DELETE_IN_PROGRESS');
+  static const studioWithLaunchProfilesNotDeleted =
+      StudioStatusCode._('STUDIO_WITH_LAUNCH_PROFILES_NOT_DELETED');
+  static const studioWithStudioComponentsNotDeleted =
+      StudioStatusCode._('STUDIO_WITH_STUDIO_COMPONENTS_NOT_DELETED');
+  static const studioWithStreamingImagesNotDeleted =
+      StudioStatusCode._('STUDIO_WITH_STREAMING_IMAGES_NOT_DELETED');
+  static const awsSsoNotEnabled = StudioStatusCode._('AWS_SSO_NOT_ENABLED');
+  static const awsSsoAccessDenied = StudioStatusCode._('AWS_SSO_ACCESS_DENIED');
+  static const roleNotOwnedByStudioOwner =
+      StudioStatusCode._('ROLE_NOT_OWNED_BY_STUDIO_OWNER');
+  static const roleCouldNotBeAssumed =
+      StudioStatusCode._('ROLE_COULD_NOT_BE_ASSUMED');
+  static const internalError = StudioStatusCode._('INTERNAL_ERROR');
+  static const encryptionKeyNotFound =
+      StudioStatusCode._('ENCRYPTION_KEY_NOT_FOUND');
+  static const encryptionKeyAccessDenied =
+      StudioStatusCode._('ENCRYPTION_KEY_ACCESS_DENIED');
+  static const awsSsoConfigurationRepaired =
+      StudioStatusCode._('AWS_SSO_CONFIGURATION_REPAIRED');
+  static const awsSsoConfigurationRepairInProgress =
+      StudioStatusCode._('AWS_SSO_CONFIGURATION_REPAIR_IN_PROGRESS');
+  static const awsStsRegionDisabled =
+      StudioStatusCode._('AWS_STS_REGION_DISABLED');
 
   final String value;
 
-  const StudioStatusCode(this.value);
+  const StudioStatusCode._(this.value);
+
+  static const values = [
+    studioCreated,
+    studioDeleted,
+    studioUpdated,
+    studioCreateInProgress,
+    studioUpdateInProgress,
+    studioDeleteInProgress,
+    studioWithLaunchProfilesNotDeleted,
+    studioWithStudioComponentsNotDeleted,
+    studioWithStreamingImagesNotDeleted,
+    awsSsoNotEnabled,
+    awsSsoAccessDenied,
+    roleNotOwnedByStudioOwner,
+    roleCouldNotBeAssumed,
+    internalError,
+    encryptionKeyNotFound,
+    encryptionKeyAccessDenied,
+    awsSsoConfigurationRepaired,
+    awsSsoConfigurationRepairInProgress,
+    awsStsRegionDisabled
+  ];
 
   static StudioStatusCode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum StudioStatusCode'));
+          orElse: () => StudioStatusCode._(value));
+
+  @override
+  bool operator ==(other) => other is StudioStatusCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class TagResourceResponse {
@@ -6687,11 +7240,13 @@ class ValidationResult {
 
   factory ValidationResult.fromJson(Map<String, dynamic> json) {
     return ValidationResult(
-      state: LaunchProfileValidationState.fromString((json['state'] as String)),
+      state: LaunchProfileValidationState.fromString(
+          (json['state'] as String?) ?? ''),
       statusCode: LaunchProfileValidationStatusCode.fromString(
-          (json['statusCode'] as String)),
+          (json['statusCode'] as String?) ?? ''),
       statusMessage: (json['statusMessage'] as String?) ?? '',
-      type: LaunchProfileValidationType.fromString((json['type'] as String)),
+      type: LaunchProfileValidationType.fromString(
+          (json['type'] as String?) ?? ''),
     );
   }
 
@@ -6753,19 +7308,29 @@ class VolumeConfiguration {
   }
 }
 
-enum VolumeRetentionMode {
-  retain('RETAIN'),
-  delete('DELETE'),
-  ;
+class VolumeRetentionMode {
+  static const retain = VolumeRetentionMode._('RETAIN');
+  static const delete = VolumeRetentionMode._('DELETE');
 
   final String value;
 
-  const VolumeRetentionMode(this.value);
+  const VolumeRetentionMode._(this.value);
 
-  static VolumeRetentionMode fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum VolumeRetentionMode'));
+  static const values = [retain, delete];
+
+  static VolumeRetentionMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => VolumeRetentionMode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is VolumeRetentionMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class AccessDeniedException extends _s.GenericAwsException {

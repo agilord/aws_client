@@ -878,19 +878,28 @@ class LockRuleResponse {
   }
 }
 
-enum LockState {
-  locked('locked'),
-  pendingUnlock('pending_unlock'),
-  unlocked('unlocked'),
-  ;
+class LockState {
+  static const locked = LockState._('locked');
+  static const pendingUnlock = LockState._('pending_unlock');
+  static const unlocked = LockState._('unlocked');
 
   final String value;
 
-  const LockState(this.value);
+  const LockState._(this.value);
 
-  static LockState fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum LockState'));
+  static const values = [locked, pendingUnlock, unlocked];
+
+  static LockState fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => LockState._(value));
+
+  @override
+  bool operator ==(other) => other is LockState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about the resource tags used to identify resources that are
@@ -924,19 +933,27 @@ class ResourceTag {
   }
 }
 
-enum ResourceType {
-  ebsSnapshot('EBS_SNAPSHOT'),
-  ec2Image('EC2_IMAGE'),
-  ;
+class ResourceType {
+  static const ebsSnapshot = ResourceType._('EBS_SNAPSHOT');
+  static const ec2Image = ResourceType._('EC2_IMAGE');
 
   final String value;
 
-  const ResourceType(this.value);
+  const ResourceType._(this.value);
 
-  static ResourceType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ResourceType'));
+  static const values = [ebsSnapshot, ec2Image];
+
+  static ResourceType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ResourceType._(value));
+
+  @override
+  bool operator ==(other) => other is ResourceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about the retention period for which the retention rule is to
@@ -958,7 +975,7 @@ class RetentionPeriod {
   factory RetentionPeriod.fromJson(Map<String, dynamic> json) {
     return RetentionPeriod(
       retentionPeriodUnit: RetentionPeriodUnit.fromString(
-          (json['RetentionPeriodUnit'] as String)),
+          (json['RetentionPeriodUnit'] as String?) ?? ''),
       retentionPeriodValue: (json['RetentionPeriodValue'] as int?) ?? 0,
     );
   }
@@ -973,32 +990,51 @@ class RetentionPeriod {
   }
 }
 
-enum RetentionPeriodUnit {
-  days('DAYS'),
-  ;
+class RetentionPeriodUnit {
+  static const days = RetentionPeriodUnit._('DAYS');
 
   final String value;
 
-  const RetentionPeriodUnit(this.value);
+  const RetentionPeriodUnit._(this.value);
 
-  static RetentionPeriodUnit fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum RetentionPeriodUnit'));
+  static const values = [days];
+
+  static RetentionPeriodUnit fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => RetentionPeriodUnit._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RetentionPeriodUnit && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum RuleStatus {
-  pending('pending'),
-  available('available'),
-  ;
+class RuleStatus {
+  static const pending = RuleStatus._('pending');
+  static const available = RuleStatus._('available');
 
   final String value;
 
-  const RuleStatus(this.value);
+  const RuleStatus._(this.value);
 
-  static RuleStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum RuleStatus'));
+  static const values = [pending, available];
+
+  static RuleStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => RuleStatus._(value));
+
+  @override
+  bool operator ==(other) => other is RuleStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about a Recycle Bin retention rule.
@@ -1140,8 +1176,8 @@ class UnlockDelay {
 
   factory UnlockDelay.fromJson(Map<String, dynamic> json) {
     return UnlockDelay(
-      unlockDelayUnit:
-          UnlockDelayUnit.fromString((json['UnlockDelayUnit'] as String)),
+      unlockDelayUnit: UnlockDelayUnit.fromString(
+          (json['UnlockDelayUnit'] as String?) ?? ''),
       unlockDelayValue: (json['UnlockDelayValue'] as int?) ?? 0,
     );
   }
@@ -1156,18 +1192,27 @@ class UnlockDelay {
   }
 }
 
-enum UnlockDelayUnit {
-  days('DAYS'),
-  ;
+class UnlockDelayUnit {
+  static const days = UnlockDelayUnit._('DAYS');
 
   final String value;
 
-  const UnlockDelayUnit(this.value);
+  const UnlockDelayUnit._(this.value);
+
+  static const values = [days];
 
   static UnlockDelayUnit fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum UnlockDelayUnit'));
+          orElse: () => UnlockDelayUnit._(value));
+
+  @override
+  bool operator ==(other) => other is UnlockDelayUnit && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class UnlockRuleResponse {

@@ -4726,8 +4726,8 @@ class AWSManagedRulesBotControlRuleSet {
 
   factory AWSManagedRulesBotControlRuleSet.fromJson(Map<String, dynamic> json) {
     return AWSManagedRulesBotControlRuleSet(
-      inspectionLevel:
-          InspectionLevel.fromString((json['InspectionLevel'] as String)),
+      inspectionLevel: InspectionLevel.fromString(
+          (json['InspectionLevel'] as String?) ?? ''),
       enableMachineLearning: json['EnableMachineLearning'] as bool?,
     );
   }
@@ -4760,7 +4760,7 @@ class ActionCondition {
 
   factory ActionCondition.fromJson(Map<String, dynamic> json) {
     return ActionCondition(
-      action: ActionValue.fromString((json['Action'] as String)),
+      action: ActionValue.fromString((json['Action'] as String?) ?? ''),
     );
   }
 
@@ -4772,22 +4772,38 @@ class ActionCondition {
   }
 }
 
-enum ActionValue {
-  allow('ALLOW'),
-  block('BLOCK'),
-  count('COUNT'),
-  captcha('CAPTCHA'),
-  challenge('CHALLENGE'),
-  excludedAsCount('EXCLUDED_AS_COUNT'),
-  ;
+class ActionValue {
+  static const allow = ActionValue._('ALLOW');
+  static const block = ActionValue._('BLOCK');
+  static const count = ActionValue._('COUNT');
+  static const captcha = ActionValue._('CAPTCHA');
+  static const challenge = ActionValue._('CHALLENGE');
+  static const excludedAsCount = ActionValue._('EXCLUDED_AS_COUNT');
 
   final String value;
 
-  const ActionValue(this.value);
+  const ActionValue._(this.value);
 
-  static ActionValue fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum ActionValue'));
+  static const values = [
+    allow,
+    block,
+    count,
+    captcha,
+    challenge,
+    excludedAsCount
+  ];
+
+  static ActionValue fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ActionValue._(value));
+
+  @override
+  bool operator ==(other) => other is ActionValue && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The name of a field in the request payload that contains part or all of your
@@ -4959,22 +4975,40 @@ class AssociateWebACLResponse {
   }
 }
 
-enum AssociatedResourceType {
-  cloudfront('CLOUDFRONT'),
-  apiGateway('API_GATEWAY'),
-  cognitoUserPool('COGNITO_USER_POOL'),
-  appRunnerService('APP_RUNNER_SERVICE'),
-  verifiedAccessInstance('VERIFIED_ACCESS_INSTANCE'),
-  ;
+class AssociatedResourceType {
+  static const cloudfront = AssociatedResourceType._('CLOUDFRONT');
+  static const apiGateway = AssociatedResourceType._('API_GATEWAY');
+  static const cognitoUserPool = AssociatedResourceType._('COGNITO_USER_POOL');
+  static const appRunnerService =
+      AssociatedResourceType._('APP_RUNNER_SERVICE');
+  static const verifiedAccessInstance =
+      AssociatedResourceType._('VERIFIED_ACCESS_INSTANCE');
 
   final String value;
 
-  const AssociatedResourceType(this.value);
+  const AssociatedResourceType._(this.value);
+
+  static const values = [
+    cloudfront,
+    apiGateway,
+    cognitoUserPool,
+    appRunnerService,
+    verifiedAccessInstance
+  ];
 
   static AssociatedResourceType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum AssociatedResourceType'));
+          orElse: () => AssociatedResourceType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AssociatedResourceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specifies custom configurations for the associations between the web ACL and
@@ -5133,20 +5167,31 @@ class Body {
   }
 }
 
-enum BodyParsingFallbackBehavior {
-  match('MATCH'),
-  noMatch('NO_MATCH'),
-  evaluateAsString('EVALUATE_AS_STRING'),
-  ;
+class BodyParsingFallbackBehavior {
+  static const match = BodyParsingFallbackBehavior._('MATCH');
+  static const noMatch = BodyParsingFallbackBehavior._('NO_MATCH');
+  static const evaluateAsString =
+      BodyParsingFallbackBehavior._('EVALUATE_AS_STRING');
 
   final String value;
 
-  const BodyParsingFallbackBehavior(this.value);
+  const BodyParsingFallbackBehavior._(this.value);
+
+  static const values = [match, noMatch, evaluateAsString];
 
   static BodyParsingFallbackBehavior fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum BodyParsingFallbackBehavior'));
+          orElse: () => BodyParsingFallbackBehavior._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is BodyParsingFallbackBehavior && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A rule statement that defines a string match search for WAF to apply to web
@@ -5287,7 +5332,7 @@ class ByteMatchStatement {
           (json['FieldToMatch'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
       positionalConstraint: PositionalConstraint.fromString(
-          (json['PositionalConstraint'] as String)),
+          (json['PositionalConstraint'] as String?) ?? ''),
       searchString: _s.decodeUint8List((json['SearchString'] as String?) ?? ''),
       textTransformations: ((json['TextTransformations'] as List?) ?? const [])
           .nonNulls
@@ -5627,23 +5672,33 @@ class CheckCapacityResponse {
   }
 }
 
-enum ComparisonOperator {
-  eq('EQ'),
-  ne('NE'),
-  le('LE'),
-  lt('LT'),
-  ge('GE'),
-  gt('GT'),
-  ;
+class ComparisonOperator {
+  static const eq = ComparisonOperator._('EQ');
+  static const ne = ComparisonOperator._('NE');
+  static const le = ComparisonOperator._('LE');
+  static const lt = ComparisonOperator._('LT');
+  static const ge = ComparisonOperator._('GE');
+  static const gt = ComparisonOperator._('GT');
 
   final String value;
 
-  const ComparisonOperator(this.value);
+  const ComparisonOperator._(this.value);
 
-  static ComparisonOperator fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ComparisonOperator'));
+  static const values = [eq, ne, le, lt, ge, gt];
+
+  static ComparisonOperator fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ComparisonOperator._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ComparisonOperator && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A single match condition for a <a>Filter</a>.
@@ -5806,9 +5861,10 @@ class Cookies {
       matchPattern: CookieMatchPattern.fromJson(
           (json['MatchPattern'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
-      matchScope: MapMatchScope.fromString((json['MatchScope'] as String)),
-      oversizeHandling:
-          OversizeHandling.fromString((json['OversizeHandling'] as String)),
+      matchScope:
+          MapMatchScope.fromString((json['MatchScope'] as String?) ?? ''),
+      oversizeHandling: OversizeHandling.fromString(
+          (json['OversizeHandling'] as String?) ?? ''),
     );
   }
 
@@ -5859,266 +5915,526 @@ class CountAction {
   }
 }
 
-enum CountryCode {
-  af('AF'),
-  ax('AX'),
-  al('AL'),
-  dz('DZ'),
-  as('AS'),
-  ad('AD'),
-  ao('AO'),
-  ai('AI'),
-  aq('AQ'),
-  ag('AG'),
-  ar('AR'),
-  am('AM'),
-  aw('AW'),
-  au('AU'),
-  at('AT'),
-  az('AZ'),
-  bs('BS'),
-  bh('BH'),
-  bd('BD'),
-  bb('BB'),
-  by('BY'),
-  be('BE'),
-  bz('BZ'),
-  bj('BJ'),
-  bm('BM'),
-  bt('BT'),
-  bo('BO'),
-  bq('BQ'),
-  ba('BA'),
-  bw('BW'),
-  bv('BV'),
-  br('BR'),
-  io('IO'),
-  bn('BN'),
-  bg('BG'),
-  bf('BF'),
-  bi('BI'),
-  kh('KH'),
-  cm('CM'),
-  ca('CA'),
-  cv('CV'),
-  ky('KY'),
-  cf('CF'),
-  td('TD'),
-  cl('CL'),
-  cn('CN'),
-  cx('CX'),
-  cc('CC'),
-  co('CO'),
-  km('KM'),
-  cg('CG'),
-  cd('CD'),
-  ck('CK'),
-  cr('CR'),
-  ci('CI'),
-  hr('HR'),
-  cu('CU'),
-  cw('CW'),
-  cy('CY'),
-  cz('CZ'),
-  dk('DK'),
-  dj('DJ'),
-  dm('DM'),
-  $do('DO'),
-  ec('EC'),
-  eg('EG'),
-  sv('SV'),
-  gq('GQ'),
-  er('ER'),
-  ee('EE'),
-  et('ET'),
-  fk('FK'),
-  fo('FO'),
-  fj('FJ'),
-  fi('FI'),
-  fr('FR'),
-  gf('GF'),
-  pf('PF'),
-  tf('TF'),
-  ga('GA'),
-  gm('GM'),
-  ge('GE'),
-  de('DE'),
-  gh('GH'),
-  gi('GI'),
-  gr('GR'),
-  gl('GL'),
-  gd('GD'),
-  gp('GP'),
-  gu('GU'),
-  gt('GT'),
-  gg('GG'),
-  gn('GN'),
-  gw('GW'),
-  gy('GY'),
-  ht('HT'),
-  hm('HM'),
-  va('VA'),
-  hn('HN'),
-  hk('HK'),
-  hu('HU'),
-  $is('IS'),
-  $in('IN'),
-  id('ID'),
-  ir('IR'),
-  iq('IQ'),
-  ie('IE'),
-  im('IM'),
-  il('IL'),
-  it('IT'),
-  jm('JM'),
-  jp('JP'),
-  je('JE'),
-  jo('JO'),
-  kz('KZ'),
-  ke('KE'),
-  ki('KI'),
-  kp('KP'),
-  kr('KR'),
-  kw('KW'),
-  kg('KG'),
-  la('LA'),
-  lv('LV'),
-  lb('LB'),
-  ls('LS'),
-  lr('LR'),
-  ly('LY'),
-  li('LI'),
-  lt('LT'),
-  lu('LU'),
-  mo('MO'),
-  mk('MK'),
-  mg('MG'),
-  mw('MW'),
-  my('MY'),
-  mv('MV'),
-  ml('ML'),
-  mt('MT'),
-  mh('MH'),
-  mq('MQ'),
-  mr('MR'),
-  mu('MU'),
-  yt('YT'),
-  mx('MX'),
-  fm('FM'),
-  md('MD'),
-  mc('MC'),
-  mn('MN'),
-  me('ME'),
-  ms('MS'),
-  ma('MA'),
-  mz('MZ'),
-  mm('MM'),
-  na('NA'),
-  nr('NR'),
-  np('NP'),
-  nl('NL'),
-  nc('NC'),
-  nz('NZ'),
-  ni('NI'),
-  ne('NE'),
-  ng('NG'),
-  nu('NU'),
-  nf('NF'),
-  mp('MP'),
-  no('NO'),
-  om('OM'),
-  pk('PK'),
-  pw('PW'),
-  ps('PS'),
-  pa('PA'),
-  pg('PG'),
-  py('PY'),
-  pe('PE'),
-  ph('PH'),
-  pn('PN'),
-  pl('PL'),
-  pt('PT'),
-  pr('PR'),
-  qa('QA'),
-  re('RE'),
-  ro('RO'),
-  ru('RU'),
-  rw('RW'),
-  bl('BL'),
-  sh('SH'),
-  kn('KN'),
-  lc('LC'),
-  mf('MF'),
-  pm('PM'),
-  vc('VC'),
-  ws('WS'),
-  sm('SM'),
-  st('ST'),
-  sa('SA'),
-  sn('SN'),
-  rs('RS'),
-  sc('SC'),
-  sl('SL'),
-  sg('SG'),
-  sx('SX'),
-  sk('SK'),
-  si('SI'),
-  sb('SB'),
-  so('SO'),
-  za('ZA'),
-  gs('GS'),
-  ss('SS'),
-  es('ES'),
-  lk('LK'),
-  sd('SD'),
-  sr('SR'),
-  sj('SJ'),
-  sz('SZ'),
-  se('SE'),
-  ch('CH'),
-  sy('SY'),
-  tw('TW'),
-  tj('TJ'),
-  tz('TZ'),
-  th('TH'),
-  tl('TL'),
-  tg('TG'),
-  tk('TK'),
-  to('TO'),
-  tt('TT'),
-  tn('TN'),
-  tr('TR'),
-  tm('TM'),
-  tc('TC'),
-  tv('TV'),
-  ug('UG'),
-  ua('UA'),
-  ae('AE'),
-  gb('GB'),
-  us('US'),
-  um('UM'),
-  uy('UY'),
-  uz('UZ'),
-  vu('VU'),
-  ve('VE'),
-  vn('VN'),
-  vg('VG'),
-  vi('VI'),
-  wf('WF'),
-  eh('EH'),
-  ye('YE'),
-  zm('ZM'),
-  zw('ZW'),
-  xk('XK'),
-  ;
+class CountryCode {
+  static const af = CountryCode._('AF');
+  static const ax = CountryCode._('AX');
+  static const al = CountryCode._('AL');
+  static const dz = CountryCode._('DZ');
+  static const as = CountryCode._('AS');
+  static const ad = CountryCode._('AD');
+  static const ao = CountryCode._('AO');
+  static const ai = CountryCode._('AI');
+  static const aq = CountryCode._('AQ');
+  static const ag = CountryCode._('AG');
+  static const ar = CountryCode._('AR');
+  static const am = CountryCode._('AM');
+  static const aw = CountryCode._('AW');
+  static const au = CountryCode._('AU');
+  static const at = CountryCode._('AT');
+  static const az = CountryCode._('AZ');
+  static const bs = CountryCode._('BS');
+  static const bh = CountryCode._('BH');
+  static const bd = CountryCode._('BD');
+  static const bb = CountryCode._('BB');
+  static const by = CountryCode._('BY');
+  static const be = CountryCode._('BE');
+  static const bz = CountryCode._('BZ');
+  static const bj = CountryCode._('BJ');
+  static const bm = CountryCode._('BM');
+  static const bt = CountryCode._('BT');
+  static const bo = CountryCode._('BO');
+  static const bq = CountryCode._('BQ');
+  static const ba = CountryCode._('BA');
+  static const bw = CountryCode._('BW');
+  static const bv = CountryCode._('BV');
+  static const br = CountryCode._('BR');
+  static const io = CountryCode._('IO');
+  static const bn = CountryCode._('BN');
+  static const bg = CountryCode._('BG');
+  static const bf = CountryCode._('BF');
+  static const bi = CountryCode._('BI');
+  static const kh = CountryCode._('KH');
+  static const cm = CountryCode._('CM');
+  static const ca = CountryCode._('CA');
+  static const cv = CountryCode._('CV');
+  static const ky = CountryCode._('KY');
+  static const cf = CountryCode._('CF');
+  static const td = CountryCode._('TD');
+  static const cl = CountryCode._('CL');
+  static const cn = CountryCode._('CN');
+  static const cx = CountryCode._('CX');
+  static const cc = CountryCode._('CC');
+  static const co = CountryCode._('CO');
+  static const km = CountryCode._('KM');
+  static const cg = CountryCode._('CG');
+  static const cd = CountryCode._('CD');
+  static const ck = CountryCode._('CK');
+  static const cr = CountryCode._('CR');
+  static const ci = CountryCode._('CI');
+  static const hr = CountryCode._('HR');
+  static const cu = CountryCode._('CU');
+  static const cw = CountryCode._('CW');
+  static const cy = CountryCode._('CY');
+  static const cz = CountryCode._('CZ');
+  static const dk = CountryCode._('DK');
+  static const dj = CountryCode._('DJ');
+  static const dm = CountryCode._('DM');
+  static const $do = CountryCode._('DO');
+  static const ec = CountryCode._('EC');
+  static const eg = CountryCode._('EG');
+  static const sv = CountryCode._('SV');
+  static const gq = CountryCode._('GQ');
+  static const er = CountryCode._('ER');
+  static const ee = CountryCode._('EE');
+  static const et = CountryCode._('ET');
+  static const fk = CountryCode._('FK');
+  static const fo = CountryCode._('FO');
+  static const fj = CountryCode._('FJ');
+  static const fi = CountryCode._('FI');
+  static const fr = CountryCode._('FR');
+  static const gf = CountryCode._('GF');
+  static const pf = CountryCode._('PF');
+  static const tf = CountryCode._('TF');
+  static const ga = CountryCode._('GA');
+  static const gm = CountryCode._('GM');
+  static const ge = CountryCode._('GE');
+  static const de = CountryCode._('DE');
+  static const gh = CountryCode._('GH');
+  static const gi = CountryCode._('GI');
+  static const gr = CountryCode._('GR');
+  static const gl = CountryCode._('GL');
+  static const gd = CountryCode._('GD');
+  static const gp = CountryCode._('GP');
+  static const gu = CountryCode._('GU');
+  static const gt = CountryCode._('GT');
+  static const gg = CountryCode._('GG');
+  static const gn = CountryCode._('GN');
+  static const gw = CountryCode._('GW');
+  static const gy = CountryCode._('GY');
+  static const ht = CountryCode._('HT');
+  static const hm = CountryCode._('HM');
+  static const va = CountryCode._('VA');
+  static const hn = CountryCode._('HN');
+  static const hk = CountryCode._('HK');
+  static const hu = CountryCode._('HU');
+  static const $is = CountryCode._('IS');
+  static const $in = CountryCode._('IN');
+  static const id = CountryCode._('ID');
+  static const ir = CountryCode._('IR');
+  static const iq = CountryCode._('IQ');
+  static const ie = CountryCode._('IE');
+  static const im = CountryCode._('IM');
+  static const il = CountryCode._('IL');
+  static const it = CountryCode._('IT');
+  static const jm = CountryCode._('JM');
+  static const jp = CountryCode._('JP');
+  static const je = CountryCode._('JE');
+  static const jo = CountryCode._('JO');
+  static const kz = CountryCode._('KZ');
+  static const ke = CountryCode._('KE');
+  static const ki = CountryCode._('KI');
+  static const kp = CountryCode._('KP');
+  static const kr = CountryCode._('KR');
+  static const kw = CountryCode._('KW');
+  static const kg = CountryCode._('KG');
+  static const la = CountryCode._('LA');
+  static const lv = CountryCode._('LV');
+  static const lb = CountryCode._('LB');
+  static const ls = CountryCode._('LS');
+  static const lr = CountryCode._('LR');
+  static const ly = CountryCode._('LY');
+  static const li = CountryCode._('LI');
+  static const lt = CountryCode._('LT');
+  static const lu = CountryCode._('LU');
+  static const mo = CountryCode._('MO');
+  static const mk = CountryCode._('MK');
+  static const mg = CountryCode._('MG');
+  static const mw = CountryCode._('MW');
+  static const my = CountryCode._('MY');
+  static const mv = CountryCode._('MV');
+  static const ml = CountryCode._('ML');
+  static const mt = CountryCode._('MT');
+  static const mh = CountryCode._('MH');
+  static const mq = CountryCode._('MQ');
+  static const mr = CountryCode._('MR');
+  static const mu = CountryCode._('MU');
+  static const yt = CountryCode._('YT');
+  static const mx = CountryCode._('MX');
+  static const fm = CountryCode._('FM');
+  static const md = CountryCode._('MD');
+  static const mc = CountryCode._('MC');
+  static const mn = CountryCode._('MN');
+  static const me = CountryCode._('ME');
+  static const ms = CountryCode._('MS');
+  static const ma = CountryCode._('MA');
+  static const mz = CountryCode._('MZ');
+  static const mm = CountryCode._('MM');
+  static const na = CountryCode._('NA');
+  static const nr = CountryCode._('NR');
+  static const np = CountryCode._('NP');
+  static const nl = CountryCode._('NL');
+  static const nc = CountryCode._('NC');
+  static const nz = CountryCode._('NZ');
+  static const ni = CountryCode._('NI');
+  static const ne = CountryCode._('NE');
+  static const ng = CountryCode._('NG');
+  static const nu = CountryCode._('NU');
+  static const nf = CountryCode._('NF');
+  static const mp = CountryCode._('MP');
+  static const no = CountryCode._('NO');
+  static const om = CountryCode._('OM');
+  static const pk = CountryCode._('PK');
+  static const pw = CountryCode._('PW');
+  static const ps = CountryCode._('PS');
+  static const pa = CountryCode._('PA');
+  static const pg = CountryCode._('PG');
+  static const py = CountryCode._('PY');
+  static const pe = CountryCode._('PE');
+  static const ph = CountryCode._('PH');
+  static const pn = CountryCode._('PN');
+  static const pl = CountryCode._('PL');
+  static const pt = CountryCode._('PT');
+  static const pr = CountryCode._('PR');
+  static const qa = CountryCode._('QA');
+  static const re = CountryCode._('RE');
+  static const ro = CountryCode._('RO');
+  static const ru = CountryCode._('RU');
+  static const rw = CountryCode._('RW');
+  static const bl = CountryCode._('BL');
+  static const sh = CountryCode._('SH');
+  static const kn = CountryCode._('KN');
+  static const lc = CountryCode._('LC');
+  static const mf = CountryCode._('MF');
+  static const pm = CountryCode._('PM');
+  static const vc = CountryCode._('VC');
+  static const ws = CountryCode._('WS');
+  static const sm = CountryCode._('SM');
+  static const st = CountryCode._('ST');
+  static const sa = CountryCode._('SA');
+  static const sn = CountryCode._('SN');
+  static const rs = CountryCode._('RS');
+  static const sc = CountryCode._('SC');
+  static const sl = CountryCode._('SL');
+  static const sg = CountryCode._('SG');
+  static const sx = CountryCode._('SX');
+  static const sk = CountryCode._('SK');
+  static const si = CountryCode._('SI');
+  static const sb = CountryCode._('SB');
+  static const so = CountryCode._('SO');
+  static const za = CountryCode._('ZA');
+  static const gs = CountryCode._('GS');
+  static const ss = CountryCode._('SS');
+  static const es = CountryCode._('ES');
+  static const lk = CountryCode._('LK');
+  static const sd = CountryCode._('SD');
+  static const sr = CountryCode._('SR');
+  static const sj = CountryCode._('SJ');
+  static const sz = CountryCode._('SZ');
+  static const se = CountryCode._('SE');
+  static const ch = CountryCode._('CH');
+  static const sy = CountryCode._('SY');
+  static const tw = CountryCode._('TW');
+  static const tj = CountryCode._('TJ');
+  static const tz = CountryCode._('TZ');
+  static const th = CountryCode._('TH');
+  static const tl = CountryCode._('TL');
+  static const tg = CountryCode._('TG');
+  static const tk = CountryCode._('TK');
+  static const to = CountryCode._('TO');
+  static const tt = CountryCode._('TT');
+  static const tn = CountryCode._('TN');
+  static const tr = CountryCode._('TR');
+  static const tm = CountryCode._('TM');
+  static const tc = CountryCode._('TC');
+  static const tv = CountryCode._('TV');
+  static const ug = CountryCode._('UG');
+  static const ua = CountryCode._('UA');
+  static const ae = CountryCode._('AE');
+  static const gb = CountryCode._('GB');
+  static const us = CountryCode._('US');
+  static const um = CountryCode._('UM');
+  static const uy = CountryCode._('UY');
+  static const uz = CountryCode._('UZ');
+  static const vu = CountryCode._('VU');
+  static const ve = CountryCode._('VE');
+  static const vn = CountryCode._('VN');
+  static const vg = CountryCode._('VG');
+  static const vi = CountryCode._('VI');
+  static const wf = CountryCode._('WF');
+  static const eh = CountryCode._('EH');
+  static const ye = CountryCode._('YE');
+  static const zm = CountryCode._('ZM');
+  static const zw = CountryCode._('ZW');
+  static const xk = CountryCode._('XK');
 
   final String value;
 
-  const CountryCode(this.value);
+  const CountryCode._(this.value);
 
-  static CountryCode fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum CountryCode'));
+  static const values = [
+    af,
+    ax,
+    al,
+    dz,
+    as,
+    ad,
+    ao,
+    ai,
+    aq,
+    ag,
+    ar,
+    am,
+    aw,
+    au,
+    at,
+    az,
+    bs,
+    bh,
+    bd,
+    bb,
+    by,
+    be,
+    bz,
+    bj,
+    bm,
+    bt,
+    bo,
+    bq,
+    ba,
+    bw,
+    bv,
+    br,
+    io,
+    bn,
+    bg,
+    bf,
+    bi,
+    kh,
+    cm,
+    ca,
+    cv,
+    ky,
+    cf,
+    td,
+    cl,
+    cn,
+    cx,
+    cc,
+    co,
+    km,
+    cg,
+    cd,
+    ck,
+    cr,
+    ci,
+    hr,
+    cu,
+    cw,
+    cy,
+    cz,
+    dk,
+    dj,
+    dm,
+    $do,
+    ec,
+    eg,
+    sv,
+    gq,
+    er,
+    ee,
+    et,
+    fk,
+    fo,
+    fj,
+    fi,
+    fr,
+    gf,
+    pf,
+    tf,
+    ga,
+    gm,
+    ge,
+    de,
+    gh,
+    gi,
+    gr,
+    gl,
+    gd,
+    gp,
+    gu,
+    gt,
+    gg,
+    gn,
+    gw,
+    gy,
+    ht,
+    hm,
+    va,
+    hn,
+    hk,
+    hu,
+    $is,
+    $in,
+    id,
+    ir,
+    iq,
+    ie,
+    im,
+    il,
+    it,
+    jm,
+    jp,
+    je,
+    jo,
+    kz,
+    ke,
+    ki,
+    kp,
+    kr,
+    kw,
+    kg,
+    la,
+    lv,
+    lb,
+    ls,
+    lr,
+    ly,
+    li,
+    lt,
+    lu,
+    mo,
+    mk,
+    mg,
+    mw,
+    my,
+    mv,
+    ml,
+    mt,
+    mh,
+    mq,
+    mr,
+    mu,
+    yt,
+    mx,
+    fm,
+    md,
+    mc,
+    mn,
+    me,
+    ms,
+    ma,
+    mz,
+    mm,
+    na,
+    nr,
+    np,
+    nl,
+    nc,
+    nz,
+    ni,
+    ne,
+    ng,
+    nu,
+    nf,
+    mp,
+    no,
+    om,
+    pk,
+    pw,
+    ps,
+    pa,
+    pg,
+    py,
+    pe,
+    ph,
+    pn,
+    pl,
+    pt,
+    pr,
+    qa,
+    re,
+    ro,
+    ru,
+    rw,
+    bl,
+    sh,
+    kn,
+    lc,
+    mf,
+    pm,
+    vc,
+    ws,
+    sm,
+    st,
+    sa,
+    sn,
+    rs,
+    sc,
+    sl,
+    sg,
+    sx,
+    sk,
+    si,
+    sb,
+    so,
+    za,
+    gs,
+    ss,
+    es,
+    lk,
+    sd,
+    sr,
+    sj,
+    sz,
+    se,
+    ch,
+    sy,
+    tw,
+    tj,
+    tz,
+    th,
+    tl,
+    tg,
+    tk,
+    to,
+    tt,
+    tn,
+    tr,
+    tm,
+    tc,
+    tv,
+    ug,
+    ua,
+    ae,
+    gb,
+    us,
+    um,
+    uy,
+    uz,
+    vu,
+    ve,
+    vn,
+    vg,
+    vi,
+    wf,
+    eh,
+    ye,
+    zm,
+    zw,
+    xk
+  ];
+
+  static CountryCode fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => CountryCode._(value));
+
+  @override
+  bool operator ==(other) => other is CountryCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class CreateAPIKeyResponse {
@@ -6422,8 +6738,8 @@ class CustomResponseBody {
   factory CustomResponseBody.fromJson(Map<String, dynamic> json) {
     return CustomResponseBody(
       content: (json['Content'] as String?) ?? '',
-      contentType:
-          ResponseContentType.fromString((json['ContentType'] as String)),
+      contentType: ResponseContentType.fromString(
+          (json['ContentType'] as String?) ?? ''),
     );
   }
 
@@ -6845,36 +7161,59 @@ class ExcludedRule {
   }
 }
 
-enum FailureReason {
-  tokenMissing('TOKEN_MISSING'),
-  tokenExpired('TOKEN_EXPIRED'),
-  tokenInvalid('TOKEN_INVALID'),
-  tokenDomainMismatch('TOKEN_DOMAIN_MISMATCH'),
-  ;
+class FailureReason {
+  static const tokenMissing = FailureReason._('TOKEN_MISSING');
+  static const tokenExpired = FailureReason._('TOKEN_EXPIRED');
+  static const tokenInvalid = FailureReason._('TOKEN_INVALID');
+  static const tokenDomainMismatch = FailureReason._('TOKEN_DOMAIN_MISMATCH');
 
   final String value;
 
-  const FailureReason(this.value);
+  const FailureReason._(this.value);
+
+  static const values = [
+    tokenMissing,
+    tokenExpired,
+    tokenInvalid,
+    tokenDomainMismatch
+  ];
 
   static FailureReason fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum FailureReason'));
+          orElse: () => FailureReason._(value));
+
+  @override
+  bool operator ==(other) => other is FailureReason && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum FallbackBehavior {
-  match('MATCH'),
-  noMatch('NO_MATCH'),
-  ;
+class FallbackBehavior {
+  static const match = FallbackBehavior._('MATCH');
+  static const noMatch = FallbackBehavior._('NO_MATCH');
 
   final String value;
 
-  const FallbackBehavior(this.value);
+  const FallbackBehavior._(this.value);
+
+  static const values = [match, noMatch];
 
   static FallbackBehavior fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum FallbackBehavior'));
+          orElse: () => FallbackBehavior._(value));
+
+  @override
+  bool operator ==(other) => other is FallbackBehavior && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specifies a web request component to be used in a rule match statement or in
@@ -7171,13 +7510,13 @@ class Filter {
 
   factory Filter.fromJson(Map<String, dynamic> json) {
     return Filter(
-      behavior: FilterBehavior.fromString((json['Behavior'] as String)),
+      behavior: FilterBehavior.fromString((json['Behavior'] as String?) ?? ''),
       conditions: ((json['Conditions'] as List?) ?? const [])
           .nonNulls
           .map((e) => Condition.fromJson(e as Map<String, dynamic>))
           .toList(),
       requirement:
-          FilterRequirement.fromString((json['Requirement'] as String)),
+          FilterRequirement.fromString((json['Requirement'] as String?) ?? ''),
     );
   }
 
@@ -7193,34 +7532,52 @@ class Filter {
   }
 }
 
-enum FilterBehavior {
-  keep('KEEP'),
-  drop('DROP'),
-  ;
+class FilterBehavior {
+  static const keep = FilterBehavior._('KEEP');
+  static const drop = FilterBehavior._('DROP');
 
   final String value;
 
-  const FilterBehavior(this.value);
+  const FilterBehavior._(this.value);
+
+  static const values = [keep, drop];
 
   static FilterBehavior fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum FilterBehavior'));
+          orElse: () => FilterBehavior._(value));
+
+  @override
+  bool operator ==(other) => other is FilterBehavior && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum FilterRequirement {
-  meetsAll('MEETS_ALL'),
-  meetsAny('MEETS_ANY'),
-  ;
+class FilterRequirement {
+  static const meetsAll = FilterRequirement._('MEETS_ALL');
+  static const meetsAny = FilterRequirement._('MEETS_ANY');
 
   final String value;
 
-  const FilterRequirement(this.value);
+  const FilterRequirement._(this.value);
+
+  static const values = [meetsAll, meetsAny];
 
   static FilterRequirement fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum FilterRequirement'));
+          orElse: () => FilterRequirement._(value));
+
+  @override
+  bool operator ==(other) => other is FilterRequirement && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A rule group that's defined for an Firewall Manager WAF policy.
@@ -7392,8 +7749,8 @@ class ForwardedIPConfig {
 
   factory ForwardedIPConfig.fromJson(Map<String, dynamic> json) {
     return ForwardedIPConfig(
-      fallbackBehavior:
-          FallbackBehavior.fromString((json['FallbackBehavior'] as String)),
+      fallbackBehavior: FallbackBehavior.fromString(
+          (json['FallbackBehavior'] as String?) ?? ''),
       headerName: (json['HeaderName'] as String?) ?? '',
     );
   }
@@ -7408,20 +7765,30 @@ class ForwardedIPConfig {
   }
 }
 
-enum ForwardedIPPosition {
-  first('FIRST'),
-  last('LAST'),
-  any('ANY'),
-  ;
+class ForwardedIPPosition {
+  static const first = ForwardedIPPosition._('FIRST');
+  static const last = ForwardedIPPosition._('LAST');
+  static const any = ForwardedIPPosition._('ANY');
 
   final String value;
 
-  const ForwardedIPPosition(this.value);
+  const ForwardedIPPosition._(this.value);
 
-  static ForwardedIPPosition fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ForwardedIPPosition'));
+  static const values = [first, last, any];
+
+  static ForwardedIPPosition fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ForwardedIPPosition._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ForwardedIPPosition && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class GenerateMobileSdkReleaseUrlResponse {
@@ -8175,8 +8542,8 @@ class HeaderOrder {
 
   factory HeaderOrder.fromJson(Map<String, dynamic> json) {
     return HeaderOrder(
-      oversizeHandling:
-          OversizeHandling.fromString((json['OversizeHandling'] as String)),
+      oversizeHandling: OversizeHandling.fromString(
+          (json['OversizeHandling'] as String?) ?? ''),
     );
   }
 
@@ -8256,9 +8623,10 @@ class Headers {
       matchPattern: HeaderMatchPattern.fromJson(
           (json['MatchPattern'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
-      matchScope: MapMatchScope.fromString((json['MatchScope'] as String)),
-      oversizeHandling:
-          OversizeHandling.fromString((json['OversizeHandling'] as String)),
+      matchScope:
+          MapMatchScope.fromString((json['MatchScope'] as String?) ?? ''),
+      oversizeHandling: OversizeHandling.fromString(
+          (json['OversizeHandling'] as String?) ?? ''),
     );
   }
 
@@ -8274,19 +8642,28 @@ class Headers {
   }
 }
 
-enum IPAddressVersion {
-  ipv4('IPV4'),
-  ipv6('IPV6'),
-  ;
+class IPAddressVersion {
+  static const ipv4 = IPAddressVersion._('IPV4');
+  static const ipv6 = IPAddressVersion._('IPV6');
 
   final String value;
 
-  const IPAddressVersion(this.value);
+  const IPAddressVersion._(this.value);
+
+  static const values = [ipv4, ipv6];
 
   static IPAddressVersion fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum IPAddressVersion'));
+          orElse: () => IPAddressVersion._(value));
+
+  @override
+  bool operator ==(other) => other is IPAddressVersion && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains zero or more IP addresses or blocks of IP addresses specified in
@@ -8387,8 +8764,8 @@ class IPSet {
           .nonNulls
           .map((e) => e as String)
           .toList(),
-      iPAddressVersion:
-          IPAddressVersion.fromString((json['IPAddressVersion'] as String)),
+      iPAddressVersion: IPAddressVersion.fromString(
+          (json['IPAddressVersion'] as String?) ?? ''),
       id: (json['Id'] as String?) ?? '',
       name: (json['Name'] as String?) ?? '',
       description: json['Description'] as String?,
@@ -8485,10 +8862,11 @@ class IPSetForwardedIPConfig {
 
   factory IPSetForwardedIPConfig.fromJson(Map<String, dynamic> json) {
     return IPSetForwardedIPConfig(
-      fallbackBehavior:
-          FallbackBehavior.fromString((json['FallbackBehavior'] as String)),
+      fallbackBehavior: FallbackBehavior.fromString(
+          (json['FallbackBehavior'] as String?) ?? ''),
       headerName: (json['HeaderName'] as String?) ?? '',
-      position: ForwardedIPPosition.fromString((json['Position'] as String)),
+      position:
+          ForwardedIPPosition.fromString((json['Position'] as String?) ?? ''),
     );
   }
 
@@ -8647,19 +9025,28 @@ class ImmunityTimeProperty {
   }
 }
 
-enum InspectionLevel {
-  common('COMMON'),
-  targeted('TARGETED'),
-  ;
+class InspectionLevel {
+  static const common = InspectionLevel._('COMMON');
+  static const targeted = InspectionLevel._('TARGETED');
 
   final String value;
 
-  const InspectionLevel(this.value);
+  const InspectionLevel._(this.value);
+
+  static const values = [common, targeted];
 
   static InspectionLevel fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum InspectionLevel'));
+          orElse: () => InspectionLevel._(value));
+
+  @override
+  bool operator ==(other) => other is InspectionLevel && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Available for use with Amazon CloudFront distributions and Application Load
@@ -8707,8 +9094,8 @@ class JA3Fingerprint {
 
   factory JA3Fingerprint.fromJson(Map<String, dynamic> json) {
     return JA3Fingerprint(
-      fallbackBehavior:
-          FallbackBehavior.fromString((json['FallbackBehavior'] as String)),
+      fallbackBehavior: FallbackBehavior.fromString(
+          (json['FallbackBehavior'] as String?) ?? ''),
     );
   }
 
@@ -8834,7 +9221,8 @@ class JsonBody {
       matchPattern: JsonMatchPattern.fromJson(
           (json['MatchPattern'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
-      matchScope: JsonMatchScope.fromString((json['MatchScope'] as String)),
+      matchScope:
+          JsonMatchScope.fromString((json['MatchScope'] as String?) ?? ''),
       invalidFallbackBehavior: (json['InvalidFallbackBehavior'] as String?)
           ?.let(BodyParsingFallbackBehavior.fromString),
       oversizeHandling: (json['OversizeHandling'] as String?)
@@ -8913,20 +9301,29 @@ class JsonMatchPattern {
   }
 }
 
-enum JsonMatchScope {
-  all('ALL'),
-  key('KEY'),
-  $value('VALUE'),
-  ;
+class JsonMatchScope {
+  static const all = JsonMatchScope._('ALL');
+  static const key = JsonMatchScope._('KEY');
+  static const $value = JsonMatchScope._('VALUE');
 
   final String value;
 
-  const JsonMatchScope(this.value);
+  const JsonMatchScope._(this.value);
+
+  static const values = [all, key, $value];
 
   static JsonMatchScope fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum JsonMatchScope'));
+          orElse: () => JsonMatchScope._(value));
+
+  @override
+  bool operator ==(other) => other is JsonMatchScope && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A single label container. This is used as an element of a label array in
@@ -8954,19 +9351,28 @@ class Label {
   }
 }
 
-enum LabelMatchScope {
-  label('LABEL'),
-  namespace('NAMESPACE'),
-  ;
+class LabelMatchScope {
+  static const label = LabelMatchScope._('LABEL');
+  static const namespace = LabelMatchScope._('NAMESPACE');
 
   final String value;
 
-  const LabelMatchScope(this.value);
+  const LabelMatchScope._(this.value);
+
+  static const values = [label, namespace];
 
   static LabelMatchScope fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum LabelMatchScope'));
+          orElse: () => LabelMatchScope._(value));
+
+  @override
+  bool operator ==(other) => other is LabelMatchScope && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A rule statement to match against labels that have been added to the web
@@ -9014,7 +9420,7 @@ class LabelMatchStatement {
   factory LabelMatchStatement.fromJson(Map<String, dynamic> json) {
     return LabelMatchStatement(
       key: (json['Key'] as String?) ?? '',
-      scope: LabelMatchScope.fromString((json['Scope'] as String)),
+      scope: LabelMatchScope.fromString((json['Scope'] as String?) ?? ''),
     );
   }
 
@@ -9547,31 +9953,49 @@ class ListWebACLsResponse {
   }
 }
 
-enum LogScope {
-  customer('CUSTOMER'),
-  securityLake('SECURITY_LAKE'),
-  ;
+class LogScope {
+  static const customer = LogScope._('CUSTOMER');
+  static const securityLake = LogScope._('SECURITY_LAKE');
 
   final String value;
 
-  const LogScope(this.value);
+  const LogScope._(this.value);
 
-  static LogScope fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum LogScope'));
+  static const values = [customer, securityLake];
+
+  static LogScope fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => LogScope._(value));
+
+  @override
+  bool operator ==(other) => other is LogScope && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum LogType {
-  wafLogs('WAF_LOGS'),
-  ;
+class LogType {
+  static const wafLogs = LogType._('WAF_LOGS');
 
   final String value;
 
-  const LogType(this.value);
+  const LogType._(this.value);
 
-  static LogType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum LogType'));
+  static const values = [wafLogs];
+
+  static LogType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => LogType._(value));
+
+  @override
+  bool operator ==(other) => other is LogType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Defines an association between logging destinations and a web ACL resource,
@@ -9750,7 +10174,7 @@ class LoggingFilter {
   factory LoggingFilter.fromJson(Map<String, dynamic> json) {
     return LoggingFilter(
       defaultBehavior:
-          FilterBehavior.fromString((json['DefaultBehavior'] as String)),
+          FilterBehavior.fromString((json['DefaultBehavior'] as String?) ?? ''),
       filters: ((json['Filters'] as List?) ?? const [])
           .nonNulls
           .map((e) => Filter.fromJson(e as Map<String, dynamic>))
@@ -10561,20 +10985,29 @@ class ManagedRuleSetVersion {
   }
 }
 
-enum MapMatchScope {
-  all('ALL'),
-  key('KEY'),
-  $value('VALUE'),
-  ;
+class MapMatchScope {
+  static const all = MapMatchScope._('ALL');
+  static const key = MapMatchScope._('KEY');
+  static const $value = MapMatchScope._('VALUE');
 
   final String value;
 
-  const MapMatchScope(this.value);
+  const MapMatchScope._(this.value);
+
+  static const values = [all, key, $value];
 
   static MapMatchScope fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum MapMatchScope'));
+          orElse: () => MapMatchScope._(value));
+
+  @override
+  bool operator ==(other) => other is MapMatchScope && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Inspect the HTTP method of the web request. The method indicates the type of
@@ -10781,20 +11214,29 @@ class OverrideAction {
   }
 }
 
-enum OversizeHandling {
-  $continue('CONTINUE'),
-  match('MATCH'),
-  noMatch('NO_MATCH'),
-  ;
+class OversizeHandling {
+  static const $continue = OversizeHandling._('CONTINUE');
+  static const match = OversizeHandling._('MATCH');
+  static const noMatch = OversizeHandling._('NO_MATCH');
 
   final String value;
 
-  const OversizeHandling(this.value);
+  const OversizeHandling._(this.value);
+
+  static const values = [$continue, match, noMatch];
 
   static OversizeHandling fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum OversizeHandling'));
+          orElse: () => OversizeHandling._(value));
+
+  @override
+  bool operator ==(other) => other is OversizeHandling && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The name of the field in the request payload that contains your customer's
@@ -10847,18 +11289,27 @@ class PasswordField {
   }
 }
 
-enum PayloadType {
-  json('JSON'),
-  formEncoded('FORM_ENCODED'),
-  ;
+class PayloadType {
+  static const json = PayloadType._('JSON');
+  static const formEncoded = PayloadType._('FORM_ENCODED');
 
   final String value;
 
-  const PayloadType(this.value);
+  const PayloadType._(this.value);
 
-  static PayloadType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum PayloadType'));
+  static const values = [json, formEncoded];
+
+  static PayloadType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => PayloadType._(value));
+
+  @override
+  bool operator ==(other) => other is PayloadType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The name of a field in the request payload that contains part or all of your
@@ -10915,36 +11366,55 @@ class PhoneNumberField {
   }
 }
 
-enum Platform {
-  ios('IOS'),
-  android('ANDROID'),
-  ;
+class Platform {
+  static const ios = Platform._('IOS');
+  static const android = Platform._('ANDROID');
 
   final String value;
 
-  const Platform(this.value);
+  const Platform._(this.value);
 
-  static Platform fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum Platform'));
+  static const values = [ios, android];
+
+  static Platform fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Platform._(value));
+
+  @override
+  bool operator ==(other) => other is Platform && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum PositionalConstraint {
-  exactly('EXACTLY'),
-  startsWith('STARTS_WITH'),
-  endsWith('ENDS_WITH'),
-  contains('CONTAINS'),
-  containsWord('CONTAINS_WORD'),
-  ;
+class PositionalConstraint {
+  static const exactly = PositionalConstraint._('EXACTLY');
+  static const startsWith = PositionalConstraint._('STARTS_WITH');
+  static const endsWith = PositionalConstraint._('ENDS_WITH');
+  static const contains = PositionalConstraint._('CONTAINS');
+  static const containsWord = PositionalConstraint._('CONTAINS_WORD');
 
   final String value;
 
-  const PositionalConstraint(this.value);
+  const PositionalConstraint._(this.value);
 
-  static PositionalConstraint fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum PositionalConstraint'));
+  static const values = [exactly, startsWith, endsWith, contains, containsWord];
+
+  static PositionalConstraint fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => PositionalConstraint._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is PositionalConstraint && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class PutLoggingConfigurationResponse {
@@ -11272,7 +11742,7 @@ class RateBasedStatement {
   factory RateBasedStatement.fromJson(Map<String, dynamic> json) {
     return RateBasedStatement(
       aggregateKeyType: RateBasedStatementAggregateKeyType.fromString(
-          (json['AggregateKeyType'] as String)),
+          (json['AggregateKeyType'] as String?) ?? ''),
       limit: (json['Limit'] as int?) ?? 0,
       customKeys: (json['CustomKeys'] as List?)
           ?.nonNulls
@@ -11310,21 +11780,32 @@ class RateBasedStatement {
   }
 }
 
-enum RateBasedStatementAggregateKeyType {
-  ip('IP'),
-  forwardedIp('FORWARDED_IP'),
-  customKeys('CUSTOM_KEYS'),
-  constant('CONSTANT'),
-  ;
+class RateBasedStatementAggregateKeyType {
+  static const ip = RateBasedStatementAggregateKeyType._('IP');
+  static const forwardedIp =
+      RateBasedStatementAggregateKeyType._('FORWARDED_IP');
+  static const customKeys = RateBasedStatementAggregateKeyType._('CUSTOM_KEYS');
+  static const constant = RateBasedStatementAggregateKeyType._('CONSTANT');
 
   final String value;
 
-  const RateBasedStatementAggregateKeyType(this.value);
+  const RateBasedStatementAggregateKeyType._(this.value);
+
+  static const values = [ip, forwardedIp, customKeys, constant];
 
   static RateBasedStatementAggregateKeyType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum RateBasedStatementAggregateKeyType'));
+          orElse: () => RateBasedStatementAggregateKeyType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RateBasedStatementAggregateKeyType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specifies a single custom aggregate key for a rate-base rule.
@@ -12163,7 +12644,7 @@ class RequestBodyAssociatedResourceTypeConfig {
       Map<String, dynamic> json) {
     return RequestBodyAssociatedResourceTypeConfig(
       defaultSizeInspectionLimit: SizeInspectionLimit.fromString(
-          (json['DefaultSizeInspectionLimit'] as String)),
+          (json['DefaultSizeInspectionLimit'] as String?) ?? ''),
     );
   }
 
@@ -12253,7 +12734,8 @@ class RequestInspection {
       passwordField: PasswordField.fromJson(
           (json['PasswordField'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
-      payloadType: PayloadType.fromString((json['PayloadType'] as String)),
+      payloadType:
+          PayloadType.fromString((json['PayloadType'] as String?) ?? ''),
       usernameField: UsernameField.fromJson(
           (json['UsernameField'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
@@ -12448,7 +12930,8 @@ class RequestInspectionACFP {
 
   factory RequestInspectionACFP.fromJson(Map<String, dynamic> json) {
     return RequestInspectionACFP(
-      payloadType: PayloadType.fromString((json['PayloadType'] as String)),
+      payloadType:
+          PayloadType.fromString((json['PayloadType'] as String?) ?? ''),
       addressFields: (json['AddressFields'] as List?)
           ?.nonNulls
           .map((e) => AddressField.fromJson(e as Map<String, dynamic>))
@@ -12489,39 +12972,66 @@ class RequestInspectionACFP {
   }
 }
 
-enum ResourceType {
-  applicationLoadBalancer('APPLICATION_LOAD_BALANCER'),
-  apiGateway('API_GATEWAY'),
-  appsync('APPSYNC'),
-  cognitoUserPool('COGNITO_USER_POOL'),
-  appRunnerService('APP_RUNNER_SERVICE'),
-  verifiedAccessInstance('VERIFIED_ACCESS_INSTANCE'),
-  ;
+class ResourceType {
+  static const applicationLoadBalancer =
+      ResourceType._('APPLICATION_LOAD_BALANCER');
+  static const apiGateway = ResourceType._('API_GATEWAY');
+  static const appsync = ResourceType._('APPSYNC');
+  static const cognitoUserPool = ResourceType._('COGNITO_USER_POOL');
+  static const appRunnerService = ResourceType._('APP_RUNNER_SERVICE');
+  static const verifiedAccessInstance =
+      ResourceType._('VERIFIED_ACCESS_INSTANCE');
 
   final String value;
 
-  const ResourceType(this.value);
+  const ResourceType._(this.value);
 
-  static ResourceType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ResourceType'));
+  static const values = [
+    applicationLoadBalancer,
+    apiGateway,
+    appsync,
+    cognitoUserPool,
+    appRunnerService,
+    verifiedAccessInstance
+  ];
+
+  static ResourceType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ResourceType._(value));
+
+  @override
+  bool operator ==(other) => other is ResourceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ResponseContentType {
-  textPlain('TEXT_PLAIN'),
-  textHtml('TEXT_HTML'),
-  applicationJson('APPLICATION_JSON'),
-  ;
+class ResponseContentType {
+  static const textPlain = ResponseContentType._('TEXT_PLAIN');
+  static const textHtml = ResponseContentType._('TEXT_HTML');
+  static const applicationJson = ResponseContentType._('APPLICATION_JSON');
 
   final String value;
 
-  const ResponseContentType(this.value);
+  const ResponseContentType._(this.value);
 
-  static ResponseContentType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ResponseContentType'));
+  static const values = [textPlain, textHtml, applicationJson];
+
+  static ResponseContentType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ResponseContentType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ResponseContentType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The criteria for inspecting responses to login requests and account creation
@@ -13605,33 +14115,51 @@ class SampledHTTPRequest {
   }
 }
 
-enum Scope {
-  cloudfront('CLOUDFRONT'),
-  regional('REGIONAL'),
-  ;
+class Scope {
+  static const cloudfront = Scope._('CLOUDFRONT');
+  static const regional = Scope._('REGIONAL');
 
   final String value;
 
-  const Scope(this.value);
+  const Scope._(this.value);
+
+  static const values = [cloudfront, regional];
 
   static Scope fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum Scope'));
+      values.firstWhere((e) => e.value == value, orElse: () => Scope._(value));
+
+  @override
+  bool operator ==(other) => other is Scope && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum SensitivityLevel {
-  low('LOW'),
-  high('HIGH'),
-  ;
+class SensitivityLevel {
+  static const low = SensitivityLevel._('LOW');
+  static const high = SensitivityLevel._('HIGH');
 
   final String value;
 
-  const SensitivityLevel(this.value);
+  const SensitivityLevel._(this.value);
+
+  static const values = [low, high];
 
   static SensitivityLevel fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum SensitivityLevel'));
+          orElse: () => SensitivityLevel._(value));
+
+  @override
+  bool operator ==(other) => other is SensitivityLevel && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Inspect one of the headers in the web request, identified by name, for
@@ -13744,8 +14272,8 @@ class SizeConstraintStatement {
 
   factory SizeConstraintStatement.fromJson(Map<String, dynamic> json) {
     return SizeConstraintStatement(
-      comparisonOperator:
-          ComparisonOperator.fromString((json['ComparisonOperator'] as String)),
+      comparisonOperator: ComparisonOperator.fromString(
+          (json['ComparisonOperator'] as String?) ?? ''),
       fieldToMatch: FieldToMatch.fromJson(
           (json['FieldToMatch'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
@@ -13771,21 +14299,31 @@ class SizeConstraintStatement {
   }
 }
 
-enum SizeInspectionLimit {
-  kb_16('KB_16'),
-  kb_32('KB_32'),
-  kb_48('KB_48'),
-  kb_64('KB_64'),
-  ;
+class SizeInspectionLimit {
+  static const kb_16 = SizeInspectionLimit._('KB_16');
+  static const kb_32 = SizeInspectionLimit._('KB_32');
+  static const kb_48 = SizeInspectionLimit._('KB_48');
+  static const kb_64 = SizeInspectionLimit._('KB_64');
 
   final String value;
 
-  const SizeInspectionLimit(this.value);
+  const SizeInspectionLimit._(this.value);
 
-  static SizeInspectionLimit fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum SizeInspectionLimit'));
+  static const values = [kb_16, kb_32, kb_48, kb_64];
+
+  static SizeInspectionLimit fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => SizeInspectionLimit._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SizeInspectionLimit && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A rule statement that inspects for malicious SQL code. Attackers insert
@@ -14396,7 +14934,7 @@ class TextTransformation {
   factory TextTransformation.fromJson(Map<String, dynamic> json) {
     return TextTransformation(
       priority: (json['Priority'] as int?) ?? 0,
-      type: TextTransformationType.fromString((json['Type'] as String)),
+      type: TextTransformationType.fromString((json['Type'] as String?) ?? ''),
     );
   }
 
@@ -14410,38 +14948,73 @@ class TextTransformation {
   }
 }
 
-enum TextTransformationType {
-  none('NONE'),
-  compressWhiteSpace('COMPRESS_WHITE_SPACE'),
-  htmlEntityDecode('HTML_ENTITY_DECODE'),
-  lowercase('LOWERCASE'),
-  cmdLine('CMD_LINE'),
-  urlDecode('URL_DECODE'),
-  base64Decode('BASE64_DECODE'),
-  hexDecode('HEX_DECODE'),
-  md5('MD5'),
-  replaceComments('REPLACE_COMMENTS'),
-  escapeSeqDecode('ESCAPE_SEQ_DECODE'),
-  sqlHexDecode('SQL_HEX_DECODE'),
-  cssDecode('CSS_DECODE'),
-  jsDecode('JS_DECODE'),
-  normalizePath('NORMALIZE_PATH'),
-  normalizePathWin('NORMALIZE_PATH_WIN'),
-  removeNulls('REMOVE_NULLS'),
-  replaceNulls('REPLACE_NULLS'),
-  base64DecodeExt('BASE64_DECODE_EXT'),
-  urlDecodeUni('URL_DECODE_UNI'),
-  utf8ToUnicode('UTF8_TO_UNICODE'),
-  ;
+class TextTransformationType {
+  static const none = TextTransformationType._('NONE');
+  static const compressWhiteSpace =
+      TextTransformationType._('COMPRESS_WHITE_SPACE');
+  static const htmlEntityDecode =
+      TextTransformationType._('HTML_ENTITY_DECODE');
+  static const lowercase = TextTransformationType._('LOWERCASE');
+  static const cmdLine = TextTransformationType._('CMD_LINE');
+  static const urlDecode = TextTransformationType._('URL_DECODE');
+  static const base64Decode = TextTransformationType._('BASE64_DECODE');
+  static const hexDecode = TextTransformationType._('HEX_DECODE');
+  static const md5 = TextTransformationType._('MD5');
+  static const replaceComments = TextTransformationType._('REPLACE_COMMENTS');
+  static const escapeSeqDecode = TextTransformationType._('ESCAPE_SEQ_DECODE');
+  static const sqlHexDecode = TextTransformationType._('SQL_HEX_DECODE');
+  static const cssDecode = TextTransformationType._('CSS_DECODE');
+  static const jsDecode = TextTransformationType._('JS_DECODE');
+  static const normalizePath = TextTransformationType._('NORMALIZE_PATH');
+  static const normalizePathWin =
+      TextTransformationType._('NORMALIZE_PATH_WIN');
+  static const removeNulls = TextTransformationType._('REMOVE_NULLS');
+  static const replaceNulls = TextTransformationType._('REPLACE_NULLS');
+  static const base64DecodeExt = TextTransformationType._('BASE64_DECODE_EXT');
+  static const urlDecodeUni = TextTransformationType._('URL_DECODE_UNI');
+  static const utf8ToUnicode = TextTransformationType._('UTF8_TO_UNICODE');
 
   final String value;
 
-  const TextTransformationType(this.value);
+  const TextTransformationType._(this.value);
+
+  static const values = [
+    none,
+    compressWhiteSpace,
+    htmlEntityDecode,
+    lowercase,
+    cmdLine,
+    urlDecode,
+    base64Decode,
+    hexDecode,
+    md5,
+    replaceComments,
+    escapeSeqDecode,
+    sqlHexDecode,
+    cssDecode,
+    jsDecode,
+    normalizePath,
+    normalizePathWin,
+    removeNulls,
+    replaceNulls,
+    base64DecodeExt,
+    urlDecodeUni,
+    utf8ToUnicode
+  ];
 
   static TextTransformationType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum TextTransformationType'));
+          orElse: () => TextTransformationType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TextTransformationType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// In a <a>GetSampledRequests</a> request, the <code>StartTime</code> and

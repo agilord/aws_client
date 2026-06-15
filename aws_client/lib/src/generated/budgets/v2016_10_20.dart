@@ -1376,17 +1376,17 @@ class Action {
       actionThreshold: ActionThreshold.fromJson(
           (json['ActionThreshold'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
-      actionType: ActionType.fromString((json['ActionType'] as String)),
+      actionType: ActionType.fromString((json['ActionType'] as String?) ?? ''),
       approvalModel:
-          ApprovalModel.fromString((json['ApprovalModel'] as String)),
+          ApprovalModel.fromString((json['ApprovalModel'] as String?) ?? ''),
       budgetName: (json['BudgetName'] as String?) ?? '',
       definition: Definition.fromJson(
           (json['Definition'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
       executionRoleArn: (json['ExecutionRoleArn'] as String?) ?? '',
-      notificationType:
-          NotificationType.fromString((json['NotificationType'] as String)),
-      status: ActionStatus.fromString((json['Status'] as String)),
+      notificationType: NotificationType.fromString(
+          (json['NotificationType'] as String?) ?? ''),
+      status: ActionStatus.fromString((json['Status'] as String?) ?? ''),
       subscribers: ((json['Subscribers'] as List?) ?? const [])
           .nonNulls
           .map((e) => Subscriber.fromJson(e as Map<String, dynamic>))
@@ -1445,8 +1445,8 @@ class ActionHistory {
       actionHistoryDetails: ActionHistoryDetails.fromJson(
           (json['ActionHistoryDetails'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
-      eventType: EventType.fromString((json['EventType'] as String)),
-      status: ActionStatus.fromString((json['Status'] as String)),
+      eventType: EventType.fromString((json['EventType'] as String?) ?? ''),
+      status: ActionStatus.fromString((json['Status'] as String?) ?? ''),
       timestamp: nonNullableTimeStampFromJson(json['Timestamp'] ?? 0),
     );
   }
@@ -1494,42 +1494,70 @@ class ActionHistoryDetails {
   }
 }
 
-enum ActionStatus {
-  standby('STANDBY'),
-  pending('PENDING'),
-  executionInProgress('EXECUTION_IN_PROGRESS'),
-  executionSuccess('EXECUTION_SUCCESS'),
-  executionFailure('EXECUTION_FAILURE'),
-  reverseInProgress('REVERSE_IN_PROGRESS'),
-  reverseSuccess('REVERSE_SUCCESS'),
-  reverseFailure('REVERSE_FAILURE'),
-  resetInProgress('RESET_IN_PROGRESS'),
-  resetFailure('RESET_FAILURE'),
-  ;
+class ActionStatus {
+  static const standby = ActionStatus._('STANDBY');
+  static const pending = ActionStatus._('PENDING');
+  static const executionInProgress = ActionStatus._('EXECUTION_IN_PROGRESS');
+  static const executionSuccess = ActionStatus._('EXECUTION_SUCCESS');
+  static const executionFailure = ActionStatus._('EXECUTION_FAILURE');
+  static const reverseInProgress = ActionStatus._('REVERSE_IN_PROGRESS');
+  static const reverseSuccess = ActionStatus._('REVERSE_SUCCESS');
+  static const reverseFailure = ActionStatus._('REVERSE_FAILURE');
+  static const resetInProgress = ActionStatus._('RESET_IN_PROGRESS');
+  static const resetFailure = ActionStatus._('RESET_FAILURE');
 
   final String value;
 
-  const ActionStatus(this.value);
+  const ActionStatus._(this.value);
 
-  static ActionStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ActionStatus'));
+  static const values = [
+    standby,
+    pending,
+    executionInProgress,
+    executionSuccess,
+    executionFailure,
+    reverseInProgress,
+    reverseSuccess,
+    reverseFailure,
+    resetInProgress,
+    resetFailure
+  ];
+
+  static ActionStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ActionStatus._(value));
+
+  @override
+  bool operator ==(other) => other is ActionStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ActionSubType {
-  stopEc2Instances('STOP_EC2_INSTANCES'),
-  stopRdsInstances('STOP_RDS_INSTANCES'),
-  ;
+class ActionSubType {
+  static const stopEc2Instances = ActionSubType._('STOP_EC2_INSTANCES');
+  static const stopRdsInstances = ActionSubType._('STOP_RDS_INSTANCES');
 
   final String value;
 
-  const ActionSubType(this.value);
+  const ActionSubType._(this.value);
+
+  static const values = [stopEc2Instances, stopRdsInstances];
 
   static ActionSubType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ActionSubType'));
+          orElse: () => ActionSubType._(value));
+
+  @override
+  bool operator ==(other) => other is ActionSubType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The trigger threshold of the action.
@@ -1544,8 +1572,8 @@ class ActionThreshold {
 
   factory ActionThreshold.fromJson(Map<String, dynamic> json) {
     return ActionThreshold(
-      actionThresholdType:
-          ThresholdType.fromString((json['ActionThresholdType'] as String)),
+      actionThresholdType: ThresholdType.fromString(
+          (json['ActionThresholdType'] as String?) ?? ''),
       actionThresholdValue: (json['ActionThresholdValue'] as double?) ?? 0,
     );
   }
@@ -1560,34 +1588,52 @@ class ActionThreshold {
   }
 }
 
-enum ActionType {
-  applyIamPolicy('APPLY_IAM_POLICY'),
-  applyScpPolicy('APPLY_SCP_POLICY'),
-  runSsmDocuments('RUN_SSM_DOCUMENTS'),
-  ;
+class ActionType {
+  static const applyIamPolicy = ActionType._('APPLY_IAM_POLICY');
+  static const applyScpPolicy = ActionType._('APPLY_SCP_POLICY');
+  static const runSsmDocuments = ActionType._('RUN_SSM_DOCUMENTS');
 
   final String value;
 
-  const ActionType(this.value);
+  const ActionType._(this.value);
 
-  static ActionType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum ActionType'));
+  static const values = [applyIamPolicy, applyScpPolicy, runSsmDocuments];
+
+  static ActionType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ActionType._(value));
+
+  @override
+  bool operator ==(other) => other is ActionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ApprovalModel {
-  automatic('AUTOMATIC'),
-  manual('MANUAL'),
-  ;
+class ApprovalModel {
+  static const automatic = ApprovalModel._('AUTOMATIC');
+  static const manual = ApprovalModel._('MANUAL');
 
   final String value;
 
-  const ApprovalModel(this.value);
+  const ApprovalModel._(this.value);
+
+  static const values = [automatic, manual];
 
   static ApprovalModel fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ApprovalModel'));
+          orElse: () => ApprovalModel._(value));
+
+  @override
+  bool operator ==(other) => other is ApprovalModel && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The parameters that determine the budget amount for an auto-adjusting
@@ -1613,7 +1659,7 @@ class AutoAdjustData {
   factory AutoAdjustData.fromJson(Map<String, dynamic> json) {
     return AutoAdjustData(
       autoAdjustType:
-          AutoAdjustType.fromString((json['AutoAdjustType'] as String)),
+          AutoAdjustType.fromString((json['AutoAdjustType'] as String?) ?? ''),
       historicalOptions: json['HistoricalOptions'] != null
           ? HistoricalOptions.fromJson(
               json['HistoricalOptions'] as Map<String, dynamic>)
@@ -1635,19 +1681,28 @@ class AutoAdjustData {
   }
 }
 
-enum AutoAdjustType {
-  historical('HISTORICAL'),
-  forecast('FORECAST'),
-  ;
+class AutoAdjustType {
+  static const historical = AutoAdjustType._('HISTORICAL');
+  static const forecast = AutoAdjustType._('FORECAST');
 
   final String value;
 
-  const AutoAdjustType(this.value);
+  const AutoAdjustType._(this.value);
+
+  static const values = [historical, forecast];
 
   static AutoAdjustType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum AutoAdjustType'));
+          orElse: () => AutoAdjustType._(value));
+
+  @override
+  bool operator ==(other) => other is AutoAdjustType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Represents the output of the <code>CreateBudget</code> operation. The
@@ -1804,8 +1859,8 @@ class Budget {
   factory Budget.fromJson(Map<String, dynamic> json) {
     return Budget(
       budgetName: (json['BudgetName'] as String?) ?? '',
-      budgetType: BudgetType.fromString((json['BudgetType'] as String)),
-      timeUnit: TimeUnit.fromString((json['TimeUnit'] as String)),
+      budgetType: BudgetType.fromString((json['BudgetType'] as String?) ?? ''),
+      timeUnit: TimeUnit.fromString((json['TimeUnit'] as String?) ?? ''),
       autoAdjustData: json['AutoAdjustData'] != null
           ? AutoAdjustData.fromJson(
               json['AutoAdjustData'] as Map<String, dynamic>)
@@ -1962,22 +2017,39 @@ class BudgetPerformanceHistory {
 /// <code>COST</code>, <code>USAGE</code>, <code>RI_UTILIZATION</code>,
 /// <code>RI_COVERAGE</code>, <code>SAVINGS_PLANS_UTILIZATION</code>, or
 /// <code>SAVINGS_PLANS_COVERAGE</code>.
-enum BudgetType {
-  usage('USAGE'),
-  cost('COST'),
-  riUtilization('RI_UTILIZATION'),
-  riCoverage('RI_COVERAGE'),
-  savingsPlansUtilization('SAVINGS_PLANS_UTILIZATION'),
-  savingsPlansCoverage('SAVINGS_PLANS_COVERAGE'),
-  ;
+class BudgetType {
+  static const usage = BudgetType._('USAGE');
+  static const cost = BudgetType._('COST');
+  static const riUtilization = BudgetType._('RI_UTILIZATION');
+  static const riCoverage = BudgetType._('RI_COVERAGE');
+  static const savingsPlansUtilization =
+      BudgetType._('SAVINGS_PLANS_UTILIZATION');
+  static const savingsPlansCoverage = BudgetType._('SAVINGS_PLANS_COVERAGE');
 
   final String value;
 
-  const BudgetType(this.value);
+  const BudgetType._(this.value);
 
-  static BudgetType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum BudgetType'));
+  static const values = [
+    usage,
+    cost,
+    riUtilization,
+    riCoverage,
+    savingsPlansUtilization,
+    savingsPlansCoverage
+  ];
+
+  static BudgetType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => BudgetType._(value));
+
+  @override
+  bool operator ==(other) => other is BudgetType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The amount of cost or usage that you created the budget for, compared to
@@ -2071,20 +2143,30 @@ class CalculatedSpend {
 /// the following operators:
 ///
 /// <code>GREATER_THAN</code>, <code>LESS_THAN</code>, <code>EQUAL_TO</code>
-enum ComparisonOperator {
-  greaterThan('GREATER_THAN'),
-  lessThan('LESS_THAN'),
-  equalTo('EQUAL_TO'),
-  ;
+class ComparisonOperator {
+  static const greaterThan = ComparisonOperator._('GREATER_THAN');
+  static const lessThan = ComparisonOperator._('LESS_THAN');
+  static const equalTo = ComparisonOperator._('EQUAL_TO');
 
   final String value;
 
-  const ComparisonOperator(this.value);
+  const ComparisonOperator._(this.value);
 
-  static ComparisonOperator fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ComparisonOperator'));
+  static const values = [greaterThan, lessThan, equalTo];
+
+  static ComparisonOperator fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ComparisonOperator._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ComparisonOperator && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The types of cost that are included in a <code>COST</code> budget, such as
@@ -2731,21 +2813,36 @@ class DescribeSubscribersForNotificationResponse {
   }
 }
 
-enum EventType {
-  system('SYSTEM'),
-  createAction('CREATE_ACTION'),
-  deleteAction('DELETE_ACTION'),
-  updateAction('UPDATE_ACTION'),
-  executeAction('EXECUTE_ACTION'),
-  ;
+class EventType {
+  static const system = EventType._('SYSTEM');
+  static const createAction = EventType._('CREATE_ACTION');
+  static const deleteAction = EventType._('DELETE_ACTION');
+  static const updateAction = EventType._('UPDATE_ACTION');
+  static const executeAction = EventType._('EXECUTE_ACTION');
 
   final String value;
 
-  const EventType(this.value);
+  const EventType._(this.value);
 
-  static EventType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum EventType'));
+  static const values = [
+    system,
+    createAction,
+    deleteAction,
+    updateAction,
+    executeAction
+  ];
+
+  static EventType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => EventType._(value));
+
+  @override
+  bool operator ==(other) => other is EventType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class ExecuteBudgetActionResponse {
@@ -2771,7 +2868,7 @@ class ExecuteBudgetActionResponse {
       actionId: (json['ActionId'] as String?) ?? '',
       budgetName: (json['BudgetName'] as String?) ?? '',
       executionType:
-          ExecutionType.fromString((json['ExecutionType'] as String)),
+          ExecutionType.fromString((json['ExecutionType'] as String?) ?? ''),
     );
   }
 
@@ -2789,21 +2886,35 @@ class ExecuteBudgetActionResponse {
   }
 }
 
-enum ExecutionType {
-  approveBudgetAction('APPROVE_BUDGET_ACTION'),
-  retryBudgetAction('RETRY_BUDGET_ACTION'),
-  reverseBudgetAction('REVERSE_BUDGET_ACTION'),
-  resetBudgetAction('RESET_BUDGET_ACTION'),
-  ;
+class ExecutionType {
+  static const approveBudgetAction = ExecutionType._('APPROVE_BUDGET_ACTION');
+  static const retryBudgetAction = ExecutionType._('RETRY_BUDGET_ACTION');
+  static const reverseBudgetAction = ExecutionType._('REVERSE_BUDGET_ACTION');
+  static const resetBudgetAction = ExecutionType._('RESET_BUDGET_ACTION');
 
   final String value;
 
-  const ExecutionType(this.value);
+  const ExecutionType._(this.value);
+
+  static const values = [
+    approveBudgetAction,
+    retryBudgetAction,
+    reverseBudgetAction,
+    resetBudgetAction
+  ];
 
   static ExecutionType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ExecutionType'));
+          orElse: () => ExecutionType._(value));
+
+  @override
+  bool operator ==(other) => other is ExecutionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The parameters that define or describe the historical data that your
@@ -3010,10 +3121,10 @@ class Notification {
 
   factory Notification.fromJson(Map<String, dynamic> json) {
     return Notification(
-      comparisonOperator:
-          ComparisonOperator.fromString((json['ComparisonOperator'] as String)),
-      notificationType:
-          NotificationType.fromString((json['NotificationType'] as String)),
+      comparisonOperator: ComparisonOperator.fromString(
+          (json['ComparisonOperator'] as String?) ?? ''),
+      notificationType: NotificationType.fromString(
+          (json['NotificationType'] as String?) ?? ''),
       threshold: (json['Threshold'] as double?) ?? 0,
       notificationState: (json['NotificationState'] as String?)
           ?.let(NotificationState.fromString),
@@ -3039,35 +3150,53 @@ class Notification {
   }
 }
 
-enum NotificationState {
-  ok('OK'),
-  alarm('ALARM'),
-  ;
+class NotificationState {
+  static const ok = NotificationState._('OK');
+  static const alarm = NotificationState._('ALARM');
 
   final String value;
 
-  const NotificationState(this.value);
+  const NotificationState._(this.value);
+
+  static const values = [ok, alarm];
 
   static NotificationState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum NotificationState'));
+          orElse: () => NotificationState._(value));
+
+  @override
+  bool operator ==(other) => other is NotificationState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The type of a notification. It must be ACTUAL or FORECASTED.
-enum NotificationType {
-  actual('ACTUAL'),
-  forecasted('FORECASTED'),
-  ;
+class NotificationType {
+  static const actual = NotificationType._('ACTUAL');
+  static const forecasted = NotificationType._('FORECASTED');
 
   final String value;
 
-  const NotificationType(this.value);
+  const NotificationType._(this.value);
+
+  static const values = [actual, forecasted];
 
   static NotificationType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum NotificationType'));
+          orElse: () => NotificationType._(value));
+
+  @override
+  bool operator ==(other) => other is NotificationType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A notification with subscribers. A notification can have one SNS subscriber
@@ -3232,7 +3361,7 @@ class SsmActionDefinition {
   factory SsmActionDefinition.fromJson(Map<String, dynamic> json) {
     return SsmActionDefinition(
       actionSubType:
-          ActionSubType.fromString((json['ActionSubType'] as String)),
+          ActionSubType.fromString((json['ActionSubType'] as String?) ?? ''),
       instanceIds: ((json['InstanceIds'] as List?) ?? const [])
           .nonNulls
           .map((e) => e as String)
@@ -3285,8 +3414,8 @@ class Subscriber {
   factory Subscriber.fromJson(Map<String, dynamic> json) {
     return Subscriber(
       address: (json['Address'] as String?) ?? '',
-      subscriptionType:
-          SubscriptionType.fromString((json['SubscriptionType'] as String)),
+      subscriptionType: SubscriptionType.fromString(
+          (json['SubscriptionType'] as String?) ?? ''),
     );
   }
 
@@ -3301,19 +3430,28 @@ class Subscriber {
 }
 
 /// The subscription type of the subscriber. It can be SMS or EMAIL.
-enum SubscriptionType {
-  sns('SNS'),
-  email('EMAIL'),
-  ;
+class SubscriptionType {
+  static const sns = SubscriptionType._('SNS');
+  static const email = SubscriptionType._('EMAIL');
 
   final String value;
 
-  const SubscriptionType(this.value);
+  const SubscriptionType._(this.value);
+
+  static const values = [sns, email];
 
   static SubscriptionType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum SubscriptionType'));
+          orElse: () => SubscriptionType._(value));
+
+  @override
+  bool operator ==(other) => other is SubscriptionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class TagResourceResponse {
@@ -3329,19 +3467,28 @@ class TagResourceResponse {
 }
 
 /// The type of threshold for a notification.
-enum ThresholdType {
-  percentage('PERCENTAGE'),
-  absoluteValue('ABSOLUTE_VALUE'),
-  ;
+class ThresholdType {
+  static const percentage = ThresholdType._('PERCENTAGE');
+  static const absoluteValue = ThresholdType._('ABSOLUTE_VALUE');
 
   final String value;
 
-  const ThresholdType(this.value);
+  const ThresholdType._(this.value);
+
+  static const values = [percentage, absoluteValue];
 
   static ThresholdType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ThresholdType'));
+          orElse: () => ThresholdType._(value));
+
+  @override
+  bool operator ==(other) => other is ThresholdType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The period of time that's covered by a budget. The period has a start date
@@ -3392,20 +3539,29 @@ class TimePeriod {
 }
 
 /// The time unit of the budget, such as MONTHLY or QUARTERLY.
-enum TimeUnit {
-  daily('DAILY'),
-  monthly('MONTHLY'),
-  quarterly('QUARTERLY'),
-  annually('ANNUALLY'),
-  ;
+class TimeUnit {
+  static const daily = TimeUnit._('DAILY');
+  static const monthly = TimeUnit._('MONTHLY');
+  static const quarterly = TimeUnit._('QUARTERLY');
+  static const annually = TimeUnit._('ANNUALLY');
 
   final String value;
 
-  const TimeUnit(this.value);
+  const TimeUnit._(this.value);
 
-  static TimeUnit fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum TimeUnit'));
+  static const values = [daily, monthly, quarterly, annually];
+
+  static TimeUnit fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => TimeUnit._(value));
+
+  @override
+  bool operator ==(other) => other is TimeUnit && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class UntagResourceResponse {

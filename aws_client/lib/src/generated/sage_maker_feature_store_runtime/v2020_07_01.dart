@@ -528,34 +528,52 @@ class BatchGetRecordResultDetail {
   }
 }
 
-enum DeletionMode {
-  softDelete('SoftDelete'),
-  hardDelete('HardDelete'),
-  ;
+class DeletionMode {
+  static const softDelete = DeletionMode._('SoftDelete');
+  static const hardDelete = DeletionMode._('HardDelete');
 
   final String value;
 
-  const DeletionMode(this.value);
+  const DeletionMode._(this.value);
 
-  static DeletionMode fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum DeletionMode'));
+  static const values = [softDelete, hardDelete];
+
+  static DeletionMode fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => DeletionMode._(value));
+
+  @override
+  bool operator ==(other) => other is DeletionMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ExpirationTimeResponse {
-  enabled('Enabled'),
-  disabled('Disabled'),
-  ;
+class ExpirationTimeResponse {
+  static const enabled = ExpirationTimeResponse._('Enabled');
+  static const disabled = ExpirationTimeResponse._('Disabled');
 
   final String value;
 
-  const ExpirationTimeResponse(this.value);
+  const ExpirationTimeResponse._(this.value);
+
+  static const values = [enabled, disabled];
 
   static ExpirationTimeResponse fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ExpirationTimeResponse'));
+          orElse: () => ExpirationTimeResponse._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ExpirationTimeResponse && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The value associated with a feature.
@@ -637,18 +655,27 @@ class GetRecordResponse {
   }
 }
 
-enum TargetStore {
-  onlineStore('OnlineStore'),
-  offlineStore('OfflineStore'),
-  ;
+class TargetStore {
+  static const onlineStore = TargetStore._('OnlineStore');
+  static const offlineStore = TargetStore._('OfflineStore');
 
   final String value;
 
-  const TargetStore(this.value);
+  const TargetStore._(this.value);
 
-  static TargetStore fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum TargetStore'));
+  static const values = [onlineStore, offlineStore];
+
+  static TargetStore fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => TargetStore._(value));
+
+  @override
+  bool operator ==(other) => other is TargetStore && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Time to live duration, where the record is hard deleted after the expiration
@@ -678,22 +705,31 @@ class TtlDuration {
   }
 }
 
-enum TtlDurationUnit {
-  seconds('Seconds'),
-  minutes('Minutes'),
-  hours('Hours'),
-  days('Days'),
-  weeks('Weeks'),
-  ;
+class TtlDurationUnit {
+  static const seconds = TtlDurationUnit._('Seconds');
+  static const minutes = TtlDurationUnit._('Minutes');
+  static const hours = TtlDurationUnit._('Hours');
+  static const days = TtlDurationUnit._('Days');
+  static const weeks = TtlDurationUnit._('Weeks');
 
   final String value;
 
-  const TtlDurationUnit(this.value);
+  const TtlDurationUnit._(this.value);
+
+  static const values = [seconds, minutes, hours, days, weeks];
 
   static TtlDurationUnit fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum TtlDurationUnit'));
+          orElse: () => TtlDurationUnit._(value));
+
+  @override
+  bool operator ==(other) => other is TtlDurationUnit && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class AccessForbidden extends _s.GenericAwsException {

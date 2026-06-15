@@ -1724,35 +1724,55 @@ class CanaryRunConfigOutput {
   }
 }
 
-enum CanaryRunState {
-  running('RUNNING'),
-  passed('PASSED'),
-  failed('FAILED'),
-  ;
+class CanaryRunState {
+  static const running = CanaryRunState._('RUNNING');
+  static const passed = CanaryRunState._('PASSED');
+  static const failed = CanaryRunState._('FAILED');
 
   final String value;
 
-  const CanaryRunState(this.value);
+  const CanaryRunState._(this.value);
+
+  static const values = [running, passed, failed];
 
   static CanaryRunState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum CanaryRunState'));
+          orElse: () => CanaryRunState._(value));
+
+  @override
+  bool operator ==(other) => other is CanaryRunState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum CanaryRunStateReasonCode {
-  canaryFailure('CANARY_FAILURE'),
-  executionFailure('EXECUTION_FAILURE'),
-  ;
+class CanaryRunStateReasonCode {
+  static const canaryFailure = CanaryRunStateReasonCode._('CANARY_FAILURE');
+  static const executionFailure =
+      CanaryRunStateReasonCode._('EXECUTION_FAILURE');
 
   final String value;
 
-  const CanaryRunStateReasonCode(this.value);
+  const CanaryRunStateReasonCode._(this.value);
+
+  static const values = [canaryFailure, executionFailure];
 
   static CanaryRunStateReasonCode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum CanaryRunStateReasonCode'));
+          orElse: () => CanaryRunStateReasonCode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CanaryRunStateReasonCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// This structure contains the status information about a canary run.
@@ -1922,50 +1942,94 @@ class CanaryScheduleOutput {
   }
 }
 
-enum CanaryState {
-  creating('CREATING'),
-  ready('READY'),
-  starting('STARTING'),
-  running('RUNNING'),
-  updating('UPDATING'),
-  stopping('STOPPING'),
-  stopped('STOPPED'),
-  error('ERROR'),
-  deleting('DELETING'),
-  ;
+class CanaryState {
+  static const creating = CanaryState._('CREATING');
+  static const ready = CanaryState._('READY');
+  static const starting = CanaryState._('STARTING');
+  static const running = CanaryState._('RUNNING');
+  static const updating = CanaryState._('UPDATING');
+  static const stopping = CanaryState._('STOPPING');
+  static const stopped = CanaryState._('STOPPED');
+  static const error = CanaryState._('ERROR');
+  static const deleting = CanaryState._('DELETING');
 
   final String value;
 
-  const CanaryState(this.value);
+  const CanaryState._(this.value);
 
-  static CanaryState fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum CanaryState'));
+  static const values = [
+    creating,
+    ready,
+    starting,
+    running,
+    updating,
+    stopping,
+    stopped,
+    error,
+    deleting
+  ];
+
+  static CanaryState fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => CanaryState._(value));
+
+  @override
+  bool operator ==(other) => other is CanaryState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum CanaryStateReasonCode {
-  invalidPermissions('INVALID_PERMISSIONS'),
-  createPending('CREATE_PENDING'),
-  createInProgress('CREATE_IN_PROGRESS'),
-  createFailed('CREATE_FAILED'),
-  updatePending('UPDATE_PENDING'),
-  updateInProgress('UPDATE_IN_PROGRESS'),
-  updateComplete('UPDATE_COMPLETE'),
-  rollbackComplete('ROLLBACK_COMPLETE'),
-  rollbackFailed('ROLLBACK_FAILED'),
-  deleteInProgress('DELETE_IN_PROGRESS'),
-  deleteFailed('DELETE_FAILED'),
-  syncDeleteInProgress('SYNC_DELETE_IN_PROGRESS'),
-  ;
+class CanaryStateReasonCode {
+  static const invalidPermissions =
+      CanaryStateReasonCode._('INVALID_PERMISSIONS');
+  static const createPending = CanaryStateReasonCode._('CREATE_PENDING');
+  static const createInProgress = CanaryStateReasonCode._('CREATE_IN_PROGRESS');
+  static const createFailed = CanaryStateReasonCode._('CREATE_FAILED');
+  static const updatePending = CanaryStateReasonCode._('UPDATE_PENDING');
+  static const updateInProgress = CanaryStateReasonCode._('UPDATE_IN_PROGRESS');
+  static const updateComplete = CanaryStateReasonCode._('UPDATE_COMPLETE');
+  static const rollbackComplete = CanaryStateReasonCode._('ROLLBACK_COMPLETE');
+  static const rollbackFailed = CanaryStateReasonCode._('ROLLBACK_FAILED');
+  static const deleteInProgress = CanaryStateReasonCode._('DELETE_IN_PROGRESS');
+  static const deleteFailed = CanaryStateReasonCode._('DELETE_FAILED');
+  static const syncDeleteInProgress =
+      CanaryStateReasonCode._('SYNC_DELETE_IN_PROGRESS');
 
   final String value;
 
-  const CanaryStateReasonCode(this.value);
+  const CanaryStateReasonCode._(this.value);
 
-  static CanaryStateReasonCode fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum CanaryStateReasonCode'));
+  static const values = [
+    invalidPermissions,
+    createPending,
+    createInProgress,
+    createFailed,
+    updatePending,
+    updateInProgress,
+    updateComplete,
+    rollbackComplete,
+    rollbackFailed,
+    deleteInProgress,
+    deleteFailed,
+    syncDeleteInProgress
+  ];
+
+  static CanaryStateReasonCode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => CanaryStateReasonCode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CanaryStateReasonCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A structure that contains the current state of the canary.
@@ -2242,19 +2306,28 @@ class DisassociateResourceResponse {
   }
 }
 
-enum EncryptionMode {
-  sseS3('SSE_S3'),
-  sseKms('SSE_KMS'),
-  ;
+class EncryptionMode {
+  static const sseS3 = EncryptionMode._('SSE_S3');
+  static const sseKms = EncryptionMode._('SSE_KMS');
 
   final String value;
 
-  const EncryptionMode(this.value);
+  const EncryptionMode._(this.value);
+
+  static const values = [sseS3, sseKms];
 
   static EncryptionMode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum EncryptionMode'));
+          orElse: () => EncryptionMode._(value));
+
+  @override
+  bool operator ==(other) => other is EncryptionMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class GetCanaryResponse {

@@ -2769,39 +2769,71 @@ class AcceptGrantResponse {
   }
 }
 
-enum ActivationOverrideBehavior {
-  distributedGrantsOnly('DISTRIBUTED_GRANTS_ONLY'),
-  allGrantsPermittedByIssuer('ALL_GRANTS_PERMITTED_BY_ISSUER'),
-  ;
+class ActivationOverrideBehavior {
+  static const distributedGrantsOnly =
+      ActivationOverrideBehavior._('DISTRIBUTED_GRANTS_ONLY');
+  static const allGrantsPermittedByIssuer =
+      ActivationOverrideBehavior._('ALL_GRANTS_PERMITTED_BY_ISSUER');
 
   final String value;
 
-  const ActivationOverrideBehavior(this.value);
+  const ActivationOverrideBehavior._(this.value);
+
+  static const values = [distributedGrantsOnly, allGrantsPermittedByIssuer];
 
   static ActivationOverrideBehavior fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ActivationOverrideBehavior'));
+          orElse: () => ActivationOverrideBehavior._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ActivationOverrideBehavior && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum AllowedOperation {
-  createGrant('CreateGrant'),
-  checkoutLicense('CheckoutLicense'),
-  checkoutBorrowLicense('CheckoutBorrowLicense'),
-  checkInLicense('CheckInLicense'),
-  extendConsumptionLicense('ExtendConsumptionLicense'),
-  listPurchasedLicenses('ListPurchasedLicenses'),
-  createToken('CreateToken'),
-  ;
+class AllowedOperation {
+  static const createGrant = AllowedOperation._('CreateGrant');
+  static const checkoutLicense = AllowedOperation._('CheckoutLicense');
+  static const checkoutBorrowLicense =
+      AllowedOperation._('CheckoutBorrowLicense');
+  static const checkInLicense = AllowedOperation._('CheckInLicense');
+  static const extendConsumptionLicense =
+      AllowedOperation._('ExtendConsumptionLicense');
+  static const listPurchasedLicenses =
+      AllowedOperation._('ListPurchasedLicenses');
+  static const createToken = AllowedOperation._('CreateToken');
 
   final String value;
 
-  const AllowedOperation(this.value);
+  const AllowedOperation._(this.value);
+
+  static const values = [
+    createGrant,
+    checkoutLicense,
+    checkoutBorrowLicense,
+    checkInLicense,
+    extendConsumptionLicense,
+    listPurchasedLicenses,
+    createToken
+  ];
 
   static AllowedOperation fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum AllowedOperation'));
+          orElse: () => AllowedOperation._(value));
+
+  @override
+  bool operator ==(other) => other is AllowedOperation && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes automated discovery.
@@ -3025,19 +3057,27 @@ class CheckoutLicenseResponse {
   }
 }
 
-enum CheckoutType {
-  provisional('PROVISIONAL'),
-  perpetual('PERPETUAL'),
-  ;
+class CheckoutType {
+  static const provisional = CheckoutType._('PROVISIONAL');
+  static const perpetual = CheckoutType._('PERPETUAL');
 
   final String value;
 
-  const CheckoutType(this.value);
+  const CheckoutType._(this.value);
 
-  static CheckoutType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum CheckoutType'));
+  static const values = [provisional, perpetual];
+
+  static CheckoutType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => CheckoutType._(value));
+
+  @override
+  bool operator ==(other) => other is CheckoutType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Details about license consumption.
@@ -3503,18 +3543,28 @@ class DeleteTokenResponse {
   }
 }
 
-enum DigitalSignatureMethod {
-  jwtPs384('JWT_PS384'),
-  ;
+class DigitalSignatureMethod {
+  static const jwtPs384 = DigitalSignatureMethod._('JWT_PS384');
 
   final String value;
 
-  const DigitalSignatureMethod(this.value);
+  const DigitalSignatureMethod._(this.value);
+
+  static const values = [jwtPs384];
 
   static DigitalSignatureMethod fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum DigitalSignatureMethod'));
+          orElse: () => DigitalSignatureMethod._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DigitalSignatureMethod && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes a resource entitled for use with a license.
@@ -3549,7 +3599,7 @@ class Entitlement {
   factory Entitlement.fromJson(Map<String, dynamic> json) {
     return Entitlement(
       name: (json['Name'] as String?) ?? '',
-      unit: EntitlementUnit.fromString((json['Unit'] as String)),
+      unit: EntitlementUnit.fromString((json['Unit'] as String?) ?? ''),
       allowCheckIn: json['AllowCheckIn'] as bool?,
       maxCount: json['MaxCount'] as int?,
       overage: json['Overage'] as bool?,
@@ -3595,7 +3645,7 @@ class EntitlementData {
   factory EntitlementData.fromJson(Map<String, dynamic> json) {
     return EntitlementData(
       name: (json['Name'] as String?) ?? '',
-      unit: EntitlementDataUnit.fromString((json['Unit'] as String)),
+      unit: EntitlementDataUnit.fromString((json['Unit'] as String?) ?? ''),
       value: json['Value'] as String?,
     );
   }
@@ -3612,84 +3662,159 @@ class EntitlementData {
   }
 }
 
-enum EntitlementDataUnit {
-  count('Count'),
-  none('None'),
-  seconds('Seconds'),
-  microseconds('Microseconds'),
-  milliseconds('Milliseconds'),
-  bytes('Bytes'),
-  kilobytes('Kilobytes'),
-  megabytes('Megabytes'),
-  gigabytes('Gigabytes'),
-  terabytes('Terabytes'),
-  bits('Bits'),
-  kilobits('Kilobits'),
-  megabits('Megabits'),
-  gigabits('Gigabits'),
-  terabits('Terabits'),
-  percent('Percent'),
-  bytesSecond('Bytes/Second'),
-  kilobytesSecond('Kilobytes/Second'),
-  megabytesSecond('Megabytes/Second'),
-  gigabytesSecond('Gigabytes/Second'),
-  terabytesSecond('Terabytes/Second'),
-  bitsSecond('Bits/Second'),
-  kilobitsSecond('Kilobits/Second'),
-  megabitsSecond('Megabits/Second'),
-  gigabitsSecond('Gigabits/Second'),
-  terabitsSecond('Terabits/Second'),
-  countSecond('Count/Second'),
-  ;
+class EntitlementDataUnit {
+  static const count = EntitlementDataUnit._('Count');
+  static const none = EntitlementDataUnit._('None');
+  static const seconds = EntitlementDataUnit._('Seconds');
+  static const microseconds = EntitlementDataUnit._('Microseconds');
+  static const milliseconds = EntitlementDataUnit._('Milliseconds');
+  static const bytes = EntitlementDataUnit._('Bytes');
+  static const kilobytes = EntitlementDataUnit._('Kilobytes');
+  static const megabytes = EntitlementDataUnit._('Megabytes');
+  static const gigabytes = EntitlementDataUnit._('Gigabytes');
+  static const terabytes = EntitlementDataUnit._('Terabytes');
+  static const bits = EntitlementDataUnit._('Bits');
+  static const kilobits = EntitlementDataUnit._('Kilobits');
+  static const megabits = EntitlementDataUnit._('Megabits');
+  static const gigabits = EntitlementDataUnit._('Gigabits');
+  static const terabits = EntitlementDataUnit._('Terabits');
+  static const percent = EntitlementDataUnit._('Percent');
+  static const bytesSecond = EntitlementDataUnit._('Bytes/Second');
+  static const kilobytesSecond = EntitlementDataUnit._('Kilobytes/Second');
+  static const megabytesSecond = EntitlementDataUnit._('Megabytes/Second');
+  static const gigabytesSecond = EntitlementDataUnit._('Gigabytes/Second');
+  static const terabytesSecond = EntitlementDataUnit._('Terabytes/Second');
+  static const bitsSecond = EntitlementDataUnit._('Bits/Second');
+  static const kilobitsSecond = EntitlementDataUnit._('Kilobits/Second');
+  static const megabitsSecond = EntitlementDataUnit._('Megabits/Second');
+  static const gigabitsSecond = EntitlementDataUnit._('Gigabits/Second');
+  static const terabitsSecond = EntitlementDataUnit._('Terabits/Second');
+  static const countSecond = EntitlementDataUnit._('Count/Second');
 
   final String value;
 
-  const EntitlementDataUnit(this.value);
+  const EntitlementDataUnit._(this.value);
 
-  static EntitlementDataUnit fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum EntitlementDataUnit'));
+  static const values = [
+    count,
+    none,
+    seconds,
+    microseconds,
+    milliseconds,
+    bytes,
+    kilobytes,
+    megabytes,
+    gigabytes,
+    terabytes,
+    bits,
+    kilobits,
+    megabits,
+    gigabits,
+    terabits,
+    percent,
+    bytesSecond,
+    kilobytesSecond,
+    megabytesSecond,
+    gigabytesSecond,
+    terabytesSecond,
+    bitsSecond,
+    kilobitsSecond,
+    megabitsSecond,
+    gigabitsSecond,
+    terabitsSecond,
+    countSecond
+  ];
+
+  static EntitlementDataUnit fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => EntitlementDataUnit._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is EntitlementDataUnit && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum EntitlementUnit {
-  count('Count'),
-  none('None'),
-  seconds('Seconds'),
-  microseconds('Microseconds'),
-  milliseconds('Milliseconds'),
-  bytes('Bytes'),
-  kilobytes('Kilobytes'),
-  megabytes('Megabytes'),
-  gigabytes('Gigabytes'),
-  terabytes('Terabytes'),
-  bits('Bits'),
-  kilobits('Kilobits'),
-  megabits('Megabits'),
-  gigabits('Gigabits'),
-  terabits('Terabits'),
-  percent('Percent'),
-  bytesSecond('Bytes/Second'),
-  kilobytesSecond('Kilobytes/Second'),
-  megabytesSecond('Megabytes/Second'),
-  gigabytesSecond('Gigabytes/Second'),
-  terabytesSecond('Terabytes/Second'),
-  bitsSecond('Bits/Second'),
-  kilobitsSecond('Kilobits/Second'),
-  megabitsSecond('Megabits/Second'),
-  gigabitsSecond('Gigabits/Second'),
-  terabitsSecond('Terabits/Second'),
-  countSecond('Count/Second'),
-  ;
+class EntitlementUnit {
+  static const count = EntitlementUnit._('Count');
+  static const none = EntitlementUnit._('None');
+  static const seconds = EntitlementUnit._('Seconds');
+  static const microseconds = EntitlementUnit._('Microseconds');
+  static const milliseconds = EntitlementUnit._('Milliseconds');
+  static const bytes = EntitlementUnit._('Bytes');
+  static const kilobytes = EntitlementUnit._('Kilobytes');
+  static const megabytes = EntitlementUnit._('Megabytes');
+  static const gigabytes = EntitlementUnit._('Gigabytes');
+  static const terabytes = EntitlementUnit._('Terabytes');
+  static const bits = EntitlementUnit._('Bits');
+  static const kilobits = EntitlementUnit._('Kilobits');
+  static const megabits = EntitlementUnit._('Megabits');
+  static const gigabits = EntitlementUnit._('Gigabits');
+  static const terabits = EntitlementUnit._('Terabits');
+  static const percent = EntitlementUnit._('Percent');
+  static const bytesSecond = EntitlementUnit._('Bytes/Second');
+  static const kilobytesSecond = EntitlementUnit._('Kilobytes/Second');
+  static const megabytesSecond = EntitlementUnit._('Megabytes/Second');
+  static const gigabytesSecond = EntitlementUnit._('Gigabytes/Second');
+  static const terabytesSecond = EntitlementUnit._('Terabytes/Second');
+  static const bitsSecond = EntitlementUnit._('Bits/Second');
+  static const kilobitsSecond = EntitlementUnit._('Kilobits/Second');
+  static const megabitsSecond = EntitlementUnit._('Megabits/Second');
+  static const gigabitsSecond = EntitlementUnit._('Gigabits/Second');
+  static const terabitsSecond = EntitlementUnit._('Terabits/Second');
+  static const countSecond = EntitlementUnit._('Count/Second');
 
   final String value;
 
-  const EntitlementUnit(this.value);
+  const EntitlementUnit._(this.value);
+
+  static const values = [
+    count,
+    none,
+    seconds,
+    microseconds,
+    milliseconds,
+    bytes,
+    kilobytes,
+    megabytes,
+    gigabytes,
+    terabytes,
+    bits,
+    kilobits,
+    megabits,
+    gigabits,
+    terabits,
+    percent,
+    bytesSecond,
+    kilobytesSecond,
+    megabytesSecond,
+    gigabytesSecond,
+    terabytesSecond,
+    bitsSecond,
+    kilobitsSecond,
+    megabitsSecond,
+    gigabitsSecond,
+    terabitsSecond,
+    countSecond
+  ];
 
   static EntitlementUnit fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum EntitlementUnit'));
+          orElse: () => EntitlementUnit._(value));
+
+  @override
+  bool operator ==(other) => other is EntitlementUnit && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Usage associated with an entitlement resource.
@@ -3717,7 +3842,7 @@ class EntitlementUsage {
     return EntitlementUsage(
       consumedValue: (json['ConsumedValue'] as String?) ?? '',
       name: (json['Name'] as String?) ?? '',
-      unit: EntitlementDataUnit.fromString((json['Unit'] as String)),
+      unit: EntitlementDataUnit.fromString((json['Unit'] as String?) ?? ''),
       maxCount: json['MaxCount'] as String?,
     );
   }
@@ -4282,7 +4407,8 @@ class Grant {
     return Grant(
       grantArn: (json['GrantArn'] as String?) ?? '',
       grantName: (json['GrantName'] as String?) ?? '',
-      grantStatus: GrantStatus.fromString((json['GrantStatus'] as String)),
+      grantStatus:
+          GrantStatus.fromString((json['GrantStatus'] as String?) ?? ''),
       grantedOperations: ((json['GrantedOperations'] as List?) ?? const [])
           .nonNulls
           .map((e) => AllowedOperation.fromString((e as String)))
@@ -4327,25 +4453,44 @@ class Grant {
   }
 }
 
-enum GrantStatus {
-  pendingWorkflow('PENDING_WORKFLOW'),
-  pendingAccept('PENDING_ACCEPT'),
-  rejected('REJECTED'),
-  active('ACTIVE'),
-  failedWorkflow('FAILED_WORKFLOW'),
-  deleted('DELETED'),
-  pendingDelete('PENDING_DELETE'),
-  disabled('DISABLED'),
-  workflowCompleted('WORKFLOW_COMPLETED'),
-  ;
+class GrantStatus {
+  static const pendingWorkflow = GrantStatus._('PENDING_WORKFLOW');
+  static const pendingAccept = GrantStatus._('PENDING_ACCEPT');
+  static const rejected = GrantStatus._('REJECTED');
+  static const active = GrantStatus._('ACTIVE');
+  static const failedWorkflow = GrantStatus._('FAILED_WORKFLOW');
+  static const deleted = GrantStatus._('DELETED');
+  static const pendingDelete = GrantStatus._('PENDING_DELETE');
+  static const disabled = GrantStatus._('DISABLED');
+  static const workflowCompleted = GrantStatus._('WORKFLOW_COMPLETED');
 
   final String value;
 
-  const GrantStatus(this.value);
+  const GrantStatus._(this.value);
 
-  static GrantStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum GrantStatus'));
+  static const values = [
+    pendingWorkflow,
+    pendingAccept,
+    rejected,
+    active,
+    failedWorkflow,
+    deleted,
+    pendingDelete,
+    disabled,
+    workflowCompleted
+  ];
+
+  static GrantStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => GrantStatus._(value));
+
+  @override
+  bool operator ==(other) => other is GrantStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes a license that is granted to a grantee.
@@ -4516,21 +4661,31 @@ class InventoryFilter {
   }
 }
 
-enum InventoryFilterCondition {
-  equals('EQUALS'),
-  notEquals('NOT_EQUALS'),
-  beginsWith('BEGINS_WITH'),
-  contains('CONTAINS'),
-  ;
+class InventoryFilterCondition {
+  static const equals = InventoryFilterCondition._('EQUALS');
+  static const notEquals = InventoryFilterCondition._('NOT_EQUALS');
+  static const beginsWith = InventoryFilterCondition._('BEGINS_WITH');
+  static const contains = InventoryFilterCondition._('CONTAINS');
 
   final String value;
 
-  const InventoryFilterCondition(this.value);
+  const InventoryFilterCondition._(this.value);
+
+  static const values = [equals, notEquals, beginsWith, contains];
 
   static InventoryFilterCondition fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum InventoryFilterCondition'));
+          orElse: () => InventoryFilterCondition._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is InventoryFilterCondition && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Details about the issuer of a license.
@@ -4942,19 +5097,29 @@ class LicenseConfigurationAssociation {
   }
 }
 
-enum LicenseConfigurationStatus {
-  available('AVAILABLE'),
-  disabled('DISABLED'),
-  ;
+class LicenseConfigurationStatus {
+  static const available = LicenseConfigurationStatus._('AVAILABLE');
+  static const disabled = LicenseConfigurationStatus._('DISABLED');
 
   final String value;
 
-  const LicenseConfigurationStatus(this.value);
+  const LicenseConfigurationStatus._(this.value);
+
+  static const values = [available, disabled];
 
   static LicenseConfigurationStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum LicenseConfigurationStatus'));
+          orElse: () => LicenseConfigurationStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is LicenseConfigurationStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Details about the usage of a resource associated with a license
@@ -5137,52 +5302,82 @@ class LicenseConversionTask {
   }
 }
 
-enum LicenseConversionTaskStatus {
-  inProgress('IN_PROGRESS'),
-  succeeded('SUCCEEDED'),
-  failed('FAILED'),
-  ;
+class LicenseConversionTaskStatus {
+  static const inProgress = LicenseConversionTaskStatus._('IN_PROGRESS');
+  static const succeeded = LicenseConversionTaskStatus._('SUCCEEDED');
+  static const failed = LicenseConversionTaskStatus._('FAILED');
 
   final String value;
 
-  const LicenseConversionTaskStatus(this.value);
+  const LicenseConversionTaskStatus._(this.value);
+
+  static const values = [inProgress, succeeded, failed];
 
   static LicenseConversionTaskStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum LicenseConversionTaskStatus'));
+          orElse: () => LicenseConversionTaskStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is LicenseConversionTaskStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum LicenseCountingType {
-  vcpu('vCPU'),
-  instance('Instance'),
-  core('Core'),
-  socket('Socket'),
-  ;
+class LicenseCountingType {
+  static const vcpu = LicenseCountingType._('vCPU');
+  static const instance = LicenseCountingType._('Instance');
+  static const core = LicenseCountingType._('Core');
+  static const socket = LicenseCountingType._('Socket');
 
   final String value;
 
-  const LicenseCountingType(this.value);
+  const LicenseCountingType._(this.value);
 
-  static LicenseCountingType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum LicenseCountingType'));
+  static const values = [vcpu, instance, core, socket];
+
+  static LicenseCountingType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => LicenseCountingType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is LicenseCountingType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum LicenseDeletionStatus {
-  pendingDelete('PENDING_DELETE'),
-  deleted('DELETED'),
-  ;
+class LicenseDeletionStatus {
+  static const pendingDelete = LicenseDeletionStatus._('PENDING_DELETE');
+  static const deleted = LicenseDeletionStatus._('DELETED');
 
   final String value;
 
-  const LicenseDeletionStatus(this.value);
+  const LicenseDeletionStatus._(this.value);
 
-  static LicenseDeletionStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum LicenseDeletionStatus'));
+  static const values = [pendingDelete, deleted];
+
+  static LicenseDeletionStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => LicenseDeletionStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is LicenseDeletionStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes the failure of a license operation.
@@ -5294,24 +5489,41 @@ class LicenseSpecification {
   }
 }
 
-enum LicenseStatus {
-  available('AVAILABLE'),
-  pendingAvailable('PENDING_AVAILABLE'),
-  deactivated('DEACTIVATED'),
-  suspended('SUSPENDED'),
-  expired('EXPIRED'),
-  pendingDelete('PENDING_DELETE'),
-  deleted('DELETED'),
-  ;
+class LicenseStatus {
+  static const available = LicenseStatus._('AVAILABLE');
+  static const pendingAvailable = LicenseStatus._('PENDING_AVAILABLE');
+  static const deactivated = LicenseStatus._('DEACTIVATED');
+  static const suspended = LicenseStatus._('SUSPENDED');
+  static const expired = LicenseStatus._('EXPIRED');
+  static const pendingDelete = LicenseStatus._('PENDING_DELETE');
+  static const deleted = LicenseStatus._('DELETED');
 
   final String value;
 
-  const LicenseStatus(this.value);
+  const LicenseStatus._(this.value);
+
+  static const values = [
+    available,
+    pendingAvailable,
+    deactivated,
+    suspended,
+    expired,
+    pendingDelete,
+    deleted
+  ];
 
   static LicenseStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum LicenseStatus'));
+          orElse: () => LicenseStatus._(value));
+
+  @override
+  bool operator ==(other) => other is LicenseStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes the entitlement usage associated with a license.
@@ -6260,25 +6472,43 @@ class ReceivedMetadata {
   }
 }
 
-enum ReceivedStatus {
-  pendingWorkflow('PENDING_WORKFLOW'),
-  pendingAccept('PENDING_ACCEPT'),
-  rejected('REJECTED'),
-  active('ACTIVE'),
-  failedWorkflow('FAILED_WORKFLOW'),
-  deleted('DELETED'),
-  disabled('DISABLED'),
-  workflowCompleted('WORKFLOW_COMPLETED'),
-  ;
+class ReceivedStatus {
+  static const pendingWorkflow = ReceivedStatus._('PENDING_WORKFLOW');
+  static const pendingAccept = ReceivedStatus._('PENDING_ACCEPT');
+  static const rejected = ReceivedStatus._('REJECTED');
+  static const active = ReceivedStatus._('ACTIVE');
+  static const failedWorkflow = ReceivedStatus._('FAILED_WORKFLOW');
+  static const deleted = ReceivedStatus._('DELETED');
+  static const disabled = ReceivedStatus._('DISABLED');
+  static const workflowCompleted = ReceivedStatus._('WORKFLOW_COMPLETED');
 
   final String value;
 
-  const ReceivedStatus(this.value);
+  const ReceivedStatus._(this.value);
+
+  static const values = [
+    pendingWorkflow,
+    pendingAccept,
+    rejected,
+    active,
+    failedWorkflow,
+    deleted,
+    disabled,
+    workflowCompleted
+  ];
 
   static ReceivedStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ReceivedStatus'));
+          orElse: () => ReceivedStatus._(value));
+
+  @override
+  bool operator ==(other) => other is ReceivedStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class RejectGrantResponse {
@@ -6317,19 +6547,28 @@ class RejectGrantResponse {
   }
 }
 
-enum RenewType {
-  none('None'),
-  weekly('Weekly'),
-  monthly('Monthly'),
-  ;
+class RenewType {
+  static const none = RenewType._('None');
+  static const weekly = RenewType._('Weekly');
+  static const monthly = RenewType._('Monthly');
 
   final String value;
 
-  const RenewType(this.value);
+  const RenewType._(this.value);
 
-  static RenewType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum RenewType'));
+  static const values = [none, weekly, monthly];
+
+  static RenewType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => RenewType._(value));
+
+  @override
+  bool operator ==(other) => other is RenewType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Details of the license configuration that this generator reports on.
@@ -6392,20 +6631,30 @@ class ReportFrequency {
   }
 }
 
-enum ReportFrequencyType {
-  day('DAY'),
-  week('WEEK'),
-  month('MONTH'),
-  ;
+class ReportFrequencyType {
+  static const day = ReportFrequencyType._('DAY');
+  static const week = ReportFrequencyType._('WEEK');
+  static const month = ReportFrequencyType._('MONTH');
 
   final String value;
 
-  const ReportFrequencyType(this.value);
+  const ReportFrequencyType._(this.value);
 
-  static ReportFrequencyType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ReportFrequencyType'));
+  static const values = [day, week, month];
+
+  static ReportFrequencyType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ReportFrequencyType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ReportFrequencyType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describe the details of a report generator.
@@ -6537,18 +6786,32 @@ class ReportGenerator {
   }
 }
 
-enum ReportType {
-  licenseConfigurationSummaryReport('LicenseConfigurationSummaryReport'),
-  licenseConfigurationUsageReport('LicenseConfigurationUsageReport'),
-  ;
+class ReportType {
+  static const licenseConfigurationSummaryReport =
+      ReportType._('LicenseConfigurationSummaryReport');
+  static const licenseConfigurationUsageReport =
+      ReportType._('LicenseConfigurationUsageReport');
 
   final String value;
 
-  const ReportType(this.value);
+  const ReportType._(this.value);
 
-  static ReportType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum ReportType'));
+  static const values = [
+    licenseConfigurationSummaryReport,
+    licenseConfigurationUsageReport
+  ];
+
+  static ReportType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ReportType._(value));
+
+  @override
+  bool operator ==(other) => other is ReportType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Details about a resource.
@@ -6611,22 +6874,37 @@ class ResourceInventory {
   }
 }
 
-enum ResourceType {
-  ec2Instance('EC2_INSTANCE'),
-  ec2Host('EC2_HOST'),
-  ec2Ami('EC2_AMI'),
-  rds('RDS'),
-  systemsManagerManagedInstance('SYSTEMS_MANAGER_MANAGED_INSTANCE'),
-  ;
+class ResourceType {
+  static const ec2Instance = ResourceType._('EC2_INSTANCE');
+  static const ec2Host = ResourceType._('EC2_HOST');
+  static const ec2Ami = ResourceType._('EC2_AMI');
+  static const rds = ResourceType._('RDS');
+  static const systemsManagerManagedInstance =
+      ResourceType._('SYSTEMS_MANAGER_MANAGED_INSTANCE');
 
   final String value;
 
-  const ResourceType(this.value);
+  const ResourceType._(this.value);
 
-  static ResourceType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ResourceType'));
+  static const values = [
+    ec2Instance,
+    ec2Host,
+    ec2Ami,
+    rds,
+    systemsManagerManagedInstance
+  ];
+
+  static ResourceType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ResourceType._(value));
+
+  @override
+  bool operator ==(other) => other is ResourceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Details of the S3 bucket that report generator reports are published to.
@@ -6773,17 +7051,26 @@ class TokenData {
   }
 }
 
-enum TokenType {
-  refreshToken('REFRESH_TOKEN'),
-  ;
+class TokenType {
+  static const refreshToken = TokenType._('REFRESH_TOKEN');
 
   final String value;
 
-  const TokenType(this.value);
+  const TokenType._(this.value);
 
-  static TokenType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum TokenType'));
+  static const values = [refreshToken];
+
+  static TokenType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => TokenType._(value));
+
+  @override
+  bool operator ==(other) => other is TokenType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class UntagResourceResponse {

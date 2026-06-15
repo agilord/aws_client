@@ -1879,23 +1879,33 @@ class AccessTokenSummary {
   }
 }
 
-enum ComparisonOperator {
-  eq('EQ'),
-  gt('GT'),
-  ge('GE'),
-  lt('LT'),
-  le('LE'),
-  beginsWith('BEGINS_WITH'),
-  ;
+class ComparisonOperator {
+  static const eq = ComparisonOperator._('EQ');
+  static const gt = ComparisonOperator._('GT');
+  static const ge = ComparisonOperator._('GE');
+  static const lt = ComparisonOperator._('LT');
+  static const le = ComparisonOperator._('LE');
+  static const beginsWith = ComparisonOperator._('BEGINS_WITH');
 
   final String value;
 
-  const ComparisonOperator(this.value);
+  const ComparisonOperator._(this.value);
 
-  static ComparisonOperator fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ComparisonOperator'));
+  static const values = [eq, gt, ge, lt, le, beginsWith];
+
+  static ComparisonOperator fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ComparisonOperator._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ComparisonOperator && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class CreateAccessTokenResponse {
@@ -2413,40 +2423,69 @@ class DevEnvironmentSessionSummary {
   }
 }
 
-enum DevEnvironmentSessionType {
-  ssm('SSM'),
-  ssh('SSH'),
-  ;
+class DevEnvironmentSessionType {
+  static const ssm = DevEnvironmentSessionType._('SSM');
+  static const ssh = DevEnvironmentSessionType._('SSH');
 
   final String value;
 
-  const DevEnvironmentSessionType(this.value);
+  const DevEnvironmentSessionType._(this.value);
+
+  static const values = [ssm, ssh];
 
   static DevEnvironmentSessionType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum DevEnvironmentSessionType'));
+          orElse: () => DevEnvironmentSessionType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DevEnvironmentSessionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum DevEnvironmentStatus {
-  pending('PENDING'),
-  running('RUNNING'),
-  starting('STARTING'),
-  stopping('STOPPING'),
-  stopped('STOPPED'),
-  failed('FAILED'),
-  deleting('DELETING'),
-  deleted('DELETED'),
-  ;
+class DevEnvironmentStatus {
+  static const pending = DevEnvironmentStatus._('PENDING');
+  static const running = DevEnvironmentStatus._('RUNNING');
+  static const starting = DevEnvironmentStatus._('STARTING');
+  static const stopping = DevEnvironmentStatus._('STOPPING');
+  static const stopped = DevEnvironmentStatus._('STOPPED');
+  static const failed = DevEnvironmentStatus._('FAILED');
+  static const deleting = DevEnvironmentStatus._('DELETING');
+  static const deleted = DevEnvironmentStatus._('DELETED');
 
   final String value;
 
-  const DevEnvironmentStatus(this.value);
+  const DevEnvironmentStatus._(this.value);
 
-  static DevEnvironmentStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum DevEnvironmentStatus'));
+  static const values = [
+    pending,
+    running,
+    starting,
+    stopping,
+    stopped,
+    failed,
+    deleting,
+    deleted
+  ];
+
+  static DevEnvironmentStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DevEnvironmentStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DevEnvironmentStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about a Dev Environment.
@@ -2523,7 +2562,8 @@ class DevEnvironmentSummary {
       creatorId: (json['creatorId'] as String?) ?? '',
       id: (json['id'] as String?) ?? '',
       inactivityTimeoutMinutes: (json['inactivityTimeoutMinutes'] as int?) ?? 0,
-      instanceType: InstanceType.fromString((json['instanceType'] as String)),
+      instanceType:
+          InstanceType.fromString((json['instanceType'] as String?) ?? ''),
       lastUpdatedTime:
           nonNullableTimeStampFromJson(json['lastUpdatedTime'] ?? 0),
       persistentStorage: PersistentStorage.fromJson(
@@ -2534,7 +2574,8 @@ class DevEnvironmentSummary {
           .map((e) => DevEnvironmentRepositorySummary.fromJson(
               e as Map<String, dynamic>))
           .toList(),
-      status: DevEnvironmentStatus.fromString((json['status'] as String)),
+      status:
+          DevEnvironmentStatus.fromString((json['status'] as String?) ?? ''),
       alias: json['alias'] as String?,
       ides: (json['ides'] as List?)
           ?.nonNulls
@@ -2688,7 +2729,7 @@ class EventLogEntry {
       eventType: (json['eventType'] as String?) ?? '',
       id: (json['id'] as String?) ?? '',
       operationType:
-          OperationType.fromString((json['operationType'] as String)),
+          OperationType.fromString((json['operationType'] as String?) ?? ''),
       userIdentity: UserIdentity.fromJson(
           (json['userIdentity'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
@@ -2831,18 +2872,27 @@ class Filter {
   }
 }
 
-enum FilterKey {
-  hasAccessTo('hasAccessTo'),
-  name('name'),
-  ;
+class FilterKey {
+  static const hasAccessTo = FilterKey._('hasAccessTo');
+  static const name = FilterKey._('name');
 
   final String value;
 
-  const FilterKey(this.value);
+  const FilterKey._(this.value);
 
-  static FilterKey fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum FilterKey'));
+  static const values = [hasAccessTo, name];
+
+  static FilterKey fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => FilterKey._(value));
+
+  @override
+  bool operator ==(other) => other is FilterKey && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class GetDevEnvironmentResponse {
@@ -2917,7 +2967,8 @@ class GetDevEnvironmentResponse {
       creatorId: (json['creatorId'] as String?) ?? '',
       id: (json['id'] as String?) ?? '',
       inactivityTimeoutMinutes: (json['inactivityTimeoutMinutes'] as int?) ?? 0,
-      instanceType: InstanceType.fromString((json['instanceType'] as String)),
+      instanceType:
+          InstanceType.fromString((json['instanceType'] as String?) ?? ''),
       lastUpdatedTime:
           nonNullableTimeStampFromJson(json['lastUpdatedTime'] ?? 0),
       persistentStorage: PersistentStorage.fromJson(
@@ -2930,7 +2981,8 @@ class GetDevEnvironmentResponse {
               e as Map<String, dynamic>))
           .toList(),
       spaceName: (json['spaceName'] as String?) ?? '',
-      status: DevEnvironmentStatus.fromString((json['status'] as String)),
+      status:
+          DevEnvironmentStatus.fromString((json['status'] as String?) ?? ''),
       alias: json['alias'] as String?,
       ides: (json['ides'] as List?)
           ?.nonNulls
@@ -3318,9 +3370,9 @@ class GetWorkflowResponse {
           nonNullableTimeStampFromJson(json['lastUpdatedTime'] ?? 0),
       name: (json['name'] as String?) ?? '',
       projectName: (json['projectName'] as String?) ?? '',
-      runMode: WorkflowRunMode.fromString((json['runMode'] as String)),
+      runMode: WorkflowRunMode.fromString((json['runMode'] as String?) ?? ''),
       spaceName: (json['spaceName'] as String?) ?? '',
-      status: WorkflowStatus.fromString((json['status'] as String)),
+      status: WorkflowStatus.fromString((json['status'] as String?) ?? ''),
       sourceBranchName: json['sourceBranchName'] as String?,
       sourceRepositoryName: json['sourceRepositoryName'] as String?,
     );
@@ -3409,7 +3461,7 @@ class GetWorkflowRunResponse {
       projectName: (json['projectName'] as String?) ?? '',
       spaceName: (json['spaceName'] as String?) ?? '',
       startTime: nonNullableTimeStampFromJson(json['startTime'] ?? 0),
-      status: WorkflowRunStatus.fromString((json['status'] as String)),
+      status: WorkflowRunStatus.fromString((json['status'] as String?) ?? ''),
       workflowId: (json['workflowId'] as String?) ?? '',
       endTime: timeStampFromJson(json['endTime']),
       statusReasons: (json['statusReasons'] as List?)
@@ -3511,21 +3563,34 @@ class IdeConfiguration {
   }
 }
 
-enum InstanceType {
-  devStandard1Small('dev.standard1.small'),
-  devStandard1Medium('dev.standard1.medium'),
-  devStandard1Large('dev.standard1.large'),
-  devStandard1Xlarge('dev.standard1.xlarge'),
-  ;
+class InstanceType {
+  static const devStandard1Small = InstanceType._('dev.standard1.small');
+  static const devStandard1Medium = InstanceType._('dev.standard1.medium');
+  static const devStandard1Large = InstanceType._('dev.standard1.large');
+  static const devStandard1Xlarge = InstanceType._('dev.standard1.xlarge');
 
   final String value;
 
-  const InstanceType(this.value);
+  const InstanceType._(this.value);
 
-  static InstanceType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum InstanceType'));
+  static const values = [
+    devStandard1Small,
+    devStandard1Medium,
+    devStandard1Large,
+    devStandard1Xlarge
+  ];
+
+  static InstanceType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => InstanceType._(value));
+
+  @override
+  bool operator ==(other) => other is InstanceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class ListAccessTokensResponse {
@@ -3970,19 +4035,28 @@ class ListWorkflowsResponse {
   }
 }
 
-enum OperationType {
-  readonly('READONLY'),
-  mutation('MUTATION'),
-  ;
+class OperationType {
+  static const readonly = OperationType._('READONLY');
+  static const mutation = OperationType._('MUTATION');
 
   final String value;
 
-  const OperationType(this.value);
+  const OperationType._(this.value);
+
+  static const values = [readonly, mutation];
 
   static OperationType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum OperationType'));
+          orElse: () => OperationType._(value));
+
+  @override
+  bool operator ==(other) => other is OperationType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about the persistent storage for a Dev Environment.
@@ -4224,7 +4298,8 @@ class StartDevEnvironmentResponse {
       id: (json['id'] as String?) ?? '',
       projectName: (json['projectName'] as String?) ?? '',
       spaceName: (json['spaceName'] as String?) ?? '',
-      status: DevEnvironmentStatus.fromString((json['status'] as String)),
+      status:
+          DevEnvironmentStatus.fromString((json['status'] as String?) ?? ''),
     );
   }
 
@@ -4362,7 +4437,8 @@ class StopDevEnvironmentResponse {
       id: (json['id'] as String?) ?? '',
       projectName: (json['projectName'] as String?) ?? '',
       spaceName: (json['spaceName'] as String?) ?? '',
-      status: DevEnvironmentStatus.fromString((json['status'] as String)),
+      status:
+          DevEnvironmentStatus.fromString((json['status'] as String?) ?? ''),
     );
   }
 
@@ -4610,7 +4686,7 @@ class UserIdentity {
   factory UserIdentity.fromJson(Map<String, dynamic> json) {
     return UserIdentity(
       principalId: (json['principalId'] as String?) ?? '',
-      userType: UserType.fromString((json['userType'] as String)),
+      userType: UserType.fromString((json['userType'] as String?) ?? ''),
       awsAccountId: json['awsAccountId'] as String?,
       userName: json['userName'] as String?,
     );
@@ -4630,19 +4706,28 @@ class UserIdentity {
   }
 }
 
-enum UserType {
-  user('USER'),
-  awsAccount('AWS_ACCOUNT'),
-  unknown('UNKNOWN'),
-  ;
+class UserType {
+  static const user = UserType._('USER');
+  static const awsAccount = UserType._('AWS_ACCOUNT');
+  static const unknown = UserType._('UNKNOWN');
 
   final String value;
 
-  const UserType(this.value);
+  const UserType._(this.value);
 
-  static UserType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum UserType'));
+  static const values = [user, awsAccount, unknown];
+
+  static UserType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => UserType._(value));
+
+  @override
+  bool operator ==(other) => other is UserType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class VerifySessionResponse {
@@ -4715,20 +4800,29 @@ class WorkflowDefinitionSummary {
   }
 }
 
-enum WorkflowRunMode {
-  queued('QUEUED'),
-  parallel('PARALLEL'),
-  superseded('SUPERSEDED'),
-  ;
+class WorkflowRunMode {
+  static const queued = WorkflowRunMode._('QUEUED');
+  static const parallel = WorkflowRunMode._('PARALLEL');
+  static const superseded = WorkflowRunMode._('SUPERSEDED');
 
   final String value;
 
-  const WorkflowRunMode(this.value);
+  const WorkflowRunMode._(this.value);
+
+  static const values = [queued, parallel, superseded];
 
   static WorkflowRunMode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum WorkflowRunMode'));
+          orElse: () => WorkflowRunMode._(value));
+
+  @override
+  bool operator ==(other) => other is WorkflowRunMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information used to sort workflow runs in the returned list.
@@ -4740,28 +4834,49 @@ class WorkflowRunSortCriteria {
   }
 }
 
-enum WorkflowRunStatus {
-  succeeded('SUCCEEDED'),
-  failed('FAILED'),
-  stopped('STOPPED'),
-  superseded('SUPERSEDED'),
-  cancelled('CANCELLED'),
-  notRun('NOT_RUN'),
-  validating('VALIDATING'),
-  provisioning('PROVISIONING'),
-  inProgress('IN_PROGRESS'),
-  stopping('STOPPING'),
-  abandoned('ABANDONED'),
-  ;
+class WorkflowRunStatus {
+  static const succeeded = WorkflowRunStatus._('SUCCEEDED');
+  static const failed = WorkflowRunStatus._('FAILED');
+  static const stopped = WorkflowRunStatus._('STOPPED');
+  static const superseded = WorkflowRunStatus._('SUPERSEDED');
+  static const cancelled = WorkflowRunStatus._('CANCELLED');
+  static const notRun = WorkflowRunStatus._('NOT_RUN');
+  static const validating = WorkflowRunStatus._('VALIDATING');
+  static const provisioning = WorkflowRunStatus._('PROVISIONING');
+  static const inProgress = WorkflowRunStatus._('IN_PROGRESS');
+  static const stopping = WorkflowRunStatus._('STOPPING');
+  static const abandoned = WorkflowRunStatus._('ABANDONED');
 
   final String value;
 
-  const WorkflowRunStatus(this.value);
+  const WorkflowRunStatus._(this.value);
+
+  static const values = [
+    succeeded,
+    failed,
+    stopped,
+    superseded,
+    cancelled,
+    notRun,
+    validating,
+    provisioning,
+    inProgress,
+    stopping,
+    abandoned
+  ];
 
   static WorkflowRunStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum WorkflowRunStatus'));
+          orElse: () => WorkflowRunStatus._(value));
+
+  @override
+  bool operator ==(other) => other is WorkflowRunStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about the status of a workflow run.
@@ -4826,7 +4941,7 @@ class WorkflowRunSummary {
       lastUpdatedTime:
           nonNullableTimeStampFromJson(json['lastUpdatedTime'] ?? 0),
       startTime: nonNullableTimeStampFromJson(json['startTime'] ?? 0),
-      status: WorkflowRunStatus.fromString((json['status'] as String)),
+      status: WorkflowRunStatus.fromString((json['status'] as String?) ?? ''),
       workflowId: (json['workflowId'] as String?) ?? '',
       workflowName: (json['workflowName'] as String?) ?? '',
       endTime: timeStampFromJson(json['endTime']),
@@ -4869,19 +4984,28 @@ class WorkflowSortCriteria {
   }
 }
 
-enum WorkflowStatus {
-  invalid('INVALID'),
-  active('ACTIVE'),
-  ;
+class WorkflowStatus {
+  static const invalid = WorkflowStatus._('INVALID');
+  static const active = WorkflowStatus._('ACTIVE');
 
   final String value;
 
-  const WorkflowStatus(this.value);
+  const WorkflowStatus._(this.value);
+
+  static const values = [invalid, active];
 
   static WorkflowStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum WorkflowStatus'));
+          orElse: () => WorkflowStatus._(value));
+
+  @override
+  bool operator ==(other) => other is WorkflowStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about a workflow.
@@ -4941,10 +5065,10 @@ class WorkflowSummary {
       lastUpdatedTime:
           nonNullableTimeStampFromJson(json['lastUpdatedTime'] ?? 0),
       name: (json['name'] as String?) ?? '',
-      runMode: WorkflowRunMode.fromString((json['runMode'] as String)),
+      runMode: WorkflowRunMode.fromString((json['runMode'] as String?) ?? ''),
       sourceBranchName: (json['sourceBranchName'] as String?) ?? '',
       sourceRepositoryName: (json['sourceRepositoryName'] as String?) ?? '',
-      status: WorkflowStatus.fromString((json['status'] as String)),
+      status: WorkflowStatus.fromString((json['status'] as String?) ?? ''),
     );
   }
 

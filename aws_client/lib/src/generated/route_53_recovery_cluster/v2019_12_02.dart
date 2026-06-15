@@ -473,7 +473,7 @@ class GetRoutingControlStateResponse {
     return GetRoutingControlStateResponse(
       routingControlArn: (json['RoutingControlArn'] as String?) ?? '',
       routingControlState: RoutingControlState.fromString(
-          (json['RoutingControlState'] as String)),
+          (json['RoutingControlState'] as String?) ?? ''),
       routingControlName: json['RoutingControlName'] as String?,
     );
   }
@@ -589,19 +589,29 @@ class RoutingControl {
   }
 }
 
-enum RoutingControlState {
-  on('On'),
-  off('Off'),
-  ;
+class RoutingControlState {
+  static const on = RoutingControlState._('On');
+  static const off = RoutingControlState._('Off');
 
   final String value;
 
-  const RoutingControlState(this.value);
+  const RoutingControlState._(this.value);
 
-  static RoutingControlState fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum RoutingControlState'));
+  static const values = [on, off];
+
+  static RoutingControlState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => RoutingControlState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RoutingControlState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A routing control state entry.

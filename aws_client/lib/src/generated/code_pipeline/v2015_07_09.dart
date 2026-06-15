@@ -2110,23 +2110,32 @@ class AcknowledgeThirdPartyJobOutput {
   }
 }
 
-enum ActionCategory {
-  source('Source'),
-  build('Build'),
-  deploy('Deploy'),
-  test('Test'),
-  invoke('Invoke'),
-  approval('Approval'),
-  ;
+class ActionCategory {
+  static const source = ActionCategory._('Source');
+  static const build = ActionCategory._('Build');
+  static const deploy = ActionCategory._('Deploy');
+  static const test = ActionCategory._('Test');
+  static const invoke = ActionCategory._('Invoke');
+  static const approval = ActionCategory._('Approval');
 
   final String value;
 
-  const ActionCategory(this.value);
+  const ActionCategory._(this.value);
+
+  static const values = [source, build, deploy, test, invoke, approval];
 
   static ActionCategory fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ActionCategory'));
+          orElse: () => ActionCategory._(value));
+
+  @override
+  bool operator ==(other) => other is ActionCategory && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Represents information about an action configuration.
@@ -2234,20 +2243,30 @@ class ActionConfigurationProperty {
   }
 }
 
-enum ActionConfigurationPropertyType {
-  string('String'),
-  number('Number'),
-  boolean('Boolean'),
-  ;
+class ActionConfigurationPropertyType {
+  static const string = ActionConfigurationPropertyType._('String');
+  static const number = ActionConfigurationPropertyType._('Number');
+  static const boolean = ActionConfigurationPropertyType._('Boolean');
 
   final String value;
 
-  const ActionConfigurationPropertyType(this.value);
+  const ActionConfigurationPropertyType._(this.value);
+
+  static const values = [string, number, boolean];
 
   static ActionConfigurationPropertyType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ActionConfigurationPropertyType'));
+          orElse: () => ActionConfigurationPropertyType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ActionConfigurationPropertyType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Represents the context of an action in the stage of a pipeline to a job
@@ -2812,36 +2831,55 @@ class ActionExecutionResult {
   }
 }
 
-enum ActionExecutionStatus {
-  inProgress('InProgress'),
-  abandoned('Abandoned'),
-  succeeded('Succeeded'),
-  failed('Failed'),
-  ;
+class ActionExecutionStatus {
+  static const inProgress = ActionExecutionStatus._('InProgress');
+  static const abandoned = ActionExecutionStatus._('Abandoned');
+  static const succeeded = ActionExecutionStatus._('Succeeded');
+  static const failed = ActionExecutionStatus._('Failed');
 
   final String value;
 
-  const ActionExecutionStatus(this.value);
+  const ActionExecutionStatus._(this.value);
 
-  static ActionExecutionStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ActionExecutionStatus'));
+  static const values = [inProgress, abandoned, succeeded, failed];
+
+  static ActionExecutionStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ActionExecutionStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ActionExecutionStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ActionOwner {
-  aws('AWS'),
-  thirdParty('ThirdParty'),
-  custom('Custom'),
-  ;
+class ActionOwner {
+  static const aws = ActionOwner._('AWS');
+  static const thirdParty = ActionOwner._('ThirdParty');
+  static const custom = ActionOwner._('Custom');
 
   final String value;
 
-  const ActionOwner(this.value);
+  const ActionOwner._(this.value);
 
-  static ActionOwner fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum ActionOwner'));
+  static const values = [aws, thirdParty, custom];
+
+  static ActionOwner fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ActionOwner._(value));
+
+  @override
+  bool operator ==(other) => other is ActionOwner && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Represents information about the version (or revision) of an action.
@@ -3177,7 +3215,7 @@ class ActionTypeExecutor {
       configuration: ExecutorConfiguration.fromJson(
           (json['configuration'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
-      type: ExecutorType.fromString((json['type'] as String)),
+      type: ExecutorType.fromString((json['type'] as String?) ?? ''),
       jobTimeout: json['jobTimeout'] as int?,
       policyStatementsTemplate: json['policyStatementsTemplate'] as String?,
     );
@@ -3254,8 +3292,8 @@ class ActionTypeId {
 
   factory ActionTypeId.fromJson(Map<String, dynamic> json) {
     return ActionTypeId(
-      category: ActionCategory.fromString((json['category'] as String)),
-      owner: ActionOwner.fromString((json['owner'] as String)),
+      category: ActionCategory.fromString((json['category'] as String?) ?? ''),
+      owner: ActionOwner.fromString((json['owner'] as String?) ?? ''),
       provider: (json['provider'] as String?) ?? '',
       version: (json['version'] as String?) ?? '',
     );
@@ -3321,7 +3359,7 @@ class ActionTypeIdentifier {
 
   factory ActionTypeIdentifier.fromJson(Map<String, dynamic> json) {
     return ActionTypeIdentifier(
-      category: ActionCategory.fromString((json['category'] as String)),
+      category: ActionCategory.fromString((json['category'] as String?) ?? ''),
       owner: (json['owner'] as String?) ?? '',
       provider: (json['provider'] as String?) ?? '',
       version: (json['version'] as String?) ?? '',
@@ -3567,19 +3605,28 @@ class ApprovalResult {
   }
 }
 
-enum ApprovalStatus {
-  approved('Approved'),
-  rejected('Rejected'),
-  ;
+class ApprovalStatus {
+  static const approved = ApprovalStatus._('Approved');
+  static const rejected = ApprovalStatus._('Rejected');
 
   final String value;
 
-  const ApprovalStatus(this.value);
+  const ApprovalStatus._(this.value);
+
+  static const values = [approved, rejected];
 
   static ApprovalStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ApprovalStatus'));
+          orElse: () => ApprovalStatus._(value));
+
+  @override
+  bool operator ==(other) => other is ApprovalStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Artifacts are the files that are worked on by actions in the pipeline. See
@@ -3721,18 +3768,28 @@ class ArtifactLocation {
   }
 }
 
-enum ArtifactLocationType {
-  s3('S3'),
-  ;
+class ArtifactLocationType {
+  static const s3 = ArtifactLocationType._('S3');
 
   final String value;
 
-  const ArtifactLocationType(this.value);
+  const ArtifactLocationType._(this.value);
 
-  static ArtifactLocationType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ArtifactLocationType'));
+  static const values = [s3];
+
+  static ArtifactLocationType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ArtifactLocationType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ArtifactLocationType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Represents revision details of an artifact.
@@ -3834,7 +3891,7 @@ class ArtifactStore {
   factory ArtifactStore.fromJson(Map<String, dynamic> json) {
     return ArtifactStore(
       location: (json['location'] as String?) ?? '',
-      type: ArtifactStoreType.fromString((json['type'] as String)),
+      type: ArtifactStoreType.fromString((json['type'] as String?) ?? ''),
       encryptionKey: json['encryptionKey'] != null
           ? EncryptionKey.fromJson(
               json['encryptionKey'] as Map<String, dynamic>)
@@ -3854,18 +3911,27 @@ class ArtifactStore {
   }
 }
 
-enum ArtifactStoreType {
-  s3('S3'),
-  ;
+class ArtifactStoreType {
+  static const s3 = ArtifactStoreType._('S3');
 
   final String value;
 
-  const ArtifactStoreType(this.value);
+  const ArtifactStoreType._(this.value);
+
+  static const values = [s3];
 
   static ArtifactStoreType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ArtifactStoreType'));
+          orElse: () => ArtifactStoreType._(value));
+
+  @override
+  bool operator ==(other) => other is ArtifactStoreType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The conditions for making checks for entry to a stage.
@@ -3910,7 +3976,7 @@ class BlockerDeclaration {
   factory BlockerDeclaration.fromJson(Map<String, dynamic> json) {
     return BlockerDeclaration(
       name: (json['name'] as String?) ?? '',
-      type: BlockerType.fromString((json['type'] as String)),
+      type: BlockerType.fromString((json['type'] as String?) ?? ''),
     );
   }
 
@@ -3924,17 +3990,26 @@ class BlockerDeclaration {
   }
 }
 
-enum BlockerType {
-  schedule('Schedule'),
-  ;
+class BlockerType {
+  static const schedule = BlockerType._('Schedule');
 
   final String value;
 
-  const BlockerType(this.value);
+  const BlockerType._(this.value);
 
-  static BlockerType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum BlockerType'));
+  static const values = [schedule];
+
+  static BlockerType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => BlockerType._(value));
+
+  @override
+  bool operator ==(other) => other is BlockerType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The condition for the stage. A condition is made up of the rules and the
@@ -4011,24 +4086,42 @@ class ConditionExecution {
   }
 }
 
-enum ConditionExecutionStatus {
-  inProgress('InProgress'),
-  failed('Failed'),
-  errored('Errored'),
-  succeeded('Succeeded'),
-  cancelled('Cancelled'),
-  abandoned('Abandoned'),
-  overridden('Overridden'),
-  ;
+class ConditionExecutionStatus {
+  static const inProgress = ConditionExecutionStatus._('InProgress');
+  static const failed = ConditionExecutionStatus._('Failed');
+  static const errored = ConditionExecutionStatus._('Errored');
+  static const succeeded = ConditionExecutionStatus._('Succeeded');
+  static const cancelled = ConditionExecutionStatus._('Cancelled');
+  static const abandoned = ConditionExecutionStatus._('Abandoned');
+  static const overridden = ConditionExecutionStatus._('Overridden');
 
   final String value;
 
-  const ConditionExecutionStatus(this.value);
+  const ConditionExecutionStatus._(this.value);
+
+  static const values = [
+    inProgress,
+    failed,
+    errored,
+    succeeded,
+    cancelled,
+    abandoned,
+    overridden
+  ];
 
   static ConditionExecutionStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ConditionExecutionStatus'));
+          orElse: () => ConditionExecutionStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ConditionExecutionStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about the state of the condition.
@@ -4067,19 +4160,28 @@ class ConditionState {
   }
 }
 
-enum ConditionType {
-  beforeEntry('BEFORE_ENTRY'),
-  onSuccess('ON_SUCCESS'),
-  ;
+class ConditionType {
+  static const beforeEntry = ConditionType._('BEFORE_ENTRY');
+  static const onSuccess = ConditionType._('ON_SUCCESS');
 
   final String value;
 
-  const ConditionType(this.value);
+  const ConditionType._(this.value);
+
+  static const values = [beforeEntry, onSuccess];
 
   static ConditionType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ConditionType'));
+          orElse: () => ConditionType._(value));
+
+  @override
+  bool operator ==(other) => other is ConditionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Represents the output of a <code>CreateCustomActionType</code> operation.
@@ -4242,7 +4344,7 @@ class EncryptionKey {
   factory EncryptionKey.fromJson(Map<String, dynamic> json) {
     return EncryptionKey(
       id: (json['id'] as String?) ?? '',
-      type: EncryptionKeyType.fromString((json['type'] as String)),
+      type: EncryptionKeyType.fromString((json['type'] as String?) ?? ''),
     );
   }
 
@@ -4256,18 +4358,27 @@ class EncryptionKey {
   }
 }
 
-enum EncryptionKeyType {
-  kms('KMS'),
-  ;
+class EncryptionKeyType {
+  static const kms = EncryptionKeyType._('KMS');
 
   final String value;
 
-  const EncryptionKeyType(this.value);
+  const EncryptionKeyType._(this.value);
+
+  static const values = [kms];
 
   static EncryptionKeyType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum EncryptionKeyType'));
+          orElse: () => EncryptionKeyType._(value));
+
+  @override
+  bool operator ==(other) => other is EncryptionKeyType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Represents information about an error in CodePipeline.
@@ -4333,20 +4444,29 @@ class ExecutionDetails {
   }
 }
 
-enum ExecutionMode {
-  queued('QUEUED'),
-  superseded('SUPERSEDED'),
-  parallel('PARALLEL'),
-  ;
+class ExecutionMode {
+  static const queued = ExecutionMode._('QUEUED');
+  static const superseded = ExecutionMode._('SUPERSEDED');
+  static const parallel = ExecutionMode._('PARALLEL');
 
   final String value;
 
-  const ExecutionMode(this.value);
+  const ExecutionMode._(this.value);
+
+  static const values = [queued, superseded, parallel];
 
   static ExecutionMode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ExecutionMode'));
+          orElse: () => ExecutionMode._(value));
+
+  @override
+  bool operator ==(other) => other is ExecutionMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The interaction or event that started a pipeline execution.
@@ -4383,19 +4503,28 @@ class ExecutionTrigger {
   }
 }
 
-enum ExecutionType {
-  standard('STANDARD'),
-  rollback('ROLLBACK'),
-  ;
+class ExecutionType {
+  static const standard = ExecutionType._('STANDARD');
+  static const rollback = ExecutionType._('ROLLBACK');
 
   final String value;
 
-  const ExecutionType(this.value);
+  const ExecutionType._(this.value);
+
+  static const values = [standard, rollback];
 
   static ExecutionType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ExecutionType'));
+          orElse: () => ExecutionType._(value));
+
+  @override
+  bool operator ==(other) => other is ExecutionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The action engine, or executor, related to the supported integration model
@@ -4439,19 +4568,27 @@ class ExecutorConfiguration {
   }
 }
 
-enum ExecutorType {
-  jobWorker('JobWorker'),
-  lambda('Lambda'),
-  ;
+class ExecutorType {
+  static const jobWorker = ExecutorType._('JobWorker');
+  static const lambda = ExecutorType._('Lambda');
 
   final String value;
 
-  const ExecutorType(this.value);
+  const ExecutorType._(this.value);
 
-  static ExecutorType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ExecutorType'));
+  static const values = [jobWorker, lambda];
+
+  static ExecutorType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ExecutorType._(value));
+
+  @override
+  bool operator ==(other) => other is ExecutorType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The configuration that specifies the result, such as rollback, to occur upon
@@ -4519,22 +4656,38 @@ class FailureDetails {
   }
 }
 
-enum FailureType {
-  jobFailed('JobFailed'),
-  configurationError('ConfigurationError'),
-  permissionError('PermissionError'),
-  revisionOutOfSync('RevisionOutOfSync'),
-  revisionUnavailable('RevisionUnavailable'),
-  systemUnavailable('SystemUnavailable'),
-  ;
+class FailureType {
+  static const jobFailed = FailureType._('JobFailed');
+  static const configurationError = FailureType._('ConfigurationError');
+  static const permissionError = FailureType._('PermissionError');
+  static const revisionOutOfSync = FailureType._('RevisionOutOfSync');
+  static const revisionUnavailable = FailureType._('RevisionUnavailable');
+  static const systemUnavailable = FailureType._('SystemUnavailable');
 
   final String value;
 
-  const FailureType(this.value);
+  const FailureType._(this.value);
 
-  static FailureType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum FailureType'));
+  static const values = [
+    jobFailed,
+    configurationError,
+    permissionError,
+    revisionOutOfSync,
+    revisionUnavailable,
+    systemUnavailable
+  ];
+
+  static FailureType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => FailureType._(value));
+
+  @override
+  bool operator ==(other) => other is FailureType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class GetActionTypeOutput {
@@ -4874,20 +5027,30 @@ class GitFilePathFilterCriteria {
   }
 }
 
-enum GitPullRequestEventType {
-  open('OPEN'),
-  updated('UPDATED'),
-  closed('CLOSED'),
-  ;
+class GitPullRequestEventType {
+  static const open = GitPullRequestEventType._('OPEN');
+  static const updated = GitPullRequestEventType._('UPDATED');
+  static const closed = GitPullRequestEventType._('CLOSED');
 
   final String value;
 
-  const GitPullRequestEventType(this.value);
+  const GitPullRequestEventType._(this.value);
+
+  static const values = [open, updated, closed];
 
   static GitPullRequestEventType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum GitPullRequestEventType'));
+          orElse: () => GitPullRequestEventType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is GitPullRequestEventType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The event criteria for the pull request trigger configuration, such as the
@@ -5257,23 +5420,40 @@ class JobDetails {
   }
 }
 
-enum JobStatus {
-  created('Created'),
-  queued('Queued'),
-  dispatched('Dispatched'),
-  inProgress('InProgress'),
-  timedOut('TimedOut'),
-  succeeded('Succeeded'),
-  failed('Failed'),
-  ;
+class JobStatus {
+  static const created = JobStatus._('Created');
+  static const queued = JobStatus._('Queued');
+  static const dispatched = JobStatus._('Dispatched');
+  static const inProgress = JobStatus._('InProgress');
+  static const timedOut = JobStatus._('TimedOut');
+  static const succeeded = JobStatus._('Succeeded');
+  static const failed = JobStatus._('Failed');
 
   final String value;
 
-  const JobStatus(this.value);
+  const JobStatus._(this.value);
 
-  static JobStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum JobStatus'));
+  static const values = [
+    created,
+    queued,
+    dispatched,
+    inProgress,
+    timedOut,
+    succeeded,
+    failed
+  ];
+
+  static JobStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => JobStatus._(value));
+
+  @override
+  bool operator ==(other) => other is JobStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Details about the polling configuration for the <code>JobWorker</code>
@@ -6139,24 +6319,42 @@ class PipelineExecutionFilter {
   }
 }
 
-enum PipelineExecutionStatus {
-  cancelled('Cancelled'),
-  inProgress('InProgress'),
-  stopped('Stopped'),
-  stopping('Stopping'),
-  succeeded('Succeeded'),
-  superseded('Superseded'),
-  failed('Failed'),
-  ;
+class PipelineExecutionStatus {
+  static const cancelled = PipelineExecutionStatus._('Cancelled');
+  static const inProgress = PipelineExecutionStatus._('InProgress');
+  static const stopped = PipelineExecutionStatus._('Stopped');
+  static const stopping = PipelineExecutionStatus._('Stopping');
+  static const succeeded = PipelineExecutionStatus._('Succeeded');
+  static const superseded = PipelineExecutionStatus._('Superseded');
+  static const failed = PipelineExecutionStatus._('Failed');
 
   final String value;
 
-  const PipelineExecutionStatus(this.value);
+  const PipelineExecutionStatus._(this.value);
+
+  static const values = [
+    cancelled,
+    inProgress,
+    stopped,
+    stopping,
+    succeeded,
+    superseded,
+    failed
+  ];
 
   static PipelineExecutionStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum PipelineExecutionStatus'));
+          orElse: () => PipelineExecutionStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is PipelineExecutionStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Summary information about a pipeline execution.
@@ -6496,7 +6694,7 @@ class PipelineTriggerDeclaration {
           (json['gitConfiguration'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
       providerType: PipelineTriggerProviderType.fromString(
-          (json['providerType'] as String)),
+          (json['providerType'] as String?) ?? ''),
     );
   }
 
@@ -6510,33 +6708,52 @@ class PipelineTriggerDeclaration {
   }
 }
 
-enum PipelineTriggerProviderType {
-  codeStarSourceConnection('CodeStarSourceConnection'),
-  ;
+class PipelineTriggerProviderType {
+  static const codeStarSourceConnection =
+      PipelineTriggerProviderType._('CodeStarSourceConnection');
 
   final String value;
 
-  const PipelineTriggerProviderType(this.value);
+  const PipelineTriggerProviderType._(this.value);
+
+  static const values = [codeStarSourceConnection];
 
   static PipelineTriggerProviderType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum PipelineTriggerProviderType'));
+          orElse: () => PipelineTriggerProviderType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is PipelineTriggerProviderType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum PipelineType {
-  v1('V1'),
-  v2('V2'),
-  ;
+class PipelineType {
+  static const v1 = PipelineType._('V1');
+  static const v2 = PipelineType._('V2');
 
   final String value;
 
-  const PipelineType(this.value);
+  const PipelineType._(this.value);
 
-  static PipelineType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum PipelineType'));
+  static const values = [v1, v2];
+
+  static PipelineType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => PipelineType._(value));
+
+  @override
+  bool operator ==(other) => other is PipelineType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A pipeline-level variable used for a pipeline execution.
@@ -6775,18 +6992,27 @@ class ResolvedPipelineVariable {
   }
 }
 
-enum Result {
-  rollback('ROLLBACK'),
-  fail('FAIL'),
-  ;
+class Result {
+  static const rollback = Result._('ROLLBACK');
+  static const fail = Result._('FAIL');
 
   final String value;
 
-  const Result(this.value);
+  const Result._(this.value);
+
+  static const values = [rollback, fail];
 
   static Result fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum Result'));
+      values.firstWhere((e) => e.value == value, orElse: () => Result._(value));
+
+  @override
+  bool operator ==(other) => other is Result && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Represents the output of a <code>RetryStageExecution</code> action.
@@ -6836,18 +7062,26 @@ class RollbackStageOutput {
   }
 }
 
-enum RuleCategory {
-  rule('Rule'),
-  ;
+class RuleCategory {
+  static const rule = RuleCategory._('Rule');
 
   final String value;
 
-  const RuleCategory(this.value);
+  const RuleCategory._(this.value);
 
-  static RuleCategory fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum RuleCategory'));
+  static const values = [rule];
+
+  static RuleCategory fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => RuleCategory._(value));
+
+  @override
+  bool operator ==(other) => other is RuleCategory && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Represents information about a rule configuration property.
@@ -6926,20 +7160,30 @@ class RuleConfigurationProperty {
   }
 }
 
-enum RuleConfigurationPropertyType {
-  string('String'),
-  number('Number'),
-  boolean('Boolean'),
-  ;
+class RuleConfigurationPropertyType {
+  static const string = RuleConfigurationPropertyType._('String');
+  static const number = RuleConfigurationPropertyType._('Number');
+  static const boolean = RuleConfigurationPropertyType._('Boolean');
 
   final String value;
 
-  const RuleConfigurationPropertyType(this.value);
+  const RuleConfigurationPropertyType._(this.value);
+
+  static const values = [string, number, boolean];
 
   static RuleConfigurationPropertyType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum RuleConfigurationPropertyType'));
+          orElse: () => RuleConfigurationPropertyType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RuleConfigurationPropertyType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Represents information about the rule to be created for an associated
@@ -7382,34 +7626,53 @@ class RuleExecutionResult {
   }
 }
 
-enum RuleExecutionStatus {
-  inProgress('InProgress'),
-  abandoned('Abandoned'),
-  succeeded('Succeeded'),
-  failed('Failed'),
-  ;
+class RuleExecutionStatus {
+  static const inProgress = RuleExecutionStatus._('InProgress');
+  static const abandoned = RuleExecutionStatus._('Abandoned');
+  static const succeeded = RuleExecutionStatus._('Succeeded');
+  static const failed = RuleExecutionStatus._('Failed');
 
   final String value;
 
-  const RuleExecutionStatus(this.value);
+  const RuleExecutionStatus._(this.value);
 
-  static RuleExecutionStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum RuleExecutionStatus'));
+  static const values = [inProgress, abandoned, succeeded, failed];
+
+  static RuleExecutionStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => RuleExecutionStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RuleExecutionStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum RuleOwner {
-  aws('AWS'),
-  ;
+class RuleOwner {
+  static const aws = RuleOwner._('AWS');
 
   final String value;
 
-  const RuleOwner(this.value);
+  const RuleOwner._(this.value);
 
-  static RuleOwner fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum RuleOwner'));
+  static const values = [aws];
+
+  static RuleOwner fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => RuleOwner._(value));
+
+  @override
+  bool operator ==(other) => other is RuleOwner && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The change to a rule that creates a revision of the rule.
@@ -7596,7 +7859,7 @@ class RuleTypeId {
 
   factory RuleTypeId.fromJson(Map<String, dynamic> json) {
     return RuleTypeId(
-      category: RuleCategory.fromString((json['category'] as String)),
+      category: RuleCategory.fromString((json['category'] as String?) ?? ''),
       provider: (json['provider'] as String?) ?? '',
       owner: (json['owner'] as String?)?.let(RuleOwner.fromString),
       version: json['version'] as String?,
@@ -7825,21 +8088,31 @@ class SourceRevisionOverride {
   }
 }
 
-enum SourceRevisionType {
-  commitId('COMMIT_ID'),
-  imageDigest('IMAGE_DIGEST'),
-  s3ObjectVersionId('S3_OBJECT_VERSION_ID'),
-  s3ObjectKey('S3_OBJECT_KEY'),
-  ;
+class SourceRevisionType {
+  static const commitId = SourceRevisionType._('COMMIT_ID');
+  static const imageDigest = SourceRevisionType._('IMAGE_DIGEST');
+  static const s3ObjectVersionId = SourceRevisionType._('S3_OBJECT_VERSION_ID');
+  static const s3ObjectKey = SourceRevisionType._('S3_OBJECT_KEY');
 
   final String value;
 
-  const SourceRevisionType(this.value);
+  const SourceRevisionType._(this.value);
 
-  static SourceRevisionType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum SourceRevisionType'));
+  static const values = [commitId, imageDigest, s3ObjectVersionId, s3ObjectKey];
+
+  static SourceRevisionType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => SourceRevisionType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SourceRevisionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The state of a run of a condition for a stage.
@@ -8037,7 +8310,8 @@ class StageExecution {
   factory StageExecution.fromJson(Map<String, dynamic> json) {
     return StageExecution(
       pipelineExecutionId: (json['pipelineExecutionId'] as String?) ?? '',
-      status: StageExecutionStatus.fromString((json['status'] as String)),
+      status:
+          StageExecutionStatus.fromString((json['status'] as String?) ?? ''),
       type: (json['type'] as String?)?.let(ExecutionType.fromString),
     );
   }
@@ -8054,38 +8328,64 @@ class StageExecution {
   }
 }
 
-enum StageExecutionStatus {
-  cancelled('Cancelled'),
-  inProgress('InProgress'),
-  failed('Failed'),
-  stopped('Stopped'),
-  stopping('Stopping'),
-  succeeded('Succeeded'),
-  ;
+class StageExecutionStatus {
+  static const cancelled = StageExecutionStatus._('Cancelled');
+  static const inProgress = StageExecutionStatus._('InProgress');
+  static const failed = StageExecutionStatus._('Failed');
+  static const stopped = StageExecutionStatus._('Stopped');
+  static const stopping = StageExecutionStatus._('Stopping');
+  static const succeeded = StageExecutionStatus._('Succeeded');
 
   final String value;
 
-  const StageExecutionStatus(this.value);
+  const StageExecutionStatus._(this.value);
 
-  static StageExecutionStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum StageExecutionStatus'));
+  static const values = [
+    cancelled,
+    inProgress,
+    failed,
+    stopped,
+    stopping,
+    succeeded
+  ];
+
+  static StageExecutionStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => StageExecutionStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is StageExecutionStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum StageRetryMode {
-  failedActions('FAILED_ACTIONS'),
-  allActions('ALL_ACTIONS'),
-  ;
+class StageRetryMode {
+  static const failedActions = StageRetryMode._('FAILED_ACTIONS');
+  static const allActions = StageRetryMode._('ALL_ACTIONS');
 
   final String value;
 
-  const StageRetryMode(this.value);
+  const StageRetryMode._(this.value);
+
+  static const values = [failedActions, allActions];
 
   static StageRetryMode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum StageRetryMode'));
+          orElse: () => StageRetryMode._(value));
+
+  @override
+  bool operator ==(other) => other is StageRetryMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Represents information about the state of the stage.
@@ -8194,19 +8494,29 @@ class StageState {
   }
 }
 
-enum StageTransitionType {
-  inbound('Inbound'),
-  outbound('Outbound'),
-  ;
+class StageTransitionType {
+  static const inbound = StageTransitionType._('Inbound');
+  static const outbound = StageTransitionType._('Outbound');
 
   final String value;
 
-  const StageTransitionType(this.value);
+  const StageTransitionType._(this.value);
 
-  static StageTransitionType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum StageTransitionType'));
+  static const values = [inbound, outbound];
+
+  static StageTransitionType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => StageTransitionType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is StageTransitionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Represents the output of a <code>StartPipelineExecution</code> action.
@@ -8233,19 +8543,28 @@ class StartPipelineExecutionOutput {
   }
 }
 
-enum StartTimeRange {
-  latest('Latest'),
-  all('All'),
-  ;
+class StartTimeRange {
+  static const latest = StartTimeRange._('Latest');
+  static const all = StartTimeRange._('All');
 
   final String value;
 
-  const StartTimeRange(this.value);
+  const StartTimeRange._(this.value);
+
+  static const values = [latest, all];
 
   static StartTimeRange fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum StartTimeRange'));
+          orElse: () => StartTimeRange._(value));
+
+  @override
+  bool operator ==(other) => other is StartTimeRange && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The interaction that stopped a pipeline execution.
@@ -8614,25 +8933,44 @@ class TransitionState {
   }
 }
 
-enum TriggerType {
-  createPipeline('CreatePipeline'),
-  startPipelineExecution('StartPipelineExecution'),
-  pollForSourceChanges('PollForSourceChanges'),
-  webhook('Webhook'),
-  cloudWatchEvent('CloudWatchEvent'),
-  putActionRevision('PutActionRevision'),
-  webhookV2('WebhookV2'),
-  manualRollback('ManualRollback'),
-  automatedRollback('AutomatedRollback'),
-  ;
+class TriggerType {
+  static const createPipeline = TriggerType._('CreatePipeline');
+  static const startPipelineExecution = TriggerType._('StartPipelineExecution');
+  static const pollForSourceChanges = TriggerType._('PollForSourceChanges');
+  static const webhook = TriggerType._('Webhook');
+  static const cloudWatchEvent = TriggerType._('CloudWatchEvent');
+  static const putActionRevision = TriggerType._('PutActionRevision');
+  static const webhookV2 = TriggerType._('WebhookV2');
+  static const manualRollback = TriggerType._('ManualRollback');
+  static const automatedRollback = TriggerType._('AutomatedRollback');
 
   final String value;
 
-  const TriggerType(this.value);
+  const TriggerType._(this.value);
 
-  static TriggerType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum TriggerType'));
+  static const values = [
+    createPipeline,
+    startPipelineExecution,
+    pollForSourceChanges,
+    webhook,
+    cloudWatchEvent,
+    putActionRevision,
+    webhookV2,
+    manualRollback,
+    automatedRollback
+  ];
+
+  static TriggerType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => TriggerType._(value));
+
+  @override
+  bool operator ==(other) => other is TriggerType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class UntagResourceOutput {
@@ -8718,20 +9056,30 @@ class WebhookAuthConfiguration {
   }
 }
 
-enum WebhookAuthenticationType {
-  githubHmac('GITHUB_HMAC'),
-  ip('IP'),
-  unauthenticated('UNAUTHENTICATED'),
-  ;
+class WebhookAuthenticationType {
+  static const githubHmac = WebhookAuthenticationType._('GITHUB_HMAC');
+  static const ip = WebhookAuthenticationType._('IP');
+  static const unauthenticated = WebhookAuthenticationType._('UNAUTHENTICATED');
 
   final String value;
 
-  const WebhookAuthenticationType(this.value);
+  const WebhookAuthenticationType._(this.value);
+
+  static const values = [githubHmac, ip, unauthenticated];
 
   static WebhookAuthenticationType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum WebhookAuthenticationType'));
+          orElse: () => WebhookAuthenticationType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is WebhookAuthenticationType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Represents information about a webhook and its definition.
@@ -8799,7 +9147,7 @@ class WebhookDefinition {
   factory WebhookDefinition.fromJson(Map<String, dynamic> json) {
     return WebhookDefinition(
       authentication: WebhookAuthenticationType.fromString(
-          (json['authentication'] as String)),
+          (json['authentication'] as String?) ?? ''),
       authenticationConfiguration: WebhookAuthConfiguration.fromJson(
           (json['authenticationConfiguration'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),

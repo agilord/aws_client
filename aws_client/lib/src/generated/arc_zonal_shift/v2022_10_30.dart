@@ -813,49 +813,78 @@ class ArcZonalShift {
   }
 }
 
-enum AppliedStatus {
-  applied('APPLIED'),
-  notApplied('NOT_APPLIED'),
-  ;
+class AppliedStatus {
+  static const applied = AppliedStatus._('APPLIED');
+  static const notApplied = AppliedStatus._('NOT_APPLIED');
 
   final String value;
 
-  const AppliedStatus(this.value);
+  const AppliedStatus._(this.value);
+
+  static const values = [applied, notApplied];
 
   static AppliedStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum AppliedStatus'));
+          orElse: () => AppliedStatus._(value));
+
+  @override
+  bool operator ==(other) => other is AppliedStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum AutoshiftAppliedStatus {
-  applied('APPLIED'),
-  notApplied('NOT_APPLIED'),
-  ;
+class AutoshiftAppliedStatus {
+  static const applied = AutoshiftAppliedStatus._('APPLIED');
+  static const notApplied = AutoshiftAppliedStatus._('NOT_APPLIED');
 
   final String value;
 
-  const AutoshiftAppliedStatus(this.value);
+  const AutoshiftAppliedStatus._(this.value);
+
+  static const values = [applied, notApplied];
 
   static AutoshiftAppliedStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum AutoshiftAppliedStatus'));
+          orElse: () => AutoshiftAppliedStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AutoshiftAppliedStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum AutoshiftExecutionStatus {
-  active('ACTIVE'),
-  completed('COMPLETED'),
-  ;
+class AutoshiftExecutionStatus {
+  static const active = AutoshiftExecutionStatus._('ACTIVE');
+  static const completed = AutoshiftExecutionStatus._('COMPLETED');
 
   final String value;
 
-  const AutoshiftExecutionStatus(this.value);
+  const AutoshiftExecutionStatus._(this.value);
+
+  static const values = [active, completed];
 
   static AutoshiftExecutionStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum AutoshiftExecutionStatus'));
+          orElse: () => AutoshiftExecutionStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AutoshiftExecutionStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A complex structure that lists an autoshift that is currently active for a
@@ -907,8 +936,8 @@ class AutoshiftInResource {
 
   factory AutoshiftInResource.fromJson(Map<String, dynamic> json) {
     return AutoshiftInResource(
-      appliedStatus:
-          AutoshiftAppliedStatus.fromString((json['appliedStatus'] as String)),
+      appliedStatus: AutoshiftAppliedStatus.fromString(
+          (json['appliedStatus'] as String?) ?? ''),
       awayFrom: (json['awayFrom'] as String?) ?? '',
       startTime: nonNullableTimeStampFromJson(json['startTime'] ?? 0),
     );
@@ -926,19 +955,29 @@ class AutoshiftInResource {
   }
 }
 
-enum AutoshiftObserverNotificationStatus {
-  enabled('ENABLED'),
-  disabled('DISABLED'),
-  ;
+class AutoshiftObserverNotificationStatus {
+  static const enabled = AutoshiftObserverNotificationStatus._('ENABLED');
+  static const disabled = AutoshiftObserverNotificationStatus._('DISABLED');
 
   final String value;
 
-  const AutoshiftObserverNotificationStatus(this.value);
+  const AutoshiftObserverNotificationStatus._(this.value);
+
+  static const values = [enabled, disabled];
 
   static AutoshiftObserverNotificationStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum AutoshiftObserverNotificationStatus'));
+          orElse: () => AutoshiftObserverNotificationStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AutoshiftObserverNotificationStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about an autoshift. Amazon Web Services starts an autoshift to
@@ -985,7 +1024,8 @@ class AutoshiftSummary {
       awayFrom: (json['awayFrom'] as String?) ?? '',
       endTime: nonNullableTimeStampFromJson(json['endTime'] ?? 0),
       startTime: nonNullableTimeStampFromJson(json['startTime'] ?? 0),
-      status: AutoshiftExecutionStatus.fromString((json['status'] as String)),
+      status: AutoshiftExecutionStatus.fromString(
+          (json['status'] as String?) ?? ''),
     );
   }
 
@@ -1035,7 +1075,7 @@ class ControlCondition {
   factory ControlCondition.fromJson(Map<String, dynamic> json) {
     return ControlCondition(
       alarmIdentifier: (json['alarmIdentifier'] as String?) ?? '',
-      type: ControlConditionType.fromString((json['type'] as String)),
+      type: ControlConditionType.fromString((json['type'] as String?) ?? ''),
     );
   }
 
@@ -1049,18 +1089,28 @@ class ControlCondition {
   }
 }
 
-enum ControlConditionType {
-  cloudwatch('CLOUDWATCH'),
-  ;
+class ControlConditionType {
+  static const cloudwatch = ControlConditionType._('CLOUDWATCH');
 
   final String value;
 
-  const ControlConditionType(this.value);
+  const ControlConditionType._(this.value);
 
-  static ControlConditionType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ControlConditionType'));
+  static const values = [cloudwatch];
+
+  static ControlConditionType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ControlConditionType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ControlConditionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class CreatePracticeRunConfigurationResponse {
@@ -1103,7 +1153,7 @@ class CreatePracticeRunConfigurationResponse {
           (json['practiceRunConfiguration'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
       zonalAutoshiftStatus: ZonalAutoshiftStatus.fromString(
-          (json['zonalAutoshiftStatus'] as String)),
+          (json['zonalAutoshiftStatus'] as String?) ?? ''),
     );
   }
 
@@ -1144,7 +1194,7 @@ class DeletePracticeRunConfigurationResponse {
       arn: (json['arn'] as String?) ?? '',
       name: (json['name'] as String?) ?? '',
       zonalAutoshiftStatus: ZonalAutoshiftStatus.fromString(
-          (json['zonalAutoshiftStatus'] as String)),
+          (json['zonalAutoshiftStatus'] as String?) ?? ''),
     );
   }
 
@@ -1177,7 +1227,7 @@ class GetAutoshiftObserverNotificationStatusResponse {
       Map<String, dynamic> json) {
     return GetAutoshiftObserverNotificationStatusResponse(
       status: AutoshiftObserverNotificationStatus.fromString(
-          (json['status'] as String)),
+          (json['status'] as String?) ?? ''),
     );
   }
 
@@ -1574,21 +1624,31 @@ class PracticeRunConfiguration {
   }
 }
 
-enum PracticeRunOutcome {
-  failed('FAILED'),
-  interrupted('INTERRUPTED'),
-  pending('PENDING'),
-  succeeded('SUCCEEDED'),
-  ;
+class PracticeRunOutcome {
+  static const failed = PracticeRunOutcome._('FAILED');
+  static const interrupted = PracticeRunOutcome._('INTERRUPTED');
+  static const pending = PracticeRunOutcome._('PENDING');
+  static const succeeded = PracticeRunOutcome._('SUCCEEDED');
 
   final String value;
 
-  const PracticeRunOutcome(this.value);
+  const PracticeRunOutcome._(this.value);
 
-  static PracticeRunOutcome fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum PracticeRunOutcome'));
+  static const values = [failed, interrupted, pending, succeeded];
+
+  static PracticeRunOutcome fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => PracticeRunOutcome._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is PracticeRunOutcome && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class UpdateAutoshiftObserverNotificationStatusResponse {
@@ -1603,7 +1663,7 @@ class UpdateAutoshiftObserverNotificationStatusResponse {
       Map<String, dynamic> json) {
     return UpdateAutoshiftObserverNotificationStatusResponse(
       status: AutoshiftObserverNotificationStatus.fromString(
-          (json['status'] as String)),
+          (json['status'] as String?) ?? ''),
     );
   }
 
@@ -1646,7 +1706,7 @@ class UpdatePracticeRunConfigurationResponse {
           (json['practiceRunConfiguration'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
       zonalAutoshiftStatus: ZonalAutoshiftStatus.fromString(
-          (json['zonalAutoshiftStatus'] as String)),
+          (json['zonalAutoshiftStatus'] as String?) ?? ''),
     );
   }
 
@@ -1683,7 +1743,7 @@ class UpdateZonalAutoshiftConfigurationResponse {
     return UpdateZonalAutoshiftConfigurationResponse(
       resourceIdentifier: (json['resourceIdentifier'] as String?) ?? '',
       zonalAutoshiftStatus: ZonalAutoshiftStatus.fromString(
-          (json['zonalAutoshiftStatus'] as String)),
+          (json['zonalAutoshiftStatus'] as String?) ?? ''),
     );
   }
 
@@ -1697,19 +1757,29 @@ class UpdateZonalAutoshiftConfigurationResponse {
   }
 }
 
-enum ZonalAutoshiftStatus {
-  enabled('ENABLED'),
-  disabled('DISABLED'),
-  ;
+class ZonalAutoshiftStatus {
+  static const enabled = ZonalAutoshiftStatus._('ENABLED');
+  static const disabled = ZonalAutoshiftStatus._('DISABLED');
 
   final String value;
 
-  const ZonalAutoshiftStatus(this.value);
+  const ZonalAutoshiftStatus._(this.value);
 
-  static ZonalAutoshiftStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ZonalAutoshiftStatus'));
+  static const values = [enabled, disabled];
+
+  static ZonalAutoshiftStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ZonalAutoshiftStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ZonalAutoshiftStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class ZonalShift {
@@ -1785,7 +1855,7 @@ class ZonalShift {
       expiryTime: nonNullableTimeStampFromJson(json['expiryTime'] ?? 0),
       resourceIdentifier: (json['resourceIdentifier'] as String?) ?? '',
       startTime: nonNullableTimeStampFromJson(json['startTime'] ?? 0),
-      status: ZonalShiftStatus.fromString((json['status'] as String)),
+      status: ZonalShiftStatus.fromString((json['status'] as String?) ?? ''),
       zonalShiftId: (json['zonalShiftId'] as String?) ?? '',
     );
   }
@@ -1915,7 +1985,7 @@ class ZonalShiftInResource {
   factory ZonalShiftInResource.fromJson(Map<String, dynamic> json) {
     return ZonalShiftInResource(
       appliedStatus:
-          AppliedStatus.fromString((json['appliedStatus'] as String)),
+          AppliedStatus.fromString((json['appliedStatus'] as String?) ?? ''),
       awayFrom: (json['awayFrom'] as String?) ?? '',
       comment: (json['comment'] as String?) ?? '',
       expiryTime: nonNullableTimeStampFromJson(json['expiryTime'] ?? 0),
@@ -1950,20 +2020,29 @@ class ZonalShiftInResource {
   }
 }
 
-enum ZonalShiftStatus {
-  active('ACTIVE'),
-  expired('EXPIRED'),
-  canceled('CANCELED'),
-  ;
+class ZonalShiftStatus {
+  static const active = ZonalShiftStatus._('ACTIVE');
+  static const expired = ZonalShiftStatus._('EXPIRED');
+  static const canceled = ZonalShiftStatus._('CANCELED');
 
   final String value;
 
-  const ZonalShiftStatus(this.value);
+  const ZonalShiftStatus._(this.value);
+
+  static const values = [active, expired, canceled];
 
   static ZonalShiftStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ZonalShiftStatus'));
+          orElse: () => ZonalShiftStatus._(value));
+
+  @override
+  bool operator ==(other) => other is ZonalShiftStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Lists information about zonal shifts in Amazon Route 53 Application Recovery
@@ -2080,7 +2159,7 @@ class ZonalShiftSummary {
       expiryTime: nonNullableTimeStampFromJson(json['expiryTime'] ?? 0),
       resourceIdentifier: (json['resourceIdentifier'] as String?) ?? '',
       startTime: nonNullableTimeStampFromJson(json['startTime'] ?? 0),
-      status: ZonalShiftStatus.fromString((json['status'] as String)),
+      status: ZonalShiftStatus.fromString((json['status'] as String?) ?? ''),
       zonalShiftId: (json['zonalShiftId'] as String?) ?? '',
       practiceRunOutcome: (json['practiceRunOutcome'] as String?)
           ?.let(PracticeRunOutcome.fromString),

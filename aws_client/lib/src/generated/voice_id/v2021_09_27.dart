@@ -1435,24 +1435,44 @@ class AuthenticationConfiguration {
   }
 }
 
-enum AuthenticationDecision {
-  accept('ACCEPT'),
-  reject('REJECT'),
-  notEnoughSpeech('NOT_ENOUGH_SPEECH'),
-  speakerNotEnrolled('SPEAKER_NOT_ENROLLED'),
-  speakerOptedOut('SPEAKER_OPTED_OUT'),
-  speakerIdNotProvided('SPEAKER_ID_NOT_PROVIDED'),
-  speakerExpired('SPEAKER_EXPIRED'),
-  ;
+class AuthenticationDecision {
+  static const accept = AuthenticationDecision._('ACCEPT');
+  static const reject = AuthenticationDecision._('REJECT');
+  static const notEnoughSpeech = AuthenticationDecision._('NOT_ENOUGH_SPEECH');
+  static const speakerNotEnrolled =
+      AuthenticationDecision._('SPEAKER_NOT_ENROLLED');
+  static const speakerOptedOut = AuthenticationDecision._('SPEAKER_OPTED_OUT');
+  static const speakerIdNotProvided =
+      AuthenticationDecision._('SPEAKER_ID_NOT_PROVIDED');
+  static const speakerExpired = AuthenticationDecision._('SPEAKER_EXPIRED');
 
   final String value;
 
-  const AuthenticationDecision(this.value);
+  const AuthenticationDecision._(this.value);
+
+  static const values = [
+    accept,
+    reject,
+    notEnoughSpeech,
+    speakerNotEnrolled,
+    speakerOptedOut,
+    speakerIdNotProvided,
+    speakerExpired
+  ];
 
   static AuthenticationDecision fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum AuthenticationDecision'));
+          orElse: () => AuthenticationDecision._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AuthenticationDecision && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The authentication result produced by Voice ID, processed against the
@@ -1878,20 +1898,28 @@ class Domain {
   }
 }
 
-enum DomainStatus {
-  active('ACTIVE'),
-  pending('PENDING'),
-  suspended('SUSPENDED'),
-  ;
+class DomainStatus {
+  static const active = DomainStatus._('ACTIVE');
+  static const pending = DomainStatus._('PENDING');
+  static const suspended = DomainStatus._('SUSPENDED');
 
   final String value;
 
-  const DomainStatus(this.value);
+  const DomainStatus._(this.value);
 
-  static DomainStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum DomainStatus'));
+  static const values = [active, pending, suspended];
+
+  static DomainStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => DomainStatus._(value));
+
+  @override
+  bool operator ==(other) => other is DomainStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains a summary of information about a domain.
@@ -2003,19 +2031,29 @@ class DomainSummary {
   }
 }
 
-enum DuplicateRegistrationAction {
-  skip('SKIP'),
-  registerAsNew('REGISTER_AS_NEW'),
-  ;
+class DuplicateRegistrationAction {
+  static const skip = DuplicateRegistrationAction._('SKIP');
+  static const registerAsNew = DuplicateRegistrationAction._('REGISTER_AS_NEW');
 
   final String value;
 
-  const DuplicateRegistrationAction(this.value);
+  const DuplicateRegistrationAction._(this.value);
+
+  static const values = [skip, registerAsNew];
 
   static DuplicateRegistrationAction fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum DuplicateRegistrationAction'));
+          orElse: () => DuplicateRegistrationAction._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DuplicateRegistrationAction && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains configurations defining enrollment behavior for the batch job.
@@ -2185,19 +2223,29 @@ class EvaluateSessionResponse {
   }
 }
 
-enum ExistingEnrollmentAction {
-  skip('SKIP'),
-  overwrite('OVERWRITE'),
-  ;
+class ExistingEnrollmentAction {
+  static const skip = ExistingEnrollmentAction._('SKIP');
+  static const overwrite = ExistingEnrollmentAction._('OVERWRITE');
 
   final String value;
 
-  const ExistingEnrollmentAction(this.value);
+  const ExistingEnrollmentAction._(this.value);
+
+  static const values = [skip, overwrite];
 
   static ExistingEnrollmentAction fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ExistingEnrollmentAction'));
+          orElse: () => ExistingEnrollmentAction._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ExistingEnrollmentAction && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains error details for a failed batch job.
@@ -2230,19 +2278,29 @@ class FailureDetails {
   }
 }
 
-enum FraudDetectionAction {
-  ignore('IGNORE'),
-  fail('FAIL'),
-  ;
+class FraudDetectionAction {
+  static const ignore = FraudDetectionAction._('IGNORE');
+  static const fail = FraudDetectionAction._('FAIL');
 
   final String value;
 
-  const FraudDetectionAction(this.value);
+  const FraudDetectionAction._(this.value);
 
-  static FraudDetectionAction fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum FraudDetectionAction'));
+  static const values = [ignore, fail];
+
+  static FraudDetectionAction fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => FraudDetectionAction._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is FraudDetectionAction && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The configuration used for performing fraud detection over a speaker during
@@ -2278,35 +2336,55 @@ class FraudDetectionConfiguration {
   }
 }
 
-enum FraudDetectionDecision {
-  highRisk('HIGH_RISK'),
-  lowRisk('LOW_RISK'),
-  notEnoughSpeech('NOT_ENOUGH_SPEECH'),
-  ;
+class FraudDetectionDecision {
+  static const highRisk = FraudDetectionDecision._('HIGH_RISK');
+  static const lowRisk = FraudDetectionDecision._('LOW_RISK');
+  static const notEnoughSpeech = FraudDetectionDecision._('NOT_ENOUGH_SPEECH');
 
   final String value;
 
-  const FraudDetectionDecision(this.value);
+  const FraudDetectionDecision._(this.value);
+
+  static const values = [highRisk, lowRisk, notEnoughSpeech];
 
   static FraudDetectionDecision fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum FraudDetectionDecision'));
+          orElse: () => FraudDetectionDecision._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is FraudDetectionDecision && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum FraudDetectionReason {
-  knownFraudster('KNOWN_FRAUDSTER'),
-  voiceSpoofing('VOICE_SPOOFING'),
-  ;
+class FraudDetectionReason {
+  static const knownFraudster = FraudDetectionReason._('KNOWN_FRAUDSTER');
+  static const voiceSpoofing = FraudDetectionReason._('VOICE_SPOOFING');
 
   final String value;
 
-  const FraudDetectionReason(this.value);
+  const FraudDetectionReason._(this.value);
 
-  static FraudDetectionReason fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum FraudDetectionReason'));
+  static const values = [knownFraudster, voiceSpoofing];
+
+  static FraudDetectionReason fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => FraudDetectionReason._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is FraudDetectionReason && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The fraud detection result produced by Voice ID, processed against the
@@ -2613,22 +2691,39 @@ class FraudsterRegistrationJob {
   }
 }
 
-enum FraudsterRegistrationJobStatus {
-  submitted('SUBMITTED'),
-  inProgress('IN_PROGRESS'),
-  completed('COMPLETED'),
-  completedWithErrors('COMPLETED_WITH_ERRORS'),
-  failed('FAILED'),
-  ;
+class FraudsterRegistrationJobStatus {
+  static const submitted = FraudsterRegistrationJobStatus._('SUBMITTED');
+  static const inProgress = FraudsterRegistrationJobStatus._('IN_PROGRESS');
+  static const completed = FraudsterRegistrationJobStatus._('COMPLETED');
+  static const completedWithErrors =
+      FraudsterRegistrationJobStatus._('COMPLETED_WITH_ERRORS');
+  static const failed = FraudsterRegistrationJobStatus._('FAILED');
 
   final String value;
 
-  const FraudsterRegistrationJobStatus(this.value);
+  const FraudsterRegistrationJobStatus._(this.value);
+
+  static const values = [
+    submitted,
+    inProgress,
+    completed,
+    completedWithErrors,
+    failed
+  ];
 
   static FraudsterRegistrationJobStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum FraudsterRegistrationJobStatus'));
+          orElse: () => FraudsterRegistrationJobStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is FraudsterRegistrationJobStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains a summary of information about a fraudster registration job.
@@ -3273,20 +3368,30 @@ class ServerSideEncryptionUpdateDetails {
   }
 }
 
-enum ServerSideEncryptionUpdateStatus {
-  inProgress('IN_PROGRESS'),
-  completed('COMPLETED'),
-  failed('FAILED'),
-  ;
+class ServerSideEncryptionUpdateStatus {
+  static const inProgress = ServerSideEncryptionUpdateStatus._('IN_PROGRESS');
+  static const completed = ServerSideEncryptionUpdateStatus._('COMPLETED');
+  static const failed = ServerSideEncryptionUpdateStatus._('FAILED');
 
   final String value;
 
-  const ServerSideEncryptionUpdateStatus(this.value);
+  const ServerSideEncryptionUpdateStatus._(this.value);
+
+  static const values = [inProgress, completed, failed];
 
   static ServerSideEncryptionUpdateStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ServerSideEncryptionUpdateStatus'));
+          orElse: () => ServerSideEncryptionUpdateStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ServerSideEncryptionUpdateStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains all the information about a speaker.
@@ -3483,22 +3588,39 @@ class SpeakerEnrollmentJob {
   }
 }
 
-enum SpeakerEnrollmentJobStatus {
-  submitted('SUBMITTED'),
-  inProgress('IN_PROGRESS'),
-  completed('COMPLETED'),
-  completedWithErrors('COMPLETED_WITH_ERRORS'),
-  failed('FAILED'),
-  ;
+class SpeakerEnrollmentJobStatus {
+  static const submitted = SpeakerEnrollmentJobStatus._('SUBMITTED');
+  static const inProgress = SpeakerEnrollmentJobStatus._('IN_PROGRESS');
+  static const completed = SpeakerEnrollmentJobStatus._('COMPLETED');
+  static const completedWithErrors =
+      SpeakerEnrollmentJobStatus._('COMPLETED_WITH_ERRORS');
+  static const failed = SpeakerEnrollmentJobStatus._('FAILED');
 
   final String value;
 
-  const SpeakerEnrollmentJobStatus(this.value);
+  const SpeakerEnrollmentJobStatus._(this.value);
+
+  static const values = [
+    submitted,
+    inProgress,
+    completed,
+    completedWithErrors,
+    failed
+  ];
 
   static SpeakerEnrollmentJobStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum SpeakerEnrollmentJobStatus'));
+          orElse: () => SpeakerEnrollmentJobStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SpeakerEnrollmentJobStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains a summary of information about a speaker enrollment job.
@@ -3584,21 +3706,30 @@ class SpeakerEnrollmentJobSummary {
   }
 }
 
-enum SpeakerStatus {
-  enrolled('ENROLLED'),
-  expired('EXPIRED'),
-  optedOut('OPTED_OUT'),
-  pending('PENDING'),
-  ;
+class SpeakerStatus {
+  static const enrolled = SpeakerStatus._('ENROLLED');
+  static const expired = SpeakerStatus._('EXPIRED');
+  static const optedOut = SpeakerStatus._('OPTED_OUT');
+  static const pending = SpeakerStatus._('PENDING');
 
   final String value;
 
-  const SpeakerStatus(this.value);
+  const SpeakerStatus._(this.value);
+
+  static const values = [enrolled, expired, optedOut, pending];
 
   static SpeakerStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum SpeakerStatus'));
+          orElse: () => SpeakerStatus._(value));
+
+  @override
+  bool operator ==(other) => other is SpeakerStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains a summary of information about a speaker.
@@ -3720,20 +3851,30 @@ class StartSpeakerEnrollmentJobResponse {
   }
 }
 
-enum StreamingStatus {
-  pendingConfiguration('PENDING_CONFIGURATION'),
-  ongoing('ONGOING'),
-  ended('ENDED'),
-  ;
+class StreamingStatus {
+  static const pendingConfiguration =
+      StreamingStatus._('PENDING_CONFIGURATION');
+  static const ongoing = StreamingStatus._('ONGOING');
+  static const ended = StreamingStatus._('ENDED');
 
   final String value;
 
-  const StreamingStatus(this.value);
+  const StreamingStatus._(this.value);
+
+  static const values = [pendingConfiguration, ongoing, ended];
 
   static StreamingStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum StreamingStatus'));
+          orElse: () => StreamingStatus._(value));
+
+  @override
+  bool operator ==(other) => other is StreamingStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The tags used to organize, track, or control access for this resource. For

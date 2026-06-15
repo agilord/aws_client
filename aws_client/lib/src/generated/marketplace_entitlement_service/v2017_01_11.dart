@@ -228,19 +228,30 @@ class EntitlementValue {
   }
 }
 
-enum GetEntitlementFilterName {
-  customerIdentifier('CUSTOMER_IDENTIFIER'),
-  dimension('DIMENSION'),
-  ;
+class GetEntitlementFilterName {
+  static const customerIdentifier =
+      GetEntitlementFilterName._('CUSTOMER_IDENTIFIER');
+  static const dimension = GetEntitlementFilterName._('DIMENSION');
 
   final String value;
 
-  const GetEntitlementFilterName(this.value);
+  const GetEntitlementFilterName._(this.value);
+
+  static const values = [customerIdentifier, dimension];
 
   static GetEntitlementFilterName fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum GetEntitlementFilterName'));
+          orElse: () => GetEntitlementFilterName._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is GetEntitlementFilterName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The GetEntitlementsRequest contains results from the GetEntitlements

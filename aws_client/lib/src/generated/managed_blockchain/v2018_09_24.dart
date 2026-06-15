@@ -1430,38 +1430,64 @@ class Accessor {
   }
 }
 
-enum AccessorNetworkType {
-  ethereumGoerli('ETHEREUM_GOERLI'),
-  ethereumMainnet('ETHEREUM_MAINNET'),
-  ethereumMainnetAndGoerli('ETHEREUM_MAINNET_AND_GOERLI'),
-  polygonMainnet('POLYGON_MAINNET'),
-  polygonMumbai('POLYGON_MUMBAI'),
-  ;
+class AccessorNetworkType {
+  static const ethereumGoerli = AccessorNetworkType._('ETHEREUM_GOERLI');
+  static const ethereumMainnet = AccessorNetworkType._('ETHEREUM_MAINNET');
+  static const ethereumMainnetAndGoerli =
+      AccessorNetworkType._('ETHEREUM_MAINNET_AND_GOERLI');
+  static const polygonMainnet = AccessorNetworkType._('POLYGON_MAINNET');
+  static const polygonMumbai = AccessorNetworkType._('POLYGON_MUMBAI');
 
   final String value;
 
-  const AccessorNetworkType(this.value);
+  const AccessorNetworkType._(this.value);
 
-  static AccessorNetworkType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum AccessorNetworkType'));
+  static const values = [
+    ethereumGoerli,
+    ethereumMainnet,
+    ethereumMainnetAndGoerli,
+    polygonMainnet,
+    polygonMumbai
+  ];
+
+  static AccessorNetworkType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AccessorNetworkType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AccessorNetworkType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum AccessorStatus {
-  available('AVAILABLE'),
-  pendingDeletion('PENDING_DELETION'),
-  deleted('DELETED'),
-  ;
+class AccessorStatus {
+  static const available = AccessorStatus._('AVAILABLE');
+  static const pendingDeletion = AccessorStatus._('PENDING_DELETION');
+  static const deleted = AccessorStatus._('DELETED');
 
   final String value;
 
-  const AccessorStatus(this.value);
+  const AccessorStatus._(this.value);
+
+  static const values = [available, pendingDeletion, deleted];
 
   static AccessorStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum AccessorStatus'));
+          orElse: () => AccessorStatus._(value));
+
+  @override
+  bool operator ==(other) => other is AccessorStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A summary of accessor properties.
@@ -1530,18 +1556,26 @@ class AccessorSummary {
   }
 }
 
-enum AccessorType {
-  billingToken('BILLING_TOKEN'),
-  ;
+class AccessorType {
+  static const billingToken = AccessorType._('BILLING_TOKEN');
 
   final String value;
 
-  const AccessorType(this.value);
+  const AccessorType._(this.value);
 
-  static AccessorType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum AccessorType'));
+  static const values = [billingToken];
+
+  static AccessorType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => AccessorType._(value));
+
+  @override
+  bool operator ==(other) => other is AccessorType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A policy type that defines the voting rules for the network. The rules
@@ -1774,32 +1808,50 @@ class DeleteNodeOutput {
   }
 }
 
-enum Edition {
-  starter('STARTER'),
-  standard('STANDARD'),
-  ;
+class Edition {
+  static const starter = Edition._('STARTER');
+  static const standard = Edition._('STANDARD');
 
   final String value;
 
-  const Edition(this.value);
+  const Edition._(this.value);
 
-  static Edition fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum Edition'));
+  static const values = [starter, standard];
+
+  static Edition fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Edition._(value));
+
+  @override
+  bool operator ==(other) => other is Edition && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum Framework {
-  hyperledgerFabric('HYPERLEDGER_FABRIC'),
-  ethereum('ETHEREUM'),
-  ;
+class Framework {
+  static const hyperledgerFabric = Framework._('HYPERLEDGER_FABRIC');
+  static const ethereum = Framework._('ETHEREUM');
 
   final String value;
 
-  const Framework(this.value);
+  const Framework._(this.value);
 
-  static Framework fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum Framework'));
+  static const values = [hyperledgerFabric, ethereum];
+
+  static Framework fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Framework._(value));
+
+  @override
+  bool operator ==(other) => other is Framework && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class GetAccessorOutput {
@@ -2015,22 +2067,31 @@ class Invitation {
   }
 }
 
-enum InvitationStatus {
-  pending('PENDING'),
-  accepted('ACCEPTED'),
-  accepting('ACCEPTING'),
-  rejected('REJECTED'),
-  expired('EXPIRED'),
-  ;
+class InvitationStatus {
+  static const pending = InvitationStatus._('PENDING');
+  static const accepted = InvitationStatus._('ACCEPTED');
+  static const accepting = InvitationStatus._('ACCEPTING');
+  static const rejected = InvitationStatus._('REJECTED');
+  static const expired = InvitationStatus._('EXPIRED');
 
   final String value;
 
-  const InvitationStatus(this.value);
+  const InvitationStatus._(this.value);
+
+  static const values = [pending, accepted, accepting, rejected, expired];
 
   static InvitationStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum InvitationStatus'));
+          orElse: () => InvitationStatus._(value));
+
+  @override
+  bool operator ==(other) => other is InvitationStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// An action to invite a specific Amazon Web Services account to create a
@@ -2783,24 +2844,41 @@ class MemberLogPublishingConfiguration {
   }
 }
 
-enum MemberStatus {
-  creating('CREATING'),
-  available('AVAILABLE'),
-  createFailed('CREATE_FAILED'),
-  updating('UPDATING'),
-  deleting('DELETING'),
-  deleted('DELETED'),
-  inaccessibleEncryptionKey('INACCESSIBLE_ENCRYPTION_KEY'),
-  ;
+class MemberStatus {
+  static const creating = MemberStatus._('CREATING');
+  static const available = MemberStatus._('AVAILABLE');
+  static const createFailed = MemberStatus._('CREATE_FAILED');
+  static const updating = MemberStatus._('UPDATING');
+  static const deleting = MemberStatus._('DELETING');
+  static const deleted = MemberStatus._('DELETED');
+  static const inaccessibleEncryptionKey =
+      MemberStatus._('INACCESSIBLE_ENCRYPTION_KEY');
 
   final String value;
 
-  const MemberStatus(this.value);
+  const MemberStatus._(this.value);
 
-  static MemberStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum MemberStatus'));
+  static const values = [
+    creating,
+    available,
+    createFailed,
+    updating,
+    deleting,
+    deleted,
+    inaccessibleEncryptionKey
+  ];
+
+  static MemberStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => MemberStatus._(value));
+
+  @override
+  bool operator ==(other) => other is MemberStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A summary of configuration properties for a member.
@@ -3181,22 +3259,31 @@ class NetworkFrameworkConfiguration {
   }
 }
 
-enum NetworkStatus {
-  creating('CREATING'),
-  available('AVAILABLE'),
-  createFailed('CREATE_FAILED'),
-  deleting('DELETING'),
-  deleted('DELETED'),
-  ;
+class NetworkStatus {
+  static const creating = NetworkStatus._('CREATING');
+  static const available = NetworkStatus._('AVAILABLE');
+  static const createFailed = NetworkStatus._('CREATE_FAILED');
+  static const deleting = NetworkStatus._('DELETING');
+  static const deleted = NetworkStatus._('DELETED');
 
   final String value;
 
-  const NetworkStatus(this.value);
+  const NetworkStatus._(this.value);
+
+  static const values = [creating, available, createFailed, deleting, deleted];
 
   static NetworkStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum NetworkStatus'));
+          orElse: () => NetworkStatus._(value));
+
+  @override
+  bool operator ==(other) => other is NetworkStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A summary of network configuration properties.
@@ -3692,25 +3779,45 @@ class NodeLogPublishingConfiguration {
   }
 }
 
-enum NodeStatus {
-  creating('CREATING'),
-  available('AVAILABLE'),
-  unhealthy('UNHEALTHY'),
-  createFailed('CREATE_FAILED'),
-  updating('UPDATING'),
-  deleting('DELETING'),
-  deleted('DELETED'),
-  failed('FAILED'),
-  inaccessibleEncryptionKey('INACCESSIBLE_ENCRYPTION_KEY'),
-  ;
+class NodeStatus {
+  static const creating = NodeStatus._('CREATING');
+  static const available = NodeStatus._('AVAILABLE');
+  static const unhealthy = NodeStatus._('UNHEALTHY');
+  static const createFailed = NodeStatus._('CREATE_FAILED');
+  static const updating = NodeStatus._('UPDATING');
+  static const deleting = NodeStatus._('DELETING');
+  static const deleted = NodeStatus._('DELETED');
+  static const failed = NodeStatus._('FAILED');
+  static const inaccessibleEncryptionKey =
+      NodeStatus._('INACCESSIBLE_ENCRYPTION_KEY');
 
   final String value;
 
-  const NodeStatus(this.value);
+  const NodeStatus._(this.value);
 
-  static NodeStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum NodeStatus'));
+  static const values = [
+    creating,
+    available,
+    unhealthy,
+    createFailed,
+    updating,
+    deleting,
+    deleted,
+    failed,
+    inaccessibleEncryptionKey
+  ];
+
+  static NodeStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => NodeStatus._(value));
+
+  @override
+  bool operator ==(other) => other is NodeStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A summary of configuration properties for a node.
@@ -3989,22 +4096,31 @@ class ProposalActions {
   }
 }
 
-enum ProposalStatus {
-  inProgress('IN_PROGRESS'),
-  approved('APPROVED'),
-  rejected('REJECTED'),
-  expired('EXPIRED'),
-  actionFailed('ACTION_FAILED'),
-  ;
+class ProposalStatus {
+  static const inProgress = ProposalStatus._('IN_PROGRESS');
+  static const approved = ProposalStatus._('APPROVED');
+  static const rejected = ProposalStatus._('REJECTED');
+  static const expired = ProposalStatus._('EXPIRED');
+  static const actionFailed = ProposalStatus._('ACTION_FAILED');
 
   final String value;
 
-  const ProposalStatus(this.value);
+  const ProposalStatus._(this.value);
+
+  static const values = [inProgress, approved, rejected, expired, actionFailed];
 
   static ProposalStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ProposalStatus'));
+          orElse: () => ProposalStatus._(value));
+
+  @override
+  bool operator ==(other) => other is ProposalStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Properties of a proposal.
@@ -4160,18 +4276,27 @@ class RemoveAction {
   }
 }
 
-enum StateDBType {
-  levelDB('LevelDB'),
-  couchDB('CouchDB'),
-  ;
+class StateDBType {
+  static const levelDB = StateDBType._('LevelDB');
+  static const couchDB = StateDBType._('CouchDB');
 
   final String value;
 
-  const StateDBType(this.value);
+  const StateDBType._(this.value);
 
-  static StateDBType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum StateDBType'));
+  static const values = [levelDB, couchDB];
+
+  static StateDBType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => StateDBType._(value));
+
+  @override
+  bool operator ==(other) => other is StateDBType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class TagResourceResponse {
@@ -4186,19 +4311,30 @@ class TagResourceResponse {
   }
 }
 
-enum ThresholdComparator {
-  greaterThan('GREATER_THAN'),
-  greaterThanOrEqualTo('GREATER_THAN_OR_EQUAL_TO'),
-  ;
+class ThresholdComparator {
+  static const greaterThan = ThresholdComparator._('GREATER_THAN');
+  static const greaterThanOrEqualTo =
+      ThresholdComparator._('GREATER_THAN_OR_EQUAL_TO');
 
   final String value;
 
-  const ThresholdComparator(this.value);
+  const ThresholdComparator._(this.value);
 
-  static ThresholdComparator fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ThresholdComparator'));
+  static const values = [greaterThan, greaterThanOrEqualTo];
+
+  static ThresholdComparator fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ThresholdComparator._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ThresholdComparator && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class UntagResourceResponse {
@@ -4288,18 +4424,27 @@ class VoteSummary {
   }
 }
 
-enum VoteValue {
-  yes('YES'),
-  no('NO'),
-  ;
+class VoteValue {
+  static const yes = VoteValue._('YES');
+  static const no = VoteValue._('NO');
 
   final String value;
 
-  const VoteValue(this.value);
+  const VoteValue._(this.value);
 
-  static VoteValue fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum VoteValue'));
+  static const values = [yes, no];
+
+  static VoteValue fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => VoteValue._(value));
+
+  @override
+  bool operator ==(other) => other is VoteValue && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The voting rules for the network to decide if a proposal is accepted

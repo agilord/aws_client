@@ -716,7 +716,7 @@ class ApplyGuardrailResponse {
 
   factory ApplyGuardrailResponse.fromJson(Map<String, dynamic> json) {
     return ApplyGuardrailResponse(
-      action: GuardrailAction.fromString((json['action'] as String)),
+      action: GuardrailAction.fromString((json['action'] as String?) ?? ''),
       assessments: ((json['assessments'] as List?) ?? const [])
           .nonNulls
           .map((e) => GuardrailAssessment.fromJson(e as Map<String, dynamic>))
@@ -981,19 +981,28 @@ class ContentBlockStopEvent {
   }
 }
 
-enum ConversationRole {
-  user('user'),
-  assistant('assistant'),
-  ;
+class ConversationRole {
+  static const user = ConversationRole._('user');
+  static const assistant = ConversationRole._('assistant');
 
   final String value;
 
-  const ConversationRole(this.value);
+  const ConversationRole._(this.value);
+
+  static const values = [user, assistant];
 
   static ConversationRole fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ConversationRole'));
+          orElse: () => ConversationRole._(value));
+
+  @override
+  bool operator ==(other) => other is ConversationRole && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Metrics for a call to <a
@@ -1084,7 +1093,7 @@ class ConverseResponse {
       output: ConverseOutput.fromJson(
           (json['output'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
-      stopReason: StopReason.fromString((json['stopReason'] as String)),
+      stopReason: StopReason.fromString((json['stopReason'] as String?) ?? ''),
       usage: TokenUsage.fromJson((json['usage'] as Map<String, dynamic>?) ??
           const <String, dynamic>{}),
       additionalModelResponseFields:
@@ -1441,7 +1450,7 @@ class DocumentBlock {
 
   factory DocumentBlock.fromJson(Map<String, dynamic> json) {
     return DocumentBlock(
-      format: DocumentFormat.fromString((json['format'] as String)),
+      format: DocumentFormat.fromString((json['format'] as String?) ?? ''),
       name: (json['name'] as String?) ?? '',
       source: DocumentSource.fromJson(
           (json['source'] as Map<String, dynamic>?) ??
@@ -1461,26 +1470,35 @@ class DocumentBlock {
   }
 }
 
-enum DocumentFormat {
-  pdf('pdf'),
-  csv('csv'),
-  doc('doc'),
-  docx('docx'),
-  xls('xls'),
-  xlsx('xlsx'),
-  html('html'),
-  txt('txt'),
-  md('md'),
-  ;
+class DocumentFormat {
+  static const pdf = DocumentFormat._('pdf');
+  static const csv = DocumentFormat._('csv');
+  static const doc = DocumentFormat._('doc');
+  static const docx = DocumentFormat._('docx');
+  static const xls = DocumentFormat._('xls');
+  static const xlsx = DocumentFormat._('xlsx');
+  static const html = DocumentFormat._('html');
+  static const txt = DocumentFormat._('txt');
+  static const md = DocumentFormat._('md');
 
   final String value;
 
-  const DocumentFormat(this.value);
+  const DocumentFormat._(this.value);
+
+  static const values = [pdf, csv, doc, docx, xls, xlsx, html, txt, md];
 
   static DocumentFormat fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum DocumentFormat'));
+          orElse: () => DocumentFormat._(value));
+
+  @override
+  bool operator ==(other) => other is DocumentFormat && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains the content of a document.
@@ -1507,19 +1525,28 @@ class DocumentSource {
   }
 }
 
-enum GuardrailAction {
-  none('NONE'),
-  guardrailIntervened('GUARDRAIL_INTERVENED'),
-  ;
+class GuardrailAction {
+  static const none = GuardrailAction._('NONE');
+  static const guardrailIntervened = GuardrailAction._('GUARDRAIL_INTERVENED');
 
   final String value;
 
-  const GuardrailAction(this.value);
+  const GuardrailAction._(this.value);
+
+  static const values = [none, guardrailIntervened];
 
   static GuardrailAction fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum GuardrailAction'));
+          orElse: () => GuardrailAction._(value));
+
+  @override
+  bool operator ==(other) => other is GuardrailAction && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A behavior assessment of the guardrail policies used in a call to the
@@ -1659,11 +1686,12 @@ class GuardrailContentFilter {
 
   factory GuardrailContentFilter.fromJson(Map<String, dynamic> json) {
     return GuardrailContentFilter(
-      action:
-          GuardrailContentPolicyAction.fromString((json['action'] as String)),
+      action: GuardrailContentPolicyAction.fromString(
+          (json['action'] as String?) ?? ''),
       confidence: GuardrailContentFilterConfidence.fromString(
-          (json['confidence'] as String)),
-      type: GuardrailContentFilterType.fromString((json['type'] as String)),
+          (json['confidence'] as String?) ?? ''),
+      type: GuardrailContentFilterType.fromString(
+          (json['type'] as String?) ?? ''),
     );
   }
 
@@ -1679,54 +1707,91 @@ class GuardrailContentFilter {
   }
 }
 
-enum GuardrailContentFilterConfidence {
-  none('NONE'),
-  low('LOW'),
-  medium('MEDIUM'),
-  high('HIGH'),
-  ;
+class GuardrailContentFilterConfidence {
+  static const none = GuardrailContentFilterConfidence._('NONE');
+  static const low = GuardrailContentFilterConfidence._('LOW');
+  static const medium = GuardrailContentFilterConfidence._('MEDIUM');
+  static const high = GuardrailContentFilterConfidence._('HIGH');
 
   final String value;
 
-  const GuardrailContentFilterConfidence(this.value);
+  const GuardrailContentFilterConfidence._(this.value);
+
+  static const values = [none, low, medium, high];
 
   static GuardrailContentFilterConfidence fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum GuardrailContentFilterConfidence'));
+          orElse: () => GuardrailContentFilterConfidence._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is GuardrailContentFilterConfidence && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum GuardrailContentFilterType {
-  insults('INSULTS'),
-  hate('HATE'),
-  sexual('SEXUAL'),
-  violence('VIOLENCE'),
-  misconduct('MISCONDUCT'),
-  promptAttack('PROMPT_ATTACK'),
-  ;
+class GuardrailContentFilterType {
+  static const insults = GuardrailContentFilterType._('INSULTS');
+  static const hate = GuardrailContentFilterType._('HATE');
+  static const sexual = GuardrailContentFilterType._('SEXUAL');
+  static const violence = GuardrailContentFilterType._('VIOLENCE');
+  static const misconduct = GuardrailContentFilterType._('MISCONDUCT');
+  static const promptAttack = GuardrailContentFilterType._('PROMPT_ATTACK');
 
   final String value;
 
-  const GuardrailContentFilterType(this.value);
+  const GuardrailContentFilterType._(this.value);
+
+  static const values = [
+    insults,
+    hate,
+    sexual,
+    violence,
+    misconduct,
+    promptAttack
+  ];
 
   static GuardrailContentFilterType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum GuardrailContentFilterType'));
+          orElse: () => GuardrailContentFilterType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is GuardrailContentFilterType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum GuardrailContentPolicyAction {
-  blocked('BLOCKED'),
-  ;
+class GuardrailContentPolicyAction {
+  static const blocked = GuardrailContentPolicyAction._('BLOCKED');
 
   final String value;
 
-  const GuardrailContentPolicyAction(this.value);
+  const GuardrailContentPolicyAction._(this.value);
+
+  static const values = [blocked];
 
   static GuardrailContentPolicyAction fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum GuardrailContentPolicyAction'));
+          orElse: () => GuardrailContentPolicyAction._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is GuardrailContentPolicyAction && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// An assessment of a content policy for a guardrail.
@@ -1756,35 +1821,56 @@ class GuardrailContentPolicyAssessment {
   }
 }
 
-enum GuardrailContentQualifier {
-  groundingSource('grounding_source'),
-  query('query'),
-  guardContent('guard_content'),
-  ;
+class GuardrailContentQualifier {
+  static const groundingSource =
+      GuardrailContentQualifier._('grounding_source');
+  static const query = GuardrailContentQualifier._('query');
+  static const guardContent = GuardrailContentQualifier._('guard_content');
 
   final String value;
 
-  const GuardrailContentQualifier(this.value);
+  const GuardrailContentQualifier._(this.value);
+
+  static const values = [groundingSource, query, guardContent];
 
   static GuardrailContentQualifier fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum GuardrailContentQualifier'));
+          orElse: () => GuardrailContentQualifier._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is GuardrailContentQualifier && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum GuardrailContentSource {
-  input('INPUT'),
-  output('OUTPUT'),
-  ;
+class GuardrailContentSource {
+  static const input = GuardrailContentSource._('INPUT');
+  static const output = GuardrailContentSource._('OUTPUT');
 
   final String value;
 
-  const GuardrailContentSource(this.value);
+  const GuardrailContentSource._(this.value);
+
+  static const values = [input, output];
 
   static GuardrailContentSource fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum GuardrailContentSource'));
+          orElse: () => GuardrailContentSource._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is GuardrailContentSource && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The details for the guardrails contextual grounding filter.
@@ -1813,11 +1899,11 @@ class GuardrailContextualGroundingFilter {
       Map<String, dynamic> json) {
     return GuardrailContextualGroundingFilter(
       action: GuardrailContextualGroundingPolicyAction.fromString(
-          (json['action'] as String)),
+          (json['action'] as String?) ?? ''),
       score: (json['score'] as double?) ?? 0,
       threshold: (json['threshold'] as double?) ?? 0,
       type: GuardrailContextualGroundingFilterType.fromString(
-          (json['type'] as String)),
+          (json['type'] as String?) ?? ''),
     );
   }
 
@@ -1835,34 +1921,56 @@ class GuardrailContextualGroundingFilter {
   }
 }
 
-enum GuardrailContextualGroundingFilterType {
-  grounding('GROUNDING'),
-  relevance('RELEVANCE'),
-  ;
+class GuardrailContextualGroundingFilterType {
+  static const grounding =
+      GuardrailContextualGroundingFilterType._('GROUNDING');
+  static const relevance =
+      GuardrailContextualGroundingFilterType._('RELEVANCE');
 
   final String value;
 
-  const GuardrailContextualGroundingFilterType(this.value);
+  const GuardrailContextualGroundingFilterType._(this.value);
+
+  static const values = [grounding, relevance];
 
   static GuardrailContextualGroundingFilterType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum GuardrailContextualGroundingFilterType'));
+          orElse: () => GuardrailContextualGroundingFilterType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is GuardrailContextualGroundingFilterType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum GuardrailContextualGroundingPolicyAction {
-  blocked('BLOCKED'),
-  none('NONE'),
-  ;
+class GuardrailContextualGroundingPolicyAction {
+  static const blocked = GuardrailContextualGroundingPolicyAction._('BLOCKED');
+  static const none = GuardrailContextualGroundingPolicyAction._('NONE');
 
   final String value;
 
-  const GuardrailContextualGroundingPolicyAction(this.value);
+  const GuardrailContextualGroundingPolicyAction._(this.value);
+
+  static const values = [blocked, none];
 
   static GuardrailContextualGroundingPolicyAction fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum GuardrailContextualGroundingPolicyAction'));
+          orElse: () => GuardrailContextualGroundingPolicyAction._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is GuardrailContextualGroundingPolicyAction && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The policy assessment details for the guardrails contextual grounding
@@ -1925,20 +2033,32 @@ class GuardrailConverseContentBlock {
   }
 }
 
-enum GuardrailConverseContentQualifier {
-  groundingSource('grounding_source'),
-  query('query'),
-  guardContent('guard_content'),
-  ;
+class GuardrailConverseContentQualifier {
+  static const groundingSource =
+      GuardrailConverseContentQualifier._('grounding_source');
+  static const query = GuardrailConverseContentQualifier._('query');
+  static const guardContent =
+      GuardrailConverseContentQualifier._('guard_content');
 
   final String value;
 
-  const GuardrailConverseContentQualifier(this.value);
+  const GuardrailConverseContentQualifier._(this.value);
+
+  static const values = [groundingSource, query, guardContent];
 
   static GuardrailConverseContentQualifier fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum GuardrailConverseContentQualifier'));
+          orElse: () => GuardrailConverseContentQualifier._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is GuardrailConverseContentQualifier && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A text block that contains text that you want to assess with a guardrail.
@@ -1992,7 +2112,8 @@ class GuardrailCustomWord {
 
   factory GuardrailCustomWord.fromJson(Map<String, dynamic> json) {
     return GuardrailCustomWord(
-      action: GuardrailWordPolicyAction.fromString((json['action'] as String)),
+      action: GuardrailWordPolicyAction.fromString(
+          (json['action'] as String?) ?? ''),
       match: (json['match'] as String?) ?? '',
     );
   }
@@ -2026,9 +2147,11 @@ class GuardrailManagedWord {
 
   factory GuardrailManagedWord.fromJson(Map<String, dynamic> json) {
     return GuardrailManagedWord(
-      action: GuardrailWordPolicyAction.fromString((json['action'] as String)),
+      action: GuardrailWordPolicyAction.fromString(
+          (json['action'] as String?) ?? ''),
       match: (json['match'] as String?) ?? '',
-      type: GuardrailManagedWordType.fromString((json['type'] as String)),
+      type:
+          GuardrailManagedWordType.fromString((json['type'] as String?) ?? ''),
     );
   }
 
@@ -2044,18 +2167,28 @@ class GuardrailManagedWord {
   }
 }
 
-enum GuardrailManagedWordType {
-  profanity('PROFANITY'),
-  ;
+class GuardrailManagedWordType {
+  static const profanity = GuardrailManagedWordType._('PROFANITY');
 
   final String value;
 
-  const GuardrailManagedWordType(this.value);
+  const GuardrailManagedWordType._(this.value);
+
+  static const values = [profanity];
 
   static GuardrailManagedWordType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum GuardrailManagedWordType'));
+          orElse: () => GuardrailManagedWordType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is GuardrailManagedWordType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The output content produced by the guardrail.
@@ -2102,9 +2235,9 @@ class GuardrailPiiEntityFilter {
   factory GuardrailPiiEntityFilter.fromJson(Map<String, dynamic> json) {
     return GuardrailPiiEntityFilter(
       action: GuardrailSensitiveInformationPolicyAction.fromString(
-          (json['action'] as String)),
+          (json['action'] as String?) ?? ''),
       match: (json['match'] as String?) ?? '',
-      type: GuardrailPiiEntityType.fromString((json['type'] as String)),
+      type: GuardrailPiiEntityType.fromString((json['type'] as String?) ?? ''),
     );
   }
 
@@ -2120,49 +2253,104 @@ class GuardrailPiiEntityFilter {
   }
 }
 
-enum GuardrailPiiEntityType {
-  address('ADDRESS'),
-  age('AGE'),
-  awsAccessKey('AWS_ACCESS_KEY'),
-  awsSecretKey('AWS_SECRET_KEY'),
-  caHealthNumber('CA_HEALTH_NUMBER'),
-  caSocialInsuranceNumber('CA_SOCIAL_INSURANCE_NUMBER'),
-  creditDebitCardCvv('CREDIT_DEBIT_CARD_CVV'),
-  creditDebitCardExpiry('CREDIT_DEBIT_CARD_EXPIRY'),
-  creditDebitCardNumber('CREDIT_DEBIT_CARD_NUMBER'),
-  driverId('DRIVER_ID'),
-  email('EMAIL'),
-  internationalBankAccountNumber('INTERNATIONAL_BANK_ACCOUNT_NUMBER'),
-  ipAddress('IP_ADDRESS'),
-  licensePlate('LICENSE_PLATE'),
-  macAddress('MAC_ADDRESS'),
-  name('NAME'),
-  password('PASSWORD'),
-  phone('PHONE'),
-  pin('PIN'),
-  swiftCode('SWIFT_CODE'),
-  ukNationalHealthServiceNumber('UK_NATIONAL_HEALTH_SERVICE_NUMBER'),
-  ukNationalInsuranceNumber('UK_NATIONAL_INSURANCE_NUMBER'),
-  ukUniqueTaxpayerReferenceNumber('UK_UNIQUE_TAXPAYER_REFERENCE_NUMBER'),
-  url('URL'),
-  username('USERNAME'),
-  usBankAccountNumber('US_BANK_ACCOUNT_NUMBER'),
-  usBankRoutingNumber('US_BANK_ROUTING_NUMBER'),
-  usIndividualTaxIdentificationNumber(
-      'US_INDIVIDUAL_TAX_IDENTIFICATION_NUMBER'),
-  usPassportNumber('US_PASSPORT_NUMBER'),
-  usSocialSecurityNumber('US_SOCIAL_SECURITY_NUMBER'),
-  vehicleIdentificationNumber('VEHICLE_IDENTIFICATION_NUMBER'),
-  ;
+class GuardrailPiiEntityType {
+  static const address = GuardrailPiiEntityType._('ADDRESS');
+  static const age = GuardrailPiiEntityType._('AGE');
+  static const awsAccessKey = GuardrailPiiEntityType._('AWS_ACCESS_KEY');
+  static const awsSecretKey = GuardrailPiiEntityType._('AWS_SECRET_KEY');
+  static const caHealthNumber = GuardrailPiiEntityType._('CA_HEALTH_NUMBER');
+  static const caSocialInsuranceNumber =
+      GuardrailPiiEntityType._('CA_SOCIAL_INSURANCE_NUMBER');
+  static const creditDebitCardCvv =
+      GuardrailPiiEntityType._('CREDIT_DEBIT_CARD_CVV');
+  static const creditDebitCardExpiry =
+      GuardrailPiiEntityType._('CREDIT_DEBIT_CARD_EXPIRY');
+  static const creditDebitCardNumber =
+      GuardrailPiiEntityType._('CREDIT_DEBIT_CARD_NUMBER');
+  static const driverId = GuardrailPiiEntityType._('DRIVER_ID');
+  static const email = GuardrailPiiEntityType._('EMAIL');
+  static const internationalBankAccountNumber =
+      GuardrailPiiEntityType._('INTERNATIONAL_BANK_ACCOUNT_NUMBER');
+  static const ipAddress = GuardrailPiiEntityType._('IP_ADDRESS');
+  static const licensePlate = GuardrailPiiEntityType._('LICENSE_PLATE');
+  static const macAddress = GuardrailPiiEntityType._('MAC_ADDRESS');
+  static const name = GuardrailPiiEntityType._('NAME');
+  static const password = GuardrailPiiEntityType._('PASSWORD');
+  static const phone = GuardrailPiiEntityType._('PHONE');
+  static const pin = GuardrailPiiEntityType._('PIN');
+  static const swiftCode = GuardrailPiiEntityType._('SWIFT_CODE');
+  static const ukNationalHealthServiceNumber =
+      GuardrailPiiEntityType._('UK_NATIONAL_HEALTH_SERVICE_NUMBER');
+  static const ukNationalInsuranceNumber =
+      GuardrailPiiEntityType._('UK_NATIONAL_INSURANCE_NUMBER');
+  static const ukUniqueTaxpayerReferenceNumber =
+      GuardrailPiiEntityType._('UK_UNIQUE_TAXPAYER_REFERENCE_NUMBER');
+  static const url = GuardrailPiiEntityType._('URL');
+  static const username = GuardrailPiiEntityType._('USERNAME');
+  static const usBankAccountNumber =
+      GuardrailPiiEntityType._('US_BANK_ACCOUNT_NUMBER');
+  static const usBankRoutingNumber =
+      GuardrailPiiEntityType._('US_BANK_ROUTING_NUMBER');
+  static const usIndividualTaxIdentificationNumber =
+      GuardrailPiiEntityType._('US_INDIVIDUAL_TAX_IDENTIFICATION_NUMBER');
+  static const usPassportNumber =
+      GuardrailPiiEntityType._('US_PASSPORT_NUMBER');
+  static const usSocialSecurityNumber =
+      GuardrailPiiEntityType._('US_SOCIAL_SECURITY_NUMBER');
+  static const vehicleIdentificationNumber =
+      GuardrailPiiEntityType._('VEHICLE_IDENTIFICATION_NUMBER');
 
   final String value;
 
-  const GuardrailPiiEntityType(this.value);
+  const GuardrailPiiEntityType._(this.value);
+
+  static const values = [
+    address,
+    age,
+    awsAccessKey,
+    awsSecretKey,
+    caHealthNumber,
+    caSocialInsuranceNumber,
+    creditDebitCardCvv,
+    creditDebitCardExpiry,
+    creditDebitCardNumber,
+    driverId,
+    email,
+    internationalBankAccountNumber,
+    ipAddress,
+    licensePlate,
+    macAddress,
+    name,
+    password,
+    phone,
+    pin,
+    swiftCode,
+    ukNationalHealthServiceNumber,
+    ukNationalInsuranceNumber,
+    ukUniqueTaxpayerReferenceNumber,
+    url,
+    username,
+    usBankAccountNumber,
+    usBankRoutingNumber,
+    usIndividualTaxIdentificationNumber,
+    usPassportNumber,
+    usSocialSecurityNumber,
+    vehicleIdentificationNumber
+  ];
 
   static GuardrailPiiEntityType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum GuardrailPiiEntityType'));
+          orElse: () => GuardrailPiiEntityType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is GuardrailPiiEntityType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A Regex filter configured in a guardrail.
@@ -2189,7 +2377,7 @@ class GuardrailRegexFilter {
   factory GuardrailRegexFilter.fromJson(Map<String, dynamic> json) {
     return GuardrailRegexFilter(
       action: GuardrailSensitiveInformationPolicyAction.fromString(
-          (json['action'] as String)),
+          (json['action'] as String?) ?? ''),
       match: json['match'] as String?,
       name: json['name'] as String?,
       regex: json['regex'] as String?,
@@ -2210,19 +2398,31 @@ class GuardrailRegexFilter {
   }
 }
 
-enum GuardrailSensitiveInformationPolicyAction {
-  anonymized('ANONYMIZED'),
-  blocked('BLOCKED'),
-  ;
+class GuardrailSensitiveInformationPolicyAction {
+  static const anonymized =
+      GuardrailSensitiveInformationPolicyAction._('ANONYMIZED');
+  static const blocked = GuardrailSensitiveInformationPolicyAction._('BLOCKED');
 
   final String value;
 
-  const GuardrailSensitiveInformationPolicyAction(this.value);
+  const GuardrailSensitiveInformationPolicyAction._(this.value);
+
+  static const values = [anonymized, blocked];
 
   static GuardrailSensitiveInformationPolicyAction fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum GuardrailSensitiveInformationPolicyAction'));
+          orElse: () => GuardrailSensitiveInformationPolicyAction._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is GuardrailSensitiveInformationPolicyAction &&
+      other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The assessment for aPersonally Identifiable Information (PII) policy.
@@ -2303,19 +2503,29 @@ class GuardrailStreamConfiguration {
   }
 }
 
-enum GuardrailStreamProcessingMode {
-  sync('sync'),
-  async('async'),
-  ;
+class GuardrailStreamProcessingMode {
+  static const sync = GuardrailStreamProcessingMode._('sync');
+  static const async = GuardrailStreamProcessingMode._('async');
 
   final String value;
 
-  const GuardrailStreamProcessingMode(this.value);
+  const GuardrailStreamProcessingMode._(this.value);
+
+  static const values = [sync, async];
 
   static GuardrailStreamProcessingMode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum GuardrailStreamProcessingMode'));
+          orElse: () => GuardrailStreamProcessingMode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is GuardrailStreamProcessingMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The text block to be evaluated by the guardrail.
@@ -2362,9 +2572,10 @@ class GuardrailTopic {
 
   factory GuardrailTopic.fromJson(Map<String, dynamic> json) {
     return GuardrailTopic(
-      action: GuardrailTopicPolicyAction.fromString((json['action'] as String)),
+      action: GuardrailTopicPolicyAction.fromString(
+          (json['action'] as String?) ?? ''),
       name: (json['name'] as String?) ?? '',
-      type: GuardrailTopicType.fromString((json['type'] as String)),
+      type: GuardrailTopicType.fromString((json['type'] as String?) ?? ''),
     );
   }
 
@@ -2380,18 +2591,28 @@ class GuardrailTopic {
   }
 }
 
-enum GuardrailTopicPolicyAction {
-  blocked('BLOCKED'),
-  ;
+class GuardrailTopicPolicyAction {
+  static const blocked = GuardrailTopicPolicyAction._('BLOCKED');
 
   final String value;
 
-  const GuardrailTopicPolicyAction(this.value);
+  const GuardrailTopicPolicyAction._(this.value);
+
+  static const values = [blocked];
 
   static GuardrailTopicPolicyAction fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum GuardrailTopicPolicyAction'));
+          orElse: () => GuardrailTopicPolicyAction._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is GuardrailTopicPolicyAction && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A behavior assessment of a topic policy.
@@ -2420,33 +2641,52 @@ class GuardrailTopicPolicyAssessment {
   }
 }
 
-enum GuardrailTopicType {
-  deny('DENY'),
-  ;
+class GuardrailTopicType {
+  static const deny = GuardrailTopicType._('DENY');
 
   final String value;
 
-  const GuardrailTopicType(this.value);
+  const GuardrailTopicType._(this.value);
 
-  static GuardrailTopicType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum GuardrailTopicType'));
+  static const values = [deny];
+
+  static GuardrailTopicType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => GuardrailTopicType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is GuardrailTopicType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum GuardrailTrace {
-  enabled('enabled'),
-  disabled('disabled'),
-  ;
+class GuardrailTrace {
+  static const enabled = GuardrailTrace._('enabled');
+  static const disabled = GuardrailTrace._('disabled');
 
   final String value;
 
-  const GuardrailTrace(this.value);
+  const GuardrailTrace._(this.value);
+
+  static const values = [enabled, disabled];
 
   static GuardrailTrace fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum GuardrailTrace'));
+          orElse: () => GuardrailTrace._(value));
+
+  @override
+  bool operator ==(other) => other is GuardrailTrace && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A Top level guardrail trace object. For more information, see
@@ -2563,18 +2803,28 @@ class GuardrailUsage {
   }
 }
 
-enum GuardrailWordPolicyAction {
-  blocked('BLOCKED'),
-  ;
+class GuardrailWordPolicyAction {
+  static const blocked = GuardrailWordPolicyAction._('BLOCKED');
 
   final String value;
 
-  const GuardrailWordPolicyAction(this.value);
+  const GuardrailWordPolicyAction._(this.value);
+
+  static const values = [blocked];
 
   static GuardrailWordPolicyAction fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum GuardrailWordPolicyAction'));
+          orElse: () => GuardrailWordPolicyAction._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is GuardrailWordPolicyAction && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The word policy assessment.
@@ -2628,7 +2878,7 @@ class ImageBlock {
 
   factory ImageBlock.fromJson(Map<String, dynamic> json) {
     return ImageBlock(
-      format: ImageFormat.fromString((json['format'] as String)),
+      format: ImageFormat.fromString((json['format'] as String?) ?? ''),
       source: ImageSource.fromJson((json['source'] as Map<String, dynamic>?) ??
           const <String, dynamic>{}),
     );
@@ -2644,20 +2894,29 @@ class ImageBlock {
   }
 }
 
-enum ImageFormat {
-  png('png'),
-  jpeg('jpeg'),
-  gif('gif'),
-  webp('webp'),
-  ;
+class ImageFormat {
+  static const png = ImageFormat._('png');
+  static const jpeg = ImageFormat._('jpeg');
+  static const gif = ImageFormat._('gif');
+  static const webp = ImageFormat._('webp');
 
   final String value;
 
-  const ImageFormat(this.value);
+  const ImageFormat._(this.value);
 
-  static ImageFormat fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum ImageFormat'));
+  static const values = [png, jpeg, gif, webp];
+
+  static ImageFormat fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ImageFormat._(value));
+
+  @override
+  bool operator ==(other) => other is ImageFormat && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The source for an image.
@@ -2867,7 +3126,7 @@ class Message {
           .nonNulls
           .map((e) => ContentBlock.fromJson(e as Map<String, dynamic>))
           .toList(),
-      role: ConversationRole.fromString((json['role'] as String)),
+      role: ConversationRole.fromString((json['role'] as String?) ?? ''),
     );
   }
 
@@ -2892,7 +3151,7 @@ class MessageStartEvent {
 
   factory MessageStartEvent.fromJson(Map<String, dynamic> json) {
     return MessageStartEvent(
-      role: ConversationRole.fromString((json['role'] as String)),
+      role: ConversationRole.fromString((json['role'] as String?) ?? ''),
     );
   }
 
@@ -2919,7 +3178,7 @@ class MessageStopEvent {
 
   factory MessageStopEvent.fromJson(Map<String, dynamic> json) {
     return MessageStopEvent(
-      stopReason: StopReason.fromString((json['stopReason'] as String)),
+      stopReason: StopReason.fromString((json['stopReason'] as String?) ?? ''),
       additionalModelResponseFields:
           json['additionalModelResponseFields'] != null
               ? Document.fromJson(
@@ -3158,22 +3417,38 @@ class SpecificToolChoice {
   }
 }
 
-enum StopReason {
-  endTurn('end_turn'),
-  toolUse('tool_use'),
-  maxTokens('max_tokens'),
-  stopSequence('stop_sequence'),
-  guardrailIntervened('guardrail_intervened'),
-  contentFiltered('content_filtered'),
-  ;
+class StopReason {
+  static const endTurn = StopReason._('end_turn');
+  static const toolUse = StopReason._('tool_use');
+  static const maxTokens = StopReason._('max_tokens');
+  static const stopSequence = StopReason._('stop_sequence');
+  static const guardrailIntervened = StopReason._('guardrail_intervened');
+  static const contentFiltered = StopReason._('content_filtered');
 
   final String value;
 
-  const StopReason(this.value);
+  const StopReason._(this.value);
 
-  static StopReason fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum StopReason'));
+  static const values = [
+    endTurn,
+    toolUse,
+    maxTokens,
+    stopSequence,
+    guardrailIntervened,
+    contentFiltered
+  ];
+
+  static StopReason fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => StopReason._(value));
+
+  @override
+  bool operator ==(other) => other is StopReason && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A system content block.
@@ -3470,19 +3745,28 @@ class ToolResultContentBlock {
   }
 }
 
-enum ToolResultStatus {
-  success('success'),
-  error('error'),
-  ;
+class ToolResultStatus {
+  static const success = ToolResultStatus._('success');
+  static const error = ToolResultStatus._('error');
 
   final String value;
 
-  const ToolResultStatus(this.value);
+  const ToolResultStatus._(this.value);
+
+  static const values = [success, error];
 
   static ToolResultStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ToolResultStatus'));
+          orElse: () => ToolResultStatus._(value));
+
+  @override
+  bool operator ==(other) => other is ToolResultStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The specification for the tool.
@@ -3607,18 +3891,27 @@ class ToolUseBlockStart {
   }
 }
 
-enum Trace {
-  enabled('ENABLED'),
-  disabled('DISABLED'),
-  ;
+class Trace {
+  static const enabled = Trace._('ENABLED');
+  static const disabled = Trace._('DISABLED');
 
   final String value;
 
-  const Trace(this.value);
+  const Trace._(this.value);
+
+  static const values = [enabled, disabled];
 
   static Trace fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum Trace'));
+      values.firstWhere((e) => e.value == value, orElse: () => Trace._(value));
+
+  @override
+  bool operator ==(other) => other is Trace && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Input validation failed. Check your request parameters and retry the

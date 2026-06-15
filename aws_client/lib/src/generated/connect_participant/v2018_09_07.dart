@@ -635,20 +635,29 @@ class ConnectParticipant {
   }
 }
 
-enum ArtifactStatus {
-  approved('APPROVED'),
-  rejected('REJECTED'),
-  inProgress('IN_PROGRESS'),
-  ;
+class ArtifactStatus {
+  static const approved = ArtifactStatus._('APPROVED');
+  static const rejected = ArtifactStatus._('REJECTED');
+  static const inProgress = ArtifactStatus._('IN_PROGRESS');
 
   final String value;
 
-  const ArtifactStatus(this.value);
+  const ArtifactStatus._(this.value);
+
+  static const values = [approved, rejected, inProgress];
 
   static ArtifactStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ArtifactStatus'));
+          orElse: () => ArtifactStatus._(value));
+
+  @override
+  bool operator ==(other) => other is ArtifactStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The case-insensitive input to indicate standard MIME type that describes the
@@ -699,29 +708,50 @@ class AttachmentItem {
   }
 }
 
-enum ChatItemType {
-  typing('TYPING'),
-  participantJoined('PARTICIPANT_JOINED'),
-  participantLeft('PARTICIPANT_LEFT'),
-  chatEnded('CHAT_ENDED'),
-  transferSucceeded('TRANSFER_SUCCEEDED'),
-  transferFailed('TRANSFER_FAILED'),
-  message('MESSAGE'),
-  event('EVENT'),
-  attachment('ATTACHMENT'),
-  connectionAck('CONNECTION_ACK'),
-  messageDelivered('MESSAGE_DELIVERED'),
-  messageRead('MESSAGE_READ'),
-  ;
+class ChatItemType {
+  static const typing = ChatItemType._('TYPING');
+  static const participantJoined = ChatItemType._('PARTICIPANT_JOINED');
+  static const participantLeft = ChatItemType._('PARTICIPANT_LEFT');
+  static const chatEnded = ChatItemType._('CHAT_ENDED');
+  static const transferSucceeded = ChatItemType._('TRANSFER_SUCCEEDED');
+  static const transferFailed = ChatItemType._('TRANSFER_FAILED');
+  static const message = ChatItemType._('MESSAGE');
+  static const event = ChatItemType._('EVENT');
+  static const attachment = ChatItemType._('ATTACHMENT');
+  static const connectionAck = ChatItemType._('CONNECTION_ACK');
+  static const messageDelivered = ChatItemType._('MESSAGE_DELIVERED');
+  static const messageRead = ChatItemType._('MESSAGE_READ');
 
   final String value;
 
-  const ChatItemType(this.value);
+  const ChatItemType._(this.value);
 
-  static ChatItemType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ChatItemType'));
+  static const values = [
+    typing,
+    participantJoined,
+    participantLeft,
+    chatEnded,
+    transferSucceeded,
+    transferFailed,
+    message,
+    event,
+    attachment,
+    connectionAck,
+    messageDelivered,
+    messageRead
+  ];
+
+  static ChatItemType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ChatItemType._(value));
+
+  @override
+  bool operator ==(other) => other is ChatItemType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class CompleteAttachmentUploadResponse {
@@ -769,19 +799,29 @@ class ConnectionCredentials {
   }
 }
 
-enum ConnectionType {
-  websocket('WEBSOCKET'),
-  connectionCredentials('CONNECTION_CREDENTIALS'),
-  ;
+class ConnectionType {
+  static const websocket = ConnectionType._('WEBSOCKET');
+  static const connectionCredentials =
+      ConnectionType._('CONNECTION_CREDENTIALS');
 
   final String value;
 
-  const ConnectionType(this.value);
+  const ConnectionType._(this.value);
+
+  static const values = [websocket, connectionCredentials];
 
   static ConnectionType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ConnectionType'));
+          orElse: () => ConnectionType._(value));
+
+  @override
+  bool operator ==(other) => other is ConnectionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class CreateParticipantConnectionResponse {
@@ -1079,22 +1119,31 @@ class MessageMetadata {
   }
 }
 
-enum ParticipantRole {
-  agent('AGENT'),
-  customer('CUSTOMER'),
-  system('SYSTEM'),
-  customBot('CUSTOM_BOT'),
-  supervisor('SUPERVISOR'),
-  ;
+class ParticipantRole {
+  static const agent = ParticipantRole._('AGENT');
+  static const customer = ParticipantRole._('CUSTOMER');
+  static const system = ParticipantRole._('SYSTEM');
+  static const customBot = ParticipantRole._('CUSTOM_BOT');
+  static const supervisor = ParticipantRole._('SUPERVISOR');
 
   final String value;
 
-  const ParticipantRole(this.value);
+  const ParticipantRole._(this.value);
+
+  static const values = [agent, customer, system, customBot, supervisor];
 
   static ParticipantRole fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ParticipantRole'));
+          orElse: () => ParticipantRole._(value));
+
+  @override
+  bool operator ==(other) => other is ParticipantRole && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The receipt for the message delivered to the recipient.
@@ -1135,19 +1184,28 @@ class Receipt {
   }
 }
 
-enum ScanDirection {
-  forward('FORWARD'),
-  backward('BACKWARD'),
-  ;
+class ScanDirection {
+  static const forward = ScanDirection._('FORWARD');
+  static const backward = ScanDirection._('BACKWARD');
 
   final String value;
 
-  const ScanDirection(this.value);
+  const ScanDirection._(this.value);
+
+  static const values = [forward, backward];
 
   static ScanDirection fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ScanDirection'));
+          orElse: () => ScanDirection._(value));
+
+  @override
+  bool operator ==(other) => other is ScanDirection && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class SendEventResponse {
@@ -1214,18 +1272,27 @@ class SendMessageResponse {
   }
 }
 
-enum SortKey {
-  descending('DESCENDING'),
-  ascending('ASCENDING'),
-  ;
+class SortKey {
+  static const descending = SortKey._('DESCENDING');
+  static const ascending = SortKey._('ASCENDING');
 
   final String value;
 
-  const SortKey(this.value);
+  const SortKey._(this.value);
 
-  static SortKey fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum SortKey'));
+  static const values = [descending, ascending];
+
+  static SortKey fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => SortKey._(value));
+
+  @override
+  bool operator ==(other) => other is SortKey && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class StartAttachmentUploadResponse {

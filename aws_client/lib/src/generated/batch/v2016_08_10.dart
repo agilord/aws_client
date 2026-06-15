@@ -1734,19 +1734,29 @@ class Batch {
   }
 }
 
-enum ArrayJobDependency {
-  nToN('N_TO_N'),
-  sequential('SEQUENTIAL'),
-  ;
+class ArrayJobDependency {
+  static const nToN = ArrayJobDependency._('N_TO_N');
+  static const sequential = ArrayJobDependency._('SEQUENTIAL');
 
   final String value;
 
-  const ArrayJobDependency(this.value);
+  const ArrayJobDependency._(this.value);
 
-  static ArrayJobDependency fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ArrayJobDependency'));
+  static const values = [nToN, sequential];
+
+  static ArrayJobDependency fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ArrayJobDependency._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ArrayJobDependency && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// An object that represents an Batch array job.
@@ -1837,19 +1847,28 @@ class ArrayPropertiesSummary {
   }
 }
 
-enum AssignPublicIp {
-  enabled('ENABLED'),
-  disabled('DISABLED'),
-  ;
+class AssignPublicIp {
+  static const enabled = AssignPublicIp._('ENABLED');
+  static const disabled = AssignPublicIp._('DISABLED');
 
   final String value;
 
-  const AssignPublicIp(this.value);
+  const AssignPublicIp._(this.value);
+
+  static const values = [enabled, disabled];
 
   static AssignPublicIp fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum AssignPublicIp'));
+          orElse: () => AssignPublicIp._(value));
+
+  @override
+  bool operator ==(other) => other is AssignPublicIp && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// An object that represents the details of a container that's part of a job
@@ -2090,99 +2109,170 @@ class AttemptTaskContainerDetails {
   }
 }
 
-enum CEState {
-  enabled('ENABLED'),
-  disabled('DISABLED'),
-  ;
+class CEState {
+  static const enabled = CEState._('ENABLED');
+  static const disabled = CEState._('DISABLED');
 
   final String value;
 
-  const CEState(this.value);
+  const CEState._(this.value);
 
-  static CEState fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum CEState'));
+  static const values = [enabled, disabled];
+
+  static CEState fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => CEState._(value));
+
+  @override
+  bool operator ==(other) => other is CEState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum CEStatus {
-  creating('CREATING'),
-  updating('UPDATING'),
-  deleting('DELETING'),
-  deleted('DELETED'),
-  valid('VALID'),
-  invalid('INVALID'),
-  ;
+class CEStatus {
+  static const creating = CEStatus._('CREATING');
+  static const updating = CEStatus._('UPDATING');
+  static const deleting = CEStatus._('DELETING');
+  static const deleted = CEStatus._('DELETED');
+  static const valid = CEStatus._('VALID');
+  static const invalid = CEStatus._('INVALID');
 
   final String value;
 
-  const CEStatus(this.value);
+  const CEStatus._(this.value);
 
-  static CEStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum CEStatus'));
+  static const values = [creating, updating, deleting, deleted, valid, invalid];
+
+  static CEStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => CEStatus._(value));
+
+  @override
+  bool operator ==(other) => other is CEStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum CEType {
-  managed('MANAGED'),
-  unmanaged('UNMANAGED'),
-  ;
+class CEType {
+  static const managed = CEType._('MANAGED');
+  static const unmanaged = CEType._('UNMANAGED');
 
   final String value;
 
-  const CEType(this.value);
+  const CEType._(this.value);
+
+  static const values = [managed, unmanaged];
 
   static CEType fromString(String value) =>
+      values.firstWhere((e) => e.value == value, orElse: () => CEType._(value));
+
+  @override
+  bool operator ==(other) => other is CEType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class CRAllocationStrategy {
+  static const bestFit = CRAllocationStrategy._('BEST_FIT');
+  static const bestFitProgressive =
+      CRAllocationStrategy._('BEST_FIT_PROGRESSIVE');
+  static const spotCapacityOptimized =
+      CRAllocationStrategy._('SPOT_CAPACITY_OPTIMIZED');
+  static const spotPriceCapacityOptimized =
+      CRAllocationStrategy._('SPOT_PRICE_CAPACITY_OPTIMIZED');
+
+  final String value;
+
+  const CRAllocationStrategy._(this.value);
+
+  static const values = [
+    bestFit,
+    bestFitProgressive,
+    spotCapacityOptimized,
+    spotPriceCapacityOptimized
+  ];
+
+  static CRAllocationStrategy fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum CEType'));
+          orElse: () => CRAllocationStrategy._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CRAllocationStrategy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum CRAllocationStrategy {
-  bestFit('BEST_FIT'),
-  bestFitProgressive('BEST_FIT_PROGRESSIVE'),
-  spotCapacityOptimized('SPOT_CAPACITY_OPTIMIZED'),
-  spotPriceCapacityOptimized('SPOT_PRICE_CAPACITY_OPTIMIZED'),
-  ;
+class CRType {
+  static const ec2 = CRType._('EC2');
+  static const spot = CRType._('SPOT');
+  static const fargate = CRType._('FARGATE');
+  static const fargateSpot = CRType._('FARGATE_SPOT');
 
   final String value;
 
-  const CRAllocationStrategy(this.value);
+  const CRType._(this.value);
 
-  static CRAllocationStrategy fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum CRAllocationStrategy'));
-}
-
-enum CRType {
-  ec2('EC2'),
-  spot('SPOT'),
-  fargate('FARGATE'),
-  fargateSpot('FARGATE_SPOT'),
-  ;
-
-  final String value;
-
-  const CRType(this.value);
+  static const values = [ec2, spot, fargate, fargateSpot];
 
   static CRType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum CRType'));
+      values.firstWhere((e) => e.value == value, orElse: () => CRType._(value));
+
+  @override
+  bool operator ==(other) => other is CRType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum CRUpdateAllocationStrategy {
-  bestFitProgressive('BEST_FIT_PROGRESSIVE'),
-  spotCapacityOptimized('SPOT_CAPACITY_OPTIMIZED'),
-  spotPriceCapacityOptimized('SPOT_PRICE_CAPACITY_OPTIMIZED'),
-  ;
+class CRUpdateAllocationStrategy {
+  static const bestFitProgressive =
+      CRUpdateAllocationStrategy._('BEST_FIT_PROGRESSIVE');
+  static const spotCapacityOptimized =
+      CRUpdateAllocationStrategy._('SPOT_CAPACITY_OPTIMIZED');
+  static const spotPriceCapacityOptimized =
+      CRUpdateAllocationStrategy._('SPOT_PRICE_CAPACITY_OPTIMIZED');
 
   final String value;
 
-  const CRUpdateAllocationStrategy(this.value);
+  const CRUpdateAllocationStrategy._(this.value);
+
+  static const values = [
+    bestFitProgressive,
+    spotCapacityOptimized,
+    spotPriceCapacityOptimized
+  ];
 
   static CRUpdateAllocationStrategy fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum CRUpdateAllocationStrategy'));
+          orElse: () => CRUpdateAllocationStrategy._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CRUpdateAllocationStrategy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class CancelJobResponse {
@@ -2736,7 +2826,7 @@ class ComputeResource {
           .nonNulls
           .map((e) => e as String)
           .toList(),
-      type: CRType.fromString((json['type'] as String)),
+      type: CRType.fromString((json['type'] as String?) ?? ''),
       allocationStrategy: (json['allocationStrategy'] as String?)
           ?.let(CRAllocationStrategy.fromString),
       bidPercentage: json['bidPercentage'] as int?,
@@ -4507,20 +4597,30 @@ class Device {
   }
 }
 
-enum DeviceCgroupPermission {
-  read('READ'),
-  write('WRITE'),
-  mknod('MKNOD'),
-  ;
+class DeviceCgroupPermission {
+  static const read = DeviceCgroupPermission._('READ');
+  static const write = DeviceCgroupPermission._('WRITE');
+  static const mknod = DeviceCgroupPermission._('MKNOD');
 
   final String value;
 
-  const DeviceCgroupPermission(this.value);
+  const DeviceCgroupPermission._(this.value);
+
+  static const values = [read, write, mknod];
 
   static DeviceCgroupPermission fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum DeviceCgroupPermission'));
+          orElse: () => DeviceCgroupPermission._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DeviceCgroupPermission && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The authorization configuration details for the Amazon EFS file system.
@@ -4569,34 +4669,54 @@ class EFSAuthorizationConfig {
   }
 }
 
-enum EFSAuthorizationConfigIAM {
-  enabled('ENABLED'),
-  disabled('DISABLED'),
-  ;
+class EFSAuthorizationConfigIAM {
+  static const enabled = EFSAuthorizationConfigIAM._('ENABLED');
+  static const disabled = EFSAuthorizationConfigIAM._('DISABLED');
 
   final String value;
 
-  const EFSAuthorizationConfigIAM(this.value);
+  const EFSAuthorizationConfigIAM._(this.value);
+
+  static const values = [enabled, disabled];
 
   static EFSAuthorizationConfigIAM fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum EFSAuthorizationConfigIAM'));
+          orElse: () => EFSAuthorizationConfigIAM._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is EFSAuthorizationConfigIAM && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum EFSTransitEncryption {
-  enabled('ENABLED'),
-  disabled('DISABLED'),
-  ;
+class EFSTransitEncryption {
+  static const enabled = EFSTransitEncryption._('ENABLED');
+  static const disabled = EFSTransitEncryption._('DISABLED');
 
   final String value;
 
-  const EFSTransitEncryption(this.value);
+  const EFSTransitEncryption._(this.value);
 
-  static EFSTransitEncryption fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum EFSTransitEncryption'));
+  static const values = [enabled, disabled];
+
+  static EFSTransitEncryption fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => EFSTransitEncryption._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is EFSTransitEncryption && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// This is used when you're using an Amazon Elastic File System file system for
@@ -6653,7 +6773,7 @@ class EvaluateOnExit {
 
   factory EvaluateOnExit.fromJson(Map<String, dynamic> json) {
     return EvaluateOnExit(
-      action: RetryAction.fromString((json['action'] as String)),
+      action: RetryAction.fromString((json['action'] as String?) ?? ''),
       onExitCode: json['onExitCode'] as String?,
       onReason: json['onReason'] as String?,
       onStatusReason: json['onStatusReason'] as String?,
@@ -6932,36 +7052,54 @@ class ImagePullSecret {
   }
 }
 
-enum JQState {
-  enabled('ENABLED'),
-  disabled('DISABLED'),
-  ;
+class JQState {
+  static const enabled = JQState._('ENABLED');
+  static const disabled = JQState._('DISABLED');
 
   final String value;
 
-  const JQState(this.value);
+  const JQState._(this.value);
 
-  static JQState fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum JQState'));
+  static const values = [enabled, disabled];
+
+  static JQState fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => JQState._(value));
+
+  @override
+  bool operator ==(other) => other is JQState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum JQStatus {
-  creating('CREATING'),
-  updating('UPDATING'),
-  deleting('DELETING'),
-  deleted('DELETED'),
-  valid('VALID'),
-  invalid('INVALID'),
-  ;
+class JQStatus {
+  static const creating = JQStatus._('CREATING');
+  static const updating = JQStatus._('UPDATING');
+  static const deleting = JQStatus._('DELETING');
+  static const deleted = JQStatus._('DELETED');
+  static const valid = JQStatus._('VALID');
+  static const invalid = JQStatus._('INVALID');
 
   final String value;
 
-  const JQStatus(this.value);
+  const JQStatus._(this.value);
 
-  static JQStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum JQStatus'));
+  static const values = [creating, updating, deleting, deleted, valid, invalid];
+
+  static JQStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => JQStatus._(value));
+
+  @override
+  bool operator ==(other) => other is JQStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// An object that represents an Batch job definition.
@@ -7167,19 +7305,28 @@ class JobDefinition {
   }
 }
 
-enum JobDefinitionType {
-  container('container'),
-  multinode('multinode'),
-  ;
+class JobDefinitionType {
+  static const container = JobDefinitionType._('container');
+  static const multinode = JobDefinitionType._('multinode');
 
   final String value;
 
-  const JobDefinitionType(this.value);
+  const JobDefinitionType._(this.value);
+
+  static const values = [container, multinode];
 
   static JobDefinitionType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum JobDefinitionType'));
+          orElse: () => JobDefinitionType._(value));
+
+  @override
+  bool operator ==(other) => other is JobDefinitionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// An object that represents an Batch job dependency.
@@ -7396,7 +7543,7 @@ class JobDetail {
       jobName: (json['jobName'] as String?) ?? '',
       jobQueue: (json['jobQueue'] as String?) ?? '',
       startedAt: (json['startedAt'] as int?) ?? 0,
-      status: JobStatus.fromString((json['status'] as String)),
+      status: JobStatus.fromString((json['status'] as String?) ?? ''),
       arrayProperties: json['arrayProperties'] != null
           ? ArrayPropertiesDetail.fromJson(
               json['arrayProperties'] as Map<String, dynamic>)
@@ -7602,7 +7749,7 @@ class JobQueueDetail {
       jobQueueArn: (json['jobQueueArn'] as String?) ?? '',
       jobQueueName: (json['jobQueueName'] as String?) ?? '',
       priority: (json['priority'] as int?) ?? 0,
-      state: JQState.fromString((json['state'] as String)),
+      state: JQState.fromString((json['state'] as String?) ?? ''),
       jobStateTimeLimitActions: (json['jobStateTimeLimitActions'] as List?)
           ?.nonNulls
           .map((e) =>
@@ -7673,12 +7820,12 @@ class JobStateTimeLimitAction {
 
   factory JobStateTimeLimitAction.fromJson(Map<String, dynamic> json) {
     return JobStateTimeLimitAction(
-      action:
-          JobStateTimeLimitActionsAction.fromString((json['action'] as String)),
+      action: JobStateTimeLimitActionsAction.fromString(
+          (json['action'] as String?) ?? ''),
       maxTimeSeconds: (json['maxTimeSeconds'] as int?) ?? 0,
       reason: (json['reason'] as String?) ?? '',
-      state:
-          JobStateTimeLimitActionsState.fromString((json['state'] as String)),
+      state: JobStateTimeLimitActionsState.fromString(
+          (json['state'] as String?) ?? ''),
     );
   }
 
@@ -7696,51 +7843,88 @@ class JobStateTimeLimitAction {
   }
 }
 
-enum JobStateTimeLimitActionsAction {
-  cancel('CANCEL'),
-  ;
+class JobStateTimeLimitActionsAction {
+  static const cancel = JobStateTimeLimitActionsAction._('CANCEL');
 
   final String value;
 
-  const JobStateTimeLimitActionsAction(this.value);
+  const JobStateTimeLimitActionsAction._(this.value);
+
+  static const values = [cancel];
 
   static JobStateTimeLimitActionsAction fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum JobStateTimeLimitActionsAction'));
+          orElse: () => JobStateTimeLimitActionsAction._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is JobStateTimeLimitActionsAction && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum JobStateTimeLimitActionsState {
-  runnable('RUNNABLE'),
-  ;
+class JobStateTimeLimitActionsState {
+  static const runnable = JobStateTimeLimitActionsState._('RUNNABLE');
 
   final String value;
 
-  const JobStateTimeLimitActionsState(this.value);
+  const JobStateTimeLimitActionsState._(this.value);
+
+  static const values = [runnable];
 
   static JobStateTimeLimitActionsState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum JobStateTimeLimitActionsState'));
+          orElse: () => JobStateTimeLimitActionsState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is JobStateTimeLimitActionsState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum JobStatus {
-  submitted('SUBMITTED'),
-  pending('PENDING'),
-  runnable('RUNNABLE'),
-  starting('STARTING'),
-  running('RUNNING'),
-  succeeded('SUCCEEDED'),
-  failed('FAILED'),
-  ;
+class JobStatus {
+  static const submitted = JobStatus._('SUBMITTED');
+  static const pending = JobStatus._('PENDING');
+  static const runnable = JobStatus._('RUNNABLE');
+  static const starting = JobStatus._('STARTING');
+  static const running = JobStatus._('RUNNING');
+  static const succeeded = JobStatus._('SUCCEEDED');
+  static const failed = JobStatus._('FAILED');
 
   final String value;
 
-  const JobStatus(this.value);
+  const JobStatus._(this.value);
 
-  static JobStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum JobStatus'));
+  static const values = [
+    submitted,
+    pending,
+    runnable,
+    starting,
+    running,
+    succeeded,
+    failed
+  ];
+
+  static JobStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => JobStatus._(value));
+
+  @override
+  bool operator ==(other) => other is JobStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// An object that represents summary details of a job.
@@ -8357,7 +8541,7 @@ class LogConfiguration {
 
   factory LogConfiguration.fromJson(Map<String, dynamic> json) {
     return LogConfiguration(
-      logDriver: LogDriver.fromString((json['logDriver'] as String)),
+      logDriver: LogDriver.fromString((json['logDriver'] as String?) ?? ''),
       options: (json['options'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
       secretOptions: (json['secretOptions'] as List?)
@@ -8379,23 +8563,40 @@ class LogConfiguration {
   }
 }
 
-enum LogDriver {
-  jsonFile('json-file'),
-  syslog('syslog'),
-  journald('journald'),
-  gelf('gelf'),
-  fluentd('fluentd'),
-  awslogs('awslogs'),
-  splunk('splunk'),
-  ;
+class LogDriver {
+  static const jsonFile = LogDriver._('json-file');
+  static const syslog = LogDriver._('syslog');
+  static const journald = LogDriver._('journald');
+  static const gelf = LogDriver._('gelf');
+  static const fluentd = LogDriver._('fluentd');
+  static const awslogs = LogDriver._('awslogs');
+  static const splunk = LogDriver._('splunk');
 
   final String value;
 
-  const LogDriver(this.value);
+  const LogDriver._(this.value);
 
-  static LogDriver fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum LogDriver'));
+  static const values = [
+    jsonFile,
+    syslog,
+    journald,
+    gelf,
+    fluentd,
+    awslogs,
+    splunk
+  ];
+
+  static LogDriver fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => LogDriver._(value));
+
+  @override
+  bool operator ==(other) => other is LogDriver && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Details for a Docker volume mount point that's used in a job's container
@@ -8815,34 +9016,53 @@ class NodeRangeProperty {
   }
 }
 
-enum OrchestrationType {
-  ecs('ECS'),
-  eks('EKS'),
-  ;
+class OrchestrationType {
+  static const ecs = OrchestrationType._('ECS');
+  static const eks = OrchestrationType._('EKS');
 
   final String value;
 
-  const OrchestrationType(this.value);
+  const OrchestrationType._(this.value);
+
+  static const values = [ecs, eks];
 
   static OrchestrationType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum OrchestrationType'));
+          orElse: () => OrchestrationType._(value));
+
+  @override
+  bool operator ==(other) => other is OrchestrationType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum PlatformCapability {
-  ec2('EC2'),
-  fargate('FARGATE'),
-  ;
+class PlatformCapability {
+  static const ec2 = PlatformCapability._('EC2');
+  static const fargate = PlatformCapability._('FARGATE');
 
   final String value;
 
-  const PlatformCapability(this.value);
+  const PlatformCapability._(this.value);
 
-  static PlatformCapability fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum PlatformCapability'));
+  static const values = [ec2, fargate];
+
+  static PlatformCapability fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => PlatformCapability._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is PlatformCapability && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class RegisterJobDefinitionResponse {
@@ -9032,7 +9252,7 @@ class ResourceRequirement {
 
   factory ResourceRequirement.fromJson(Map<String, dynamic> json) {
     return ResourceRequirement(
-      type: ResourceType.fromString((json['type'] as String)),
+      type: ResourceType.fromString((json['type'] as String?) ?? ''),
       value: (json['value'] as String?) ?? '',
     );
   }
@@ -9047,34 +9267,51 @@ class ResourceRequirement {
   }
 }
 
-enum ResourceType {
-  gpu('GPU'),
-  vcpu('VCPU'),
-  memory('MEMORY'),
-  ;
+class ResourceType {
+  static const gpu = ResourceType._('GPU');
+  static const vcpu = ResourceType._('VCPU');
+  static const memory = ResourceType._('MEMORY');
 
   final String value;
 
-  const ResourceType(this.value);
+  const ResourceType._(this.value);
 
-  static ResourceType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ResourceType'));
+  static const values = [gpu, vcpu, memory];
+
+  static ResourceType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ResourceType._(value));
+
+  @override
+  bool operator ==(other) => other is ResourceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum RetryAction {
-  retry('RETRY'),
-  exit('EXIT'),
-  ;
+class RetryAction {
+  static const retry = RetryAction._('RETRY');
+  static const exit = RetryAction._('EXIT');
 
   final String value;
 
-  const RetryAction(this.value);
+  const RetryAction._(this.value);
 
-  static RetryAction fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum RetryAction'));
+  static const values = [retry, exit];
+
+  static RetryAction fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => RetryAction._(value));
+
+  @override
+  bool operator ==(other) => other is RetryAction && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The retry strategy that's associated with a job. For more information, see

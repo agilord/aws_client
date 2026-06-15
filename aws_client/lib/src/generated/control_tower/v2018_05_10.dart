@@ -1475,37 +1475,64 @@ class BaselineOperation {
   }
 }
 
-enum BaselineOperationStatus {
-  succeeded('SUCCEEDED'),
-  failed('FAILED'),
-  inProgress('IN_PROGRESS'),
-  ;
+class BaselineOperationStatus {
+  static const succeeded = BaselineOperationStatus._('SUCCEEDED');
+  static const failed = BaselineOperationStatus._('FAILED');
+  static const inProgress = BaselineOperationStatus._('IN_PROGRESS');
 
   final String value;
 
-  const BaselineOperationStatus(this.value);
+  const BaselineOperationStatus._(this.value);
+
+  static const values = [succeeded, failed, inProgress];
 
   static BaselineOperationStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum BaselineOperationStatus'));
+          orElse: () => BaselineOperationStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is BaselineOperationStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum BaselineOperationType {
-  enableBaseline('ENABLE_BASELINE'),
-  disableBaseline('DISABLE_BASELINE'),
-  updateEnabledBaseline('UPDATE_ENABLED_BASELINE'),
-  resetEnabledBaseline('RESET_ENABLED_BASELINE'),
-  ;
+class BaselineOperationType {
+  static const enableBaseline = BaselineOperationType._('ENABLE_BASELINE');
+  static const disableBaseline = BaselineOperationType._('DISABLE_BASELINE');
+  static const updateEnabledBaseline =
+      BaselineOperationType._('UPDATE_ENABLED_BASELINE');
+  static const resetEnabledBaseline =
+      BaselineOperationType._('RESET_ENABLED_BASELINE');
 
   final String value;
 
-  const BaselineOperationType(this.value);
+  const BaselineOperationType._(this.value);
 
-  static BaselineOperationType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum BaselineOperationType'));
+  static const values = [
+    enableBaseline,
+    disableBaseline,
+    updateEnabledBaseline,
+    resetEnabledBaseline
+  ];
+
+  static BaselineOperationType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => BaselineOperationType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is BaselineOperationType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Returns a summary of information about a <code>Baseline</code> object.
@@ -1676,20 +1703,30 @@ class ControlOperationFilter {
   }
 }
 
-enum ControlOperationStatus {
-  succeeded('SUCCEEDED'),
-  failed('FAILED'),
-  inProgress('IN_PROGRESS'),
-  ;
+class ControlOperationStatus {
+  static const succeeded = ControlOperationStatus._('SUCCEEDED');
+  static const failed = ControlOperationStatus._('FAILED');
+  static const inProgress = ControlOperationStatus._('IN_PROGRESS');
 
   final String value;
 
-  const ControlOperationStatus(this.value);
+  const ControlOperationStatus._(this.value);
+
+  static const values = [succeeded, failed, inProgress];
 
   static ControlOperationStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ControlOperationStatus'));
+          orElse: () => ControlOperationStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ControlOperationStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A summary of information about the specified control operation.
@@ -1775,20 +1812,31 @@ class ControlOperationSummary {
   }
 }
 
-enum ControlOperationType {
-  enableControl('ENABLE_CONTROL'),
-  disableControl('DISABLE_CONTROL'),
-  updateEnabledControl('UPDATE_ENABLED_CONTROL'),
-  ;
+class ControlOperationType {
+  static const enableControl = ControlOperationType._('ENABLE_CONTROL');
+  static const disableControl = ControlOperationType._('DISABLE_CONTROL');
+  static const updateEnabledControl =
+      ControlOperationType._('UPDATE_ENABLED_CONTROL');
 
   final String value;
 
-  const ControlOperationType(this.value);
+  const ControlOperationType._(this.value);
 
-  static ControlOperationType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ControlOperationType'));
+  static const values = [enableControl, disableControl, updateEnabledControl];
+
+  static ControlOperationType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ControlOperationType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ControlOperationType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class CreateLandingZoneOutput {
@@ -1905,20 +1953,29 @@ class Document {
   }
 }
 
-enum DriftStatus {
-  drifted('DRIFTED'),
-  inSync('IN_SYNC'),
-  notChecking('NOT_CHECKING'),
-  unknown('UNKNOWN'),
-  ;
+class DriftStatus {
+  static const drifted = DriftStatus._('DRIFTED');
+  static const inSync = DriftStatus._('IN_SYNC');
+  static const notChecking = DriftStatus._('NOT_CHECKING');
+  static const unknown = DriftStatus._('UNKNOWN');
 
   final String value;
 
-  const DriftStatus(this.value);
+  const DriftStatus._(this.value);
 
-  static DriftStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum DriftStatus'));
+  static const values = [drifted, inSync, notChecking, unknown];
+
+  static DriftStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => DriftStatus._(value));
+
+  @override
+  bool operator ==(other) => other is DriftStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The drift summary of the enabled control.
@@ -2475,20 +2532,29 @@ class EnabledControlSummary {
   }
 }
 
-enum EnablementStatus {
-  succeeded('SUCCEEDED'),
-  failed('FAILED'),
-  underChange('UNDER_CHANGE'),
-  ;
+class EnablementStatus {
+  static const succeeded = EnablementStatus._('SUCCEEDED');
+  static const failed = EnablementStatus._('FAILED');
+  static const underChange = EnablementStatus._('UNDER_CHANGE');
 
   final String value;
 
-  const EnablementStatus(this.value);
+  const EnablementStatus._(this.value);
+
+  static const values = [succeeded, failed, underChange];
 
   static EnablementStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum EnablementStatus'));
+          orElse: () => EnablementStatus._(value));
+
+  @override
+  bool operator ==(other) => other is EnablementStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The deployment summary of an <code>EnabledControl</code> or
@@ -2788,19 +2854,29 @@ class LandingZoneDetail {
   }
 }
 
-enum LandingZoneDriftStatus {
-  drifted('DRIFTED'),
-  inSync('IN_SYNC'),
-  ;
+class LandingZoneDriftStatus {
+  static const drifted = LandingZoneDriftStatus._('DRIFTED');
+  static const inSync = LandingZoneDriftStatus._('IN_SYNC');
 
   final String value;
 
-  const LandingZoneDriftStatus(this.value);
+  const LandingZoneDriftStatus._(this.value);
+
+  static const values = [drifted, inSync];
 
   static LandingZoneDriftStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum LandingZoneDriftStatus'));
+          orElse: () => LandingZoneDriftStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is LandingZoneDriftStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The drift status summary of the landing zone.
@@ -2959,20 +3035,30 @@ class LandingZoneOperationFilter {
   }
 }
 
-enum LandingZoneOperationStatus {
-  succeeded('SUCCEEDED'),
-  failed('FAILED'),
-  inProgress('IN_PROGRESS'),
-  ;
+class LandingZoneOperationStatus {
+  static const succeeded = LandingZoneOperationStatus._('SUCCEEDED');
+  static const failed = LandingZoneOperationStatus._('FAILED');
+  static const inProgress = LandingZoneOperationStatus._('IN_PROGRESS');
 
   final String value;
 
-  const LandingZoneOperationStatus(this.value);
+  const LandingZoneOperationStatus._(this.value);
+
+  static const values = [succeeded, failed, inProgress];
 
   static LandingZoneOperationStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum LandingZoneOperationStatus'));
+          orElse: () => LandingZoneOperationStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is LandingZoneOperationStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Returns a summary of information about a landing zone operation.
@@ -3015,37 +3101,56 @@ class LandingZoneOperationSummary {
   }
 }
 
-enum LandingZoneOperationType {
-  delete('DELETE'),
-  create('CREATE'),
-  update('UPDATE'),
-  reset('RESET'),
-  ;
+class LandingZoneOperationType {
+  static const delete = LandingZoneOperationType._('DELETE');
+  static const create = LandingZoneOperationType._('CREATE');
+  static const update = LandingZoneOperationType._('UPDATE');
+  static const reset = LandingZoneOperationType._('RESET');
 
   final String value;
 
-  const LandingZoneOperationType(this.value);
+  const LandingZoneOperationType._(this.value);
+
+  static const values = [delete, create, update, reset];
 
   static LandingZoneOperationType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum LandingZoneOperationType'));
+          orElse: () => LandingZoneOperationType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is LandingZoneOperationType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum LandingZoneStatus {
-  active('ACTIVE'),
-  processing('PROCESSING'),
-  failed('FAILED'),
-  ;
+class LandingZoneStatus {
+  static const active = LandingZoneStatus._('ACTIVE');
+  static const processing = LandingZoneStatus._('PROCESSING');
+  static const failed = LandingZoneStatus._('FAILED');
 
   final String value;
 
-  const LandingZoneStatus(this.value);
+  const LandingZoneStatus._(this.value);
+
+  static const values = [active, processing, failed];
 
   static LandingZoneStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum LandingZoneStatus'));
+          orElse: () => LandingZoneStatus._(value));
+
+  @override
+  bool operator ==(other) => other is LandingZoneStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Returns a summary of information about a landing zone.

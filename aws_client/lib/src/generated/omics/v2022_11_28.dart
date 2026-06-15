@@ -3463,18 +3463,26 @@ class AbortMultipartReadSetUploadResponse {
   }
 }
 
-enum Accelerators {
-  gpu('GPU'),
-  ;
+class Accelerators {
+  static const gpu = Accelerators._('GPU');
 
   final String value;
 
-  const Accelerators(this.value);
+  const Accelerators._(this.value);
 
-  static Accelerators fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum Accelerators'));
+  static const values = [gpu];
+
+  static Accelerators fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Accelerators._(value));
+
+  @override
+  bool operator ==(other) => other is Accelerators && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class AcceptShareResponse {
@@ -3558,7 +3566,8 @@ class ActivateReadSetJobItem {
       creationTime: nonNullableTimeStampFromJson(json['creationTime'] ?? 0),
       id: (json['id'] as String?) ?? '',
       sequenceStoreId: (json['sequenceStoreId'] as String?) ?? '',
-      status: ReadSetActivationJobStatus.fromString((json['status'] as String)),
+      status: ReadSetActivationJobStatus.fromString(
+          (json['status'] as String?) ?? ''),
       completionTime: timeStampFromJson(json['completionTime']),
     );
   }
@@ -3600,8 +3609,8 @@ class ActivateReadSetSourceItem {
   factory ActivateReadSetSourceItem.fromJson(Map<String, dynamic> json) {
     return ActivateReadSetSourceItem(
       readSetId: (json['readSetId'] as String?) ?? '',
-      status:
-          ReadSetActivationJobItemStatus.fromString((json['status'] as String)),
+      status: ReadSetActivationJobItemStatus.fromString(
+          (json['status'] as String?) ?? ''),
       statusMessage: json['statusMessage'] as String?,
     );
   }
@@ -3633,7 +3642,7 @@ class AnnotationImportItemDetail {
 
   factory AnnotationImportItemDetail.fromJson(Map<String, dynamic> json) {
     return AnnotationImportItemDetail(
-      jobStatus: JobStatus.fromString((json['jobStatus'] as String)),
+      jobStatus: JobStatus.fromString((json['jobStatus'] as String?) ?? ''),
       source: (json['source'] as String?) ?? '',
     );
   }
@@ -3716,7 +3725,7 @@ class AnnotationImportJobItem {
       destinationName: (json['destinationName'] as String?) ?? '',
       id: (json['id'] as String?) ?? '',
       roleArn: (json['roleArn'] as String?) ?? '',
-      status: JobStatus.fromString((json['status'] as String)),
+      status: JobStatus.fromString((json['status'] as String?) ?? ''),
       updateTime: nonNullableTimeStampFromJson(json['updateTime'] ?? 0),
       versionName: (json['versionName'] as String?) ?? '',
       annotationFields: (json['annotationFields'] as Map<String, dynamic>?)
@@ -3819,10 +3828,11 @@ class AnnotationStoreItem {
       sseConfig: SseConfig.fromJson(
           (json['sseConfig'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
-      status: StoreStatus.fromString((json['status'] as String)),
+      status: StoreStatus.fromString((json['status'] as String?) ?? ''),
       statusMessage: (json['statusMessage'] as String?) ?? '',
       storeArn: (json['storeArn'] as String?) ?? '',
-      storeFormat: StoreFormat.fromString((json['storeFormat'] as String)),
+      storeFormat:
+          StoreFormat.fromString((json['storeFormat'] as String?) ?? ''),
       storeSizeBytes: (json['storeSizeBytes'] as int?) ?? 0,
       updateTime: nonNullableTimeStampFromJson(json['updateTime'] ?? 0),
     );
@@ -3913,7 +3923,7 @@ class AnnotationStoreVersionItem {
       description: (json['description'] as String?) ?? '',
       id: (json['id'] as String?) ?? '',
       name: (json['name'] as String?) ?? '',
-      status: VersionStatus.fromString((json['status'] as String)),
+      status: VersionStatus.fromString((json['status'] as String?) ?? ''),
       statusMessage: (json['statusMessage'] as String?) ?? '',
       storeId: (json['storeId'] as String?) ?? '',
       updateTime: nonNullableTimeStampFromJson(json['updateTime'] ?? 0),
@@ -3951,24 +3961,44 @@ class AnnotationStoreVersionItem {
   }
 }
 
-enum AnnotationType {
-  generic('GENERIC'),
-  chrPos('CHR_POS'),
-  chrPosRefAlt('CHR_POS_REF_ALT'),
-  chrStartEndOneBase('CHR_START_END_ONE_BASE'),
-  chrStartEndRefAltOneBase('CHR_START_END_REF_ALT_ONE_BASE'),
-  chrStartEndZeroBase('CHR_START_END_ZERO_BASE'),
-  chrStartEndRefAltZeroBase('CHR_START_END_REF_ALT_ZERO_BASE'),
-  ;
+class AnnotationType {
+  static const generic = AnnotationType._('GENERIC');
+  static const chrPos = AnnotationType._('CHR_POS');
+  static const chrPosRefAlt = AnnotationType._('CHR_POS_REF_ALT');
+  static const chrStartEndOneBase = AnnotationType._('CHR_START_END_ONE_BASE');
+  static const chrStartEndRefAltOneBase =
+      AnnotationType._('CHR_START_END_REF_ALT_ONE_BASE');
+  static const chrStartEndZeroBase =
+      AnnotationType._('CHR_START_END_ZERO_BASE');
+  static const chrStartEndRefAltZeroBase =
+      AnnotationType._('CHR_START_END_REF_ALT_ZERO_BASE');
 
   final String value;
 
-  const AnnotationType(this.value);
+  const AnnotationType._(this.value);
+
+  static const values = [
+    generic,
+    chrPos,
+    chrPosRefAlt,
+    chrStartEndOneBase,
+    chrStartEndRefAltOneBase,
+    chrStartEndZeroBase,
+    chrStartEndRefAltZeroBase
+  ];
 
   static AnnotationType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum AnnotationType'));
+          orElse: () => AnnotationType._(value));
+
+  @override
+  bool operator ==(other) => other is AnnotationType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class BatchDeleteReadSetResponse {
@@ -4116,7 +4146,7 @@ class CreateAnnotationStoreResponse {
       creationTime: nonNullableTimeStampFromJson(json['creationTime'] ?? 0),
       id: (json['id'] as String?) ?? '',
       name: (json['name'] as String?) ?? '',
-      status: StoreStatus.fromString((json['status'] as String)),
+      status: StoreStatus.fromString((json['status'] as String?) ?? ''),
       versionName: (json['versionName'] as String?) ?? '',
       reference: json['reference'] != null
           ? ReferenceItem.fromJson(json['reference'] as Map<String, dynamic>)
@@ -4191,7 +4221,7 @@ class CreateAnnotationStoreVersionResponse {
       creationTime: nonNullableTimeStampFromJson(json['creationTime'] ?? 0),
       id: (json['id'] as String?) ?? '',
       name: (json['name'] as String?) ?? '',
-      status: VersionStatus.fromString((json['status'] as String)),
+      status: VersionStatus.fromString((json['status'] as String?) ?? ''),
       storeId: (json['storeId'] as String?) ?? '',
       versionName: (json['versionName'] as String?) ?? '',
       versionOptions: json['versionOptions'] != null
@@ -4276,7 +4306,8 @@ class CreateMultipartReadSetUploadResponse {
       referenceArn: (json['referenceArn'] as String?) ?? '',
       sampleId: (json['sampleId'] as String?) ?? '',
       sequenceStoreId: (json['sequenceStoreId'] as String?) ?? '',
-      sourceFileType: FileType.fromString((json['sourceFileType'] as String)),
+      sourceFileType:
+          FileType.fromString((json['sourceFileType'] as String?) ?? ''),
       subjectId: (json['subjectId'] as String?) ?? '',
       uploadId: (json['uploadId'] as String?) ?? '',
       description: json['description'] as String?,
@@ -4551,7 +4582,7 @@ class CreateVariantStoreResponse {
       creationTime: nonNullableTimeStampFromJson(json['creationTime'] ?? 0),
       id: (json['id'] as String?) ?? '',
       name: (json['name'] as String?) ?? '',
-      status: StoreStatus.fromString((json['status'] as String)),
+      status: StoreStatus.fromString((json['status'] as String?) ?? ''),
       reference: json['reference'] != null
           ? ReferenceItem.fromJson(json['reference'] as Map<String, dynamic>)
           : null,
@@ -4618,19 +4649,27 @@ class CreateWorkflowResponse {
   }
 }
 
-enum CreationType {
-  import('IMPORT'),
-  upload('UPLOAD'),
-  ;
+class CreationType {
+  static const import = CreationType._('IMPORT');
+  static const upload = CreationType._('UPLOAD');
 
   final String value;
 
-  const CreationType(this.value);
+  const CreationType._(this.value);
 
-  static CreationType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum CreationType'));
+  static const values = [import, upload];
+
+  static CreationType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => CreationType._(value));
+
+  @override
+  bool operator ==(other) => other is CreationType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class DeleteAnnotationStoreResponse {
@@ -4643,7 +4682,7 @@ class DeleteAnnotationStoreResponse {
 
   factory DeleteAnnotationStoreResponse.fromJson(Map<String, dynamic> json) {
     return DeleteAnnotationStoreResponse(
-      status: StoreStatus.fromString((json['status'] as String)),
+      status: StoreStatus.fromString((json['status'] as String?) ?? ''),
     );
   }
 
@@ -4749,7 +4788,7 @@ class DeleteVariantStoreResponse {
 
   factory DeleteVariantStoreResponse.fromJson(Map<String, dynamic> json) {
     return DeleteVariantStoreResponse(
-      status: StoreStatus.fromString((json['status'] as String)),
+      status: StoreStatus.fromString((json['status'] as String?) ?? ''),
     );
   }
 
@@ -4799,56 +4838,94 @@ class ETag {
   }
 }
 
-enum ETagAlgorithm {
-  fastqMD5up('FASTQ_MD5up'),
-  bamMD5up('BAM_MD5up'),
-  cramMD5up('CRAM_MD5up'),
-  fastqSHA256up('FASTQ_SHA256up'),
-  bamSHA256up('BAM_SHA256up'),
-  cramSHA256up('CRAM_SHA256up'),
-  fastqSHA512up('FASTQ_SHA512up'),
-  bamSHA512up('BAM_SHA512up'),
-  cramSHA512up('CRAM_SHA512up'),
-  ;
+class ETagAlgorithm {
+  static const fastqMD5up = ETagAlgorithm._('FASTQ_MD5up');
+  static const bamMD5up = ETagAlgorithm._('BAM_MD5up');
+  static const cramMD5up = ETagAlgorithm._('CRAM_MD5up');
+  static const fastqSHA256up = ETagAlgorithm._('FASTQ_SHA256up');
+  static const bamSHA256up = ETagAlgorithm._('BAM_SHA256up');
+  static const cramSHA256up = ETagAlgorithm._('CRAM_SHA256up');
+  static const fastqSHA512up = ETagAlgorithm._('FASTQ_SHA512up');
+  static const bamSHA512up = ETagAlgorithm._('BAM_SHA512up');
+  static const cramSHA512up = ETagAlgorithm._('CRAM_SHA512up');
 
   final String value;
 
-  const ETagAlgorithm(this.value);
+  const ETagAlgorithm._(this.value);
+
+  static const values = [
+    fastqMD5up,
+    bamMD5up,
+    cramMD5up,
+    fastqSHA256up,
+    bamSHA256up,
+    cramSHA256up,
+    fastqSHA512up,
+    bamSHA512up,
+    cramSHA512up
+  ];
 
   static ETagAlgorithm fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ETagAlgorithm'));
+          orElse: () => ETagAlgorithm._(value));
+
+  @override
+  bool operator ==(other) => other is ETagAlgorithm && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ETagAlgorithmFamily {
-  mD5up('MD5up'),
-  sHA256up('SHA256up'),
-  sHA512up('SHA512up'),
-  ;
+class ETagAlgorithmFamily {
+  static const mD5up = ETagAlgorithmFamily._('MD5up');
+  static const sHA256up = ETagAlgorithmFamily._('SHA256up');
+  static const sHA512up = ETagAlgorithmFamily._('SHA512up');
 
   final String value;
 
-  const ETagAlgorithmFamily(this.value);
+  const ETagAlgorithmFamily._(this.value);
 
-  static ETagAlgorithmFamily fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ETagAlgorithmFamily'));
+  static const values = [mD5up, sHA256up, sHA512up];
+
+  static ETagAlgorithmFamily fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ETagAlgorithmFamily._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ETagAlgorithmFamily && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum EncryptionType {
-  kms('KMS'),
-  ;
+class EncryptionType {
+  static const kms = EncryptionType._('KMS');
 
   final String value;
 
-  const EncryptionType(this.value);
+  const EncryptionType._(this.value);
+
+  static const values = [kms];
 
   static EncryptionType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum EncryptionType'));
+          orElse: () => EncryptionType._(value));
+
+  @override
+  bool operator ==(other) => other is EncryptionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A read set.
@@ -4888,7 +4965,8 @@ class ExportReadSetDetail {
   factory ExportReadSetDetail.fromJson(Map<String, dynamic> json) {
     return ExportReadSetDetail(
       id: (json['id'] as String?) ?? '',
-      status: ReadSetExportJobItemStatus.fromString((json['status'] as String)),
+      status: ReadSetExportJobItemStatus.fromString(
+          (json['status'] as String?) ?? ''),
       statusMessage: json['statusMessage'] as String?,
     );
   }
@@ -4969,7 +5047,8 @@ class ExportReadSetJobDetail {
       destination: (json['destination'] as String?) ?? '',
       id: (json['id'] as String?) ?? '',
       sequenceStoreId: (json['sequenceStoreId'] as String?) ?? '',
-      status: ReadSetExportJobStatus.fromString((json['status'] as String)),
+      status:
+          ReadSetExportJobStatus.fromString((json['status'] as String?) ?? ''),
       completionTime: timeStampFromJson(json['completionTime']),
     );
   }
@@ -5039,20 +5118,29 @@ class FileInformation {
   }
 }
 
-enum FileType {
-  fastq('FASTQ'),
-  bam('BAM'),
-  cram('CRAM'),
-  ubam('UBAM'),
-  ;
+class FileType {
+  static const fastq = FileType._('FASTQ');
+  static const bam = FileType._('BAM');
+  static const cram = FileType._('CRAM');
+  static const ubam = FileType._('UBAM');
 
   final String value;
 
-  const FileType(this.value);
+  const FileType._(this.value);
 
-  static FileType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum FileType'));
+  static const values = [fastq, bam, cram, ubam];
+
+  static FileType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => FileType._(value));
+
+  @override
+  bool operator ==(other) => other is FileType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Use filters to return a subset of resources. You can define filters for
@@ -5121,23 +5209,32 @@ class FormatOptions {
   }
 }
 
-enum FormatToHeaderKey {
-  chr('CHR'),
-  start('START'),
-  end('END'),
-  ref('REF'),
-  alt('ALT'),
-  pos('POS'),
-  ;
+class FormatToHeaderKey {
+  static const chr = FormatToHeaderKey._('CHR');
+  static const start = FormatToHeaderKey._('START');
+  static const end = FormatToHeaderKey._('END');
+  static const ref = FormatToHeaderKey._('REF');
+  static const alt = FormatToHeaderKey._('ALT');
+  static const pos = FormatToHeaderKey._('POS');
 
   final String value;
 
-  const FormatToHeaderKey(this.value);
+  const FormatToHeaderKey._(this.value);
+
+  static const values = [chr, start, end, ref, alt, pos];
 
   static FormatToHeaderKey fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum FormatToHeaderKey'));
+          orElse: () => FormatToHeaderKey._(value));
+
+  @override
+  bool operator ==(other) => other is FormatToHeaderKey && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class GetAnnotationImportResponse {
@@ -5210,7 +5307,7 @@ class GetAnnotationImportResponse {
           .toList(),
       roleArn: (json['roleArn'] as String?) ?? '',
       runLeftNormalization: (json['runLeftNormalization'] as bool?) ?? false,
-      status: JobStatus.fromString((json['status'] as String)),
+      status: JobStatus.fromString((json['status'] as String?) ?? ''),
       statusMessage: (json['statusMessage'] as String?) ?? '',
       updateTime: nonNullableTimeStampFromJson(json['updateTime'] ?? 0),
       versionName: (json['versionName'] as String?) ?? '',
@@ -5328,7 +5425,7 @@ class GetAnnotationStoreResponse {
       sseConfig: SseConfig.fromJson(
           (json['sseConfig'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
-      status: StoreStatus.fromString((json['status'] as String)),
+      status: StoreStatus.fromString((json['status'] as String?) ?? ''),
       statusMessage: (json['statusMessage'] as String?) ?? '',
       storeArn: (json['storeArn'] as String?) ?? '',
       storeSizeBytes: (json['storeSizeBytes'] as int?) ?? 0,
@@ -5443,7 +5540,7 @@ class GetAnnotationStoreVersionResponse {
       description: (json['description'] as String?) ?? '',
       id: (json['id'] as String?) ?? '',
       name: (json['name'] as String?) ?? '',
-      status: VersionStatus.fromString((json['status'] as String)),
+      status: VersionStatus.fromString((json['status'] as String?) ?? ''),
       statusMessage: (json['statusMessage'] as String?) ?? '',
       storeId: (json['storeId'] as String?) ?? '',
       tags:
@@ -5529,7 +5626,8 @@ class GetReadSetActivationJobResponse {
       creationTime: nonNullableTimeStampFromJson(json['creationTime'] ?? 0),
       id: (json['id'] as String?) ?? '',
       sequenceStoreId: (json['sequenceStoreId'] as String?) ?? '',
-      status: ReadSetActivationJobStatus.fromString((json['status'] as String)),
+      status: ReadSetActivationJobStatus.fromString(
+          (json['status'] as String?) ?? ''),
       completionTime: timeStampFromJson(json['completionTime']),
       sources: (json['sources'] as List?)
           ?.nonNulls
@@ -5603,7 +5701,8 @@ class GetReadSetExportJobResponse {
       destination: (json['destination'] as String?) ?? '',
       id: (json['id'] as String?) ?? '',
       sequenceStoreId: (json['sequenceStoreId'] as String?) ?? '',
-      status: ReadSetExportJobStatus.fromString((json['status'] as String)),
+      status:
+          ReadSetExportJobStatus.fromString((json['status'] as String?) ?? ''),
       completionTime: timeStampFromJson(json['completionTime']),
       readSets: (json['readSets'] as List?)
           ?.nonNulls
@@ -5683,7 +5782,8 @@ class GetReadSetImportJobResponse {
           .map((e) =>
               ImportReadSetSourceItem.fromJson(e as Map<String, dynamic>))
           .toList(),
-      status: ReadSetImportJobStatus.fromString((json['status'] as String)),
+      status:
+          ReadSetImportJobStatus.fromString((json['status'] as String?) ?? ''),
       completionTime: timeStampFromJson(json['completionTime']),
       statusMessage: json['statusMessage'] as String?,
     );
@@ -5790,10 +5890,10 @@ class GetReadSetMetadataResponse {
     return GetReadSetMetadataResponse(
       arn: (json['arn'] as String?) ?? '',
       creationTime: nonNullableTimeStampFromJson(json['creationTime'] ?? 0),
-      fileType: FileType.fromString((json['fileType'] as String)),
+      fileType: FileType.fromString((json['fileType'] as String?) ?? ''),
       id: (json['id'] as String?) ?? '',
       sequenceStoreId: (json['sequenceStoreId'] as String?) ?? '',
-      status: ReadSetStatus.fromString((json['status'] as String)),
+      status: ReadSetStatus.fromString((json['status'] as String?) ?? ''),
       creationJobId: json['creationJobId'] as String?,
       creationType:
           (json['creationType'] as String?)?.let(CreationType.fromString),
@@ -5920,7 +6020,8 @@ class GetReferenceImportJobResponse {
           .map((e) =>
               ImportReferenceSourceItem.fromJson(e as Map<String, dynamic>))
           .toList(),
-      status: ReferenceImportJobStatus.fromString((json['status'] as String)),
+      status: ReferenceImportJobStatus.fromString(
+          (json['status'] as String?) ?? ''),
       completionTime: timeStampFromJson(json['completionTime']),
       statusMessage: json['statusMessage'] as String?,
     );
@@ -6726,7 +6827,7 @@ class GetVariantImportResponse {
           .toList(),
       roleArn: (json['roleArn'] as String?) ?? '',
       runLeftNormalization: (json['runLeftNormalization'] as bool?) ?? false,
-      status: JobStatus.fromString((json['status'] as String)),
+      status: JobStatus.fromString((json['status'] as String?) ?? ''),
       statusMessage: (json['statusMessage'] as String?) ?? '',
       updateTime: nonNullableTimeStampFromJson(json['updateTime'] ?? 0),
       annotationFields: (json['annotationFields'] as Map<String, dynamic>?)
@@ -6828,7 +6929,7 @@ class GetVariantStoreResponse {
       sseConfig: SseConfig.fromJson(
           (json['sseConfig'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
-      status: StoreStatus.fromString((json['status'] as String)),
+      status: StoreStatus.fromString((json['status'] as String?) ?? ''),
       statusMessage: (json['statusMessage'] as String?) ?? '',
       storeArn: (json['storeArn'] as String?) ?? '',
       storeSizeBytes: (json['storeSizeBytes'] as int?) ?? 0,
@@ -7072,7 +7173,8 @@ class ImportReadSetJobItem {
       id: (json['id'] as String?) ?? '',
       roleArn: (json['roleArn'] as String?) ?? '',
       sequenceStoreId: (json['sequenceStoreId'] as String?) ?? '',
-      status: ReadSetImportJobStatus.fromString((json['status'] as String)),
+      status:
+          ReadSetImportJobStatus.fromString((json['status'] as String?) ?? ''),
       completionTime: timeStampFromJson(json['completionTime']),
     );
   }
@@ -7152,11 +7254,13 @@ class ImportReadSetSourceItem {
   factory ImportReadSetSourceItem.fromJson(Map<String, dynamic> json) {
     return ImportReadSetSourceItem(
       sampleId: (json['sampleId'] as String?) ?? '',
-      sourceFileType: FileType.fromString((json['sourceFileType'] as String)),
+      sourceFileType:
+          FileType.fromString((json['sourceFileType'] as String?) ?? ''),
       sourceFiles: SourceFiles.fromJson(
           (json['sourceFiles'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
-      status: ReadSetImportJobItemStatus.fromString((json['status'] as String)),
+      status: ReadSetImportJobItemStatus.fromString(
+          (json['status'] as String?) ?? ''),
       subjectId: (json['subjectId'] as String?) ?? '',
       description: json['description'] as String?,
       generatedFrom: json['generatedFrom'] as String?,
@@ -7263,7 +7367,8 @@ class ImportReferenceJobItem {
       id: (json['id'] as String?) ?? '',
       referenceStoreId: (json['referenceStoreId'] as String?) ?? '',
       roleArn: (json['roleArn'] as String?) ?? '',
-      status: ReferenceImportJobStatus.fromString((json['status'] as String)),
+      status: ReferenceImportJobStatus.fromString(
+          (json['status'] as String?) ?? ''),
       completionTime: timeStampFromJson(json['completionTime']),
     );
   }
@@ -7322,8 +7427,8 @@ class ImportReferenceSourceItem {
 
   factory ImportReferenceSourceItem.fromJson(Map<String, dynamic> json) {
     return ImportReferenceSourceItem(
-      status:
-          ReferenceImportJobItemStatus.fromString((json['status'] as String)),
+      status: ReferenceImportJobItemStatus.fromString(
+          (json['status'] as String?) ?? ''),
       description: json['description'] as String?,
       name: json['name'] as String?,
       referenceId: json['referenceId'] as String?,
@@ -7354,22 +7459,38 @@ class ImportReferenceSourceItem {
   }
 }
 
-enum JobStatus {
-  submitted('SUBMITTED'),
-  inProgress('IN_PROGRESS'),
-  cancelled('CANCELLED'),
-  completed('COMPLETED'),
-  failed('FAILED'),
-  completedWithFailures('COMPLETED_WITH_FAILURES'),
-  ;
+class JobStatus {
+  static const submitted = JobStatus._('SUBMITTED');
+  static const inProgress = JobStatus._('IN_PROGRESS');
+  static const cancelled = JobStatus._('CANCELLED');
+  static const completed = JobStatus._('COMPLETED');
+  static const failed = JobStatus._('FAILED');
+  static const completedWithFailures = JobStatus._('COMPLETED_WITH_FAILURES');
 
   final String value;
 
-  const JobStatus(this.value);
+  const JobStatus._(this.value);
 
-  static JobStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum JobStatus'));
+  static const values = [
+    submitted,
+    inProgress,
+    cancelled,
+    completed,
+    failed,
+    completedWithFailures
+  ];
+
+  static JobStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => JobStatus._(value));
+
+  @override
+  bool operator ==(other) => other is JobStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A filter for annotation import jobs.
@@ -8208,7 +8329,8 @@ class MultipartReadSetUploadListItem {
       referenceArn: (json['referenceArn'] as String?) ?? '',
       sampleId: (json['sampleId'] as String?) ?? '',
       sequenceStoreId: (json['sequenceStoreId'] as String?) ?? '',
-      sourceFileType: FileType.fromString((json['sourceFileType'] as String)),
+      sourceFileType:
+          FileType.fromString((json['sourceFileType'] as String?) ?? ''),
       subjectId: (json['subjectId'] as String?) ?? '',
       uploadId: (json['uploadId'] as String?) ?? '',
       description: json['description'] as String?,
@@ -8325,41 +8447,70 @@ class ReadOptions {
   }
 }
 
-enum ReadSetActivationJobItemStatus {
-  notStarted('NOT_STARTED'),
-  inProgress('IN_PROGRESS'),
-  finished('FINISHED'),
-  failed('FAILED'),
-  ;
+class ReadSetActivationJobItemStatus {
+  static const notStarted = ReadSetActivationJobItemStatus._('NOT_STARTED');
+  static const inProgress = ReadSetActivationJobItemStatus._('IN_PROGRESS');
+  static const finished = ReadSetActivationJobItemStatus._('FINISHED');
+  static const failed = ReadSetActivationJobItemStatus._('FAILED');
 
   final String value;
 
-  const ReadSetActivationJobItemStatus(this.value);
+  const ReadSetActivationJobItemStatus._(this.value);
+
+  static const values = [notStarted, inProgress, finished, failed];
 
   static ReadSetActivationJobItemStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ReadSetActivationJobItemStatus'));
+          orElse: () => ReadSetActivationJobItemStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ReadSetActivationJobItemStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ReadSetActivationJobStatus {
-  submitted('SUBMITTED'),
-  inProgress('IN_PROGRESS'),
-  cancelling('CANCELLING'),
-  cancelled('CANCELLED'),
-  failed('FAILED'),
-  completed('COMPLETED'),
-  completedWithFailures('COMPLETED_WITH_FAILURES'),
-  ;
+class ReadSetActivationJobStatus {
+  static const submitted = ReadSetActivationJobStatus._('SUBMITTED');
+  static const inProgress = ReadSetActivationJobStatus._('IN_PROGRESS');
+  static const cancelling = ReadSetActivationJobStatus._('CANCELLING');
+  static const cancelled = ReadSetActivationJobStatus._('CANCELLED');
+  static const failed = ReadSetActivationJobStatus._('FAILED');
+  static const completed = ReadSetActivationJobStatus._('COMPLETED');
+  static const completedWithFailures =
+      ReadSetActivationJobStatus._('COMPLETED_WITH_FAILURES');
 
   final String value;
 
-  const ReadSetActivationJobStatus(this.value);
+  const ReadSetActivationJobStatus._(this.value);
+
+  static const values = [
+    submitted,
+    inProgress,
+    cancelling,
+    cancelled,
+    failed,
+    completed,
+    completedWithFailures
+  ];
 
   static ReadSetActivationJobStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ReadSetActivationJobStatus'));
+          orElse: () => ReadSetActivationJobStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ReadSetActivationJobStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// An error from a batch read set operation.
@@ -8399,56 +8550,94 @@ class ReadSetBatchError {
   }
 }
 
-enum ReadSetExportJobItemStatus {
-  notStarted('NOT_STARTED'),
-  inProgress('IN_PROGRESS'),
-  finished('FINISHED'),
-  failed('FAILED'),
-  ;
+class ReadSetExportJobItemStatus {
+  static const notStarted = ReadSetExportJobItemStatus._('NOT_STARTED');
+  static const inProgress = ReadSetExportJobItemStatus._('IN_PROGRESS');
+  static const finished = ReadSetExportJobItemStatus._('FINISHED');
+  static const failed = ReadSetExportJobItemStatus._('FAILED');
 
   final String value;
 
-  const ReadSetExportJobItemStatus(this.value);
+  const ReadSetExportJobItemStatus._(this.value);
+
+  static const values = [notStarted, inProgress, finished, failed];
 
   static ReadSetExportJobItemStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ReadSetExportJobItemStatus'));
+          orElse: () => ReadSetExportJobItemStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ReadSetExportJobItemStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ReadSetExportJobStatus {
-  submitted('SUBMITTED'),
-  inProgress('IN_PROGRESS'),
-  cancelling('CANCELLING'),
-  cancelled('CANCELLED'),
-  failed('FAILED'),
-  completed('COMPLETED'),
-  completedWithFailures('COMPLETED_WITH_FAILURES'),
-  ;
+class ReadSetExportJobStatus {
+  static const submitted = ReadSetExportJobStatus._('SUBMITTED');
+  static const inProgress = ReadSetExportJobStatus._('IN_PROGRESS');
+  static const cancelling = ReadSetExportJobStatus._('CANCELLING');
+  static const cancelled = ReadSetExportJobStatus._('CANCELLED');
+  static const failed = ReadSetExportJobStatus._('FAILED');
+  static const completed = ReadSetExportJobStatus._('COMPLETED');
+  static const completedWithFailures =
+      ReadSetExportJobStatus._('COMPLETED_WITH_FAILURES');
 
   final String value;
 
-  const ReadSetExportJobStatus(this.value);
+  const ReadSetExportJobStatus._(this.value);
+
+  static const values = [
+    submitted,
+    inProgress,
+    cancelling,
+    cancelled,
+    failed,
+    completed,
+    completedWithFailures
+  ];
 
   static ReadSetExportJobStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ReadSetExportJobStatus'));
+          orElse: () => ReadSetExportJobStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ReadSetExportJobStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ReadSetFile {
-  source1('SOURCE1'),
-  source2('SOURCE2'),
-  $index('INDEX'),
-  ;
+class ReadSetFile {
+  static const source1 = ReadSetFile._('SOURCE1');
+  static const source2 = ReadSetFile._('SOURCE2');
+  static const $index = ReadSetFile._('INDEX');
 
   final String value;
 
-  const ReadSetFile(this.value);
+  const ReadSetFile._(this.value);
 
-  static ReadSetFile fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum ReadSetFile'));
+  static const values = [source1, source2, $index];
+
+  static ReadSetFile fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ReadSetFile._(value));
+
+  @override
+  bool operator ==(other) => other is ReadSetFile && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Files in a read set.
@@ -8559,41 +8748,70 @@ class ReadSetFilter {
   }
 }
 
-enum ReadSetImportJobItemStatus {
-  notStarted('NOT_STARTED'),
-  inProgress('IN_PROGRESS'),
-  finished('FINISHED'),
-  failed('FAILED'),
-  ;
+class ReadSetImportJobItemStatus {
+  static const notStarted = ReadSetImportJobItemStatus._('NOT_STARTED');
+  static const inProgress = ReadSetImportJobItemStatus._('IN_PROGRESS');
+  static const finished = ReadSetImportJobItemStatus._('FINISHED');
+  static const failed = ReadSetImportJobItemStatus._('FAILED');
 
   final String value;
 
-  const ReadSetImportJobItemStatus(this.value);
+  const ReadSetImportJobItemStatus._(this.value);
+
+  static const values = [notStarted, inProgress, finished, failed];
 
   static ReadSetImportJobItemStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ReadSetImportJobItemStatus'));
+          orElse: () => ReadSetImportJobItemStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ReadSetImportJobItemStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ReadSetImportJobStatus {
-  submitted('SUBMITTED'),
-  inProgress('IN_PROGRESS'),
-  cancelling('CANCELLING'),
-  cancelled('CANCELLED'),
-  failed('FAILED'),
-  completed('COMPLETED'),
-  completedWithFailures('COMPLETED_WITH_FAILURES'),
-  ;
+class ReadSetImportJobStatus {
+  static const submitted = ReadSetImportJobStatus._('SUBMITTED');
+  static const inProgress = ReadSetImportJobStatus._('IN_PROGRESS');
+  static const cancelling = ReadSetImportJobStatus._('CANCELLING');
+  static const cancelled = ReadSetImportJobStatus._('CANCELLED');
+  static const failed = ReadSetImportJobStatus._('FAILED');
+  static const completed = ReadSetImportJobStatus._('COMPLETED');
+  static const completedWithFailures =
+      ReadSetImportJobStatus._('COMPLETED_WITH_FAILURES');
 
   final String value;
 
-  const ReadSetImportJobStatus(this.value);
+  const ReadSetImportJobStatus._(this.value);
+
+  static const values = [
+    submitted,
+    inProgress,
+    cancelling,
+    cancelled,
+    failed,
+    completed,
+    completedWithFailures
+  ];
 
   static ReadSetImportJobStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ReadSetImportJobStatus'));
+          orElse: () => ReadSetImportJobStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ReadSetImportJobStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A read set.
@@ -8665,10 +8883,10 @@ class ReadSetListItem {
     return ReadSetListItem(
       arn: (json['arn'] as String?) ?? '',
       creationTime: nonNullableTimeStampFromJson(json['creationTime'] ?? 0),
-      fileType: FileType.fromString((json['fileType'] as String)),
+      fileType: FileType.fromString((json['fileType'] as String?) ?? ''),
       id: (json['id'] as String?) ?? '',
       sequenceStoreId: (json['sequenceStoreId'] as String?) ?? '',
-      status: ReadSetStatus.fromString((json['status'] as String)),
+      status: ReadSetStatus.fromString((json['status'] as String?) ?? ''),
       creationType:
           (json['creationType'] as String?)?.let(CreationType.fromString),
       description: json['description'] as String?,
@@ -8724,19 +8942,28 @@ class ReadSetListItem {
   }
 }
 
-enum ReadSetPartSource {
-  source1('SOURCE1'),
-  source2('SOURCE2'),
-  ;
+class ReadSetPartSource {
+  static const source1 = ReadSetPartSource._('SOURCE1');
+  static const source2 = ReadSetPartSource._('SOURCE2');
 
   final String value;
 
-  const ReadSetPartSource(this.value);
+  const ReadSetPartSource._(this.value);
+
+  static const values = [source1, source2];
 
   static ReadSetPartSource fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ReadSetPartSource'));
+          orElse: () => ReadSetPartSource._(value));
+
+  @override
+  bool operator ==(other) => other is ReadSetPartSource && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The S3 URI for each read set file.
@@ -8762,24 +8989,41 @@ class ReadSetS3Access {
   }
 }
 
-enum ReadSetStatus {
-  archived('ARCHIVED'),
-  activating('ACTIVATING'),
-  active('ACTIVE'),
-  deleting('DELETING'),
-  deleted('DELETED'),
-  processingUpload('PROCESSING_UPLOAD'),
-  uploadFailed('UPLOAD_FAILED'),
-  ;
+class ReadSetStatus {
+  static const archived = ReadSetStatus._('ARCHIVED');
+  static const activating = ReadSetStatus._('ACTIVATING');
+  static const active = ReadSetStatus._('ACTIVE');
+  static const deleting = ReadSetStatus._('DELETING');
+  static const deleted = ReadSetStatus._('DELETED');
+  static const processingUpload = ReadSetStatus._('PROCESSING_UPLOAD');
+  static const uploadFailed = ReadSetStatus._('UPLOAD_FAILED');
 
   final String value;
 
-  const ReadSetStatus(this.value);
+  const ReadSetStatus._(this.value);
+
+  static const values = [
+    archived,
+    activating,
+    active,
+    deleting,
+    deleted,
+    processingUpload,
+    uploadFailed
+  ];
 
   static ReadSetStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ReadSetStatus'));
+          orElse: () => ReadSetStatus._(value));
+
+  @override
+  bool operator ==(other) => other is ReadSetStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Filter settings that select for read set upload parts of interest.
@@ -8842,7 +9086,8 @@ class ReadSetUploadPartListItem {
       checksum: (json['checksum'] as String?) ?? '',
       partNumber: (json['partNumber'] as int?) ?? 0,
       partSize: (json['partSize'] as int?) ?? 0,
-      partSource: ReadSetPartSource.fromString((json['partSource'] as String)),
+      partSource:
+          ReadSetPartSource.fromString((json['partSource'] as String?) ?? ''),
       creationTime: timeStampFromJson(json['creationTime']),
       lastUpdatedTime: timeStampFromJson(json['lastUpdatedTime']),
     );
@@ -8867,33 +9112,52 @@ class ReadSetUploadPartListItem {
   }
 }
 
-enum ReferenceCreationType {
-  import('IMPORT'),
-  ;
+class ReferenceCreationType {
+  static const import = ReferenceCreationType._('IMPORT');
 
   final String value;
 
-  const ReferenceCreationType(this.value);
+  const ReferenceCreationType._(this.value);
 
-  static ReferenceCreationType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ReferenceCreationType'));
+  static const values = [import];
+
+  static ReferenceCreationType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ReferenceCreationType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ReferenceCreationType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ReferenceFile {
-  source('SOURCE'),
-  $index('INDEX'),
-  ;
+class ReferenceFile {
+  static const source = ReferenceFile._('SOURCE');
+  static const $index = ReferenceFile._('INDEX');
 
   final String value;
 
-  const ReferenceFile(this.value);
+  const ReferenceFile._(this.value);
+
+  static const values = [source, $index];
 
   static ReferenceFile fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ReferenceFile'));
+          orElse: () => ReferenceFile._(value));
+
+  @override
+  bool operator ==(other) => other is ReferenceFile && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A set of genome reference files.
@@ -8965,41 +9229,70 @@ class ReferenceFilter {
   }
 }
 
-enum ReferenceImportJobItemStatus {
-  notStarted('NOT_STARTED'),
-  inProgress('IN_PROGRESS'),
-  finished('FINISHED'),
-  failed('FAILED'),
-  ;
+class ReferenceImportJobItemStatus {
+  static const notStarted = ReferenceImportJobItemStatus._('NOT_STARTED');
+  static const inProgress = ReferenceImportJobItemStatus._('IN_PROGRESS');
+  static const finished = ReferenceImportJobItemStatus._('FINISHED');
+  static const failed = ReferenceImportJobItemStatus._('FAILED');
 
   final String value;
 
-  const ReferenceImportJobItemStatus(this.value);
+  const ReferenceImportJobItemStatus._(this.value);
+
+  static const values = [notStarted, inProgress, finished, failed];
 
   static ReferenceImportJobItemStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ReferenceImportJobItemStatus'));
+          orElse: () => ReferenceImportJobItemStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ReferenceImportJobItemStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ReferenceImportJobStatus {
-  submitted('SUBMITTED'),
-  inProgress('IN_PROGRESS'),
-  cancelling('CANCELLING'),
-  cancelled('CANCELLED'),
-  failed('FAILED'),
-  completed('COMPLETED'),
-  completedWithFailures('COMPLETED_WITH_FAILURES'),
-  ;
+class ReferenceImportJobStatus {
+  static const submitted = ReferenceImportJobStatus._('SUBMITTED');
+  static const inProgress = ReferenceImportJobStatus._('IN_PROGRESS');
+  static const cancelling = ReferenceImportJobStatus._('CANCELLING');
+  static const cancelled = ReferenceImportJobStatus._('CANCELLED');
+  static const failed = ReferenceImportJobStatus._('FAILED');
+  static const completed = ReferenceImportJobStatus._('COMPLETED');
+  static const completedWithFailures =
+      ReferenceImportJobStatus._('COMPLETED_WITH_FAILURES');
 
   final String value;
 
-  const ReferenceImportJobStatus(this.value);
+  const ReferenceImportJobStatus._(this.value);
+
+  static const values = [
+    submitted,
+    inProgress,
+    cancelling,
+    cancelled,
+    failed,
+    completed,
+    completedWithFailures
+  ];
 
   static ReferenceImportJobStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ReferenceImportJobStatus'));
+          orElse: () => ReferenceImportJobStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ReferenceImportJobStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A genome reference.
@@ -9104,20 +9397,29 @@ class ReferenceListItem {
   }
 }
 
-enum ReferenceStatus {
-  active('ACTIVE'),
-  deleting('DELETING'),
-  deleted('DELETED'),
-  ;
+class ReferenceStatus {
+  static const active = ReferenceStatus._('ACTIVE');
+  static const deleting = ReferenceStatus._('DELETING');
+  static const deleted = ReferenceStatus._('DELETED');
 
   final String value;
 
-  const ReferenceStatus(this.value);
+  const ReferenceStatus._(this.value);
+
+  static const values = [active, deleting, deleted];
 
   static ReferenceStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ReferenceStatus'));
+          orElse: () => ReferenceStatus._(value));
+
+  @override
+  bool operator ==(other) => other is ReferenceStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Details about a reference store.
@@ -9209,32 +9511,50 @@ class ReferenceStoreFilter {
   }
 }
 
-enum ResourceOwner {
-  self('SELF'),
-  other('OTHER'),
-  ;
+class ResourceOwner {
+  static const self = ResourceOwner._('SELF');
+  static const other = ResourceOwner._('OTHER');
 
   final String value;
 
-  const ResourceOwner(this.value);
+  const ResourceOwner._(this.value);
+
+  static const values = [self, other];
 
   static ResourceOwner fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ResourceOwner'));
+          orElse: () => ResourceOwner._(value));
+
+  @override
+  bool operator ==(other) => other is ResourceOwner && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum RunExport {
-  definition('DEFINITION'),
-  ;
+class RunExport {
+  static const definition = RunExport._('DEFINITION');
 
   final String value;
 
-  const RunExport(this.value);
+  const RunExport._(this.value);
 
-  static RunExport fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum RunExport'));
+  static const values = [definition];
+
+  static RunExport fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => RunExport._(value));
+
+  @override
+  bool operator ==(other) => other is RunExport && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A run group.
@@ -9405,20 +9725,29 @@ class RunListItem {
   }
 }
 
-enum RunLogLevel {
-  off('OFF'),
-  fatal('FATAL'),
-  error('ERROR'),
-  all('ALL'),
-  ;
+class RunLogLevel {
+  static const off = RunLogLevel._('OFF');
+  static const fatal = RunLogLevel._('FATAL');
+  static const error = RunLogLevel._('ERROR');
+  static const all = RunLogLevel._('ALL');
 
   final String value;
 
-  const RunLogLevel(this.value);
+  const RunLogLevel._(this.value);
 
-  static RunLogLevel fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum RunLogLevel'));
+  static const values = [off, fatal, error, all];
+
+  static RunLogLevel fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => RunLogLevel._(value));
+
+  @override
+  bool operator ==(other) => other is RunLogLevel && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The URI for the run log.
@@ -9463,58 +9792,94 @@ class RunParameters {
   }
 }
 
-enum RunRetentionMode {
-  retain('RETAIN'),
-  remove('REMOVE'),
-  ;
+class RunRetentionMode {
+  static const retain = RunRetentionMode._('RETAIN');
+  static const remove = RunRetentionMode._('REMOVE');
 
   final String value;
 
-  const RunRetentionMode(this.value);
+  const RunRetentionMode._(this.value);
+
+  static const values = [retain, remove];
 
   static RunRetentionMode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum RunRetentionMode'));
+          orElse: () => RunRetentionMode._(value));
+
+  @override
+  bool operator ==(other) => other is RunRetentionMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum RunStatus {
-  pending('PENDING'),
-  starting('STARTING'),
-  running('RUNNING'),
-  stopping('STOPPING'),
-  completed('COMPLETED'),
-  deleted('DELETED'),
-  cancelled('CANCELLED'),
-  failed('FAILED'),
-  ;
+class RunStatus {
+  static const pending = RunStatus._('PENDING');
+  static const starting = RunStatus._('STARTING');
+  static const running = RunStatus._('RUNNING');
+  static const stopping = RunStatus._('STOPPING');
+  static const completed = RunStatus._('COMPLETED');
+  static const deleted = RunStatus._('DELETED');
+  static const cancelled = RunStatus._('CANCELLED');
+  static const failed = RunStatus._('FAILED');
 
   final String value;
 
-  const RunStatus(this.value);
+  const RunStatus._(this.value);
 
-  static RunStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum RunStatus'));
+  static const values = [
+    pending,
+    starting,
+    running,
+    stopping,
+    completed,
+    deleted,
+    cancelled,
+    failed
+  ];
+
+  static RunStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => RunStatus._(value));
+
+  @override
+  bool operator ==(other) => other is RunStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum SchemaValueType {
-  long('LONG'),
-  int('INT'),
-  string('STRING'),
-  float('FLOAT'),
-  double('DOUBLE'),
-  boolean('BOOLEAN'),
-  ;
+class SchemaValueType {
+  static const long = SchemaValueType._('LONG');
+  static const $int = SchemaValueType._('INT');
+  static const string = SchemaValueType._('STRING');
+  static const float = SchemaValueType._('FLOAT');
+  static const $double = SchemaValueType._('DOUBLE');
+  static const boolean = SchemaValueType._('BOOLEAN');
 
   final String value;
 
-  const SchemaValueType(this.value);
+  const SchemaValueType._(this.value);
+
+  static const values = [long, $int, string, float, $double, boolean];
 
   static SchemaValueType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum SchemaValueType'));
+          orElse: () => SchemaValueType._(value));
+
+  @override
+  bool operator ==(other) => other is SchemaValueType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Details about a sequence.
@@ -9785,38 +10150,63 @@ class ShareDetails {
   }
 }
 
-enum ShareResourceType {
-  variantStore('VARIANT_STORE'),
-  annotationStore('ANNOTATION_STORE'),
-  workflow('WORKFLOW'),
-  ;
+class ShareResourceType {
+  static const variantStore = ShareResourceType._('VARIANT_STORE');
+  static const annotationStore = ShareResourceType._('ANNOTATION_STORE');
+  static const workflow = ShareResourceType._('WORKFLOW');
 
   final String value;
 
-  const ShareResourceType(this.value);
+  const ShareResourceType._(this.value);
+
+  static const values = [variantStore, annotationStore, workflow];
 
   static ShareResourceType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ShareResourceType'));
+          orElse: () => ShareResourceType._(value));
+
+  @override
+  bool operator ==(other) => other is ShareResourceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ShareStatus {
-  pending('PENDING'),
-  activating('ACTIVATING'),
-  active('ACTIVE'),
-  deleting('DELETING'),
-  deleted('DELETED'),
-  failed('FAILED'),
-  ;
+class ShareStatus {
+  static const pending = ShareStatus._('PENDING');
+  static const activating = ShareStatus._('ACTIVATING');
+  static const active = ShareStatus._('ACTIVE');
+  static const deleting = ShareStatus._('DELETING');
+  static const deleted = ShareStatus._('DELETED');
+  static const failed = ShareStatus._('FAILED');
 
   final String value;
 
-  const ShareStatus(this.value);
+  const ShareStatus._(this.value);
 
-  static ShareStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum ShareStatus'));
+  static const values = [
+    pending,
+    activating,
+    active,
+    deleting,
+    deleted,
+    failed
+  ];
+
+  static ShareStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ShareStatus._(value));
+
+  @override
+  bool operator ==(other) => other is ShareStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Source files for a sequence.
@@ -9864,7 +10254,7 @@ class SseConfig {
 
   factory SseConfig.fromJson(Map<String, dynamic> json) {
     return SseConfig(
-      type: EncryptionType.fromString((json['type'] as String)),
+      type: EncryptionType.fromString((json['type'] as String?) ?? ''),
       keyArn: json['keyArn'] as String?,
     );
   }
@@ -9927,7 +10317,8 @@ class StartReadSetActivationJobResponse {
       creationTime: nonNullableTimeStampFromJson(json['creationTime'] ?? 0),
       id: (json['id'] as String?) ?? '',
       sequenceStoreId: (json['sequenceStoreId'] as String?) ?? '',
-      status: ReadSetActivationJobStatus.fromString((json['status'] as String)),
+      status: ReadSetActivationJobStatus.fromString(
+          (json['status'] as String?) ?? ''),
     );
   }
 
@@ -9992,7 +10383,8 @@ class StartReadSetExportJobResponse {
       destination: (json['destination'] as String?) ?? '',
       id: (json['id'] as String?) ?? '',
       sequenceStoreId: (json['sequenceStoreId'] as String?) ?? '',
-      status: ReadSetExportJobStatus.fromString((json['status'] as String)),
+      status:
+          ReadSetExportJobStatus.fromString((json['status'] as String?) ?? ''),
     );
   }
 
@@ -10042,7 +10434,8 @@ class StartReadSetImportJobResponse {
       id: (json['id'] as String?) ?? '',
       roleArn: (json['roleArn'] as String?) ?? '',
       sequenceStoreId: (json['sequenceStoreId'] as String?) ?? '',
-      status: ReadSetImportJobStatus.fromString((json['status'] as String)),
+      status:
+          ReadSetImportJobStatus.fromString((json['status'] as String?) ?? ''),
     );
   }
 
@@ -10157,7 +10550,8 @@ class StartReferenceImportJobResponse {
       id: (json['id'] as String?) ?? '',
       referenceStoreId: (json['referenceStoreId'] as String?) ?? '',
       roleArn: (json['roleArn'] as String?) ?? '',
-      status: ReferenceImportJobStatus.fromString((json['status'] as String)),
+      status: ReferenceImportJobStatus.fromString(
+          (json['status'] as String?) ?? ''),
     );
   }
 
@@ -10292,33 +10686,51 @@ class StartVariantImportResponse {
   }
 }
 
-enum StorageType {
-  static('STATIC'),
-  $dynamic('DYNAMIC'),
-  ;
+class StorageType {
+  static const static = StorageType._('STATIC');
+  static const $dynamic = StorageType._('DYNAMIC');
 
   final String value;
 
-  const StorageType(this.value);
+  const StorageType._(this.value);
 
-  static StorageType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum StorageType'));
+  static const values = [static, $dynamic];
+
+  static StorageType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => StorageType._(value));
+
+  @override
+  bool operator ==(other) => other is StorageType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum StoreFormat {
-  gff('GFF'),
-  tsv('TSV'),
-  vcf('VCF'),
-  ;
+class StoreFormat {
+  static const gff = StoreFormat._('GFF');
+  static const tsv = StoreFormat._('TSV');
+  static const vcf = StoreFormat._('VCF');
 
   final String value;
 
-  const StoreFormat(this.value);
+  const StoreFormat._(this.value);
 
-  static StoreFormat fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum StoreFormat'));
+  static const values = [gff, tsv, vcf];
+
+  static StoreFormat fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => StoreFormat._(value));
+
+  @override
+  bool operator ==(other) => other is StoreFormat && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Settings for a store.
@@ -10347,21 +10759,30 @@ class StoreOptions {
   }
 }
 
-enum StoreStatus {
-  creating('CREATING'),
-  updating('UPDATING'),
-  deleting('DELETING'),
-  active('ACTIVE'),
-  failed('FAILED'),
-  ;
+class StoreStatus {
+  static const creating = StoreStatus._('CREATING');
+  static const updating = StoreStatus._('UPDATING');
+  static const deleting = StoreStatus._('DELETING');
+  static const active = StoreStatus._('ACTIVE');
+  static const failed = StoreStatus._('FAILED');
 
   final String value;
 
-  const StoreStatus(this.value);
+  const StoreStatus._(this.value);
 
-  static StoreStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum StoreStatus'));
+  static const values = [creating, updating, deleting, active, failed];
+
+  static StoreStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => StoreStatus._(value));
+
+  @override
+  bool operator ==(other) => other is StoreStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class TagResourceResponse {
@@ -10462,23 +10883,40 @@ class TaskListItem {
   }
 }
 
-enum TaskStatus {
-  pending('PENDING'),
-  starting('STARTING'),
-  running('RUNNING'),
-  stopping('STOPPING'),
-  completed('COMPLETED'),
-  cancelled('CANCELLED'),
-  failed('FAILED'),
-  ;
+class TaskStatus {
+  static const pending = TaskStatus._('PENDING');
+  static const starting = TaskStatus._('STARTING');
+  static const running = TaskStatus._('RUNNING');
+  static const stopping = TaskStatus._('STOPPING');
+  static const completed = TaskStatus._('COMPLETED');
+  static const cancelled = TaskStatus._('CANCELLED');
+  static const failed = TaskStatus._('FAILED');
 
   final String value;
 
-  const TaskStatus(this.value);
+  const TaskStatus._(this.value);
 
-  static TaskStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum TaskStatus'));
+  static const values = [
+    pending,
+    starting,
+    running,
+    stopping,
+    completed,
+    cancelled,
+    failed
+  ];
+
+  static TaskStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => TaskStatus._(value));
+
+  @override
+  bool operator ==(other) => other is TaskStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Formatting options for a TSV file.
@@ -10659,7 +11097,7 @@ class UpdateAnnotationStoreResponse {
       reference: ReferenceItem.fromJson(
           (json['reference'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
-      status: StoreStatus.fromString((json['status'] as String)),
+      status: StoreStatus.fromString((json['status'] as String?) ?? ''),
       updateTime: nonNullableTimeStampFromJson(json['updateTime'] ?? 0),
       storeFormat:
           (json['storeFormat'] as String?)?.let(StoreFormat.fromString),
@@ -10736,7 +11174,7 @@ class UpdateAnnotationStoreVersionResponse {
       description: (json['description'] as String?) ?? '',
       id: (json['id'] as String?) ?? '',
       name: (json['name'] as String?) ?? '',
-      status: VersionStatus.fromString((json['status'] as String)),
+      status: VersionStatus.fromString((json['status'] as String?) ?? ''),
       storeId: (json['storeId'] as String?) ?? '',
       updateTime: nonNullableTimeStampFromJson(json['updateTime'] ?? 0),
       versionName: (json['versionName'] as String?) ?? '',
@@ -10806,7 +11244,7 @@ class UpdateVariantStoreResponse {
       reference: ReferenceItem.fromJson(
           (json['reference'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
-      status: StoreStatus.fromString((json['status'] as String)),
+      status: StoreStatus.fromString((json['status'] as String?) ?? ''),
       updateTime: nonNullableTimeStampFromJson(json['updateTime'] ?? 0),
     );
   }
@@ -10873,7 +11311,7 @@ class VariantImportItemDetail {
 
   factory VariantImportItemDetail.fromJson(Map<String, dynamic> json) {
     return VariantImportItemDetail(
-      jobStatus: JobStatus.fromString((json['jobStatus'] as String)),
+      jobStatus: JobStatus.fromString((json['jobStatus'] as String?) ?? ''),
       source: (json['source'] as String?) ?? '',
       statusMessage: json['statusMessage'] as String?,
     );
@@ -10955,7 +11393,7 @@ class VariantImportJobItem {
       destinationName: (json['destinationName'] as String?) ?? '',
       id: (json['id'] as String?) ?? '',
       roleArn: (json['roleArn'] as String?) ?? '',
-      status: JobStatus.fromString((json['status'] as String)),
+      status: JobStatus.fromString((json['status'] as String?) ?? ''),
       updateTime: nonNullableTimeStampFromJson(json['updateTime'] ?? 0),
       annotationFields: (json['annotationFields'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
@@ -11051,7 +11489,7 @@ class VariantStoreItem {
       sseConfig: SseConfig.fromJson(
           (json['sseConfig'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
-      status: StoreStatus.fromString((json['status'] as String)),
+      status: StoreStatus.fromString((json['status'] as String?) ?? ''),
       statusMessage: (json['statusMessage'] as String?) ?? '',
       storeArn: (json['storeArn'] as String?) ?? '',
       storeSizeBytes: (json['storeSizeBytes'] as int?) ?? 0,
@@ -11173,52 +11611,79 @@ class VersionOptions {
   }
 }
 
-enum VersionStatus {
-  creating('CREATING'),
-  updating('UPDATING'),
-  deleting('DELETING'),
-  active('ACTIVE'),
-  failed('FAILED'),
-  ;
+class VersionStatus {
+  static const creating = VersionStatus._('CREATING');
+  static const updating = VersionStatus._('UPDATING');
+  static const deleting = VersionStatus._('DELETING');
+  static const active = VersionStatus._('ACTIVE');
+  static const failed = VersionStatus._('FAILED');
 
   final String value;
 
-  const VersionStatus(this.value);
+  const VersionStatus._(this.value);
+
+  static const values = [creating, updating, deleting, active, failed];
 
   static VersionStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum VersionStatus'));
+          orElse: () => VersionStatus._(value));
+
+  @override
+  bool operator ==(other) => other is VersionStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum WorkflowEngine {
-  wdl('WDL'),
-  nextflow('NEXTFLOW'),
-  cwl('CWL'),
-  ;
+class WorkflowEngine {
+  static const wdl = WorkflowEngine._('WDL');
+  static const nextflow = WorkflowEngine._('NEXTFLOW');
+  static const cwl = WorkflowEngine._('CWL');
 
   final String value;
 
-  const WorkflowEngine(this.value);
+  const WorkflowEngine._(this.value);
+
+  static const values = [wdl, nextflow, cwl];
 
   static WorkflowEngine fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum WorkflowEngine'));
+          orElse: () => WorkflowEngine._(value));
+
+  @override
+  bool operator ==(other) => other is WorkflowEngine && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum WorkflowExport {
-  definition('DEFINITION'),
-  ;
+class WorkflowExport {
+  static const definition = WorkflowExport._('DEFINITION');
 
   final String value;
 
-  const WorkflowExport(this.value);
+  const WorkflowExport._(this.value);
+
+  static const values = [definition];
 
   static WorkflowExport fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum WorkflowExport'));
+          orElse: () => WorkflowExport._(value));
+
+  @override
+  bool operator ==(other) => other is WorkflowExport && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A workflow.
@@ -11325,38 +11790,55 @@ class WorkflowParameter {
   }
 }
 
-enum WorkflowStatus {
-  creating('CREATING'),
-  active('ACTIVE'),
-  updating('UPDATING'),
-  deleted('DELETED'),
-  failed('FAILED'),
-  inactive('INACTIVE'),
-  ;
+class WorkflowStatus {
+  static const creating = WorkflowStatus._('CREATING');
+  static const active = WorkflowStatus._('ACTIVE');
+  static const updating = WorkflowStatus._('UPDATING');
+  static const deleted = WorkflowStatus._('DELETED');
+  static const failed = WorkflowStatus._('FAILED');
+  static const inactive = WorkflowStatus._('INACTIVE');
 
   final String value;
 
-  const WorkflowStatus(this.value);
+  const WorkflowStatus._(this.value);
+
+  static const values = [creating, active, updating, deleted, failed, inactive];
 
   static WorkflowStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum WorkflowStatus'));
+          orElse: () => WorkflowStatus._(value));
+
+  @override
+  bool operator ==(other) => other is WorkflowStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum WorkflowType {
-  private('PRIVATE'),
-  ready2run('READY2RUN'),
-  ;
+class WorkflowType {
+  static const private = WorkflowType._('PRIVATE');
+  static const ready2run = WorkflowType._('READY2RUN');
 
   final String value;
 
-  const WorkflowType(this.value);
+  const WorkflowType._(this.value);
 
-  static WorkflowType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum WorkflowType'));
+  static const values = [private, ready2run];
+
+  static WorkflowType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => WorkflowType._(value));
+
+  @override
+  bool operator ==(other) => other is WorkflowType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class AccessDeniedException extends _s.GenericAwsException {

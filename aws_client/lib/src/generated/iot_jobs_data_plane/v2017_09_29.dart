@@ -472,25 +472,44 @@ class JobExecutionState {
   }
 }
 
-enum JobExecutionStatus {
-  queued('QUEUED'),
-  inProgress('IN_PROGRESS'),
-  succeeded('SUCCEEDED'),
-  failed('FAILED'),
-  timedOut('TIMED_OUT'),
-  rejected('REJECTED'),
-  removed('REMOVED'),
-  canceled('CANCELED'),
-  ;
+class JobExecutionStatus {
+  static const queued = JobExecutionStatus._('QUEUED');
+  static const inProgress = JobExecutionStatus._('IN_PROGRESS');
+  static const succeeded = JobExecutionStatus._('SUCCEEDED');
+  static const failed = JobExecutionStatus._('FAILED');
+  static const timedOut = JobExecutionStatus._('TIMED_OUT');
+  static const rejected = JobExecutionStatus._('REJECTED');
+  static const removed = JobExecutionStatus._('REMOVED');
+  static const canceled = JobExecutionStatus._('CANCELED');
 
   final String value;
 
-  const JobExecutionStatus(this.value);
+  const JobExecutionStatus._(this.value);
 
-  static JobExecutionStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum JobExecutionStatus'));
+  static const values = [
+    queued,
+    inProgress,
+    succeeded,
+    failed,
+    timedOut,
+    rejected,
+    removed,
+    canceled
+  ];
+
+  static JobExecutionStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => JobExecutionStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is JobExecutionStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains a subset of information about a job execution.

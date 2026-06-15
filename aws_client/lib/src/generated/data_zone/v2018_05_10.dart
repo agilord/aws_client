@@ -6920,19 +6920,29 @@ class AcceptRule {
   }
 }
 
-enum AcceptRuleBehavior {
-  all('ALL'),
-  none('NONE'),
-  ;
+class AcceptRuleBehavior {
+  static const all = AcceptRuleBehavior._('ALL');
+  static const none = AcceptRuleBehavior._('NONE');
 
   final String value;
 
-  const AcceptRuleBehavior(this.value);
+  const AcceptRuleBehavior._(this.value);
 
-  static AcceptRuleBehavior fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum AcceptRuleBehavior'));
+  static const values = [all, none];
+
+  static AcceptRuleBehavior fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AcceptRuleBehavior._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AcceptRuleBehavior && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class AcceptSubscriptionRequestOutput {
@@ -6998,7 +7008,8 @@ class AcceptSubscriptionRequestOutput {
       domainId: (json['domainId'] as String?) ?? '',
       id: (json['id'] as String?) ?? '',
       requestReason: (json['requestReason'] as String?) ?? '',
-      status: SubscriptionRequestStatus.fromString((json['status'] as String)),
+      status: SubscriptionRequestStatus.fromString(
+          (json['status'] as String?) ?? ''),
       subscribedListings: ((json['subscribedListings'] as List?) ?? const [])
           .nonNulls
           .map((e) => SubscribedListing.fromJson(e as Map<String, dynamic>))
@@ -7618,7 +7629,7 @@ class AssetListingDetails {
     return AssetListingDetails(
       listingId: (json['listingId'] as String?) ?? '',
       listingStatus:
-          ListingStatus.fromString((json['listingStatus'] as String)),
+          ListingStatus.fromString((json['listingStatus'] as String?) ?? ''),
     );
   }
 
@@ -8024,18 +8035,27 @@ class AssociateEnvironmentRoleOutput {
   }
 }
 
-enum AuthType {
-  iamIdc('IAM_IDC'),
-  disabled('DISABLED'),
-  ;
+class AuthType {
+  static const iamIdc = AuthType._('IAM_IDC');
+  static const disabled = AuthType._('DISABLED');
 
   final String value;
 
-  const AuthType(this.value);
+  const AuthType._(this.value);
 
-  static AuthType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum AuthType'));
+  static const values = [iamIdc, disabled];
+
+  static AuthType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => AuthType._(value));
+
+  @override
+  bool operator ==(other) => other is AuthType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The parameters of the console link specified as part of the environment
@@ -8157,7 +8177,7 @@ class CancelSubscriptionOutput {
       createdBy: (json['createdBy'] as String?) ?? '',
       domainId: (json['domainId'] as String?) ?? '',
       id: (json['id'] as String?) ?? '',
-      status: SubscriptionStatus.fromString((json['status'] as String)),
+      status: SubscriptionStatus.fromString((json['status'] as String?) ?? ''),
       subscribedListing: SubscribedListing.fromJson(
           (json['subscribedListing'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
@@ -8200,19 +8220,27 @@ class CancelSubscriptionOutput {
   }
 }
 
-enum ChangeAction {
-  publish('PUBLISH'),
-  unpublish('UNPUBLISH'),
-  ;
+class ChangeAction {
+  static const publish = ChangeAction._('PUBLISH');
+  static const unpublish = ChangeAction._('UNPUBLISH');
 
   final String value;
 
-  const ChangeAction(this.value);
+  const ChangeAction._(this.value);
 
-  static ChangeAction fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ChangeAction'));
+  static const values = [publish, unpublish];
+
+  static ChangeAction fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ChangeAction._(value));
+
+  @override
+  bool operator ==(other) => other is ChangeAction && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Part of the provisioning properties of the environment blueprint.
@@ -8296,19 +8324,29 @@ class ConfigurableActionParameter {
   }
 }
 
-enum ConfigurableActionTypeAuthorization {
-  iam('IAM'),
-  https('HTTPS'),
-  ;
+class ConfigurableActionTypeAuthorization {
+  static const iam = ConfigurableActionTypeAuthorization._('IAM');
+  static const https = ConfigurableActionTypeAuthorization._('HTTPS');
 
   final String value;
 
-  const ConfigurableActionTypeAuthorization(this.value);
+  const ConfigurableActionTypeAuthorization._(this.value);
+
+  static const values = [iam, https];
 
   static ConfigurableActionTypeAuthorization fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ConfigurableActionTypeAuthorization'));
+          orElse: () => ConfigurableActionTypeAuthorization._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ConfigurableActionTypeAuthorization && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The configurable action of a Amazon DataZone environment.
@@ -9008,7 +9046,7 @@ class CreateDataProductOutput {
       name: (json['name'] as String?) ?? '',
       owningProjectId: (json['owningProjectId'] as String?) ?? '',
       revision: (json['revision'] as String?) ?? '',
-      status: DataProductStatus.fromString((json['status'] as String)),
+      status: DataProductStatus.fromString((json['status'] as String?) ?? ''),
       createdAt: timeStampFromJson(json['createdAt']),
       createdBy: json['createdBy'] as String?,
       description: json['description'] as String?,
@@ -9132,7 +9170,7 @@ class CreateDataProductRevisionOutput {
       name: (json['name'] as String?) ?? '',
       owningProjectId: (json['owningProjectId'] as String?) ?? '',
       revision: (json['revision'] as String?) ?? '',
-      status: DataProductStatus.fromString((json['status'] as String)),
+      status: DataProductStatus.fromString((json['status'] as String?) ?? ''),
       createdAt: timeStampFromJson(json['createdAt']),
       createdBy: json['createdBy'] as String?,
       description: json['description'] as String?,
@@ -10180,7 +10218,7 @@ class CreateGlossaryTermOutput {
       glossaryId: (json['glossaryId'] as String?) ?? '',
       id: (json['id'] as String?) ?? '',
       name: (json['name'] as String?) ?? '',
-      status: GlossaryTermStatus.fromString((json['status'] as String)),
+      status: GlossaryTermStatus.fromString((json['status'] as String?) ?? ''),
       longDescription: json['longDescription'] as String?,
       shortDescription: json['shortDescription'] as String?,
       termRelations: json['termRelations'] != null
@@ -10276,7 +10314,7 @@ class CreateListingChangeSetOutput {
     return CreateListingChangeSetOutput(
       listingId: (json['listingId'] as String?) ?? '',
       listingRevision: (json['listingRevision'] as String?) ?? '',
-      status: ListingStatus.fromString((json['status'] as String)),
+      status: ListingStatus.fromString((json['status'] as String?) ?? ''),
     );
   }
 
@@ -10488,8 +10526,8 @@ class CreateSubscriptionGrantOutput {
           (json['grantedEntity'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
       id: (json['id'] as String?) ?? '',
-      status:
-          SubscriptionGrantOverallStatus.fromString((json['status'] as String)),
+      status: SubscriptionGrantOverallStatus.fromString(
+          (json['status'] as String?) ?? ''),
       subscriptionTargetId: (json['subscriptionTargetId'] as String?) ?? '',
       updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] ?? 0),
       assets: (json['assets'] as List?)
@@ -10589,7 +10627,8 @@ class CreateSubscriptionRequestOutput {
       domainId: (json['domainId'] as String?) ?? '',
       id: (json['id'] as String?) ?? '',
       requestReason: (json['requestReason'] as String?) ?? '',
-      status: SubscriptionRequestStatus.fromString((json['status'] as String)),
+      status: SubscriptionRequestStatus.fromString(
+          (json['status'] as String?) ?? ''),
       subscribedListings: ((json['subscribedListings'] as List?) ?? const [])
           .nonNulls
           .map((e) => SubscribedListing.fromJson(e as Map<String, dynamic>))
@@ -10880,25 +10919,48 @@ class CustomParameter {
   }
 }
 
-enum DataAssetActivityStatus {
-  failed('FAILED'),
-  publishingFailed('PUBLISHING_FAILED'),
-  succeededCreated('SUCCEEDED_CREATED'),
-  succeededUpdated('SUCCEEDED_UPDATED'),
-  skippedAlreadyImported('SKIPPED_ALREADY_IMPORTED'),
-  skippedArchived('SKIPPED_ARCHIVED'),
-  skippedNoAccess('SKIPPED_NO_ACCESS'),
-  unchanged('UNCHANGED'),
-  ;
+class DataAssetActivityStatus {
+  static const failed = DataAssetActivityStatus._('FAILED');
+  static const publishingFailed =
+      DataAssetActivityStatus._('PUBLISHING_FAILED');
+  static const succeededCreated =
+      DataAssetActivityStatus._('SUCCEEDED_CREATED');
+  static const succeededUpdated =
+      DataAssetActivityStatus._('SUCCEEDED_UPDATED');
+  static const skippedAlreadyImported =
+      DataAssetActivityStatus._('SKIPPED_ALREADY_IMPORTED');
+  static const skippedArchived = DataAssetActivityStatus._('SKIPPED_ARCHIVED');
+  static const skippedNoAccess = DataAssetActivityStatus._('SKIPPED_NO_ACCESS');
+  static const unchanged = DataAssetActivityStatus._('UNCHANGED');
 
   final String value;
 
-  const DataAssetActivityStatus(this.value);
+  const DataAssetActivityStatus._(this.value);
+
+  static const values = [
+    failed,
+    publishingFailed,
+    succeededCreated,
+    succeededUpdated,
+    skippedAlreadyImported,
+    skippedArchived,
+    skippedNoAccess,
+    unchanged
+  ];
 
   static DataAssetActivityStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum DataAssetActivityStatus'));
+          orElse: () => DataAssetActivityStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DataAssetActivityStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The data product.
@@ -10925,7 +10987,8 @@ class DataProductItem {
   factory DataProductItem.fromJson(Map<String, dynamic> json) {
     return DataProductItem(
       identifier: (json['identifier'] as String?) ?? '',
-      itemType: DataProductItemType.fromString((json['itemType'] as String)),
+      itemType:
+          DataProductItemType.fromString((json['itemType'] as String?) ?? ''),
       glossaryTerms: (json['glossaryTerms'] as List?)
           ?.nonNulls
           .map((e) => e as String)
@@ -10948,18 +11011,28 @@ class DataProductItem {
   }
 }
 
-enum DataProductItemType {
-  asset('ASSET'),
-  ;
+class DataProductItemType {
+  static const asset = DataProductItemType._('ASSET');
 
   final String value;
 
-  const DataProductItemType(this.value);
+  const DataProductItemType._(this.value);
 
-  static DataProductItemType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum DataProductItemType'));
+  static const values = [asset];
+
+  static DataProductItemType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DataProductItemType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DataProductItemType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The data product listing.
@@ -11317,20 +11390,29 @@ class DataProductRevision {
   }
 }
 
-enum DataProductStatus {
-  created('CREATED'),
-  creating('CREATING'),
-  createFailed('CREATE_FAILED'),
-  ;
+class DataProductStatus {
+  static const created = DataProductStatus._('CREATED');
+  static const creating = DataProductStatus._('CREATING');
+  static const createFailed = DataProductStatus._('CREATE_FAILED');
 
   final String value;
 
-  const DataProductStatus(this.value);
+  const DataProductStatus._(this.value);
+
+  static const values = [created, creating, createFailed];
 
   static DataProductStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum DataProductStatus'));
+          orElse: () => DataProductStatus._(value));
+
+  @override
+  bool operator ==(other) => other is DataProductStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The configuration of the data source.
@@ -11414,7 +11496,8 @@ class DataSourceErrorMessage {
 
   factory DataSourceErrorMessage.fromJson(Map<String, dynamic> json) {
     return DataSourceErrorMessage(
-      errorType: DataSourceErrorType.fromString((json['errorType'] as String)),
+      errorType:
+          DataSourceErrorType.fromString((json['errorType'] as String?) ?? ''),
       errorDetail: json['errorDetail'] as String?,
     );
   }
@@ -11429,24 +11512,48 @@ class DataSourceErrorMessage {
   }
 }
 
-enum DataSourceErrorType {
-  accessDeniedException('ACCESS_DENIED_EXCEPTION'),
-  conflictException('CONFLICT_EXCEPTION'),
-  internalServerException('INTERNAL_SERVER_EXCEPTION'),
-  resourceNotFoundException('RESOURCE_NOT_FOUND_EXCEPTION'),
-  serviceQuotaExceededException('SERVICE_QUOTA_EXCEEDED_EXCEPTION'),
-  throttlingException('THROTTLING_EXCEPTION'),
-  validationException('VALIDATION_EXCEPTION'),
-  ;
+class DataSourceErrorType {
+  static const accessDeniedException =
+      DataSourceErrorType._('ACCESS_DENIED_EXCEPTION');
+  static const conflictException = DataSourceErrorType._('CONFLICT_EXCEPTION');
+  static const internalServerException =
+      DataSourceErrorType._('INTERNAL_SERVER_EXCEPTION');
+  static const resourceNotFoundException =
+      DataSourceErrorType._('RESOURCE_NOT_FOUND_EXCEPTION');
+  static const serviceQuotaExceededException =
+      DataSourceErrorType._('SERVICE_QUOTA_EXCEEDED_EXCEPTION');
+  static const throttlingException =
+      DataSourceErrorType._('THROTTLING_EXCEPTION');
+  static const validationException =
+      DataSourceErrorType._('VALIDATION_EXCEPTION');
 
   final String value;
 
-  const DataSourceErrorType(this.value);
+  const DataSourceErrorType._(this.value);
 
-  static DataSourceErrorType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum DataSourceErrorType'));
+  static const values = [
+    accessDeniedException,
+    conflictException,
+    internalServerException,
+    resourceNotFoundException,
+    serviceQuotaExceededException,
+    throttlingException,
+    validationException
+  ];
+
+  static DataSourceErrorType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DataSourceErrorType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DataSourceErrorType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The activity details of the data source run.
@@ -11496,7 +11603,7 @@ class DataSourceRunActivity {
     return DataSourceRunActivity(
       createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
       dataAssetStatus: DataAssetActivityStatus.fromString(
-          (json['dataAssetStatus'] as String)),
+          (json['dataAssetStatus'] as String?) ?? ''),
       dataSourceRunId: (json['dataSourceRunId'] as String?) ?? '',
       database: (json['database'] as String?) ?? '',
       projectId: (json['projectId'] as String?) ?? '',
@@ -11538,22 +11645,39 @@ class DataSourceRunActivity {
   }
 }
 
-enum DataSourceRunStatus {
-  requested('REQUESTED'),
-  running('RUNNING'),
-  failed('FAILED'),
-  partiallySucceeded('PARTIALLY_SUCCEEDED'),
-  success('SUCCESS'),
-  ;
+class DataSourceRunStatus {
+  static const requested = DataSourceRunStatus._('REQUESTED');
+  static const running = DataSourceRunStatus._('RUNNING');
+  static const failed = DataSourceRunStatus._('FAILED');
+  static const partiallySucceeded =
+      DataSourceRunStatus._('PARTIALLY_SUCCEEDED');
+  static const success = DataSourceRunStatus._('SUCCESS');
 
   final String value;
 
-  const DataSourceRunStatus(this.value);
+  const DataSourceRunStatus._(this.value);
 
-  static DataSourceRunStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum DataSourceRunStatus'));
+  static const values = [
+    requested,
+    running,
+    failed,
+    partiallySucceeded,
+    success
+  ];
+
+  static DataSourceRunStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DataSourceRunStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DataSourceRunStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The details of a data source run.
@@ -11607,8 +11731,8 @@ class DataSourceRunSummary {
       dataSourceId: (json['dataSourceId'] as String?) ?? '',
       id: (json['id'] as String?) ?? '',
       projectId: (json['projectId'] as String?) ?? '',
-      status: DataSourceRunStatus.fromString((json['status'] as String)),
-      type: DataSourceRunType.fromString((json['type'] as String)),
+      status: DataSourceRunStatus.fromString((json['status'] as String?) ?? ''),
+      type: DataSourceRunType.fromString((json['type'] as String?) ?? ''),
       updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] ?? 0),
       errorMessage: json['errorMessage'] != null
           ? DataSourceErrorMessage.fromJson(
@@ -11652,40 +11776,67 @@ class DataSourceRunSummary {
   }
 }
 
-enum DataSourceRunType {
-  prioritized('PRIORITIZED'),
-  scheduled('SCHEDULED'),
-  ;
+class DataSourceRunType {
+  static const prioritized = DataSourceRunType._('PRIORITIZED');
+  static const scheduled = DataSourceRunType._('SCHEDULED');
 
   final String value;
 
-  const DataSourceRunType(this.value);
+  const DataSourceRunType._(this.value);
+
+  static const values = [prioritized, scheduled];
 
   static DataSourceRunType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum DataSourceRunType'));
+          orElse: () => DataSourceRunType._(value));
+
+  @override
+  bool operator ==(other) => other is DataSourceRunType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum DataSourceStatus {
-  creating('CREATING'),
-  failedCreation('FAILED_CREATION'),
-  ready('READY'),
-  updating('UPDATING'),
-  failedUpdate('FAILED_UPDATE'),
-  running('RUNNING'),
-  deleting('DELETING'),
-  failedDeletion('FAILED_DELETION'),
-  ;
+class DataSourceStatus {
+  static const creating = DataSourceStatus._('CREATING');
+  static const failedCreation = DataSourceStatus._('FAILED_CREATION');
+  static const ready = DataSourceStatus._('READY');
+  static const updating = DataSourceStatus._('UPDATING');
+  static const failedUpdate = DataSourceStatus._('FAILED_UPDATE');
+  static const running = DataSourceStatus._('RUNNING');
+  static const deleting = DataSourceStatus._('DELETING');
+  static const failedDeletion = DataSourceStatus._('FAILED_DELETION');
 
   final String value;
 
-  const DataSourceStatus(this.value);
+  const DataSourceStatus._(this.value);
+
+  static const values = [
+    creating,
+    failedCreation,
+    ready,
+    updating,
+    failedUpdate,
+    running,
+    deleting,
+    failedDeletion
+  ];
 
   static DataSourceStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum DataSourceStatus'));
+          orElse: () => DataSourceStatus._(value));
+
+  @override
+  bool operator ==(other) => other is DataSourceStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The details of the data source.
@@ -11751,7 +11902,7 @@ class DataSourceSummary {
       domainId: (json['domainId'] as String?) ?? '',
       environmentId: (json['environmentId'] as String?) ?? '',
       name: (json['name'] as String?) ?? '',
-      status: DataSourceStatus.fromString((json['status'] as String)),
+      status: DataSourceStatus.fromString((json['status'] as String?) ?? ''),
       type: (json['type'] as String?) ?? '',
       createdAt: timeStampFromJson(json['createdAt']),
       enableSetting:
@@ -11807,18 +11958,28 @@ class DataSourceSummary {
   }
 }
 
-enum DataZoneEntityType {
-  domainUnit('DOMAIN_UNIT'),
-  ;
+class DataZoneEntityType {
+  static const domainUnit = DataZoneEntityType._('DOMAIN_UNIT');
 
   final String value;
 
-  const DataZoneEntityType(this.value);
+  const DataZoneEntityType._(this.value);
 
-  static DataZoneEntityType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum DataZoneEntityType'));
+  static const values = [domainUnit];
+
+  static DataZoneEntityType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DataZoneEntityType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DataZoneEntityType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class DeleteAssetOutput {
@@ -12059,7 +12220,7 @@ class DeleteDomainOutput {
 
   factory DeleteDomainOutput.fromJson(Map<String, dynamic> json) {
     return DeleteDomainOutput(
-      status: DomainStatus.fromString((json['status'] as String)),
+      status: DomainStatus.fromString((json['status'] as String?) ?? ''),
     );
   }
 
@@ -12228,8 +12389,8 @@ class DeleteSubscriptionGrantOutput {
           (json['grantedEntity'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
       id: (json['id'] as String?) ?? '',
-      status:
-          SubscriptionGrantOverallStatus.fromString((json['status'] as String)),
+      status: SubscriptionGrantOverallStatus.fromString(
+          (json['status'] as String?) ?? ''),
       subscriptionTargetId: (json['subscriptionTargetId'] as String?) ?? '',
       updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] ?? 0),
       assets: (json['assets'] as List?)
@@ -12379,37 +12540,55 @@ class DeploymentProperties {
   }
 }
 
-enum DeploymentStatus {
-  inProgress('IN_PROGRESS'),
-  successful('SUCCESSFUL'),
-  failed('FAILED'),
-  pendingDeployment('PENDING_DEPLOYMENT'),
-  ;
+class DeploymentStatus {
+  static const inProgress = DeploymentStatus._('IN_PROGRESS');
+  static const successful = DeploymentStatus._('SUCCESSFUL');
+  static const failed = DeploymentStatus._('FAILED');
+  static const pendingDeployment = DeploymentStatus._('PENDING_DEPLOYMENT');
 
   final String value;
 
-  const DeploymentStatus(this.value);
+  const DeploymentStatus._(this.value);
+
+  static const values = [inProgress, successful, failed, pendingDeployment];
 
   static DeploymentStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum DeploymentStatus'));
+          orElse: () => DeploymentStatus._(value));
+
+  @override
+  bool operator ==(other) => other is DeploymentStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum DeploymentType {
-  create('CREATE'),
-  update('UPDATE'),
-  delete('DELETE'),
-  ;
+class DeploymentType {
+  static const create = DeploymentType._('CREATE');
+  static const update = DeploymentType._('UPDATE');
+  static const delete = DeploymentType._('DELETE');
 
   final String value;
 
-  const DeploymentType(this.value);
+  const DeploymentType._(this.value);
+
+  static const values = [create, update, delete];
 
   static DeploymentType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum DeploymentType'));
+          orElse: () => DeploymentType._(value));
+
+  @override
+  bool operator ==(other) => other is DeploymentType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Details of a glossary term attached to the inventory asset.
@@ -12454,23 +12633,38 @@ class DisassociateEnvironmentRoleOutput {
   }
 }
 
-enum DomainStatus {
-  creating('CREATING'),
-  available('AVAILABLE'),
-  creationFailed('CREATION_FAILED'),
-  deleting('DELETING'),
-  deleted('DELETED'),
-  deletionFailed('DELETION_FAILED'),
-  ;
+class DomainStatus {
+  static const creating = DomainStatus._('CREATING');
+  static const available = DomainStatus._('AVAILABLE');
+  static const creationFailed = DomainStatus._('CREATION_FAILED');
+  static const deleting = DomainStatus._('DELETING');
+  static const deleted = DomainStatus._('DELETED');
+  static const deletionFailed = DomainStatus._('DELETION_FAILED');
 
   final String value;
 
-  const DomainStatus(this.value);
+  const DomainStatus._(this.value);
 
-  static DomainStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum DomainStatus'));
+  static const values = [
+    creating,
+    available,
+    creationFailed,
+    deleting,
+    deleted,
+    deletionFailed
+  ];
+
+  static DomainStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => DomainStatus._(value));
+
+  @override
+  bool operator ==(other) => other is DomainStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A summary of a Amazon DataZone domain.
@@ -12521,7 +12715,7 @@ class DomainSummary {
       id: (json['id'] as String?) ?? '',
       managedAccountId: (json['managedAccountId'] as String?) ?? '',
       name: (json['name'] as String?) ?? '',
-      status: DomainStatus.fromString((json['status'] as String)),
+      status: DomainStatus.fromString((json['status'] as String?) ?? ''),
       description: json['description'] as String?,
       lastUpdatedAt: timeStampFromJson(json['lastUpdatedAt']),
       portalUrl: json['portalUrl'] as String?,
@@ -12553,18 +12747,28 @@ class DomainSummary {
   }
 }
 
-enum DomainUnitDesignation {
-  owner('OWNER'),
-  ;
+class DomainUnitDesignation {
+  static const owner = DomainUnitDesignation._('OWNER');
 
   final String value;
 
-  const DomainUnitDesignation(this.value);
+  const DomainUnitDesignation._(this.value);
 
-  static DomainUnitDesignation fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum DomainUnitDesignation'));
+  static const values = [owner];
+
+  static DomainUnitDesignation fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DomainUnitDesignation._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DomainUnitDesignation && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The domain unit filter of the project grant filter.
@@ -12706,7 +12910,7 @@ class DomainUnitPolicyGrantPrincipal {
   factory DomainUnitPolicyGrantPrincipal.fromJson(Map<String, dynamic> json) {
     return DomainUnitPolicyGrantPrincipal(
       domainUnitDesignation: DomainUnitDesignation.fromString(
-          (json['domainUnitDesignation'] as String)),
+          (json['domainUnitDesignation'] as String?) ?? ''),
       domainUnitGrantFilter: json['domainUnitGrantFilter'] != null
           ? DomainUnitGrantFilter.fromJson(
               json['domainUnitGrantFilter'] as Map<String, dynamic>)
@@ -12782,48 +12986,75 @@ class DomainUnitUserProperties {
   }
 }
 
-enum EdgeDirection {
-  upstream('UPSTREAM'),
-  downstream('DOWNSTREAM'),
-  ;
+class EdgeDirection {
+  static const upstream = EdgeDirection._('UPSTREAM');
+  static const downstream = EdgeDirection._('DOWNSTREAM');
 
   final String value;
 
-  const EdgeDirection(this.value);
+  const EdgeDirection._(this.value);
+
+  static const values = [upstream, downstream];
 
   static EdgeDirection fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum EdgeDirection'));
+          orElse: () => EdgeDirection._(value));
+
+  @override
+  bool operator ==(other) => other is EdgeDirection && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum EnableSetting {
-  enabled('ENABLED'),
-  disabled('DISABLED'),
-  ;
+class EnableSetting {
+  static const enabled = EnableSetting._('ENABLED');
+  static const disabled = EnableSetting._('DISABLED');
 
   final String value;
 
-  const EnableSetting(this.value);
+  const EnableSetting._(this.value);
+
+  static const values = [enabled, disabled];
 
   static EnableSetting fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum EnableSetting'));
+          orElse: () => EnableSetting._(value));
+
+  @override
+  bool operator ==(other) => other is EnableSetting && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum EntityType {
-  asset('ASSET'),
-  dataProduct('DATA_PRODUCT'),
-  ;
+class EntityType {
+  static const asset = EntityType._('ASSET');
+  static const dataProduct = EntityType._('DATA_PRODUCT');
 
   final String value;
 
-  const EntityType(this.value);
+  const EntityType._(this.value);
 
-  static EntityType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum EntityType'));
+  static const values = [asset, dataProduct];
+
+  static EntityType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => EntityType._(value));
+
+  @override
+  bool operator ==(other) => other is EntityType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The details about the specified action configured for an environment. For
@@ -13201,30 +13432,53 @@ class EnvironmentProfileSummary {
   }
 }
 
-enum EnvironmentStatus {
-  active('ACTIVE'),
-  creating('CREATING'),
-  updating('UPDATING'),
-  deleting('DELETING'),
-  createFailed('CREATE_FAILED'),
-  updateFailed('UPDATE_FAILED'),
-  deleteFailed('DELETE_FAILED'),
-  validationFailed('VALIDATION_FAILED'),
-  suspended('SUSPENDED'),
-  disabled('DISABLED'),
-  expired('EXPIRED'),
-  deleted('DELETED'),
-  inaccessible('INACCESSIBLE'),
-  ;
+class EnvironmentStatus {
+  static const active = EnvironmentStatus._('ACTIVE');
+  static const creating = EnvironmentStatus._('CREATING');
+  static const updating = EnvironmentStatus._('UPDATING');
+  static const deleting = EnvironmentStatus._('DELETING');
+  static const createFailed = EnvironmentStatus._('CREATE_FAILED');
+  static const updateFailed = EnvironmentStatus._('UPDATE_FAILED');
+  static const deleteFailed = EnvironmentStatus._('DELETE_FAILED');
+  static const validationFailed = EnvironmentStatus._('VALIDATION_FAILED');
+  static const suspended = EnvironmentStatus._('SUSPENDED');
+  static const disabled = EnvironmentStatus._('DISABLED');
+  static const expired = EnvironmentStatus._('EXPIRED');
+  static const deleted = EnvironmentStatus._('DELETED');
+  static const inaccessible = EnvironmentStatus._('INACCESSIBLE');
 
   final String value;
 
-  const EnvironmentStatus(this.value);
+  const EnvironmentStatus._(this.value);
+
+  static const values = [
+    active,
+    creating,
+    updating,
+    deleting,
+    createFailed,
+    updateFailed,
+    deleteFailed,
+    validationFailed,
+    suspended,
+    disabled,
+    expired,
+    deleted,
+    inaccessible
+  ];
 
   static EnvironmentStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum EnvironmentStatus'));
+          orElse: () => EnvironmentStatus._(value));
+
+  @override
+  bool operator ==(other) => other is EnvironmentStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The details of an environment.
@@ -13460,7 +13714,7 @@ class FilterExpression {
   factory FilterExpression.fromJson(Map<String, dynamic> json) {
     return FilterExpression(
       expression: (json['expression'] as String?) ?? '',
-      type: FilterExpressionType.fromString((json['type'] as String)),
+      type: FilterExpressionType.fromString((json['type'] as String?) ?? ''),
     );
   }
 
@@ -13474,34 +13728,52 @@ class FilterExpression {
   }
 }
 
-enum FilterExpressionType {
-  include('INCLUDE'),
-  exclude('EXCLUDE'),
-  ;
+class FilterExpressionType {
+  static const include = FilterExpressionType._('INCLUDE');
+  static const exclude = FilterExpressionType._('EXCLUDE');
 
   final String value;
 
-  const FilterExpressionType(this.value);
+  const FilterExpressionType._(this.value);
 
-  static FilterExpressionType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum FilterExpressionType'));
+  static const values = [include, exclude];
+
+  static FilterExpressionType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => FilterExpressionType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is FilterExpressionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum FilterStatus {
-  valid('VALID'),
-  invalid('INVALID'),
-  ;
+class FilterStatus {
+  static const valid = FilterStatus._('VALID');
+  static const invalid = FilterStatus._('INVALID');
 
   final String value;
 
-  const FilterStatus(this.value);
+  const FilterStatus._(this.value);
 
-  static FilterStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum FilterStatus'));
+  static const values = [valid, invalid];
+
+  static FilterStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => FilterStatus._(value));
+
+  @override
+  bool operator ==(other) => other is FilterStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The details of the form entry.
@@ -13755,19 +14027,28 @@ class FormTypeData {
   }
 }
 
-enum FormTypeStatus {
-  enabled('ENABLED'),
-  disabled('DISABLED'),
-  ;
+class FormTypeStatus {
+  static const enabled = FormTypeStatus._('ENABLED');
+  static const disabled = FormTypeStatus._('DISABLED');
 
   final String value;
 
-  const FormTypeStatus(this.value);
+  const FormTypeStatus._(this.value);
+
+  static const values = [enabled, disabled];
 
   static FormTypeStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum FormTypeStatus'));
+          orElse: () => FormTypeStatus._(value));
+
+  @override
+  bool operator ==(other) => other is FormTypeStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class GetAssetFilterOutput {
@@ -14206,7 +14487,7 @@ class GetDataProductOutput {
       name: (json['name'] as String?) ?? '',
       owningProjectId: (json['owningProjectId'] as String?) ?? '',
       revision: (json['revision'] as String?) ?? '',
-      status: DataProductStatus.fromString((json['status'] as String)),
+      status: DataProductStatus.fromString((json['status'] as String?) ?? ''),
       createdAt: timeStampFromJson(json['createdAt']),
       createdBy: json['createdBy'] as String?,
       description: json['description'] as String?,
@@ -14524,8 +14805,8 @@ class GetDataSourceRunOutput {
       domainId: (json['domainId'] as String?) ?? '',
       id: (json['id'] as String?) ?? '',
       projectId: (json['projectId'] as String?) ?? '',
-      status: DataSourceRunStatus.fromString((json['status'] as String)),
-      type: DataSourceRunType.fromString((json['type'] as String)),
+      status: DataSourceRunStatus.fromString((json['status'] as String?) ?? ''),
+      type: DataSourceRunType.fromString((json['type'] as String?) ?? ''),
       updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] ?? 0),
       dataSourceConfigurationSnapshot:
           json['dataSourceConfigurationSnapshot'] as String?,
@@ -14639,7 +14920,7 @@ class GetDomainOutput {
     return GetDomainOutput(
       domainExecutionRole: (json['domainExecutionRole'] as String?) ?? '',
       id: (json['id'] as String?) ?? '',
-      status: DomainStatus.fromString((json['status'] as String)),
+      status: DomainStatus.fromString((json['status'] as String?) ?? ''),
       arn: json['arn'] as String?,
       createdAt: timeStampFromJson(json['createdAt']),
       description: json['description'] as String?,
@@ -15520,7 +15801,7 @@ class GetGlossaryOutput {
       id: (json['id'] as String?) ?? '',
       name: (json['name'] as String?) ?? '',
       owningProjectId: (json['owningProjectId'] as String?) ?? '',
-      status: GlossaryStatus.fromString((json['status'] as String)),
+      status: GlossaryStatus.fromString((json['status'] as String?) ?? ''),
       createdAt: timeStampFromJson(json['createdAt']),
       createdBy: json['createdBy'] as String?,
       description: json['description'] as String?,
@@ -15614,7 +15895,7 @@ class GetGlossaryTermOutput {
       glossaryId: (json['glossaryId'] as String?) ?? '',
       id: (json['id'] as String?) ?? '',
       name: (json['name'] as String?) ?? '',
-      status: GlossaryTermStatus.fromString((json['status'] as String)),
+      status: GlossaryTermStatus.fromString((json['status'] as String?) ?? ''),
       createdAt: timeStampFromJson(json['createdAt']),
       createdBy: json['createdBy'] as String?,
       longDescription: json['longDescription'] as String?,
@@ -16190,8 +16471,8 @@ class GetSubscriptionGrantOutput {
           (json['grantedEntity'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
       id: (json['id'] as String?) ?? '',
-      status:
-          SubscriptionGrantOverallStatus.fromString((json['status'] as String)),
+      status: SubscriptionGrantOverallStatus.fromString(
+          (json['status'] as String?) ?? ''),
       subscriptionTargetId: (json['subscriptionTargetId'] as String?) ?? '',
       updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] ?? 0),
       assets: (json['assets'] as List?)
@@ -16286,7 +16567,7 @@ class GetSubscriptionOutput {
       createdBy: (json['createdBy'] as String?) ?? '',
       domainId: (json['domainId'] as String?) ?? '',
       id: (json['id'] as String?) ?? '',
-      status: SubscriptionStatus.fromString((json['status'] as String)),
+      status: SubscriptionStatus.fromString((json['status'] as String?) ?? ''),
       subscribedListing: SubscribedListing.fromJson(
           (json['subscribedListing'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
@@ -16390,7 +16671,8 @@ class GetSubscriptionRequestDetailsOutput {
       domainId: (json['domainId'] as String?) ?? '',
       id: (json['id'] as String?) ?? '',
       requestReason: (json['requestReason'] as String?) ?? '',
-      status: SubscriptionRequestStatus.fromString((json['status'] as String)),
+      status: SubscriptionRequestStatus.fromString(
+          (json['status'] as String?) ?? ''),
       subscribedListings: ((json['subscribedListings'] as List?) ?? const [])
           .nonNulls
           .map((e) => SubscribedListing.fromJson(e as Map<String, dynamic>))
@@ -16731,7 +17013,7 @@ class GlossaryItem {
       id: (json['id'] as String?) ?? '',
       name: (json['name'] as String?) ?? '',
       owningProjectId: (json['owningProjectId'] as String?) ?? '',
-      status: GlossaryStatus.fromString((json['status'] as String)),
+      status: GlossaryStatus.fromString((json['status'] as String?) ?? ''),
       createdAt: timeStampFromJson(json['createdAt']),
       createdBy: json['createdBy'] as String?,
       description: json['description'] as String?,
@@ -16766,19 +17048,28 @@ class GlossaryItem {
   }
 }
 
-enum GlossaryStatus {
-  disabled('DISABLED'),
-  enabled('ENABLED'),
-  ;
+class GlossaryStatus {
+  static const disabled = GlossaryStatus._('DISABLED');
+  static const enabled = GlossaryStatus._('ENABLED');
 
   final String value;
 
-  const GlossaryStatus(this.value);
+  const GlossaryStatus._(this.value);
+
+  static const values = [disabled, enabled];
 
   static GlossaryStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum GlossaryStatus'));
+          orElse: () => GlossaryStatus._(value));
+
+  @override
+  bool operator ==(other) => other is GlossaryStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The details of a business glossary term.
@@ -16841,7 +17132,7 @@ class GlossaryTermItem {
       glossaryId: (json['glossaryId'] as String?) ?? '',
       id: (json['id'] as String?) ?? '',
       name: (json['name'] as String?) ?? '',
-      status: GlossaryTermStatus.fromString((json['status'] as String)),
+      status: GlossaryTermStatus.fromString((json['status'] as String?) ?? ''),
       createdAt: timeStampFromJson(json['createdAt']),
       createdBy: json['createdBy'] as String?,
       longDescription: json['longDescription'] as String?,
@@ -16885,19 +17176,29 @@ class GlossaryTermItem {
   }
 }
 
-enum GlossaryTermStatus {
-  enabled('ENABLED'),
-  disabled('DISABLED'),
-  ;
+class GlossaryTermStatus {
+  static const enabled = GlossaryTermStatus._('ENABLED');
+  static const disabled = GlossaryTermStatus._('DISABLED');
 
   final String value;
 
-  const GlossaryTermStatus(this.value);
+  const GlossaryTermStatus._(this.value);
 
-  static GlossaryTermStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum GlossaryTermStatus'));
+  static const values = [enabled, disabled];
+
+  static GlossaryTermStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => GlossaryTermStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is GlossaryTermStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The configuration details of the Amazon Web Services Glue data source.
@@ -17171,19 +17472,29 @@ class GroupPolicyGrantPrincipal {
   }
 }
 
-enum GroupProfileStatus {
-  assigned('ASSIGNED'),
-  notAssigned('NOT_ASSIGNED'),
-  ;
+class GroupProfileStatus {
+  static const assigned = GroupProfileStatus._('ASSIGNED');
+  static const notAssigned = GroupProfileStatus._('NOT_ASSIGNED');
 
   final String value;
 
-  const GroupProfileStatus(this.value);
+  const GroupProfileStatus._(this.value);
 
-  static GroupProfileStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum GroupProfileStatus'));
+  static const values = [assigned, notAssigned];
+
+  static GroupProfileStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => GroupProfileStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is GroupProfileStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The details of a group profile.
@@ -17230,19 +17541,28 @@ class GroupProfileSummary {
   }
 }
 
-enum GroupSearchType {
-  ssoGroup('SSO_GROUP'),
-  datazoneSsoGroup('DATAZONE_SSO_GROUP'),
-  ;
+class GroupSearchType {
+  static const ssoGroup = GroupSearchType._('SSO_GROUP');
+  static const datazoneSsoGroup = GroupSearchType._('DATAZONE_SSO_GROUP');
 
   final String value;
 
-  const GroupSearchType(this.value);
+  const GroupSearchType._(this.value);
+
+  static const values = [ssoGroup, datazoneSsoGroup];
 
   static GroupSearchType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum GroupSearchType'));
+          orElse: () => GroupSearchType._(value));
+
+  @override
+  bool operator ==(other) => other is GroupSearchType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The details of an IAM user profile in Amazon DataZone.
@@ -17331,21 +17651,31 @@ class InExpression {
   }
 }
 
-enum InventorySearchScope {
-  asset('ASSET'),
-  glossary('GLOSSARY'),
-  glossaryTerm('GLOSSARY_TERM'),
-  dataProduct('DATA_PRODUCT'),
-  ;
+class InventorySearchScope {
+  static const asset = InventorySearchScope._('ASSET');
+  static const glossary = InventorySearchScope._('GLOSSARY');
+  static const glossaryTerm = InventorySearchScope._('GLOSSARY_TERM');
+  static const dataProduct = InventorySearchScope._('DATA_PRODUCT');
 
   final String value;
 
-  const InventorySearchScope(this.value);
+  const InventorySearchScope._(this.value);
 
-  static InventorySearchScope fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum InventorySearchScope'));
+  static const values = [asset, glossary, glossaryTerm, dataProduct];
+
+  static InventorySearchScope fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => InventorySearchScope._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is InventorySearchScope && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specifies that the expression is not null.
@@ -18797,20 +19127,29 @@ class ListingRevisionInput {
   }
 }
 
-enum ListingStatus {
-  creating('CREATING'),
-  active('ACTIVE'),
-  inactive('INACTIVE'),
-  ;
+class ListingStatus {
+  static const creating = ListingStatus._('CREATING');
+  static const active = ListingStatus._('ACTIVE');
+  static const inactive = ListingStatus._('INACTIVE');
 
   final String value;
 
-  const ListingStatus(this.value);
+  const ListingStatus._(this.value);
+
+  static const values = [creating, active, inactive];
 
   static ListingStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ListingStatus'));
+          orElse: () => ListingStatus._(value));
+
+  @override
+  bool operator ==(other) => other is ListingStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The summary of the listing of the data product.
@@ -18893,28 +19232,54 @@ class ListingSummaryItem {
   }
 }
 
-enum ManagedPolicyType {
-  createDomainUnit('CREATE_DOMAIN_UNIT'),
-  overrideDomainUnitOwners('OVERRIDE_DOMAIN_UNIT_OWNERS'),
-  addToProjectMemberPool('ADD_TO_PROJECT_MEMBER_POOL'),
-  overrideProjectOwners('OVERRIDE_PROJECT_OWNERS'),
-  createGlossary('CREATE_GLOSSARY'),
-  createFormType('CREATE_FORM_TYPE'),
-  createAssetType('CREATE_ASSET_TYPE'),
-  createProject('CREATE_PROJECT'),
-  createEnvironmentProfile('CREATE_ENVIRONMENT_PROFILE'),
-  delegateCreateEnvironmentProfile('DELEGATE_CREATE_ENVIRONMENT_PROFILE'),
-  createEnvironment('CREATE_ENVIRONMENT'),
-  ;
+class ManagedPolicyType {
+  static const createDomainUnit = ManagedPolicyType._('CREATE_DOMAIN_UNIT');
+  static const overrideDomainUnitOwners =
+      ManagedPolicyType._('OVERRIDE_DOMAIN_UNIT_OWNERS');
+  static const addToProjectMemberPool =
+      ManagedPolicyType._('ADD_TO_PROJECT_MEMBER_POOL');
+  static const overrideProjectOwners =
+      ManagedPolicyType._('OVERRIDE_PROJECT_OWNERS');
+  static const createGlossary = ManagedPolicyType._('CREATE_GLOSSARY');
+  static const createFormType = ManagedPolicyType._('CREATE_FORM_TYPE');
+  static const createAssetType = ManagedPolicyType._('CREATE_ASSET_TYPE');
+  static const createProject = ManagedPolicyType._('CREATE_PROJECT');
+  static const createEnvironmentProfile =
+      ManagedPolicyType._('CREATE_ENVIRONMENT_PROFILE');
+  static const delegateCreateEnvironmentProfile =
+      ManagedPolicyType._('DELEGATE_CREATE_ENVIRONMENT_PROFILE');
+  static const createEnvironment = ManagedPolicyType._('CREATE_ENVIRONMENT');
 
   final String value;
 
-  const ManagedPolicyType(this.value);
+  const ManagedPolicyType._(this.value);
+
+  static const values = [
+    createDomainUnit,
+    overrideDomainUnitOwners,
+    addToProjectMemberPool,
+    overrideProjectOwners,
+    createGlossary,
+    createFormType,
+    createAssetType,
+    createProject,
+    createEnvironmentProfile,
+    delegateCreateEnvironmentProfile,
+    createEnvironment
+  ];
 
   static ManagedPolicyType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ManagedPolicyType'));
+          orElse: () => ManagedPolicyType._(value));
+
+  @override
+  bool operator ==(other) => other is ManagedPolicyType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The details about a project member.
@@ -19053,22 +19418,32 @@ class MetadataGenerationRunItem {
   }
 }
 
-enum MetadataGenerationRunStatus {
-  submitted('SUBMITTED'),
-  inProgress('IN_PROGRESS'),
-  canceled('CANCELED'),
-  succeeded('SUCCEEDED'),
-  failed('FAILED'),
-  ;
+class MetadataGenerationRunStatus {
+  static const submitted = MetadataGenerationRunStatus._('SUBMITTED');
+  static const inProgress = MetadataGenerationRunStatus._('IN_PROGRESS');
+  static const canceled = MetadataGenerationRunStatus._('CANCELED');
+  static const succeeded = MetadataGenerationRunStatus._('SUCCEEDED');
+  static const failed = MetadataGenerationRunStatus._('FAILED');
 
   final String value;
 
-  const MetadataGenerationRunStatus(this.value);
+  const MetadataGenerationRunStatus._(this.value);
+
+  static const values = [submitted, inProgress, canceled, succeeded, failed];
 
   static MetadataGenerationRunStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum MetadataGenerationRunStatus'));
+          orElse: () => MetadataGenerationRunStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is MetadataGenerationRunStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The asset for which metadata was generated.
@@ -19091,7 +19466,8 @@ class MetadataGenerationRunTarget {
   factory MetadataGenerationRunTarget.fromJson(Map<String, dynamic> json) {
     return MetadataGenerationRunTarget(
       identifier: (json['identifier'] as String?) ?? '',
-      type: MetadataGenerationTargetType.fromString((json['type'] as String)),
+      type: MetadataGenerationTargetType.fromString(
+          (json['type'] as String?) ?? ''),
       revision: json['revision'] as String?,
     );
   }
@@ -19108,32 +19484,53 @@ class MetadataGenerationRunTarget {
   }
 }
 
-enum MetadataGenerationRunType {
-  businessDescriptions('BUSINESS_DESCRIPTIONS'),
-  ;
+class MetadataGenerationRunType {
+  static const businessDescriptions =
+      MetadataGenerationRunType._('BUSINESS_DESCRIPTIONS');
 
   final String value;
 
-  const MetadataGenerationRunType(this.value);
+  const MetadataGenerationRunType._(this.value);
+
+  static const values = [businessDescriptions];
 
   static MetadataGenerationRunType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum MetadataGenerationRunType'));
+          orElse: () => MetadataGenerationRunType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is MetadataGenerationRunType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum MetadataGenerationTargetType {
-  asset('ASSET'),
-  ;
+class MetadataGenerationTargetType {
+  static const asset = MetadataGenerationTargetType._('ASSET');
 
   final String value;
 
-  const MetadataGenerationTargetType(this.value);
+  const MetadataGenerationTargetType._(this.value);
+
+  static const values = [asset];
 
   static MetadataGenerationTargetType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum MetadataGenerationTargetType'));
+          orElse: () => MetadataGenerationTargetType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is MetadataGenerationTargetType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The model of the API.
@@ -19314,7 +19711,7 @@ class NotificationOutput {
       title: (json['title'] as String?) ?? '',
       topic: Topic.fromJson((json['topic'] as Map<String, dynamic>?) ??
           const <String, dynamic>{}),
-      type: NotificationType.fromString((json['type'] as String)),
+      type: NotificationType.fromString((json['type'] as String?) ?? ''),
       metadata: (json['metadata'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
       status: (json['status'] as String?)?.let(TaskStatus.fromString),
@@ -19369,7 +19766,8 @@ class NotificationResource {
   factory NotificationResource.fromJson(Map<String, dynamic> json) {
     return NotificationResource(
       id: (json['id'] as String?) ?? '',
-      type: NotificationResourceType.fromString((json['type'] as String)),
+      type:
+          NotificationResourceType.fromString((json['type'] as String?) ?? ''),
       name: json['name'] as String?,
     );
   }
@@ -19386,51 +19784,85 @@ class NotificationResource {
   }
 }
 
-enum NotificationResourceType {
-  project('PROJECT'),
-  ;
+class NotificationResourceType {
+  static const project = NotificationResourceType._('PROJECT');
 
   final String value;
 
-  const NotificationResourceType(this.value);
+  const NotificationResourceType._(this.value);
+
+  static const values = [project];
 
   static NotificationResourceType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum NotificationResourceType'));
+          orElse: () => NotificationResourceType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is NotificationResourceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum NotificationRole {
-  projectOwner('PROJECT_OWNER'),
-  projectContributor('PROJECT_CONTRIBUTOR'),
-  projectViewer('PROJECT_VIEWER'),
-  domainOwner('DOMAIN_OWNER'),
-  projectSubscriber('PROJECT_SUBSCRIBER'),
-  ;
+class NotificationRole {
+  static const projectOwner = NotificationRole._('PROJECT_OWNER');
+  static const projectContributor = NotificationRole._('PROJECT_CONTRIBUTOR');
+  static const projectViewer = NotificationRole._('PROJECT_VIEWER');
+  static const domainOwner = NotificationRole._('DOMAIN_OWNER');
+  static const projectSubscriber = NotificationRole._('PROJECT_SUBSCRIBER');
 
   final String value;
 
-  const NotificationRole(this.value);
+  const NotificationRole._(this.value);
+
+  static const values = [
+    projectOwner,
+    projectContributor,
+    projectViewer,
+    domainOwner,
+    projectSubscriber
+  ];
 
   static NotificationRole fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum NotificationRole'));
+          orElse: () => NotificationRole._(value));
+
+  @override
+  bool operator ==(other) => other is NotificationRole && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum NotificationType {
-  task('TASK'),
-  event('EVENT'),
-  ;
+class NotificationType {
+  static const task = NotificationType._('TASK');
+  static const event = NotificationType._('EVENT');
 
   final String value;
 
-  const NotificationType(this.value);
+  const NotificationType._(this.value);
+
+  static const values = [task, event];
 
   static NotificationType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum NotificationType'));
+          orElse: () => NotificationType._(value));
+
+  @override
+  bool operator ==(other) => other is NotificationType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The grant details of the override domain unit owners policy.
@@ -19980,19 +20412,29 @@ class ProjectDeletionError {
   }
 }
 
-enum ProjectDesignation {
-  owner('OWNER'),
-  contributor('CONTRIBUTOR'),
-  ;
+class ProjectDesignation {
+  static const owner = ProjectDesignation._('OWNER');
+  static const contributor = ProjectDesignation._('CONTRIBUTOR');
 
   final String value;
 
-  const ProjectDesignation(this.value);
+  const ProjectDesignation._(this.value);
 
-  static ProjectDesignation fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ProjectDesignation'));
+  static const values = [owner, contributor];
+
+  static ProjectDesignation fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ProjectDesignation._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ProjectDesignation && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The project grant filter.
@@ -20036,7 +20478,8 @@ class ProjectMember {
 
   factory ProjectMember.fromJson(Map<String, dynamic> json) {
     return ProjectMember(
-      designation: UserDesignation.fromString((json['designation'] as String)),
+      designation:
+          UserDesignation.fromString((json['designation'] as String?) ?? ''),
       memberDetails: MemberDetails.fromJson(
           (json['memberDetails'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
@@ -20072,8 +20515,8 @@ class ProjectPolicyGrantPrincipal {
 
   factory ProjectPolicyGrantPrincipal.fromJson(Map<String, dynamic> json) {
     return ProjectPolicyGrantPrincipal(
-      projectDesignation:
-          ProjectDesignation.fromString((json['projectDesignation'] as String)),
+      projectDesignation: ProjectDesignation.fromString(
+          (json['projectDesignation'] as String?) ?? ''),
       projectGrantFilter: json['projectGrantFilter'] != null
           ? ProjectGrantFilter.fromJson(
               json['projectGrantFilter'] as Map<String, dynamic>)
@@ -20094,20 +20537,29 @@ class ProjectPolicyGrantPrincipal {
   }
 }
 
-enum ProjectStatus {
-  active('ACTIVE'),
-  deleting('DELETING'),
-  deleteFailed('DELETE_FAILED'),
-  ;
+class ProjectStatus {
+  static const active = ProjectStatus._('ACTIVE');
+  static const deleting = ProjectStatus._('DELETING');
+  static const deleteFailed = ProjectStatus._('DELETE_FAILED');
 
   final String value;
 
-  const ProjectStatus(this.value);
+  const ProjectStatus._(this.value);
+
+  static const values = [active, deleting, deleteFailed];
 
   static ProjectStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ProjectStatus'));
+          orElse: () => ProjectStatus._(value));
+
+  @override
+  bool operator ==(other) => other is ProjectStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The details of a Amazon DataZone project.
@@ -20704,19 +21156,29 @@ class RejectRule {
   }
 }
 
-enum RejectRuleBehavior {
-  all('ALL'),
-  none('NONE'),
-  ;
+class RejectRuleBehavior {
+  static const all = RejectRuleBehavior._('ALL');
+  static const none = RejectRuleBehavior._('NONE');
 
   final String value;
 
-  const RejectRuleBehavior(this.value);
+  const RejectRuleBehavior._(this.value);
 
-  static RejectRuleBehavior fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum RejectRuleBehavior'));
+  static const values = [all, none];
+
+  static RejectRuleBehavior fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => RejectRuleBehavior._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RejectRuleBehavior && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class RejectSubscriptionRequestOutput {
@@ -20779,7 +21241,8 @@ class RejectSubscriptionRequestOutput {
       domainId: (json['domainId'] as String?) ?? '',
       id: (json['id'] as String?) ?? '',
       requestReason: (json['requestReason'] as String?) ?? '',
-      status: SubscriptionRequestStatus.fromString((json['status'] as String)),
+      status: SubscriptionRequestStatus.fromString(
+          (json['status'] as String?) ?? ''),
       subscribedListings: ((json['subscribedListings'] as List?) ?? const [])
           .nonNulls
           .map((e) => SubscribedListing.fromJson(e as Map<String, dynamic>))
@@ -20992,7 +21455,7 @@ class RevokeSubscriptionOutput {
       createdBy: (json['createdBy'] as String?) ?? '',
       domainId: (json['domainId'] as String?) ?? '',
       id: (json['id'] as String?) ?? '',
-      status: SubscriptionStatus.fromString((json['status'] as String)),
+      status: SubscriptionStatus.fromString((json['status'] as String?) ?? ''),
       subscribedListing: SubscribedListing.fromJson(
           (json['subscribedListing'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
@@ -21522,19 +21985,30 @@ class SearchOutput {
   }
 }
 
-enum SearchOutputAdditionalAttribute {
-  forms('FORMS'),
-  timeSeriesDataPointForms('TIME_SERIES_DATA_POINT_FORMS'),
-  ;
+class SearchOutputAdditionalAttribute {
+  static const forms = SearchOutputAdditionalAttribute._('FORMS');
+  static const timeSeriesDataPointForms =
+      SearchOutputAdditionalAttribute._('TIME_SERIES_DATA_POINT_FORMS');
 
   final String value;
 
-  const SearchOutputAdditionalAttribute(this.value);
+  const SearchOutputAdditionalAttribute._(this.value);
+
+  static const values = [forms, timeSeriesDataPointForms];
 
   static SearchOutputAdditionalAttribute fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum SearchOutputAdditionalAttribute'));
+          orElse: () => SearchOutputAdditionalAttribute._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SearchOutputAdditionalAttribute && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The details of the results of the <code>SearchListings</code> action.
@@ -21726,24 +22200,41 @@ class SearchUserProfilesOutput {
   }
 }
 
-enum SelfGrantStatus {
-  grantPending('GRANT_PENDING'),
-  revokePending('REVOKE_PENDING'),
-  grantInProgress('GRANT_IN_PROGRESS'),
-  revokeInProgress('REVOKE_IN_PROGRESS'),
-  granted('GRANTED'),
-  grantFailed('GRANT_FAILED'),
-  revokeFailed('REVOKE_FAILED'),
-  ;
+class SelfGrantStatus {
+  static const grantPending = SelfGrantStatus._('GRANT_PENDING');
+  static const revokePending = SelfGrantStatus._('REVOKE_PENDING');
+  static const grantInProgress = SelfGrantStatus._('GRANT_IN_PROGRESS');
+  static const revokeInProgress = SelfGrantStatus._('REVOKE_IN_PROGRESS');
+  static const granted = SelfGrantStatus._('GRANTED');
+  static const grantFailed = SelfGrantStatus._('GRANT_FAILED');
+  static const revokeFailed = SelfGrantStatus._('REVOKE_FAILED');
 
   final String value;
 
-  const SelfGrantStatus(this.value);
+  const SelfGrantStatus._(this.value);
+
+  static const values = [
+    grantPending,
+    revokePending,
+    grantInProgress,
+    revokeInProgress,
+    granted,
+    grantFailed,
+    revokeFailed
+  ];
 
   static SelfGrantStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum SelfGrantStatus'));
+          orElse: () => SelfGrantStatus._(value));
+
+  @override
+  bool operator ==(other) => other is SelfGrantStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The details for the self granting status.
@@ -21770,7 +22261,7 @@ class SelfGrantStatusDetail {
   factory SelfGrantStatusDetail.fromJson(Map<String, dynamic> json) {
     return SelfGrantStatusDetail(
       databaseName: (json['databaseName'] as String?) ?? '',
-      status: SelfGrantStatus.fromString((json['status'] as String)),
+      status: SelfGrantStatus.fromString((json['status'] as String?) ?? ''),
       failureCause: json['failureCause'] as String?,
       schemaName: json['schemaName'] as String?,
     );
@@ -21859,46 +22350,73 @@ class SingleSignOn {
   }
 }
 
-enum SortFieldProject {
-  name('NAME'),
-  ;
+class SortFieldProject {
+  static const name = SortFieldProject._('NAME');
 
   final String value;
 
-  const SortFieldProject(this.value);
+  const SortFieldProject._(this.value);
+
+  static const values = [name];
 
   static SortFieldProject fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum SortFieldProject'));
+          orElse: () => SortFieldProject._(value));
+
+  @override
+  bool operator ==(other) => other is SortFieldProject && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum SortKey {
-  createdAt('CREATED_AT'),
-  updatedAt('UPDATED_AT'),
-  ;
+class SortKey {
+  static const createdAt = SortKey._('CREATED_AT');
+  static const updatedAt = SortKey._('UPDATED_AT');
 
   final String value;
 
-  const SortKey(this.value);
+  const SortKey._(this.value);
 
-  static SortKey fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum SortKey'));
+  static const values = [createdAt, updatedAt];
+
+  static SortKey fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => SortKey._(value));
+
+  @override
+  bool operator ==(other) => other is SortKey && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum SortOrder {
-  ascending('ASCENDING'),
-  descending('DESCENDING'),
-  ;
+class SortOrder {
+  static const ascending = SortOrder._('ASCENDING');
+  static const descending = SortOrder._('DESCENDING');
 
   final String value;
 
-  const SortOrder(this.value);
+  const SortOrder._(this.value);
 
-  static SortOrder fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum SortOrder'));
+  static const values = [ascending, descending];
+
+  static SortOrder fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => SortOrder._(value));
+
+  @override
+  bool operator ==(other) => other is SortOrder && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The single sign-on details of the user profile.
@@ -22003,8 +22521,8 @@ class StartDataSourceRunOutput {
       domainId: (json['domainId'] as String?) ?? '',
       id: (json['id'] as String?) ?? '',
       projectId: (json['projectId'] as String?) ?? '',
-      status: DataSourceRunStatus.fromString((json['status'] as String)),
-      type: DataSourceRunType.fromString((json['type'] as String)),
+      status: DataSourceRunStatus.fromString((json['status'] as String?) ?? ''),
+      type: DataSourceRunType.fromString((json['type'] as String?) ?? ''),
       updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] ?? 0),
       dataSourceConfigurationSnapshot:
           json['dataSourceConfigurationSnapshot'] as String?,
@@ -22167,7 +22685,8 @@ class SubscribedAsset {
     return SubscribedAsset(
       assetId: (json['assetId'] as String?) ?? '',
       assetRevision: (json['assetRevision'] as String?) ?? '',
-      status: SubscriptionGrantStatus.fromString((json['status'] as String)),
+      status:
+          SubscriptionGrantStatus.fromString((json['status'] as String?) ?? ''),
       assetScope: json['assetScope'] != null
           ? AssetScope.fromJson(json['assetScope'] as Map<String, dynamic>)
           : null,
@@ -22552,45 +23071,84 @@ class SubscribedProjectInput {
   }
 }
 
-enum SubscriptionGrantOverallStatus {
-  pending('PENDING'),
-  inProgress('IN_PROGRESS'),
-  grantFailed('GRANT_FAILED'),
-  revokeFailed('REVOKE_FAILED'),
-  grantAndRevokeFailed('GRANT_AND_REVOKE_FAILED'),
-  completed('COMPLETED'),
-  inaccessible('INACCESSIBLE'),
-  ;
+class SubscriptionGrantOverallStatus {
+  static const pending = SubscriptionGrantOverallStatus._('PENDING');
+  static const inProgress = SubscriptionGrantOverallStatus._('IN_PROGRESS');
+  static const grantFailed = SubscriptionGrantOverallStatus._('GRANT_FAILED');
+  static const revokeFailed = SubscriptionGrantOverallStatus._('REVOKE_FAILED');
+  static const grantAndRevokeFailed =
+      SubscriptionGrantOverallStatus._('GRANT_AND_REVOKE_FAILED');
+  static const completed = SubscriptionGrantOverallStatus._('COMPLETED');
+  static const inaccessible = SubscriptionGrantOverallStatus._('INACCESSIBLE');
 
   final String value;
 
-  const SubscriptionGrantOverallStatus(this.value);
+  const SubscriptionGrantOverallStatus._(this.value);
+
+  static const values = [
+    pending,
+    inProgress,
+    grantFailed,
+    revokeFailed,
+    grantAndRevokeFailed,
+    completed,
+    inaccessible
+  ];
 
   static SubscriptionGrantOverallStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum SubscriptionGrantOverallStatus'));
+          orElse: () => SubscriptionGrantOverallStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SubscriptionGrantOverallStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum SubscriptionGrantStatus {
-  grantPending('GRANT_PENDING'),
-  revokePending('REVOKE_PENDING'),
-  grantInProgress('GRANT_IN_PROGRESS'),
-  revokeInProgress('REVOKE_IN_PROGRESS'),
-  granted('GRANTED'),
-  revoked('REVOKED'),
-  grantFailed('GRANT_FAILED'),
-  revokeFailed('REVOKE_FAILED'),
-  ;
+class SubscriptionGrantStatus {
+  static const grantPending = SubscriptionGrantStatus._('GRANT_PENDING');
+  static const revokePending = SubscriptionGrantStatus._('REVOKE_PENDING');
+  static const grantInProgress = SubscriptionGrantStatus._('GRANT_IN_PROGRESS');
+  static const revokeInProgress =
+      SubscriptionGrantStatus._('REVOKE_IN_PROGRESS');
+  static const granted = SubscriptionGrantStatus._('GRANTED');
+  static const revoked = SubscriptionGrantStatus._('REVOKED');
+  static const grantFailed = SubscriptionGrantStatus._('GRANT_FAILED');
+  static const revokeFailed = SubscriptionGrantStatus._('REVOKE_FAILED');
 
   final String value;
 
-  const SubscriptionGrantStatus(this.value);
+  const SubscriptionGrantStatus._(this.value);
+
+  static const values = [
+    grantPending,
+    revokePending,
+    grantInProgress,
+    revokeInProgress,
+    granted,
+    revoked,
+    grantFailed,
+    revokeFailed
+  ];
 
   static SubscriptionGrantStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum SubscriptionGrantStatus'));
+          orElse: () => SubscriptionGrantStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SubscriptionGrantStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The details of the subscription grant.
@@ -22652,8 +23210,8 @@ class SubscriptionGrantSummary {
           (json['grantedEntity'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
       id: (json['id'] as String?) ?? '',
-      status:
-          SubscriptionGrantOverallStatus.fromString((json['status'] as String)),
+      status: SubscriptionGrantOverallStatus.fromString(
+          (json['status'] as String?) ?? ''),
       subscriptionTargetId: (json['subscriptionTargetId'] as String?) ?? '',
       updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] ?? 0),
       assets: (json['assets'] as List?)
@@ -22693,20 +23251,30 @@ class SubscriptionGrantSummary {
   }
 }
 
-enum SubscriptionRequestStatus {
-  pending('PENDING'),
-  accepted('ACCEPTED'),
-  rejected('REJECTED'),
-  ;
+class SubscriptionRequestStatus {
+  static const pending = SubscriptionRequestStatus._('PENDING');
+  static const accepted = SubscriptionRequestStatus._('ACCEPTED');
+  static const rejected = SubscriptionRequestStatus._('REJECTED');
 
   final String value;
 
-  const SubscriptionRequestStatus(this.value);
+  const SubscriptionRequestStatus._(this.value);
+
+  static const values = [pending, accepted, rejected];
 
   static SubscriptionRequestStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum SubscriptionRequestStatus'));
+          orElse: () => SubscriptionRequestStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SubscriptionRequestStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The details of the subscription request.
@@ -22771,7 +23339,8 @@ class SubscriptionRequestSummary {
       domainId: (json['domainId'] as String?) ?? '',
       id: (json['id'] as String?) ?? '',
       requestReason: (json['requestReason'] as String?) ?? '',
-      status: SubscriptionRequestStatus.fromString((json['status'] as String)),
+      status: SubscriptionRequestStatus.fromString(
+          (json['status'] as String?) ?? ''),
       subscribedListings: ((json['subscribedListings'] as List?) ?? const [])
           .nonNulls
           .map((e) => SubscribedListing.fromJson(e as Map<String, dynamic>))
@@ -22818,20 +23387,30 @@ class SubscriptionRequestSummary {
   }
 }
 
-enum SubscriptionStatus {
-  approved('APPROVED'),
-  revoked('REVOKED'),
-  cancelled('CANCELLED'),
-  ;
+class SubscriptionStatus {
+  static const approved = SubscriptionStatus._('APPROVED');
+  static const revoked = SubscriptionStatus._('REVOKED');
+  static const cancelled = SubscriptionStatus._('CANCELLED');
 
   final String value;
 
-  const SubscriptionStatus(this.value);
+  const SubscriptionStatus._(this.value);
 
-  static SubscriptionStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum SubscriptionStatus'));
+  static const values = [approved, revoked, cancelled];
+
+  static SubscriptionStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => SubscriptionStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SubscriptionStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The details of the subscription.
@@ -22889,7 +23468,7 @@ class SubscriptionSummary {
       createdBy: (json['createdBy'] as String?) ?? '',
       domainId: (json['domainId'] as String?) ?? '',
       id: (json['id'] as String?) ?? '',
-      status: SubscriptionStatus.fromString((json['status'] as String)),
+      status: SubscriptionStatus.fromString((json['status'] as String?) ?? ''),
       subscribedListing: SubscribedListing.fromJson(
           (json['subscribedListing'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
@@ -23109,34 +23688,57 @@ class TagResourceResponse {
   }
 }
 
-enum TargetEntityType {
-  domainUnit('DOMAIN_UNIT'),
-  environmentBlueprintConfiguration('ENVIRONMENT_BLUEPRINT_CONFIGURATION'),
-  environmentProfile('ENVIRONMENT_PROFILE'),
-  ;
+class TargetEntityType {
+  static const domainUnit = TargetEntityType._('DOMAIN_UNIT');
+  static const environmentBlueprintConfiguration =
+      TargetEntityType._('ENVIRONMENT_BLUEPRINT_CONFIGURATION');
+  static const environmentProfile = TargetEntityType._('ENVIRONMENT_PROFILE');
 
   final String value;
 
-  const TargetEntityType(this.value);
+  const TargetEntityType._(this.value);
+
+  static const values = [
+    domainUnit,
+    environmentBlueprintConfiguration,
+    environmentProfile
+  ];
 
   static TargetEntityType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum TargetEntityType'));
+          orElse: () => TargetEntityType._(value));
+
+  @override
+  bool operator ==(other) => other is TargetEntityType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum TaskStatus {
-  active('ACTIVE'),
-  inactive('INACTIVE'),
-  ;
+class TaskStatus {
+  static const active = TaskStatus._('ACTIVE');
+  static const inactive = TaskStatus._('INACTIVE');
 
   final String value;
 
-  const TaskStatus(this.value);
+  const TaskStatus._(this.value);
 
-  static TaskStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum TaskStatus'));
+  static const values = [active, inactive];
+
+  static TaskStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => TaskStatus._(value));
+
+  @override
+  bool operator ==(other) => other is TaskStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The details of the term relations.
@@ -23330,95 +23932,179 @@ class TimeSeriesDataPointSummaryFormOutput {
   }
 }
 
-enum TimeSeriesEntityType {
-  asset('ASSET'),
-  listing('LISTING'),
-  ;
+class TimeSeriesEntityType {
+  static const asset = TimeSeriesEntityType._('ASSET');
+  static const listing = TimeSeriesEntityType._('LISTING');
 
   final String value;
 
-  const TimeSeriesEntityType(this.value);
+  const TimeSeriesEntityType._(this.value);
 
-  static TimeSeriesEntityType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum TimeSeriesEntityType'));
+  static const values = [asset, listing];
+
+  static TimeSeriesEntityType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => TimeSeriesEntityType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TimeSeriesEntityType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum Timezone {
-  utc('UTC'),
-  africaJohannesburg('AFRICA_JOHANNESBURG'),
-  americaMontreal('AMERICA_MONTREAL'),
-  americaSaoPaulo('AMERICA_SAO_PAULO'),
-  asiaBahrain('ASIA_BAHRAIN'),
-  asiaBangkok('ASIA_BANGKOK'),
-  asiaCalcutta('ASIA_CALCUTTA'),
-  asiaDubai('ASIA_DUBAI'),
-  asiaHongKong('ASIA_HONG_KONG'),
-  asiaJakarta('ASIA_JAKARTA'),
-  asiaKualaLumpur('ASIA_KUALA_LUMPUR'),
-  asiaSeoul('ASIA_SEOUL'),
-  asiaShanghai('ASIA_SHANGHAI'),
-  asiaSingapore('ASIA_SINGAPORE'),
-  asiaTaipei('ASIA_TAIPEI'),
-  asiaTokyo('ASIA_TOKYO'),
-  australiaMelbourne('AUSTRALIA_MELBOURNE'),
-  australiaSydney('AUSTRALIA_SYDNEY'),
-  canadaCentral('CANADA_CENTRAL'),
-  cet('CET'),
-  cst6cdt('CST6CDT'),
-  etcGmt('ETC_GMT'),
-  etcGmt0('ETC_GMT0'),
-  etcGmtAdd_0('ETC_GMT_ADD_0'),
-  etcGmtAdd_1('ETC_GMT_ADD_1'),
-  etcGmtAdd_10('ETC_GMT_ADD_10'),
-  etcGmtAdd_11('ETC_GMT_ADD_11'),
-  etcGmtAdd_12('ETC_GMT_ADD_12'),
-  etcGmtAdd_2('ETC_GMT_ADD_2'),
-  etcGmtAdd_3('ETC_GMT_ADD_3'),
-  etcGmtAdd_4('ETC_GMT_ADD_4'),
-  etcGmtAdd_5('ETC_GMT_ADD_5'),
-  etcGmtAdd_6('ETC_GMT_ADD_6'),
-  etcGmtAdd_7('ETC_GMT_ADD_7'),
-  etcGmtAdd_8('ETC_GMT_ADD_8'),
-  etcGmtAdd_9('ETC_GMT_ADD_9'),
-  etcGmtNeg_0('ETC_GMT_NEG_0'),
-  etcGmtNeg_1('ETC_GMT_NEG_1'),
-  etcGmtNeg_10('ETC_GMT_NEG_10'),
-  etcGmtNeg_11('ETC_GMT_NEG_11'),
-  etcGmtNeg_12('ETC_GMT_NEG_12'),
-  etcGmtNeg_13('ETC_GMT_NEG_13'),
-  etcGmtNeg_14('ETC_GMT_NEG_14'),
-  etcGmtNeg_2('ETC_GMT_NEG_2'),
-  etcGmtNeg_3('ETC_GMT_NEG_3'),
-  etcGmtNeg_4('ETC_GMT_NEG_4'),
-  etcGmtNeg_5('ETC_GMT_NEG_5'),
-  etcGmtNeg_6('ETC_GMT_NEG_6'),
-  etcGmtNeg_7('ETC_GMT_NEG_7'),
-  etcGmtNeg_8('ETC_GMT_NEG_8'),
-  etcGmtNeg_9('ETC_GMT_NEG_9'),
-  europeDublin('EUROPE_DUBLIN'),
-  europeLondon('EUROPE_LONDON'),
-  europeParis('EUROPE_PARIS'),
-  europeStockholm('EUROPE_STOCKHOLM'),
-  europeZurich('EUROPE_ZURICH'),
-  israel('ISRAEL'),
-  mexicoGeneral('MEXICO_GENERAL'),
-  mst7mdt('MST7MDT'),
-  pacificAuckland('PACIFIC_AUCKLAND'),
-  usCentral('US_CENTRAL'),
-  usEastern('US_EASTERN'),
-  usMountain('US_MOUNTAIN'),
-  usPacific('US_PACIFIC'),
-  ;
+class Timezone {
+  static const utc = Timezone._('UTC');
+  static const africaJohannesburg = Timezone._('AFRICA_JOHANNESBURG');
+  static const americaMontreal = Timezone._('AMERICA_MONTREAL');
+  static const americaSaoPaulo = Timezone._('AMERICA_SAO_PAULO');
+  static const asiaBahrain = Timezone._('ASIA_BAHRAIN');
+  static const asiaBangkok = Timezone._('ASIA_BANGKOK');
+  static const asiaCalcutta = Timezone._('ASIA_CALCUTTA');
+  static const asiaDubai = Timezone._('ASIA_DUBAI');
+  static const asiaHongKong = Timezone._('ASIA_HONG_KONG');
+  static const asiaJakarta = Timezone._('ASIA_JAKARTA');
+  static const asiaKualaLumpur = Timezone._('ASIA_KUALA_LUMPUR');
+  static const asiaSeoul = Timezone._('ASIA_SEOUL');
+  static const asiaShanghai = Timezone._('ASIA_SHANGHAI');
+  static const asiaSingapore = Timezone._('ASIA_SINGAPORE');
+  static const asiaTaipei = Timezone._('ASIA_TAIPEI');
+  static const asiaTokyo = Timezone._('ASIA_TOKYO');
+  static const australiaMelbourne = Timezone._('AUSTRALIA_MELBOURNE');
+  static const australiaSydney = Timezone._('AUSTRALIA_SYDNEY');
+  static const canadaCentral = Timezone._('CANADA_CENTRAL');
+  static const cet = Timezone._('CET');
+  static const cst6cdt = Timezone._('CST6CDT');
+  static const etcGmt = Timezone._('ETC_GMT');
+  static const etcGmt0 = Timezone._('ETC_GMT0');
+  static const etcGmtAdd_0 = Timezone._('ETC_GMT_ADD_0');
+  static const etcGmtAdd_1 = Timezone._('ETC_GMT_ADD_1');
+  static const etcGmtAdd_10 = Timezone._('ETC_GMT_ADD_10');
+  static const etcGmtAdd_11 = Timezone._('ETC_GMT_ADD_11');
+  static const etcGmtAdd_12 = Timezone._('ETC_GMT_ADD_12');
+  static const etcGmtAdd_2 = Timezone._('ETC_GMT_ADD_2');
+  static const etcGmtAdd_3 = Timezone._('ETC_GMT_ADD_3');
+  static const etcGmtAdd_4 = Timezone._('ETC_GMT_ADD_4');
+  static const etcGmtAdd_5 = Timezone._('ETC_GMT_ADD_5');
+  static const etcGmtAdd_6 = Timezone._('ETC_GMT_ADD_6');
+  static const etcGmtAdd_7 = Timezone._('ETC_GMT_ADD_7');
+  static const etcGmtAdd_8 = Timezone._('ETC_GMT_ADD_8');
+  static const etcGmtAdd_9 = Timezone._('ETC_GMT_ADD_9');
+  static const etcGmtNeg_0 = Timezone._('ETC_GMT_NEG_0');
+  static const etcGmtNeg_1 = Timezone._('ETC_GMT_NEG_1');
+  static const etcGmtNeg_10 = Timezone._('ETC_GMT_NEG_10');
+  static const etcGmtNeg_11 = Timezone._('ETC_GMT_NEG_11');
+  static const etcGmtNeg_12 = Timezone._('ETC_GMT_NEG_12');
+  static const etcGmtNeg_13 = Timezone._('ETC_GMT_NEG_13');
+  static const etcGmtNeg_14 = Timezone._('ETC_GMT_NEG_14');
+  static const etcGmtNeg_2 = Timezone._('ETC_GMT_NEG_2');
+  static const etcGmtNeg_3 = Timezone._('ETC_GMT_NEG_3');
+  static const etcGmtNeg_4 = Timezone._('ETC_GMT_NEG_4');
+  static const etcGmtNeg_5 = Timezone._('ETC_GMT_NEG_5');
+  static const etcGmtNeg_6 = Timezone._('ETC_GMT_NEG_6');
+  static const etcGmtNeg_7 = Timezone._('ETC_GMT_NEG_7');
+  static const etcGmtNeg_8 = Timezone._('ETC_GMT_NEG_8');
+  static const etcGmtNeg_9 = Timezone._('ETC_GMT_NEG_9');
+  static const europeDublin = Timezone._('EUROPE_DUBLIN');
+  static const europeLondon = Timezone._('EUROPE_LONDON');
+  static const europeParis = Timezone._('EUROPE_PARIS');
+  static const europeStockholm = Timezone._('EUROPE_STOCKHOLM');
+  static const europeZurich = Timezone._('EUROPE_ZURICH');
+  static const israel = Timezone._('ISRAEL');
+  static const mexicoGeneral = Timezone._('MEXICO_GENERAL');
+  static const mst7mdt = Timezone._('MST7MDT');
+  static const pacificAuckland = Timezone._('PACIFIC_AUCKLAND');
+  static const usCentral = Timezone._('US_CENTRAL');
+  static const usEastern = Timezone._('US_EASTERN');
+  static const usMountain = Timezone._('US_MOUNTAIN');
+  static const usPacific = Timezone._('US_PACIFIC');
 
   final String value;
 
-  const Timezone(this.value);
+  const Timezone._(this.value);
 
-  static Timezone fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum Timezone'));
+  static const values = [
+    utc,
+    africaJohannesburg,
+    americaMontreal,
+    americaSaoPaulo,
+    asiaBahrain,
+    asiaBangkok,
+    asiaCalcutta,
+    asiaDubai,
+    asiaHongKong,
+    asiaJakarta,
+    asiaKualaLumpur,
+    asiaSeoul,
+    asiaShanghai,
+    asiaSingapore,
+    asiaTaipei,
+    asiaTokyo,
+    australiaMelbourne,
+    australiaSydney,
+    canadaCentral,
+    cet,
+    cst6cdt,
+    etcGmt,
+    etcGmt0,
+    etcGmtAdd_0,
+    etcGmtAdd_1,
+    etcGmtAdd_10,
+    etcGmtAdd_11,
+    etcGmtAdd_12,
+    etcGmtAdd_2,
+    etcGmtAdd_3,
+    etcGmtAdd_4,
+    etcGmtAdd_5,
+    etcGmtAdd_6,
+    etcGmtAdd_7,
+    etcGmtAdd_8,
+    etcGmtAdd_9,
+    etcGmtNeg_0,
+    etcGmtNeg_1,
+    etcGmtNeg_10,
+    etcGmtNeg_11,
+    etcGmtNeg_12,
+    etcGmtNeg_13,
+    etcGmtNeg_14,
+    etcGmtNeg_2,
+    etcGmtNeg_3,
+    etcGmtNeg_4,
+    etcGmtNeg_5,
+    etcGmtNeg_6,
+    etcGmtNeg_7,
+    etcGmtNeg_8,
+    etcGmtNeg_9,
+    europeDublin,
+    europeLondon,
+    europeParis,
+    europeStockholm,
+    europeZurich,
+    israel,
+    mexicoGeneral,
+    mst7mdt,
+    pacificAuckland,
+    usCentral,
+    usEastern,
+    usMountain,
+    usPacific
+  ];
+
+  static Timezone fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Timezone._(value));
+
+  @override
+  bool operator ==(other) => other is Timezone && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The topic of the notification.
@@ -23442,7 +24128,7 @@ class Topic {
       resource: NotificationResource.fromJson(
           (json['resource'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
-      role: NotificationRole.fromString((json['role'] as String)),
+      role: NotificationRole.fromString((json['role'] as String?) ?? ''),
       subject: (json['subject'] as String?) ?? '',
     );
   }
@@ -23459,20 +24145,29 @@ class Topic {
   }
 }
 
-enum TypesSearchScope {
-  assetType('ASSET_TYPE'),
-  formType('FORM_TYPE'),
-  lineageNodeType('LINEAGE_NODE_TYPE'),
-  ;
+class TypesSearchScope {
+  static const assetType = TypesSearchScope._('ASSET_TYPE');
+  static const formType = TypesSearchScope._('FORM_TYPE');
+  static const lineageNodeType = TypesSearchScope._('LINEAGE_NODE_TYPE');
 
   final String value;
 
-  const TypesSearchScope(this.value);
+  const TypesSearchScope._(this.value);
+
+  static const values = [assetType, formType, lineageNodeType];
 
   static TypesSearchScope fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum TypesSearchScope'));
+          orElse: () => TypesSearchScope._(value));
+
+  @override
+  bool operator ==(other) => other is TypesSearchScope && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The details of the policy of creating an environment.
@@ -24439,7 +25134,7 @@ class UpdateGlossaryTermOutput {
       glossaryId: (json['glossaryId'] as String?) ?? '',
       id: (json['id'] as String?) ?? '',
       name: (json['name'] as String?) ?? '',
-      status: GlossaryTermStatus.fromString((json['status'] as String)),
+      status: GlossaryTermStatus.fromString((json['status'] as String?) ?? ''),
       longDescription: json['longDescription'] as String?,
       shortDescription: json['shortDescription'] as String?,
       termRelations: json['termRelations'] != null
@@ -24677,8 +25372,8 @@ class UpdateSubscriptionGrantStatusOutput {
           (json['grantedEntity'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
       id: (json['id'] as String?) ?? '',
-      status:
-          SubscriptionGrantOverallStatus.fromString((json['status'] as String)),
+      status: SubscriptionGrantOverallStatus.fromString(
+          (json['status'] as String?) ?? ''),
       subscriptionTargetId: (json['subscriptionTargetId'] as String?) ?? '',
       updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] ?? 0),
       assets: (json['assets'] as List?)
@@ -24779,7 +25474,8 @@ class UpdateSubscriptionRequestOutput {
       domainId: (json['domainId'] as String?) ?? '',
       id: (json['id'] as String?) ?? '',
       requestReason: (json['requestReason'] as String?) ?? '',
-      status: SubscriptionRequestStatus.fromString((json['status'] as String)),
+      status: SubscriptionRequestStatus.fromString(
+          (json['status'] as String?) ?? ''),
       subscribedListings: ((json['subscribedListings'] as List?) ?? const [])
           .nonNulls
           .map((e) => SubscribedListing.fromJson(e as Map<String, dynamic>))
@@ -25021,34 +25717,52 @@ class UpdateUserProfileOutput {
   }
 }
 
-enum UserAssignment {
-  automatic('AUTOMATIC'),
-  manual('MANUAL'),
-  ;
+class UserAssignment {
+  static const automatic = UserAssignment._('AUTOMATIC');
+  static const manual = UserAssignment._('MANUAL');
 
   final String value;
 
-  const UserAssignment(this.value);
+  const UserAssignment._(this.value);
+
+  static const values = [automatic, manual];
 
   static UserAssignment fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum UserAssignment'));
+          orElse: () => UserAssignment._(value));
+
+  @override
+  bool operator ==(other) => other is UserAssignment && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum UserDesignation {
-  projectOwner('PROJECT_OWNER'),
-  projectContributor('PROJECT_CONTRIBUTOR'),
-  ;
+class UserDesignation {
+  static const projectOwner = UserDesignation._('PROJECT_OWNER');
+  static const projectContributor = UserDesignation._('PROJECT_CONTRIBUTOR');
 
   final String value;
 
-  const UserDesignation(this.value);
+  const UserDesignation._(this.value);
+
+  static const values = [projectOwner, projectContributor];
 
   static UserDesignation fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum UserDesignation'));
+          orElse: () => UserDesignation._(value));
+
+  @override
+  bool operator ==(other) => other is UserDesignation && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The user details of a project member.
@@ -25142,21 +25856,30 @@ class UserProfileDetails {
   }
 }
 
-enum UserProfileStatus {
-  assigned('ASSIGNED'),
-  notAssigned('NOT_ASSIGNED'),
-  activated('ACTIVATED'),
-  deactivated('DEACTIVATED'),
-  ;
+class UserProfileStatus {
+  static const assigned = UserProfileStatus._('ASSIGNED');
+  static const notAssigned = UserProfileStatus._('NOT_ASSIGNED');
+  static const activated = UserProfileStatus._('ACTIVATED');
+  static const deactivated = UserProfileStatus._('DEACTIVATED');
 
   final String value;
 
-  const UserProfileStatus(this.value);
+  const UserProfileStatus._(this.value);
+
+  static const values = [assigned, notAssigned, activated, deactivated];
 
   static UserProfileStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum UserProfileStatus'));
+          orElse: () => UserProfileStatus._(value));
+
+  @override
+  bool operator ==(other) => other is UserProfileStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The details of the user profile.
@@ -25212,51 +25935,83 @@ class UserProfileSummary {
   }
 }
 
-enum UserProfileType {
-  iam('IAM'),
-  sso('SSO'),
-  ;
+class UserProfileType {
+  static const iam = UserProfileType._('IAM');
+  static const sso = UserProfileType._('SSO');
 
   final String value;
 
-  const UserProfileType(this.value);
+  const UserProfileType._(this.value);
+
+  static const values = [iam, sso];
 
   static UserProfileType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum UserProfileType'));
+          orElse: () => UserProfileType._(value));
+
+  @override
+  bool operator ==(other) => other is UserProfileType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum UserSearchType {
-  ssoUser('SSO_USER'),
-  datazoneUser('DATAZONE_USER'),
-  datazoneSsoUser('DATAZONE_SSO_USER'),
-  datazoneIamUser('DATAZONE_IAM_USER'),
-  ;
+class UserSearchType {
+  static const ssoUser = UserSearchType._('SSO_USER');
+  static const datazoneUser = UserSearchType._('DATAZONE_USER');
+  static const datazoneSsoUser = UserSearchType._('DATAZONE_SSO_USER');
+  static const datazoneIamUser = UserSearchType._('DATAZONE_IAM_USER');
 
   final String value;
 
-  const UserSearchType(this.value);
+  const UserSearchType._(this.value);
+
+  static const values = [
+    ssoUser,
+    datazoneUser,
+    datazoneSsoUser,
+    datazoneIamUser
+  ];
 
   static UserSearchType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum UserSearchType'));
+          orElse: () => UserSearchType._(value));
+
+  @override
+  bool operator ==(other) => other is UserSearchType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum UserType {
-  iamUser('IAM_USER'),
-  iamRole('IAM_ROLE'),
-  ssoUser('SSO_USER'),
-  ;
+class UserType {
+  static const iamUser = UserType._('IAM_USER');
+  static const iamRole = UserType._('IAM_ROLE');
+  static const ssoUser = UserType._('SSO_USER');
 
   final String value;
 
-  const UserType(this.value);
+  const UserType._(this.value);
 
-  static UserType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum UserType'));
+  static const values = [iamUser, iamRole, ssoUser];
+
+  static UserType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => UserType._(value));
+
+  @override
+  bool operator ==(other) => other is UserType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class AccessDeniedException extends _s.GenericAwsException {

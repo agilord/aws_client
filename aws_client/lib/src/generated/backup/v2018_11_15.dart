@@ -4609,20 +4609,29 @@ class AdvancedBackupSetting {
   }
 }
 
-enum AggregationPeriod {
-  oneDay('ONE_DAY'),
-  sevenDays('SEVEN_DAYS'),
-  fourteenDays('FOURTEEN_DAYS'),
-  ;
+class AggregationPeriod {
+  static const oneDay = AggregationPeriod._('ONE_DAY');
+  static const sevenDays = AggregationPeriod._('SEVEN_DAYS');
+  static const fourteenDays = AggregationPeriod._('FOURTEEN_DAYS');
 
   final String value;
 
-  const AggregationPeriod(this.value);
+  const AggregationPeriod._(this.value);
+
+  static const values = [oneDay, sevenDays, fourteenDays];
 
   static AggregationPeriod fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum AggregationPeriod'));
+          orElse: () => AggregationPeriod._(value));
+
+  @override
+  bool operator ==(other) => other is AggregationPeriod && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains detailed information about a backup job.
@@ -4876,50 +4885,90 @@ class BackupJob {
   }
 }
 
-enum BackupJobState {
-  created('CREATED'),
-  pending('PENDING'),
-  running('RUNNING'),
-  aborting('ABORTING'),
-  aborted('ABORTED'),
-  completed('COMPLETED'),
-  failed('FAILED'),
-  expired('EXPIRED'),
-  partial('PARTIAL'),
-  ;
+class BackupJobState {
+  static const created = BackupJobState._('CREATED');
+  static const pending = BackupJobState._('PENDING');
+  static const running = BackupJobState._('RUNNING');
+  static const aborting = BackupJobState._('ABORTING');
+  static const aborted = BackupJobState._('ABORTED');
+  static const completed = BackupJobState._('COMPLETED');
+  static const failed = BackupJobState._('FAILED');
+  static const expired = BackupJobState._('EXPIRED');
+  static const partial = BackupJobState._('PARTIAL');
 
   final String value;
 
-  const BackupJobState(this.value);
+  const BackupJobState._(this.value);
+
+  static const values = [
+    created,
+    pending,
+    running,
+    aborting,
+    aborted,
+    completed,
+    failed,
+    expired,
+    partial
+  ];
 
   static BackupJobState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum BackupJobState'));
+          orElse: () => BackupJobState._(value));
+
+  @override
+  bool operator ==(other) => other is BackupJobState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum BackupJobStatus {
-  created('CREATED'),
-  pending('PENDING'),
-  running('RUNNING'),
-  aborting('ABORTING'),
-  aborted('ABORTED'),
-  completed('COMPLETED'),
-  failed('FAILED'),
-  expired('EXPIRED'),
-  partial('PARTIAL'),
-  aggregateAll('AGGREGATE_ALL'),
-  any('ANY'),
-  ;
+class BackupJobStatus {
+  static const created = BackupJobStatus._('CREATED');
+  static const pending = BackupJobStatus._('PENDING');
+  static const running = BackupJobStatus._('RUNNING');
+  static const aborting = BackupJobStatus._('ABORTING');
+  static const aborted = BackupJobStatus._('ABORTED');
+  static const completed = BackupJobStatus._('COMPLETED');
+  static const failed = BackupJobStatus._('FAILED');
+  static const expired = BackupJobStatus._('EXPIRED');
+  static const partial = BackupJobStatus._('PARTIAL');
+  static const aggregateAll = BackupJobStatus._('AGGREGATE_ALL');
+  static const any = BackupJobStatus._('ANY');
 
   final String value;
 
-  const BackupJobStatus(this.value);
+  const BackupJobStatus._(this.value);
+
+  static const values = [
+    created,
+    pending,
+    running,
+    aborting,
+    aborted,
+    completed,
+    failed,
+    expired,
+    partial,
+    aggregateAll,
+    any
+  ];
 
   static BackupJobStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum BackupJobStatus'));
+          orElse: () => BackupJobStatus._(value));
+
+  @override
+  bool operator ==(other) => other is BackupJobStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// This is a summary of jobs created or running within the most recent 30 days.
@@ -5675,34 +5724,67 @@ class BackupSelectionsListMember {
   }
 }
 
-enum BackupVaultEvent {
-  backupJobStarted('BACKUP_JOB_STARTED'),
-  backupJobCompleted('BACKUP_JOB_COMPLETED'),
-  backupJobSuccessful('BACKUP_JOB_SUCCESSFUL'),
-  backupJobFailed('BACKUP_JOB_FAILED'),
-  backupJobExpired('BACKUP_JOB_EXPIRED'),
-  restoreJobStarted('RESTORE_JOB_STARTED'),
-  restoreJobCompleted('RESTORE_JOB_COMPLETED'),
-  restoreJobSuccessful('RESTORE_JOB_SUCCESSFUL'),
-  restoreJobFailed('RESTORE_JOB_FAILED'),
-  copyJobStarted('COPY_JOB_STARTED'),
-  copyJobSuccessful('COPY_JOB_SUCCESSFUL'),
-  copyJobFailed('COPY_JOB_FAILED'),
-  recoveryPointModified('RECOVERY_POINT_MODIFIED'),
-  backupPlanCreated('BACKUP_PLAN_CREATED'),
-  backupPlanModified('BACKUP_PLAN_MODIFIED'),
-  s3BackupObjectFailed('S3_BACKUP_OBJECT_FAILED'),
-  s3RestoreObjectFailed('S3_RESTORE_OBJECT_FAILED'),
-  ;
+class BackupVaultEvent {
+  static const backupJobStarted = BackupVaultEvent._('BACKUP_JOB_STARTED');
+  static const backupJobCompleted = BackupVaultEvent._('BACKUP_JOB_COMPLETED');
+  static const backupJobSuccessful =
+      BackupVaultEvent._('BACKUP_JOB_SUCCESSFUL');
+  static const backupJobFailed = BackupVaultEvent._('BACKUP_JOB_FAILED');
+  static const backupJobExpired = BackupVaultEvent._('BACKUP_JOB_EXPIRED');
+  static const restoreJobStarted = BackupVaultEvent._('RESTORE_JOB_STARTED');
+  static const restoreJobCompleted =
+      BackupVaultEvent._('RESTORE_JOB_COMPLETED');
+  static const restoreJobSuccessful =
+      BackupVaultEvent._('RESTORE_JOB_SUCCESSFUL');
+  static const restoreJobFailed = BackupVaultEvent._('RESTORE_JOB_FAILED');
+  static const copyJobStarted = BackupVaultEvent._('COPY_JOB_STARTED');
+  static const copyJobSuccessful = BackupVaultEvent._('COPY_JOB_SUCCESSFUL');
+  static const copyJobFailed = BackupVaultEvent._('COPY_JOB_FAILED');
+  static const recoveryPointModified =
+      BackupVaultEvent._('RECOVERY_POINT_MODIFIED');
+  static const backupPlanCreated = BackupVaultEvent._('BACKUP_PLAN_CREATED');
+  static const backupPlanModified = BackupVaultEvent._('BACKUP_PLAN_MODIFIED');
+  static const s3BackupObjectFailed =
+      BackupVaultEvent._('S3_BACKUP_OBJECT_FAILED');
+  static const s3RestoreObjectFailed =
+      BackupVaultEvent._('S3_RESTORE_OBJECT_FAILED');
 
   final String value;
 
-  const BackupVaultEvent(this.value);
+  const BackupVaultEvent._(this.value);
+
+  static const values = [
+    backupJobStarted,
+    backupJobCompleted,
+    backupJobSuccessful,
+    backupJobFailed,
+    backupJobExpired,
+    restoreJobStarted,
+    restoreJobCompleted,
+    restoreJobSuccessful,
+    restoreJobFailed,
+    copyJobStarted,
+    copyJobSuccessful,
+    copyJobFailed,
+    recoveryPointModified,
+    backupPlanCreated,
+    backupPlanModified,
+    s3BackupObjectFailed,
+    s3RestoreObjectFailed
+  ];
 
   static BackupVaultEvent fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum BackupVaultEvent'));
+          orElse: () => BackupVaultEvent._(value));
+
+  @override
+  bool operator ==(other) => other is BackupVaultEvent && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains metadata about a backup vault.
@@ -5951,7 +6033,7 @@ class Condition {
     return Condition(
       conditionKey: (json['ConditionKey'] as String?) ?? '',
       conditionType:
-          ConditionType.fromString((json['ConditionType'] as String)),
+          ConditionType.fromString((json['ConditionType'] as String?) ?? ''),
       conditionValue: (json['ConditionValue'] as String?) ?? '',
     );
   }
@@ -6004,18 +6086,27 @@ class ConditionParameter {
   }
 }
 
-enum ConditionType {
-  stringequals('STRINGEQUALS'),
-  ;
+class ConditionType {
+  static const stringequals = ConditionType._('STRINGEQUALS');
 
   final String value;
 
-  const ConditionType(this.value);
+  const ConditionType._(this.value);
+
+  static const values = [stringequals];
 
   static ConditionType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ConditionType'));
+          orElse: () => ConditionType._(value));
+
+  @override
+  bool operator ==(other) => other is ConditionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains information about which resources to include or exclude from a
@@ -6427,46 +6518,75 @@ class CopyJob {
   }
 }
 
-enum CopyJobState {
-  created('CREATED'),
-  running('RUNNING'),
-  completed('COMPLETED'),
-  failed('FAILED'),
-  partial('PARTIAL'),
-  ;
+class CopyJobState {
+  static const created = CopyJobState._('CREATED');
+  static const running = CopyJobState._('RUNNING');
+  static const completed = CopyJobState._('COMPLETED');
+  static const failed = CopyJobState._('FAILED');
+  static const partial = CopyJobState._('PARTIAL');
 
   final String value;
 
-  const CopyJobState(this.value);
+  const CopyJobState._(this.value);
 
-  static CopyJobState fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum CopyJobState'));
+  static const values = [created, running, completed, failed, partial];
+
+  static CopyJobState fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => CopyJobState._(value));
+
+  @override
+  bool operator ==(other) => other is CopyJobState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum CopyJobStatus {
-  created('CREATED'),
-  running('RUNNING'),
-  aborting('ABORTING'),
-  aborted('ABORTED'),
-  completing('COMPLETING'),
-  completed('COMPLETED'),
-  failing('FAILING'),
-  failed('FAILED'),
-  partial('PARTIAL'),
-  aggregateAll('AGGREGATE_ALL'),
-  any('ANY'),
-  ;
+class CopyJobStatus {
+  static const created = CopyJobStatus._('CREATED');
+  static const running = CopyJobStatus._('RUNNING');
+  static const aborting = CopyJobStatus._('ABORTING');
+  static const aborted = CopyJobStatus._('ABORTED');
+  static const completing = CopyJobStatus._('COMPLETING');
+  static const completed = CopyJobStatus._('COMPLETED');
+  static const failing = CopyJobStatus._('FAILING');
+  static const failed = CopyJobStatus._('FAILED');
+  static const partial = CopyJobStatus._('PARTIAL');
+  static const aggregateAll = CopyJobStatus._('AGGREGATE_ALL');
+  static const any = CopyJobStatus._('ANY');
 
   final String value;
 
-  const CopyJobStatus(this.value);
+  const CopyJobStatus._(this.value);
+
+  static const values = [
+    created,
+    running,
+    aborting,
+    aborted,
+    completing,
+    completed,
+    failing,
+    failed,
+    partial,
+    aggregateAll,
+    any
+  ];
 
   static CopyJobStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum CopyJobStatus'));
+          orElse: () => CopyJobStatus._(value));
+
+  @override
+  bool operator ==(other) => other is CopyJobStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// This is a summary of copy jobs created or running within the most recent 30
@@ -9213,21 +9333,30 @@ class LegalHold {
   }
 }
 
-enum LegalHoldStatus {
-  creating('CREATING'),
-  active('ACTIVE'),
-  canceling('CANCELING'),
-  canceled('CANCELED'),
-  ;
+class LegalHoldStatus {
+  static const creating = LegalHoldStatus._('CREATING');
+  static const active = LegalHoldStatus._('ACTIVE');
+  static const canceling = LegalHoldStatus._('CANCELING');
+  static const canceled = LegalHoldStatus._('CANCELED');
 
   final String value;
 
-  const LegalHoldStatus(this.value);
+  const LegalHoldStatus._(this.value);
+
+  static const values = [creating, active, canceling, canceled];
 
   static LegalHoldStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum LegalHoldStatus'));
+          orElse: () => LegalHoldStatus._(value));
+
+  @override
+  bool operator ==(other) => other is LegalHoldStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specifies the time period, in days, before a recovery point transitions to
@@ -10819,21 +10948,31 @@ class RecoveryPointSelection {
   }
 }
 
-enum RecoveryPointStatus {
-  completed('COMPLETED'),
-  partial('PARTIAL'),
-  deleting('DELETING'),
-  expired('EXPIRED'),
-  ;
+class RecoveryPointStatus {
+  static const completed = RecoveryPointStatus._('COMPLETED');
+  static const partial = RecoveryPointStatus._('PARTIAL');
+  static const deleting = RecoveryPointStatus._('DELETING');
+  static const expired = RecoveryPointStatus._('EXPIRED');
 
   final String value;
 
-  const RecoveryPointStatus(this.value);
+  const RecoveryPointStatus._(this.value);
 
-  static RecoveryPointStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum RecoveryPointStatus'));
+  static const values = [completed, partial, deleting, expired];
+
+  static RecoveryPointStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => RecoveryPointStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RecoveryPointStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains information from your report plan about where to deliver your
@@ -11206,20 +11345,30 @@ class ReportSetting {
   }
 }
 
-enum RestoreDeletionStatus {
-  deleting('DELETING'),
-  failed('FAILED'),
-  successful('SUCCESSFUL'),
-  ;
+class RestoreDeletionStatus {
+  static const deleting = RestoreDeletionStatus._('DELETING');
+  static const failed = RestoreDeletionStatus._('FAILED');
+  static const successful = RestoreDeletionStatus._('SUCCESSFUL');
 
   final String value;
 
-  const RestoreDeletionStatus(this.value);
+  const RestoreDeletionStatus._(this.value);
 
-  static RestoreDeletionStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum RestoreDeletionStatus'));
+  static const values = [deleting, failed, successful];
+
+  static RestoreDeletionStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => RestoreDeletionStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RestoreDeletionStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains information about the restore testing plan that Backup used to
@@ -11248,43 +11397,70 @@ class RestoreJobCreator {
   }
 }
 
-enum RestoreJobState {
-  created('CREATED'),
-  pending('PENDING'),
-  running('RUNNING'),
-  aborted('ABORTED'),
-  completed('COMPLETED'),
-  failed('FAILED'),
-  aggregateAll('AGGREGATE_ALL'),
-  any('ANY'),
-  ;
+class RestoreJobState {
+  static const created = RestoreJobState._('CREATED');
+  static const pending = RestoreJobState._('PENDING');
+  static const running = RestoreJobState._('RUNNING');
+  static const aborted = RestoreJobState._('ABORTED');
+  static const completed = RestoreJobState._('COMPLETED');
+  static const failed = RestoreJobState._('FAILED');
+  static const aggregateAll = RestoreJobState._('AGGREGATE_ALL');
+  static const any = RestoreJobState._('ANY');
 
   final String value;
 
-  const RestoreJobState(this.value);
+  const RestoreJobState._(this.value);
+
+  static const values = [
+    created,
+    pending,
+    running,
+    aborted,
+    completed,
+    failed,
+    aggregateAll,
+    any
+  ];
 
   static RestoreJobState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum RestoreJobState'));
+          orElse: () => RestoreJobState._(value));
+
+  @override
+  bool operator ==(other) => other is RestoreJobState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum RestoreJobStatus {
-  pending('PENDING'),
-  running('RUNNING'),
-  completed('COMPLETED'),
-  aborted('ABORTED'),
-  failed('FAILED'),
-  ;
+class RestoreJobStatus {
+  static const pending = RestoreJobStatus._('PENDING');
+  static const running = RestoreJobStatus._('RUNNING');
+  static const completed = RestoreJobStatus._('COMPLETED');
+  static const aborted = RestoreJobStatus._('ABORTED');
+  static const failed = RestoreJobStatus._('FAILED');
 
   final String value;
 
-  const RestoreJobStatus(this.value);
+  const RestoreJobStatus._(this.value);
+
+  static const values = [pending, running, completed, aborted, failed];
 
   static RestoreJobStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum RestoreJobStatus'));
+          orElse: () => RestoreJobStatus._(value));
+
+  @override
+  bool operator ==(other) => other is RestoreJobStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// This is a summary of restore jobs created or running within the most recent
@@ -11991,35 +12167,58 @@ class RestoreTestingRecoveryPointSelection {
   }
 }
 
-enum RestoreTestingRecoveryPointSelectionAlgorithm {
-  latestWithinWindow('LATEST_WITHIN_WINDOW'),
-  randomWithinWindow('RANDOM_WITHIN_WINDOW'),
-  ;
+class RestoreTestingRecoveryPointSelectionAlgorithm {
+  static const latestWithinWindow =
+      RestoreTestingRecoveryPointSelectionAlgorithm._('LATEST_WITHIN_WINDOW');
+  static const randomWithinWindow =
+      RestoreTestingRecoveryPointSelectionAlgorithm._('RANDOM_WITHIN_WINDOW');
 
   final String value;
 
-  const RestoreTestingRecoveryPointSelectionAlgorithm(this.value);
+  const RestoreTestingRecoveryPointSelectionAlgorithm._(this.value);
+
+  static const values = [latestWithinWindow, randomWithinWindow];
 
   static RestoreTestingRecoveryPointSelectionAlgorithm fromString(
           String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum RestoreTestingRecoveryPointSelectionAlgorithm'));
+          orElse: () => RestoreTestingRecoveryPointSelectionAlgorithm._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RestoreTestingRecoveryPointSelectionAlgorithm &&
+      other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum RestoreTestingRecoveryPointType {
-  continuous('CONTINUOUS'),
-  snapshot('SNAPSHOT'),
-  ;
+class RestoreTestingRecoveryPointType {
+  static const continuous = RestoreTestingRecoveryPointType._('CONTINUOUS');
+  static const snapshot = RestoreTestingRecoveryPointType._('SNAPSHOT');
 
   final String value;
 
-  const RestoreTestingRecoveryPointType(this.value);
+  const RestoreTestingRecoveryPointType._(this.value);
+
+  static const values = [continuous, snapshot];
 
   static RestoreTestingRecoveryPointType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum RestoreTestingRecoveryPointType'));
+          orElse: () => RestoreTestingRecoveryPointType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RestoreTestingRecoveryPointType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// This contains metadata about a specific restore testing selection.
@@ -12413,21 +12612,31 @@ class RestoreTestingSelectionForUpdate {
   }
 }
 
-enum RestoreValidationStatus {
-  failed('FAILED'),
-  successful('SUCCESSFUL'),
-  timedOut('TIMED_OUT'),
-  validating('VALIDATING'),
-  ;
+class RestoreValidationStatus {
+  static const failed = RestoreValidationStatus._('FAILED');
+  static const successful = RestoreValidationStatus._('SUCCESSFUL');
+  static const timedOut = RestoreValidationStatus._('TIMED_OUT');
+  static const validating = RestoreValidationStatus._('VALIDATING');
 
   final String value;
 
-  const RestoreValidationStatus(this.value);
+  const RestoreValidationStatus._(this.value);
+
+  static const values = [failed, successful, timedOut, validating];
 
   static RestoreValidationStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum RestoreValidationStatus'));
+          orElse: () => RestoreValidationStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RestoreValidationStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class StartBackupJobOutput {
@@ -12569,20 +12778,28 @@ class StartRestoreJobOutput {
   }
 }
 
-enum StorageClass {
-  warm('WARM'),
-  cold('COLD'),
-  deleted('DELETED'),
-  ;
+class StorageClass {
+  static const warm = StorageClass._('WARM');
+  static const cold = StorageClass._('COLD');
+  static const deleted = StorageClass._('DELETED');
 
   final String value;
 
-  const StorageClass(this.value);
+  const StorageClass._(this.value);
 
-  static StorageClass fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum StorageClass'));
+  static const values = [warm, cold, deleted];
+
+  static StorageClass fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => StorageClass._(value));
+
+  @override
+  bool operator ==(other) => other is StorageClass && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class UpdateBackupPlanOutput {
@@ -12894,33 +13111,52 @@ class UpdateRestoreTestingSelectionOutput {
   }
 }
 
-enum VaultState {
-  creating('CREATING'),
-  available('AVAILABLE'),
-  failed('FAILED'),
-  ;
+class VaultState {
+  static const creating = VaultState._('CREATING');
+  static const available = VaultState._('AVAILABLE');
+  static const failed = VaultState._('FAILED');
 
   final String value;
 
-  const VaultState(this.value);
+  const VaultState._(this.value);
 
-  static VaultState fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum VaultState'));
+  static const values = [creating, available, failed];
+
+  static VaultState fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => VaultState._(value));
+
+  @override
+  bool operator ==(other) => other is VaultState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum VaultType {
-  backupVault('BACKUP_VAULT'),
-  logicallyAirGappedBackupVault('LOGICALLY_AIR_GAPPED_BACKUP_VAULT'),
-  ;
+class VaultType {
+  static const backupVault = VaultType._('BACKUP_VAULT');
+  static const logicallyAirGappedBackupVault =
+      VaultType._('LOGICALLY_AIR_GAPPED_BACKUP_VAULT');
 
   final String value;
 
-  const VaultType(this.value);
+  const VaultType._(this.value);
 
-  static VaultType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum VaultType'));
+  static const values = [backupVault, logicallyAirGappedBackupVault];
+
+  static VaultType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => VaultType._(value));
+
+  @override
+  bool operator ==(other) => other is VaultType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class AlreadyExistsException extends _s.GenericAwsException {

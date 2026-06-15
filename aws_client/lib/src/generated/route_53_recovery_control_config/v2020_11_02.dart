@@ -904,7 +904,7 @@ class AssertionRule {
           (json['RuleConfig'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
       safetyRuleArn: (json['SafetyRuleArn'] as String?) ?? '',
-      status: Status.fromString((json['Status'] as String)),
+      status: Status.fromString((json['Status'] as String?) ?? ''),
       waitPeriodMs: (json['WaitPeriodMs'] as int?) ?? 0,
       owner: json['Owner'] as String?,
     );
@@ -1477,7 +1477,7 @@ class GatingRule {
           (json['RuleConfig'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
       safetyRuleArn: (json['SafetyRuleArn'] as String?) ?? '',
-      status: Status.fromString((json['Status'] as String)),
+      status: Status.fromString((json['Status'] as String?) ?? ''),
       targetControls: ((json['TargetControls'] as List?) ?? const [])
           .nonNulls
           .map((e) => e as String)
@@ -1995,7 +1995,7 @@ class RuleConfig {
     return RuleConfig(
       inverted: (json['Inverted'] as bool?) ?? false,
       threshold: (json['Threshold'] as int?) ?? 0,
-      type: RuleType.fromString((json['Type'] as String)),
+      type: RuleType.fromString((json['Type'] as String?) ?? ''),
     );
   }
 
@@ -2022,19 +2022,28 @@ class RuleConfig {
 ///
 /// OR - Any control must be set. This is a shortcut for "At least N," where N
 /// is 1.
-enum RuleType {
-  atleast('ATLEAST'),
-  and('AND'),
-  or('OR'),
-  ;
+class RuleType {
+  static const atleast = RuleType._('ATLEAST');
+  static const and = RuleType._('AND');
+  static const or = RuleType._('OR');
 
   final String value;
 
-  const RuleType(this.value);
+  const RuleType._(this.value);
 
-  static RuleType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum RuleType'));
+  static const values = [atleast, and, or];
+
+  static RuleType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => RuleType._(value));
+
+  @override
+  bool operator ==(other) => other is RuleType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The deployment status of a resource. Status can be one of the following:
@@ -2046,19 +2055,28 @@ enum RuleType {
 ///
 /// PENDING_DELETION: Amazon Route 53 Application Recovery Controller is
 /// deleting the resource.
-enum Status {
-  pending('PENDING'),
-  deployed('DEPLOYED'),
-  pendingDeletion('PENDING_DELETION'),
-  ;
+class Status {
+  static const pending = Status._('PENDING');
+  static const deployed = Status._('DEPLOYED');
+  static const pendingDeletion = Status._('PENDING_DELETION');
 
   final String value;
 
-  const Status(this.value);
+  const Status._(this.value);
+
+  static const values = [pending, deployed, pendingDeletion];
 
   static Status fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum Status'));
+      values.firstWhere((e) => e.value == value, orElse: () => Status._(value));
+
+  @override
+  bool operator ==(other) => other is Status && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class TagResourceResponse {

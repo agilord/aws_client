@@ -2768,20 +2768,30 @@ class ChimeSdkMessaging {
   }
 }
 
-enum AllowNotifications {
-  all('ALL'),
-  none('NONE'),
-  filtered('FILTERED'),
-  ;
+class AllowNotifications {
+  static const all = AllowNotifications._('ALL');
+  static const none = AllowNotifications._('NONE');
+  static const filtered = AllowNotifications._('FILTERED');
 
   final String value;
 
-  const AllowNotifications(this.value);
+  const AllowNotifications._(this.value);
 
-  static AllowNotifications fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum AllowNotifications'));
+  static const values = [all, none, filtered];
+
+  static AllowNotifications fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AllowNotifications._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AllowNotifications && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Summary of the membership details of an <code>AppInstanceUser</code>.
@@ -3487,19 +3497,29 @@ class ChannelMembershipSummary {
   }
 }
 
-enum ChannelMembershipType {
-  $default('DEFAULT'),
-  hidden('HIDDEN'),
-  ;
+class ChannelMembershipType {
+  static const $default = ChannelMembershipType._('DEFAULT');
+  static const hidden = ChannelMembershipType._('HIDDEN');
 
   final String value;
 
-  const ChannelMembershipType(this.value);
+  const ChannelMembershipType._(this.value);
 
-  static ChannelMembershipType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ChannelMembershipType'));
+  static const values = [$default, hidden];
+
+  static ChannelMembershipType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ChannelMembershipType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ChannelMembershipType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The details of a message in a channel.
@@ -3731,36 +3751,57 @@ class ChannelMessageCallback {
   }
 }
 
-enum ChannelMessagePersistenceType {
-  persistent('PERSISTENT'),
-  nonPersistent('NON_PERSISTENT'),
-  ;
+class ChannelMessagePersistenceType {
+  static const persistent = ChannelMessagePersistenceType._('PERSISTENT');
+  static const nonPersistent =
+      ChannelMessagePersistenceType._('NON_PERSISTENT');
 
   final String value;
 
-  const ChannelMessagePersistenceType(this.value);
+  const ChannelMessagePersistenceType._(this.value);
+
+  static const values = [persistent, nonPersistent];
 
   static ChannelMessagePersistenceType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ChannelMessagePersistenceType'));
+          orElse: () => ChannelMessagePersistenceType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ChannelMessagePersistenceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ChannelMessageStatus {
-  sent('SENT'),
-  pending('PENDING'),
-  failed('FAILED'),
-  denied('DENIED'),
-  ;
+class ChannelMessageStatus {
+  static const sent = ChannelMessageStatus._('SENT');
+  static const pending = ChannelMessageStatus._('PENDING');
+  static const failed = ChannelMessageStatus._('FAILED');
+  static const denied = ChannelMessageStatus._('DENIED');
 
   final String value;
 
-  const ChannelMessageStatus(this.value);
+  const ChannelMessageStatus._(this.value);
 
-  static ChannelMessageStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ChannelMessageStatus'));
+  static const values = [sent, pending, failed, denied];
+
+  static ChannelMessageStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ChannelMessageStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ChannelMessageStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Stores information about a message status.
@@ -3935,33 +3976,52 @@ class ChannelMessageSummary {
   }
 }
 
-enum ChannelMessageType {
-  standard('STANDARD'),
-  control('CONTROL'),
-  ;
+class ChannelMessageType {
+  static const standard = ChannelMessageType._('STANDARD');
+  static const control = ChannelMessageType._('CONTROL');
 
   final String value;
 
-  const ChannelMessageType(this.value);
+  const ChannelMessageType._(this.value);
 
-  static ChannelMessageType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ChannelMessageType'));
+  static const values = [standard, control];
+
+  static ChannelMessageType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ChannelMessageType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ChannelMessageType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ChannelMode {
-  unrestricted('UNRESTRICTED'),
-  restricted('RESTRICTED'),
-  ;
+class ChannelMode {
+  static const unrestricted = ChannelMode._('UNRESTRICTED');
+  static const restricted = ChannelMode._('RESTRICTED');
 
   final String value;
 
-  const ChannelMode(this.value);
+  const ChannelMode._(this.value);
 
-  static ChannelMode fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum ChannelMode'));
+  static const values = [unrestricted, restricted];
+
+  static ChannelMode fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ChannelMode._(value));
+
+  @override
+  bool operator ==(other) => other is ChannelMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Summary of the details of a moderated channel.
@@ -4065,19 +4125,28 @@ class ChannelModeratorSummary {
   }
 }
 
-enum ChannelPrivacy {
-  public('PUBLIC'),
-  private('PRIVATE'),
-  ;
+class ChannelPrivacy {
+  static const public = ChannelPrivacy._('PUBLIC');
+  static const private = ChannelPrivacy._('PRIVATE');
 
   final String value;
 
-  const ChannelPrivacy(this.value);
+  const ChannelPrivacy._(this.value);
+
+  static const values = [public, private];
 
   static ChannelPrivacy fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ChannelPrivacy'));
+          orElse: () => ChannelPrivacy._(value));
+
+  @override
+  bool operator ==(other) => other is ChannelPrivacy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Summary of the details of a <code>Channel</code>.
@@ -4503,46 +4572,84 @@ class ElasticChannelConfiguration {
   }
 }
 
-enum ErrorCode {
-  badRequest('BadRequest'),
-  conflict('Conflict'),
-  forbidden('Forbidden'),
-  notFound('NotFound'),
-  preconditionFailed('PreconditionFailed'),
-  resourceLimitExceeded('ResourceLimitExceeded'),
-  serviceFailure('ServiceFailure'),
-  accessDenied('AccessDenied'),
-  serviceUnavailable('ServiceUnavailable'),
-  throttled('Throttled'),
-  throttling('Throttling'),
-  unauthorized('Unauthorized'),
-  unprocessable('Unprocessable'),
-  voiceConnectorGroupAssociationsExist('VoiceConnectorGroupAssociationsExist'),
-  phoneNumberAssociationsExist('PhoneNumberAssociationsExist'),
-  ;
+class ErrorCode {
+  static const badRequest = ErrorCode._('BadRequest');
+  static const conflict = ErrorCode._('Conflict');
+  static const forbidden = ErrorCode._('Forbidden');
+  static const notFound = ErrorCode._('NotFound');
+  static const preconditionFailed = ErrorCode._('PreconditionFailed');
+  static const resourceLimitExceeded = ErrorCode._('ResourceLimitExceeded');
+  static const serviceFailure = ErrorCode._('ServiceFailure');
+  static const accessDenied = ErrorCode._('AccessDenied');
+  static const serviceUnavailable = ErrorCode._('ServiceUnavailable');
+  static const throttled = ErrorCode._('Throttled');
+  static const throttling = ErrorCode._('Throttling');
+  static const unauthorized = ErrorCode._('Unauthorized');
+  static const unprocessable = ErrorCode._('Unprocessable');
+  static const voiceConnectorGroupAssociationsExist =
+      ErrorCode._('VoiceConnectorGroupAssociationsExist');
+  static const phoneNumberAssociationsExist =
+      ErrorCode._('PhoneNumberAssociationsExist');
 
   final String value;
 
-  const ErrorCode(this.value);
+  const ErrorCode._(this.value);
 
-  static ErrorCode fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum ErrorCode'));
+  static const values = [
+    badRequest,
+    conflict,
+    forbidden,
+    notFound,
+    preconditionFailed,
+    resourceLimitExceeded,
+    serviceFailure,
+    accessDenied,
+    serviceUnavailable,
+    throttled,
+    throttling,
+    unauthorized,
+    unprocessable,
+    voiceConnectorGroupAssociationsExist,
+    phoneNumberAssociationsExist
+  ];
+
+  static ErrorCode fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ErrorCode._(value));
+
+  @override
+  bool operator ==(other) => other is ErrorCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ExpirationCriterion {
-  createdTimestamp('CREATED_TIMESTAMP'),
-  lastMessageTimestamp('LAST_MESSAGE_TIMESTAMP'),
-  ;
+class ExpirationCriterion {
+  static const createdTimestamp = ExpirationCriterion._('CREATED_TIMESTAMP');
+  static const lastMessageTimestamp =
+      ExpirationCriterion._('LAST_MESSAGE_TIMESTAMP');
 
   final String value;
 
-  const ExpirationCriterion(this.value);
+  const ExpirationCriterion._(this.value);
 
-  static ExpirationCriterion fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ExpirationCriterion'));
+  static const values = [createdTimestamp, lastMessageTimestamp];
+
+  static ExpirationCriterion fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ExpirationCriterion._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ExpirationCriterion && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Settings that control the interval after which a channel is deleted.
@@ -4561,7 +4668,7 @@ class ExpirationSettings {
   factory ExpirationSettings.fromJson(Map<String, dynamic> json) {
     return ExpirationSettings(
       expirationCriterion: ExpirationCriterion.fromString(
-          (json['ExpirationCriterion'] as String)),
+          (json['ExpirationCriterion'] as String?) ?? ''),
       expirationDays: (json['ExpirationDays'] as int?) ?? 0,
     );
   }
@@ -4576,19 +4683,28 @@ class ExpirationSettings {
   }
 }
 
-enum FallbackAction {
-  $continue('CONTINUE'),
-  abort('ABORT'),
-  ;
+class FallbackAction {
+  static const $continue = FallbackAction._('CONTINUE');
+  static const abort = FallbackAction._('ABORT');
 
   final String value;
 
-  const FallbackAction(this.value);
+  const FallbackAction._(this.value);
+
+  static const values = [$continue, abort];
 
   static FallbackAction fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum FallbackAction'));
+          orElse: () => FallbackAction._(value));
+
+  @override
+  bool operator ==(other) => other is FallbackAction && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class GetChannelMembershipPreferencesResponse {
@@ -4767,18 +4883,27 @@ class Identity {
   }
 }
 
-enum InvocationType {
-  async('ASYNC'),
-  ;
+class InvocationType {
+  static const async = InvocationType._('ASYNC');
 
   final String value;
 
-  const InvocationType(this.value);
+  const InvocationType._(this.value);
+
+  static const values = [async];
 
   static InvocationType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum InvocationType'));
+          orElse: () => InvocationType._(value));
+
+  @override
+  bool operator ==(other) => other is InvocationType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Stores metadata about a Lambda processor.
@@ -4797,7 +4922,7 @@ class LambdaConfiguration {
   factory LambdaConfiguration.fromJson(Map<String, dynamic> json) {
     return LambdaConfiguration(
       invocationType:
-          InvocationType.fromString((json['InvocationType'] as String)),
+          InvocationType.fromString((json['InvocationType'] as String?) ?? ''),
       resourceArn: (json['ResourceArn'] as String?) ?? '',
     );
   }
@@ -5243,19 +5368,28 @@ class MessageAttributeValue {
   }
 }
 
-enum MessagingDataType {
-  channel('Channel'),
-  channelMessage('ChannelMessage'),
-  ;
+class MessagingDataType {
+  static const channel = MessagingDataType._('Channel');
+  static const channelMessage = MessagingDataType._('ChannelMessage');
 
   final String value;
 
-  const MessagingDataType(this.value);
+  const MessagingDataType._(this.value);
+
+  static const values = [channel, channelMessage];
 
   static MessagingDataType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum MessagingDataType'));
+          orElse: () => MessagingDataType._(value));
+
+  @override
+  bool operator ==(other) => other is MessagingDataType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The websocket endpoint used to connect to Amazon Chime SDK messaging.
@@ -5319,7 +5453,7 @@ class Processor {
               const <String, dynamic>{}),
       executionOrder: (json['ExecutionOrder'] as int?) ?? 0,
       fallbackAction:
-          FallbackAction.fromString((json['FallbackAction'] as String)),
+          FallbackAction.fromString((json['FallbackAction'] as String?) ?? ''),
       name: (json['Name'] as String?) ?? '',
     );
   }
@@ -5413,8 +5547,8 @@ class PushNotificationPreferences {
 
   factory PushNotificationPreferences.fromJson(Map<String, dynamic> json) {
     return PushNotificationPreferences(
-      allowNotifications:
-          AllowNotifications.fromString((json['AllowNotifications'] as String)),
+      allowNotifications: AllowNotifications.fromString(
+          (json['AllowNotifications'] as String?) ?? ''),
       filterRule: json['FilterRule'] as String?,
     );
   }
@@ -5429,19 +5563,29 @@ class PushNotificationPreferences {
   }
 }
 
-enum PushNotificationType {
-  $default('DEFAULT'),
-  voip('VOIP'),
-  ;
+class PushNotificationType {
+  static const $default = PushNotificationType._('DEFAULT');
+  static const voip = PushNotificationType._('VOIP');
 
   final String value;
 
-  const PushNotificationType(this.value);
+  const PushNotificationType._(this.value);
 
-  static PushNotificationType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum PushNotificationType'));
+  static const values = [$default, voip];
+
+  static PushNotificationType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => PushNotificationType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is PushNotificationType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class PutChannelExpirationSettingsResponse {
@@ -5662,33 +5806,52 @@ class SearchField {
   }
 }
 
-enum SearchFieldKey {
-  members('MEMBERS'),
-  ;
+class SearchFieldKey {
+  static const members = SearchFieldKey._('MEMBERS');
 
   final String value;
 
-  const SearchFieldKey(this.value);
+  const SearchFieldKey._(this.value);
+
+  static const values = [members];
 
   static SearchFieldKey fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum SearchFieldKey'));
+          orElse: () => SearchFieldKey._(value));
+
+  @override
+  bool operator ==(other) => other is SearchFieldKey && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum SearchFieldOperator {
-  equals('EQUALS'),
-  includes('INCLUDES'),
-  ;
+class SearchFieldOperator {
+  static const equals = SearchFieldOperator._('EQUALS');
+  static const includes = SearchFieldOperator._('INCLUDES');
 
   final String value;
 
-  const SearchFieldOperator(this.value);
+  const SearchFieldOperator._(this.value);
 
-  static SearchFieldOperator fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum SearchFieldOperator'));
+  static const values = [equals, includes];
+
+  static SearchFieldOperator fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => SearchFieldOperator._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SearchFieldOperator && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class SendChannelMessageResponse {
@@ -5737,18 +5900,27 @@ class SendChannelMessageResponse {
   }
 }
 
-enum SortOrder {
-  ascending('ASCENDING'),
-  descending('DESCENDING'),
-  ;
+class SortOrder {
+  static const ascending = SortOrder._('ASCENDING');
+  static const descending = SortOrder._('DESCENDING');
 
   final String value;
 
-  const SortOrder(this.value);
+  const SortOrder._(this.value);
 
-  static SortOrder fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum SortOrder'));
+  static const values = [ascending, descending];
+
+  static SortOrder fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => SortOrder._(value));
+
+  @override
+  bool operator ==(other) => other is SortOrder && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The configuration for connecting a messaging stream to Amazon Kinesis.
@@ -5766,7 +5938,8 @@ class StreamingConfiguration {
 
   factory StreamingConfiguration.fromJson(Map<String, dynamic> json) {
     return StreamingConfiguration(
-      dataType: MessagingDataType.fromString((json['DataType'] as String)),
+      dataType:
+          MessagingDataType.fromString((json['DataType'] as String?) ?? ''),
       resourceArn: (json['ResourceArn'] as String?) ?? '',
     );
   }

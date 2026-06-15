@@ -5449,38 +5449,56 @@ class AmazonManagedKafkaEventSourceConfig {
   }
 }
 
-enum ApplicationLogLevel {
-  trace('TRACE'),
-  debug('DEBUG'),
-  info('INFO'),
-  warn('WARN'),
-  error('ERROR'),
-  fatal('FATAL'),
-  ;
+class ApplicationLogLevel {
+  static const trace = ApplicationLogLevel._('TRACE');
+  static const debug = ApplicationLogLevel._('DEBUG');
+  static const info = ApplicationLogLevel._('INFO');
+  static const warn = ApplicationLogLevel._('WARN');
+  static const error = ApplicationLogLevel._('ERROR');
+  static const fatal = ApplicationLogLevel._('FATAL');
 
   final String value;
 
-  const ApplicationLogLevel(this.value);
+  const ApplicationLogLevel._(this.value);
 
-  static ApplicationLogLevel fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ApplicationLogLevel'));
+  static const values = [trace, debug, info, warn, error, fatal];
+
+  static ApplicationLogLevel fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ApplicationLogLevel._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ApplicationLogLevel && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum Architecture {
-  x86_64('x86_64'),
-  arm64('arm64'),
-  ;
+class Architecture {
+  static const x86_64 = Architecture._('x86_64');
+  static const arm64 = Architecture._('arm64');
 
   final String value;
 
-  const Architecture(this.value);
+  const Architecture._(this.value);
 
-  static Architecture fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum Architecture'));
+  static const values = [x86_64, arm64];
+
+  static Architecture fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Architecture._(value));
+
+  @override
+  bool operator ==(other) => other is Architecture && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Details about a <a
@@ -5583,19 +5601,28 @@ class CodeSigningPolicies {
   }
 }
 
-enum CodeSigningPolicy {
-  warn('Warn'),
-  enforce('Enforce'),
-  ;
+class CodeSigningPolicy {
+  static const warn = CodeSigningPolicy._('Warn');
+  static const enforce = CodeSigningPolicy._('Enforce');
 
   final String value;
 
-  const CodeSigningPolicy(this.value);
+  const CodeSigningPolicy._(this.value);
+
+  static const values = [warn, enforce];
 
   static CodeSigningPolicy fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum CodeSigningPolicy'));
+          orElse: () => CodeSigningPolicy._(value));
+
+  @override
+  bool operator ==(other) => other is CodeSigningPolicy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class Concurrency {
@@ -5793,7 +5820,8 @@ class CreateFunctionUrlConfigResponse {
 
   factory CreateFunctionUrlConfigResponse.fromJson(Map<String, dynamic> json) {
     return CreateFunctionUrlConfigResponse(
-      authType: FunctionUrlAuthType.fromString((json['AuthType'] as String)),
+      authType:
+          FunctionUrlAuthType.fromString((json['AuthType'] as String?) ?? ''),
       creationTime: (json['CreationTime'] as String?) ?? '',
       functionArn: (json['FunctionArn'] as String?) ?? '',
       functionUrl: (json['FunctionUrl'] as String?) ?? '',
@@ -5936,18 +5964,27 @@ class DocumentDBEventSourceConfig {
   }
 }
 
-enum EndPointType {
-  kafkaBootstrapServers('KAFKA_BOOTSTRAP_SERVERS'),
-  ;
+class EndPointType {
+  static const kafkaBootstrapServers =
+      EndPointType._('KAFKA_BOOTSTRAP_SERVERS');
 
   final String value;
 
-  const EndPointType(this.value);
+  const EndPointType._(this.value);
 
-  static EndPointType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum EndPointType'));
+  static const values = [kafkaBootstrapServers];
+
+  static EndPointType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => EndPointType._(value));
+
+  @override
+  bool operator ==(other) => other is EndPointType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A function's environment variable settings. You can use environment
@@ -6417,20 +6454,30 @@ class EventSourceMappingConfiguration {
   }
 }
 
-enum EventSourcePosition {
-  trimHorizon('TRIM_HORIZON'),
-  latest('LATEST'),
-  atTimestamp('AT_TIMESTAMP'),
-  ;
+class EventSourcePosition {
+  static const trimHorizon = EventSourcePosition._('TRIM_HORIZON');
+  static const latest = EventSourcePosition._('LATEST');
+  static const atTimestamp = EventSourcePosition._('AT_TIMESTAMP');
 
   final String value;
 
-  const EventSourcePosition(this.value);
+  const EventSourcePosition._(this.value);
 
-  static EventSourcePosition fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum EventSourcePosition'));
+  static const values = [trimHorizon, latest, atTimestamp];
+
+  static EventSourcePosition fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => EventSourcePosition._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is EventSourcePosition && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Details about the connection between a Lambda function and an <a
@@ -6552,19 +6599,27 @@ class FilterCriteriaError {
   }
 }
 
-enum FullDocument {
-  updateLookup('UpdateLookup'),
-  $default('Default'),
-  ;
+class FullDocument {
+  static const updateLookup = FullDocument._('UpdateLookup');
+  static const $default = FullDocument._('Default');
 
   final String value;
 
-  const FullDocument(this.value);
+  const FullDocument._(this.value);
 
-  static FullDocument fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum FullDocument'));
+  static const values = [updateLookup, $default];
+
+  static FullDocument fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => FullDocument._(value));
+
+  @override
+  bool operator ==(other) => other is FullDocument && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The code for the Lambda function. You can either specify an object in Amazon
@@ -7088,33 +7143,54 @@ class FunctionEventInvokeConfig {
   }
 }
 
-enum FunctionResponseType {
-  reportBatchItemFailures('ReportBatchItemFailures'),
-  ;
+class FunctionResponseType {
+  static const reportBatchItemFailures =
+      FunctionResponseType._('ReportBatchItemFailures');
 
   final String value;
 
-  const FunctionResponseType(this.value);
+  const FunctionResponseType._(this.value);
 
-  static FunctionResponseType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum FunctionResponseType'));
+  static const values = [reportBatchItemFailures];
+
+  static FunctionResponseType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => FunctionResponseType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is FunctionResponseType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum FunctionUrlAuthType {
-  none('NONE'),
-  awsIam('AWS_IAM'),
-  ;
+class FunctionUrlAuthType {
+  static const none = FunctionUrlAuthType._('NONE');
+  static const awsIam = FunctionUrlAuthType._('AWS_IAM');
 
   final String value;
 
-  const FunctionUrlAuthType(this.value);
+  const FunctionUrlAuthType._(this.value);
 
-  static FunctionUrlAuthType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum FunctionUrlAuthType'));
+  static const values = [none, awsIam];
+
+  static FunctionUrlAuthType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => FunctionUrlAuthType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is FunctionUrlAuthType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Details about a Lambda function URL.
@@ -7179,7 +7255,8 @@ class FunctionUrlConfig {
 
   factory FunctionUrlConfig.fromJson(Map<String, dynamic> json) {
     return FunctionUrlConfig(
-      authType: FunctionUrlAuthType.fromString((json['AuthType'] as String)),
+      authType:
+          FunctionUrlAuthType.fromString((json['AuthType'] as String?) ?? ''),
       creationTime: (json['CreationTime'] as String?) ?? '',
       functionArn: (json['FunctionArn'] as String?) ?? '',
       functionUrl: (json['FunctionUrl'] as String?) ?? '',
@@ -7211,18 +7288,27 @@ class FunctionUrlConfig {
   }
 }
 
-enum FunctionVersion {
-  all('ALL'),
-  ;
+class FunctionVersion {
+  static const all = FunctionVersion._('ALL');
 
   final String value;
 
-  const FunctionVersion(this.value);
+  const FunctionVersion._(this.value);
+
+  static const values = [all];
 
   static FunctionVersion fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum FunctionVersion'));
+          orElse: () => FunctionVersion._(value));
+
+  @override
+  bool operator ==(other) => other is FunctionVersion && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class GetAccountSettingsResponse {
@@ -7502,7 +7588,8 @@ class GetFunctionUrlConfigResponse {
 
   factory GetFunctionUrlConfigResponse.fromJson(Map<String, dynamic> json) {
     return GetFunctionUrlConfigResponse(
-      authType: FunctionUrlAuthType.fromString((json['AuthType'] as String)),
+      authType:
+          FunctionUrlAuthType.fromString((json['AuthType'] as String?) ?? ''),
       creationTime: (json['CreationTime'] as String?) ?? '',
       functionArn: (json['FunctionArn'] as String?) ?? '',
       functionUrl: (json['FunctionUrl'] as String?) ?? '',
@@ -7961,20 +8048,29 @@ class InvocationResponse {
   }
 }
 
-enum InvocationType {
-  event('Event'),
-  requestResponse('RequestResponse'),
-  dryRun('DryRun'),
-  ;
+class InvocationType {
+  static const event = InvocationType._('Event');
+  static const requestResponse = InvocationType._('RequestResponse');
+  static const dryRun = InvocationType._('DryRun');
 
   final String value;
 
-  const InvocationType(this.value);
+  const InvocationType._(this.value);
+
+  static const values = [event, requestResponse, dryRun];
 
   static InvocationType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum InvocationType'));
+          orElse: () => InvocationType._(value));
+
+  @override
+  bool operator ==(other) => other is InvocationType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A success response (<code>202 Accepted</code>) indicates that the request is
@@ -8000,18 +8096,27 @@ class InvokeAsyncResponse {
   }
 }
 
-enum InvokeMode {
-  buffered('BUFFERED'),
-  responseStream('RESPONSE_STREAM'),
-  ;
+class InvokeMode {
+  static const buffered = InvokeMode._('BUFFERED');
+  static const responseStream = InvokeMode._('RESPONSE_STREAM');
 
   final String value;
 
-  const InvokeMode(this.value);
+  const InvokeMode._(this.value);
 
-  static InvokeMode fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum InvokeMode'));
+  static const values = [buffered, responseStream];
+
+  static InvokeMode fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => InvokeMode._(value));
+
+  @override
+  bool operator ==(other) => other is InvokeMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A chunk of the streamed response payload.
@@ -8148,55 +8253,109 @@ class InvokeWithResponseStreamResponseEvent {
   }
 }
 
-enum LastUpdateStatus {
-  successful('Successful'),
-  failed('Failed'),
-  inProgress('InProgress'),
-  ;
+class LastUpdateStatus {
+  static const successful = LastUpdateStatus._('Successful');
+  static const failed = LastUpdateStatus._('Failed');
+  static const inProgress = LastUpdateStatus._('InProgress');
 
   final String value;
 
-  const LastUpdateStatus(this.value);
+  const LastUpdateStatus._(this.value);
+
+  static const values = [successful, failed, inProgress];
 
   static LastUpdateStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum LastUpdateStatus'));
+          orElse: () => LastUpdateStatus._(value));
+
+  @override
+  bool operator ==(other) => other is LastUpdateStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum LastUpdateStatusReasonCode {
-  eniLimitExceeded('EniLimitExceeded'),
-  insufficientRolePermissions('InsufficientRolePermissions'),
-  invalidConfiguration('InvalidConfiguration'),
-  internalError('InternalError'),
-  subnetOutOfIPAddresses('SubnetOutOfIPAddresses'),
-  invalidSubnet('InvalidSubnet'),
-  invalidSecurityGroup('InvalidSecurityGroup'),
-  imageDeleted('ImageDeleted'),
-  imageAccessDenied('ImageAccessDenied'),
-  invalidImage('InvalidImage'),
-  kMSKeyAccessDenied('KMSKeyAccessDenied'),
-  kMSKeyNotFound('KMSKeyNotFound'),
-  invalidStateKMSKey('InvalidStateKMSKey'),
-  disabledKMSKey('DisabledKMSKey'),
-  eFSIOError('EFSIOError'),
-  eFSMountConnectivityError('EFSMountConnectivityError'),
-  eFSMountFailure('EFSMountFailure'),
-  eFSMountTimeout('EFSMountTimeout'),
-  invalidRuntime('InvalidRuntime'),
-  invalidZipFileException('InvalidZipFileException'),
-  functionError('FunctionError'),
-  creating('Creating'),
-  ;
+class LastUpdateStatusReasonCode {
+  static const eniLimitExceeded =
+      LastUpdateStatusReasonCode._('EniLimitExceeded');
+  static const insufficientRolePermissions =
+      LastUpdateStatusReasonCode._('InsufficientRolePermissions');
+  static const invalidConfiguration =
+      LastUpdateStatusReasonCode._('InvalidConfiguration');
+  static const internalError = LastUpdateStatusReasonCode._('InternalError');
+  static const subnetOutOfIPAddresses =
+      LastUpdateStatusReasonCode._('SubnetOutOfIPAddresses');
+  static const invalidSubnet = LastUpdateStatusReasonCode._('InvalidSubnet');
+  static const invalidSecurityGroup =
+      LastUpdateStatusReasonCode._('InvalidSecurityGroup');
+  static const imageDeleted = LastUpdateStatusReasonCode._('ImageDeleted');
+  static const imageAccessDenied =
+      LastUpdateStatusReasonCode._('ImageAccessDenied');
+  static const invalidImage = LastUpdateStatusReasonCode._('InvalidImage');
+  static const kMSKeyAccessDenied =
+      LastUpdateStatusReasonCode._('KMSKeyAccessDenied');
+  static const kMSKeyNotFound = LastUpdateStatusReasonCode._('KMSKeyNotFound');
+  static const invalidStateKMSKey =
+      LastUpdateStatusReasonCode._('InvalidStateKMSKey');
+  static const disabledKMSKey = LastUpdateStatusReasonCode._('DisabledKMSKey');
+  static const eFSIOError = LastUpdateStatusReasonCode._('EFSIOError');
+  static const eFSMountConnectivityError =
+      LastUpdateStatusReasonCode._('EFSMountConnectivityError');
+  static const eFSMountFailure =
+      LastUpdateStatusReasonCode._('EFSMountFailure');
+  static const eFSMountTimeout =
+      LastUpdateStatusReasonCode._('EFSMountTimeout');
+  static const invalidRuntime = LastUpdateStatusReasonCode._('InvalidRuntime');
+  static const invalidZipFileException =
+      LastUpdateStatusReasonCode._('InvalidZipFileException');
+  static const functionError = LastUpdateStatusReasonCode._('FunctionError');
+  static const creating = LastUpdateStatusReasonCode._('Creating');
 
   final String value;
 
-  const LastUpdateStatusReasonCode(this.value);
+  const LastUpdateStatusReasonCode._(this.value);
+
+  static const values = [
+    eniLimitExceeded,
+    insufficientRolePermissions,
+    invalidConfiguration,
+    internalError,
+    subnetOutOfIPAddresses,
+    invalidSubnet,
+    invalidSecurityGroup,
+    imageDeleted,
+    imageAccessDenied,
+    invalidImage,
+    kMSKeyAccessDenied,
+    kMSKeyNotFound,
+    invalidStateKMSKey,
+    disabledKMSKey,
+    eFSIOError,
+    eFSMountConnectivityError,
+    eFSMountFailure,
+    eFSMountTimeout,
+    invalidRuntime,
+    invalidZipFileException,
+    functionError,
+    creating
+  ];
 
   static LastUpdateStatusReasonCode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum LastUpdateStatusReasonCode'));
+          orElse: () => LastUpdateStatusReasonCode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is LastUpdateStatusReasonCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// An <a
@@ -8858,32 +9017,50 @@ class ListVersionsByFunctionResponse {
   }
 }
 
-enum LogFormat {
-  json('JSON'),
-  text('Text'),
-  ;
+class LogFormat {
+  static const json = LogFormat._('JSON');
+  static const text = LogFormat._('Text');
 
   final String value;
 
-  const LogFormat(this.value);
+  const LogFormat._(this.value);
 
-  static LogFormat fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum LogFormat'));
+  static const values = [json, text];
+
+  static LogFormat fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => LogFormat._(value));
+
+  @override
+  bool operator ==(other) => other is LogFormat && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum LogType {
-  none('None'),
-  tail('Tail'),
-  ;
+class LogType {
+  static const none = LogType._('None');
+  static const tail = LogType._('Tail');
 
   final String value;
 
-  const LogType(this.value);
+  const LogType._(this.value);
 
-  static LogType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum LogType'));
+  static const values = [none, tail];
+
+  static LogType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => LogType._(value));
+
+  @override
+  bool operator ==(other) => other is LogType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The function's Amazon CloudWatch Logs configuration settings.
@@ -9006,18 +9183,27 @@ class OnSuccess {
   }
 }
 
-enum PackageType {
-  zip('Zip'),
-  image('Image'),
-  ;
+class PackageType {
+  static const zip = PackageType._('Zip');
+  static const image = PackageType._('Image');
 
   final String value;
 
-  const PackageType(this.value);
+  const PackageType._(this.value);
 
-  static PackageType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum PackageType'));
+  static const values = [zip, image];
+
+  static PackageType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => PackageType._(value));
+
+  @override
+  bool operator ==(other) => other is PackageType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Details about the provisioned concurrency configuration for a function alias
@@ -9105,20 +9291,30 @@ class ProvisionedConcurrencyConfigListItem {
   }
 }
 
-enum ProvisionedConcurrencyStatusEnum {
-  inProgress('IN_PROGRESS'),
-  ready('READY'),
-  failed('FAILED'),
-  ;
+class ProvisionedConcurrencyStatusEnum {
+  static const inProgress = ProvisionedConcurrencyStatusEnum._('IN_PROGRESS');
+  static const ready = ProvisionedConcurrencyStatusEnum._('READY');
+  static const failed = ProvisionedConcurrencyStatusEnum._('FAILED');
 
   final String value;
 
-  const ProvisionedConcurrencyStatusEnum(this.value);
+  const ProvisionedConcurrencyStatusEnum._(this.value);
+
+  static const values = [inProgress, ready, failed];
 
   static ProvisionedConcurrencyStatusEnum fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ProvisionedConcurrencyStatusEnum'));
+          orElse: () => ProvisionedConcurrencyStatusEnum._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ProvisionedConcurrencyStatusEnum && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class PublishLayerVersionResponse {
@@ -9399,8 +9595,8 @@ class PutRuntimeManagementConfigResponse {
       Map<String, dynamic> json) {
     return PutRuntimeManagementConfigResponse(
       functionArn: (json['FunctionArn'] as String?) ?? '',
-      updateRuntimeOn:
-          UpdateRuntimeOn.fromString((json['UpdateRuntimeOn'] as String)),
+      updateRuntimeOn: UpdateRuntimeOn.fromString(
+          (json['UpdateRuntimeOn'] as String?) ?? ''),
       runtimeVersionArn: json['RuntimeVersionArn'] as String?,
     );
   }
@@ -9417,84 +9613,152 @@ class PutRuntimeManagementConfigResponse {
   }
 }
 
-enum RecursiveLoop {
-  allow('Allow'),
-  terminate('Terminate'),
-  ;
+class RecursiveLoop {
+  static const allow = RecursiveLoop._('Allow');
+  static const terminate = RecursiveLoop._('Terminate');
 
   final String value;
 
-  const RecursiveLoop(this.value);
+  const RecursiveLoop._(this.value);
+
+  static const values = [allow, terminate];
 
   static RecursiveLoop fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum RecursiveLoop'));
+          orElse: () => RecursiveLoop._(value));
+
+  @override
+  bool operator ==(other) => other is RecursiveLoop && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ResponseStreamingInvocationType {
-  requestResponse('RequestResponse'),
-  dryRun('DryRun'),
-  ;
+class ResponseStreamingInvocationType {
+  static const requestResponse =
+      ResponseStreamingInvocationType._('RequestResponse');
+  static const dryRun = ResponseStreamingInvocationType._('DryRun');
 
   final String value;
 
-  const ResponseStreamingInvocationType(this.value);
+  const ResponseStreamingInvocationType._(this.value);
+
+  static const values = [requestResponse, dryRun];
 
   static ResponseStreamingInvocationType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ResponseStreamingInvocationType'));
+          orElse: () => ResponseStreamingInvocationType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ResponseStreamingInvocationType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum Runtime {
-  nodejs('nodejs'),
-  nodejs4_3('nodejs4.3'),
-  nodejs6_10('nodejs6.10'),
-  nodejs8_10('nodejs8.10'),
-  nodejs10X('nodejs10.x'),
-  nodejs12X('nodejs12.x'),
-  nodejs14X('nodejs14.x'),
-  nodejs16X('nodejs16.x'),
-  java8('java8'),
-  java8Al2('java8.al2'),
-  java11('java11'),
-  python2_7('python2.7'),
-  python3_6('python3.6'),
-  python3_7('python3.7'),
-  python3_8('python3.8'),
-  python3_9('python3.9'),
-  dotnetcore1_0('dotnetcore1.0'),
-  dotnetcore2_0('dotnetcore2.0'),
-  dotnetcore2_1('dotnetcore2.1'),
-  dotnetcore3_1('dotnetcore3.1'),
-  dotnet6('dotnet6'),
-  dotnet8('dotnet8'),
-  nodejs4_3Edge('nodejs4.3-edge'),
-  go1X('go1.x'),
-  ruby2_5('ruby2.5'),
-  ruby2_7('ruby2.7'),
-  provided('provided'),
-  providedAl2('provided.al2'),
-  nodejs18X('nodejs18.x'),
-  python3_10('python3.10'),
-  java17('java17'),
-  ruby3_2('ruby3.2'),
-  ruby3_3('ruby3.3'),
-  python3_11('python3.11'),
-  nodejs20X('nodejs20.x'),
-  providedAl2023('provided.al2023'),
-  python3_12('python3.12'),
-  java21('java21'),
-  ;
+class Runtime {
+  static const nodejs = Runtime._('nodejs');
+  static const nodejs4_3 = Runtime._('nodejs4.3');
+  static const nodejs6_10 = Runtime._('nodejs6.10');
+  static const nodejs8_10 = Runtime._('nodejs8.10');
+  static const nodejs10X = Runtime._('nodejs10.x');
+  static const nodejs12X = Runtime._('nodejs12.x');
+  static const nodejs14X = Runtime._('nodejs14.x');
+  static const nodejs16X = Runtime._('nodejs16.x');
+  static const java8 = Runtime._('java8');
+  static const java8Al2 = Runtime._('java8.al2');
+  static const java11 = Runtime._('java11');
+  static const python2_7 = Runtime._('python2.7');
+  static const python3_6 = Runtime._('python3.6');
+  static const python3_7 = Runtime._('python3.7');
+  static const python3_8 = Runtime._('python3.8');
+  static const python3_9 = Runtime._('python3.9');
+  static const dotnetcore1_0 = Runtime._('dotnetcore1.0');
+  static const dotnetcore2_0 = Runtime._('dotnetcore2.0');
+  static const dotnetcore2_1 = Runtime._('dotnetcore2.1');
+  static const dotnetcore3_1 = Runtime._('dotnetcore3.1');
+  static const dotnet6 = Runtime._('dotnet6');
+  static const dotnet8 = Runtime._('dotnet8');
+  static const nodejs4_3Edge = Runtime._('nodejs4.3-edge');
+  static const go1X = Runtime._('go1.x');
+  static const ruby2_5 = Runtime._('ruby2.5');
+  static const ruby2_7 = Runtime._('ruby2.7');
+  static const provided = Runtime._('provided');
+  static const providedAl2 = Runtime._('provided.al2');
+  static const nodejs18X = Runtime._('nodejs18.x');
+  static const python3_10 = Runtime._('python3.10');
+  static const java17 = Runtime._('java17');
+  static const ruby3_2 = Runtime._('ruby3.2');
+  static const ruby3_3 = Runtime._('ruby3.3');
+  static const python3_11 = Runtime._('python3.11');
+  static const nodejs20X = Runtime._('nodejs20.x');
+  static const providedAl2023 = Runtime._('provided.al2023');
+  static const python3_12 = Runtime._('python3.12');
+  static const java21 = Runtime._('java21');
 
   final String value;
 
-  const Runtime(this.value);
+  const Runtime._(this.value);
 
-  static Runtime fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum Runtime'));
+  static const values = [
+    nodejs,
+    nodejs4_3,
+    nodejs6_10,
+    nodejs8_10,
+    nodejs10X,
+    nodejs12X,
+    nodejs14X,
+    nodejs16X,
+    java8,
+    java8Al2,
+    java11,
+    python2_7,
+    python3_6,
+    python3_7,
+    python3_8,
+    python3_9,
+    dotnetcore1_0,
+    dotnetcore2_0,
+    dotnetcore2_1,
+    dotnetcore3_1,
+    dotnet6,
+    dotnet8,
+    nodejs4_3Edge,
+    go1X,
+    ruby2_5,
+    ruby2_7,
+    provided,
+    providedAl2,
+    nodejs18X,
+    python3_10,
+    java17,
+    ruby3_2,
+    ruby3_3,
+    python3_11,
+    nodejs20X,
+    providedAl2023,
+    python3_12,
+    java21
+  ];
+
+  static Runtime fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Runtime._(value));
+
+  @override
+  bool operator ==(other) => other is Runtime && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The ARN of the runtime and any errors that occured.
@@ -9666,34 +9930,53 @@ class SnapStart {
   }
 }
 
-enum SnapStartApplyOn {
-  publishedVersions('PublishedVersions'),
-  none('None'),
-  ;
+class SnapStartApplyOn {
+  static const publishedVersions = SnapStartApplyOn._('PublishedVersions');
+  static const none = SnapStartApplyOn._('None');
 
   final String value;
 
-  const SnapStartApplyOn(this.value);
+  const SnapStartApplyOn._(this.value);
+
+  static const values = [publishedVersions, none];
 
   static SnapStartApplyOn fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum SnapStartApplyOn'));
+          orElse: () => SnapStartApplyOn._(value));
+
+  @override
+  bool operator ==(other) => other is SnapStartApplyOn && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum SnapStartOptimizationStatus {
-  on('On'),
-  off('Off'),
-  ;
+class SnapStartOptimizationStatus {
+  static const on = SnapStartOptimizationStatus._('On');
+  static const off = SnapStartOptimizationStatus._('Off');
 
   final String value;
 
-  const SnapStartOptimizationStatus(this.value);
+  const SnapStartOptimizationStatus._(this.value);
+
+  static const values = [on, off];
 
   static SnapStartOptimizationStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum SnapStartOptimizationStatus'));
+          orElse: () => SnapStartOptimizationStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SnapStartOptimizationStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The function's <a
@@ -9817,94 +10100,170 @@ class SourceAccessConfiguration {
   }
 }
 
-enum SourceAccessType {
-  basicAuth('BASIC_AUTH'),
-  vpcSubnet('VPC_SUBNET'),
-  vpcSecurityGroup('VPC_SECURITY_GROUP'),
-  saslScram_512Auth('SASL_SCRAM_512_AUTH'),
-  saslScram_256Auth('SASL_SCRAM_256_AUTH'),
-  virtualHost('VIRTUAL_HOST'),
-  clientCertificateTlsAuth('CLIENT_CERTIFICATE_TLS_AUTH'),
-  serverRootCaCertificate('SERVER_ROOT_CA_CERTIFICATE'),
-  ;
+class SourceAccessType {
+  static const basicAuth = SourceAccessType._('BASIC_AUTH');
+  static const vpcSubnet = SourceAccessType._('VPC_SUBNET');
+  static const vpcSecurityGroup = SourceAccessType._('VPC_SECURITY_GROUP');
+  static const saslScram_512Auth = SourceAccessType._('SASL_SCRAM_512_AUTH');
+  static const saslScram_256Auth = SourceAccessType._('SASL_SCRAM_256_AUTH');
+  static const virtualHost = SourceAccessType._('VIRTUAL_HOST');
+  static const clientCertificateTlsAuth =
+      SourceAccessType._('CLIENT_CERTIFICATE_TLS_AUTH');
+  static const serverRootCaCertificate =
+      SourceAccessType._('SERVER_ROOT_CA_CERTIFICATE');
 
   final String value;
 
-  const SourceAccessType(this.value);
+  const SourceAccessType._(this.value);
+
+  static const values = [
+    basicAuth,
+    vpcSubnet,
+    vpcSecurityGroup,
+    saslScram_512Auth,
+    saslScram_256Auth,
+    virtualHost,
+    clientCertificateTlsAuth,
+    serverRootCaCertificate
+  ];
 
   static SourceAccessType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum SourceAccessType'));
+          orElse: () => SourceAccessType._(value));
+
+  @override
+  bool operator ==(other) => other is SourceAccessType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum State {
-  pending('Pending'),
-  active('Active'),
-  inactive('Inactive'),
-  failed('Failed'),
-  ;
+class State {
+  static const pending = State._('Pending');
+  static const active = State._('Active');
+  static const inactive = State._('Inactive');
+  static const failed = State._('Failed');
 
   final String value;
 
-  const State(this.value);
+  const State._(this.value);
+
+  static const values = [pending, active, inactive, failed];
 
   static State fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum State'));
+      values.firstWhere((e) => e.value == value, orElse: () => State._(value));
+
+  @override
+  bool operator ==(other) => other is State && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum StateReasonCode {
-  idle('Idle'),
-  creating('Creating'),
-  restoring('Restoring'),
-  eniLimitExceeded('EniLimitExceeded'),
-  insufficientRolePermissions('InsufficientRolePermissions'),
-  invalidConfiguration('InvalidConfiguration'),
-  internalError('InternalError'),
-  subnetOutOfIPAddresses('SubnetOutOfIPAddresses'),
-  invalidSubnet('InvalidSubnet'),
-  invalidSecurityGroup('InvalidSecurityGroup'),
-  imageDeleted('ImageDeleted'),
-  imageAccessDenied('ImageAccessDenied'),
-  invalidImage('InvalidImage'),
-  kMSKeyAccessDenied('KMSKeyAccessDenied'),
-  kMSKeyNotFound('KMSKeyNotFound'),
-  invalidStateKMSKey('InvalidStateKMSKey'),
-  disabledKMSKey('DisabledKMSKey'),
-  eFSIOError('EFSIOError'),
-  eFSMountConnectivityError('EFSMountConnectivityError'),
-  eFSMountFailure('EFSMountFailure'),
-  eFSMountTimeout('EFSMountTimeout'),
-  invalidRuntime('InvalidRuntime'),
-  invalidZipFileException('InvalidZipFileException'),
-  functionError('FunctionError'),
-  ;
+class StateReasonCode {
+  static const idle = StateReasonCode._('Idle');
+  static const creating = StateReasonCode._('Creating');
+  static const restoring = StateReasonCode._('Restoring');
+  static const eniLimitExceeded = StateReasonCode._('EniLimitExceeded');
+  static const insufficientRolePermissions =
+      StateReasonCode._('InsufficientRolePermissions');
+  static const invalidConfiguration = StateReasonCode._('InvalidConfiguration');
+  static const internalError = StateReasonCode._('InternalError');
+  static const subnetOutOfIPAddresses =
+      StateReasonCode._('SubnetOutOfIPAddresses');
+  static const invalidSubnet = StateReasonCode._('InvalidSubnet');
+  static const invalidSecurityGroup = StateReasonCode._('InvalidSecurityGroup');
+  static const imageDeleted = StateReasonCode._('ImageDeleted');
+  static const imageAccessDenied = StateReasonCode._('ImageAccessDenied');
+  static const invalidImage = StateReasonCode._('InvalidImage');
+  static const kMSKeyAccessDenied = StateReasonCode._('KMSKeyAccessDenied');
+  static const kMSKeyNotFound = StateReasonCode._('KMSKeyNotFound');
+  static const invalidStateKMSKey = StateReasonCode._('InvalidStateKMSKey');
+  static const disabledKMSKey = StateReasonCode._('DisabledKMSKey');
+  static const eFSIOError = StateReasonCode._('EFSIOError');
+  static const eFSMountConnectivityError =
+      StateReasonCode._('EFSMountConnectivityError');
+  static const eFSMountFailure = StateReasonCode._('EFSMountFailure');
+  static const eFSMountTimeout = StateReasonCode._('EFSMountTimeout');
+  static const invalidRuntime = StateReasonCode._('InvalidRuntime');
+  static const invalidZipFileException =
+      StateReasonCode._('InvalidZipFileException');
+  static const functionError = StateReasonCode._('FunctionError');
 
   final String value;
 
-  const StateReasonCode(this.value);
+  const StateReasonCode._(this.value);
+
+  static const values = [
+    idle,
+    creating,
+    restoring,
+    eniLimitExceeded,
+    insufficientRolePermissions,
+    invalidConfiguration,
+    internalError,
+    subnetOutOfIPAddresses,
+    invalidSubnet,
+    invalidSecurityGroup,
+    imageDeleted,
+    imageAccessDenied,
+    invalidImage,
+    kMSKeyAccessDenied,
+    kMSKeyNotFound,
+    invalidStateKMSKey,
+    disabledKMSKey,
+    eFSIOError,
+    eFSMountConnectivityError,
+    eFSMountFailure,
+    eFSMountTimeout,
+    invalidRuntime,
+    invalidZipFileException,
+    functionError
+  ];
 
   static StateReasonCode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum StateReasonCode'));
+          orElse: () => StateReasonCode._(value));
+
+  @override
+  bool operator ==(other) => other is StateReasonCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum SystemLogLevel {
-  debug('DEBUG'),
-  info('INFO'),
-  warn('WARN'),
-  ;
+class SystemLogLevel {
+  static const debug = SystemLogLevel._('DEBUG');
+  static const info = SystemLogLevel._('INFO');
+  static const warn = SystemLogLevel._('WARN');
 
   final String value;
 
-  const SystemLogLevel(this.value);
+  const SystemLogLevel._(this.value);
+
+  static const values = [debug, info, warn];
 
   static SystemLogLevel fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum SystemLogLevel'));
+          orElse: () => SystemLogLevel._(value));
+
+  @override
+  bool operator ==(other) => other is SystemLogLevel && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The function's <a
@@ -9950,18 +10309,27 @@ class TracingConfigResponse {
   }
 }
 
-enum TracingMode {
-  active('Active'),
-  passThrough('PassThrough'),
-  ;
+class TracingMode {
+  static const active = TracingMode._('Active');
+  static const passThrough = TracingMode._('PassThrough');
 
   final String value;
 
-  const TracingMode(this.value);
+  const TracingMode._(this.value);
 
-  static TracingMode fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum TracingMode'));
+  static const values = [active, passThrough];
+
+  static TracingMode fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => TracingMode._(value));
+
+  @override
+  bool operator ==(other) => other is TracingMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class UpdateCodeSigningConfigResponse {
@@ -10049,7 +10417,8 @@ class UpdateFunctionUrlConfigResponse {
 
   factory UpdateFunctionUrlConfigResponse.fromJson(Map<String, dynamic> json) {
     return UpdateFunctionUrlConfigResponse(
-      authType: FunctionUrlAuthType.fromString((json['AuthType'] as String)),
+      authType:
+          FunctionUrlAuthType.fromString((json['AuthType'] as String?) ?? ''),
       creationTime: (json['CreationTime'] as String?) ?? '',
       functionArn: (json['FunctionArn'] as String?) ?? '',
       functionUrl: (json['FunctionUrl'] as String?) ?? '',
@@ -10081,20 +10450,29 @@ class UpdateFunctionUrlConfigResponse {
   }
 }
 
-enum UpdateRuntimeOn {
-  auto('Auto'),
-  manual('Manual'),
-  functionUpdate('FunctionUpdate'),
-  ;
+class UpdateRuntimeOn {
+  static const auto = UpdateRuntimeOn._('Auto');
+  static const manual = UpdateRuntimeOn._('Manual');
+  static const functionUpdate = UpdateRuntimeOn._('FunctionUpdate');
 
   final String value;
 
-  const UpdateRuntimeOn(this.value);
+  const UpdateRuntimeOn._(this.value);
+
+  static const values = [auto, manual, functionUpdate];
 
   static UpdateRuntimeOn fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum UpdateRuntimeOn'));
+          orElse: () => UpdateRuntimeOn._(value));
+
+  @override
+  bool operator ==(other) => other is UpdateRuntimeOn && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The VPC security groups and subnets that are attached to a Lambda function.

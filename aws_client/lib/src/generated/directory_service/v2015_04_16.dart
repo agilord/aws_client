@@ -3498,38 +3498,63 @@ class CertificateInfo {
   }
 }
 
-enum CertificateState {
-  registering('Registering'),
-  registered('Registered'),
-  registerFailed('RegisterFailed'),
-  deregistering('Deregistering'),
-  deregistered('Deregistered'),
-  deregisterFailed('DeregisterFailed'),
-  ;
+class CertificateState {
+  static const registering = CertificateState._('Registering');
+  static const registered = CertificateState._('Registered');
+  static const registerFailed = CertificateState._('RegisterFailed');
+  static const deregistering = CertificateState._('Deregistering');
+  static const deregistered = CertificateState._('Deregistered');
+  static const deregisterFailed = CertificateState._('DeregisterFailed');
 
   final String value;
 
-  const CertificateState(this.value);
+  const CertificateState._(this.value);
+
+  static const values = [
+    registering,
+    registered,
+    registerFailed,
+    deregistering,
+    deregistered,
+    deregisterFailed
+  ];
 
   static CertificateState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum CertificateState'));
+          orElse: () => CertificateState._(value));
+
+  @override
+  bool operator ==(other) => other is CertificateState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum CertificateType {
-  clientCertAuth('ClientCertAuth'),
-  clientLDAPS('ClientLDAPS'),
-  ;
+class CertificateType {
+  static const clientCertAuth = CertificateType._('ClientCertAuth');
+  static const clientLDAPS = CertificateType._('ClientLDAPS');
 
   final String value;
 
-  const CertificateType(this.value);
+  const CertificateType._(this.value);
+
+  static const values = [clientCertAuth, clientLDAPS];
 
   static CertificateType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum CertificateType'));
+          orElse: () => CertificateType._(value));
+
+  @override
+  bool operator ==(other) => other is CertificateType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains information about a client authentication method for a directory.
@@ -3575,34 +3600,55 @@ class ClientAuthenticationSettingInfo {
   }
 }
 
-enum ClientAuthenticationStatus {
-  enabled('Enabled'),
-  disabled('Disabled'),
-  ;
+class ClientAuthenticationStatus {
+  static const enabled = ClientAuthenticationStatus._('Enabled');
+  static const disabled = ClientAuthenticationStatus._('Disabled');
 
   final String value;
 
-  const ClientAuthenticationStatus(this.value);
+  const ClientAuthenticationStatus._(this.value);
+
+  static const values = [enabled, disabled];
 
   static ClientAuthenticationStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ClientAuthenticationStatus'));
+          orElse: () => ClientAuthenticationStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ClientAuthenticationStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ClientAuthenticationType {
-  smartCard('SmartCard'),
-  smartCardOrPassword('SmartCardOrPassword'),
-  ;
+class ClientAuthenticationType {
+  static const smartCard = ClientAuthenticationType._('SmartCard');
+  static const smartCardOrPassword =
+      ClientAuthenticationType._('SmartCardOrPassword');
 
   final String value;
 
-  const ClientAuthenticationType(this.value);
+  const ClientAuthenticationType._(this.value);
+
+  static const values = [smartCard, smartCardOrPassword];
 
   static ClientAuthenticationType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ClientAuthenticationType'));
+          orElse: () => ClientAuthenticationType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ClientAuthenticationType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains information about the client certificate authentication settings
@@ -4495,22 +4541,32 @@ class DescribeUpdateDirectoryResult {
   }
 }
 
-enum DirectoryConfigurationStatus {
-  requested('Requested'),
-  updating('Updating'),
-  updated('Updated'),
-  failed('Failed'),
-  $default('Default'),
-  ;
+class DirectoryConfigurationStatus {
+  static const requested = DirectoryConfigurationStatus._('Requested');
+  static const updating = DirectoryConfigurationStatus._('Updating');
+  static const updated = DirectoryConfigurationStatus._('Updated');
+  static const failed = DirectoryConfigurationStatus._('Failed');
+  static const $default = DirectoryConfigurationStatus._('Default');
 
   final String value;
 
-  const DirectoryConfigurationStatus(this.value);
+  const DirectoryConfigurationStatus._(this.value);
+
+  static const values = [requested, updating, updated, failed, $default];
 
   static DirectoryConfigurationStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum DirectoryConfigurationStatus'));
+          orElse: () => DirectoryConfigurationStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DirectoryConfigurationStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains information for the <a>ConnectDirectory</a> operation when an AD
@@ -4878,19 +4934,28 @@ class DirectoryDescription {
   }
 }
 
-enum DirectoryEdition {
-  enterprise('Enterprise'),
-  standard('Standard'),
-  ;
+class DirectoryEdition {
+  static const enterprise = DirectoryEdition._('Enterprise');
+  static const standard = DirectoryEdition._('Standard');
 
   final String value;
 
-  const DirectoryEdition(this.value);
+  const DirectoryEdition._(this.value);
+
+  static const values = [enterprise, standard];
 
   static DirectoryEdition fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum DirectoryEdition'));
+          orElse: () => DirectoryEdition._(value));
+
+  @override
+  bool operator ==(other) => other is DirectoryEdition && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains directory limit information for a Region.
@@ -4994,60 +5059,99 @@ class DirectoryLimits {
   }
 }
 
-enum DirectorySize {
-  small('Small'),
-  large('Large'),
-  ;
+class DirectorySize {
+  static const small = DirectorySize._('Small');
+  static const large = DirectorySize._('Large');
 
   final String value;
 
-  const DirectorySize(this.value);
+  const DirectorySize._(this.value);
+
+  static const values = [small, large];
 
   static DirectorySize fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum DirectorySize'));
+          orElse: () => DirectorySize._(value));
+
+  @override
+  bool operator ==(other) => other is DirectorySize && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum DirectoryStage {
-  requested('Requested'),
-  creating('Creating'),
-  created('Created'),
-  active('Active'),
-  inoperable('Inoperable'),
-  impaired('Impaired'),
-  restoring('Restoring'),
-  restoreFailed('RestoreFailed'),
-  deleting('Deleting'),
-  deleted('Deleted'),
-  failed('Failed'),
-  ;
+class DirectoryStage {
+  static const requested = DirectoryStage._('Requested');
+  static const creating = DirectoryStage._('Creating');
+  static const created = DirectoryStage._('Created');
+  static const active = DirectoryStage._('Active');
+  static const inoperable = DirectoryStage._('Inoperable');
+  static const impaired = DirectoryStage._('Impaired');
+  static const restoring = DirectoryStage._('Restoring');
+  static const restoreFailed = DirectoryStage._('RestoreFailed');
+  static const deleting = DirectoryStage._('Deleting');
+  static const deleted = DirectoryStage._('Deleted');
+  static const failed = DirectoryStage._('Failed');
 
   final String value;
 
-  const DirectoryStage(this.value);
+  const DirectoryStage._(this.value);
+
+  static const values = [
+    requested,
+    creating,
+    created,
+    active,
+    inoperable,
+    impaired,
+    restoring,
+    restoreFailed,
+    deleting,
+    deleted,
+    failed
+  ];
 
   static DirectoryStage fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum DirectoryStage'));
+          orElse: () => DirectoryStage._(value));
+
+  @override
+  bool operator ==(other) => other is DirectoryStage && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum DirectoryType {
-  simpleAD('SimpleAD'),
-  aDConnector('ADConnector'),
-  microsoftAD('MicrosoftAD'),
-  sharedMicrosoftAD('SharedMicrosoftAD'),
-  ;
+class DirectoryType {
+  static const simpleAD = DirectoryType._('SimpleAD');
+  static const aDConnector = DirectoryType._('ADConnector');
+  static const microsoftAD = DirectoryType._('MicrosoftAD');
+  static const sharedMicrosoftAD = DirectoryType._('SharedMicrosoftAD');
 
   final String value;
 
-  const DirectoryType(this.value);
+  const DirectoryType._(this.value);
+
+  static const values = [simpleAD, aDConnector, microsoftAD, sharedMicrosoftAD];
 
   static DirectoryType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum DirectoryType'));
+          orElse: () => DirectoryType._(value));
+
+  @override
+  bool operator ==(other) => other is DirectoryType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains VPC information for the <a>CreateDirectory</a> or
@@ -5276,24 +5380,42 @@ class DomainController {
   }
 }
 
-enum DomainControllerStatus {
-  creating('Creating'),
-  active('Active'),
-  impaired('Impaired'),
-  restoring('Restoring'),
-  deleting('Deleting'),
-  deleted('Deleted'),
-  failed('Failed'),
-  ;
+class DomainControllerStatus {
+  static const creating = DomainControllerStatus._('Creating');
+  static const active = DomainControllerStatus._('Active');
+  static const impaired = DomainControllerStatus._('Impaired');
+  static const restoring = DomainControllerStatus._('Restoring');
+  static const deleting = DomainControllerStatus._('Deleting');
+  static const deleted = DomainControllerStatus._('Deleted');
+  static const failed = DomainControllerStatus._('Failed');
 
   final String value;
 
-  const DomainControllerStatus(this.value);
+  const DomainControllerStatus._(this.value);
+
+  static const values = [
+    creating,
+    active,
+    impaired,
+    restoring,
+    deleting,
+    deleted,
+    failed
+  ];
 
   static DomainControllerStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum DomainControllerStatus'));
+          orElse: () => DomainControllerStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DomainControllerStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class EnableClientAuthenticationResult {
@@ -5544,23 +5666,39 @@ class IpRouteInfo {
   }
 }
 
-enum IpRouteStatusMsg {
-  adding('Adding'),
-  added('Added'),
-  removing('Removing'),
-  removed('Removed'),
-  addFailed('AddFailed'),
-  removeFailed('RemoveFailed'),
-  ;
+class IpRouteStatusMsg {
+  static const adding = IpRouteStatusMsg._('Adding');
+  static const added = IpRouteStatusMsg._('Added');
+  static const removing = IpRouteStatusMsg._('Removing');
+  static const removed = IpRouteStatusMsg._('Removed');
+  static const addFailed = IpRouteStatusMsg._('AddFailed');
+  static const removeFailed = IpRouteStatusMsg._('RemoveFailed');
 
   final String value;
 
-  const IpRouteStatusMsg(this.value);
+  const IpRouteStatusMsg._(this.value);
+
+  static const values = [
+    adding,
+    added,
+    removing,
+    removed,
+    addFailed,
+    removeFailed
+  ];
 
   static IpRouteStatusMsg fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum IpRouteStatusMsg'));
+          orElse: () => IpRouteStatusMsg._(value));
+
+  @override
+  bool operator ==(other) => other is IpRouteStatusMsg && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains general information about the LDAPS settings.
@@ -5602,33 +5740,51 @@ class LDAPSSettingInfo {
   }
 }
 
-enum LDAPSStatus {
-  enabling('Enabling'),
-  enabled('Enabled'),
-  enableFailed('EnableFailed'),
-  disabled('Disabled'),
-  ;
+class LDAPSStatus {
+  static const enabling = LDAPSStatus._('Enabling');
+  static const enabled = LDAPSStatus._('Enabled');
+  static const enableFailed = LDAPSStatus._('EnableFailed');
+  static const disabled = LDAPSStatus._('Disabled');
 
   final String value;
 
-  const LDAPSStatus(this.value);
+  const LDAPSStatus._(this.value);
 
-  static LDAPSStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum LDAPSStatus'));
+  static const values = [enabling, enabled, enableFailed, disabled];
+
+  static LDAPSStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => LDAPSStatus._(value));
+
+  @override
+  bool operator ==(other) => other is LDAPSStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum LDAPSType {
-  client('Client'),
-  ;
+class LDAPSType {
+  static const client = LDAPSType._('Client');
 
   final String value;
 
-  const LDAPSType(this.value);
+  const LDAPSType._(this.value);
 
-  static LDAPSType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum LDAPSType'));
+  static const values = [client];
+
+  static LDAPSType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => LDAPSType._(value));
+
+  @override
+  bool operator ==(other) => other is LDAPSType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class ListCertificatesResult {
@@ -5864,18 +6020,27 @@ class OSUpdateSettings {
   }
 }
 
-enum OSVersion {
-  server_2012('SERVER_2012'),
-  server_2019('SERVER_2019'),
-  ;
+class OSVersion {
+  static const server_2012 = OSVersion._('SERVER_2012');
+  static const server_2019 = OSVersion._('SERVER_2019');
 
   final String value;
 
-  const OSVersion(this.value);
+  const OSVersion._(this.value);
 
-  static OSVersion fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum OSVersion'));
+  static const values = [server_2012, server_2019];
+
+  static OSVersion fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => OSVersion._(value));
+
+  @override
+  bool operator ==(other) => other is OSVersion && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes the directory owner account details that have been shared to the
@@ -5949,21 +6114,31 @@ class OwnerDirectoryDescription {
   }
 }
 
-enum RadiusAuthenticationProtocol {
-  pap('PAP'),
-  chap('CHAP'),
-  msCHAPv1('MS-CHAPv1'),
-  msCHAPv2('MS-CHAPv2'),
-  ;
+class RadiusAuthenticationProtocol {
+  static const pap = RadiusAuthenticationProtocol._('PAP');
+  static const chap = RadiusAuthenticationProtocol._('CHAP');
+  static const msCHAPv1 = RadiusAuthenticationProtocol._('MS-CHAPv1');
+  static const msCHAPv2 = RadiusAuthenticationProtocol._('MS-CHAPv2');
 
   final String value;
 
-  const RadiusAuthenticationProtocol(this.value);
+  const RadiusAuthenticationProtocol._(this.value);
+
+  static const values = [pap, chap, msCHAPv1, msCHAPv2];
 
   static RadiusAuthenticationProtocol fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum RadiusAuthenticationProtocol'));
+          orElse: () => RadiusAuthenticationProtocol._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RadiusAuthenticationProtocol && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains information about a Remote Authentication Dial In User Service
@@ -6049,20 +6224,28 @@ class RadiusSettings {
   }
 }
 
-enum RadiusStatus {
-  creating('Creating'),
-  completed('Completed'),
-  failed('Failed'),
-  ;
+class RadiusStatus {
+  static const creating = RadiusStatus._('Creating');
+  static const completed = RadiusStatus._('Completed');
+  static const failed = RadiusStatus._('Failed');
 
   final String value;
 
-  const RadiusStatus(this.value);
+  const RadiusStatus._(this.value);
 
-  static RadiusStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum RadiusStatus'));
+  static const values = [creating, completed, failed];
+
+  static RadiusStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => RadiusStatus._(value));
+
+  @override
+  bool operator ==(other) => other is RadiusStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The replicated Region information for a directory.
@@ -6153,18 +6336,27 @@ class RegionDescription {
   }
 }
 
-enum RegionType {
-  primary('Primary'),
-  additional('Additional'),
-  ;
+class RegionType {
+  static const primary = RegionType._('Primary');
+  static const additional = RegionType._('Additional');
 
   final String value;
 
-  const RegionType(this.value);
+  const RegionType._(this.value);
 
-  static RegionType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum RegionType'));
+  static const values = [primary, additional];
+
+  static RegionType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => RegionType._(value));
+
+  @override
+  bool operator ==(other) => other is RegionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Provides information about the Regions that are configured for multi-Region
@@ -6295,18 +6487,27 @@ class RemoveTagsFromResourceResult {
   }
 }
 
-enum ReplicationScope {
-  domain('Domain'),
-  ;
+class ReplicationScope {
+  static const domain = ReplicationScope._('Domain');
 
   final String value;
 
-  const ReplicationScope(this.value);
+  const ReplicationScope._(this.value);
+
+  static const values = [domain];
 
   static ReplicationScope fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ReplicationScope'));
+          orElse: () => ReplicationScope._(value));
+
+  @override
+  bool operator ==(other) => other is ReplicationScope && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class ResetUserPasswordResult {
@@ -6405,41 +6606,71 @@ class SchemaExtensionInfo {
   }
 }
 
-enum SchemaExtensionStatus {
-  initializing('Initializing'),
-  creatingSnapshot('CreatingSnapshot'),
-  updatingSchema('UpdatingSchema'),
-  replicating('Replicating'),
-  cancelInProgress('CancelInProgress'),
-  rollbackInProgress('RollbackInProgress'),
-  cancelled('Cancelled'),
-  failed('Failed'),
-  completed('Completed'),
-  ;
+class SchemaExtensionStatus {
+  static const initializing = SchemaExtensionStatus._('Initializing');
+  static const creatingSnapshot = SchemaExtensionStatus._('CreatingSnapshot');
+  static const updatingSchema = SchemaExtensionStatus._('UpdatingSchema');
+  static const replicating = SchemaExtensionStatus._('Replicating');
+  static const cancelInProgress = SchemaExtensionStatus._('CancelInProgress');
+  static const rollbackInProgress =
+      SchemaExtensionStatus._('RollbackInProgress');
+  static const cancelled = SchemaExtensionStatus._('Cancelled');
+  static const failed = SchemaExtensionStatus._('Failed');
+  static const completed = SchemaExtensionStatus._('Completed');
 
   final String value;
 
-  const SchemaExtensionStatus(this.value);
+  const SchemaExtensionStatus._(this.value);
 
-  static SchemaExtensionStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum SchemaExtensionStatus'));
+  static const values = [
+    initializing,
+    creatingSnapshot,
+    updatingSchema,
+    replicating,
+    cancelInProgress,
+    rollbackInProgress,
+    cancelled,
+    failed,
+    completed
+  ];
+
+  static SchemaExtensionStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => SchemaExtensionStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SchemaExtensionStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum SelectiveAuth {
-  enabled('Enabled'),
-  disabled('Disabled'),
-  ;
+class SelectiveAuth {
+  static const enabled = SelectiveAuth._('Enabled');
+  static const disabled = SelectiveAuth._('Disabled');
 
   final String value;
 
-  const SelectiveAuth(this.value);
+  const SelectiveAuth._(this.value);
+
+  static const values = [enabled, disabled];
 
   static SelectiveAuth fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum SelectiveAuth'));
+          orElse: () => SelectiveAuth._(value));
+
+  @override
+  bool operator ==(other) => other is SelectiveAuth && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains information about the configurable settings for a directory.
@@ -6607,39 +6838,67 @@ class ShareDirectoryResult {
   }
 }
 
-enum ShareMethod {
-  organizations('ORGANIZATIONS'),
-  handshake('HANDSHAKE'),
-  ;
+class ShareMethod {
+  static const organizations = ShareMethod._('ORGANIZATIONS');
+  static const handshake = ShareMethod._('HANDSHAKE');
 
   final String value;
 
-  const ShareMethod(this.value);
+  const ShareMethod._(this.value);
 
-  static ShareMethod fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum ShareMethod'));
+  static const values = [organizations, handshake];
+
+  static ShareMethod fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ShareMethod._(value));
+
+  @override
+  bool operator ==(other) => other is ShareMethod && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ShareStatus {
-  shared('Shared'),
-  pendingAcceptance('PendingAcceptance'),
-  rejected('Rejected'),
-  rejecting('Rejecting'),
-  rejectFailed('RejectFailed'),
-  sharing('Sharing'),
-  shareFailed('ShareFailed'),
-  deleted('Deleted'),
-  deleting('Deleting'),
-  ;
+class ShareStatus {
+  static const shared = ShareStatus._('Shared');
+  static const pendingAcceptance = ShareStatus._('PendingAcceptance');
+  static const rejected = ShareStatus._('Rejected');
+  static const rejecting = ShareStatus._('Rejecting');
+  static const rejectFailed = ShareStatus._('RejectFailed');
+  static const sharing = ShareStatus._('Sharing');
+  static const shareFailed = ShareStatus._('ShareFailed');
+  static const deleted = ShareStatus._('Deleted');
+  static const deleting = ShareStatus._('Deleting');
 
   final String value;
 
-  const ShareStatus(this.value);
+  const ShareStatus._(this.value);
 
-  static ShareStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum ShareStatus'));
+  static const values = [
+    shared,
+    pendingAcceptance,
+    rejected,
+    rejecting,
+    rejectFailed,
+    sharing,
+    shareFailed,
+    deleted,
+    deleting
+  ];
+
+  static ShareStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ShareStatus._(value));
+
+  @override
+  bool operator ==(other) => other is ShareStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Identifier that contains details about the directory consumer account.
@@ -6856,35 +7115,52 @@ class SnapshotLimits {
   }
 }
 
-enum SnapshotStatus {
-  creating('Creating'),
-  completed('Completed'),
-  failed('Failed'),
-  ;
+class SnapshotStatus {
+  static const creating = SnapshotStatus._('Creating');
+  static const completed = SnapshotStatus._('Completed');
+  static const failed = SnapshotStatus._('Failed');
 
   final String value;
 
-  const SnapshotStatus(this.value);
+  const SnapshotStatus._(this.value);
+
+  static const values = [creating, completed, failed];
 
   static SnapshotStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum SnapshotStatus'));
+          orElse: () => SnapshotStatus._(value));
+
+  @override
+  bool operator ==(other) => other is SnapshotStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum SnapshotType {
-  auto('Auto'),
-  manual('Manual'),
-  ;
+class SnapshotType {
+  static const auto = SnapshotType._('Auto');
+  static const manual = SnapshotType._('Manual');
 
   final String value;
 
-  const SnapshotType(this.value);
+  const SnapshotType._(this.value);
 
-  static SnapshotType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum SnapshotType'));
+  static const values = [auto, manual];
+
+  static SnapshotType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => SnapshotType._(value));
+
+  @override
+  bool operator ==(other) => other is SnapshotType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class StartSchemaExtensionResult {
@@ -6945,33 +7221,51 @@ class Tag {
   }
 }
 
-enum TargetType {
-  account('ACCOUNT'),
-  ;
+class TargetType {
+  static const account = TargetType._('ACCOUNT');
 
   final String value;
 
-  const TargetType(this.value);
+  const TargetType._(this.value);
 
-  static TargetType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum TargetType'));
+  static const values = [account];
+
+  static TargetType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => TargetType._(value));
+
+  @override
+  bool operator ==(other) => other is TargetType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum TopicStatus {
-  registered('Registered'),
-  topicNotFound('Topic not found'),
-  failed('Failed'),
-  deleted('Deleted'),
-  ;
+class TopicStatus {
+  static const registered = TopicStatus._('Registered');
+  static const topicNotFound = TopicStatus._('Topic not found');
+  static const failed = TopicStatus._('Failed');
+  static const deleted = TopicStatus._('Deleted');
 
   final String value;
 
-  const TopicStatus(this.value);
+  const TopicStatus._(this.value);
 
-  static TopicStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum TopicStatus'));
+  static const values = [registered, topicNotFound, failed, deleted];
+
+  static TopicStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => TopicStatus._(value));
+
+  @override
+  bool operator ==(other) => other is TopicStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes a trust relationship between an Managed Microsoft AD directory and
@@ -7077,57 +7371,96 @@ class Trust {
   }
 }
 
-enum TrustDirection {
-  oneWayOutgoing('One-Way: Outgoing'),
-  oneWayIncoming('One-Way: Incoming'),
-  twoWay('Two-Way'),
-  ;
+class TrustDirection {
+  static const oneWayOutgoing = TrustDirection._('One-Way: Outgoing');
+  static const oneWayIncoming = TrustDirection._('One-Way: Incoming');
+  static const twoWay = TrustDirection._('Two-Way');
 
   final String value;
 
-  const TrustDirection(this.value);
+  const TrustDirection._(this.value);
+
+  static const values = [oneWayOutgoing, oneWayIncoming, twoWay];
 
   static TrustDirection fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum TrustDirection'));
+          orElse: () => TrustDirection._(value));
+
+  @override
+  bool operator ==(other) => other is TrustDirection && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum TrustState {
-  creating('Creating'),
-  created('Created'),
-  verifying('Verifying'),
-  verifyFailed('VerifyFailed'),
-  verified('Verified'),
-  updating('Updating'),
-  updateFailed('UpdateFailed'),
-  updated('Updated'),
-  deleting('Deleting'),
-  deleted('Deleted'),
-  failed('Failed'),
-  ;
+class TrustState {
+  static const creating = TrustState._('Creating');
+  static const created = TrustState._('Created');
+  static const verifying = TrustState._('Verifying');
+  static const verifyFailed = TrustState._('VerifyFailed');
+  static const verified = TrustState._('Verified');
+  static const updating = TrustState._('Updating');
+  static const updateFailed = TrustState._('UpdateFailed');
+  static const updated = TrustState._('Updated');
+  static const deleting = TrustState._('Deleting');
+  static const deleted = TrustState._('Deleted');
+  static const failed = TrustState._('Failed');
 
   final String value;
 
-  const TrustState(this.value);
+  const TrustState._(this.value);
 
-  static TrustState fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum TrustState'));
+  static const values = [
+    creating,
+    created,
+    verifying,
+    verifyFailed,
+    verified,
+    updating,
+    updateFailed,
+    updated,
+    deleting,
+    deleted,
+    failed
+  ];
+
+  static TrustState fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => TrustState._(value));
+
+  @override
+  bool operator ==(other) => other is TrustState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum TrustType {
-  forest('Forest'),
-  external('External'),
-  ;
+class TrustType {
+  static const forest = TrustType._('Forest');
+  static const external = TrustType._('External');
 
   final String value;
 
-  const TrustType(this.value);
+  const TrustType._(this.value);
 
-  static TrustType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum TrustType'));
+  static const values = [forest, external];
+
+  static TrustType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => TrustType._(value));
+
+  @override
+  bool operator ==(other) => other is TrustType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class UnshareDirectoryResult {
@@ -7329,20 +7662,28 @@ class UpdateSettingsResult {
   }
 }
 
-enum UpdateStatus {
-  updated('Updated'),
-  updating('Updating'),
-  updateFailed('UpdateFailed'),
-  ;
+class UpdateStatus {
+  static const updated = UpdateStatus._('Updated');
+  static const updating = UpdateStatus._('Updating');
+  static const updateFailed = UpdateStatus._('UpdateFailed');
 
   final String value;
 
-  const UpdateStatus(this.value);
+  const UpdateStatus._(this.value);
 
-  static UpdateStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum UpdateStatus'));
+  static const values = [updated, updating, updateFailed];
+
+  static UpdateStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => UpdateStatus._(value));
+
+  @override
+  bool operator ==(other) => other is UpdateStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class UpdateTrustResult {
@@ -7373,17 +7714,26 @@ class UpdateTrustResult {
   }
 }
 
-enum UpdateType {
-  os('OS'),
-  ;
+class UpdateType {
+  static const os = UpdateType._('OS');
 
   final String value;
 
-  const UpdateType(this.value);
+  const UpdateType._(this.value);
 
-  static UpdateType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum UpdateType'));
+  static const values = [os];
+
+  static UpdateType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => UpdateType._(value));
+
+  @override
+  bool operator ==(other) => other is UpdateType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The value for a given type of <code>UpdateSettings</code>.

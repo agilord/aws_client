@@ -926,7 +926,7 @@ class Application {
       arn: (json['arn'] as String?) ?? '',
       createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
       releaseLabel: (json['releaseLabel'] as String?) ?? '',
-      state: ApplicationState.fromString((json['state'] as String)),
+      state: ApplicationState.fromString((json['state'] as String?) ?? ''),
       type: (json['type'] as String?) ?? '',
       updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] ?? 0),
       architecture:
@@ -1032,24 +1032,41 @@ class Application {
   }
 }
 
-enum ApplicationState {
-  creating('CREATING'),
-  created('CREATED'),
-  starting('STARTING'),
-  started('STARTED'),
-  stopping('STOPPING'),
-  stopped('STOPPED'),
-  terminated('TERMINATED'),
-  ;
+class ApplicationState {
+  static const creating = ApplicationState._('CREATING');
+  static const created = ApplicationState._('CREATED');
+  static const starting = ApplicationState._('STARTING');
+  static const started = ApplicationState._('STARTED');
+  static const stopping = ApplicationState._('STOPPING');
+  static const stopped = ApplicationState._('STOPPED');
+  static const terminated = ApplicationState._('TERMINATED');
 
   final String value;
 
-  const ApplicationState(this.value);
+  const ApplicationState._(this.value);
+
+  static const values = [
+    creating,
+    created,
+    starting,
+    started,
+    stopping,
+    stopped,
+    terminated
+  ];
 
   static ApplicationState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ApplicationState'));
+          orElse: () => ApplicationState._(value));
+
+  @override
+  bool operator ==(other) => other is ApplicationState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The summary of attributes associated with an application.
@@ -1103,7 +1120,7 @@ class ApplicationSummary {
       createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
       id: (json['id'] as String?) ?? '',
       releaseLabel: (json['releaseLabel'] as String?) ?? '',
-      state: ApplicationState.fromString((json['state'] as String)),
+      state: ApplicationState.fromString((json['state'] as String?) ?? ''),
       type: (json['type'] as String?) ?? '',
       updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] ?? 0),
       architecture:
@@ -1139,19 +1156,27 @@ class ApplicationSummary {
   }
 }
 
-enum Architecture {
-  arm64('ARM64'),
-  x86_64('X86_64'),
-  ;
+class Architecture {
+  static const arm64 = Architecture._('ARM64');
+  static const x86_64 = Architecture._('X86_64');
 
   final String value;
 
-  const Architecture(this.value);
+  const Architecture._(this.value);
 
-  static Architecture fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum Architecture'));
+  static const values = [arm64, x86_64];
+
+  static Architecture fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Architecture._(value));
+
+  @override
+  bool operator ==(other) => other is Architecture && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The configuration for an application to automatically start on job
@@ -1828,7 +1853,7 @@ class JobRun {
               const <String, dynamic>{}),
       jobRunId: (json['jobRunId'] as String?) ?? '',
       releaseLabel: (json['releaseLabel'] as String?) ?? '',
-      state: JobRunState.fromString((json['state'] as String)),
+      state: JobRunState.fromString((json['state'] as String?) ?? ''),
       stateDetails: (json['stateDetails'] as String?) ?? '',
       updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] ?? 0),
       attempt: json['attempt'] as int?,
@@ -2000,7 +2025,7 @@ class JobRunAttemptSummary {
       id: (json['id'] as String?) ?? '',
       jobCreatedAt: nonNullableTimeStampFromJson(json['jobCreatedAt'] ?? 0),
       releaseLabel: (json['releaseLabel'] as String?) ?? '',
-      state: JobRunState.fromString((json['state'] as String)),
+      state: JobRunState.fromString((json['state'] as String?) ?? ''),
       stateDetails: (json['stateDetails'] as String?) ?? '',
       updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] ?? 0),
       attempt: json['attempt'] as int?,
@@ -2046,38 +2071,65 @@ class JobRunAttemptSummary {
   }
 }
 
-enum JobRunMode {
-  batch('BATCH'),
-  streaming('STREAMING'),
-  ;
+class JobRunMode {
+  static const batch = JobRunMode._('BATCH');
+  static const streaming = JobRunMode._('STREAMING');
 
   final String value;
 
-  const JobRunMode(this.value);
+  const JobRunMode._(this.value);
 
-  static JobRunMode fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum JobRunMode'));
+  static const values = [batch, streaming];
+
+  static JobRunMode fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => JobRunMode._(value));
+
+  @override
+  bool operator ==(other) => other is JobRunMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum JobRunState {
-  submitted('SUBMITTED'),
-  pending('PENDING'),
-  scheduled('SCHEDULED'),
-  running('RUNNING'),
-  success('SUCCESS'),
-  failed('FAILED'),
-  cancelling('CANCELLING'),
-  cancelled('CANCELLED'),
-  ;
+class JobRunState {
+  static const submitted = JobRunState._('SUBMITTED');
+  static const pending = JobRunState._('PENDING');
+  static const scheduled = JobRunState._('SCHEDULED');
+  static const running = JobRunState._('RUNNING');
+  static const success = JobRunState._('SUCCESS');
+  static const failed = JobRunState._('FAILED');
+  static const cancelling = JobRunState._('CANCELLING');
+  static const cancelled = JobRunState._('CANCELLED');
 
   final String value;
 
-  const JobRunState(this.value);
+  const JobRunState._(this.value);
 
-  static JobRunState fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum JobRunState'));
+  static const values = [
+    submitted,
+    pending,
+    scheduled,
+    running,
+    success,
+    failed,
+    cancelling,
+    cancelled
+  ];
+
+  static JobRunState fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => JobRunState._(value));
+
+  @override
+  bool operator ==(other) => other is JobRunState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The summary of attributes associated with a job run.
@@ -2159,7 +2211,7 @@ class JobRunSummary {
       executionRole: (json['executionRole'] as String?) ?? '',
       id: (json['id'] as String?) ?? '',
       releaseLabel: (json['releaseLabel'] as String?) ?? '',
-      state: JobRunState.fromString((json['state'] as String)),
+      state: JobRunState.fromString((json['state'] as String?) ?? ''),
       stateDetails: (json['stateDetails'] as String?) ?? '',
       updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] ?? 0),
       attempt: json['attempt'] as int?,

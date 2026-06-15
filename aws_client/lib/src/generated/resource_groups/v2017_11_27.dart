@@ -1590,20 +1590,30 @@ class GroupConfigurationParameter {
   }
 }
 
-enum GroupConfigurationStatus {
-  updating('UPDATING'),
-  updateComplete('UPDATE_COMPLETE'),
-  updateFailed('UPDATE_FAILED'),
-  ;
+class GroupConfigurationStatus {
+  static const updating = GroupConfigurationStatus._('UPDATING');
+  static const updateComplete = GroupConfigurationStatus._('UPDATE_COMPLETE');
+  static const updateFailed = GroupConfigurationStatus._('UPDATE_FAILED');
 
   final String value;
 
-  const GroupConfigurationStatus(this.value);
+  const GroupConfigurationStatus._(this.value);
+
+  static const values = [updating, updateComplete, updateFailed];
 
   static GroupConfigurationStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum GroupConfigurationStatus'));
+          orElse: () => GroupConfigurationStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is GroupConfigurationStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A filter collection that you can use to restrict the results from a
@@ -1631,19 +1641,28 @@ class GroupFilter {
   }
 }
 
-enum GroupFilterName {
-  resourceType('resource-type'),
-  configurationType('configuration-type'),
-  ;
+class GroupFilterName {
+  static const resourceType = GroupFilterName._('resource-type');
+  static const configurationType = GroupFilterName._('configuration-type');
 
   final String value;
 
-  const GroupFilterName(this.value);
+  const GroupFilterName._(this.value);
+
+  static const values = [resourceType, configurationType];
 
   static GroupFilterName fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum GroupFilterName'));
+          orElse: () => GroupFilterName._(value));
+
+  @override
+  bool operator ==(other) => other is GroupFilterName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The unique identifiers for a resource group.
@@ -1676,36 +1695,56 @@ class GroupIdentifier {
   }
 }
 
-enum GroupLifecycleEventsDesiredStatus {
-  active('ACTIVE'),
-  inactive('INACTIVE'),
-  ;
+class GroupLifecycleEventsDesiredStatus {
+  static const active = GroupLifecycleEventsDesiredStatus._('ACTIVE');
+  static const inactive = GroupLifecycleEventsDesiredStatus._('INACTIVE');
 
   final String value;
 
-  const GroupLifecycleEventsDesiredStatus(this.value);
+  const GroupLifecycleEventsDesiredStatus._(this.value);
+
+  static const values = [active, inactive];
 
   static GroupLifecycleEventsDesiredStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum GroupLifecycleEventsDesiredStatus'));
+          orElse: () => GroupLifecycleEventsDesiredStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is GroupLifecycleEventsDesiredStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum GroupLifecycleEventsStatus {
-  active('ACTIVE'),
-  inactive('INACTIVE'),
-  inProgress('IN_PROGRESS'),
-  error('ERROR'),
-  ;
+class GroupLifecycleEventsStatus {
+  static const active = GroupLifecycleEventsStatus._('ACTIVE');
+  static const inactive = GroupLifecycleEventsStatus._('INACTIVE');
+  static const inProgress = GroupLifecycleEventsStatus._('IN_PROGRESS');
+  static const error = GroupLifecycleEventsStatus._('ERROR');
 
   final String value;
 
-  const GroupLifecycleEventsStatus(this.value);
+  const GroupLifecycleEventsStatus._(this.value);
+
+  static const values = [active, inactive, inProgress, error];
 
   static GroupLifecycleEventsStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum GroupLifecycleEventsStatus'));
+          orElse: () => GroupLifecycleEventsStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is GroupLifecycleEventsStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A mapping of a query attached to a resource group that determines the Amazon
@@ -2021,35 +2060,63 @@ class QueryError {
   }
 }
 
-enum QueryErrorCode {
-  cloudformationStackInactive('CLOUDFORMATION_STACK_INACTIVE'),
-  cloudformationStackNotExisting('CLOUDFORMATION_STACK_NOT_EXISTING'),
-  cloudformationStackUnassumableRole('CLOUDFORMATION_STACK_UNASSUMABLE_ROLE'),
-  resourceTypeNotSupported('RESOURCE_TYPE_NOT_SUPPORTED'),
-  ;
+class QueryErrorCode {
+  static const cloudformationStackInactive =
+      QueryErrorCode._('CLOUDFORMATION_STACK_INACTIVE');
+  static const cloudformationStackNotExisting =
+      QueryErrorCode._('CLOUDFORMATION_STACK_NOT_EXISTING');
+  static const cloudformationStackUnassumableRole =
+      QueryErrorCode._('CLOUDFORMATION_STACK_UNASSUMABLE_ROLE');
+  static const resourceTypeNotSupported =
+      QueryErrorCode._('RESOURCE_TYPE_NOT_SUPPORTED');
 
   final String value;
 
-  const QueryErrorCode(this.value);
+  const QueryErrorCode._(this.value);
+
+  static const values = [
+    cloudformationStackInactive,
+    cloudformationStackNotExisting,
+    cloudformationStackUnassumableRole,
+    resourceTypeNotSupported
+  ];
 
   static QueryErrorCode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum QueryErrorCode'));
+          orElse: () => QueryErrorCode._(value));
+
+  @override
+  bool operator ==(other) => other is QueryErrorCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum QueryType {
-  tagFilters_1_0('TAG_FILTERS_1_0'),
-  cloudformationStack_1_0('CLOUDFORMATION_STACK_1_0'),
-  ;
+class QueryType {
+  static const tagFilters_1_0 = QueryType._('TAG_FILTERS_1_0');
+  static const cloudformationStack_1_0 =
+      QueryType._('CLOUDFORMATION_STACK_1_0');
 
   final String value;
 
-  const QueryType(this.value);
+  const QueryType._(this.value);
 
-  static QueryType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum QueryType'));
+  static const values = [tagFilters_1_0, cloudformationStack_1_0];
+
+  static QueryType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => QueryType._(value));
+
+  @override
+  bool operator ==(other) => other is QueryType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A filter name and value pair that is used to obtain more specific results
@@ -2077,18 +2144,28 @@ class ResourceFilter {
   }
 }
 
-enum ResourceFilterName {
-  resourceType('resource-type'),
-  ;
+class ResourceFilterName {
+  static const resourceType = ResourceFilterName._('resource-type');
 
   final String value;
 
-  const ResourceFilterName(this.value);
+  const ResourceFilterName._(this.value);
 
-  static ResourceFilterName fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ResourceFilterName'));
+  static const values = [resourceType];
+
+  static ResourceFilterName fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ResourceFilterName._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ResourceFilterName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A structure that contains the ARN of a resource and its resource type.
@@ -2270,7 +2347,7 @@ class ResourceQuery {
   factory ResourceQuery.fromJson(Map<String, dynamic> json) {
     return ResourceQuery(
       query: (json['Query'] as String?) ?? '',
-      type: QueryType.fromString((json['Type'] as String)),
+      type: QueryType.fromString((json['Type'] as String?) ?? ''),
     );
   }
 
@@ -2310,18 +2387,28 @@ class ResourceStatus {
   }
 }
 
-enum ResourceStatusValue {
-  pending('PENDING'),
-  ;
+class ResourceStatusValue {
+  static const pending = ResourceStatusValue._('PENDING');
 
   final String value;
 
-  const ResourceStatusValue(this.value);
+  const ResourceStatusValue._(this.value);
 
-  static ResourceStatusValue fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ResourceStatusValue'));
+  static const values = [pending];
+
+  static ResourceStatusValue fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ResourceStatusValue._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ResourceStatusValue && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class SearchResourcesOutput {

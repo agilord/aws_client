@@ -650,7 +650,7 @@ class Association {
   factory Association.fromJson(Map<String, dynamic> json) {
     return Association(
       arn: (json['arn'] as String?) ?? '',
-      type: AssociationType.fromString((json['type'] as String)),
+      type: AssociationType.fromString((json['type'] as String?) ?? ''),
     );
   }
 
@@ -664,18 +664,28 @@ class Association {
   }
 }
 
-enum AssociationType {
-  reservationTimeWindowArn('RESERVATION_TIME_WINDOW_ARN'),
-  ;
+class AssociationType {
+  static const reservationTimeWindowArn =
+      AssociationType._('RESERVATION_TIME_WINDOW_ARN');
 
   final String value;
 
-  const AssociationType(this.value);
+  const AssociationType._(this.value);
+
+  static const values = [reservationTimeWindowArn];
 
   static AssociationType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum AssociationType'));
+          orElse: () => AssociationType._(value));
+
+  @override
+  bool operator ==(other) => other is AssociationType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class CancelJobResponse {
@@ -692,8 +702,8 @@ class CancelJobResponse {
 
   factory CancelJobResponse.fromJson(Map<String, dynamic> json) {
     return CancelJobResponse(
-      cancellationStatus:
-          CancellationStatus.fromString((json['cancellationStatus'] as String)),
+      cancellationStatus: CancellationStatus.fromString(
+          (json['cancellationStatus'] as String?) ?? ''),
       jobArn: (json['jobArn'] as String?) ?? '',
     );
   }
@@ -722,8 +732,8 @@ class CancelQuantumTaskResponse {
 
   factory CancelQuantumTaskResponse.fromJson(Map<String, dynamic> json) {
     return CancelQuantumTaskResponse(
-      cancellationStatus:
-          CancellationStatus.fromString((json['cancellationStatus'] as String)),
+      cancellationStatus: CancellationStatus.fromString(
+          (json['cancellationStatus'] as String?) ?? ''),
       quantumTaskArn: (json['quantumTaskArn'] as String?) ?? '',
     );
   }
@@ -738,34 +748,53 @@ class CancelQuantumTaskResponse {
   }
 }
 
-enum CancellationStatus {
-  cancelling('CANCELLING'),
-  cancelled('CANCELLED'),
-  ;
+class CancellationStatus {
+  static const cancelling = CancellationStatus._('CANCELLING');
+  static const cancelled = CancellationStatus._('CANCELLED');
 
   final String value;
 
-  const CancellationStatus(this.value);
+  const CancellationStatus._(this.value);
 
-  static CancellationStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum CancellationStatus'));
+  static const values = [cancelling, cancelled];
+
+  static CancellationStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => CancellationStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CancellationStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum CompressionType {
-  none('NONE'),
-  gzip('GZIP'),
-  ;
+class CompressionType {
+  static const none = CompressionType._('NONE');
+  static const gzip = CompressionType._('GZIP');
 
   final String value;
 
-  const CompressionType(this.value);
+  const CompressionType._(this.value);
+
+  static const values = [none, gzip];
 
   static CompressionType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum CompressionType'));
+          orElse: () => CompressionType._(value));
+
+  @override
+  bool operator ==(other) => other is CompressionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The container image used to create an Amazon Braket job.
@@ -906,7 +935,7 @@ class DeviceQueueInfo {
 
   factory DeviceQueueInfo.fromJson(Map<String, dynamic> json) {
     return DeviceQueueInfo(
-      queue: QueueName.fromString((json['queue'] as String)),
+      queue: QueueName.fromString((json['queue'] as String?) ?? ''),
       queueSize: (json['queueSize'] as String?) ?? '',
       queuePriority:
           (json['queuePriority'] as String?)?.let(QueuePriority.fromString),
@@ -925,20 +954,28 @@ class DeviceQueueInfo {
   }
 }
 
-enum DeviceStatus {
-  online('ONLINE'),
-  offline('OFFLINE'),
-  retired('RETIRED'),
-  ;
+class DeviceStatus {
+  static const online = DeviceStatus._('ONLINE');
+  static const offline = DeviceStatus._('OFFLINE');
+  static const retired = DeviceStatus._('RETIRED');
 
   final String value;
 
-  const DeviceStatus(this.value);
+  const DeviceStatus._(this.value);
 
-  static DeviceStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum DeviceStatus'));
+  static const values = [online, offline, retired];
+
+  static DeviceStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => DeviceStatus._(value));
+
+  @override
+  bool operator ==(other) => other is DeviceStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Includes information about the device.
@@ -970,8 +1007,9 @@ class DeviceSummary {
     return DeviceSummary(
       deviceArn: (json['deviceArn'] as String?) ?? '',
       deviceName: (json['deviceName'] as String?) ?? '',
-      deviceStatus: DeviceStatus.fromString((json['deviceStatus'] as String)),
-      deviceType: DeviceType.fromString((json['deviceType'] as String)),
+      deviceStatus:
+          DeviceStatus.fromString((json['deviceStatus'] as String?) ?? ''),
+      deviceType: DeviceType.fromString((json['deviceType'] as String?) ?? ''),
       providerName: (json['providerName'] as String?) ?? '',
     );
   }
@@ -992,18 +1030,27 @@ class DeviceSummary {
   }
 }
 
-enum DeviceType {
-  qpu('QPU'),
-  simulator('SIMULATOR'),
-  ;
+class DeviceType {
+  static const qpu = DeviceType._('QPU');
+  static const simulator = DeviceType._('SIMULATOR');
 
   final String value;
 
-  const DeviceType(this.value);
+  const DeviceType._(this.value);
 
-  static DeviceType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum DeviceType'));
+  static const values = [qpu, simulator];
+
+  static DeviceType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => DeviceType._(value));
+
+  @override
+  bool operator ==(other) => other is DeviceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class GetDeviceResponse {
@@ -1044,8 +1091,9 @@ class GetDeviceResponse {
       deviceCapabilities:
           jsonDecode(json['deviceCapabilities'] as String) as Object,
       deviceName: (json['deviceName'] as String?) ?? '',
-      deviceStatus: DeviceStatus.fromString((json['deviceStatus'] as String)),
-      deviceType: DeviceType.fromString((json['deviceType'] as String)),
+      deviceStatus:
+          DeviceStatus.fromString((json['deviceStatus'] as String?) ?? ''),
+      deviceType: DeviceType.fromString((json['deviceType'] as String?) ?? ''),
       providerName: (json['providerName'] as String?) ?? '',
       deviceQueueInfo: (json['deviceQueueInfo'] as List?)
           ?.nonNulls
@@ -1193,7 +1241,7 @@ class GetJobResponse {
           (json['outputDataConfig'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
       roleArn: (json['roleArn'] as String?) ?? '',
-      status: JobPrimaryStatus.fromString((json['status'] as String)),
+      status: JobPrimaryStatus.fromString((json['status'] as String?) ?? ''),
       associations: (json['associations'] as List?)
           ?.nonNulls
           .map((e) => Association.fromJson(e as Map<String, dynamic>))
@@ -1353,7 +1401,7 @@ class GetQuantumTaskResponse {
       outputS3Directory: (json['outputS3Directory'] as String?) ?? '',
       quantumTaskArn: (json['quantumTaskArn'] as String?) ?? '',
       shots: (json['shots'] as int?) ?? 0,
-      status: QuantumTaskStatus.fromString((json['status'] as String)),
+      status: QuantumTaskStatus.fromString((json['status'] as String?) ?? ''),
       associations: (json['associations'] as List?)
           ?.nonNulls
           .map((e) => Association.fromJson(e as Map<String, dynamic>))
@@ -1404,18 +1452,28 @@ class GetQuantumTaskResponse {
   }
 }
 
-enum HybridJobAdditionalAttributeName {
-  queueInfo('QueueInfo'),
-  ;
+class HybridJobAdditionalAttributeName {
+  static const queueInfo = HybridJobAdditionalAttributeName._('QueueInfo');
 
   final String value;
 
-  const HybridJobAdditionalAttributeName(this.value);
+  const HybridJobAdditionalAttributeName._(this.value);
+
+  static const values = [queueInfo];
 
   static HybridJobAdditionalAttributeName fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum HybridJobAdditionalAttributeName'));
+          orElse: () => HybridJobAdditionalAttributeName._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is HybridJobAdditionalAttributeName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about the queue for a specified job.
@@ -1440,7 +1498,7 @@ class HybridJobQueueInfo {
   factory HybridJobQueueInfo.fromJson(Map<String, dynamic> json) {
     return HybridJobQueueInfo(
       position: (json['position'] as String?) ?? '',
-      queue: QueueName.fromString((json['queue'] as String)),
+      queue: QueueName.fromString((json['queue'] as String?) ?? ''),
       message: json['message'] as String?,
     );
   }
@@ -1519,7 +1577,8 @@ class InstanceConfig {
 
   factory InstanceConfig.fromJson(Map<String, dynamic> json) {
     return InstanceConfig(
-      instanceType: InstanceType.fromString((json['instanceType'] as String)),
+      instanceType:
+          InstanceType.fromString((json['instanceType'] as String?) ?? ''),
       volumeSizeInGb: (json['volumeSizeInGb'] as int?) ?? 0,
       instanceCount: json['instanceCount'] as int?,
     );
@@ -1537,56 +1596,104 @@ class InstanceConfig {
   }
 }
 
-enum InstanceType {
-  mlM4Xlarge('ml.m4.xlarge'),
-  mlM4_2xlarge('ml.m4.2xlarge'),
-  mlM4_4xlarge('ml.m4.4xlarge'),
-  mlM4_10xlarge('ml.m4.10xlarge'),
-  mlM4_16xlarge('ml.m4.16xlarge'),
-  mlG4dnXlarge('ml.g4dn.xlarge'),
-  mlG4dn_2xlarge('ml.g4dn.2xlarge'),
-  mlG4dn_4xlarge('ml.g4dn.4xlarge'),
-  mlG4dn_8xlarge('ml.g4dn.8xlarge'),
-  mlG4dn_12xlarge('ml.g4dn.12xlarge'),
-  mlG4dn_16xlarge('ml.g4dn.16xlarge'),
-  mlM5Large('ml.m5.large'),
-  mlM5Xlarge('ml.m5.xlarge'),
-  mlM5_2xlarge('ml.m5.2xlarge'),
-  mlM5_4xlarge('ml.m5.4xlarge'),
-  mlM5_12xlarge('ml.m5.12xlarge'),
-  mlM5_24xlarge('ml.m5.24xlarge'),
-  mlC4Xlarge('ml.c4.xlarge'),
-  mlC4_2xlarge('ml.c4.2xlarge'),
-  mlC4_4xlarge('ml.c4.4xlarge'),
-  mlC4_8xlarge('ml.c4.8xlarge'),
-  mlP2Xlarge('ml.p2.xlarge'),
-  mlP2_8xlarge('ml.p2.8xlarge'),
-  mlP2_16xlarge('ml.p2.16xlarge'),
-  mlP3_2xlarge('ml.p3.2xlarge'),
-  mlP3_8xlarge('ml.p3.8xlarge'),
-  mlP3_16xlarge('ml.p3.16xlarge'),
-  mlP3dn_24xlarge('ml.p3dn.24xlarge'),
-  mlP4d_24xlarge('ml.p4d.24xlarge'),
-  mlC5Xlarge('ml.c5.xlarge'),
-  mlC5_2xlarge('ml.c5.2xlarge'),
-  mlC5_4xlarge('ml.c5.4xlarge'),
-  mlC5_9xlarge('ml.c5.9xlarge'),
-  mlC5_18xlarge('ml.c5.18xlarge'),
-  mlC5nXlarge('ml.c5n.xlarge'),
-  mlC5n_2xlarge('ml.c5n.2xlarge'),
-  mlC5n_4xlarge('ml.c5n.4xlarge'),
-  mlC5n_9xlarge('ml.c5n.9xlarge'),
-  mlC5n_18xlarge('ml.c5n.18xlarge'),
-  ;
+class InstanceType {
+  static const mlM4Xlarge = InstanceType._('ml.m4.xlarge');
+  static const mlM4_2xlarge = InstanceType._('ml.m4.2xlarge');
+  static const mlM4_4xlarge = InstanceType._('ml.m4.4xlarge');
+  static const mlM4_10xlarge = InstanceType._('ml.m4.10xlarge');
+  static const mlM4_16xlarge = InstanceType._('ml.m4.16xlarge');
+  static const mlG4dnXlarge = InstanceType._('ml.g4dn.xlarge');
+  static const mlG4dn_2xlarge = InstanceType._('ml.g4dn.2xlarge');
+  static const mlG4dn_4xlarge = InstanceType._('ml.g4dn.4xlarge');
+  static const mlG4dn_8xlarge = InstanceType._('ml.g4dn.8xlarge');
+  static const mlG4dn_12xlarge = InstanceType._('ml.g4dn.12xlarge');
+  static const mlG4dn_16xlarge = InstanceType._('ml.g4dn.16xlarge');
+  static const mlM5Large = InstanceType._('ml.m5.large');
+  static const mlM5Xlarge = InstanceType._('ml.m5.xlarge');
+  static const mlM5_2xlarge = InstanceType._('ml.m5.2xlarge');
+  static const mlM5_4xlarge = InstanceType._('ml.m5.4xlarge');
+  static const mlM5_12xlarge = InstanceType._('ml.m5.12xlarge');
+  static const mlM5_24xlarge = InstanceType._('ml.m5.24xlarge');
+  static const mlC4Xlarge = InstanceType._('ml.c4.xlarge');
+  static const mlC4_2xlarge = InstanceType._('ml.c4.2xlarge');
+  static const mlC4_4xlarge = InstanceType._('ml.c4.4xlarge');
+  static const mlC4_8xlarge = InstanceType._('ml.c4.8xlarge');
+  static const mlP2Xlarge = InstanceType._('ml.p2.xlarge');
+  static const mlP2_8xlarge = InstanceType._('ml.p2.8xlarge');
+  static const mlP2_16xlarge = InstanceType._('ml.p2.16xlarge');
+  static const mlP3_2xlarge = InstanceType._('ml.p3.2xlarge');
+  static const mlP3_8xlarge = InstanceType._('ml.p3.8xlarge');
+  static const mlP3_16xlarge = InstanceType._('ml.p3.16xlarge');
+  static const mlP3dn_24xlarge = InstanceType._('ml.p3dn.24xlarge');
+  static const mlP4d_24xlarge = InstanceType._('ml.p4d.24xlarge');
+  static const mlC5Xlarge = InstanceType._('ml.c5.xlarge');
+  static const mlC5_2xlarge = InstanceType._('ml.c5.2xlarge');
+  static const mlC5_4xlarge = InstanceType._('ml.c5.4xlarge');
+  static const mlC5_9xlarge = InstanceType._('ml.c5.9xlarge');
+  static const mlC5_18xlarge = InstanceType._('ml.c5.18xlarge');
+  static const mlC5nXlarge = InstanceType._('ml.c5n.xlarge');
+  static const mlC5n_2xlarge = InstanceType._('ml.c5n.2xlarge');
+  static const mlC5n_4xlarge = InstanceType._('ml.c5n.4xlarge');
+  static const mlC5n_9xlarge = InstanceType._('ml.c5n.9xlarge');
+  static const mlC5n_18xlarge = InstanceType._('ml.c5n.18xlarge');
 
   final String value;
 
-  const InstanceType(this.value);
+  const InstanceType._(this.value);
 
-  static InstanceType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum InstanceType'));
+  static const values = [
+    mlM4Xlarge,
+    mlM4_2xlarge,
+    mlM4_4xlarge,
+    mlM4_10xlarge,
+    mlM4_16xlarge,
+    mlG4dnXlarge,
+    mlG4dn_2xlarge,
+    mlG4dn_4xlarge,
+    mlG4dn_8xlarge,
+    mlG4dn_12xlarge,
+    mlG4dn_16xlarge,
+    mlM5Large,
+    mlM5Xlarge,
+    mlM5_2xlarge,
+    mlM5_4xlarge,
+    mlM5_12xlarge,
+    mlM5_24xlarge,
+    mlC4Xlarge,
+    mlC4_2xlarge,
+    mlC4_4xlarge,
+    mlC4_8xlarge,
+    mlP2Xlarge,
+    mlP2_8xlarge,
+    mlP2_16xlarge,
+    mlP3_2xlarge,
+    mlP3_8xlarge,
+    mlP3_16xlarge,
+    mlP3dn_24xlarge,
+    mlP4d_24xlarge,
+    mlC5Xlarge,
+    mlC5_2xlarge,
+    mlC5_4xlarge,
+    mlC5_9xlarge,
+    mlC5_18xlarge,
+    mlC5nXlarge,
+    mlC5n_2xlarge,
+    mlC5n_4xlarge,
+    mlC5n_9xlarge,
+    mlC5n_18xlarge
+  ];
+
+  static InstanceType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => InstanceType._(value));
+
+  @override
+  bool operator ==(other) => other is InstanceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains information about the output locations for job checkpoint data.
@@ -1660,28 +1767,49 @@ class JobEventDetails {
   }
 }
 
-enum JobEventType {
-  waitingForPriority('WAITING_FOR_PRIORITY'),
-  queuedForExecution('QUEUED_FOR_EXECUTION'),
-  startingInstance('STARTING_INSTANCE'),
-  downloadingData('DOWNLOADING_DATA'),
-  running('RUNNING'),
-  deprioritizedDueToInactivity('DEPRIORITIZED_DUE_TO_INACTIVITY'),
-  uploadingResults('UPLOADING_RESULTS'),
-  completed('COMPLETED'),
-  failed('FAILED'),
-  maxRuntimeExceeded('MAX_RUNTIME_EXCEEDED'),
-  cancelled('CANCELLED'),
-  ;
+class JobEventType {
+  static const waitingForPriority = JobEventType._('WAITING_FOR_PRIORITY');
+  static const queuedForExecution = JobEventType._('QUEUED_FOR_EXECUTION');
+  static const startingInstance = JobEventType._('STARTING_INSTANCE');
+  static const downloadingData = JobEventType._('DOWNLOADING_DATA');
+  static const running = JobEventType._('RUNNING');
+  static const deprioritizedDueToInactivity =
+      JobEventType._('DEPRIORITIZED_DUE_TO_INACTIVITY');
+  static const uploadingResults = JobEventType._('UPLOADING_RESULTS');
+  static const completed = JobEventType._('COMPLETED');
+  static const failed = JobEventType._('FAILED');
+  static const maxRuntimeExceeded = JobEventType._('MAX_RUNTIME_EXCEEDED');
+  static const cancelled = JobEventType._('CANCELLED');
 
   final String value;
 
-  const JobEventType(this.value);
+  const JobEventType._(this.value);
 
-  static JobEventType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum JobEventType'));
+  static const values = [
+    waitingForPriority,
+    queuedForExecution,
+    startingInstance,
+    downloadingData,
+    running,
+    deprioritizedDueToInactivity,
+    uploadingResults,
+    completed,
+    failed,
+    maxRuntimeExceeded,
+    cancelled
+  ];
+
+  static JobEventType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => JobEventType._(value));
+
+  @override
+  bool operator ==(other) => other is JobEventType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specifies the path to the S3 location where you want to store job artifacts
@@ -1719,23 +1847,39 @@ class JobOutputDataConfig {
   }
 }
 
-enum JobPrimaryStatus {
-  queued('QUEUED'),
-  running('RUNNING'),
-  completed('COMPLETED'),
-  failed('FAILED'),
-  cancelling('CANCELLING'),
-  cancelled('CANCELLED'),
-  ;
+class JobPrimaryStatus {
+  static const queued = JobPrimaryStatus._('QUEUED');
+  static const running = JobPrimaryStatus._('RUNNING');
+  static const completed = JobPrimaryStatus._('COMPLETED');
+  static const failed = JobPrimaryStatus._('FAILED');
+  static const cancelling = JobPrimaryStatus._('CANCELLING');
+  static const cancelled = JobPrimaryStatus._('CANCELLED');
 
   final String value;
 
-  const JobPrimaryStatus(this.value);
+  const JobPrimaryStatus._(this.value);
+
+  static const values = [
+    queued,
+    running,
+    completed,
+    failed,
+    cancelling,
+    cancelled
+  ];
 
   static JobPrimaryStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum JobPrimaryStatus'));
+          orElse: () => JobPrimaryStatus._(value));
+
+  @override
+  bool operator ==(other) => other is JobPrimaryStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specifies limits for how long an Amazon Braket job can run.
@@ -1807,7 +1951,7 @@ class JobSummary {
       device: (json['device'] as String?) ?? '',
       jobArn: (json['jobArn'] as String?) ?? '',
       jobName: (json['jobName'] as String?) ?? '',
-      status: JobPrimaryStatus.fromString((json['status'] as String)),
+      status: JobPrimaryStatus.fromString((json['status'] as String?) ?? ''),
       endedAt: timeStampFromJson(json['endedAt']),
       startedAt: timeStampFromJson(json['startedAt']),
       tags: (json['tags'] as Map<String, dynamic>?)
@@ -1860,18 +2004,28 @@ class ListTagsForResourceResponse {
   }
 }
 
-enum QuantumTaskAdditionalAttributeName {
-  queueInfo('QueueInfo'),
-  ;
+class QuantumTaskAdditionalAttributeName {
+  static const queueInfo = QuantumTaskAdditionalAttributeName._('QueueInfo');
 
   final String value;
 
-  const QuantumTaskAdditionalAttributeName(this.value);
+  const QuantumTaskAdditionalAttributeName._(this.value);
+
+  static const values = [queueInfo];
 
   static QuantumTaskAdditionalAttributeName fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum QuantumTaskAdditionalAttributeName'));
+          orElse: () => QuantumTaskAdditionalAttributeName._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is QuantumTaskAdditionalAttributeName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about the queue for the specified quantum task.
@@ -1901,7 +2055,7 @@ class QuantumTaskQueueInfo {
   factory QuantumTaskQueueInfo.fromJson(Map<String, dynamic> json) {
     return QuantumTaskQueueInfo(
       position: (json['position'] as String?) ?? '',
-      queue: QueueName.fromString((json['queue'] as String)),
+      queue: QueueName.fromString((json['queue'] as String?) ?? ''),
       message: json['message'] as String?,
       queuePriority:
           (json['queuePriority'] as String?)?.let(QueuePriority.fromString),
@@ -1922,24 +2076,41 @@ class QuantumTaskQueueInfo {
   }
 }
 
-enum QuantumTaskStatus {
-  created('CREATED'),
-  queued('QUEUED'),
-  running('RUNNING'),
-  completed('COMPLETED'),
-  failed('FAILED'),
-  cancelling('CANCELLING'),
-  cancelled('CANCELLED'),
-  ;
+class QuantumTaskStatus {
+  static const created = QuantumTaskStatus._('CREATED');
+  static const queued = QuantumTaskStatus._('QUEUED');
+  static const running = QuantumTaskStatus._('RUNNING');
+  static const completed = QuantumTaskStatus._('COMPLETED');
+  static const failed = QuantumTaskStatus._('FAILED');
+  static const cancelling = QuantumTaskStatus._('CANCELLING');
+  static const cancelled = QuantumTaskStatus._('CANCELLED');
 
   final String value;
 
-  const QuantumTaskStatus(this.value);
+  const QuantumTaskStatus._(this.value);
+
+  static const values = [
+    created,
+    queued,
+    running,
+    completed,
+    failed,
+    cancelling,
+    cancelled
+  ];
 
   static QuantumTaskStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum QuantumTaskStatus'));
+          orElse: () => QuantumTaskStatus._(value));
+
+  @override
+  bool operator ==(other) => other is QuantumTaskStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Includes information about a quantum task.
@@ -1991,7 +2162,7 @@ class QuantumTaskSummary {
       outputS3Directory: (json['outputS3Directory'] as String?) ?? '',
       quantumTaskArn: (json['quantumTaskArn'] as String?) ?? '',
       shots: (json['shots'] as int?) ?? 0,
-      status: QuantumTaskStatus.fromString((json['status'] as String)),
+      status: QuantumTaskStatus.fromString((json['status'] as String?) ?? ''),
       endedAt: timeStampFromJson(json['endedAt']),
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
@@ -2022,33 +2193,51 @@ class QuantumTaskSummary {
   }
 }
 
-enum QueueName {
-  quantumTasksQueue('QUANTUM_TASKS_QUEUE'),
-  jobsQueue('JOBS_QUEUE'),
-  ;
+class QueueName {
+  static const quantumTasksQueue = QueueName._('QUANTUM_TASKS_QUEUE');
+  static const jobsQueue = QueueName._('JOBS_QUEUE');
 
   final String value;
 
-  const QueueName(this.value);
+  const QueueName._(this.value);
 
-  static QueueName fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum QueueName'));
+  static const values = [quantumTasksQueue, jobsQueue];
+
+  static QueueName fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => QueueName._(value));
+
+  @override
+  bool operator ==(other) => other is QueueName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum QueuePriority {
-  normal('Normal'),
-  priority('Priority'),
-  ;
+class QueuePriority {
+  static const normal = QueuePriority._('Normal');
+  static const priority = QueuePriority._('Priority');
 
   final String value;
 
-  const QueuePriority(this.value);
+  const QueuePriority._(this.value);
+
+  static const values = [normal, priority];
 
   static QueuePriority fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum QueuePriority'));
+          orElse: () => QueuePriority._(value));
+
+  @override
+  bool operator ==(other) => other is QueuePriority && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about the data stored in Amazon S3 used by the Amazon Braket
@@ -2204,24 +2393,34 @@ class SearchJobsFilter {
   }
 }
 
-enum SearchJobsFilterOperator {
-  lt('LT'),
-  lte('LTE'),
-  equal('EQUAL'),
-  gt('GT'),
-  gte('GTE'),
-  between('BETWEEN'),
-  contains('CONTAINS'),
-  ;
+class SearchJobsFilterOperator {
+  static const lt = SearchJobsFilterOperator._('LT');
+  static const lte = SearchJobsFilterOperator._('LTE');
+  static const equal = SearchJobsFilterOperator._('EQUAL');
+  static const gt = SearchJobsFilterOperator._('GT');
+  static const gte = SearchJobsFilterOperator._('GTE');
+  static const between = SearchJobsFilterOperator._('BETWEEN');
+  static const contains = SearchJobsFilterOperator._('CONTAINS');
 
   final String value;
 
-  const SearchJobsFilterOperator(this.value);
+  const SearchJobsFilterOperator._(this.value);
+
+  static const values = [lt, lte, equal, gt, gte, between, contains];
 
   static SearchJobsFilterOperator fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum SearchJobsFilterOperator'));
+          orElse: () => SearchJobsFilterOperator._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SearchJobsFilterOperator && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class SearchJobsResponse {
@@ -2288,23 +2487,33 @@ class SearchQuantumTasksFilter {
   }
 }
 
-enum SearchQuantumTasksFilterOperator {
-  lt('LT'),
-  lte('LTE'),
-  equal('EQUAL'),
-  gt('GT'),
-  gte('GTE'),
-  between('BETWEEN'),
-  ;
+class SearchQuantumTasksFilterOperator {
+  static const lt = SearchQuantumTasksFilterOperator._('LT');
+  static const lte = SearchQuantumTasksFilterOperator._('LTE');
+  static const equal = SearchQuantumTasksFilterOperator._('EQUAL');
+  static const gt = SearchQuantumTasksFilterOperator._('GT');
+  static const gte = SearchQuantumTasksFilterOperator._('GTE');
+  static const between = SearchQuantumTasksFilterOperator._('BETWEEN');
 
   final String value;
 
-  const SearchQuantumTasksFilterOperator(this.value);
+  const SearchQuantumTasksFilterOperator._(this.value);
+
+  static const values = [lt, lte, equal, gt, gte, between];
 
   static SearchQuantumTasksFilterOperator fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum SearchQuantumTasksFilterOperator'));
+          orElse: () => SearchQuantumTasksFilterOperator._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SearchQuantumTasksFilterOperator && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class SearchQuantumTasksResponse {

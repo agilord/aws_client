@@ -493,21 +493,30 @@ class SnowDeviceManagement {
   }
 }
 
-enum AttachmentStatus {
-  attaching('ATTACHING'),
-  attached('ATTACHED'),
-  detaching('DETACHING'),
-  detached('DETACHED'),
-  ;
+class AttachmentStatus {
+  static const attaching = AttachmentStatus._('ATTACHING');
+  static const attached = AttachmentStatus._('ATTACHED');
+  static const detaching = AttachmentStatus._('DETACHING');
+  static const detached = AttachmentStatus._('DETACHED');
 
   final String value;
 
-  const AttachmentStatus(this.value);
+  const AttachmentStatus._(this.value);
+
+  static const values = [attaching, attached, detaching, detached];
 
   static AttachmentStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum AttachmentStatus'));
+          orElse: () => AttachmentStatus._(value));
+
+  @override
+  bool operator ==(other) => other is AttachmentStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class CancelTaskOutput {
@@ -1036,24 +1045,41 @@ class EbsInstanceBlockDevice {
   }
 }
 
-enum ExecutionState {
-  queued('QUEUED'),
-  inProgress('IN_PROGRESS'),
-  canceled('CANCELED'),
-  failed('FAILED'),
-  succeeded('SUCCEEDED'),
-  rejected('REJECTED'),
-  timedOut('TIMED_OUT'),
-  ;
+class ExecutionState {
+  static const queued = ExecutionState._('QUEUED');
+  static const inProgress = ExecutionState._('IN_PROGRESS');
+  static const canceled = ExecutionState._('CANCELED');
+  static const failed = ExecutionState._('FAILED');
+  static const succeeded = ExecutionState._('SUCCEEDED');
+  static const rejected = ExecutionState._('REJECTED');
+  static const timedOut = ExecutionState._('TIMED_OUT');
 
   final String value;
 
-  const ExecutionState(this.value);
+  const ExecutionState._(this.value);
+
+  static const values = [
+    queued,
+    inProgress,
+    canceled,
+    failed,
+    succeeded,
+    rejected,
+    timedOut
+  ];
 
   static ExecutionState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ExecutionState'));
+          orElse: () => ExecutionState._(value));
+
+  @override
+  bool operator ==(other) => other is ExecutionState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The summary of a task execution on a specified device.
@@ -1317,23 +1343,39 @@ class InstanceState {
   }
 }
 
-enum InstanceStateName {
-  pending('PENDING'),
-  running('RUNNING'),
-  shuttingDown('SHUTTING_DOWN'),
-  terminated('TERMINATED'),
-  stopping('STOPPING'),
-  stopped('STOPPED'),
-  ;
+class InstanceStateName {
+  static const pending = InstanceStateName._('PENDING');
+  static const running = InstanceStateName._('RUNNING');
+  static const shuttingDown = InstanceStateName._('SHUTTING_DOWN');
+  static const terminated = InstanceStateName._('TERMINATED');
+  static const stopping = InstanceStateName._('STOPPING');
+  static const stopped = InstanceStateName._('STOPPED');
 
   final String value;
 
-  const InstanceStateName(this.value);
+  const InstanceStateName._(this.value);
+
+  static const values = [
+    pending,
+    running,
+    shuttingDown,
+    terminated,
+    stopping,
+    stopped
+  ];
 
   static InstanceStateName fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum InstanceStateName'));
+          orElse: () => InstanceStateName._(value));
+
+  @override
+  bool operator ==(other) => other is InstanceStateName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The details about the instance.
@@ -1369,19 +1411,29 @@ class InstanceSummary {
   }
 }
 
-enum IpAddressAssignment {
-  dhcp('DHCP'),
-  static('STATIC'),
-  ;
+class IpAddressAssignment {
+  static const dhcp = IpAddressAssignment._('DHCP');
+  static const static = IpAddressAssignment._('STATIC');
 
   final String value;
 
-  const IpAddressAssignment(this.value);
+  const IpAddressAssignment._(this.value);
 
-  static IpAddressAssignment fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum IpAddressAssignment'));
+  static const values = [dhcp, static];
+
+  static IpAddressAssignment fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => IpAddressAssignment._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is IpAddressAssignment && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class ListDeviceResourcesOutput {
@@ -1537,22 +1589,32 @@ class ListTasksOutput {
   }
 }
 
-enum PhysicalConnectorType {
-  rj45('RJ45'),
-  sfpPlus('SFP_PLUS'),
-  qsfp('QSFP'),
-  rj45_2('RJ45_2'),
-  wifi('WIFI'),
-  ;
+class PhysicalConnectorType {
+  static const rj45 = PhysicalConnectorType._('RJ45');
+  static const sfpPlus = PhysicalConnectorType._('SFP_PLUS');
+  static const qsfp = PhysicalConnectorType._('QSFP');
+  static const rj45_2 = PhysicalConnectorType._('RJ45_2');
+  static const wifi = PhysicalConnectorType._('WIFI');
 
   final String value;
 
-  const PhysicalConnectorType(this.value);
+  const PhysicalConnectorType._(this.value);
 
-  static PhysicalConnectorType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum PhysicalConnectorType'));
+  static const values = [rj45, sfpPlus, qsfp, rj45_2, wifi];
+
+  static PhysicalConnectorType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => PhysicalConnectorType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is PhysicalConnectorType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The details about the physical network interface for the device.
@@ -1739,19 +1801,28 @@ class SoftwareInformation {
   }
 }
 
-enum TaskState {
-  inProgress('IN_PROGRESS'),
-  canceled('CANCELED'),
-  completed('COMPLETED'),
-  ;
+class TaskState {
+  static const inProgress = TaskState._('IN_PROGRESS');
+  static const canceled = TaskState._('CANCELED');
+  static const completed = TaskState._('COMPLETED');
 
   final String value;
 
-  const TaskState(this.value);
+  const TaskState._(this.value);
 
-  static TaskState fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum TaskState'));
+  static const values = [inProgress, canceled, completed];
+
+  static TaskState fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => TaskState._(value));
+
+  @override
+  bool operator ==(other) => other is TaskState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about the task assigned to one or many devices.
@@ -1810,19 +1881,28 @@ class Unlock {
   }
 }
 
-enum UnlockState {
-  unlocked('UNLOCKED'),
-  locked('LOCKED'),
-  unlocking('UNLOCKING'),
-  ;
+class UnlockState {
+  static const unlocked = UnlockState._('UNLOCKED');
+  static const locked = UnlockState._('LOCKED');
+  static const unlocking = UnlockState._('UNLOCKING');
 
   final String value;
 
-  const UnlockState(this.value);
+  const UnlockState._(this.value);
 
-  static UnlockState fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum UnlockState'));
+  static const values = [unlocked, locked, unlocking];
+
+  static UnlockState fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => UnlockState._(value));
+
+  @override
+  bool operator ==(other) => other is UnlockState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class AccessDeniedException extends _s.GenericAwsException {

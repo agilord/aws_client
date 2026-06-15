@@ -1363,19 +1363,28 @@ class ManagedGrafana {
   }
 }
 
-enum AccountAccessType {
-  currentAccount('CURRENT_ACCOUNT'),
-  organization('ORGANIZATION'),
-  ;
+class AccountAccessType {
+  static const currentAccount = AccountAccessType._('CURRENT_ACCOUNT');
+  static const organization = AccountAccessType._('ORGANIZATION');
 
   final String value;
 
-  const AccountAccessType(this.value);
+  const AccountAccessType._(this.value);
+
+  static const values = [currentAccount, organization];
 
   static AccountAccessType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum AccountAccessType'));
+          orElse: () => AccountAccessType._(value));
+
+  @override
+  bool operator ==(other) => other is AccountAccessType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A structure that defines which attributes in the IdP assertion are to be
@@ -1519,19 +1528,29 @@ class AuthenticationDescription {
   }
 }
 
-enum AuthenticationProviderTypes {
-  awsSso('AWS_SSO'),
-  saml('SAML'),
-  ;
+class AuthenticationProviderTypes {
+  static const awsSso = AuthenticationProviderTypes._('AWS_SSO');
+  static const saml = AuthenticationProviderTypes._('SAML');
 
   final String value;
 
-  const AuthenticationProviderTypes(this.value);
+  const AuthenticationProviderTypes._(this.value);
+
+  static const values = [awsSso, saml];
 
   static AuthenticationProviderTypes fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum AuthenticationProviderTypes'));
+          orElse: () => AuthenticationProviderTypes._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AuthenticationProviderTypes && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A structure that describes whether the workspace uses SAML, IAM Identity
@@ -1682,7 +1701,7 @@ class CreateWorkspaceServiceAccountResponse {
   factory CreateWorkspaceServiceAccountResponse.fromJson(
       Map<String, dynamic> json) {
     return CreateWorkspaceServiceAccountResponse(
-      grafanaRole: Role.fromString((json['grafanaRole'] as String)),
+      grafanaRole: Role.fromString((json['grafanaRole'] as String?) ?? ''),
       id: (json['id'] as String?) ?? '',
       name: (json['name'] as String?) ?? '',
       workspaceId: (json['workspaceId'] as String?) ?? '',
@@ -1743,26 +1762,46 @@ class CreateWorkspaceServiceAccountTokenResponse {
   }
 }
 
-enum DataSourceType {
-  amazonOpensearchService('AMAZON_OPENSEARCH_SERVICE'),
-  cloudwatch('CLOUDWATCH'),
-  prometheus('PROMETHEUS'),
-  xray('XRAY'),
-  timestream('TIMESTREAM'),
-  sitewise('SITEWISE'),
-  athena('ATHENA'),
-  redshift('REDSHIFT'),
-  twinmaker('TWINMAKER'),
-  ;
+class DataSourceType {
+  static const amazonOpensearchService =
+      DataSourceType._('AMAZON_OPENSEARCH_SERVICE');
+  static const cloudwatch = DataSourceType._('CLOUDWATCH');
+  static const prometheus = DataSourceType._('PROMETHEUS');
+  static const xray = DataSourceType._('XRAY');
+  static const timestream = DataSourceType._('TIMESTREAM');
+  static const sitewise = DataSourceType._('SITEWISE');
+  static const athena = DataSourceType._('ATHENA');
+  static const redshift = DataSourceType._('REDSHIFT');
+  static const twinmaker = DataSourceType._('TWINMAKER');
 
   final String value;
 
-  const DataSourceType(this.value);
+  const DataSourceType._(this.value);
+
+  static const values = [
+    amazonOpensearchService,
+    cloudwatch,
+    prometheus,
+    xray,
+    timestream,
+    sitewise,
+    athena,
+    redshift,
+    twinmaker
+  ];
 
   static DataSourceType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum DataSourceType'));
+          orElse: () => DataSourceType._(value));
+
+  @override
+  bool operator ==(other) => other is DataSourceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class DeleteWorkspaceApiKeyResponse {
@@ -2026,18 +2065,27 @@ class IdpMetadata {
   }
 }
 
-enum LicenseType {
-  enterprise('ENTERPRISE'),
-  enterpriseFreeTrial('ENTERPRISE_FREE_TRIAL'),
-  ;
+class LicenseType {
+  static const enterprise = LicenseType._('ENTERPRISE');
+  static const enterpriseFreeTrial = LicenseType._('ENTERPRISE_FREE_TRIAL');
 
   final String value;
 
-  const LicenseType(this.value);
+  const LicenseType._(this.value);
 
-  static LicenseType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum LicenseType'));
+  static const values = [enterprise, enterpriseFreeTrial];
+
+  static LicenseType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => LicenseType._(value));
+
+  @override
+  bool operator ==(other) => other is LicenseType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class ListPermissionsResponse {
@@ -2334,18 +2382,28 @@ class NetworkAccessConfiguration {
   }
 }
 
-enum NotificationDestinationType {
-  sns('SNS'),
-  ;
+class NotificationDestinationType {
+  static const sns = NotificationDestinationType._('SNS');
 
   final String value;
 
-  const NotificationDestinationType(this.value);
+  const NotificationDestinationType._(this.value);
+
+  static const values = [sns];
 
   static NotificationDestinationType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum NotificationDestinationType'));
+          orElse: () => NotificationDestinationType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is NotificationDestinationType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A structure containing the identity of one user or group and the
@@ -2366,7 +2424,7 @@ class PermissionEntry {
 
   factory PermissionEntry.fromJson(Map<String, dynamic> json) {
     return PermissionEntry(
-      role: Role.fromString((json['role'] as String)),
+      role: Role.fromString((json['role'] as String?) ?? ''),
       user: User.fromJson(
           (json['user'] as Map<String, dynamic>?) ?? const <String, dynamic>{}),
     );
@@ -2382,34 +2440,52 @@ class PermissionEntry {
   }
 }
 
-enum PermissionType {
-  customerManaged('CUSTOMER_MANAGED'),
-  serviceManaged('SERVICE_MANAGED'),
-  ;
+class PermissionType {
+  static const customerManaged = PermissionType._('CUSTOMER_MANAGED');
+  static const serviceManaged = PermissionType._('SERVICE_MANAGED');
 
   final String value;
 
-  const PermissionType(this.value);
+  const PermissionType._(this.value);
+
+  static const values = [customerManaged, serviceManaged];
 
   static PermissionType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum PermissionType'));
+          orElse: () => PermissionType._(value));
+
+  @override
+  bool operator ==(other) => other is PermissionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum Role {
-  admin('ADMIN'),
-  editor('EDITOR'),
-  viewer('VIEWER'),
-  ;
+class Role {
+  static const admin = Role._('ADMIN');
+  static const editor = Role._('EDITOR');
+  static const viewer = Role._('VIEWER');
 
   final String value;
 
-  const Role(this.value);
+  const Role._(this.value);
+
+  static const values = [admin, editor, viewer];
 
   static Role fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum Role'));
+      values.firstWhere((e) => e.value == value, orElse: () => Role._(value));
+
+  @override
+  bool operator ==(other) => other is Role && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// This structure defines which groups defined in the SAML assertion attribute
@@ -2465,7 +2541,8 @@ class SamlAuthentication {
 
   factory SamlAuthentication.fromJson(Map<String, dynamic> json) {
     return SamlAuthentication(
-      status: SamlConfigurationStatus.fromString((json['status'] as String)),
+      status:
+          SamlConfigurationStatus.fromString((json['status'] as String?) ?? ''),
       configuration: json['configuration'] != null
           ? SamlConfiguration.fromJson(
               json['configuration'] as Map<String, dynamic>)
@@ -2555,19 +2632,29 @@ class SamlConfiguration {
   }
 }
 
-enum SamlConfigurationStatus {
-  configured('CONFIGURED'),
-  notConfigured('NOT_CONFIGURED'),
-  ;
+class SamlConfigurationStatus {
+  static const configured = SamlConfigurationStatus._('CONFIGURED');
+  static const notConfigured = SamlConfigurationStatus._('NOT_CONFIGURED');
 
   final String value;
 
-  const SamlConfigurationStatus(this.value);
+  const SamlConfigurationStatus._(this.value);
+
+  static const values = [configured, notConfigured];
 
   static SamlConfigurationStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum SamlConfigurationStatus'));
+          orElse: () => SamlConfigurationStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SamlConfigurationStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A structure that contains the information about one service account.
@@ -2595,7 +2682,7 @@ class ServiceAccountSummary {
 
   factory ServiceAccountSummary.fromJson(Map<String, dynamic> json) {
     return ServiceAccountSummary(
-      grafanaRole: Role.fromString((json['grafanaRole'] as String)),
+      grafanaRole: Role.fromString((json['grafanaRole'] as String?) ?? ''),
       id: (json['id'] as String?) ?? '',
       isDisabled: (json['isDisabled'] as String?) ?? '',
       name: (json['name'] as String?) ?? '',
@@ -2737,19 +2824,27 @@ class UntagResourceResponse {
   }
 }
 
-enum UpdateAction {
-  add('ADD'),
-  revoke('REVOKE'),
-  ;
+class UpdateAction {
+  static const add = UpdateAction._('ADD');
+  static const revoke = UpdateAction._('REVOKE');
 
   final String value;
 
-  const UpdateAction(this.value);
+  const UpdateAction._(this.value);
 
-  static UpdateAction fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum UpdateAction'));
+  static const values = [add, revoke];
+
+  static UpdateAction fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => UpdateAction._(value));
+
+  @override
+  bool operator ==(other) => other is UpdateAction && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A structure containing information about one error encountered while
@@ -2816,8 +2911,8 @@ class UpdateInstruction {
 
   factory UpdateInstruction.fromJson(Map<String, dynamic> json) {
     return UpdateInstruction(
-      action: UpdateAction.fromString((json['action'] as String)),
-      role: Role.fromString((json['role'] as String)),
+      action: UpdateAction.fromString((json['action'] as String?) ?? ''),
+      role: Role.fromString((json['role'] as String?) ?? ''),
       users: ((json['users'] as List?) ?? const [])
           .nonNulls
           .map((e) => User.fromJson(e as Map<String, dynamic>))
@@ -2944,7 +3039,7 @@ class User {
   factory User.fromJson(Map<String, dynamic> json) {
     return User(
       id: (json['id'] as String?) ?? '',
-      type: UserType.fromString((json['type'] as String)),
+      type: UserType.fromString((json['type'] as String?) ?? ''),
     );
   }
 
@@ -2958,18 +3053,27 @@ class User {
   }
 }
 
-enum UserType {
-  ssoUser('SSO_USER'),
-  ssoGroup('SSO_GROUP'),
-  ;
+class UserType {
+  static const ssoUser = UserType._('SSO_USER');
+  static const ssoGroup = UserType._('SSO_GROUP');
 
   final String value;
 
-  const UserType(this.value);
+  const UserType._(this.value);
 
-  static UserType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum UserType'));
+  static const values = [ssoUser, ssoGroup];
+
+  static UserType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => UserType._(value));
+
+  @override
+  bool operator ==(other) => other is UserType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The configuration settings for an Amazon VPC that contains data sources for
@@ -3201,7 +3305,7 @@ class WorkspaceDescription {
       grafanaVersion: (json['grafanaVersion'] as String?) ?? '',
       id: (json['id'] as String?) ?? '',
       modified: nonNullableTimeStampFromJson(json['modified'] ?? 0),
-      status: WorkspaceStatus.fromString((json['status'] as String)),
+      status: WorkspaceStatus.fromString((json['status'] as String?) ?? ''),
       accountAccessType: (json['accountAccessType'] as String?)
           ?.let(AccountAccessType.fromString),
       description: json['description'] as String?,
@@ -3302,30 +3406,54 @@ class WorkspaceDescription {
   }
 }
 
-enum WorkspaceStatus {
-  active('ACTIVE'),
-  creating('CREATING'),
-  deleting('DELETING'),
-  failed('FAILED'),
-  updating('UPDATING'),
-  upgrading('UPGRADING'),
-  deletionFailed('DELETION_FAILED'),
-  creationFailed('CREATION_FAILED'),
-  updateFailed('UPDATE_FAILED'),
-  upgradeFailed('UPGRADE_FAILED'),
-  licenseRemovalFailed('LICENSE_REMOVAL_FAILED'),
-  versionUpdating('VERSION_UPDATING'),
-  versionUpdateFailed('VERSION_UPDATE_FAILED'),
-  ;
+class WorkspaceStatus {
+  static const active = WorkspaceStatus._('ACTIVE');
+  static const creating = WorkspaceStatus._('CREATING');
+  static const deleting = WorkspaceStatus._('DELETING');
+  static const failed = WorkspaceStatus._('FAILED');
+  static const updating = WorkspaceStatus._('UPDATING');
+  static const upgrading = WorkspaceStatus._('UPGRADING');
+  static const deletionFailed = WorkspaceStatus._('DELETION_FAILED');
+  static const creationFailed = WorkspaceStatus._('CREATION_FAILED');
+  static const updateFailed = WorkspaceStatus._('UPDATE_FAILED');
+  static const upgradeFailed = WorkspaceStatus._('UPGRADE_FAILED');
+  static const licenseRemovalFailed =
+      WorkspaceStatus._('LICENSE_REMOVAL_FAILED');
+  static const versionUpdating = WorkspaceStatus._('VERSION_UPDATING');
+  static const versionUpdateFailed = WorkspaceStatus._('VERSION_UPDATE_FAILED');
 
   final String value;
 
-  const WorkspaceStatus(this.value);
+  const WorkspaceStatus._(this.value);
+
+  static const values = [
+    active,
+    creating,
+    deleting,
+    failed,
+    updating,
+    upgrading,
+    deletionFailed,
+    creationFailed,
+    updateFailed,
+    upgradeFailed,
+    licenseRemovalFailed,
+    versionUpdating,
+    versionUpdateFailed
+  ];
 
   static WorkspaceStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum WorkspaceStatus'));
+          orElse: () => WorkspaceStatus._(value));
+
+  @override
+  bool operator ==(other) => other is WorkspaceStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A structure that contains some information about one workspace in the
@@ -3406,7 +3534,7 @@ class WorkspaceSummary {
       grafanaVersion: (json['grafanaVersion'] as String?) ?? '',
       id: (json['id'] as String?) ?? '',
       modified: nonNullableTimeStampFromJson(json['modified'] ?? 0),
-      status: WorkspaceStatus.fromString((json['status'] as String)),
+      status: WorkspaceStatus.fromString((json['status'] as String?) ?? ''),
       description: json['description'] as String?,
       grafanaToken: json['grafanaToken'] as String?,
       licenseType:

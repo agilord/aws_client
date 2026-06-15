@@ -183,18 +183,26 @@ class Checksum {
   }
 }
 
-enum ChecksumType {
-  sha1('SHA1'),
-  ;
+class ChecksumType {
+  static const sha1 = ChecksumType._('SHA1');
 
   final String value;
 
-  const ChecksumType(this.value);
+  const ChecksumType._(this.value);
 
-  static ChecksumType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ChecksumType'));
+  static const values = [sha1];
+
+  static ChecksumType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ChecksumType._(value));
+
+  @override
+  bool operator ==(other) => other is ChecksumType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// <p/>
@@ -355,33 +363,51 @@ class DeploymentResult {
   }
 }
 
-enum DeploymentStatus {
-  success('SUCCESS'),
-  fail('FAIL'),
-  ;
+class DeploymentStatus {
+  static const success = DeploymentStatus._('SUCCESS');
+  static const fail = DeploymentStatus._('FAIL');
 
   final String value;
 
-  const DeploymentStatus(this.value);
+  const DeploymentStatus._(this.value);
+
+  static const values = [success, fail];
 
   static DeploymentStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum DeploymentStatus'));
+          orElse: () => DeploymentStatus._(value));
+
+  @override
+  bool operator ==(other) => other is DeploymentStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum DeploymentType {
-  model('Model'),
-  ;
+class DeploymentType {
+  static const model = DeploymentType._('Model');
 
   final String value;
 
-  const DeploymentType(this.value);
+  const DeploymentType._(this.value);
+
+  static const values = [model];
 
   static DeploymentType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum DeploymentType'));
+          orElse: () => DeploymentType._(value));
+
+  @override
+  bool operator ==(other) => other is DeploymentType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about a deployment on an edge device that is registered with
@@ -470,19 +496,30 @@ class EdgeMetric {
   }
 }
 
-enum FailureHandlingPolicy {
-  rollbackOnFailure('ROLLBACK_ON_FAILURE'),
-  doNothing('DO_NOTHING'),
-  ;
+class FailureHandlingPolicy {
+  static const rollbackOnFailure =
+      FailureHandlingPolicy._('ROLLBACK_ON_FAILURE');
+  static const doNothing = FailureHandlingPolicy._('DO_NOTHING');
 
   final String value;
 
-  const FailureHandlingPolicy(this.value);
+  const FailureHandlingPolicy._(this.value);
 
-  static FailureHandlingPolicy fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum FailureHandlingPolicy'));
+  static const values = [rollbackOnFailure, doNothing];
+
+  static FailureHandlingPolicy fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => FailureHandlingPolicy._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is FailureHandlingPolicy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class GetDeploymentsResult {
@@ -585,18 +622,27 @@ class Model {
   }
 }
 
-enum ModelState {
-  deploy('DEPLOY'),
-  undeploy('UNDEPLOY'),
-  ;
+class ModelState {
+  static const deploy = ModelState._('DEPLOY');
+  static const undeploy = ModelState._('UNDEPLOY');
 
   final String value;
 
-  const ModelState(this.value);
+  const ModelState._(this.value);
 
-  static ModelState fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum ModelState'));
+  static const values = [deploy, undeploy];
+
+  static ModelState fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ModelState._(value));
+
+  @override
+  bool operator ==(other) => other is ModelState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class InternalServiceException extends _s.GenericAwsException {

@@ -117,23 +117,40 @@ class FreeTier {
   }
 }
 
-enum Dimension {
-  service('SERVICE'),
-  operation('OPERATION'),
-  usageType('USAGE_TYPE'),
-  region('REGION'),
-  freeTierType('FREE_TIER_TYPE'),
-  description('DESCRIPTION'),
-  usagePercentage('USAGE_PERCENTAGE'),
-  ;
+class Dimension {
+  static const service = Dimension._('SERVICE');
+  static const operation = Dimension._('OPERATION');
+  static const usageType = Dimension._('USAGE_TYPE');
+  static const region = Dimension._('REGION');
+  static const freeTierType = Dimension._('FREE_TIER_TYPE');
+  static const description = Dimension._('DESCRIPTION');
+  static const usagePercentage = Dimension._('USAGE_PERCENTAGE');
 
   final String value;
 
-  const Dimension(this.value);
+  const Dimension._(this.value);
 
-  static Dimension fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum Dimension'));
+  static const values = [
+    service,
+    operation,
+    usageType,
+    region,
+    freeTierType,
+    description,
+    usagePercentage
+  ];
+
+  static Dimension fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Dimension._(value));
+
+  @override
+  bool operator ==(other) => other is Dimension && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains the specifications for the filters to use for your request.
@@ -378,21 +395,36 @@ class GetFreeTierUsageResponse {
   }
 }
 
-enum MatchOption {
-  equals('EQUALS'),
-  startsWith('STARTS_WITH'),
-  endsWith('ENDS_WITH'),
-  contains('CONTAINS'),
-  greaterThanOrEqual('GREATER_THAN_OR_EQUAL'),
-  ;
+class MatchOption {
+  static const equals = MatchOption._('EQUALS');
+  static const startsWith = MatchOption._('STARTS_WITH');
+  static const endsWith = MatchOption._('ENDS_WITH');
+  static const contains = MatchOption._('CONTAINS');
+  static const greaterThanOrEqual = MatchOption._('GREATER_THAN_OR_EQUAL');
 
   final String value;
 
-  const MatchOption(this.value);
+  const MatchOption._(this.value);
 
-  static MatchOption fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum MatchOption'));
+  static const values = [
+    equals,
+    startsWith,
+    endsWith,
+    contains,
+    greaterThanOrEqual
+  ];
+
+  static MatchOption fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => MatchOption._(value));
+
+  @override
+  bool operator ==(other) => other is MatchOption && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class InternalServerException extends _s.GenericAwsException {

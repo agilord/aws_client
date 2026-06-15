@@ -1578,38 +1578,68 @@ class FinSpaceData {
   }
 }
 
-enum ApiAccess {
-  enabled('ENABLED'),
-  disabled('DISABLED'),
-  ;
+class ApiAccess {
+  static const enabled = ApiAccess._('ENABLED');
+  static const disabled = ApiAccess._('DISABLED');
 
   final String value;
 
-  const ApiAccess(this.value);
+  const ApiAccess._(this.value);
 
-  static ApiAccess fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum ApiAccess'));
+  static const values = [enabled, disabled];
+
+  static ApiAccess fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ApiAccess._(value));
+
+  @override
+  bool operator ==(other) => other is ApiAccess && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ApplicationPermission {
-  createDataset('CreateDataset'),
-  manageClusters('ManageClusters'),
-  manageUsersAndGroups('ManageUsersAndGroups'),
-  manageAttributeSets('ManageAttributeSets'),
-  viewAuditData('ViewAuditData'),
-  accessNotebooks('AccessNotebooks'),
-  getTemporaryCredentials('GetTemporaryCredentials'),
-  ;
+class ApplicationPermission {
+  static const createDataset = ApplicationPermission._('CreateDataset');
+  static const manageClusters = ApplicationPermission._('ManageClusters');
+  static const manageUsersAndGroups =
+      ApplicationPermission._('ManageUsersAndGroups');
+  static const manageAttributeSets =
+      ApplicationPermission._('ManageAttributeSets');
+  static const viewAuditData = ApplicationPermission._('ViewAuditData');
+  static const accessNotebooks = ApplicationPermission._('AccessNotebooks');
+  static const getTemporaryCredentials =
+      ApplicationPermission._('GetTemporaryCredentials');
 
   final String value;
 
-  const ApplicationPermission(this.value);
+  const ApplicationPermission._(this.value);
 
-  static ApplicationPermission fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ApplicationPermission'));
+  static const values = [
+    createDataset,
+    manageClusters,
+    manageUsersAndGroups,
+    manageAttributeSets,
+    viewAuditData,
+    accessNotebooks,
+    getTemporaryCredentials
+  ];
+
+  static ApplicationPermission fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ApplicationPermission._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ApplicationPermission && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class AssociateUserToPermissionGroupResponse {
@@ -1679,19 +1709,28 @@ class AwsCredentials {
 }
 
 /// Indicates how the given change will be applied to the dataset.
-enum ChangeType {
-  replace('REPLACE'),
-  append('APPEND'),
-  modify('MODIFY'),
-  ;
+class ChangeType {
+  static const replace = ChangeType._('REPLACE');
+  static const append = ChangeType._('APPEND');
+  static const modify = ChangeType._('MODIFY');
 
   final String value;
 
-  const ChangeType(this.value);
+  const ChangeType._(this.value);
 
-  static ChangeType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum ChangeType'));
+  static const values = [replace, append, modify];
+
+  static ChangeType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ChangeType._(value));
+
+  @override
+  bool operator ==(other) => other is ChangeType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The structure with error messages.
@@ -1913,29 +1952,51 @@ class ChangesetSummary {
 }
 
 /// Data type of a column.
-enum ColumnDataType {
-  string('STRING'),
-  char('CHAR'),
-  integer('INTEGER'),
-  tinyint('TINYINT'),
-  smallint('SMALLINT'),
-  bigint('BIGINT'),
-  float('FLOAT'),
-  double('DOUBLE'),
-  date('DATE'),
-  datetime('DATETIME'),
-  boolean('BOOLEAN'),
-  binary('BINARY'),
-  ;
+class ColumnDataType {
+  static const string = ColumnDataType._('STRING');
+  static const char = ColumnDataType._('CHAR');
+  static const integer = ColumnDataType._('INTEGER');
+  static const tinyint = ColumnDataType._('TINYINT');
+  static const smallint = ColumnDataType._('SMALLINT');
+  static const bigint = ColumnDataType._('BIGINT');
+  static const float = ColumnDataType._('FLOAT');
+  static const $double = ColumnDataType._('DOUBLE');
+  static const date = ColumnDataType._('DATE');
+  static const datetime = ColumnDataType._('DATETIME');
+  static const boolean = ColumnDataType._('BOOLEAN');
+  static const binary = ColumnDataType._('BINARY');
 
   final String value;
 
-  const ColumnDataType(this.value);
+  const ColumnDataType._(this.value);
+
+  static const values = [
+    string,
+    char,
+    integer,
+    tinyint,
+    smallint,
+    bigint,
+    float,
+    $double,
+    date,
+    datetime,
+    boolean,
+    binary
+  ];
 
   static ColumnDataType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ColumnDataType'));
+          orElse: () => ColumnDataType._(value));
+
+  @override
+  bool operator ==(other) => other is ColumnDataType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The definition of a column in a tabular Dataset.
@@ -2301,25 +2362,43 @@ class DataViewErrorInfo {
 }
 
 /// Status of a DataView
-enum DataViewStatus {
-  running('RUNNING'),
-  starting('STARTING'),
-  failed('FAILED'),
-  cancelled('CANCELLED'),
-  timeout('TIMEOUT'),
-  success('SUCCESS'),
-  pending('PENDING'),
-  failedCleanupFailed('FAILED_CLEANUP_FAILED'),
-  ;
+class DataViewStatus {
+  static const running = DataViewStatus._('RUNNING');
+  static const starting = DataViewStatus._('STARTING');
+  static const failed = DataViewStatus._('FAILED');
+  static const cancelled = DataViewStatus._('CANCELLED');
+  static const timeout = DataViewStatus._('TIMEOUT');
+  static const success = DataViewStatus._('SUCCESS');
+  static const pending = DataViewStatus._('PENDING');
+  static const failedCleanupFailed = DataViewStatus._('FAILED_CLEANUP_FAILED');
 
   final String value;
 
-  const DataViewStatus(this.value);
+  const DataViewStatus._(this.value);
+
+  static const values = [
+    running,
+    starting,
+    failed,
+    cancelled,
+    timeout,
+    success,
+    pending,
+    failedCleanupFailed
+  ];
 
   static DataViewStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum DataViewStatus'));
+          orElse: () => DataViewStatus._(value));
+
+  @override
+  bool operator ==(other) => other is DataViewStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Structure for the summary of a Dataview.
@@ -2574,18 +2653,27 @@ class Dataset {
 }
 
 /// Dataset Kind
-enum DatasetKind {
-  tabular('TABULAR'),
-  nonTabular('NON_TABULAR'),
-  ;
+class DatasetKind {
+  static const tabular = DatasetKind._('TABULAR');
+  static const nonTabular = DatasetKind._('NON_TABULAR');
 
   final String value;
 
-  const DatasetKind(this.value);
+  const DatasetKind._(this.value);
 
-  static DatasetKind fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum DatasetKind'));
+  static const values = [tabular, nonTabular];
+
+  static DatasetKind fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => DatasetKind._(value));
+
+  @override
+  bool operator ==(other) => other is DatasetKind && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A structure for Dataset owner info.
@@ -2626,21 +2714,30 @@ class DatasetOwnerInfo {
 }
 
 /// Status of the dataset process returned from scheduler service.
-enum DatasetStatus {
-  pending('PENDING'),
-  failed('FAILED'),
-  success('SUCCESS'),
-  running('RUNNING'),
-  ;
+class DatasetStatus {
+  static const pending = DatasetStatus._('PENDING');
+  static const failed = DatasetStatus._('FAILED');
+  static const success = DatasetStatus._('SUCCESS');
+  static const running = DatasetStatus._('RUNNING');
 
   final String value;
 
-  const DatasetStatus(this.value);
+  const DatasetStatus._(this.value);
+
+  static const values = [pending, failed, success, running];
 
   static DatasetStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum DatasetStatus'));
+          orElse: () => DatasetStatus._(value));
+
+  @override
+  bool operator ==(other) => other is DatasetStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The response from an DeleteDataset operation
@@ -2754,41 +2851,69 @@ class EnableUserResponse {
 }
 
 /// Changeset Error Category
-enum ErrorCategory {
-  validation('VALIDATION'),
-  serviceQuotaExceeded('SERVICE_QUOTA_EXCEEDED'),
-  accessDenied('ACCESS_DENIED'),
-  resourceNotFound('RESOURCE_NOT_FOUND'),
-  throttling('THROTTLING'),
-  internalServiceException('INTERNAL_SERVICE_EXCEPTION'),
-  cancelled('CANCELLED'),
-  userRecoverable('USER_RECOVERABLE'),
-  ;
+class ErrorCategory {
+  static const validation = ErrorCategory._('VALIDATION');
+  static const serviceQuotaExceeded = ErrorCategory._('SERVICE_QUOTA_EXCEEDED');
+  static const accessDenied = ErrorCategory._('ACCESS_DENIED');
+  static const resourceNotFound = ErrorCategory._('RESOURCE_NOT_FOUND');
+  static const throttling = ErrorCategory._('THROTTLING');
+  static const internalServiceException =
+      ErrorCategory._('INTERNAL_SERVICE_EXCEPTION');
+  static const cancelled = ErrorCategory._('CANCELLED');
+  static const userRecoverable = ErrorCategory._('USER_RECOVERABLE');
 
   final String value;
 
-  const ErrorCategory(this.value);
+  const ErrorCategory._(this.value);
+
+  static const values = [
+    validation,
+    serviceQuotaExceeded,
+    accessDenied,
+    resourceNotFound,
+    throttling,
+    internalServiceException,
+    cancelled,
+    userRecoverable
+  ];
 
   static ErrorCategory fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ErrorCategory'));
+          orElse: () => ErrorCategory._(value));
+
+  @override
+  bool operator ==(other) => other is ErrorCategory && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Data View Export File Format
-enum ExportFileFormat {
-  parquet('PARQUET'),
-  delimitedText('DELIMITED_TEXT'),
-  ;
+class ExportFileFormat {
+  static const parquet = ExportFileFormat._('PARQUET');
+  static const delimitedText = ExportFileFormat._('DELIMITED_TEXT');
 
   final String value;
 
-  const ExportFileFormat(this.value);
+  const ExportFileFormat._(this.value);
+
+  static const values = [parquet, delimitedText];
 
   static ExportFileFormat fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ExportFileFormat'));
+          orElse: () => ExportFileFormat._(value));
+
+  @override
+  bool operator ==(other) => other is ExportFileFormat && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The response from a describe changeset operation
@@ -3473,22 +3598,31 @@ class GetWorkingLocationResponse {
 }
 
 /// Status of the ingestion process returned from scheduler service.
-enum IngestionStatus {
-  pending('PENDING'),
-  failed('FAILED'),
-  success('SUCCESS'),
-  running('RUNNING'),
-  stopRequested('STOP_REQUESTED'),
-  ;
+class IngestionStatus {
+  static const pending = IngestionStatus._('PENDING');
+  static const failed = IngestionStatus._('FAILED');
+  static const success = IngestionStatus._('SUCCESS');
+  static const running = IngestionStatus._('RUNNING');
+  static const stopRequested = IngestionStatus._('STOP_REQUESTED');
 
   final String value;
 
-  const IngestionStatus(this.value);
+  const IngestionStatus._(this.value);
+
+  static const values = [pending, failed, success, running, stopRequested];
 
   static IngestionStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum IngestionStatus'));
+          orElse: () => IngestionStatus._(value));
+
+  @override
+  bool operator ==(other) => other is IngestionStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Response to ListChangesetsResponse. This returns a list of dataset
@@ -3897,20 +4031,37 @@ class PermissionGroupByUser {
   }
 }
 
-enum PermissionGroupMembershipStatus {
-  additionInProgress('ADDITION_IN_PROGRESS'),
-  additionSuccess('ADDITION_SUCCESS'),
-  removalInProgress('REMOVAL_IN_PROGRESS'),
-  ;
+class PermissionGroupMembershipStatus {
+  static const additionInProgress =
+      PermissionGroupMembershipStatus._('ADDITION_IN_PROGRESS');
+  static const additionSuccess =
+      PermissionGroupMembershipStatus._('ADDITION_SUCCESS');
+  static const removalInProgress =
+      PermissionGroupMembershipStatus._('REMOVAL_IN_PROGRESS');
 
   final String value;
 
-  const PermissionGroupMembershipStatus(this.value);
+  const PermissionGroupMembershipStatus._(this.value);
+
+  static const values = [
+    additionInProgress,
+    additionSuccess,
+    removalInProgress
+  ];
 
   static PermissionGroupMembershipStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum PermissionGroupMembershipStatus'));
+          orElse: () => PermissionGroupMembershipStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is PermissionGroupMembershipStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Permission group parameters for Dataset permissions.
@@ -4492,48 +4643,74 @@ class UserByPermissionGroup {
   }
 }
 
-enum UserStatus {
-  creating('CREATING'),
-  enabled('ENABLED'),
-  disabled('DISABLED'),
-  ;
+class UserStatus {
+  static const creating = UserStatus._('CREATING');
+  static const enabled = UserStatus._('ENABLED');
+  static const disabled = UserStatus._('DISABLED');
 
   final String value;
 
-  const UserStatus(this.value);
+  const UserStatus._(this.value);
 
-  static UserStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum UserStatus'));
+  static const values = [creating, enabled, disabled];
+
+  static UserStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => UserStatus._(value));
+
+  @override
+  bool operator ==(other) => other is UserStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum UserType {
-  superUser('SUPER_USER'),
-  appUser('APP_USER'),
-  ;
+class UserType {
+  static const superUser = UserType._('SUPER_USER');
+  static const appUser = UserType._('APP_USER');
 
   final String value;
 
-  const UserType(this.value);
+  const UserType._(this.value);
 
-  static UserType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum UserType'));
+  static const values = [superUser, appUser];
+
+  static UserType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => UserType._(value));
+
+  @override
+  bool operator ==(other) => other is UserType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum LocationType {
-  ingestion('INGESTION'),
-  sagemaker('SAGEMAKER'),
-  ;
+class LocationType {
+  static const ingestion = LocationType._('INGESTION');
+  static const sagemaker = LocationType._('SAGEMAKER');
 
   final String value;
 
-  const LocationType(this.value);
+  const LocationType._(this.value);
 
-  static LocationType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum LocationType'));
+  static const values = [ingestion, sagemaker];
+
+  static LocationType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => LocationType._(value));
+
+  @override
+  bool operator ==(other) => other is LocationType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class AccessDeniedException extends _s.GenericAwsException {

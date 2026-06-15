@@ -3138,7 +3138,8 @@ class AclConfiguration {
 
   factory AclConfiguration.fromJson(Map<String, dynamic> json) {
     return AclConfiguration(
-      s3AclOption: S3AclOption.fromString((json['S3AclOption'] as String)),
+      s3AclOption:
+          S3AclOption.fromString((json['S3AclOption'] as String?) ?? ''),
     );
   }
 
@@ -3244,18 +3245,28 @@ class AthenaError {
   }
 }
 
-enum AuthenticationType {
-  directoryIdentity('DIRECTORY_IDENTITY'),
-  ;
+class AuthenticationType {
+  static const directoryIdentity = AuthenticationType._('DIRECTORY_IDENTITY');
 
   final String value;
 
-  const AuthenticationType(this.value);
+  const AuthenticationType._(this.value);
 
-  static AuthenticationType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum AuthenticationType'));
+  static const values = [directoryIdentity];
+
+  static AuthenticationType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AuthenticationType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AuthenticationType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class BatchGetNamedQueryOutput {
@@ -3391,25 +3402,44 @@ class CalculationConfiguration {
   }
 }
 
-enum CalculationExecutionState {
-  creating('CREATING'),
-  created('CREATED'),
-  queued('QUEUED'),
-  running('RUNNING'),
-  canceling('CANCELING'),
-  canceled('CANCELED'),
-  completed('COMPLETED'),
-  failed('FAILED'),
-  ;
+class CalculationExecutionState {
+  static const creating = CalculationExecutionState._('CREATING');
+  static const created = CalculationExecutionState._('CREATED');
+  static const queued = CalculationExecutionState._('QUEUED');
+  static const running = CalculationExecutionState._('RUNNING');
+  static const canceling = CalculationExecutionState._('CANCELING');
+  static const canceled = CalculationExecutionState._('CANCELED');
+  static const completed = CalculationExecutionState._('COMPLETED');
+  static const failed = CalculationExecutionState._('FAILED');
 
   final String value;
 
-  const CalculationExecutionState(this.value);
+  const CalculationExecutionState._(this.value);
+
+  static const values = [
+    creating,
+    created,
+    queued,
+    running,
+    canceling,
+    canceled,
+    completed,
+    failed
+  ];
 
   static CalculationExecutionState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum CalculationExecutionState'));
+          orElse: () => CalculationExecutionState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CalculationExecutionState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains information about an application-specific calculation result.
@@ -3631,7 +3661,8 @@ class CapacityAllocation {
   factory CapacityAllocation.fromJson(Map<String, dynamic> json) {
     return CapacityAllocation(
       requestTime: nonNullableTimeStampFromJson(json['RequestTime'] ?? 0),
-      status: CapacityAllocationStatus.fromString((json['Status'] as String)),
+      status: CapacityAllocationStatus.fromString(
+          (json['Status'] as String?) ?? ''),
       requestCompletionTime: timeStampFromJson(json['RequestCompletionTime']),
       statusMessage: json['StatusMessage'] as String?,
     );
@@ -3652,20 +3683,30 @@ class CapacityAllocation {
   }
 }
 
-enum CapacityAllocationStatus {
-  pending('PENDING'),
-  succeeded('SUCCEEDED'),
-  failed('FAILED'),
-  ;
+class CapacityAllocationStatus {
+  static const pending = CapacityAllocationStatus._('PENDING');
+  static const succeeded = CapacityAllocationStatus._('SUCCEEDED');
+  static const failed = CapacityAllocationStatus._('FAILED');
 
   final String value;
 
-  const CapacityAllocationStatus(this.value);
+  const CapacityAllocationStatus._(this.value);
+
+  static const values = [pending, succeeded, failed];
 
   static CapacityAllocationStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum CapacityAllocationStatus'));
+          orElse: () => CapacityAllocationStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CapacityAllocationStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A mapping between one or more workgroups and a capacity reservation.
@@ -3773,7 +3814,8 @@ class CapacityReservation {
       allocatedDpus: (json['AllocatedDpus'] as int?) ?? 0,
       creationTime: nonNullableTimeStampFromJson(json['CreationTime'] ?? 0),
       name: (json['Name'] as String?) ?? '',
-      status: CapacityReservationStatus.fromString((json['Status'] as String)),
+      status: CapacityReservationStatus.fromString(
+          (json['Status'] as String?) ?? ''),
       targetDpus: (json['TargetDpus'] as int?) ?? 0,
       lastAllocation: json['LastAllocation'] != null
           ? CapacityAllocation.fromJson(
@@ -3806,23 +3848,40 @@ class CapacityReservation {
   }
 }
 
-enum CapacityReservationStatus {
-  pending('PENDING'),
-  active('ACTIVE'),
-  cancelling('CANCELLING'),
-  cancelled('CANCELLED'),
-  failed('FAILED'),
-  updatePending('UPDATE_PENDING'),
-  ;
+class CapacityReservationStatus {
+  static const pending = CapacityReservationStatus._('PENDING');
+  static const active = CapacityReservationStatus._('ACTIVE');
+  static const cancelling = CapacityReservationStatus._('CANCELLING');
+  static const cancelled = CapacityReservationStatus._('CANCELLED');
+  static const failed = CapacityReservationStatus._('FAILED');
+  static const updatePending = CapacityReservationStatus._('UPDATE_PENDING');
 
   final String value;
 
-  const CapacityReservationStatus(this.value);
+  const CapacityReservationStatus._(this.value);
+
+  static const values = [
+    pending,
+    active,
+    cancelling,
+    cancelled,
+    failed,
+    updatePending
+  ];
 
   static CapacityReservationStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum CapacityReservationStatus'));
+          orElse: () => CapacityReservationStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CapacityReservationStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains metadata for a column in a table.
@@ -3950,20 +4009,29 @@ class ColumnInfo {
   }
 }
 
-enum ColumnNullable {
-  notNull('NOT_NULL'),
-  nullable('NULLABLE'),
-  unknown('UNKNOWN'),
-  ;
+class ColumnNullable {
+  static const notNull = ColumnNullable._('NOT_NULL');
+  static const nullable = ColumnNullable._('NULLABLE');
+  static const unknown = ColumnNullable._('UNKNOWN');
 
   final String value;
 
-  const ColumnNullable(this.value);
+  const ColumnNullable._(this.value);
+
+  static const values = [notNull, nullable, unknown];
 
   static ColumnNullable fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ColumnNullable'));
+          orElse: () => ColumnNullable._(value));
+
+  @override
+  bool operator ==(other) => other is ColumnNullable && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class CreateCapacityReservationOutput {
@@ -4203,7 +4271,7 @@ class DataCatalog {
   factory DataCatalog.fromJson(Map<String, dynamic> json) {
     return DataCatalog(
       name: (json['Name'] as String?) ?? '',
-      type: DataCatalogType.fromString((json['Type'] as String)),
+      type: DataCatalogType.fromString((json['Type'] as String?) ?? ''),
       description: json['Description'] as String?,
       parameters: (json['Parameters'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
@@ -4258,20 +4326,29 @@ class DataCatalogSummary {
   }
 }
 
-enum DataCatalogType {
-  lambda('LAMBDA'),
-  glue('GLUE'),
-  hive('HIVE'),
-  ;
+class DataCatalogType {
+  static const lambda = DataCatalogType._('LAMBDA');
+  static const glue = DataCatalogType._('GLUE');
+  static const hive = DataCatalogType._('HIVE');
 
   final String value;
 
-  const DataCatalogType(this.value);
+  const DataCatalogType._(this.value);
+
+  static const values = [lambda, glue, hive];
 
   static DataCatalogType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum DataCatalogType'));
+          orElse: () => DataCatalogType._(value));
+
+  @override
+  bool operator ==(other) => other is DataCatalogType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains metadata information for a database in a data catalog.
@@ -4433,8 +4510,8 @@ class EncryptionConfiguration {
 
   factory EncryptionConfiguration.fromJson(Map<String, dynamic> json) {
     return EncryptionConfiguration(
-      encryptionOption:
-          EncryptionOption.fromString((json['EncryptionOption'] as String)),
+      encryptionOption: EncryptionOption.fromString(
+          (json['EncryptionOption'] as String?) ?? ''),
       kmsKey: json['KmsKey'] as String?,
     );
   }
@@ -4449,20 +4526,29 @@ class EncryptionConfiguration {
   }
 }
 
-enum EncryptionOption {
-  sseS3('SSE_S3'),
-  sseKms('SSE_KMS'),
-  cseKms('CSE_KMS'),
-  ;
+class EncryptionOption {
+  static const sseS3 = EncryptionOption._('SSE_S3');
+  static const sseKms = EncryptionOption._('SSE_KMS');
+  static const cseKms = EncryptionOption._('CSE_KMS');
 
   final String value;
 
-  const EncryptionOption(this.value);
+  const EncryptionOption._(this.value);
+
+  static const values = [sseS3, sseKms, cseKms];
 
   static EncryptionOption fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum EncryptionOption'));
+          orElse: () => EncryptionOption._(value));
+
+  @override
+  bool operator ==(other) => other is EncryptionOption && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains data processing unit (DPU) configuration settings and parameter
@@ -4571,39 +4657,63 @@ class EngineVersion {
   }
 }
 
-enum ExecutorState {
-  creating('CREATING'),
-  created('CREATED'),
-  registered('REGISTERED'),
-  terminating('TERMINATING'),
-  terminated('TERMINATED'),
-  failed('FAILED'),
-  ;
+class ExecutorState {
+  static const creating = ExecutorState._('CREATING');
+  static const created = ExecutorState._('CREATED');
+  static const registered = ExecutorState._('REGISTERED');
+  static const terminating = ExecutorState._('TERMINATING');
+  static const terminated = ExecutorState._('TERMINATED');
+  static const failed = ExecutorState._('FAILED');
 
   final String value;
 
-  const ExecutorState(this.value);
+  const ExecutorState._(this.value);
+
+  static const values = [
+    creating,
+    created,
+    registered,
+    terminating,
+    terminated,
+    failed
+  ];
 
   static ExecutorState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ExecutorState'));
+          orElse: () => ExecutorState._(value));
+
+  @override
+  bool operator ==(other) => other is ExecutorState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ExecutorType {
-  coordinator('COORDINATOR'),
-  gateway('GATEWAY'),
-  worker('WORKER'),
-  ;
+class ExecutorType {
+  static const coordinator = ExecutorType._('COORDINATOR');
+  static const gateway = ExecutorType._('GATEWAY');
+  static const worker = ExecutorType._('WORKER');
 
   final String value;
 
-  const ExecutorType(this.value);
+  const ExecutorType._(this.value);
 
-  static ExecutorType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ExecutorType'));
+  static const values = [coordinator, gateway, worker];
+
+  static ExecutorType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ExecutorType._(value));
+
+  @override
+  bool operator ==(other) => other is ExecutorType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains summary information about an executor.
@@ -6079,18 +6189,26 @@ class NotebookSessionSummary {
   }
 }
 
-enum NotebookType {
-  ipynb('IPYNB'),
-  ;
+class NotebookType {
+  static const ipynb = NotebookType._('IPYNB');
 
   final String value;
 
-  const NotebookType(this.value);
+  const NotebookType._(this.value);
 
-  static NotebookType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum NotebookType'));
+  static const values = [ipynb];
+
+  static NotebookType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => NotebookType._(value));
+
+  @override
+  bool operator ==(other) => other is NotebookType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A prepared SQL statement for use with Athena.
@@ -6375,22 +6493,32 @@ class QueryExecutionContext {
   }
 }
 
-enum QueryExecutionState {
-  queued('QUEUED'),
-  running('RUNNING'),
-  succeeded('SUCCEEDED'),
-  failed('FAILED'),
-  cancelled('CANCELLED'),
-  ;
+class QueryExecutionState {
+  static const queued = QueryExecutionState._('QUEUED');
+  static const running = QueryExecutionState._('RUNNING');
+  static const succeeded = QueryExecutionState._('SUCCEEDED');
+  static const failed = QueryExecutionState._('FAILED');
+  static const cancelled = QueryExecutionState._('CANCELLED');
 
   final String value;
 
-  const QueryExecutionState(this.value);
+  const QueryExecutionState._(this.value);
 
-  static QueryExecutionState fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum QueryExecutionState'));
+  static const values = [queued, running, succeeded, failed, cancelled];
+
+  static QueryExecutionState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => QueryExecutionState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is QueryExecutionState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The amount of data scanned during the query execution and the amount of time
@@ -6592,8 +6720,8 @@ class QueryResultsS3AccessGrantsConfiguration {
   factory QueryResultsS3AccessGrantsConfiguration.fromJson(
       Map<String, dynamic> json) {
     return QueryResultsS3AccessGrantsConfiguration(
-      authenticationType:
-          AuthenticationType.fromString((json['AuthenticationType'] as String)),
+      authenticationType: AuthenticationType.fromString(
+          (json['AuthenticationType'] as String?) ?? ''),
       enableS3AccessGrants: (json['EnableS3AccessGrants'] as bool?) ?? false,
       createUserLevelPrefix: json['CreateUserLevelPrefix'] as bool?,
     );
@@ -7312,17 +7440,27 @@ class Row {
   }
 }
 
-enum S3AclOption {
-  bucketOwnerFullControl('BUCKET_OWNER_FULL_CONTROL'),
-  ;
+class S3AclOption {
+  static const bucketOwnerFullControl =
+      S3AclOption._('BUCKET_OWNER_FULL_CONTROL');
 
   final String value;
 
-  const S3AclOption(this.value);
+  const S3AclOption._(this.value);
 
-  static S3AclOption fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum S3AclOption'));
+  static const values = [bucketOwnerFullControl];
+
+  static S3AclOption fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => S3AclOption._(value));
+
+  @override
+  bool operator ==(other) => other is S3AclOption && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains session configuration information.
@@ -7374,25 +7512,42 @@ class SessionConfiguration {
   }
 }
 
-enum SessionState {
-  creating('CREATING'),
-  created('CREATED'),
-  idle('IDLE'),
-  busy('BUSY'),
-  terminating('TERMINATING'),
-  terminated('TERMINATED'),
-  degraded('DEGRADED'),
-  failed('FAILED'),
-  ;
+class SessionState {
+  static const creating = SessionState._('CREATING');
+  static const created = SessionState._('CREATED');
+  static const idle = SessionState._('IDLE');
+  static const busy = SessionState._('BUSY');
+  static const terminating = SessionState._('TERMINATING');
+  static const terminated = SessionState._('TERMINATED');
+  static const degraded = SessionState._('DEGRADED');
+  static const failed = SessionState._('FAILED');
 
   final String value;
 
-  const SessionState(this.value);
+  const SessionState._(this.value);
 
-  static SessionState fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum SessionState'));
+  static const values = [
+    creating,
+    created,
+    idle,
+    busy,
+    terminating,
+    terminated,
+    degraded,
+    failed
+  ];
+
+  static SessionState fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => SessionState._(value));
+
+  @override
+  bool operator ==(other) => other is SessionState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains statistics for a session.
@@ -7678,20 +7833,29 @@ class StartSessionResponse {
   }
 }
 
-enum StatementType {
-  ddl('DDL'),
-  dml('DML'),
-  utility('UTILITY'),
-  ;
+class StatementType {
+  static const ddl = StatementType._('DDL');
+  static const dml = StatementType._('DML');
+  static const utility = StatementType._('UTILITY');
 
   final String value;
 
-  const StatementType(this.value);
+  const StatementType._(this.value);
+
+  static const values = [ddl, dml, utility];
 
   static StatementType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum StatementType'));
+          orElse: () => StatementType._(value));
+
+  @override
+  bool operator ==(other) => other is StatementType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class StopCalculationExecutionResponse {
@@ -8560,19 +8724,28 @@ class WorkGroupConfigurationUpdates {
   }
 }
 
-enum WorkGroupState {
-  enabled('ENABLED'),
-  disabled('DISABLED'),
-  ;
+class WorkGroupState {
+  static const enabled = WorkGroupState._('ENABLED');
+  static const disabled = WorkGroupState._('DISABLED');
 
   final String value;
 
-  const WorkGroupState(this.value);
+  const WorkGroupState._(this.value);
+
+  static const values = [enabled, disabled];
 
   static WorkGroupState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum WorkGroupState'));
+          orElse: () => WorkGroupState._(value));
+
+  @override
+  bool operator ==(other) => other is WorkGroupState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The summary information for the workgroup, which includes its name, state,

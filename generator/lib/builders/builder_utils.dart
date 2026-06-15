@@ -73,11 +73,8 @@ String extractJsonCode(Shape shape, String variable,
     }
     return '${shape.className}.fromJson($variable as Map<String, dynamic>)';
   } else if (shape.enumeration?.isNotEmpty ?? false) {
-    // NOTE: enums are intentionally not error-corrected — the generated enums
-    // have no "unknown" variant to fall back to (a missing required output
-    // enum still throws). Revisit alongside the enum-representation decision.
     shape.isTopLevelOutputEnum = true;
-    final nullAware = nullability.outputNullable ? '?' : '';
+    final nullAware = nullability.outputNullable || correctMissing ? '?' : '';
     var variableAccessor = variable;
     if (variableType != 'String') {
       variableAccessor = '($variableAccessor as String$nullAware)';
@@ -85,6 +82,8 @@ String extractJsonCode(Shape shape, String variable,
     final enumCreator = '${shape.className}.fromString';
     if (nullability.outputNullable) {
       return '$variableAccessor?.let($enumCreator)';
+    } else if (correctMissing) {
+      return "$enumCreator($variableAccessor ?? '')";
     } else {
       return '$enumCreator($variableAccessor)';
     }

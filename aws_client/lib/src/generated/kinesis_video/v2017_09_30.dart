@@ -1450,24 +1450,45 @@ class KinesisVideo {
   }
 }
 
-enum APIName {
-  putMedia('PUT_MEDIA'),
-  getMedia('GET_MEDIA'),
-  listFragments('LIST_FRAGMENTS'),
-  getMediaForFragmentList('GET_MEDIA_FOR_FRAGMENT_LIST'),
-  getHlsStreamingSessionUrl('GET_HLS_STREAMING_SESSION_URL'),
-  getDashStreamingSessionUrl('GET_DASH_STREAMING_SESSION_URL'),
-  getClip('GET_CLIP'),
-  getImages('GET_IMAGES'),
-  ;
+class APIName {
+  static const putMedia = APIName._('PUT_MEDIA');
+  static const getMedia = APIName._('GET_MEDIA');
+  static const listFragments = APIName._('LIST_FRAGMENTS');
+  static const getMediaForFragmentList =
+      APIName._('GET_MEDIA_FOR_FRAGMENT_LIST');
+  static const getHlsStreamingSessionUrl =
+      APIName._('GET_HLS_STREAMING_SESSION_URL');
+  static const getDashStreamingSessionUrl =
+      APIName._('GET_DASH_STREAMING_SESSION_URL');
+  static const getClip = APIName._('GET_CLIP');
+  static const getImages = APIName._('GET_IMAGES');
 
   final String value;
 
-  const APIName(this.value);
+  const APIName._(this.value);
 
-  static APIName fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum APIName'));
+  static const values = [
+    putMedia,
+    getMedia,
+    listFragments,
+    getMediaForFragmentList,
+    getHlsStreamingSessionUrl,
+    getDashStreamingSessionUrl,
+    getClip,
+    getImages
+  ];
+
+  static APIName fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => APIName._(value));
+
+  @override
+  bool operator ==(other) => other is APIName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A structure that encapsulates a signaling channel's metadata and properties.
@@ -1571,77 +1592,124 @@ class ChannelNameCondition {
   }
 }
 
-enum ChannelProtocol {
-  wss('WSS'),
-  https('HTTPS'),
-  webrtc('WEBRTC'),
-  ;
+class ChannelProtocol {
+  static const wss = ChannelProtocol._('WSS');
+  static const https = ChannelProtocol._('HTTPS');
+  static const webrtc = ChannelProtocol._('WEBRTC');
 
   final String value;
 
-  const ChannelProtocol(this.value);
+  const ChannelProtocol._(this.value);
+
+  static const values = [wss, https, webrtc];
 
   static ChannelProtocol fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ChannelProtocol'));
+          orElse: () => ChannelProtocol._(value));
+
+  @override
+  bool operator ==(other) => other is ChannelProtocol && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ChannelRole {
-  master('MASTER'),
-  viewer('VIEWER'),
-  ;
+class ChannelRole {
+  static const master = ChannelRole._('MASTER');
+  static const viewer = ChannelRole._('VIEWER');
 
   final String value;
 
-  const ChannelRole(this.value);
+  const ChannelRole._(this.value);
 
-  static ChannelRole fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum ChannelRole'));
+  static const values = [master, viewer];
+
+  static ChannelRole fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ChannelRole._(value));
+
+  @override
+  bool operator ==(other) => other is ChannelRole && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ChannelType {
-  singleMaster('SINGLE_MASTER'),
-  fullMesh('FULL_MESH'),
-  ;
+class ChannelType {
+  static const singleMaster = ChannelType._('SINGLE_MASTER');
+  static const fullMesh = ChannelType._('FULL_MESH');
 
   final String value;
 
-  const ChannelType(this.value);
+  const ChannelType._(this.value);
 
-  static ChannelType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum ChannelType'));
+  static const values = [singleMaster, fullMesh];
+
+  static ChannelType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ChannelType._(value));
+
+  @override
+  bool operator ==(other) => other is ChannelType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ComparisonOperator {
-  beginsWith('BEGINS_WITH'),
-  ;
+class ComparisonOperator {
+  static const beginsWith = ComparisonOperator._('BEGINS_WITH');
 
   final String value;
 
-  const ComparisonOperator(this.value);
+  const ComparisonOperator._(this.value);
 
-  static ComparisonOperator fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ComparisonOperator'));
+  static const values = [beginsWith];
+
+  static ComparisonOperator fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ComparisonOperator._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ComparisonOperator && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ConfigurationStatus {
-  enabled('ENABLED'),
-  disabled('DISABLED'),
-  ;
+class ConfigurationStatus {
+  static const enabled = ConfigurationStatus._('ENABLED');
+  static const disabled = ConfigurationStatus._('DISABLED');
 
   final String value;
 
-  const ConfigurationStatus(this.value);
+  const ConfigurationStatus._(this.value);
 
-  static ConfigurationStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ConfigurationStatus'));
+  static const values = [enabled, disabled];
+
+  static ConfigurationStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ConfigurationStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ConfigurationStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class CreateSignalingChannelOutput {
@@ -2133,32 +2201,50 @@ class EdgeConfig {
   }
 }
 
-enum Format {
-  jpeg('JPEG'),
-  png('PNG'),
-  ;
+class Format {
+  static const jpeg = Format._('JPEG');
+  static const png = Format._('PNG');
 
   final String value;
 
-  const Format(this.value);
+  const Format._(this.value);
+
+  static const values = [jpeg, png];
 
   static Format fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum Format'));
+      values.firstWhere((e) => e.value == value, orElse: () => Format._(value));
+
+  @override
+  bool operator ==(other) => other is Format && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum FormatConfigKey {
-  jPEGQuality('JPEGQuality'),
-  ;
+class FormatConfigKey {
+  static const jPEGQuality = FormatConfigKey._('JPEGQuality');
 
   final String value;
 
-  const FormatConfigKey(this.value);
+  const FormatConfigKey._(this.value);
+
+  static const values = [jPEGQuality];
 
   static FormatConfigKey fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum FormatConfigKey'));
+          orElse: () => FormatConfigKey._(value));
+
+  @override
+  bool operator ==(other) => other is FormatConfigKey && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class GetDataEndpointOutput {
@@ -2281,11 +2367,11 @@ class ImageGenerationConfiguration {
       destinationConfig: ImageGenerationDestinationConfig.fromJson(
           (json['DestinationConfig'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
-      format: Format.fromString((json['Format'] as String)),
-      imageSelectorType:
-          ImageSelectorType.fromString((json['ImageSelectorType'] as String)),
+      format: Format.fromString((json['Format'] as String?) ?? ''),
+      imageSelectorType: ImageSelectorType.fromString(
+          (json['ImageSelectorType'] as String?) ?? ''),
       samplingInterval: (json['SamplingInterval'] as int?) ?? 0,
-      status: ConfigurationStatus.fromString((json['Status'] as String)),
+      status: ConfigurationStatus.fromString((json['Status'] as String?) ?? ''),
       formatConfig: (json['FormatConfig'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(FormatConfigKey.fromString(k), e as String)),
       heightPixels: json['HeightPixels'] as int?,
@@ -2350,19 +2436,28 @@ class ImageGenerationDestinationConfig {
   }
 }
 
-enum ImageSelectorType {
-  serverTimestamp('SERVER_TIMESTAMP'),
-  producerTimestamp('PRODUCER_TIMESTAMP'),
-  ;
+class ImageSelectorType {
+  static const serverTimestamp = ImageSelectorType._('SERVER_TIMESTAMP');
+  static const producerTimestamp = ImageSelectorType._('PRODUCER_TIMESTAMP');
 
   final String value;
 
-  const ImageSelectorType(this.value);
+  const ImageSelectorType._(this.value);
+
+  static const values = [serverTimestamp, producerTimestamp];
 
   static ImageSelectorType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ImageSelectorType'));
+          orElse: () => ImageSelectorType._(value));
+
+  @override
+  bool operator ==(other) => other is ImageSelectorType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The latest status of a stream's edge recording job.
@@ -2792,7 +2887,8 @@ class MediaSourceConfig {
   factory MediaSourceConfig.fromJson(Map<String, dynamic> json) {
     return MediaSourceConfig(
       mediaUriSecretArn: (json['MediaUriSecretArn'] as String?) ?? '',
-      mediaUriType: MediaUriType.fromString((json['MediaUriType'] as String)),
+      mediaUriType:
+          MediaUriType.fromString((json['MediaUriType'] as String?) ?? ''),
     );
   }
 
@@ -2835,7 +2931,7 @@ class MediaStorageConfiguration {
   factory MediaStorageConfiguration.fromJson(Map<String, dynamic> json) {
     return MediaStorageConfiguration(
       status: MediaStorageConfigurationStatus.fromString(
-          (json['Status'] as String)),
+          (json['Status'] as String?) ?? ''),
       streamARN: json['StreamARN'] as String?,
     );
   }
@@ -2850,34 +2946,52 @@ class MediaStorageConfiguration {
   }
 }
 
-enum MediaStorageConfigurationStatus {
-  enabled('ENABLED'),
-  disabled('DISABLED'),
-  ;
+class MediaStorageConfigurationStatus {
+  static const enabled = MediaStorageConfigurationStatus._('ENABLED');
+  static const disabled = MediaStorageConfigurationStatus._('DISABLED');
 
   final String value;
 
-  const MediaStorageConfigurationStatus(this.value);
+  const MediaStorageConfigurationStatus._(this.value);
+
+  static const values = [enabled, disabled];
 
   static MediaStorageConfigurationStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum MediaStorageConfigurationStatus'));
+          orElse: () => MediaStorageConfigurationStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is MediaStorageConfigurationStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum MediaUriType {
-  rtspUri('RTSP_URI'),
-  fileUri('FILE_URI'),
-  ;
+class MediaUriType {
+  static const rtspUri = MediaUriType._('RTSP_URI');
+  static const fileUri = MediaUriType._('FILE_URI');
 
   final String value;
 
-  const MediaUriType(this.value);
+  const MediaUriType._(this.value);
 
-  static MediaUriType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum MediaUriType'));
+  static const values = [rtspUri, fileUri];
+
+  static MediaUriType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => MediaUriType._(value));
+
+  @override
+  bool operator ==(other) => other is MediaUriType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The structure that contains the notification information for the KVS images
@@ -2901,7 +3015,7 @@ class NotificationConfiguration {
       destinationConfig: NotificationDestinationConfig.fromJson(
           (json['DestinationConfig'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
-      status: ConfigurationStatus.fromString((json['Status'] as String)),
+      status: ConfigurationStatus.fromString((json['Status'] as String?) ?? ''),
     );
   }
 
@@ -2983,20 +3097,29 @@ class RecorderConfig {
   }
 }
 
-enum RecorderStatus {
-  success('SUCCESS'),
-  userError('USER_ERROR'),
-  systemError('SYSTEM_ERROR'),
-  ;
+class RecorderStatus {
+  static const success = RecorderStatus._('SUCCESS');
+  static const userError = RecorderStatus._('USER_ERROR');
+  static const systemError = RecorderStatus._('SYSTEM_ERROR');
 
   final String value;
 
-  const RecorderStatus(this.value);
+  const RecorderStatus._(this.value);
+
+  static const values = [success, userError, systemError];
 
   static RecorderStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum RecorderStatus'));
+          orElse: () => RecorderStatus._(value));
+
+  @override
+  bool operator ==(other) => other is RecorderStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// An object that describes the endpoint of the signaling channel returned by
@@ -3221,35 +3344,54 @@ class StartEdgeConfigurationUpdateOutput {
   }
 }
 
-enum Status {
-  creating('CREATING'),
-  active('ACTIVE'),
-  updating('UPDATING'),
-  deleting('DELETING'),
-  ;
+class Status {
+  static const creating = Status._('CREATING');
+  static const active = Status._('ACTIVE');
+  static const updating = Status._('UPDATING');
+  static const deleting = Status._('DELETING');
 
   final String value;
 
-  const Status(this.value);
+  const Status._(this.value);
+
+  static const values = [creating, active, updating, deleting];
 
   static Status fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum Status'));
+      values.firstWhere((e) => e.value == value, orElse: () => Status._(value));
+
+  @override
+  bool operator ==(other) => other is Status && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum StrategyOnFullSize {
-  deleteOldestMedia('DELETE_OLDEST_MEDIA'),
-  denyNewMedia('DENY_NEW_MEDIA'),
-  ;
+class StrategyOnFullSize {
+  static const deleteOldestMedia = StrategyOnFullSize._('DELETE_OLDEST_MEDIA');
+  static const denyNewMedia = StrategyOnFullSize._('DENY_NEW_MEDIA');
 
   final String value;
 
-  const StrategyOnFullSize(this.value);
+  const StrategyOnFullSize._(this.value);
 
-  static StrategyOnFullSize fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum StrategyOnFullSize'));
+  static const values = [deleteOldestMedia, denyNewMedia];
+
+  static StrategyOnFullSize fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => StrategyOnFullSize._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is StrategyOnFullSize && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// An object describing a Kinesis video stream.
@@ -3364,23 +3506,40 @@ class StreamNameCondition {
   }
 }
 
-enum SyncStatus {
-  syncing('SYNCING'),
-  acknowledged('ACKNOWLEDGED'),
-  inSync('IN_SYNC'),
-  syncFailed('SYNC_FAILED'),
-  deleting('DELETING'),
-  deleteFailed('DELETE_FAILED'),
-  deletingAcknowledged('DELETING_ACKNOWLEDGED'),
-  ;
+class SyncStatus {
+  static const syncing = SyncStatus._('SYNCING');
+  static const acknowledged = SyncStatus._('ACKNOWLEDGED');
+  static const inSync = SyncStatus._('IN_SYNC');
+  static const syncFailed = SyncStatus._('SYNC_FAILED');
+  static const deleting = SyncStatus._('DELETING');
+  static const deleteFailed = SyncStatus._('DELETE_FAILED');
+  static const deletingAcknowledged = SyncStatus._('DELETING_ACKNOWLEDGED');
 
   final String value;
 
-  const SyncStatus(this.value);
+  const SyncStatus._(this.value);
 
-  static SyncStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum SyncStatus'));
+  static const values = [
+    syncing,
+    acknowledged,
+    inSync,
+    syncFailed,
+    deleting,
+    deleteFailed,
+    deletingAcknowledged
+  ];
+
+  static SyncStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => SyncStatus._(value));
+
+  @override
+  bool operator ==(other) => other is SyncStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A key and value pair that is associated with the specified signaling
@@ -3456,19 +3615,31 @@ class UntagStreamOutput {
   }
 }
 
-enum UpdateDataRetentionOperation {
-  increaseDataRetention('INCREASE_DATA_RETENTION'),
-  decreaseDataRetention('DECREASE_DATA_RETENTION'),
-  ;
+class UpdateDataRetentionOperation {
+  static const increaseDataRetention =
+      UpdateDataRetentionOperation._('INCREASE_DATA_RETENTION');
+  static const decreaseDataRetention =
+      UpdateDataRetentionOperation._('DECREASE_DATA_RETENTION');
 
   final String value;
 
-  const UpdateDataRetentionOperation(this.value);
+  const UpdateDataRetentionOperation._(this.value);
+
+  static const values = [increaseDataRetention, decreaseDataRetention];
 
   static UpdateDataRetentionOperation fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum UpdateDataRetentionOperation'));
+          orElse: () => UpdateDataRetentionOperation._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is UpdateDataRetentionOperation && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class UpdateDataRetentionOutput {
@@ -3581,20 +3752,29 @@ class UploaderConfig {
   }
 }
 
-enum UploaderStatus {
-  success('SUCCESS'),
-  userError('USER_ERROR'),
-  systemError('SYSTEM_ERROR'),
-  ;
+class UploaderStatus {
+  static const success = UploaderStatus._('SUCCESS');
+  static const userError = UploaderStatus._('USER_ERROR');
+  static const systemError = UploaderStatus._('SYSTEM_ERROR');
 
   final String value;
 
-  const UploaderStatus(this.value);
+  const UploaderStatus._(this.value);
+
+  static const values = [success, userError, systemError];
 
   static UploaderStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum UploaderStatus'));
+          orElse: () => UploaderStatus._(value));
+
+  @override
+  bool operator ==(other) => other is UploaderStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class AccessDeniedException extends _s.GenericAwsException {

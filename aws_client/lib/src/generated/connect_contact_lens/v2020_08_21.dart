@@ -366,7 +366,8 @@ class PostContactSummary {
 
   factory PostContactSummary.fromJson(Map<String, dynamic> json) {
     return PostContactSummary(
-      status: PostContactSummaryStatus.fromString((json['Status'] as String)),
+      status: PostContactSummaryStatus.fromString(
+          (json['Status'] as String?) ?? ''),
       content: json['Content'] as String?,
       failureCode: (json['FailureCode'] as String?)
           ?.let(PostContactSummaryFailureCode.fromString),
@@ -385,37 +386,68 @@ class PostContactSummary {
   }
 }
 
-enum PostContactSummaryFailureCode {
-  quotaExceeded('QUOTA_EXCEEDED'),
-  insufficientConversationContent('INSUFFICIENT_CONVERSATION_CONTENT'),
-  failedSafetyGuidelines('FAILED_SAFETY_GUIDELINES'),
-  invalidAnalysisConfiguration('INVALID_ANALYSIS_CONFIGURATION'),
-  internalError('INTERNAL_ERROR'),
-  ;
+class PostContactSummaryFailureCode {
+  static const quotaExceeded =
+      PostContactSummaryFailureCode._('QUOTA_EXCEEDED');
+  static const insufficientConversationContent =
+      PostContactSummaryFailureCode._('INSUFFICIENT_CONVERSATION_CONTENT');
+  static const failedSafetyGuidelines =
+      PostContactSummaryFailureCode._('FAILED_SAFETY_GUIDELINES');
+  static const invalidAnalysisConfiguration =
+      PostContactSummaryFailureCode._('INVALID_ANALYSIS_CONFIGURATION');
+  static const internalError =
+      PostContactSummaryFailureCode._('INTERNAL_ERROR');
 
   final String value;
 
-  const PostContactSummaryFailureCode(this.value);
+  const PostContactSummaryFailureCode._(this.value);
+
+  static const values = [
+    quotaExceeded,
+    insufficientConversationContent,
+    failedSafetyGuidelines,
+    invalidAnalysisConfiguration,
+    internalError
+  ];
 
   static PostContactSummaryFailureCode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum PostContactSummaryFailureCode'));
+          orElse: () => PostContactSummaryFailureCode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is PostContactSummaryFailureCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum PostContactSummaryStatus {
-  failed('FAILED'),
-  completed('COMPLETED'),
-  ;
+class PostContactSummaryStatus {
+  static const failed = PostContactSummaryStatus._('FAILED');
+  static const completed = PostContactSummaryStatus._('COMPLETED');
 
   final String value;
 
-  const PostContactSummaryStatus(this.value);
+  const PostContactSummaryStatus._(this.value);
+
+  static const values = [failed, completed];
 
   static PostContactSummaryStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum PostContactSummaryStatus'));
+          orElse: () => PostContactSummaryStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is PostContactSummaryStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// An analyzed segment for a real-time analysis session.
@@ -462,20 +494,29 @@ class RealtimeContactAnalysisSegment {
   }
 }
 
-enum SentimentValue {
-  positive('POSITIVE'),
-  neutral('NEUTRAL'),
-  negative('NEGATIVE'),
-  ;
+class SentimentValue {
+  static const positive = SentimentValue._('POSITIVE');
+  static const neutral = SentimentValue._('NEUTRAL');
+  static const negative = SentimentValue._('NEGATIVE');
 
   final String value;
 
-  const SentimentValue(this.value);
+  const SentimentValue._(this.value);
+
+  static const values = [positive, neutral, negative];
 
   static SentimentValue fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum SentimentValue'));
+          orElse: () => SentimentValue._(value));
+
+  @override
+  bool operator ==(other) => other is SentimentValue && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A list of messages in the session.
@@ -523,7 +564,8 @@ class Transcript {
       id: (json['Id'] as String?) ?? '',
       participantId: (json['ParticipantId'] as String?) ?? '',
       participantRole: (json['ParticipantRole'] as String?) ?? '',
-      sentiment: SentimentValue.fromString((json['Sentiment'] as String)),
+      sentiment:
+          SentimentValue.fromString((json['Sentiment'] as String?) ?? ''),
       issuesDetected: (json['IssuesDetected'] as List?)
           ?.nonNulls
           .map((e) => IssueDetected.fromJson(e as Map<String, dynamic>))

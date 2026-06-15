@@ -5493,20 +5493,34 @@ class AggregateConformancePackComplianceSummaryFilters {
   }
 }
 
-enum AggregateConformancePackComplianceSummaryGroupKey {
-  accountId('ACCOUNT_ID'),
-  awsRegion('AWS_REGION'),
-  ;
+class AggregateConformancePackComplianceSummaryGroupKey {
+  static const accountId =
+      AggregateConformancePackComplianceSummaryGroupKey._('ACCOUNT_ID');
+  static const awsRegion =
+      AggregateConformancePackComplianceSummaryGroupKey._('AWS_REGION');
 
   final String value;
 
-  const AggregateConformancePackComplianceSummaryGroupKey(this.value);
+  const AggregateConformancePackComplianceSummaryGroupKey._(this.value);
+
+  static const values = [accountId, awsRegion];
 
   static AggregateConformancePackComplianceSummaryGroupKey fromString(
           String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum AggregateConformancePackComplianceSummaryGroupKey'));
+          orElse: () =>
+              AggregateConformancePackComplianceSummaryGroupKey._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AggregateConformancePackComplianceSummaryGroupKey &&
+      other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The details of an Config evaluation for an account ID and region in an
@@ -5620,7 +5634,8 @@ class AggregateResourceIdentifier {
   factory AggregateResourceIdentifier.fromJson(Map<String, dynamic> json) {
     return AggregateResourceIdentifier(
       resourceId: (json['ResourceId'] as String?) ?? '',
-      resourceType: ResourceType.fromString((json['ResourceType'] as String)),
+      resourceType:
+          ResourceType.fromString((json['ResourceType'] as String?) ?? ''),
       sourceAccountId: (json['SourceAccountId'] as String?) ?? '',
       sourceRegion: (json['SourceRegion'] as String?) ?? '',
       resourceName: json['ResourceName'] as String?,
@@ -5725,35 +5740,55 @@ class AggregatedSourceStatus {
   }
 }
 
-enum AggregatedSourceStatusType {
-  failed('FAILED'),
-  succeeded('SUCCEEDED'),
-  outdated('OUTDATED'),
-  ;
+class AggregatedSourceStatusType {
+  static const failed = AggregatedSourceStatusType._('FAILED');
+  static const succeeded = AggregatedSourceStatusType._('SUCCEEDED');
+  static const outdated = AggregatedSourceStatusType._('OUTDATED');
 
   final String value;
 
-  const AggregatedSourceStatusType(this.value);
+  const AggregatedSourceStatusType._(this.value);
+
+  static const values = [failed, succeeded, outdated];
 
   static AggregatedSourceStatusType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum AggregatedSourceStatusType'));
+          orElse: () => AggregatedSourceStatusType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AggregatedSourceStatusType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum AggregatedSourceType {
-  account('ACCOUNT'),
-  organization('ORGANIZATION'),
-  ;
+class AggregatedSourceType {
+  static const account = AggregatedSourceType._('ACCOUNT');
+  static const organization = AggregatedSourceType._('ORGANIZATION');
 
   final String value;
 
-  const AggregatedSourceType(this.value);
+  const AggregatedSourceType._(this.value);
 
-  static AggregatedSourceType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum AggregatedSourceType'));
+  static const values = [account, organization];
+
+  static AggregatedSourceType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AggregatedSourceType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AggregatedSourceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// An object that represents the authorizations granted to aggregator accounts
@@ -6066,19 +6101,29 @@ class BatchGetResourceConfigResponse {
   }
 }
 
-enum ChronologicalOrder {
-  reverse('Reverse'),
-  forward('Forward'),
-  ;
+class ChronologicalOrder {
+  static const reverse = ChronologicalOrder._('Reverse');
+  static const forward = ChronologicalOrder._('Forward');
 
   final String value;
 
-  const ChronologicalOrder(this.value);
+  const ChronologicalOrder._(this.value);
 
-  static ChronologicalOrder fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ChronologicalOrder'));
+  static const values = [reverse, forward];
+
+  static ChronologicalOrder fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ChronologicalOrder._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ChronologicalOrder && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Indicates whether an Amazon Web Services resource or Config rule is
@@ -6330,21 +6375,35 @@ class ComplianceSummaryByResourceType {
   }
 }
 
-enum ComplianceType {
-  compliant('COMPLIANT'),
-  nonCompliant('NON_COMPLIANT'),
-  notApplicable('NOT_APPLICABLE'),
-  insufficientData('INSUFFICIENT_DATA'),
-  ;
+class ComplianceType {
+  static const compliant = ComplianceType._('COMPLIANT');
+  static const nonCompliant = ComplianceType._('NON_COMPLIANT');
+  static const notApplicable = ComplianceType._('NOT_APPLICABLE');
+  static const insufficientData = ComplianceType._('INSUFFICIENT_DATA');
 
   final String value;
 
-  const ComplianceType(this.value);
+  const ComplianceType._(this.value);
+
+  static const values = [
+    compliant,
+    nonCompliant,
+    notApplicable,
+    insufficientData
+  ];
 
   static ComplianceType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ComplianceType'));
+          orElse: () => ComplianceType._(value));
+
+  @override
+  bool operator ==(other) => other is ComplianceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Provides status of the delivery of the snapshot or the configuration history
@@ -6655,19 +6714,29 @@ class ConfigRuleComplianceSummaryFilters {
   }
 }
 
-enum ConfigRuleComplianceSummaryGroupKey {
-  accountId('ACCOUNT_ID'),
-  awsRegion('AWS_REGION'),
-  ;
+class ConfigRuleComplianceSummaryGroupKey {
+  static const accountId = ConfigRuleComplianceSummaryGroupKey._('ACCOUNT_ID');
+  static const awsRegion = ConfigRuleComplianceSummaryGroupKey._('AWS_REGION');
 
   final String value;
 
-  const ConfigRuleComplianceSummaryGroupKey(this.value);
+  const ConfigRuleComplianceSummaryGroupKey._(this.value);
+
+  static const values = [accountId, awsRegion];
 
   static ConfigRuleComplianceSummaryGroupKey fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ConfigRuleComplianceSummaryGroupKey'));
+          orElse: () => ConfigRuleComplianceSummaryGroupKey._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ConfigRuleComplianceSummaryGroupKey && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Status information for your Config Managed rules and Config Custom Policy
@@ -6837,21 +6906,30 @@ class ConfigRuleEvaluationStatus {
   }
 }
 
-enum ConfigRuleState {
-  active('ACTIVE'),
-  deleting('DELETING'),
-  deletingResults('DELETING_RESULTS'),
-  evaluating('EVALUATING'),
-  ;
+class ConfigRuleState {
+  static const active = ConfigRuleState._('ACTIVE');
+  static const deleting = ConfigRuleState._('DELETING');
+  static const deletingResults = ConfigRuleState._('DELETING_RESULTS');
+  static const evaluating = ConfigRuleState._('EVALUATING');
 
   final String value;
 
-  const ConfigRuleState(this.value);
+  const ConfigRuleState._(this.value);
+
+  static const values = [active, deleting, deletingResults, evaluating];
 
   static ConfigRuleState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ConfigRuleState'));
+          orElse: () => ConfigRuleState._(value));
+
+  @override
+  bool operator ==(other) => other is ConfigRuleState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Provides options for how often Config delivers configuration snapshots to
@@ -7290,22 +7368,41 @@ class ConfigurationItem {
   }
 }
 
-enum ConfigurationItemStatus {
-  ok('OK'),
-  resourceDiscovered('ResourceDiscovered'),
-  resourceNotRecorded('ResourceNotRecorded'),
-  resourceDeleted('ResourceDeleted'),
-  resourceDeletedNotRecorded('ResourceDeletedNotRecorded'),
-  ;
+class ConfigurationItemStatus {
+  static const ok = ConfigurationItemStatus._('OK');
+  static const resourceDiscovered =
+      ConfigurationItemStatus._('ResourceDiscovered');
+  static const resourceNotRecorded =
+      ConfigurationItemStatus._('ResourceNotRecorded');
+  static const resourceDeleted = ConfigurationItemStatus._('ResourceDeleted');
+  static const resourceDeletedNotRecorded =
+      ConfigurationItemStatus._('ResourceDeletedNotRecorded');
 
   final String value;
 
-  const ConfigurationItemStatus(this.value);
+  const ConfigurationItemStatus._(this.value);
+
+  static const values = [
+    ok,
+    resourceDiscovered,
+    resourceNotRecorded,
+    resourceDeleted,
+    resourceDeletedNotRecorded
+  ];
 
   static ConfigurationItemStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ConfigurationItemStatus'));
+          orElse: () => ConfigurationItemStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ConfigurationItemStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Records configuration changes to your specified resource types. For more
@@ -7620,7 +7717,7 @@ class ConformancePackComplianceSummary {
   factory ConformancePackComplianceSummary.fromJson(Map<String, dynamic> json) {
     return ConformancePackComplianceSummary(
       conformancePackComplianceStatus: ConformancePackComplianceType.fromString(
-          (json['ConformancePackComplianceStatus'] as String)),
+          (json['ConformancePackComplianceStatus'] as String?) ?? ''),
       conformancePackName: (json['ConformancePackName'] as String?) ?? '',
     );
   }
@@ -7636,20 +7733,31 @@ class ConformancePackComplianceSummary {
   }
 }
 
-enum ConformancePackComplianceType {
-  compliant('COMPLIANT'),
-  nonCompliant('NON_COMPLIANT'),
-  insufficientData('INSUFFICIENT_DATA'),
-  ;
+class ConformancePackComplianceType {
+  static const compliant = ConformancePackComplianceType._('COMPLIANT');
+  static const nonCompliant = ConformancePackComplianceType._('NON_COMPLIANT');
+  static const insufficientData =
+      ConformancePackComplianceType._('INSUFFICIENT_DATA');
 
   final String value;
 
-  const ConformancePackComplianceType(this.value);
+  const ConformancePackComplianceType._(this.value);
+
+  static const values = [compliant, nonCompliant, insufficientData];
 
   static ConformancePackComplianceType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ConformancePackComplianceType'));
+          orElse: () => ConformancePackComplianceType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ConformancePackComplianceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Returns details of a conformance pack. A conformance pack is a collection of
@@ -7829,7 +7937,7 @@ class ConformancePackEvaluationResult {
   factory ConformancePackEvaluationResult.fromJson(Map<String, dynamic> json) {
     return ConformancePackEvaluationResult(
       complianceType: ConformancePackComplianceType.fromString(
-          (json['ComplianceType'] as String)),
+          (json['ComplianceType'] as String?) ?? ''),
       configRuleInvokedTime:
           nonNullableTimeStampFromJson(json['ConfigRuleInvokedTime'] ?? 0),
       evaluationResultIdentifier: EvaluationResultIdentifier.fromJson(
@@ -7934,22 +8042,38 @@ class ConformancePackRuleCompliance {
   }
 }
 
-enum ConformancePackState {
-  createInProgress('CREATE_IN_PROGRESS'),
-  createComplete('CREATE_COMPLETE'),
-  createFailed('CREATE_FAILED'),
-  deleteInProgress('DELETE_IN_PROGRESS'),
-  deleteFailed('DELETE_FAILED'),
-  ;
+class ConformancePackState {
+  static const createInProgress = ConformancePackState._('CREATE_IN_PROGRESS');
+  static const createComplete = ConformancePackState._('CREATE_COMPLETE');
+  static const createFailed = ConformancePackState._('CREATE_FAILED');
+  static const deleteInProgress = ConformancePackState._('DELETE_IN_PROGRESS');
+  static const deleteFailed = ConformancePackState._('DELETE_FAILED');
 
   final String value;
 
-  const ConformancePackState(this.value);
+  const ConformancePackState._(this.value);
 
-  static ConformancePackState fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ConformancePackState'));
+  static const values = [
+    createInProgress,
+    createComplete,
+    createFailed,
+    deleteInProgress,
+    deleteFailed
+  ];
+
+  static ConformancePackState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ConformancePackState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ConformancePackState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Status details of a conformance pack.
@@ -8017,7 +8141,7 @@ class ConformancePackStatusDetail {
       conformancePackId: (json['ConformancePackId'] as String?) ?? '',
       conformancePackName: (json['ConformancePackName'] as String?) ?? '',
       conformancePackState: ConformancePackState.fromString(
-          (json['ConformancePackState'] as String)),
+          (json['ConformancePackState'] as String?) ?? ''),
       lastUpdateRequestedTime:
           nonNullableTimeStampFromJson(json['LastUpdateRequestedTime'] ?? 0),
       stackArn: (json['StackArn'] as String?) ?? '',
@@ -8335,20 +8459,29 @@ class DeliveryChannelStatus {
   }
 }
 
-enum DeliveryStatus {
-  success('Success'),
-  failure('Failure'),
-  notApplicable('Not_Applicable'),
-  ;
+class DeliveryStatus {
+  static const success = DeliveryStatus._('Success');
+  static const failure = DeliveryStatus._('Failure');
+  static const notApplicable = DeliveryStatus._('Not_Applicable');
 
   final String value;
 
-  const DeliveryStatus(this.value);
+  const DeliveryStatus._(this.value);
+
+  static const values = [success, failure, notApplicable];
 
   static DeliveryStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum DeliveryStatus'));
+          orElse: () => DeliveryStatus._(value));
+
+  @override
+  bool operator ==(other) => other is DeliveryStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class DescribeAggregateComplianceByConfigRulesResponse {
@@ -9303,7 +9436,7 @@ class Evaluation {
       complianceResourceId: (json['ComplianceResourceId'] as String?) ?? '',
       complianceResourceType: (json['ComplianceResourceType'] as String?) ?? '',
       complianceType:
-          ComplianceType.fromString((json['ComplianceType'] as String)),
+          ComplianceType.fromString((json['ComplianceType'] as String?) ?? ''),
       orderingTimestamp:
           nonNullableTimeStampFromJson(json['OrderingTimestamp'] ?? 0),
       annotation: json['Annotation'] as String?,
@@ -9353,19 +9486,28 @@ class EvaluationContext {
   }
 }
 
-enum EvaluationMode {
-  detective('DETECTIVE'),
-  proactive('PROACTIVE'),
-  ;
+class EvaluationMode {
+  static const detective = EvaluationMode._('DETECTIVE');
+  static const proactive = EvaluationMode._('PROACTIVE');
 
   final String value;
 
-  const EvaluationMode(this.value);
+  const EvaluationMode._(this.value);
+
+  static const values = [detective, proactive];
 
   static EvaluationMode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum EvaluationMode'));
+          orElse: () => EvaluationMode._(value));
+
+  @override
+  bool operator ==(other) => other is EvaluationMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The configuration object for Config rule evaluation mode. The supported
@@ -9579,7 +9721,8 @@ class EvaluationStatus {
 
   factory EvaluationStatus.fromJson(Map<String, dynamic> json) {
     return EvaluationStatus(
-      status: ResourceEvaluationStatus.fromString((json['Status'] as String)),
+      status: ResourceEvaluationStatus.fromString(
+          (json['Status'] as String?) ?? ''),
       failureReason: json['FailureReason'] as String?,
     );
   }
@@ -9594,17 +9737,26 @@ class EvaluationStatus {
   }
 }
 
-enum EventSource {
-  awsConfig('aws.config'),
-  ;
+class EventSource {
+  static const awsConfig = EventSource._('aws.config');
 
   final String value;
 
-  const EventSource(this.value);
+  const EventSource._(this.value);
 
-  static EventSource fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum EventSource'));
+  static const values = [awsConfig];
+
+  static EventSource fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => EventSource._(value));
+
+  @override
+  bool operator ==(other) => other is EventSource && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specifies whether the configuration recorder excludes certain resource types
@@ -10885,44 +11037,87 @@ class ListTagsForResourceResponse {
   }
 }
 
-enum MaximumExecutionFrequency {
-  oneHour('One_Hour'),
-  threeHours('Three_Hours'),
-  sixHours('Six_Hours'),
-  twelveHours('Twelve_Hours'),
-  twentyFourHours('TwentyFour_Hours'),
-  ;
+class MaximumExecutionFrequency {
+  static const oneHour = MaximumExecutionFrequency._('One_Hour');
+  static const threeHours = MaximumExecutionFrequency._('Three_Hours');
+  static const sixHours = MaximumExecutionFrequency._('Six_Hours');
+  static const twelveHours = MaximumExecutionFrequency._('Twelve_Hours');
+  static const twentyFourHours =
+      MaximumExecutionFrequency._('TwentyFour_Hours');
 
   final String value;
 
-  const MaximumExecutionFrequency(this.value);
+  const MaximumExecutionFrequency._(this.value);
+
+  static const values = [
+    oneHour,
+    threeHours,
+    sixHours,
+    twelveHours,
+    twentyFourHours
+  ];
 
   static MaximumExecutionFrequency fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum MaximumExecutionFrequency'));
+          orElse: () => MaximumExecutionFrequency._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is MaximumExecutionFrequency && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum MemberAccountRuleStatus {
-  createSuccessful('CREATE_SUCCESSFUL'),
-  createInProgress('CREATE_IN_PROGRESS'),
-  createFailed('CREATE_FAILED'),
-  deleteSuccessful('DELETE_SUCCESSFUL'),
-  deleteFailed('DELETE_FAILED'),
-  deleteInProgress('DELETE_IN_PROGRESS'),
-  updateSuccessful('UPDATE_SUCCESSFUL'),
-  updateInProgress('UPDATE_IN_PROGRESS'),
-  updateFailed('UPDATE_FAILED'),
-  ;
+class MemberAccountRuleStatus {
+  static const createSuccessful =
+      MemberAccountRuleStatus._('CREATE_SUCCESSFUL');
+  static const createInProgress =
+      MemberAccountRuleStatus._('CREATE_IN_PROGRESS');
+  static const createFailed = MemberAccountRuleStatus._('CREATE_FAILED');
+  static const deleteSuccessful =
+      MemberAccountRuleStatus._('DELETE_SUCCESSFUL');
+  static const deleteFailed = MemberAccountRuleStatus._('DELETE_FAILED');
+  static const deleteInProgress =
+      MemberAccountRuleStatus._('DELETE_IN_PROGRESS');
+  static const updateSuccessful =
+      MemberAccountRuleStatus._('UPDATE_SUCCESSFUL');
+  static const updateInProgress =
+      MemberAccountRuleStatus._('UPDATE_IN_PROGRESS');
+  static const updateFailed = MemberAccountRuleStatus._('UPDATE_FAILED');
 
   final String value;
 
-  const MemberAccountRuleStatus(this.value);
+  const MemberAccountRuleStatus._(this.value);
+
+  static const values = [
+    createSuccessful,
+    createInProgress,
+    createFailed,
+    deleteSuccessful,
+    deleteFailed,
+    deleteInProgress,
+    updateSuccessful,
+    updateInProgress,
+    updateFailed
+  ];
 
   static MemberAccountRuleStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum MemberAccountRuleStatus'));
+          orElse: () => MemberAccountRuleStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is MemberAccountRuleStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Organization Config rule creation or deletion status in each member account.
@@ -11011,7 +11206,7 @@ class MemberAccountStatus {
       accountId: (json['AccountId'] as String?) ?? '',
       configRuleName: (json['ConfigRuleName'] as String?) ?? '',
       memberAccountRuleStatus: MemberAccountRuleStatus.fromString(
-          (json['MemberAccountRuleStatus'] as String)),
+          (json['MemberAccountRuleStatus'] as String?) ?? ''),
       errorCode: json['ErrorCode'] as String?,
       errorMessage: json['ErrorMessage'] as String?,
       lastUpdateTime: timeStampFromJson(json['LastUpdateTime']),
@@ -11037,22 +11232,37 @@ class MemberAccountStatus {
   }
 }
 
-enum MessageType {
-  configurationItemChangeNotification('ConfigurationItemChangeNotification'),
-  configurationSnapshotDeliveryCompleted(
-      'ConfigurationSnapshotDeliveryCompleted'),
-  scheduledNotification('ScheduledNotification'),
-  oversizedConfigurationItemChangeNotification(
-      'OversizedConfigurationItemChangeNotification'),
-  ;
+class MessageType {
+  static const configurationItemChangeNotification =
+      MessageType._('ConfigurationItemChangeNotification');
+  static const configurationSnapshotDeliveryCompleted =
+      MessageType._('ConfigurationSnapshotDeliveryCompleted');
+  static const scheduledNotification = MessageType._('ScheduledNotification');
+  static const oversizedConfigurationItemChangeNotification =
+      MessageType._('OversizedConfigurationItemChangeNotification');
 
   final String value;
 
-  const MessageType(this.value);
+  const MessageType._(this.value);
 
-  static MessageType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum MessageType'));
+  static const values = [
+    configurationItemChangeNotification,
+    configurationSnapshotDeliveryCompleted,
+    scheduledNotification,
+    oversizedConfigurationItemChangeNotification
+  ];
+
+  static MessageType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => MessageType._(value));
+
+  @override
+  bool operator ==(other) => other is MessageType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// This object contains regions to set up the aggregator and an IAM role to
@@ -11276,7 +11486,7 @@ class OrganizationConfigRuleStatus {
       organizationConfigRuleName:
           (json['OrganizationConfigRuleName'] as String?) ?? '',
       organizationRuleStatus: OrganizationRuleStatus.fromString(
-          (json['OrganizationRuleStatus'] as String)),
+          (json['OrganizationRuleStatus'] as String?) ?? ''),
       errorCode: json['ErrorCode'] as String?,
       errorMessage: json['ErrorMessage'] as String?,
       lastUpdateTime: timeStampFromJson(json['LastUpdateTime']),
@@ -11300,37 +11510,71 @@ class OrganizationConfigRuleStatus {
   }
 }
 
-enum OrganizationConfigRuleTriggerType {
-  configurationItemChangeNotification('ConfigurationItemChangeNotification'),
-  oversizedConfigurationItemChangeNotification(
-      'OversizedConfigurationItemChangeNotification'),
-  scheduledNotification('ScheduledNotification'),
-  ;
+class OrganizationConfigRuleTriggerType {
+  static const configurationItemChangeNotification =
+      OrganizationConfigRuleTriggerType._(
+          'ConfigurationItemChangeNotification');
+  static const oversizedConfigurationItemChangeNotification =
+      OrganizationConfigRuleTriggerType._(
+          'OversizedConfigurationItemChangeNotification');
+  static const scheduledNotification =
+      OrganizationConfigRuleTriggerType._('ScheduledNotification');
 
   final String value;
 
-  const OrganizationConfigRuleTriggerType(this.value);
+  const OrganizationConfigRuleTriggerType._(this.value);
+
+  static const values = [
+    configurationItemChangeNotification,
+    oversizedConfigurationItemChangeNotification,
+    scheduledNotification
+  ];
 
   static OrganizationConfigRuleTriggerType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum OrganizationConfigRuleTriggerType'));
+          orElse: () => OrganizationConfigRuleTriggerType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is OrganizationConfigRuleTriggerType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum OrganizationConfigRuleTriggerTypeNoSN {
-  configurationItemChangeNotification('ConfigurationItemChangeNotification'),
-  oversizedConfigurationItemChangeNotification(
-      'OversizedConfigurationItemChangeNotification'),
-  ;
+class OrganizationConfigRuleTriggerTypeNoSN {
+  static const configurationItemChangeNotification =
+      OrganizationConfigRuleTriggerTypeNoSN._(
+          'ConfigurationItemChangeNotification');
+  static const oversizedConfigurationItemChangeNotification =
+      OrganizationConfigRuleTriggerTypeNoSN._(
+          'OversizedConfigurationItemChangeNotification');
 
   final String value;
 
-  const OrganizationConfigRuleTriggerTypeNoSN(this.value);
+  const OrganizationConfigRuleTriggerTypeNoSN._(this.value);
+
+  static const values = [
+    configurationItemChangeNotification,
+    oversizedConfigurationItemChangeNotification
+  ];
 
   static OrganizationConfigRuleTriggerTypeNoSN fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum OrganizationConfigRuleTriggerTypeNoSN'));
+          orElse: () => OrganizationConfigRuleTriggerTypeNoSN._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is OrganizationConfigRuleTriggerTypeNoSN && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// An organization conformance pack that has information about conformance
@@ -11509,7 +11753,7 @@ class OrganizationConformancePackDetailedStatus {
       accountId: (json['AccountId'] as String?) ?? '',
       conformancePackName: (json['ConformancePackName'] as String?) ?? '',
       status: OrganizationResourceDetailedStatus.fromString(
-          (json['Status'] as String)),
+          (json['Status'] as String?) ?? ''),
       errorCode: json['ErrorCode'] as String?,
       errorMessage: json['ErrorMessage'] as String?,
       lastUpdateTime: timeStampFromJson(json['LastUpdateTime']),
@@ -11617,7 +11861,8 @@ class OrganizationConformancePackStatus {
     return OrganizationConformancePackStatus(
       organizationConformancePackName:
           (json['OrganizationConformancePackName'] as String?) ?? '',
-      status: OrganizationResourceStatus.fromString((json['Status'] as String)),
+      status: OrganizationResourceStatus.fromString(
+          (json['Status'] as String?) ?? ''),
       errorCode: json['ErrorCode'] as String?,
       errorMessage: json['ErrorMessage'] as String?,
       lastUpdateTime: timeStampFromJson(json['LastUpdateTime']),
@@ -12116,26 +12361,55 @@ class OrganizationManagedRuleMetadata {
   }
 }
 
-enum OrganizationResourceDetailedStatus {
-  createSuccessful('CREATE_SUCCESSFUL'),
-  createInProgress('CREATE_IN_PROGRESS'),
-  createFailed('CREATE_FAILED'),
-  deleteSuccessful('DELETE_SUCCESSFUL'),
-  deleteFailed('DELETE_FAILED'),
-  deleteInProgress('DELETE_IN_PROGRESS'),
-  updateSuccessful('UPDATE_SUCCESSFUL'),
-  updateInProgress('UPDATE_IN_PROGRESS'),
-  updateFailed('UPDATE_FAILED'),
-  ;
+class OrganizationResourceDetailedStatus {
+  static const createSuccessful =
+      OrganizationResourceDetailedStatus._('CREATE_SUCCESSFUL');
+  static const createInProgress =
+      OrganizationResourceDetailedStatus._('CREATE_IN_PROGRESS');
+  static const createFailed =
+      OrganizationResourceDetailedStatus._('CREATE_FAILED');
+  static const deleteSuccessful =
+      OrganizationResourceDetailedStatus._('DELETE_SUCCESSFUL');
+  static const deleteFailed =
+      OrganizationResourceDetailedStatus._('DELETE_FAILED');
+  static const deleteInProgress =
+      OrganizationResourceDetailedStatus._('DELETE_IN_PROGRESS');
+  static const updateSuccessful =
+      OrganizationResourceDetailedStatus._('UPDATE_SUCCESSFUL');
+  static const updateInProgress =
+      OrganizationResourceDetailedStatus._('UPDATE_IN_PROGRESS');
+  static const updateFailed =
+      OrganizationResourceDetailedStatus._('UPDATE_FAILED');
 
   final String value;
 
-  const OrganizationResourceDetailedStatus(this.value);
+  const OrganizationResourceDetailedStatus._(this.value);
+
+  static const values = [
+    createSuccessful,
+    createInProgress,
+    createFailed,
+    deleteSuccessful,
+    deleteFailed,
+    deleteInProgress,
+    updateSuccessful,
+    updateInProgress,
+    updateFailed
+  ];
 
   static OrganizationResourceDetailedStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum OrganizationResourceDetailedStatus'));
+          orElse: () => OrganizationResourceDetailedStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is OrganizationResourceDetailedStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Status filter object to filter results based on specific member account ID
@@ -12211,63 +12485,121 @@ class OrganizationResourceDetailedStatusFilters {
   }
 }
 
-enum OrganizationResourceStatus {
-  createSuccessful('CREATE_SUCCESSFUL'),
-  createInProgress('CREATE_IN_PROGRESS'),
-  createFailed('CREATE_FAILED'),
-  deleteSuccessful('DELETE_SUCCESSFUL'),
-  deleteFailed('DELETE_FAILED'),
-  deleteInProgress('DELETE_IN_PROGRESS'),
-  updateSuccessful('UPDATE_SUCCESSFUL'),
-  updateInProgress('UPDATE_IN_PROGRESS'),
-  updateFailed('UPDATE_FAILED'),
-  ;
+class OrganizationResourceStatus {
+  static const createSuccessful =
+      OrganizationResourceStatus._('CREATE_SUCCESSFUL');
+  static const createInProgress =
+      OrganizationResourceStatus._('CREATE_IN_PROGRESS');
+  static const createFailed = OrganizationResourceStatus._('CREATE_FAILED');
+  static const deleteSuccessful =
+      OrganizationResourceStatus._('DELETE_SUCCESSFUL');
+  static const deleteFailed = OrganizationResourceStatus._('DELETE_FAILED');
+  static const deleteInProgress =
+      OrganizationResourceStatus._('DELETE_IN_PROGRESS');
+  static const updateSuccessful =
+      OrganizationResourceStatus._('UPDATE_SUCCESSFUL');
+  static const updateInProgress =
+      OrganizationResourceStatus._('UPDATE_IN_PROGRESS');
+  static const updateFailed = OrganizationResourceStatus._('UPDATE_FAILED');
 
   final String value;
 
-  const OrganizationResourceStatus(this.value);
+  const OrganizationResourceStatus._(this.value);
+
+  static const values = [
+    createSuccessful,
+    createInProgress,
+    createFailed,
+    deleteSuccessful,
+    deleteFailed,
+    deleteInProgress,
+    updateSuccessful,
+    updateInProgress,
+    updateFailed
+  ];
 
   static OrganizationResourceStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum OrganizationResourceStatus'));
+          orElse: () => OrganizationResourceStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is OrganizationResourceStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum OrganizationRuleStatus {
-  createSuccessful('CREATE_SUCCESSFUL'),
-  createInProgress('CREATE_IN_PROGRESS'),
-  createFailed('CREATE_FAILED'),
-  deleteSuccessful('DELETE_SUCCESSFUL'),
-  deleteFailed('DELETE_FAILED'),
-  deleteInProgress('DELETE_IN_PROGRESS'),
-  updateSuccessful('UPDATE_SUCCESSFUL'),
-  updateInProgress('UPDATE_IN_PROGRESS'),
-  updateFailed('UPDATE_FAILED'),
-  ;
+class OrganizationRuleStatus {
+  static const createSuccessful = OrganizationRuleStatus._('CREATE_SUCCESSFUL');
+  static const createInProgress =
+      OrganizationRuleStatus._('CREATE_IN_PROGRESS');
+  static const createFailed = OrganizationRuleStatus._('CREATE_FAILED');
+  static const deleteSuccessful = OrganizationRuleStatus._('DELETE_SUCCESSFUL');
+  static const deleteFailed = OrganizationRuleStatus._('DELETE_FAILED');
+  static const deleteInProgress =
+      OrganizationRuleStatus._('DELETE_IN_PROGRESS');
+  static const updateSuccessful = OrganizationRuleStatus._('UPDATE_SUCCESSFUL');
+  static const updateInProgress =
+      OrganizationRuleStatus._('UPDATE_IN_PROGRESS');
+  static const updateFailed = OrganizationRuleStatus._('UPDATE_FAILED');
 
   final String value;
 
-  const OrganizationRuleStatus(this.value);
+  const OrganizationRuleStatus._(this.value);
+
+  static const values = [
+    createSuccessful,
+    createInProgress,
+    createFailed,
+    deleteSuccessful,
+    deleteFailed,
+    deleteInProgress,
+    updateSuccessful,
+    updateInProgress,
+    updateFailed
+  ];
 
   static OrganizationRuleStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum OrganizationRuleStatus'));
+          orElse: () => OrganizationRuleStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is OrganizationRuleStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum Owner {
-  customLambda('CUSTOM_LAMBDA'),
-  aws('AWS'),
-  customPolicy('CUSTOM_POLICY'),
-  ;
+class Owner {
+  static const customLambda = Owner._('CUSTOM_LAMBDA');
+  static const aws = Owner._('AWS');
+  static const customPolicy = Owner._('CUSTOM_POLICY');
 
   final String value;
 
-  const Owner(this.value);
+  const Owner._(this.value);
+
+  static const values = [customLambda, aws, customPolicy];
 
   static Owner fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum Owner'));
+      values.firstWhere((e) => e.value == value, orElse: () => Owner._(value));
+
+  @override
+  bool operator ==(other) => other is Owner && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// An object that represents the account ID and region of an aggregator account
@@ -12594,35 +12926,54 @@ class QueryInfo {
   }
 }
 
-enum RecorderStatus {
-  pending('Pending'),
-  success('Success'),
-  failure('Failure'),
-  ;
+class RecorderStatus {
+  static const pending = RecorderStatus._('Pending');
+  static const success = RecorderStatus._('Success');
+  static const failure = RecorderStatus._('Failure');
 
   final String value;
 
-  const RecorderStatus(this.value);
+  const RecorderStatus._(this.value);
+
+  static const values = [pending, success, failure];
 
   static RecorderStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum RecorderStatus'));
+          orElse: () => RecorderStatus._(value));
+
+  @override
+  bool operator ==(other) => other is RecorderStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum RecordingFrequency {
-  continuous('CONTINUOUS'),
-  daily('DAILY'),
-  ;
+class RecordingFrequency {
+  static const continuous = RecordingFrequency._('CONTINUOUS');
+  static const daily = RecordingFrequency._('DAILY');
 
   final String value;
 
-  const RecordingFrequency(this.value);
+  const RecordingFrequency._(this.value);
 
-  static RecordingFrequency fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum RecordingFrequency'));
+  static const values = [continuous, daily];
+
+  static RecordingFrequency fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => RecordingFrequency._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RecordingFrequency && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specifies which resource types Config records for configuration changes. By
@@ -13044,8 +13395,8 @@ class RecordingMode {
 
   factory RecordingMode.fromJson(Map<String, dynamic> json) {
     return RecordingMode(
-      recordingFrequency:
-          RecordingFrequency.fromString((json['recordingFrequency'] as String)),
+      recordingFrequency: RecordingFrequency.fromString(
+          (json['recordingFrequency'] as String?) ?? ''),
       recordingModeOverrides: (json['recordingModeOverrides'] as List?)
           ?.nonNulls
           .map((e) => RecordingModeOverride.fromJson(e as Map<String, dynamic>))
@@ -13115,8 +13466,8 @@ class RecordingModeOverride {
 
   factory RecordingModeOverride.fromJson(Map<String, dynamic> json) {
     return RecordingModeOverride(
-      recordingFrequency:
-          RecordingFrequency.fromString((json['recordingFrequency'] as String)),
+      recordingFrequency: RecordingFrequency.fromString(
+          (json['recordingFrequency'] as String?) ?? ''),
       resourceTypes: ((json['resourceTypes'] as List?) ?? const [])
           .nonNulls
           .map((e) => ResourceType.fromString((e as String)))
@@ -13259,20 +13610,37 @@ class RecordingStrategy {
   }
 }
 
-enum RecordingStrategyType {
-  allSupportedResourceTypes('ALL_SUPPORTED_RESOURCE_TYPES'),
-  inclusionByResourceTypes('INCLUSION_BY_RESOURCE_TYPES'),
-  exclusionByResourceTypes('EXCLUSION_BY_RESOURCE_TYPES'),
-  ;
+class RecordingStrategyType {
+  static const allSupportedResourceTypes =
+      RecordingStrategyType._('ALL_SUPPORTED_RESOURCE_TYPES');
+  static const inclusionByResourceTypes =
+      RecordingStrategyType._('INCLUSION_BY_RESOURCE_TYPES');
+  static const exclusionByResourceTypes =
+      RecordingStrategyType._('EXCLUSION_BY_RESOURCE_TYPES');
 
   final String value;
 
-  const RecordingStrategyType(this.value);
+  const RecordingStrategyType._(this.value);
 
-  static RecordingStrategyType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum RecordingStrategyType'));
+  static const values = [
+    allSupportedResourceTypes,
+    inclusionByResourceTypes,
+    exclusionByResourceTypes
+  ];
+
+  static RecordingStrategyType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => RecordingStrategyType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RecordingStrategyType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The relationship of the related resource to the main resource.
@@ -13400,8 +13768,8 @@ class RemediationConfiguration {
     return RemediationConfiguration(
       configRuleName: (json['ConfigRuleName'] as String?) ?? '',
       targetId: (json['TargetId'] as String?) ?? '',
-      targetType:
-          RemediationTargetType.fromString((json['TargetType'] as String)),
+      targetType: RemediationTargetType.fromString(
+          (json['TargetType'] as String?) ?? ''),
       arn: json['Arn'] as String?,
       automatic: json['Automatic'] as bool?,
       createdByService: json['CreatedByService'] as String?,
@@ -13536,21 +13904,31 @@ class RemediationExceptionResourceKey {
   }
 }
 
-enum RemediationExecutionState {
-  queued('QUEUED'),
-  inProgress('IN_PROGRESS'),
-  succeeded('SUCCEEDED'),
-  failed('FAILED'),
-  ;
+class RemediationExecutionState {
+  static const queued = RemediationExecutionState._('QUEUED');
+  static const inProgress = RemediationExecutionState._('IN_PROGRESS');
+  static const succeeded = RemediationExecutionState._('SUCCEEDED');
+  static const failed = RemediationExecutionState._('FAILED');
 
   final String value;
 
-  const RemediationExecutionState(this.value);
+  const RemediationExecutionState._(this.value);
+
+  static const values = [queued, inProgress, succeeded, failed];
 
   static RemediationExecutionState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum RemediationExecutionState'));
+          orElse: () => RemediationExecutionState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RemediationExecutionState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Provides details of the current status of the invoked remediation action for
@@ -13664,20 +14042,30 @@ class RemediationExecutionStep {
   }
 }
 
-enum RemediationExecutionStepState {
-  succeeded('SUCCEEDED'),
-  pending('PENDING'),
-  failed('FAILED'),
-  ;
+class RemediationExecutionStepState {
+  static const succeeded = RemediationExecutionStepState._('SUCCEEDED');
+  static const pending = RemediationExecutionStepState._('PENDING');
+  static const failed = RemediationExecutionStepState._('FAILED');
 
   final String value;
 
-  const RemediationExecutionStepState(this.value);
+  const RemediationExecutionStepState._(this.value);
+
+  static const values = [succeeded, pending, failed];
 
   static RemediationExecutionStepState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum RemediationExecutionStepState'));
+          orElse: () => RemediationExecutionStepState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RemediationExecutionStepState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The value is either a dynamic (resource) value or a static value. You must
@@ -13716,32 +14104,53 @@ class RemediationParameterValue {
   }
 }
 
-enum RemediationTargetType {
-  ssmDocument('SSM_DOCUMENT'),
-  ;
+class RemediationTargetType {
+  static const ssmDocument = RemediationTargetType._('SSM_DOCUMENT');
 
   final String value;
 
-  const RemediationTargetType(this.value);
+  const RemediationTargetType._(this.value);
 
-  static RemediationTargetType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum RemediationTargetType'));
+  static const values = [ssmDocument];
+
+  static RemediationTargetType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => RemediationTargetType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RemediationTargetType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ResourceConfigurationSchemaType {
-  cfnResourceSchema('CFN_RESOURCE_SCHEMA'),
-  ;
+class ResourceConfigurationSchemaType {
+  static const cfnResourceSchema =
+      ResourceConfigurationSchemaType._('CFN_RESOURCE_SCHEMA');
 
   final String value;
 
-  const ResourceConfigurationSchemaType(this.value);
+  const ResourceConfigurationSchemaType._(this.value);
+
+  static const values = [cfnResourceSchema];
 
   static ResourceConfigurationSchemaType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ResourceConfigurationSchemaType'));
+          orElse: () => ResourceConfigurationSchemaType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ResourceConfigurationSchemaType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// An object that contains the resource type and the number of resources.
@@ -13804,20 +14213,30 @@ class ResourceCountFilters {
   }
 }
 
-enum ResourceCountGroupKey {
-  resourceType('RESOURCE_TYPE'),
-  accountId('ACCOUNT_ID'),
-  awsRegion('AWS_REGION'),
-  ;
+class ResourceCountGroupKey {
+  static const resourceType = ResourceCountGroupKey._('RESOURCE_TYPE');
+  static const accountId = ResourceCountGroupKey._('ACCOUNT_ID');
+  static const awsRegion = ResourceCountGroupKey._('AWS_REGION');
 
   final String value;
 
-  const ResourceCountGroupKey(this.value);
+  const ResourceCountGroupKey._(this.value);
 
-  static ResourceCountGroupKey fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ResourceCountGroupKey'));
+  static const values = [resourceType, accountId, awsRegion];
+
+  static ResourceCountGroupKey fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ResourceCountGroupKey._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ResourceCountGroupKey && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Returns information about the resource being evaluated.
@@ -13962,20 +14381,30 @@ class ResourceEvaluationFilters {
   }
 }
 
-enum ResourceEvaluationStatus {
-  inProgress('IN_PROGRESS'),
-  failed('FAILED'),
-  succeeded('SUCCEEDED'),
-  ;
+class ResourceEvaluationStatus {
+  static const inProgress = ResourceEvaluationStatus._('IN_PROGRESS');
+  static const failed = ResourceEvaluationStatus._('FAILED');
+  static const succeeded = ResourceEvaluationStatus._('SUCCEEDED');
 
   final String value;
 
-  const ResourceEvaluationStatus(this.value);
+  const ResourceEvaluationStatus._(this.value);
+
+  static const values = [inProgress, failed, succeeded];
 
   static ResourceEvaluationStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ResourceEvaluationStatus'));
+          orElse: () => ResourceEvaluationStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ResourceEvaluationStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Filters the results by resource account ID, region, resource ID, and
@@ -14078,7 +14507,8 @@ class ResourceKey {
   factory ResourceKey.fromJson(Map<String, dynamic> json) {
     return ResourceKey(
       resourceId: (json['resourceId'] as String?) ?? '',
-      resourceType: ResourceType.fromString((json['resourceType'] as String)),
+      resourceType:
+          ResourceType.fromString((json['resourceType'] as String?) ?? ''),
     );
   }
 
@@ -14092,456 +14522,1112 @@ class ResourceKey {
   }
 }
 
-enum ResourceType {
-  awsEc2CustomerGateway('AWS::EC2::CustomerGateway'),
-  awsEc2Eip('AWS::EC2::EIP'),
-  awsEc2Host('AWS::EC2::Host'),
-  awsEc2Instance('AWS::EC2::Instance'),
-  awsEc2InternetGateway('AWS::EC2::InternetGateway'),
-  awsEc2NetworkAcl('AWS::EC2::NetworkAcl'),
-  awsEc2NetworkInterface('AWS::EC2::NetworkInterface'),
-  awsEc2RouteTable('AWS::EC2::RouteTable'),
-  awsEc2SecurityGroup('AWS::EC2::SecurityGroup'),
-  awsEc2Subnet('AWS::EC2::Subnet'),
-  awsCloudTrailTrail('AWS::CloudTrail::Trail'),
-  awsEc2Volume('AWS::EC2::Volume'),
-  awsEc2Vpc('AWS::EC2::VPC'),
-  awsEc2VPNConnection('AWS::EC2::VPNConnection'),
-  awsEc2VPNGateway('AWS::EC2::VPNGateway'),
-  awsEc2RegisteredHAInstance('AWS::EC2::RegisteredHAInstance'),
-  awsEc2NatGateway('AWS::EC2::NatGateway'),
-  awsEc2EgressOnlyInternetGateway('AWS::EC2::EgressOnlyInternetGateway'),
-  awsEc2VPCEndpoint('AWS::EC2::VPCEndpoint'),
-  awsEc2VPCEndpointService('AWS::EC2::VPCEndpointService'),
-  awsEc2FlowLog('AWS::EC2::FlowLog'),
-  awsEc2VPCPeeringConnection('AWS::EC2::VPCPeeringConnection'),
-  awsElasticsearchDomain('AWS::Elasticsearch::Domain'),
-  awsIamGroup('AWS::IAM::Group'),
-  awsIamPolicy('AWS::IAM::Policy'),
-  awsIamRole('AWS::IAM::Role'),
-  awsIamUser('AWS::IAM::User'),
-  awsElasticLoadBalancingV2LoadBalancer(
-      'AWS::ElasticLoadBalancingV2::LoadBalancer'),
-  awsAcmCertificate('AWS::ACM::Certificate'),
-  awsRdsDBInstance('AWS::RDS::DBInstance'),
-  awsRdsDBSubnetGroup('AWS::RDS::DBSubnetGroup'),
-  awsRdsDBSecurityGroup('AWS::RDS::DBSecurityGroup'),
-  awsRdsDBSnapshot('AWS::RDS::DBSnapshot'),
-  awsRdsDBCluster('AWS::RDS::DBCluster'),
-  awsRdsDBClusterSnapshot('AWS::RDS::DBClusterSnapshot'),
-  awsRdsEventSubscription('AWS::RDS::EventSubscription'),
-  awsS3Bucket('AWS::S3::Bucket'),
-  awsS3AccountPublicAccessBlock('AWS::S3::AccountPublicAccessBlock'),
-  awsRedshiftCluster('AWS::Redshift::Cluster'),
-  awsRedshiftClusterSnapshot('AWS::Redshift::ClusterSnapshot'),
-  awsRedshiftClusterParameterGroup('AWS::Redshift::ClusterParameterGroup'),
-  awsRedshiftClusterSecurityGroup('AWS::Redshift::ClusterSecurityGroup'),
-  awsRedshiftClusterSubnetGroup('AWS::Redshift::ClusterSubnetGroup'),
-  awsRedshiftEventSubscription('AWS::Redshift::EventSubscription'),
-  awsSsmManagedInstanceInventory('AWS::SSM::ManagedInstanceInventory'),
-  awsCloudWatchAlarm('AWS::CloudWatch::Alarm'),
-  awsCloudFormationStack('AWS::CloudFormation::Stack'),
-  awsElasticLoadBalancingLoadBalancer(
-      'AWS::ElasticLoadBalancing::LoadBalancer'),
-  awsAutoScalingAutoScalingGroup('AWS::AutoScaling::AutoScalingGroup'),
-  awsAutoScalingLaunchConfiguration('AWS::AutoScaling::LaunchConfiguration'),
-  awsAutoScalingScalingPolicy('AWS::AutoScaling::ScalingPolicy'),
-  awsAutoScalingScheduledAction('AWS::AutoScaling::ScheduledAction'),
-  awsDynamoDBTable('AWS::DynamoDB::Table'),
-  awsCodeBuildProject('AWS::CodeBuild::Project'),
-  awsWafRateBasedRule('AWS::WAF::RateBasedRule'),
-  awsWafRule('AWS::WAF::Rule'),
-  awsWafRuleGroup('AWS::WAF::RuleGroup'),
-  awsWafWebACL('AWS::WAF::WebACL'),
-  awsWAFRegionalRateBasedRule('AWS::WAFRegional::RateBasedRule'),
-  awsWAFRegionalRule('AWS::WAFRegional::Rule'),
-  awsWAFRegionalRuleGroup('AWS::WAFRegional::RuleGroup'),
-  awsWAFRegionalWebACL('AWS::WAFRegional::WebACL'),
-  awsCloudFrontDistribution('AWS::CloudFront::Distribution'),
-  awsCloudFrontStreamingDistribution('AWS::CloudFront::StreamingDistribution'),
-  awsLambdaFunction('AWS::Lambda::Function'),
-  awsNetworkFirewallFirewall('AWS::NetworkFirewall::Firewall'),
-  awsNetworkFirewallFirewallPolicy('AWS::NetworkFirewall::FirewallPolicy'),
-  awsNetworkFirewallRuleGroup('AWS::NetworkFirewall::RuleGroup'),
-  awsElasticBeanstalkApplication('AWS::ElasticBeanstalk::Application'),
-  awsElasticBeanstalkApplicationVersion(
-      'AWS::ElasticBeanstalk::ApplicationVersion'),
-  awsElasticBeanstalkEnvironment('AWS::ElasticBeanstalk::Environment'),
-  awsWAFv2WebACL('AWS::WAFv2::WebACL'),
-  awsWAFv2RuleGroup('AWS::WAFv2::RuleGroup'),
-  awsWAFv2IPSet('AWS::WAFv2::IPSet'),
-  awsWAFv2RegexPatternSet('AWS::WAFv2::RegexPatternSet'),
-  awsWAFv2ManagedRuleSet('AWS::WAFv2::ManagedRuleSet'),
-  awsXRayEncryptionConfig('AWS::XRay::EncryptionConfig'),
-  awsSsmAssociationCompliance('AWS::SSM::AssociationCompliance'),
-  awsSsmPatchCompliance('AWS::SSM::PatchCompliance'),
-  awsShieldProtection('AWS::Shield::Protection'),
-  awsShieldRegionalProtection('AWS::ShieldRegional::Protection'),
-  awsConfigConformancePackCompliance('AWS::Config::ConformancePackCompliance'),
-  awsConfigResourceCompliance('AWS::Config::ResourceCompliance'),
-  awsApiGatewayStage('AWS::ApiGateway::Stage'),
-  awsApiGatewayRestApi('AWS::ApiGateway::RestApi'),
-  awsApiGatewayV2Stage('AWS::ApiGatewayV2::Stage'),
-  awsApiGatewayV2Api('AWS::ApiGatewayV2::Api'),
-  awsCodePipelinePipeline('AWS::CodePipeline::Pipeline'),
-  awsServiceCatalogCloudFormationProvisionedProduct(
-      'AWS::ServiceCatalog::CloudFormationProvisionedProduct'),
-  awsServiceCatalogCloudFormationProduct(
-      'AWS::ServiceCatalog::CloudFormationProduct'),
-  awsServiceCatalogPortfolio('AWS::ServiceCatalog::Portfolio'),
-  awsSqsQueue('AWS::SQS::Queue'),
-  awsKmsKey('AWS::KMS::Key'),
-  awsQldbLedger('AWS::QLDB::Ledger'),
-  awsSecretsManagerSecret('AWS::SecretsManager::Secret'),
-  awsSnsTopic('AWS::SNS::Topic'),
-  awsSsmFileData('AWS::SSM::FileData'),
-  awsBackupBackupPlan('AWS::Backup::BackupPlan'),
-  awsBackupBackupSelection('AWS::Backup::BackupSelection'),
-  awsBackupBackupVault('AWS::Backup::BackupVault'),
-  awsBackupRecoveryPoint('AWS::Backup::RecoveryPoint'),
-  awsEcrRepository('AWS::ECR::Repository'),
-  awsEcsCluster('AWS::ECS::Cluster'),
-  awsEcsService('AWS::ECS::Service'),
-  awsEcsTaskDefinition('AWS::ECS::TaskDefinition'),
-  awsEfsAccessPoint('AWS::EFS::AccessPoint'),
-  awsEfsFileSystem('AWS::EFS::FileSystem'),
-  awsEksCluster('AWS::EKS::Cluster'),
-  awsOpenSearchDomain('AWS::OpenSearch::Domain'),
-  awsEc2TransitGateway('AWS::EC2::TransitGateway'),
-  awsKinesisStream('AWS::Kinesis::Stream'),
-  awsKinesisStreamConsumer('AWS::Kinesis::StreamConsumer'),
-  awsCodeDeployApplication('AWS::CodeDeploy::Application'),
-  awsCodeDeployDeploymentConfig('AWS::CodeDeploy::DeploymentConfig'),
-  awsCodeDeployDeploymentGroup('AWS::CodeDeploy::DeploymentGroup'),
-  awsEc2LaunchTemplate('AWS::EC2::LaunchTemplate'),
-  awsEcrPublicRepository('AWS::ECR::PublicRepository'),
-  awsGuardDutyDetector('AWS::GuardDuty::Detector'),
-  awsEmrSecurityConfiguration('AWS::EMR::SecurityConfiguration'),
-  awsSageMakerCodeRepository('AWS::SageMaker::CodeRepository'),
-  awsRoute53ResolverResolverEndpoint('AWS::Route53Resolver::ResolverEndpoint'),
-  awsRoute53ResolverResolverRule('AWS::Route53Resolver::ResolverRule'),
-  awsRoute53ResolverResolverRuleAssociation(
-      'AWS::Route53Resolver::ResolverRuleAssociation'),
-  awsDmsReplicationSubnetGroup('AWS::DMS::ReplicationSubnetGroup'),
-  awsDmsEventSubscription('AWS::DMS::EventSubscription'),
-  awsMskCluster('AWS::MSK::Cluster'),
-  awsStepFunctionsActivity('AWS::StepFunctions::Activity'),
-  awsWorkSpacesWorkspace('AWS::WorkSpaces::Workspace'),
-  awsWorkSpacesConnectionAlias('AWS::WorkSpaces::ConnectionAlias'),
-  awsSageMakerModel('AWS::SageMaker::Model'),
-  awsElasticLoadBalancingV2Listener('AWS::ElasticLoadBalancingV2::Listener'),
-  awsStepFunctionsStateMachine('AWS::StepFunctions::StateMachine'),
-  awsBatchJobQueue('AWS::Batch::JobQueue'),
-  awsBatchComputeEnvironment('AWS::Batch::ComputeEnvironment'),
-  awsAccessAnalyzerAnalyzer('AWS::AccessAnalyzer::Analyzer'),
-  awsAthenaWorkGroup('AWS::Athena::WorkGroup'),
-  awsAthenaDataCatalog('AWS::Athena::DataCatalog'),
-  awsDetectiveGraph('AWS::Detective::Graph'),
-  awsGlobalAcceleratorAccelerator('AWS::GlobalAccelerator::Accelerator'),
-  awsGlobalAcceleratorEndpointGroup('AWS::GlobalAccelerator::EndpointGroup'),
-  awsGlobalAcceleratorListener('AWS::GlobalAccelerator::Listener'),
-  awsEc2TransitGatewayAttachment('AWS::EC2::TransitGatewayAttachment'),
-  awsEc2TransitGatewayRouteTable('AWS::EC2::TransitGatewayRouteTable'),
-  awsDmsCertificate('AWS::DMS::Certificate'),
-  awsAppConfigApplication('AWS::AppConfig::Application'),
-  awsAppSyncGraphQLApi('AWS::AppSync::GraphQLApi'),
-  awsDataSyncLocationSMB('AWS::DataSync::LocationSMB'),
-  awsDataSyncLocationFSxLustre('AWS::DataSync::LocationFSxLustre'),
-  awsDataSyncLocationS3('AWS::DataSync::LocationS3'),
-  awsDataSyncLocationEFS('AWS::DataSync::LocationEFS'),
-  awsDataSyncTask('AWS::DataSync::Task'),
-  awsDataSyncLocationNFS('AWS::DataSync::LocationNFS'),
-  awsEc2NetworkInsightsAccessScopeAnalysis(
-      'AWS::EC2::NetworkInsightsAccessScopeAnalysis'),
-  awsEksFargateProfile('AWS::EKS::FargateProfile'),
-  awsGlueJob('AWS::Glue::Job'),
-  awsGuardDutyThreatIntelSet('AWS::GuardDuty::ThreatIntelSet'),
-  awsGuardDutyIPSet('AWS::GuardDuty::IPSet'),
-  awsSageMakerWorkteam('AWS::SageMaker::Workteam'),
-  awsSageMakerNotebookInstanceLifecycleConfig(
-      'AWS::SageMaker::NotebookInstanceLifecycleConfig'),
-  awsServiceDiscoveryService('AWS::ServiceDiscovery::Service'),
-  awsServiceDiscoveryPublicDnsNamespace(
-      'AWS::ServiceDiscovery::PublicDnsNamespace'),
-  awsSesContactList('AWS::SES::ContactList'),
-  awsSesConfigurationSet('AWS::SES::ConfigurationSet'),
-  awsRoute53HostedZone('AWS::Route53::HostedZone'),
-  awsIoTEventsInput('AWS::IoTEvents::Input'),
-  awsIoTEventsDetectorModel('AWS::IoTEvents::DetectorModel'),
-  awsIoTEventsAlarmModel('AWS::IoTEvents::AlarmModel'),
-  awsServiceDiscoveryHttpNamespace('AWS::ServiceDiscovery::HttpNamespace'),
-  awsEventsEventBus('AWS::Events::EventBus'),
-  awsImageBuilderContainerRecipe('AWS::ImageBuilder::ContainerRecipe'),
-  awsImageBuilderDistributionConfiguration(
-      'AWS::ImageBuilder::DistributionConfiguration'),
-  awsImageBuilderInfrastructureConfiguration(
-      'AWS::ImageBuilder::InfrastructureConfiguration'),
-  awsDataSyncLocationObjectStorage('AWS::DataSync::LocationObjectStorage'),
-  awsDataSyncLocationHDFS('AWS::DataSync::LocationHDFS'),
-  awsGlueClassifier('AWS::Glue::Classifier'),
-  awsRoute53RecoveryReadinessCell('AWS::Route53RecoveryReadiness::Cell'),
-  awsRoute53RecoveryReadinessReadinessCheck(
-      'AWS::Route53RecoveryReadiness::ReadinessCheck'),
-  awsEcrRegistryPolicy('AWS::ECR::RegistryPolicy'),
-  awsBackupReportPlan('AWS::Backup::ReportPlan'),
-  awsLightsailCertificate('AWS::Lightsail::Certificate'),
-  awsRumAppMonitor('AWS::RUM::AppMonitor'),
-  awsEventsEndpoint('AWS::Events::Endpoint'),
-  awsSesReceiptRuleSet('AWS::SES::ReceiptRuleSet'),
-  awsEventsArchive('AWS::Events::Archive'),
-  awsEventsApiDestination('AWS::Events::ApiDestination'),
-  awsLightsailDisk('AWS::Lightsail::Disk'),
-  awsFisExperimentTemplate('AWS::FIS::ExperimentTemplate'),
-  awsDataSyncLocationFSxWindows('AWS::DataSync::LocationFSxWindows'),
-  awsSesReceiptFilter('AWS::SES::ReceiptFilter'),
-  awsGuardDutyFilter('AWS::GuardDuty::Filter'),
-  awsSesTemplate('AWS::SES::Template'),
-  awsAmazonMQBroker('AWS::AmazonMQ::Broker'),
-  awsAppConfigEnvironment('AWS::AppConfig::Environment'),
-  awsAppConfigConfigurationProfile('AWS::AppConfig::ConfigurationProfile'),
-  awsCloud9EnvironmentEC2('AWS::Cloud9::EnvironmentEC2'),
-  awsEventSchemasRegistry('AWS::EventSchemas::Registry'),
-  awsEventSchemasRegistryPolicy('AWS::EventSchemas::RegistryPolicy'),
-  awsEventSchemasDiscoverer('AWS::EventSchemas::Discoverer'),
-  awsFraudDetectorLabel('AWS::FraudDetector::Label'),
-  awsFraudDetectorEntityType('AWS::FraudDetector::EntityType'),
-  awsFraudDetectorVariable('AWS::FraudDetector::Variable'),
-  awsFraudDetectorOutcome('AWS::FraudDetector::Outcome'),
-  awsIoTAuthorizer('AWS::IoT::Authorizer'),
-  awsIoTSecurityProfile('AWS::IoT::SecurityProfile'),
-  awsIoTRoleAlias('AWS::IoT::RoleAlias'),
-  awsIoTDimension('AWS::IoT::Dimension'),
-  awsIoTAnalyticsDatastore('AWS::IoTAnalytics::Datastore'),
-  awsLightsailBucket('AWS::Lightsail::Bucket'),
-  awsLightsailStaticIp('AWS::Lightsail::StaticIp'),
-  awsMediaPackagePackagingGroup('AWS::MediaPackage::PackagingGroup'),
-  awsRoute53RecoveryReadinessRecoveryGroup(
-      'AWS::Route53RecoveryReadiness::RecoveryGroup'),
-  awsResilienceHubResiliencyPolicy('AWS::ResilienceHub::ResiliencyPolicy'),
-  awsTransferWorkflow('AWS::Transfer::Workflow'),
-  awsEksIdentityProviderConfig('AWS::EKS::IdentityProviderConfig'),
-  awsEksAddon('AWS::EKS::Addon'),
-  awsGlueMLTransform('AWS::Glue::MLTransform'),
-  awsIoTPolicy('AWS::IoT::Policy'),
-  awsIoTMitigationAction('AWS::IoT::MitigationAction'),
-  awsIoTTwinMakerWorkspace('AWS::IoTTwinMaker::Workspace'),
-  awsIoTTwinMakerEntity('AWS::IoTTwinMaker::Entity'),
-  awsIoTAnalyticsDataset('AWS::IoTAnalytics::Dataset'),
-  awsIoTAnalyticsPipeline('AWS::IoTAnalytics::Pipeline'),
-  awsIoTAnalyticsChannel('AWS::IoTAnalytics::Channel'),
-  awsIoTSiteWiseDashboard('AWS::IoTSiteWise::Dashboard'),
-  awsIoTSiteWiseProject('AWS::IoTSiteWise::Project'),
-  awsIoTSiteWisePortal('AWS::IoTSiteWise::Portal'),
-  awsIoTSiteWiseAssetModel('AWS::IoTSiteWise::AssetModel'),
-  awsIvsChannel('AWS::IVS::Channel'),
-  awsIvsRecordingConfiguration('AWS::IVS::RecordingConfiguration'),
-  awsIvsPlaybackKeyPair('AWS::IVS::PlaybackKeyPair'),
-  awsKinesisAnalyticsV2Application('AWS::KinesisAnalyticsV2::Application'),
-  awsRdsGlobalCluster('AWS::RDS::GlobalCluster'),
-  awsS3MultiRegionAccessPoint('AWS::S3::MultiRegionAccessPoint'),
-  awsDeviceFarmTestGridProject('AWS::DeviceFarm::TestGridProject'),
-  awsBudgetsBudgetsAction('AWS::Budgets::BudgetsAction'),
-  awsLexBot('AWS::Lex::Bot'),
-  awsCodeGuruReviewerRepositoryAssociation(
-      'AWS::CodeGuruReviewer::RepositoryAssociation'),
-  awsIoTCustomMetric('AWS::IoT::CustomMetric'),
-  awsRoute53ResolverFirewallDomainList(
-      'AWS::Route53Resolver::FirewallDomainList'),
-  awsRoboMakerRobotApplicationVersion(
-      'AWS::RoboMaker::RobotApplicationVersion'),
-  awsEc2TrafficMirrorSession('AWS::EC2::TrafficMirrorSession'),
-  awsIoTSiteWiseGateway('AWS::IoTSiteWise::Gateway'),
-  awsLexBotAlias('AWS::Lex::BotAlias'),
-  awsLookoutMetricsAlert('AWS::LookoutMetrics::Alert'),
-  awsIoTAccountAuditConfiguration('AWS::IoT::AccountAuditConfiguration'),
-  awsEc2TrafficMirrorTarget('AWS::EC2::TrafficMirrorTarget'),
-  awsS3StorageLens('AWS::S3::StorageLens'),
-  awsIoTScheduledAudit('AWS::IoT::ScheduledAudit'),
-  awsEventsConnection('AWS::Events::Connection'),
-  awsEventSchemasSchema('AWS::EventSchemas::Schema'),
-  awsMediaPackagePackagingConfiguration(
-      'AWS::MediaPackage::PackagingConfiguration'),
-  awsKinesisVideoSignalingChannel('AWS::KinesisVideo::SignalingChannel'),
-  awsAppStreamDirectoryConfig('AWS::AppStream::DirectoryConfig'),
-  awsLookoutVisionProject('AWS::LookoutVision::Project'),
-  awsRoute53RecoveryControlCluster('AWS::Route53RecoveryControl::Cluster'),
-  awsRoute53RecoveryControlSafetyRule(
-      'AWS::Route53RecoveryControl::SafetyRule'),
-  awsRoute53RecoveryControlControlPanel(
-      'AWS::Route53RecoveryControl::ControlPanel'),
-  awsRoute53RecoveryControlRoutingControl(
-      'AWS::Route53RecoveryControl::RoutingControl'),
-  awsRoute53RecoveryReadinessResourceSet(
-      'AWS::Route53RecoveryReadiness::ResourceSet'),
-  awsRoboMakerSimulationApplication('AWS::RoboMaker::SimulationApplication'),
-  awsRoboMakerRobotApplication('AWS::RoboMaker::RobotApplication'),
-  awsHealthLakeFHIRDatastore('AWS::HealthLake::FHIRDatastore'),
-  awsPinpointSegment('AWS::Pinpoint::Segment'),
-  awsPinpointApplicationSettings('AWS::Pinpoint::ApplicationSettings'),
-  awsEventsRule('AWS::Events::Rule'),
-  awsEc2DHCPOptions('AWS::EC2::DHCPOptions'),
-  awsEc2NetworkInsightsPath('AWS::EC2::NetworkInsightsPath'),
-  awsEc2TrafficMirrorFilter('AWS::EC2::TrafficMirrorFilter'),
-  awsEc2Ipam('AWS::EC2::IPAM'),
-  awsIoTTwinMakerScene('AWS::IoTTwinMaker::Scene'),
-  awsNetworkManagerTransitGatewayRegistration(
-      'AWS::NetworkManager::TransitGatewayRegistration'),
-  awsCustomerProfilesDomain('AWS::CustomerProfiles::Domain'),
-  awsAutoScalingWarmPool('AWS::AutoScaling::WarmPool'),
-  awsConnectPhoneNumber('AWS::Connect::PhoneNumber'),
-  awsAppConfigDeploymentStrategy('AWS::AppConfig::DeploymentStrategy'),
-  awsAppFlowFlow('AWS::AppFlow::Flow'),
-  awsAuditManagerAssessment('AWS::AuditManager::Assessment'),
-  awsCloudWatchMetricStream('AWS::CloudWatch::MetricStream'),
-  awsDeviceFarmInstanceProfile('AWS::DeviceFarm::InstanceProfile'),
-  awsDeviceFarmProject('AWS::DeviceFarm::Project'),
-  awsEc2EC2Fleet('AWS::EC2::EC2Fleet'),
-  awsEc2SubnetRouteTableAssociation('AWS::EC2::SubnetRouteTableAssociation'),
-  awsEcrPullThroughCacheRule('AWS::ECR::PullThroughCacheRule'),
-  awsGroundStationConfig('AWS::GroundStation::Config'),
-  awsImageBuilderImagePipeline('AWS::ImageBuilder::ImagePipeline'),
-  awsIoTFleetMetric('AWS::IoT::FleetMetric'),
-  awsIoTWirelessServiceProfile('AWS::IoTWireless::ServiceProfile'),
-  awsNetworkManagerDevice('AWS::NetworkManager::Device'),
-  awsNetworkManagerGlobalNetwork('AWS::NetworkManager::GlobalNetwork'),
-  awsNetworkManagerLink('AWS::NetworkManager::Link'),
-  awsNetworkManagerSite('AWS::NetworkManager::Site'),
-  awsPanoramaPackage('AWS::Panorama::Package'),
-  awsPinpointApp('AWS::Pinpoint::App'),
-  awsRedshiftScheduledAction('AWS::Redshift::ScheduledAction'),
-  awsRoute53ResolverFirewallRuleGroupAssociation(
-      'AWS::Route53Resolver::FirewallRuleGroupAssociation'),
-  awsSageMakerAppImageConfig('AWS::SageMaker::AppImageConfig'),
-  awsSageMakerImage('AWS::SageMaker::Image'),
-  awsEcsTaskSet('AWS::ECS::TaskSet'),
-  awsCassandraKeyspace('AWS::Cassandra::Keyspace'),
-  awsSignerSigningProfile('AWS::Signer::SigningProfile'),
-  awsAmplifyApp('AWS::Amplify::App'),
-  awsAppMeshVirtualNode('AWS::AppMesh::VirtualNode'),
-  awsAppMeshVirtualService('AWS::AppMesh::VirtualService'),
-  awsAppRunnerVpcConnector('AWS::AppRunner::VpcConnector'),
-  awsAppStreamApplication('AWS::AppStream::Application'),
-  awsCodeArtifactRepository('AWS::CodeArtifact::Repository'),
-  awsEc2PrefixList('AWS::EC2::PrefixList'),
-  awsEc2SpotFleet('AWS::EC2::SpotFleet'),
-  awsEvidentlyProject('AWS::Evidently::Project'),
-  awsForecastDataset('AWS::Forecast::Dataset'),
-  awsIamSAMLProvider('AWS::IAM::SAMLProvider'),
-  awsIamServerCertificate('AWS::IAM::ServerCertificate'),
-  awsPinpointCampaign('AWS::Pinpoint::Campaign'),
-  awsPinpointInAppTemplate('AWS::Pinpoint::InAppTemplate'),
-  awsSageMakerDomain('AWS::SageMaker::Domain'),
-  awsTransferAgreement('AWS::Transfer::Agreement'),
-  awsTransferConnector('AWS::Transfer::Connector'),
-  awsKinesisFirehoseDeliveryStream('AWS::KinesisFirehose::DeliveryStream'),
-  awsAmplifyBranch('AWS::Amplify::Branch'),
-  awsAppIntegrationsEventIntegration('AWS::AppIntegrations::EventIntegration'),
-  awsAppMeshRoute('AWS::AppMesh::Route'),
-  awsAthenaPreparedStatement('AWS::Athena::PreparedStatement'),
-  awsEc2IPAMScope('AWS::EC2::IPAMScope'),
-  awsEvidentlyLaunch('AWS::Evidently::Launch'),
-  awsForecastDatasetGroup('AWS::Forecast::DatasetGroup'),
-  awsGreengrassV2ComponentVersion('AWS::GreengrassV2::ComponentVersion'),
-  awsGroundStationMissionProfile('AWS::GroundStation::MissionProfile'),
-  awsMediaConnectFlowEntitlement('AWS::MediaConnect::FlowEntitlement'),
-  awsMediaConnectFlowVpcInterface('AWS::MediaConnect::FlowVpcInterface'),
-  awsMediaTailorPlaybackConfiguration(
-      'AWS::MediaTailor::PlaybackConfiguration'),
-  awsMskConfiguration('AWS::MSK::Configuration'),
-  awsPersonalizeDataset('AWS::Personalize::Dataset'),
-  awsPersonalizeSchema('AWS::Personalize::Schema'),
-  awsPersonalizeSolution('AWS::Personalize::Solution'),
-  awsPinpointEmailTemplate('AWS::Pinpoint::EmailTemplate'),
-  awsPinpointEventStream('AWS::Pinpoint::EventStream'),
-  awsResilienceHubApp('AWS::ResilienceHub::App'),
-  awsAcmpcaCertificateAuthority('AWS::ACMPCA::CertificateAuthority'),
-  awsAppConfigHostedConfigurationVersion(
-      'AWS::AppConfig::HostedConfigurationVersion'),
-  awsAppMeshVirtualGateway('AWS::AppMesh::VirtualGateway'),
-  awsAppMeshVirtualRouter('AWS::AppMesh::VirtualRouter'),
-  awsAppRunnerService('AWS::AppRunner::Service'),
-  awsCustomerProfilesObjectType('AWS::CustomerProfiles::ObjectType'),
-  awsDmsEndpoint('AWS::DMS::Endpoint'),
-  awsEc2CapacityReservation('AWS::EC2::CapacityReservation'),
-  awsEc2ClientVpnEndpoint('AWS::EC2::ClientVpnEndpoint'),
-  awsKendraIndex('AWS::Kendra::Index'),
-  awsKinesisVideoStream('AWS::KinesisVideo::Stream'),
-  awsLogsDestination('AWS::Logs::Destination'),
-  awsPinpointEmailChannel('AWS::Pinpoint::EmailChannel'),
-  awsS3AccessPoint('AWS::S3::AccessPoint'),
-  awsNetworkManagerCustomerGatewayAssociation(
-      'AWS::NetworkManager::CustomerGatewayAssociation'),
-  awsNetworkManagerLinkAssociation('AWS::NetworkManager::LinkAssociation'),
-  awsIoTWirelessMulticastGroup('AWS::IoTWireless::MulticastGroup'),
-  awsPersonalizeDatasetGroup('AWS::Personalize::DatasetGroup'),
-  awsIoTTwinMakerComponentType('AWS::IoTTwinMaker::ComponentType'),
-  awsCodeBuildReportGroup('AWS::CodeBuild::ReportGroup'),
-  awsSageMakerFeatureGroup('AWS::SageMaker::FeatureGroup'),
-  awsMskBatchScramSecret('AWS::MSK::BatchScramSecret'),
-  awsAppStreamStack('AWS::AppStream::Stack'),
-  awsIoTJobTemplate('AWS::IoT::JobTemplate'),
-  awsIoTWirelessFuotaTask('AWS::IoTWireless::FuotaTask'),
-  awsIoTProvisioningTemplate('AWS::IoT::ProvisioningTemplate'),
-  awsInspectorV2Filter('AWS::InspectorV2::Filter'),
-  awsRoute53ResolverResolverQueryLoggingConfigAssociation(
-      'AWS::Route53Resolver::ResolverQueryLoggingConfigAssociation'),
-  awsServiceDiscoveryInstance('AWS::ServiceDiscovery::Instance'),
-  awsTransferCertificate('AWS::Transfer::Certificate'),
-  awsMediaConnectFlowSource('AWS::MediaConnect::FlowSource'),
-  awsApsRuleGroupsNamespace('AWS::APS::RuleGroupsNamespace'),
-  awsCodeGuruProfilerProfilingGroup('AWS::CodeGuruProfiler::ProfilingGroup'),
-  awsRoute53ResolverResolverQueryLoggingConfig(
-      'AWS::Route53Resolver::ResolverQueryLoggingConfig'),
-  awsBatchSchedulingPolicy('AWS::Batch::SchedulingPolicy'),
-  awsAcmpcaCertificateAuthorityActivation(
-      'AWS::ACMPCA::CertificateAuthorityActivation'),
-  awsAppMeshGatewayRoute('AWS::AppMesh::GatewayRoute'),
-  awsAppMeshMesh('AWS::AppMesh::Mesh'),
-  awsConnectInstance('AWS::Connect::Instance'),
-  awsConnectQuickConnect('AWS::Connect::QuickConnect'),
-  awsEc2CarrierGateway('AWS::EC2::CarrierGateway'),
-  awsEc2IPAMPool('AWS::EC2::IPAMPool'),
-  awsEc2TransitGatewayConnect('AWS::EC2::TransitGatewayConnect'),
-  awsEc2TransitGatewayMulticastDomain(
-      'AWS::EC2::TransitGatewayMulticastDomain'),
-  awsEcsCapacityProvider('AWS::ECS::CapacityProvider'),
-  awsIamInstanceProfile('AWS::IAM::InstanceProfile'),
-  awsIoTCACertificate('AWS::IoT::CACertificate'),
-  awsIoTTwinMakerSyncJob('AWS::IoTTwinMaker::SyncJob'),
-  awsKafkaConnectConnector('AWS::KafkaConnect::Connector'),
-  awsLambdaCodeSigningConfig('AWS::Lambda::CodeSigningConfig'),
-  awsNetworkManagerConnectPeer('AWS::NetworkManager::ConnectPeer'),
-  awsResourceExplorer2Index('AWS::ResourceExplorer2::Index'),
-  awsAppStreamFleet('AWS::AppStream::Fleet'),
-  awsCognitoUserPool('AWS::Cognito::UserPool'),
-  awsCognitoUserPoolClient('AWS::Cognito::UserPoolClient'),
-  awsCognitoUserPoolGroup('AWS::Cognito::UserPoolGroup'),
-  awsEc2NetworkInsightsAccessScope('AWS::EC2::NetworkInsightsAccessScope'),
-  awsEc2NetworkInsightsAnalysis('AWS::EC2::NetworkInsightsAnalysis'),
-  awsGrafanaWorkspace('AWS::Grafana::Workspace'),
-  awsGroundStationDataflowEndpointGroup(
-      'AWS::GroundStation::DataflowEndpointGroup'),
-  awsImageBuilderImageRecipe('AWS::ImageBuilder::ImageRecipe'),
-  awsKmsAlias('AWS::KMS::Alias'),
-  awsM2Environment('AWS::M2::Environment'),
-  awsQuickSightDataSource('AWS::QuickSight::DataSource'),
-  awsQuickSightTemplate('AWS::QuickSight::Template'),
-  awsQuickSightTheme('AWS::QuickSight::Theme'),
-  awsRdsOptionGroup('AWS::RDS::OptionGroup'),
-  awsRedshiftEndpointAccess('AWS::Redshift::EndpointAccess'),
-  awsRoute53ResolverFirewallRuleGroup(
-      'AWS::Route53Resolver::FirewallRuleGroup'),
-  awsSsmDocument('AWS::SSM::Document'),
-  ;
+class ResourceType {
+  static const awsEc2CustomerGateway =
+      ResourceType._('AWS::EC2::CustomerGateway');
+  static const awsEc2Eip = ResourceType._('AWS::EC2::EIP');
+  static const awsEc2Host = ResourceType._('AWS::EC2::Host');
+  static const awsEc2Instance = ResourceType._('AWS::EC2::Instance');
+  static const awsEc2InternetGateway =
+      ResourceType._('AWS::EC2::InternetGateway');
+  static const awsEc2NetworkAcl = ResourceType._('AWS::EC2::NetworkAcl');
+  static const awsEc2NetworkInterface =
+      ResourceType._('AWS::EC2::NetworkInterface');
+  static const awsEc2RouteTable = ResourceType._('AWS::EC2::RouteTable');
+  static const awsEc2SecurityGroup = ResourceType._('AWS::EC2::SecurityGroup');
+  static const awsEc2Subnet = ResourceType._('AWS::EC2::Subnet');
+  static const awsCloudTrailTrail = ResourceType._('AWS::CloudTrail::Trail');
+  static const awsEc2Volume = ResourceType._('AWS::EC2::Volume');
+  static const awsEc2Vpc = ResourceType._('AWS::EC2::VPC');
+  static const awsEc2VPNConnection = ResourceType._('AWS::EC2::VPNConnection');
+  static const awsEc2VPNGateway = ResourceType._('AWS::EC2::VPNGateway');
+  static const awsEc2RegisteredHAInstance =
+      ResourceType._('AWS::EC2::RegisteredHAInstance');
+  static const awsEc2NatGateway = ResourceType._('AWS::EC2::NatGateway');
+  static const awsEc2EgressOnlyInternetGateway =
+      ResourceType._('AWS::EC2::EgressOnlyInternetGateway');
+  static const awsEc2VPCEndpoint = ResourceType._('AWS::EC2::VPCEndpoint');
+  static const awsEc2VPCEndpointService =
+      ResourceType._('AWS::EC2::VPCEndpointService');
+  static const awsEc2FlowLog = ResourceType._('AWS::EC2::FlowLog');
+  static const awsEc2VPCPeeringConnection =
+      ResourceType._('AWS::EC2::VPCPeeringConnection');
+  static const awsElasticsearchDomain =
+      ResourceType._('AWS::Elasticsearch::Domain');
+  static const awsIamGroup = ResourceType._('AWS::IAM::Group');
+  static const awsIamPolicy = ResourceType._('AWS::IAM::Policy');
+  static const awsIamRole = ResourceType._('AWS::IAM::Role');
+  static const awsIamUser = ResourceType._('AWS::IAM::User');
+  static const awsElasticLoadBalancingV2LoadBalancer =
+      ResourceType._('AWS::ElasticLoadBalancingV2::LoadBalancer');
+  static const awsAcmCertificate = ResourceType._('AWS::ACM::Certificate');
+  static const awsRdsDBInstance = ResourceType._('AWS::RDS::DBInstance');
+  static const awsRdsDBSubnetGroup = ResourceType._('AWS::RDS::DBSubnetGroup');
+  static const awsRdsDBSecurityGroup =
+      ResourceType._('AWS::RDS::DBSecurityGroup');
+  static const awsRdsDBSnapshot = ResourceType._('AWS::RDS::DBSnapshot');
+  static const awsRdsDBCluster = ResourceType._('AWS::RDS::DBCluster');
+  static const awsRdsDBClusterSnapshot =
+      ResourceType._('AWS::RDS::DBClusterSnapshot');
+  static const awsRdsEventSubscription =
+      ResourceType._('AWS::RDS::EventSubscription');
+  static const awsS3Bucket = ResourceType._('AWS::S3::Bucket');
+  static const awsS3AccountPublicAccessBlock =
+      ResourceType._('AWS::S3::AccountPublicAccessBlock');
+  static const awsRedshiftCluster = ResourceType._('AWS::Redshift::Cluster');
+  static const awsRedshiftClusterSnapshot =
+      ResourceType._('AWS::Redshift::ClusterSnapshot');
+  static const awsRedshiftClusterParameterGroup =
+      ResourceType._('AWS::Redshift::ClusterParameterGroup');
+  static const awsRedshiftClusterSecurityGroup =
+      ResourceType._('AWS::Redshift::ClusterSecurityGroup');
+  static const awsRedshiftClusterSubnetGroup =
+      ResourceType._('AWS::Redshift::ClusterSubnetGroup');
+  static const awsRedshiftEventSubscription =
+      ResourceType._('AWS::Redshift::EventSubscription');
+  static const awsSsmManagedInstanceInventory =
+      ResourceType._('AWS::SSM::ManagedInstanceInventory');
+  static const awsCloudWatchAlarm = ResourceType._('AWS::CloudWatch::Alarm');
+  static const awsCloudFormationStack =
+      ResourceType._('AWS::CloudFormation::Stack');
+  static const awsElasticLoadBalancingLoadBalancer =
+      ResourceType._('AWS::ElasticLoadBalancing::LoadBalancer');
+  static const awsAutoScalingAutoScalingGroup =
+      ResourceType._('AWS::AutoScaling::AutoScalingGroup');
+  static const awsAutoScalingLaunchConfiguration =
+      ResourceType._('AWS::AutoScaling::LaunchConfiguration');
+  static const awsAutoScalingScalingPolicy =
+      ResourceType._('AWS::AutoScaling::ScalingPolicy');
+  static const awsAutoScalingScheduledAction =
+      ResourceType._('AWS::AutoScaling::ScheduledAction');
+  static const awsDynamoDBTable = ResourceType._('AWS::DynamoDB::Table');
+  static const awsCodeBuildProject = ResourceType._('AWS::CodeBuild::Project');
+  static const awsWafRateBasedRule = ResourceType._('AWS::WAF::RateBasedRule');
+  static const awsWafRule = ResourceType._('AWS::WAF::Rule');
+  static const awsWafRuleGroup = ResourceType._('AWS::WAF::RuleGroup');
+  static const awsWafWebACL = ResourceType._('AWS::WAF::WebACL');
+  static const awsWAFRegionalRateBasedRule =
+      ResourceType._('AWS::WAFRegional::RateBasedRule');
+  static const awsWAFRegionalRule = ResourceType._('AWS::WAFRegional::Rule');
+  static const awsWAFRegionalRuleGroup =
+      ResourceType._('AWS::WAFRegional::RuleGroup');
+  static const awsWAFRegionalWebACL =
+      ResourceType._('AWS::WAFRegional::WebACL');
+  static const awsCloudFrontDistribution =
+      ResourceType._('AWS::CloudFront::Distribution');
+  static const awsCloudFrontStreamingDistribution =
+      ResourceType._('AWS::CloudFront::StreamingDistribution');
+  static const awsLambdaFunction = ResourceType._('AWS::Lambda::Function');
+  static const awsNetworkFirewallFirewall =
+      ResourceType._('AWS::NetworkFirewall::Firewall');
+  static const awsNetworkFirewallFirewallPolicy =
+      ResourceType._('AWS::NetworkFirewall::FirewallPolicy');
+  static const awsNetworkFirewallRuleGroup =
+      ResourceType._('AWS::NetworkFirewall::RuleGroup');
+  static const awsElasticBeanstalkApplication =
+      ResourceType._('AWS::ElasticBeanstalk::Application');
+  static const awsElasticBeanstalkApplicationVersion =
+      ResourceType._('AWS::ElasticBeanstalk::ApplicationVersion');
+  static const awsElasticBeanstalkEnvironment =
+      ResourceType._('AWS::ElasticBeanstalk::Environment');
+  static const awsWAFv2WebACL = ResourceType._('AWS::WAFv2::WebACL');
+  static const awsWAFv2RuleGroup = ResourceType._('AWS::WAFv2::RuleGroup');
+  static const awsWAFv2IPSet = ResourceType._('AWS::WAFv2::IPSet');
+  static const awsWAFv2RegexPatternSet =
+      ResourceType._('AWS::WAFv2::RegexPatternSet');
+  static const awsWAFv2ManagedRuleSet =
+      ResourceType._('AWS::WAFv2::ManagedRuleSet');
+  static const awsXRayEncryptionConfig =
+      ResourceType._('AWS::XRay::EncryptionConfig');
+  static const awsSsmAssociationCompliance =
+      ResourceType._('AWS::SSM::AssociationCompliance');
+  static const awsSsmPatchCompliance =
+      ResourceType._('AWS::SSM::PatchCompliance');
+  static const awsShieldProtection = ResourceType._('AWS::Shield::Protection');
+  static const awsShieldRegionalProtection =
+      ResourceType._('AWS::ShieldRegional::Protection');
+  static const awsConfigConformancePackCompliance =
+      ResourceType._('AWS::Config::ConformancePackCompliance');
+  static const awsConfigResourceCompliance =
+      ResourceType._('AWS::Config::ResourceCompliance');
+  static const awsApiGatewayStage = ResourceType._('AWS::ApiGateway::Stage');
+  static const awsApiGatewayRestApi =
+      ResourceType._('AWS::ApiGateway::RestApi');
+  static const awsApiGatewayV2Stage =
+      ResourceType._('AWS::ApiGatewayV2::Stage');
+  static const awsApiGatewayV2Api = ResourceType._('AWS::ApiGatewayV2::Api');
+  static const awsCodePipelinePipeline =
+      ResourceType._('AWS::CodePipeline::Pipeline');
+  static const awsServiceCatalogCloudFormationProvisionedProduct =
+      ResourceType._('AWS::ServiceCatalog::CloudFormationProvisionedProduct');
+  static const awsServiceCatalogCloudFormationProduct =
+      ResourceType._('AWS::ServiceCatalog::CloudFormationProduct');
+  static const awsServiceCatalogPortfolio =
+      ResourceType._('AWS::ServiceCatalog::Portfolio');
+  static const awsSqsQueue = ResourceType._('AWS::SQS::Queue');
+  static const awsKmsKey = ResourceType._('AWS::KMS::Key');
+  static const awsQldbLedger = ResourceType._('AWS::QLDB::Ledger');
+  static const awsSecretsManagerSecret =
+      ResourceType._('AWS::SecretsManager::Secret');
+  static const awsSnsTopic = ResourceType._('AWS::SNS::Topic');
+  static const awsSsmFileData = ResourceType._('AWS::SSM::FileData');
+  static const awsBackupBackupPlan = ResourceType._('AWS::Backup::BackupPlan');
+  static const awsBackupBackupSelection =
+      ResourceType._('AWS::Backup::BackupSelection');
+  static const awsBackupBackupVault =
+      ResourceType._('AWS::Backup::BackupVault');
+  static const awsBackupRecoveryPoint =
+      ResourceType._('AWS::Backup::RecoveryPoint');
+  static const awsEcrRepository = ResourceType._('AWS::ECR::Repository');
+  static const awsEcsCluster = ResourceType._('AWS::ECS::Cluster');
+  static const awsEcsService = ResourceType._('AWS::ECS::Service');
+  static const awsEcsTaskDefinition =
+      ResourceType._('AWS::ECS::TaskDefinition');
+  static const awsEfsAccessPoint = ResourceType._('AWS::EFS::AccessPoint');
+  static const awsEfsFileSystem = ResourceType._('AWS::EFS::FileSystem');
+  static const awsEksCluster = ResourceType._('AWS::EKS::Cluster');
+  static const awsOpenSearchDomain = ResourceType._('AWS::OpenSearch::Domain');
+  static const awsEc2TransitGateway =
+      ResourceType._('AWS::EC2::TransitGateway');
+  static const awsKinesisStream = ResourceType._('AWS::Kinesis::Stream');
+  static const awsKinesisStreamConsumer =
+      ResourceType._('AWS::Kinesis::StreamConsumer');
+  static const awsCodeDeployApplication =
+      ResourceType._('AWS::CodeDeploy::Application');
+  static const awsCodeDeployDeploymentConfig =
+      ResourceType._('AWS::CodeDeploy::DeploymentConfig');
+  static const awsCodeDeployDeploymentGroup =
+      ResourceType._('AWS::CodeDeploy::DeploymentGroup');
+  static const awsEc2LaunchTemplate =
+      ResourceType._('AWS::EC2::LaunchTemplate');
+  static const awsEcrPublicRepository =
+      ResourceType._('AWS::ECR::PublicRepository');
+  static const awsGuardDutyDetector =
+      ResourceType._('AWS::GuardDuty::Detector');
+  static const awsEmrSecurityConfiguration =
+      ResourceType._('AWS::EMR::SecurityConfiguration');
+  static const awsSageMakerCodeRepository =
+      ResourceType._('AWS::SageMaker::CodeRepository');
+  static const awsRoute53ResolverResolverEndpoint =
+      ResourceType._('AWS::Route53Resolver::ResolverEndpoint');
+  static const awsRoute53ResolverResolverRule =
+      ResourceType._('AWS::Route53Resolver::ResolverRule');
+  static const awsRoute53ResolverResolverRuleAssociation =
+      ResourceType._('AWS::Route53Resolver::ResolverRuleAssociation');
+  static const awsDmsReplicationSubnetGroup =
+      ResourceType._('AWS::DMS::ReplicationSubnetGroup');
+  static const awsDmsEventSubscription =
+      ResourceType._('AWS::DMS::EventSubscription');
+  static const awsMskCluster = ResourceType._('AWS::MSK::Cluster');
+  static const awsStepFunctionsActivity =
+      ResourceType._('AWS::StepFunctions::Activity');
+  static const awsWorkSpacesWorkspace =
+      ResourceType._('AWS::WorkSpaces::Workspace');
+  static const awsWorkSpacesConnectionAlias =
+      ResourceType._('AWS::WorkSpaces::ConnectionAlias');
+  static const awsSageMakerModel = ResourceType._('AWS::SageMaker::Model');
+  static const awsElasticLoadBalancingV2Listener =
+      ResourceType._('AWS::ElasticLoadBalancingV2::Listener');
+  static const awsStepFunctionsStateMachine =
+      ResourceType._('AWS::StepFunctions::StateMachine');
+  static const awsBatchJobQueue = ResourceType._('AWS::Batch::JobQueue');
+  static const awsBatchComputeEnvironment =
+      ResourceType._('AWS::Batch::ComputeEnvironment');
+  static const awsAccessAnalyzerAnalyzer =
+      ResourceType._('AWS::AccessAnalyzer::Analyzer');
+  static const awsAthenaWorkGroup = ResourceType._('AWS::Athena::WorkGroup');
+  static const awsAthenaDataCatalog =
+      ResourceType._('AWS::Athena::DataCatalog');
+  static const awsDetectiveGraph = ResourceType._('AWS::Detective::Graph');
+  static const awsGlobalAcceleratorAccelerator =
+      ResourceType._('AWS::GlobalAccelerator::Accelerator');
+  static const awsGlobalAcceleratorEndpointGroup =
+      ResourceType._('AWS::GlobalAccelerator::EndpointGroup');
+  static const awsGlobalAcceleratorListener =
+      ResourceType._('AWS::GlobalAccelerator::Listener');
+  static const awsEc2TransitGatewayAttachment =
+      ResourceType._('AWS::EC2::TransitGatewayAttachment');
+  static const awsEc2TransitGatewayRouteTable =
+      ResourceType._('AWS::EC2::TransitGatewayRouteTable');
+  static const awsDmsCertificate = ResourceType._('AWS::DMS::Certificate');
+  static const awsAppConfigApplication =
+      ResourceType._('AWS::AppConfig::Application');
+  static const awsAppSyncGraphQLApi =
+      ResourceType._('AWS::AppSync::GraphQLApi');
+  static const awsDataSyncLocationSMB =
+      ResourceType._('AWS::DataSync::LocationSMB');
+  static const awsDataSyncLocationFSxLustre =
+      ResourceType._('AWS::DataSync::LocationFSxLustre');
+  static const awsDataSyncLocationS3 =
+      ResourceType._('AWS::DataSync::LocationS3');
+  static const awsDataSyncLocationEFS =
+      ResourceType._('AWS::DataSync::LocationEFS');
+  static const awsDataSyncTask = ResourceType._('AWS::DataSync::Task');
+  static const awsDataSyncLocationNFS =
+      ResourceType._('AWS::DataSync::LocationNFS');
+  static const awsEc2NetworkInsightsAccessScopeAnalysis =
+      ResourceType._('AWS::EC2::NetworkInsightsAccessScopeAnalysis');
+  static const awsEksFargateProfile =
+      ResourceType._('AWS::EKS::FargateProfile');
+  static const awsGlueJob = ResourceType._('AWS::Glue::Job');
+  static const awsGuardDutyThreatIntelSet =
+      ResourceType._('AWS::GuardDuty::ThreatIntelSet');
+  static const awsGuardDutyIPSet = ResourceType._('AWS::GuardDuty::IPSet');
+  static const awsSageMakerWorkteam =
+      ResourceType._('AWS::SageMaker::Workteam');
+  static const awsSageMakerNotebookInstanceLifecycleConfig =
+      ResourceType._('AWS::SageMaker::NotebookInstanceLifecycleConfig');
+  static const awsServiceDiscoveryService =
+      ResourceType._('AWS::ServiceDiscovery::Service');
+  static const awsServiceDiscoveryPublicDnsNamespace =
+      ResourceType._('AWS::ServiceDiscovery::PublicDnsNamespace');
+  static const awsSesContactList = ResourceType._('AWS::SES::ContactList');
+  static const awsSesConfigurationSet =
+      ResourceType._('AWS::SES::ConfigurationSet');
+  static const awsRoute53HostedZone =
+      ResourceType._('AWS::Route53::HostedZone');
+  static const awsIoTEventsInput = ResourceType._('AWS::IoTEvents::Input');
+  static const awsIoTEventsDetectorModel =
+      ResourceType._('AWS::IoTEvents::DetectorModel');
+  static const awsIoTEventsAlarmModel =
+      ResourceType._('AWS::IoTEvents::AlarmModel');
+  static const awsServiceDiscoveryHttpNamespace =
+      ResourceType._('AWS::ServiceDiscovery::HttpNamespace');
+  static const awsEventsEventBus = ResourceType._('AWS::Events::EventBus');
+  static const awsImageBuilderContainerRecipe =
+      ResourceType._('AWS::ImageBuilder::ContainerRecipe');
+  static const awsImageBuilderDistributionConfiguration =
+      ResourceType._('AWS::ImageBuilder::DistributionConfiguration');
+  static const awsImageBuilderInfrastructureConfiguration =
+      ResourceType._('AWS::ImageBuilder::InfrastructureConfiguration');
+  static const awsDataSyncLocationObjectStorage =
+      ResourceType._('AWS::DataSync::LocationObjectStorage');
+  static const awsDataSyncLocationHDFS =
+      ResourceType._('AWS::DataSync::LocationHDFS');
+  static const awsGlueClassifier = ResourceType._('AWS::Glue::Classifier');
+  static const awsRoute53RecoveryReadinessCell =
+      ResourceType._('AWS::Route53RecoveryReadiness::Cell');
+  static const awsRoute53RecoveryReadinessReadinessCheck =
+      ResourceType._('AWS::Route53RecoveryReadiness::ReadinessCheck');
+  static const awsEcrRegistryPolicy =
+      ResourceType._('AWS::ECR::RegistryPolicy');
+  static const awsBackupReportPlan = ResourceType._('AWS::Backup::ReportPlan');
+  static const awsLightsailCertificate =
+      ResourceType._('AWS::Lightsail::Certificate');
+  static const awsRumAppMonitor = ResourceType._('AWS::RUM::AppMonitor');
+  static const awsEventsEndpoint = ResourceType._('AWS::Events::Endpoint');
+  static const awsSesReceiptRuleSet =
+      ResourceType._('AWS::SES::ReceiptRuleSet');
+  static const awsEventsArchive = ResourceType._('AWS::Events::Archive');
+  static const awsEventsApiDestination =
+      ResourceType._('AWS::Events::ApiDestination');
+  static const awsLightsailDisk = ResourceType._('AWS::Lightsail::Disk');
+  static const awsFisExperimentTemplate =
+      ResourceType._('AWS::FIS::ExperimentTemplate');
+  static const awsDataSyncLocationFSxWindows =
+      ResourceType._('AWS::DataSync::LocationFSxWindows');
+  static const awsSesReceiptFilter = ResourceType._('AWS::SES::ReceiptFilter');
+  static const awsGuardDutyFilter = ResourceType._('AWS::GuardDuty::Filter');
+  static const awsSesTemplate = ResourceType._('AWS::SES::Template');
+  static const awsAmazonMQBroker = ResourceType._('AWS::AmazonMQ::Broker');
+  static const awsAppConfigEnvironment =
+      ResourceType._('AWS::AppConfig::Environment');
+  static const awsAppConfigConfigurationProfile =
+      ResourceType._('AWS::AppConfig::ConfigurationProfile');
+  static const awsCloud9EnvironmentEC2 =
+      ResourceType._('AWS::Cloud9::EnvironmentEC2');
+  static const awsEventSchemasRegistry =
+      ResourceType._('AWS::EventSchemas::Registry');
+  static const awsEventSchemasRegistryPolicy =
+      ResourceType._('AWS::EventSchemas::RegistryPolicy');
+  static const awsEventSchemasDiscoverer =
+      ResourceType._('AWS::EventSchemas::Discoverer');
+  static const awsFraudDetectorLabel =
+      ResourceType._('AWS::FraudDetector::Label');
+  static const awsFraudDetectorEntityType =
+      ResourceType._('AWS::FraudDetector::EntityType');
+  static const awsFraudDetectorVariable =
+      ResourceType._('AWS::FraudDetector::Variable');
+  static const awsFraudDetectorOutcome =
+      ResourceType._('AWS::FraudDetector::Outcome');
+  static const awsIoTAuthorizer = ResourceType._('AWS::IoT::Authorizer');
+  static const awsIoTSecurityProfile =
+      ResourceType._('AWS::IoT::SecurityProfile');
+  static const awsIoTRoleAlias = ResourceType._('AWS::IoT::RoleAlias');
+  static const awsIoTDimension = ResourceType._('AWS::IoT::Dimension');
+  static const awsIoTAnalyticsDatastore =
+      ResourceType._('AWS::IoTAnalytics::Datastore');
+  static const awsLightsailBucket = ResourceType._('AWS::Lightsail::Bucket');
+  static const awsLightsailStaticIp =
+      ResourceType._('AWS::Lightsail::StaticIp');
+  static const awsMediaPackagePackagingGroup =
+      ResourceType._('AWS::MediaPackage::PackagingGroup');
+  static const awsRoute53RecoveryReadinessRecoveryGroup =
+      ResourceType._('AWS::Route53RecoveryReadiness::RecoveryGroup');
+  static const awsResilienceHubResiliencyPolicy =
+      ResourceType._('AWS::ResilienceHub::ResiliencyPolicy');
+  static const awsTransferWorkflow = ResourceType._('AWS::Transfer::Workflow');
+  static const awsEksIdentityProviderConfig =
+      ResourceType._('AWS::EKS::IdentityProviderConfig');
+  static const awsEksAddon = ResourceType._('AWS::EKS::Addon');
+  static const awsGlueMLTransform = ResourceType._('AWS::Glue::MLTransform');
+  static const awsIoTPolicy = ResourceType._('AWS::IoT::Policy');
+  static const awsIoTMitigationAction =
+      ResourceType._('AWS::IoT::MitigationAction');
+  static const awsIoTTwinMakerWorkspace =
+      ResourceType._('AWS::IoTTwinMaker::Workspace');
+  static const awsIoTTwinMakerEntity =
+      ResourceType._('AWS::IoTTwinMaker::Entity');
+  static const awsIoTAnalyticsDataset =
+      ResourceType._('AWS::IoTAnalytics::Dataset');
+  static const awsIoTAnalyticsPipeline =
+      ResourceType._('AWS::IoTAnalytics::Pipeline');
+  static const awsIoTAnalyticsChannel =
+      ResourceType._('AWS::IoTAnalytics::Channel');
+  static const awsIoTSiteWiseDashboard =
+      ResourceType._('AWS::IoTSiteWise::Dashboard');
+  static const awsIoTSiteWiseProject =
+      ResourceType._('AWS::IoTSiteWise::Project');
+  static const awsIoTSiteWisePortal =
+      ResourceType._('AWS::IoTSiteWise::Portal');
+  static const awsIoTSiteWiseAssetModel =
+      ResourceType._('AWS::IoTSiteWise::AssetModel');
+  static const awsIvsChannel = ResourceType._('AWS::IVS::Channel');
+  static const awsIvsRecordingConfiguration =
+      ResourceType._('AWS::IVS::RecordingConfiguration');
+  static const awsIvsPlaybackKeyPair =
+      ResourceType._('AWS::IVS::PlaybackKeyPair');
+  static const awsKinesisAnalyticsV2Application =
+      ResourceType._('AWS::KinesisAnalyticsV2::Application');
+  static const awsRdsGlobalCluster = ResourceType._('AWS::RDS::GlobalCluster');
+  static const awsS3MultiRegionAccessPoint =
+      ResourceType._('AWS::S3::MultiRegionAccessPoint');
+  static const awsDeviceFarmTestGridProject =
+      ResourceType._('AWS::DeviceFarm::TestGridProject');
+  static const awsBudgetsBudgetsAction =
+      ResourceType._('AWS::Budgets::BudgetsAction');
+  static const awsLexBot = ResourceType._('AWS::Lex::Bot');
+  static const awsCodeGuruReviewerRepositoryAssociation =
+      ResourceType._('AWS::CodeGuruReviewer::RepositoryAssociation');
+  static const awsIoTCustomMetric = ResourceType._('AWS::IoT::CustomMetric');
+  static const awsRoute53ResolverFirewallDomainList =
+      ResourceType._('AWS::Route53Resolver::FirewallDomainList');
+  static const awsRoboMakerRobotApplicationVersion =
+      ResourceType._('AWS::RoboMaker::RobotApplicationVersion');
+  static const awsEc2TrafficMirrorSession =
+      ResourceType._('AWS::EC2::TrafficMirrorSession');
+  static const awsIoTSiteWiseGateway =
+      ResourceType._('AWS::IoTSiteWise::Gateway');
+  static const awsLexBotAlias = ResourceType._('AWS::Lex::BotAlias');
+  static const awsLookoutMetricsAlert =
+      ResourceType._('AWS::LookoutMetrics::Alert');
+  static const awsIoTAccountAuditConfiguration =
+      ResourceType._('AWS::IoT::AccountAuditConfiguration');
+  static const awsEc2TrafficMirrorTarget =
+      ResourceType._('AWS::EC2::TrafficMirrorTarget');
+  static const awsS3StorageLens = ResourceType._('AWS::S3::StorageLens');
+  static const awsIoTScheduledAudit =
+      ResourceType._('AWS::IoT::ScheduledAudit');
+  static const awsEventsConnection = ResourceType._('AWS::Events::Connection');
+  static const awsEventSchemasSchema =
+      ResourceType._('AWS::EventSchemas::Schema');
+  static const awsMediaPackagePackagingConfiguration =
+      ResourceType._('AWS::MediaPackage::PackagingConfiguration');
+  static const awsKinesisVideoSignalingChannel =
+      ResourceType._('AWS::KinesisVideo::SignalingChannel');
+  static const awsAppStreamDirectoryConfig =
+      ResourceType._('AWS::AppStream::DirectoryConfig');
+  static const awsLookoutVisionProject =
+      ResourceType._('AWS::LookoutVision::Project');
+  static const awsRoute53RecoveryControlCluster =
+      ResourceType._('AWS::Route53RecoveryControl::Cluster');
+  static const awsRoute53RecoveryControlSafetyRule =
+      ResourceType._('AWS::Route53RecoveryControl::SafetyRule');
+  static const awsRoute53RecoveryControlControlPanel =
+      ResourceType._('AWS::Route53RecoveryControl::ControlPanel');
+  static const awsRoute53RecoveryControlRoutingControl =
+      ResourceType._('AWS::Route53RecoveryControl::RoutingControl');
+  static const awsRoute53RecoveryReadinessResourceSet =
+      ResourceType._('AWS::Route53RecoveryReadiness::ResourceSet');
+  static const awsRoboMakerSimulationApplication =
+      ResourceType._('AWS::RoboMaker::SimulationApplication');
+  static const awsRoboMakerRobotApplication =
+      ResourceType._('AWS::RoboMaker::RobotApplication');
+  static const awsHealthLakeFHIRDatastore =
+      ResourceType._('AWS::HealthLake::FHIRDatastore');
+  static const awsPinpointSegment = ResourceType._('AWS::Pinpoint::Segment');
+  static const awsPinpointApplicationSettings =
+      ResourceType._('AWS::Pinpoint::ApplicationSettings');
+  static const awsEventsRule = ResourceType._('AWS::Events::Rule');
+  static const awsEc2DHCPOptions = ResourceType._('AWS::EC2::DHCPOptions');
+  static const awsEc2NetworkInsightsPath =
+      ResourceType._('AWS::EC2::NetworkInsightsPath');
+  static const awsEc2TrafficMirrorFilter =
+      ResourceType._('AWS::EC2::TrafficMirrorFilter');
+  static const awsEc2Ipam = ResourceType._('AWS::EC2::IPAM');
+  static const awsIoTTwinMakerScene =
+      ResourceType._('AWS::IoTTwinMaker::Scene');
+  static const awsNetworkManagerTransitGatewayRegistration =
+      ResourceType._('AWS::NetworkManager::TransitGatewayRegistration');
+  static const awsCustomerProfilesDomain =
+      ResourceType._('AWS::CustomerProfiles::Domain');
+  static const awsAutoScalingWarmPool =
+      ResourceType._('AWS::AutoScaling::WarmPool');
+  static const awsConnectPhoneNumber =
+      ResourceType._('AWS::Connect::PhoneNumber');
+  static const awsAppConfigDeploymentStrategy =
+      ResourceType._('AWS::AppConfig::DeploymentStrategy');
+  static const awsAppFlowFlow = ResourceType._('AWS::AppFlow::Flow');
+  static const awsAuditManagerAssessment =
+      ResourceType._('AWS::AuditManager::Assessment');
+  static const awsCloudWatchMetricStream =
+      ResourceType._('AWS::CloudWatch::MetricStream');
+  static const awsDeviceFarmInstanceProfile =
+      ResourceType._('AWS::DeviceFarm::InstanceProfile');
+  static const awsDeviceFarmProject =
+      ResourceType._('AWS::DeviceFarm::Project');
+  static const awsEc2EC2Fleet = ResourceType._('AWS::EC2::EC2Fleet');
+  static const awsEc2SubnetRouteTableAssociation =
+      ResourceType._('AWS::EC2::SubnetRouteTableAssociation');
+  static const awsEcrPullThroughCacheRule =
+      ResourceType._('AWS::ECR::PullThroughCacheRule');
+  static const awsGroundStationConfig =
+      ResourceType._('AWS::GroundStation::Config');
+  static const awsImageBuilderImagePipeline =
+      ResourceType._('AWS::ImageBuilder::ImagePipeline');
+  static const awsIoTFleetMetric = ResourceType._('AWS::IoT::FleetMetric');
+  static const awsIoTWirelessServiceProfile =
+      ResourceType._('AWS::IoTWireless::ServiceProfile');
+  static const awsNetworkManagerDevice =
+      ResourceType._('AWS::NetworkManager::Device');
+  static const awsNetworkManagerGlobalNetwork =
+      ResourceType._('AWS::NetworkManager::GlobalNetwork');
+  static const awsNetworkManagerLink =
+      ResourceType._('AWS::NetworkManager::Link');
+  static const awsNetworkManagerSite =
+      ResourceType._('AWS::NetworkManager::Site');
+  static const awsPanoramaPackage = ResourceType._('AWS::Panorama::Package');
+  static const awsPinpointApp = ResourceType._('AWS::Pinpoint::App');
+  static const awsRedshiftScheduledAction =
+      ResourceType._('AWS::Redshift::ScheduledAction');
+  static const awsRoute53ResolverFirewallRuleGroupAssociation =
+      ResourceType._('AWS::Route53Resolver::FirewallRuleGroupAssociation');
+  static const awsSageMakerAppImageConfig =
+      ResourceType._('AWS::SageMaker::AppImageConfig');
+  static const awsSageMakerImage = ResourceType._('AWS::SageMaker::Image');
+  static const awsEcsTaskSet = ResourceType._('AWS::ECS::TaskSet');
+  static const awsCassandraKeyspace =
+      ResourceType._('AWS::Cassandra::Keyspace');
+  static const awsSignerSigningProfile =
+      ResourceType._('AWS::Signer::SigningProfile');
+  static const awsAmplifyApp = ResourceType._('AWS::Amplify::App');
+  static const awsAppMeshVirtualNode =
+      ResourceType._('AWS::AppMesh::VirtualNode');
+  static const awsAppMeshVirtualService =
+      ResourceType._('AWS::AppMesh::VirtualService');
+  static const awsAppRunnerVpcConnector =
+      ResourceType._('AWS::AppRunner::VpcConnector');
+  static const awsAppStreamApplication =
+      ResourceType._('AWS::AppStream::Application');
+  static const awsCodeArtifactRepository =
+      ResourceType._('AWS::CodeArtifact::Repository');
+  static const awsEc2PrefixList = ResourceType._('AWS::EC2::PrefixList');
+  static const awsEc2SpotFleet = ResourceType._('AWS::EC2::SpotFleet');
+  static const awsEvidentlyProject = ResourceType._('AWS::Evidently::Project');
+  static const awsForecastDataset = ResourceType._('AWS::Forecast::Dataset');
+  static const awsIamSAMLProvider = ResourceType._('AWS::IAM::SAMLProvider');
+  static const awsIamServerCertificate =
+      ResourceType._('AWS::IAM::ServerCertificate');
+  static const awsPinpointCampaign = ResourceType._('AWS::Pinpoint::Campaign');
+  static const awsPinpointInAppTemplate =
+      ResourceType._('AWS::Pinpoint::InAppTemplate');
+  static const awsSageMakerDomain = ResourceType._('AWS::SageMaker::Domain');
+  static const awsTransferAgreement =
+      ResourceType._('AWS::Transfer::Agreement');
+  static const awsTransferConnector =
+      ResourceType._('AWS::Transfer::Connector');
+  static const awsKinesisFirehoseDeliveryStream =
+      ResourceType._('AWS::KinesisFirehose::DeliveryStream');
+  static const awsAmplifyBranch = ResourceType._('AWS::Amplify::Branch');
+  static const awsAppIntegrationsEventIntegration =
+      ResourceType._('AWS::AppIntegrations::EventIntegration');
+  static const awsAppMeshRoute = ResourceType._('AWS::AppMesh::Route');
+  static const awsAthenaPreparedStatement =
+      ResourceType._('AWS::Athena::PreparedStatement');
+  static const awsEc2IPAMScope = ResourceType._('AWS::EC2::IPAMScope');
+  static const awsEvidentlyLaunch = ResourceType._('AWS::Evidently::Launch');
+  static const awsForecastDatasetGroup =
+      ResourceType._('AWS::Forecast::DatasetGroup');
+  static const awsGreengrassV2ComponentVersion =
+      ResourceType._('AWS::GreengrassV2::ComponentVersion');
+  static const awsGroundStationMissionProfile =
+      ResourceType._('AWS::GroundStation::MissionProfile');
+  static const awsMediaConnectFlowEntitlement =
+      ResourceType._('AWS::MediaConnect::FlowEntitlement');
+  static const awsMediaConnectFlowVpcInterface =
+      ResourceType._('AWS::MediaConnect::FlowVpcInterface');
+  static const awsMediaTailorPlaybackConfiguration =
+      ResourceType._('AWS::MediaTailor::PlaybackConfiguration');
+  static const awsMskConfiguration = ResourceType._('AWS::MSK::Configuration');
+  static const awsPersonalizeDataset =
+      ResourceType._('AWS::Personalize::Dataset');
+  static const awsPersonalizeSchema =
+      ResourceType._('AWS::Personalize::Schema');
+  static const awsPersonalizeSolution =
+      ResourceType._('AWS::Personalize::Solution');
+  static const awsPinpointEmailTemplate =
+      ResourceType._('AWS::Pinpoint::EmailTemplate');
+  static const awsPinpointEventStream =
+      ResourceType._('AWS::Pinpoint::EventStream');
+  static const awsResilienceHubApp = ResourceType._('AWS::ResilienceHub::App');
+  static const awsAcmpcaCertificateAuthority =
+      ResourceType._('AWS::ACMPCA::CertificateAuthority');
+  static const awsAppConfigHostedConfigurationVersion =
+      ResourceType._('AWS::AppConfig::HostedConfigurationVersion');
+  static const awsAppMeshVirtualGateway =
+      ResourceType._('AWS::AppMesh::VirtualGateway');
+  static const awsAppMeshVirtualRouter =
+      ResourceType._('AWS::AppMesh::VirtualRouter');
+  static const awsAppRunnerService = ResourceType._('AWS::AppRunner::Service');
+  static const awsCustomerProfilesObjectType =
+      ResourceType._('AWS::CustomerProfiles::ObjectType');
+  static const awsDmsEndpoint = ResourceType._('AWS::DMS::Endpoint');
+  static const awsEc2CapacityReservation =
+      ResourceType._('AWS::EC2::CapacityReservation');
+  static const awsEc2ClientVpnEndpoint =
+      ResourceType._('AWS::EC2::ClientVpnEndpoint');
+  static const awsKendraIndex = ResourceType._('AWS::Kendra::Index');
+  static const awsKinesisVideoStream =
+      ResourceType._('AWS::KinesisVideo::Stream');
+  static const awsLogsDestination = ResourceType._('AWS::Logs::Destination');
+  static const awsPinpointEmailChannel =
+      ResourceType._('AWS::Pinpoint::EmailChannel');
+  static const awsS3AccessPoint = ResourceType._('AWS::S3::AccessPoint');
+  static const awsNetworkManagerCustomerGatewayAssociation =
+      ResourceType._('AWS::NetworkManager::CustomerGatewayAssociation');
+  static const awsNetworkManagerLinkAssociation =
+      ResourceType._('AWS::NetworkManager::LinkAssociation');
+  static const awsIoTWirelessMulticastGroup =
+      ResourceType._('AWS::IoTWireless::MulticastGroup');
+  static const awsPersonalizeDatasetGroup =
+      ResourceType._('AWS::Personalize::DatasetGroup');
+  static const awsIoTTwinMakerComponentType =
+      ResourceType._('AWS::IoTTwinMaker::ComponentType');
+  static const awsCodeBuildReportGroup =
+      ResourceType._('AWS::CodeBuild::ReportGroup');
+  static const awsSageMakerFeatureGroup =
+      ResourceType._('AWS::SageMaker::FeatureGroup');
+  static const awsMskBatchScramSecret =
+      ResourceType._('AWS::MSK::BatchScramSecret');
+  static const awsAppStreamStack = ResourceType._('AWS::AppStream::Stack');
+  static const awsIoTJobTemplate = ResourceType._('AWS::IoT::JobTemplate');
+  static const awsIoTWirelessFuotaTask =
+      ResourceType._('AWS::IoTWireless::FuotaTask');
+  static const awsIoTProvisioningTemplate =
+      ResourceType._('AWS::IoT::ProvisioningTemplate');
+  static const awsInspectorV2Filter =
+      ResourceType._('AWS::InspectorV2::Filter');
+  static const awsRoute53ResolverResolverQueryLoggingConfigAssociation =
+      ResourceType._(
+          'AWS::Route53Resolver::ResolverQueryLoggingConfigAssociation');
+  static const awsServiceDiscoveryInstance =
+      ResourceType._('AWS::ServiceDiscovery::Instance');
+  static const awsTransferCertificate =
+      ResourceType._('AWS::Transfer::Certificate');
+  static const awsMediaConnectFlowSource =
+      ResourceType._('AWS::MediaConnect::FlowSource');
+  static const awsApsRuleGroupsNamespace =
+      ResourceType._('AWS::APS::RuleGroupsNamespace');
+  static const awsCodeGuruProfilerProfilingGroup =
+      ResourceType._('AWS::CodeGuruProfiler::ProfilingGroup');
+  static const awsRoute53ResolverResolverQueryLoggingConfig =
+      ResourceType._('AWS::Route53Resolver::ResolverQueryLoggingConfig');
+  static const awsBatchSchedulingPolicy =
+      ResourceType._('AWS::Batch::SchedulingPolicy');
+  static const awsAcmpcaCertificateAuthorityActivation =
+      ResourceType._('AWS::ACMPCA::CertificateAuthorityActivation');
+  static const awsAppMeshGatewayRoute =
+      ResourceType._('AWS::AppMesh::GatewayRoute');
+  static const awsAppMeshMesh = ResourceType._('AWS::AppMesh::Mesh');
+  static const awsConnectInstance = ResourceType._('AWS::Connect::Instance');
+  static const awsConnectQuickConnect =
+      ResourceType._('AWS::Connect::QuickConnect');
+  static const awsEc2CarrierGateway =
+      ResourceType._('AWS::EC2::CarrierGateway');
+  static const awsEc2IPAMPool = ResourceType._('AWS::EC2::IPAMPool');
+  static const awsEc2TransitGatewayConnect =
+      ResourceType._('AWS::EC2::TransitGatewayConnect');
+  static const awsEc2TransitGatewayMulticastDomain =
+      ResourceType._('AWS::EC2::TransitGatewayMulticastDomain');
+  static const awsEcsCapacityProvider =
+      ResourceType._('AWS::ECS::CapacityProvider');
+  static const awsIamInstanceProfile =
+      ResourceType._('AWS::IAM::InstanceProfile');
+  static const awsIoTCACertificate = ResourceType._('AWS::IoT::CACertificate');
+  static const awsIoTTwinMakerSyncJob =
+      ResourceType._('AWS::IoTTwinMaker::SyncJob');
+  static const awsKafkaConnectConnector =
+      ResourceType._('AWS::KafkaConnect::Connector');
+  static const awsLambdaCodeSigningConfig =
+      ResourceType._('AWS::Lambda::CodeSigningConfig');
+  static const awsNetworkManagerConnectPeer =
+      ResourceType._('AWS::NetworkManager::ConnectPeer');
+  static const awsResourceExplorer2Index =
+      ResourceType._('AWS::ResourceExplorer2::Index');
+  static const awsAppStreamFleet = ResourceType._('AWS::AppStream::Fleet');
+  static const awsCognitoUserPool = ResourceType._('AWS::Cognito::UserPool');
+  static const awsCognitoUserPoolClient =
+      ResourceType._('AWS::Cognito::UserPoolClient');
+  static const awsCognitoUserPoolGroup =
+      ResourceType._('AWS::Cognito::UserPoolGroup');
+  static const awsEc2NetworkInsightsAccessScope =
+      ResourceType._('AWS::EC2::NetworkInsightsAccessScope');
+  static const awsEc2NetworkInsightsAnalysis =
+      ResourceType._('AWS::EC2::NetworkInsightsAnalysis');
+  static const awsGrafanaWorkspace = ResourceType._('AWS::Grafana::Workspace');
+  static const awsGroundStationDataflowEndpointGroup =
+      ResourceType._('AWS::GroundStation::DataflowEndpointGroup');
+  static const awsImageBuilderImageRecipe =
+      ResourceType._('AWS::ImageBuilder::ImageRecipe');
+  static const awsKmsAlias = ResourceType._('AWS::KMS::Alias');
+  static const awsM2Environment = ResourceType._('AWS::M2::Environment');
+  static const awsQuickSightDataSource =
+      ResourceType._('AWS::QuickSight::DataSource');
+  static const awsQuickSightTemplate =
+      ResourceType._('AWS::QuickSight::Template');
+  static const awsQuickSightTheme = ResourceType._('AWS::QuickSight::Theme');
+  static const awsRdsOptionGroup = ResourceType._('AWS::RDS::OptionGroup');
+  static const awsRedshiftEndpointAccess =
+      ResourceType._('AWS::Redshift::EndpointAccess');
+  static const awsRoute53ResolverFirewallRuleGroup =
+      ResourceType._('AWS::Route53Resolver::FirewallRuleGroup');
+  static const awsSsmDocument = ResourceType._('AWS::SSM::Document');
 
   final String value;
 
-  const ResourceType(this.value);
+  const ResourceType._(this.value);
 
-  static ResourceType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ResourceType'));
+  static const values = [
+    awsEc2CustomerGateway,
+    awsEc2Eip,
+    awsEc2Host,
+    awsEc2Instance,
+    awsEc2InternetGateway,
+    awsEc2NetworkAcl,
+    awsEc2NetworkInterface,
+    awsEc2RouteTable,
+    awsEc2SecurityGroup,
+    awsEc2Subnet,
+    awsCloudTrailTrail,
+    awsEc2Volume,
+    awsEc2Vpc,
+    awsEc2VPNConnection,
+    awsEc2VPNGateway,
+    awsEc2RegisteredHAInstance,
+    awsEc2NatGateway,
+    awsEc2EgressOnlyInternetGateway,
+    awsEc2VPCEndpoint,
+    awsEc2VPCEndpointService,
+    awsEc2FlowLog,
+    awsEc2VPCPeeringConnection,
+    awsElasticsearchDomain,
+    awsIamGroup,
+    awsIamPolicy,
+    awsIamRole,
+    awsIamUser,
+    awsElasticLoadBalancingV2LoadBalancer,
+    awsAcmCertificate,
+    awsRdsDBInstance,
+    awsRdsDBSubnetGroup,
+    awsRdsDBSecurityGroup,
+    awsRdsDBSnapshot,
+    awsRdsDBCluster,
+    awsRdsDBClusterSnapshot,
+    awsRdsEventSubscription,
+    awsS3Bucket,
+    awsS3AccountPublicAccessBlock,
+    awsRedshiftCluster,
+    awsRedshiftClusterSnapshot,
+    awsRedshiftClusterParameterGroup,
+    awsRedshiftClusterSecurityGroup,
+    awsRedshiftClusterSubnetGroup,
+    awsRedshiftEventSubscription,
+    awsSsmManagedInstanceInventory,
+    awsCloudWatchAlarm,
+    awsCloudFormationStack,
+    awsElasticLoadBalancingLoadBalancer,
+    awsAutoScalingAutoScalingGroup,
+    awsAutoScalingLaunchConfiguration,
+    awsAutoScalingScalingPolicy,
+    awsAutoScalingScheduledAction,
+    awsDynamoDBTable,
+    awsCodeBuildProject,
+    awsWafRateBasedRule,
+    awsWafRule,
+    awsWafRuleGroup,
+    awsWafWebACL,
+    awsWAFRegionalRateBasedRule,
+    awsWAFRegionalRule,
+    awsWAFRegionalRuleGroup,
+    awsWAFRegionalWebACL,
+    awsCloudFrontDistribution,
+    awsCloudFrontStreamingDistribution,
+    awsLambdaFunction,
+    awsNetworkFirewallFirewall,
+    awsNetworkFirewallFirewallPolicy,
+    awsNetworkFirewallRuleGroup,
+    awsElasticBeanstalkApplication,
+    awsElasticBeanstalkApplicationVersion,
+    awsElasticBeanstalkEnvironment,
+    awsWAFv2WebACL,
+    awsWAFv2RuleGroup,
+    awsWAFv2IPSet,
+    awsWAFv2RegexPatternSet,
+    awsWAFv2ManagedRuleSet,
+    awsXRayEncryptionConfig,
+    awsSsmAssociationCompliance,
+    awsSsmPatchCompliance,
+    awsShieldProtection,
+    awsShieldRegionalProtection,
+    awsConfigConformancePackCompliance,
+    awsConfigResourceCompliance,
+    awsApiGatewayStage,
+    awsApiGatewayRestApi,
+    awsApiGatewayV2Stage,
+    awsApiGatewayV2Api,
+    awsCodePipelinePipeline,
+    awsServiceCatalogCloudFormationProvisionedProduct,
+    awsServiceCatalogCloudFormationProduct,
+    awsServiceCatalogPortfolio,
+    awsSqsQueue,
+    awsKmsKey,
+    awsQldbLedger,
+    awsSecretsManagerSecret,
+    awsSnsTopic,
+    awsSsmFileData,
+    awsBackupBackupPlan,
+    awsBackupBackupSelection,
+    awsBackupBackupVault,
+    awsBackupRecoveryPoint,
+    awsEcrRepository,
+    awsEcsCluster,
+    awsEcsService,
+    awsEcsTaskDefinition,
+    awsEfsAccessPoint,
+    awsEfsFileSystem,
+    awsEksCluster,
+    awsOpenSearchDomain,
+    awsEc2TransitGateway,
+    awsKinesisStream,
+    awsKinesisStreamConsumer,
+    awsCodeDeployApplication,
+    awsCodeDeployDeploymentConfig,
+    awsCodeDeployDeploymentGroup,
+    awsEc2LaunchTemplate,
+    awsEcrPublicRepository,
+    awsGuardDutyDetector,
+    awsEmrSecurityConfiguration,
+    awsSageMakerCodeRepository,
+    awsRoute53ResolverResolverEndpoint,
+    awsRoute53ResolverResolverRule,
+    awsRoute53ResolverResolverRuleAssociation,
+    awsDmsReplicationSubnetGroup,
+    awsDmsEventSubscription,
+    awsMskCluster,
+    awsStepFunctionsActivity,
+    awsWorkSpacesWorkspace,
+    awsWorkSpacesConnectionAlias,
+    awsSageMakerModel,
+    awsElasticLoadBalancingV2Listener,
+    awsStepFunctionsStateMachine,
+    awsBatchJobQueue,
+    awsBatchComputeEnvironment,
+    awsAccessAnalyzerAnalyzer,
+    awsAthenaWorkGroup,
+    awsAthenaDataCatalog,
+    awsDetectiveGraph,
+    awsGlobalAcceleratorAccelerator,
+    awsGlobalAcceleratorEndpointGroup,
+    awsGlobalAcceleratorListener,
+    awsEc2TransitGatewayAttachment,
+    awsEc2TransitGatewayRouteTable,
+    awsDmsCertificate,
+    awsAppConfigApplication,
+    awsAppSyncGraphQLApi,
+    awsDataSyncLocationSMB,
+    awsDataSyncLocationFSxLustre,
+    awsDataSyncLocationS3,
+    awsDataSyncLocationEFS,
+    awsDataSyncTask,
+    awsDataSyncLocationNFS,
+    awsEc2NetworkInsightsAccessScopeAnalysis,
+    awsEksFargateProfile,
+    awsGlueJob,
+    awsGuardDutyThreatIntelSet,
+    awsGuardDutyIPSet,
+    awsSageMakerWorkteam,
+    awsSageMakerNotebookInstanceLifecycleConfig,
+    awsServiceDiscoveryService,
+    awsServiceDiscoveryPublicDnsNamespace,
+    awsSesContactList,
+    awsSesConfigurationSet,
+    awsRoute53HostedZone,
+    awsIoTEventsInput,
+    awsIoTEventsDetectorModel,
+    awsIoTEventsAlarmModel,
+    awsServiceDiscoveryHttpNamespace,
+    awsEventsEventBus,
+    awsImageBuilderContainerRecipe,
+    awsImageBuilderDistributionConfiguration,
+    awsImageBuilderInfrastructureConfiguration,
+    awsDataSyncLocationObjectStorage,
+    awsDataSyncLocationHDFS,
+    awsGlueClassifier,
+    awsRoute53RecoveryReadinessCell,
+    awsRoute53RecoveryReadinessReadinessCheck,
+    awsEcrRegistryPolicy,
+    awsBackupReportPlan,
+    awsLightsailCertificate,
+    awsRumAppMonitor,
+    awsEventsEndpoint,
+    awsSesReceiptRuleSet,
+    awsEventsArchive,
+    awsEventsApiDestination,
+    awsLightsailDisk,
+    awsFisExperimentTemplate,
+    awsDataSyncLocationFSxWindows,
+    awsSesReceiptFilter,
+    awsGuardDutyFilter,
+    awsSesTemplate,
+    awsAmazonMQBroker,
+    awsAppConfigEnvironment,
+    awsAppConfigConfigurationProfile,
+    awsCloud9EnvironmentEC2,
+    awsEventSchemasRegistry,
+    awsEventSchemasRegistryPolicy,
+    awsEventSchemasDiscoverer,
+    awsFraudDetectorLabel,
+    awsFraudDetectorEntityType,
+    awsFraudDetectorVariable,
+    awsFraudDetectorOutcome,
+    awsIoTAuthorizer,
+    awsIoTSecurityProfile,
+    awsIoTRoleAlias,
+    awsIoTDimension,
+    awsIoTAnalyticsDatastore,
+    awsLightsailBucket,
+    awsLightsailStaticIp,
+    awsMediaPackagePackagingGroup,
+    awsRoute53RecoveryReadinessRecoveryGroup,
+    awsResilienceHubResiliencyPolicy,
+    awsTransferWorkflow,
+    awsEksIdentityProviderConfig,
+    awsEksAddon,
+    awsGlueMLTransform,
+    awsIoTPolicy,
+    awsIoTMitigationAction,
+    awsIoTTwinMakerWorkspace,
+    awsIoTTwinMakerEntity,
+    awsIoTAnalyticsDataset,
+    awsIoTAnalyticsPipeline,
+    awsIoTAnalyticsChannel,
+    awsIoTSiteWiseDashboard,
+    awsIoTSiteWiseProject,
+    awsIoTSiteWisePortal,
+    awsIoTSiteWiseAssetModel,
+    awsIvsChannel,
+    awsIvsRecordingConfiguration,
+    awsIvsPlaybackKeyPair,
+    awsKinesisAnalyticsV2Application,
+    awsRdsGlobalCluster,
+    awsS3MultiRegionAccessPoint,
+    awsDeviceFarmTestGridProject,
+    awsBudgetsBudgetsAction,
+    awsLexBot,
+    awsCodeGuruReviewerRepositoryAssociation,
+    awsIoTCustomMetric,
+    awsRoute53ResolverFirewallDomainList,
+    awsRoboMakerRobotApplicationVersion,
+    awsEc2TrafficMirrorSession,
+    awsIoTSiteWiseGateway,
+    awsLexBotAlias,
+    awsLookoutMetricsAlert,
+    awsIoTAccountAuditConfiguration,
+    awsEc2TrafficMirrorTarget,
+    awsS3StorageLens,
+    awsIoTScheduledAudit,
+    awsEventsConnection,
+    awsEventSchemasSchema,
+    awsMediaPackagePackagingConfiguration,
+    awsKinesisVideoSignalingChannel,
+    awsAppStreamDirectoryConfig,
+    awsLookoutVisionProject,
+    awsRoute53RecoveryControlCluster,
+    awsRoute53RecoveryControlSafetyRule,
+    awsRoute53RecoveryControlControlPanel,
+    awsRoute53RecoveryControlRoutingControl,
+    awsRoute53RecoveryReadinessResourceSet,
+    awsRoboMakerSimulationApplication,
+    awsRoboMakerRobotApplication,
+    awsHealthLakeFHIRDatastore,
+    awsPinpointSegment,
+    awsPinpointApplicationSettings,
+    awsEventsRule,
+    awsEc2DHCPOptions,
+    awsEc2NetworkInsightsPath,
+    awsEc2TrafficMirrorFilter,
+    awsEc2Ipam,
+    awsIoTTwinMakerScene,
+    awsNetworkManagerTransitGatewayRegistration,
+    awsCustomerProfilesDomain,
+    awsAutoScalingWarmPool,
+    awsConnectPhoneNumber,
+    awsAppConfigDeploymentStrategy,
+    awsAppFlowFlow,
+    awsAuditManagerAssessment,
+    awsCloudWatchMetricStream,
+    awsDeviceFarmInstanceProfile,
+    awsDeviceFarmProject,
+    awsEc2EC2Fleet,
+    awsEc2SubnetRouteTableAssociation,
+    awsEcrPullThroughCacheRule,
+    awsGroundStationConfig,
+    awsImageBuilderImagePipeline,
+    awsIoTFleetMetric,
+    awsIoTWirelessServiceProfile,
+    awsNetworkManagerDevice,
+    awsNetworkManagerGlobalNetwork,
+    awsNetworkManagerLink,
+    awsNetworkManagerSite,
+    awsPanoramaPackage,
+    awsPinpointApp,
+    awsRedshiftScheduledAction,
+    awsRoute53ResolverFirewallRuleGroupAssociation,
+    awsSageMakerAppImageConfig,
+    awsSageMakerImage,
+    awsEcsTaskSet,
+    awsCassandraKeyspace,
+    awsSignerSigningProfile,
+    awsAmplifyApp,
+    awsAppMeshVirtualNode,
+    awsAppMeshVirtualService,
+    awsAppRunnerVpcConnector,
+    awsAppStreamApplication,
+    awsCodeArtifactRepository,
+    awsEc2PrefixList,
+    awsEc2SpotFleet,
+    awsEvidentlyProject,
+    awsForecastDataset,
+    awsIamSAMLProvider,
+    awsIamServerCertificate,
+    awsPinpointCampaign,
+    awsPinpointInAppTemplate,
+    awsSageMakerDomain,
+    awsTransferAgreement,
+    awsTransferConnector,
+    awsKinesisFirehoseDeliveryStream,
+    awsAmplifyBranch,
+    awsAppIntegrationsEventIntegration,
+    awsAppMeshRoute,
+    awsAthenaPreparedStatement,
+    awsEc2IPAMScope,
+    awsEvidentlyLaunch,
+    awsForecastDatasetGroup,
+    awsGreengrassV2ComponentVersion,
+    awsGroundStationMissionProfile,
+    awsMediaConnectFlowEntitlement,
+    awsMediaConnectFlowVpcInterface,
+    awsMediaTailorPlaybackConfiguration,
+    awsMskConfiguration,
+    awsPersonalizeDataset,
+    awsPersonalizeSchema,
+    awsPersonalizeSolution,
+    awsPinpointEmailTemplate,
+    awsPinpointEventStream,
+    awsResilienceHubApp,
+    awsAcmpcaCertificateAuthority,
+    awsAppConfigHostedConfigurationVersion,
+    awsAppMeshVirtualGateway,
+    awsAppMeshVirtualRouter,
+    awsAppRunnerService,
+    awsCustomerProfilesObjectType,
+    awsDmsEndpoint,
+    awsEc2CapacityReservation,
+    awsEc2ClientVpnEndpoint,
+    awsKendraIndex,
+    awsKinesisVideoStream,
+    awsLogsDestination,
+    awsPinpointEmailChannel,
+    awsS3AccessPoint,
+    awsNetworkManagerCustomerGatewayAssociation,
+    awsNetworkManagerLinkAssociation,
+    awsIoTWirelessMulticastGroup,
+    awsPersonalizeDatasetGroup,
+    awsIoTTwinMakerComponentType,
+    awsCodeBuildReportGroup,
+    awsSageMakerFeatureGroup,
+    awsMskBatchScramSecret,
+    awsAppStreamStack,
+    awsIoTJobTemplate,
+    awsIoTWirelessFuotaTask,
+    awsIoTProvisioningTemplate,
+    awsInspectorV2Filter,
+    awsRoute53ResolverResolverQueryLoggingConfigAssociation,
+    awsServiceDiscoveryInstance,
+    awsTransferCertificate,
+    awsMediaConnectFlowSource,
+    awsApsRuleGroupsNamespace,
+    awsCodeGuruProfilerProfilingGroup,
+    awsRoute53ResolverResolverQueryLoggingConfig,
+    awsBatchSchedulingPolicy,
+    awsAcmpcaCertificateAuthorityActivation,
+    awsAppMeshGatewayRoute,
+    awsAppMeshMesh,
+    awsConnectInstance,
+    awsConnectQuickConnect,
+    awsEc2CarrierGateway,
+    awsEc2IPAMPool,
+    awsEc2TransitGatewayConnect,
+    awsEc2TransitGatewayMulticastDomain,
+    awsEcsCapacityProvider,
+    awsIamInstanceProfile,
+    awsIoTCACertificate,
+    awsIoTTwinMakerSyncJob,
+    awsKafkaConnectConnector,
+    awsLambdaCodeSigningConfig,
+    awsNetworkManagerConnectPeer,
+    awsResourceExplorer2Index,
+    awsAppStreamFleet,
+    awsCognitoUserPool,
+    awsCognitoUserPoolClient,
+    awsCognitoUserPoolGroup,
+    awsEc2NetworkInsightsAccessScope,
+    awsEc2NetworkInsightsAnalysis,
+    awsGrafanaWorkspace,
+    awsGroundStationDataflowEndpointGroup,
+    awsImageBuilderImageRecipe,
+    awsKmsAlias,
+    awsM2Environment,
+    awsQuickSightDataSource,
+    awsQuickSightTemplate,
+    awsQuickSightTheme,
+    awsRdsOptionGroup,
+    awsRedshiftEndpointAccess,
+    awsRoute53ResolverFirewallRuleGroup,
+    awsSsmDocument
+  ];
+
+  static ResourceType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ResourceType._(value));
+
+  @override
+  bool operator ==(other) => other is ResourceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The dynamic value of the resource.
@@ -14555,7 +15641,7 @@ class ResourceValue {
 
   factory ResourceValue.fromJson(Map<String, dynamic> json) {
     return ResourceValue(
-      value: ResourceValueType.fromString((json['Value'] as String)),
+      value: ResourceValueType.fromString((json['Value'] as String?) ?? ''),
     );
   }
 
@@ -14567,18 +15653,27 @@ class ResourceValue {
   }
 }
 
-enum ResourceValueType {
-  resourceId('RESOURCE_ID'),
-  ;
+class ResourceValueType {
+  static const resourceId = ResourceValueType._('RESOURCE_ID');
 
   final String value;
 
-  const ResourceValueType(this.value);
+  const ResourceValueType._(this.value);
+
+  static const values = [resourceId];
 
   static ResourceValueType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ResourceValueType'));
+          orElse: () => ResourceValueType._(value));
+
+  @override
+  bool operator ==(other) => other is ResourceValueType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// An object with the name of the retention configuration and the retention
@@ -14757,31 +15852,49 @@ class SelectResourceConfigResponse {
   }
 }
 
-enum SortBy {
-  score('SCORE'),
-  ;
+class SortBy {
+  static const score = SortBy._('SCORE');
 
   final String value;
 
-  const SortBy(this.value);
+  const SortBy._(this.value);
+
+  static const values = [score];
 
   static SortBy fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum SortBy'));
+      values.firstWhere((e) => e.value == value, orElse: () => SortBy._(value));
+
+  @override
+  bool operator ==(other) => other is SortBy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum SortOrder {
-  ascending('ASCENDING'),
-  descending('DESCENDING'),
-  ;
+class SortOrder {
+  static const ascending = SortOrder._('ASCENDING');
+  static const descending = SortOrder._('DESCENDING');
 
   final String value;
 
-  const SortOrder(this.value);
+  const SortOrder._(this.value);
 
-  static SortOrder fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum SortOrder'));
+  static const values = [ascending, descending];
+
+  static SortOrder fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => SortOrder._(value));
+
+  @override
+  bool operator ==(other) => other is SortOrder && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Provides the CustomPolicyDetails, the rule owner (<code>Amazon Web
@@ -14842,7 +15955,7 @@ class Source {
 
   factory Source.fromJson(Map<String, dynamic> json) {
     return Source(
-      owner: Owner.fromString((json['Owner'] as String)),
+      owner: Owner.fromString((json['Owner'] as String?) ?? ''),
       customPolicyDetails: json['CustomPolicyDetails'] != null
           ? CustomPolicyDetails.fromJson(
               json['CustomPolicyDetails'] as Map<String, dynamic>)

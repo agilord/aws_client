@@ -458,37 +458,62 @@ class Endpoint {
   }
 }
 
-enum EndpointAccessType {
-  private('Private'),
-  customerOwnedIp('CustomerOwnedIp'),
-  ;
+class EndpointAccessType {
+  static const private = EndpointAccessType._('Private');
+  static const customerOwnedIp = EndpointAccessType._('CustomerOwnedIp');
 
   final String value;
 
-  const EndpointAccessType(this.value);
+  const EndpointAccessType._(this.value);
 
-  static EndpointAccessType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum EndpointAccessType'));
+  static const values = [private, customerOwnedIp];
+
+  static EndpointAccessType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => EndpointAccessType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is EndpointAccessType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum EndpointStatus {
-  pending('Pending'),
-  available('Available'),
-  deleting('Deleting'),
-  createFailed('Create_Failed'),
-  deleteFailed('Delete_Failed'),
-  ;
+class EndpointStatus {
+  static const pending = EndpointStatus._('Pending');
+  static const available = EndpointStatus._('Available');
+  static const deleting = EndpointStatus._('Deleting');
+  static const createFailed = EndpointStatus._('Create_Failed');
+  static const deleteFailed = EndpointStatus._('Delete_Failed');
 
   final String value;
 
-  const EndpointStatus(this.value);
+  const EndpointStatus._(this.value);
+
+  static const values = [
+    pending,
+    available,
+    deleting,
+    createFailed,
+    deleteFailed
+  ];
 
   static EndpointStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum EndpointStatus'));
+          orElse: () => EndpointStatus._(value));
+
+  @override
+  bool operator ==(other) => other is EndpointStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The failure reason, if any, for a create or delete endpoint operation.

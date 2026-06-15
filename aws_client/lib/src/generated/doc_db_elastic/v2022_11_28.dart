@@ -856,18 +856,27 @@ class DocDBElastic {
   }
 }
 
-enum Auth {
-  plainText('PLAIN_TEXT'),
-  secretArn('SECRET_ARN'),
-  ;
+class Auth {
+  static const plainText = Auth._('PLAIN_TEXT');
+  static const secretArn = Auth._('SECRET_ARN');
 
   final String value;
 
-  const Auth(this.value);
+  const Auth._(this.value);
+
+  static const values = [plainText, secretArn];
 
   static Auth fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum Auth'));
+      values.firstWhere((e) => e.value == value, orElse: () => Auth._(value));
+
+  @override
+  bool operator ==(other) => other is Auth && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Returns information about a specific elastic cluster.
@@ -955,7 +964,7 @@ class Cluster {
   factory Cluster.fromJson(Map<String, dynamic> json) {
     return Cluster(
       adminUserName: (json['adminUserName'] as String?) ?? '',
-      authType: Auth.fromString((json['authType'] as String)),
+      authType: Auth.fromString((json['authType'] as String?) ?? ''),
       clusterArn: (json['clusterArn'] as String?) ?? '',
       clusterEndpoint: (json['clusterEndpoint'] as String?) ?? '',
       clusterName: (json['clusterName'] as String?) ?? '',
@@ -965,7 +974,7 @@ class Cluster {
           (json['preferredMaintenanceWindow'] as String?) ?? '',
       shardCapacity: (json['shardCapacity'] as int?) ?? 0,
       shardCount: (json['shardCount'] as int?) ?? 0,
-      status: Status.fromString((json['status'] as String)),
+      status: Status.fromString((json['status'] as String?) ?? ''),
       subnetIds: ((json['subnetIds'] as List?) ?? const [])
           .nonNulls
           .map((e) => e as String)
@@ -1047,7 +1056,7 @@ class ClusterInList {
     return ClusterInList(
       clusterArn: (json['clusterArn'] as String?) ?? '',
       clusterName: (json['clusterName'] as String?) ?? '',
-      status: Status.fromString((json['status'] as String)),
+      status: Status.fromString((json['status'] as String?) ?? ''),
     );
   }
 
@@ -1141,7 +1150,7 @@ class ClusterSnapshot {
       snapshotArn: (json['snapshotArn'] as String?) ?? '',
       snapshotCreationTime: (json['snapshotCreationTime'] as String?) ?? '',
       snapshotName: (json['snapshotName'] as String?) ?? '',
-      status: Status.fromString((json['status'] as String)),
+      status: Status.fromString((json['status'] as String?) ?? ''),
       subnetIds: ((json['subnetIds'] as List?) ?? const [])
           .nonNulls
           .map((e) => e as String)
@@ -1215,7 +1224,7 @@ class ClusterSnapshotInList {
       snapshotArn: (json['snapshotArn'] as String?) ?? '',
       snapshotCreationTime: (json['snapshotCreationTime'] as String?) ?? '',
       snapshotName: (json['snapshotName'] as String?) ?? '',
-      status: Status.fromString((json['status'] as String)),
+      status: Status.fromString((json['status'] as String?) ?? ''),
     );
   }
 
@@ -1540,7 +1549,7 @@ class Shard {
     return Shard(
       createTime: (json['createTime'] as String?) ?? '',
       shardId: (json['shardId'] as String?) ?? '',
-      status: Status.fromString((json['status'] as String)),
+      status: Status.fromString((json['status'] as String?) ?? ''),
     );
   }
 
@@ -1556,19 +1565,27 @@ class Shard {
   }
 }
 
-enum SnapshotType {
-  manual('MANUAL'),
-  automated('AUTOMATED'),
-  ;
+class SnapshotType {
+  static const manual = SnapshotType._('MANUAL');
+  static const automated = SnapshotType._('AUTOMATED');
 
   final String value;
 
-  const SnapshotType(this.value);
+  const SnapshotType._(this.value);
 
-  static SnapshotType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum SnapshotType'));
+  static const values = [manual, automated];
+
+  static SnapshotType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => SnapshotType._(value));
+
+  @override
+  bool operator ==(other) => other is SnapshotType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class StartClusterOutput {
@@ -1593,35 +1610,66 @@ class StartClusterOutput {
   }
 }
 
-enum Status {
-  creating('CREATING'),
-  active('ACTIVE'),
-  deleting('DELETING'),
-  updating('UPDATING'),
-  vpcEndpointLimitExceeded('VPC_ENDPOINT_LIMIT_EXCEEDED'),
-  ipAddressLimitExceeded('IP_ADDRESS_LIMIT_EXCEEDED'),
-  invalidSecurityGroupId('INVALID_SECURITY_GROUP_ID'),
-  invalidSubnetId('INVALID_SUBNET_ID'),
-  inaccessibleEncryptionCreds('INACCESSIBLE_ENCRYPTION_CREDS'),
-  inaccessibleSecretArn('INACCESSIBLE_SECRET_ARN'),
-  inaccessibleVpcEndpoint('INACCESSIBLE_VPC_ENDPOINT'),
-  incompatibleNetwork('INCOMPATIBLE_NETWORK'),
-  merging('MERGING'),
-  modifying('MODIFYING'),
-  splitting('SPLITTING'),
-  copying('COPYING'),
-  starting('STARTING'),
-  stopping('STOPPING'),
-  stopped('STOPPED'),
-  ;
+class Status {
+  static const creating = Status._('CREATING');
+  static const active = Status._('ACTIVE');
+  static const deleting = Status._('DELETING');
+  static const updating = Status._('UPDATING');
+  static const vpcEndpointLimitExceeded =
+      Status._('VPC_ENDPOINT_LIMIT_EXCEEDED');
+  static const ipAddressLimitExceeded = Status._('IP_ADDRESS_LIMIT_EXCEEDED');
+  static const invalidSecurityGroupId = Status._('INVALID_SECURITY_GROUP_ID');
+  static const invalidSubnetId = Status._('INVALID_SUBNET_ID');
+  static const inaccessibleEncryptionCreds =
+      Status._('INACCESSIBLE_ENCRYPTION_CREDS');
+  static const inaccessibleSecretArn = Status._('INACCESSIBLE_SECRET_ARN');
+  static const inaccessibleVpcEndpoint = Status._('INACCESSIBLE_VPC_ENDPOINT');
+  static const incompatibleNetwork = Status._('INCOMPATIBLE_NETWORK');
+  static const merging = Status._('MERGING');
+  static const modifying = Status._('MODIFYING');
+  static const splitting = Status._('SPLITTING');
+  static const copying = Status._('COPYING');
+  static const starting = Status._('STARTING');
+  static const stopping = Status._('STOPPING');
+  static const stopped = Status._('STOPPED');
 
   final String value;
 
-  const Status(this.value);
+  const Status._(this.value);
+
+  static const values = [
+    creating,
+    active,
+    deleting,
+    updating,
+    vpcEndpointLimitExceeded,
+    ipAddressLimitExceeded,
+    invalidSecurityGroupId,
+    invalidSubnetId,
+    inaccessibleEncryptionCreds,
+    inaccessibleSecretArn,
+    inaccessibleVpcEndpoint,
+    incompatibleNetwork,
+    merging,
+    modifying,
+    splitting,
+    copying,
+    starting,
+    stopping,
+    stopped
+  ];
 
   static Status fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum Status'));
+      values.firstWhere((e) => e.value == value, orElse: () => Status._(value));
+
+  @override
+  bool operator ==(other) => other is Status && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class StopClusterOutput {

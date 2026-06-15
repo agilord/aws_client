@@ -1241,32 +1241,50 @@ class CodeConnections {
   }
 }
 
-enum BlockerStatus {
-  active('ACTIVE'),
-  resolved('RESOLVED'),
-  ;
+class BlockerStatus {
+  static const active = BlockerStatus._('ACTIVE');
+  static const resolved = BlockerStatus._('RESOLVED');
 
   final String value;
 
-  const BlockerStatus(this.value);
+  const BlockerStatus._(this.value);
+
+  static const values = [active, resolved];
 
   static BlockerStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum BlockerStatus'));
+          orElse: () => BlockerStatus._(value));
+
+  @override
+  bool operator ==(other) => other is BlockerStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum BlockerType {
-  automated('AUTOMATED'),
-  ;
+class BlockerType {
+  static const automated = BlockerType._('AUTOMATED');
 
   final String value;
 
-  const BlockerType(this.value);
+  const BlockerType._(this.value);
 
-  static BlockerType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum BlockerType'));
+  static const values = [automated];
+
+  static BlockerType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => BlockerType._(value));
+
+  @override
+  bool operator ==(other) => other is BlockerType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A resource that is used to connect third-party source providers with
@@ -1343,20 +1361,29 @@ class Connection {
   }
 }
 
-enum ConnectionStatus {
-  pending('PENDING'),
-  available('AVAILABLE'),
-  error('ERROR'),
-  ;
+class ConnectionStatus {
+  static const pending = ConnectionStatus._('PENDING');
+  static const available = ConnectionStatus._('AVAILABLE');
+  static const error = ConnectionStatus._('ERROR');
 
   final String value;
 
-  const ConnectionStatus(this.value);
+  const ConnectionStatus._(this.value);
+
+  static const values = [pending, available, error];
 
   static ConnectionStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ConnectionStatus'));
+          orElse: () => ConnectionStatus._(value));
+
+  @override
+  bool operator ==(other) => other is ConnectionStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class CreateConnectionOutput {
@@ -2027,37 +2054,62 @@ class ListTagsForResourceOutput {
   }
 }
 
-enum ProviderType {
-  bitbucket('Bitbucket'),
-  gitHub('GitHub'),
-  gitHubEnterpriseServer('GitHubEnterpriseServer'),
-  gitLab('GitLab'),
-  gitLabSelfManaged('GitLabSelfManaged'),
-  ;
+class ProviderType {
+  static const bitbucket = ProviderType._('Bitbucket');
+  static const gitHub = ProviderType._('GitHub');
+  static const gitHubEnterpriseServer =
+      ProviderType._('GitHubEnterpriseServer');
+  static const gitLab = ProviderType._('GitLab');
+  static const gitLabSelfManaged = ProviderType._('GitLabSelfManaged');
 
   final String value;
 
-  const ProviderType(this.value);
+  const ProviderType._(this.value);
 
-  static ProviderType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ProviderType'));
+  static const values = [
+    bitbucket,
+    gitHub,
+    gitHubEnterpriseServer,
+    gitLab,
+    gitLabSelfManaged
+  ];
+
+  static ProviderType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ProviderType._(value));
+
+  @override
+  bool operator ==(other) => other is ProviderType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum PublishDeploymentStatus {
-  enabled('ENABLED'),
-  disabled('DISABLED'),
-  ;
+class PublishDeploymentStatus {
+  static const enabled = PublishDeploymentStatus._('ENABLED');
+  static const disabled = PublishDeploymentStatus._('DISABLED');
 
   final String value;
 
-  const PublishDeploymentStatus(this.value);
+  const PublishDeploymentStatus._(this.value);
+
+  static const values = [enabled, disabled];
 
   static PublishDeploymentStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum PublishDeploymentStatus'));
+          orElse: () => PublishDeploymentStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is PublishDeploymentStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about the repository link resource, such as the repository link
@@ -2102,7 +2154,8 @@ class RepositoryLinkInfo {
     return RepositoryLinkInfo(
       connectionArn: (json['ConnectionArn'] as String?) ?? '',
       ownerId: (json['OwnerId'] as String?) ?? '',
-      providerType: ProviderType.fromString((json['ProviderType'] as String)),
+      providerType:
+          ProviderType.fromString((json['ProviderType'] as String?) ?? ''),
       repositoryLinkArn: (json['RepositoryLinkArn'] as String?) ?? '',
       repositoryLinkId: (json['RepositoryLinkId'] as String?) ?? '',
       repositoryName: (json['RepositoryName'] as String?) ?? '',
@@ -2174,7 +2227,8 @@ class RepositorySyncAttempt {
           .map((e) => RepositorySyncEvent.fromJson(e as Map<String, dynamic>))
           .toList(),
       startedAt: nonNullableTimeStampFromJson(json['StartedAt'] ?? 0),
-      status: RepositorySyncStatus.fromString((json['Status'] as String)),
+      status:
+          RepositorySyncStatus.fromString((json['Status'] as String?) ?? ''),
     );
   }
 
@@ -2281,22 +2335,32 @@ class RepositorySyncEvent {
   }
 }
 
-enum RepositorySyncStatus {
-  failed('FAILED'),
-  initiated('INITIATED'),
-  inProgress('IN_PROGRESS'),
-  succeeded('SUCCEEDED'),
-  queued('QUEUED'),
-  ;
+class RepositorySyncStatus {
+  static const failed = RepositorySyncStatus._('FAILED');
+  static const initiated = RepositorySyncStatus._('INITIATED');
+  static const inProgress = RepositorySyncStatus._('IN_PROGRESS');
+  static const succeeded = RepositorySyncStatus._('SUCCEEDED');
+  static const queued = RepositorySyncStatus._('QUEUED');
 
   final String value;
 
-  const RepositorySyncStatus(this.value);
+  const RepositorySyncStatus._(this.value);
 
-  static RepositorySyncStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum RepositorySyncStatus'));
+  static const values = [failed, initiated, inProgress, succeeded, queued];
+
+  static RepositorySyncStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => RepositorySyncStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RepositorySyncStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about a resource sync attempt.
@@ -2358,7 +2422,7 @@ class ResourceSyncAttempt {
           (json['InitialRevision'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
       startedAt: nonNullableTimeStampFromJson(json['StartedAt'] ?? 0),
-      status: ResourceSyncStatus.fromString((json['Status'] as String)),
+      status: ResourceSyncStatus.fromString((json['Status'] as String?) ?? ''),
       target: (json['Target'] as String?) ?? '',
       targetRevision: Revision.fromJson(
           (json['TargetRevision'] as Map<String, dynamic>?) ??
@@ -2429,21 +2493,31 @@ class ResourceSyncEvent {
   }
 }
 
-enum ResourceSyncStatus {
-  failed('FAILED'),
-  initiated('INITIATED'),
-  inProgress('IN_PROGRESS'),
-  succeeded('SUCCEEDED'),
-  ;
+class ResourceSyncStatus {
+  static const failed = ResourceSyncStatus._('FAILED');
+  static const initiated = ResourceSyncStatus._('INITIATED');
+  static const inProgress = ResourceSyncStatus._('IN_PROGRESS');
+  static const succeeded = ResourceSyncStatus._('SUCCEEDED');
 
   final String value;
 
-  const ResourceSyncStatus(this.value);
+  const ResourceSyncStatus._(this.value);
 
-  static ResourceSyncStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ResourceSyncStatus'));
+  static const values = [failed, initiated, inProgress, succeeded];
+
+  static ResourceSyncStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ResourceSyncStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ResourceSyncStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about the revision for a specific sync event, such as the
@@ -2482,7 +2556,8 @@ class Revision {
       branch: (json['Branch'] as String?) ?? '',
       directory: (json['Directory'] as String?) ?? '',
       ownerId: (json['OwnerId'] as String?) ?? '',
-      providerType: ProviderType.fromString((json['ProviderType'] as String)),
+      providerType:
+          ProviderType.fromString((json['ProviderType'] as String?) ?? ''),
       repositoryName: (json['RepositoryName'] as String?) ?? '',
       sha: (json['Sha'] as String?) ?? '',
     );
@@ -2548,8 +2623,8 @@ class SyncBlocker {
       createdAt: nonNullableTimeStampFromJson(json['CreatedAt'] ?? 0),
       createdReason: (json['CreatedReason'] as String?) ?? '',
       id: (json['Id'] as String?) ?? '',
-      status: BlockerStatus.fromString((json['Status'] as String)),
-      type: BlockerType.fromString((json['Type'] as String)),
+      status: BlockerStatus.fromString((json['Status'] as String?) ?? ''),
+      type: BlockerType.fromString((json['Type'] as String?) ?? ''),
       contexts: (json['Contexts'] as List?)
           ?.nonNulls
           .map((e) => SyncBlockerContext.fromJson(e as Map<String, dynamic>))
@@ -2712,12 +2787,14 @@ class SyncConfiguration {
     return SyncConfiguration(
       branch: (json['Branch'] as String?) ?? '',
       ownerId: (json['OwnerId'] as String?) ?? '',
-      providerType: ProviderType.fromString((json['ProviderType'] as String)),
+      providerType:
+          ProviderType.fromString((json['ProviderType'] as String?) ?? ''),
       repositoryLinkId: (json['RepositoryLinkId'] as String?) ?? '',
       repositoryName: (json['RepositoryName'] as String?) ?? '',
       resourceName: (json['ResourceName'] as String?) ?? '',
       roleArn: (json['RoleArn'] as String?) ?? '',
-      syncType: SyncConfigurationType.fromString((json['SyncType'] as String)),
+      syncType:
+          SyncConfigurationType.fromString((json['SyncType'] as String?) ?? ''),
       configFile: json['ConfigFile'] as String?,
       publishDeploymentStatus: (json['PublishDeploymentStatus'] as String?)
           ?.let(PublishDeploymentStatus.fromString),
@@ -2756,18 +2833,28 @@ class SyncConfiguration {
   }
 }
 
-enum SyncConfigurationType {
-  cfnStackSync('CFN_STACK_SYNC'),
-  ;
+class SyncConfigurationType {
+  static const cfnStackSync = SyncConfigurationType._('CFN_STACK_SYNC');
 
   final String value;
 
-  const SyncConfigurationType(this.value);
+  const SyncConfigurationType._(this.value);
 
-  static SyncConfigurationType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum SyncConfigurationType'));
+  static const values = [cfnStackSync];
+
+  static SyncConfigurationType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => SyncConfigurationType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SyncConfigurationType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A tag is a key-value pair that is used to manage the resource.
@@ -2815,19 +2902,29 @@ class TagResourceOutput {
   }
 }
 
-enum TriggerResourceUpdateOn {
-  anyChange('ANY_CHANGE'),
-  fileChange('FILE_CHANGE'),
-  ;
+class TriggerResourceUpdateOn {
+  static const anyChange = TriggerResourceUpdateOn._('ANY_CHANGE');
+  static const fileChange = TriggerResourceUpdateOn._('FILE_CHANGE');
 
   final String value;
 
-  const TriggerResourceUpdateOn(this.value);
+  const TriggerResourceUpdateOn._(this.value);
+
+  static const values = [anyChange, fileChange];
 
   static TriggerResourceUpdateOn fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum TriggerResourceUpdateOn'));
+          orElse: () => TriggerResourceUpdateOn._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TriggerResourceUpdateOn && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class UntagResourceOutput {

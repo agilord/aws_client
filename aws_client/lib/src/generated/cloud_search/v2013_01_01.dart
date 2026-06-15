@@ -1043,21 +1043,31 @@ class AccessPoliciesStatus {
   }
 }
 
-enum AlgorithmicStemming {
-  none('none'),
-  minimal('minimal'),
-  light('light'),
-  full('full'),
-  ;
+class AlgorithmicStemming {
+  static const none = AlgorithmicStemming._('none');
+  static const minimal = AlgorithmicStemming._('minimal');
+  static const light = AlgorithmicStemming._('light');
+  static const full = AlgorithmicStemming._('full');
 
   final String value;
 
-  const AlgorithmicStemming(this.value);
+  const AlgorithmicStemming._(this.value);
 
-  static AlgorithmicStemming fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum AlgorithmicStemming'));
+  static const values = [none, minimal, light, full];
+
+  static AlgorithmicStemming fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AlgorithmicStemming._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AlgorithmicStemming && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Synonyms, stopwords, and stemming options for an analysis scheme. Includes
@@ -1214,52 +1224,98 @@ class AnalysisScheme {
 
 /// An <a href="http://tools.ietf.org/html/rfc4646" target="_blank">IETF RFC
 /// 4646</a> language code or <code>mul</code> for multiple languages.
-enum AnalysisSchemeLanguage {
-  ar('ar'),
-  bg('bg'),
-  ca('ca'),
-  cs('cs'),
-  da('da'),
-  de('de'),
-  el('el'),
-  en('en'),
-  es('es'),
-  eu('eu'),
-  fa('fa'),
-  fi('fi'),
-  fr('fr'),
-  ga('ga'),
-  gl('gl'),
-  he('he'),
-  hi('hi'),
-  hu('hu'),
-  hy('hy'),
-  id('id'),
-  it('it'),
-  ja('ja'),
-  ko('ko'),
-  lv('lv'),
-  mul('mul'),
-  nl('nl'),
-  no('no'),
-  pt('pt'),
-  ro('ro'),
-  ru('ru'),
-  sv('sv'),
-  th('th'),
-  tr('tr'),
-  zhHans('zh-Hans'),
-  zhHant('zh-Hant'),
-  ;
+class AnalysisSchemeLanguage {
+  static const ar = AnalysisSchemeLanguage._('ar');
+  static const bg = AnalysisSchemeLanguage._('bg');
+  static const ca = AnalysisSchemeLanguage._('ca');
+  static const cs = AnalysisSchemeLanguage._('cs');
+  static const da = AnalysisSchemeLanguage._('da');
+  static const de = AnalysisSchemeLanguage._('de');
+  static const el = AnalysisSchemeLanguage._('el');
+  static const en = AnalysisSchemeLanguage._('en');
+  static const es = AnalysisSchemeLanguage._('es');
+  static const eu = AnalysisSchemeLanguage._('eu');
+  static const fa = AnalysisSchemeLanguage._('fa');
+  static const fi = AnalysisSchemeLanguage._('fi');
+  static const fr = AnalysisSchemeLanguage._('fr');
+  static const ga = AnalysisSchemeLanguage._('ga');
+  static const gl = AnalysisSchemeLanguage._('gl');
+  static const he = AnalysisSchemeLanguage._('he');
+  static const hi = AnalysisSchemeLanguage._('hi');
+  static const hu = AnalysisSchemeLanguage._('hu');
+  static const hy = AnalysisSchemeLanguage._('hy');
+  static const id = AnalysisSchemeLanguage._('id');
+  static const it = AnalysisSchemeLanguage._('it');
+  static const ja = AnalysisSchemeLanguage._('ja');
+  static const ko = AnalysisSchemeLanguage._('ko');
+  static const lv = AnalysisSchemeLanguage._('lv');
+  static const mul = AnalysisSchemeLanguage._('mul');
+  static const nl = AnalysisSchemeLanguage._('nl');
+  static const no = AnalysisSchemeLanguage._('no');
+  static const pt = AnalysisSchemeLanguage._('pt');
+  static const ro = AnalysisSchemeLanguage._('ro');
+  static const ru = AnalysisSchemeLanguage._('ru');
+  static const sv = AnalysisSchemeLanguage._('sv');
+  static const th = AnalysisSchemeLanguage._('th');
+  static const tr = AnalysisSchemeLanguage._('tr');
+  static const zhHans = AnalysisSchemeLanguage._('zh-Hans');
+  static const zhHant = AnalysisSchemeLanguage._('zh-Hant');
 
   final String value;
 
-  const AnalysisSchemeLanguage(this.value);
+  const AnalysisSchemeLanguage._(this.value);
+
+  static const values = [
+    ar,
+    bg,
+    ca,
+    cs,
+    da,
+    de,
+    el,
+    en,
+    es,
+    eu,
+    fa,
+    fi,
+    fr,
+    ga,
+    gl,
+    he,
+    hi,
+    hu,
+    hy,
+    id,
+    it,
+    ja,
+    ko,
+    lv,
+    mul,
+    nl,
+    no,
+    pt,
+    ro,
+    ru,
+    sv,
+    th,
+    tr,
+    zhHans,
+    zhHant
+  ];
 
   static AnalysisSchemeLanguage fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum AnalysisSchemeLanguage'));
+          orElse: () => AnalysisSchemeLanguage._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AnalysisSchemeLanguage && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The status and configuration of an <code>AnalysisScheme</code>.
@@ -2632,28 +2688,49 @@ class IndexFieldStatus {
 /// href="http://docs.aws.amazon.com/cloudsearch/latest/developerguide/configuring-index-fields.html"
 /// target="_blank">Configuring Index Fields</a> in the <i>Amazon CloudSearch
 /// Developer Guide</i>.
-enum IndexFieldType {
-  int('int'),
-  double('double'),
-  literal('literal'),
-  text('text'),
-  date('date'),
-  latlon('latlon'),
-  intArray('int-array'),
-  doubleArray('double-array'),
-  literalArray('literal-array'),
-  textArray('text-array'),
-  dateArray('date-array'),
-  ;
+class IndexFieldType {
+  static const $int = IndexFieldType._('int');
+  static const $double = IndexFieldType._('double');
+  static const literal = IndexFieldType._('literal');
+  static const text = IndexFieldType._('text');
+  static const date = IndexFieldType._('date');
+  static const latlon = IndexFieldType._('latlon');
+  static const intArray = IndexFieldType._('int-array');
+  static const doubleArray = IndexFieldType._('double-array');
+  static const literalArray = IndexFieldType._('literal-array');
+  static const textArray = IndexFieldType._('text-array');
+  static const dateArray = IndexFieldType._('date-array');
 
   final String value;
 
-  const IndexFieldType(this.value);
+  const IndexFieldType._(this.value);
+
+  static const values = [
+    $int,
+    $double,
+    literal,
+    text,
+    date,
+    latlon,
+    intArray,
+    doubleArray,
+    literalArray,
+    textArray,
+    dateArray
+  ];
 
   static IndexFieldType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum IndexFieldType'));
+          orElse: () => IndexFieldType._(value));
+
+  @override
+  bool operator ==(other) => other is IndexFieldType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Options for a field that contains an array of 64-bit signed integers.
@@ -3087,20 +3164,34 @@ class LiteralOptions {
 /// data and cannot be used to index the data. You must either modify the option
 /// value or update or remove the incompatible documents.</li>
 /// </ul>
-enum OptionState {
-  requiresIndexDocuments('RequiresIndexDocuments'),
-  processing('Processing'),
-  active('Active'),
-  failedToValidate('FailedToValidate'),
-  ;
+class OptionState {
+  static const requiresIndexDocuments = OptionState._('RequiresIndexDocuments');
+  static const processing = OptionState._('Processing');
+  static const active = OptionState._('Active');
+  static const failedToValidate = OptionState._('FailedToValidate');
 
   final String value;
 
-  const OptionState(this.value);
+  const OptionState._(this.value);
 
-  static OptionState fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum OptionState'));
+  static const values = [
+    requiresIndexDocuments,
+    processing,
+    active,
+    failedToValidate
+  ];
+
+  static OptionState fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => OptionState._(value));
+
+  @override
+  bool operator ==(other) => other is OptionState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The status of domain configuration option.
@@ -3169,34 +3260,66 @@ class OptionStatus {
 
 /// The instance type (such as <code>search.m1.small</code>) on which an index
 /// partition is hosted.
-enum PartitionInstanceType {
-  searchM1Small('search.m1.small'),
-  searchM1Large('search.m1.large'),
-  searchM2Xlarge('search.m2.xlarge'),
-  searchM2_2xlarge('search.m2.2xlarge'),
-  searchM3Medium('search.m3.medium'),
-  searchM3Large('search.m3.large'),
-  searchM3Xlarge('search.m3.xlarge'),
-  searchM3_2xlarge('search.m3.2xlarge'),
-  searchSmall('search.small'),
-  searchMedium('search.medium'),
-  searchLarge('search.large'),
-  searchXlarge('search.xlarge'),
-  search_2xlarge('search.2xlarge'),
-  searchPreviousgenerationSmall('search.previousgeneration.small'),
-  searchPreviousgenerationLarge('search.previousgeneration.large'),
-  searchPreviousgenerationXlarge('search.previousgeneration.xlarge'),
-  searchPreviousgeneration_2xlarge('search.previousgeneration.2xlarge'),
-  ;
+class PartitionInstanceType {
+  static const searchM1Small = PartitionInstanceType._('search.m1.small');
+  static const searchM1Large = PartitionInstanceType._('search.m1.large');
+  static const searchM2Xlarge = PartitionInstanceType._('search.m2.xlarge');
+  static const searchM2_2xlarge = PartitionInstanceType._('search.m2.2xlarge');
+  static const searchM3Medium = PartitionInstanceType._('search.m3.medium');
+  static const searchM3Large = PartitionInstanceType._('search.m3.large');
+  static const searchM3Xlarge = PartitionInstanceType._('search.m3.xlarge');
+  static const searchM3_2xlarge = PartitionInstanceType._('search.m3.2xlarge');
+  static const searchSmall = PartitionInstanceType._('search.small');
+  static const searchMedium = PartitionInstanceType._('search.medium');
+  static const searchLarge = PartitionInstanceType._('search.large');
+  static const searchXlarge = PartitionInstanceType._('search.xlarge');
+  static const search_2xlarge = PartitionInstanceType._('search.2xlarge');
+  static const searchPreviousgenerationSmall =
+      PartitionInstanceType._('search.previousgeneration.small');
+  static const searchPreviousgenerationLarge =
+      PartitionInstanceType._('search.previousgeneration.large');
+  static const searchPreviousgenerationXlarge =
+      PartitionInstanceType._('search.previousgeneration.xlarge');
+  static const searchPreviousgeneration_2xlarge =
+      PartitionInstanceType._('search.previousgeneration.2xlarge');
 
   final String value;
 
-  const PartitionInstanceType(this.value);
+  const PartitionInstanceType._(this.value);
 
-  static PartitionInstanceType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum PartitionInstanceType'));
+  static const values = [
+    searchM1Small,
+    searchM1Large,
+    searchM2Xlarge,
+    searchM2_2xlarge,
+    searchM3Medium,
+    searchM3Large,
+    searchM3Xlarge,
+    searchM3_2xlarge,
+    searchSmall,
+    searchMedium,
+    searchLarge,
+    searchXlarge,
+    search_2xlarge,
+    searchPreviousgenerationSmall,
+    searchPreviousgenerationLarge,
+    searchPreviousgenerationXlarge,
+    searchPreviousgeneration_2xlarge
+  ];
+
+  static PartitionInstanceType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => PartitionInstanceType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is PartitionInstanceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The desired instance type and desired number of replicas of each index
@@ -3346,20 +3469,30 @@ class Suggester {
   }
 }
 
-enum SuggesterFuzzyMatching {
-  none('none'),
-  low('low'),
-  high('high'),
-  ;
+class SuggesterFuzzyMatching {
+  static const none = SuggesterFuzzyMatching._('none');
+  static const low = SuggesterFuzzyMatching._('low');
+  static const high = SuggesterFuzzyMatching._('high');
 
   final String value;
 
-  const SuggesterFuzzyMatching(this.value);
+  const SuggesterFuzzyMatching._(this.value);
+
+  static const values = [none, low, high];
 
   static SuggesterFuzzyMatching fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum SuggesterFuzzyMatching'));
+          orElse: () => SuggesterFuzzyMatching._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SuggesterFuzzyMatching && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The value of a <code>Suggester</code> and its current status.
@@ -3389,19 +3522,30 @@ class SuggesterStatus {
 }
 
 /// The minimum required TLS version.
-enum TLSSecurityPolicy {
-  policyMinTls_1_0_2019_07('Policy-Min-TLS-1-0-2019-07'),
-  policyMinTls_1_2_2019_07('Policy-Min-TLS-1-2-2019-07'),
-  ;
+class TLSSecurityPolicy {
+  static const policyMinTls_1_0_2019_07 =
+      TLSSecurityPolicy._('Policy-Min-TLS-1-0-2019-07');
+  static const policyMinTls_1_2_2019_07 =
+      TLSSecurityPolicy._('Policy-Min-TLS-1-2-2019-07');
 
   final String value;
 
-  const TLSSecurityPolicy(this.value);
+  const TLSSecurityPolicy._(this.value);
+
+  static const values = [policyMinTls_1_0_2019_07, policyMinTls_1_2_2019_07];
 
   static TLSSecurityPolicy fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum TLSSecurityPolicy'));
+          orElse: () => TLSSecurityPolicy._(value));
+
+  @override
+  bool operator ==(other) => other is TLSSecurityPolicy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Options for a field that contains an array of text strings. Present if

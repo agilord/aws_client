@@ -986,17 +986,26 @@ class AddProfilePermissionResponse {
   }
 }
 
-enum Category {
-  awsIoT('AWSIoT'),
-  ;
+class Category {
+  static const awsIoT = Category._('AWSIoT');
 
   final String value;
 
-  const Category(this.value);
+  const Category._(this.value);
 
-  static Category fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum Category'));
+  static const values = [awsIoT];
+
+  static Category fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Category._(value));
+
+  @override
+  bool operator ==(other) => other is Category && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class DescribeSigningJobResponse {
@@ -1186,19 +1195,29 @@ class Destination {
   }
 }
 
-enum EncryptionAlgorithm {
-  rsa('RSA'),
-  ecdsa('ECDSA'),
-  ;
+class EncryptionAlgorithm {
+  static const rsa = EncryptionAlgorithm._('RSA');
+  static const ecdsa = EncryptionAlgorithm._('ECDSA');
 
   final String value;
 
-  const EncryptionAlgorithm(this.value);
+  const EncryptionAlgorithm._(this.value);
 
-  static EncryptionAlgorithm fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum EncryptionAlgorithm'));
+  static const values = [rsa, ecdsa];
+
+  static EncryptionAlgorithm fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => EncryptionAlgorithm._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is EncryptionAlgorithm && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The encryption algorithm options that are available to a code-signing job.
@@ -1221,8 +1240,8 @@ class EncryptionAlgorithmOptions {
           .nonNulls
           .map((e) => EncryptionAlgorithm.fromString((e as String)))
           .toList(),
-      defaultValue:
-          EncryptionAlgorithm.fromString((json['defaultValue'] as String)),
+      defaultValue: EncryptionAlgorithm.fromString(
+          (json['defaultValue'] as String?) ?? ''),
     );
   }
 
@@ -1479,19 +1498,28 @@ class GetSigningProfileResponse {
   }
 }
 
-enum HashAlgorithm {
-  sha1('SHA1'),
-  sha256('SHA256'),
-  ;
+class HashAlgorithm {
+  static const sha1 = HashAlgorithm._('SHA1');
+  static const sha256 = HashAlgorithm._('SHA256');
 
   final String value;
 
-  const HashAlgorithm(this.value);
+  const HashAlgorithm._(this.value);
+
+  static const values = [sha1, sha256];
 
   static HashAlgorithm fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum HashAlgorithm'));
+          orElse: () => HashAlgorithm._(value));
+
+  @override
+  bool operator ==(other) => other is HashAlgorithm && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The hash algorithms that are available to a code-signing job.
@@ -1513,7 +1541,8 @@ class HashAlgorithmOptions {
           .nonNulls
           .map((e) => HashAlgorithm.fromString((e as String)))
           .toList(),
-      defaultValue: HashAlgorithm.fromString((json['defaultValue'] as String)),
+      defaultValue:
+          HashAlgorithm.fromString((json['defaultValue'] as String?) ?? ''),
     );
   }
 
@@ -1527,19 +1556,28 @@ class HashAlgorithmOptions {
   }
 }
 
-enum ImageFormat {
-  json('JSON'),
-  jSONEmbedded('JSONEmbedded'),
-  jSONDetached('JSONDetached'),
-  ;
+class ImageFormat {
+  static const json = ImageFormat._('JSON');
+  static const jSONEmbedded = ImageFormat._('JSONEmbedded');
+  static const jSONDetached = ImageFormat._('JSONDetached');
 
   final String value;
 
-  const ImageFormat(this.value);
+  const ImageFormat._(this.value);
 
-  static ImageFormat fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum ImageFormat'));
+  static const values = [json, jSONEmbedded, jSONDetached];
+
+  static ImageFormat fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ImageFormat._(value));
+
+  @override
+  bool operator ==(other) => other is ImageFormat && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class ListProfilePermissionsResponse {
@@ -2088,7 +2126,8 @@ class SigningImageFormat {
 
   factory SigningImageFormat.fromJson(Map<String, dynamic> json) {
     return SigningImageFormat(
-      defaultFormat: ImageFormat.fromString((json['defaultFormat'] as String)),
+      defaultFormat:
+          ImageFormat.fromString((json['defaultFormat'] as String?) ?? ''),
       supportedFormats: ((json['supportedFormats'] as List?) ?? const [])
           .nonNulls
           .map((e) => ImageFormat.fromString((e as String)))
@@ -2567,36 +2606,55 @@ class SigningProfileRevocationRecord {
   }
 }
 
-enum SigningProfileStatus {
-  active('Active'),
-  canceled('Canceled'),
-  revoked('Revoked'),
-  ;
+class SigningProfileStatus {
+  static const active = SigningProfileStatus._('Active');
+  static const canceled = SigningProfileStatus._('Canceled');
+  static const revoked = SigningProfileStatus._('Revoked');
 
   final String value;
 
-  const SigningProfileStatus(this.value);
+  const SigningProfileStatus._(this.value);
 
-  static SigningProfileStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum SigningProfileStatus'));
+  static const values = [active, canceled, revoked];
+
+  static SigningProfileStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => SigningProfileStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SigningProfileStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum SigningStatus {
-  inProgress('InProgress'),
-  failed('Failed'),
-  succeeded('Succeeded'),
-  ;
+class SigningStatus {
+  static const inProgress = SigningStatus._('InProgress');
+  static const failed = SigningStatus._('Failed');
+  static const succeeded = SigningStatus._('Succeeded');
 
   final String value;
 
-  const SigningStatus(this.value);
+  const SigningStatus._(this.value);
+
+  static const values = [inProgress, failed, succeeded];
 
   static SigningStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum SigningStatus'));
+          orElse: () => SigningStatus._(value));
+
+  @override
+  bool operator ==(other) => other is SigningStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// An <code>S3Source</code> object that contains information about the S3
@@ -2678,20 +2736,28 @@ class UntagResourceResponse {
   }
 }
 
-enum ValidityType {
-  days('DAYS'),
-  months('MONTHS'),
-  years('YEARS'),
-  ;
+class ValidityType {
+  static const days = ValidityType._('DAYS');
+  static const months = ValidityType._('MONTHS');
+  static const years = ValidityType._('YEARS');
 
   final String value;
 
-  const ValidityType(this.value);
+  const ValidityType._(this.value);
 
-  static ValidityType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ValidityType'));
+  static const values = [days, months, years];
+
+  static ValidityType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ValidityType._(value));
+
+  @override
+  bool operator ==(other) => other is ValidityType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class AccessDeniedException extends _s.GenericAwsException {

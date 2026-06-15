@@ -2738,7 +2738,7 @@ class Actuator {
 
   factory Actuator.fromJson(Map<String, dynamic> json) {
     return Actuator(
-      dataType: NodeDataType.fromString((json['dataType'] as String)),
+      dataType: NodeDataType.fromString((json['dataType'] as String?) ?? ''),
       fullyQualifiedName: (json['fullyQualifiedName'] as String?) ?? '',
       allowedValues: (json['allowedValues'] as List?)
           ?.nonNulls
@@ -2850,7 +2850,7 @@ class Attribute {
 
   factory Attribute.fromJson(Map<String, dynamic> json) {
     return Attribute(
-      dataType: NodeDataType.fromString((json['dataType'] as String)),
+      dataType: NodeDataType.fromString((json['dataType'] as String?) ?? ''),
       fullyQualifiedName: (json['fullyQualifiedName'] as String?) ?? '',
       allowedValues: (json['allowedValues'] as List?)
           ?.nonNulls
@@ -3019,21 +3019,30 @@ class Branch {
   }
 }
 
-enum CampaignStatus {
-  creating('CREATING'),
-  waitingForApproval('WAITING_FOR_APPROVAL'),
-  running('RUNNING'),
-  suspended('SUSPENDED'),
-  ;
+class CampaignStatus {
+  static const creating = CampaignStatus._('CREATING');
+  static const waitingForApproval = CampaignStatus._('WAITING_FOR_APPROVAL');
+  static const running = CampaignStatus._('RUNNING');
+  static const suspended = CampaignStatus._('SUSPENDED');
 
   final String value;
 
-  const CampaignStatus(this.value);
+  const CampaignStatus._(this.value);
+
+  static const values = [creating, waitingForApproval, running, suspended];
 
   static CampaignStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum CampaignStatus'));
+          orElse: () => CampaignStatus._(value));
+
+  @override
+  bool operator ==(other) => other is CampaignStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about a campaign.
@@ -3296,7 +3305,7 @@ class CloudWatchLogDeliveryOptions {
 
   factory CloudWatchLogDeliveryOptions.fromJson(Map<String, dynamic> json) {
     return CloudWatchLogDeliveryOptions(
-      logType: LogType.fromString((json['logType'] as String)),
+      logType: LogType.fromString((json['logType'] as String?) ?? ''),
       logGroupName: json['logGroupName'] as String?,
     );
   }
@@ -3352,18 +3361,27 @@ class CollectionScheme {
   }
 }
 
-enum Compression {
-  off('OFF'),
-  snappy('SNAPPY'),
-  ;
+class Compression {
+  static const off = Compression._('OFF');
+  static const snappy = Compression._('SNAPPY');
 
   final String value;
 
-  const Compression(this.value);
+  const Compression._(this.value);
 
-  static Compression fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum Compression'));
+  static const values = [off, snappy];
+
+  static Compression fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Compression._(value));
+
+  @override
+  bool operator ==(other) => other is Compression && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about a collection scheme that uses a simple logical expression
@@ -3770,7 +3788,7 @@ class CustomProperty {
 
   factory CustomProperty.fromJson(Map<String, dynamic> json) {
     return CustomProperty(
-      dataType: NodeDataType.fromString((json['dataType'] as String)),
+      dataType: NodeDataType.fromString((json['dataType'] as String?) ?? ''),
       fullyQualifiedName: (json['fullyQualifiedName'] as String?) ?? '',
       comment: json['comment'] as String?,
       dataEncoding:
@@ -3886,18 +3904,27 @@ class DataDestinationConfig {
   }
 }
 
-enum DataFormat {
-  json('JSON'),
-  parquet('PARQUET'),
-  ;
+class DataFormat {
+  static const json = DataFormat._('JSON');
+  static const parquet = DataFormat._('PARQUET');
 
   final String value;
 
-  const DataFormat(this.value);
+  const DataFormat._(this.value);
 
-  static DataFormat fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum DataFormat'));
+  static const values = [json, parquet];
+
+  static DataFormat fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => DataFormat._(value));
+
+  @override
+  bool operator ==(other) => other is DataFormat && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about a created decoder manifest. You can use the API operation
@@ -4159,19 +4186,28 @@ class DeleteVehicleResponse {
   }
 }
 
-enum DiagnosticsMode {
-  off('OFF'),
-  sendActiveDtcs('SEND_ACTIVE_DTCS'),
-  ;
+class DiagnosticsMode {
+  static const off = DiagnosticsMode._('OFF');
+  static const sendActiveDtcs = DiagnosticsMode._('SEND_ACTIVE_DTCS');
 
   final String value;
 
-  const DiagnosticsMode(this.value);
+  const DiagnosticsMode._(this.value);
+
+  static const values = [off, sendActiveDtcs];
 
   static DiagnosticsMode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum DiagnosticsMode'));
+          orElse: () => DiagnosticsMode._(value));
+
+  @override
+  bool operator ==(other) => other is DiagnosticsMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class DisassociateVehicleFleetResponse {
@@ -4186,35 +4222,54 @@ class DisassociateVehicleFleetResponse {
   }
 }
 
-enum EncryptionStatus {
-  pending('PENDING'),
-  success('SUCCESS'),
-  failure('FAILURE'),
-  ;
+class EncryptionStatus {
+  static const pending = EncryptionStatus._('PENDING');
+  static const success = EncryptionStatus._('SUCCESS');
+  static const failure = EncryptionStatus._('FAILURE');
 
   final String value;
 
-  const EncryptionStatus(this.value);
+  const EncryptionStatus._(this.value);
+
+  static const values = [pending, success, failure];
 
   static EncryptionStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum EncryptionStatus'));
+          orElse: () => EncryptionStatus._(value));
+
+  @override
+  bool operator ==(other) => other is EncryptionStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum EncryptionType {
-  kmsBasedEncryption('KMS_BASED_ENCRYPTION'),
-  fleetwiseDefaultEncryption('FLEETWISE_DEFAULT_ENCRYPTION'),
-  ;
+class EncryptionType {
+  static const kmsBasedEncryption = EncryptionType._('KMS_BASED_ENCRYPTION');
+  static const fleetwiseDefaultEncryption =
+      EncryptionType._('FLEETWISE_DEFAULT_ENCRYPTION');
 
   final String value;
 
-  const EncryptionType(this.value);
+  const EncryptionType._(this.value);
+
+  static const values = [kmsBasedEncryption, fleetwiseDefaultEncryption];
 
   static EncryptionType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum EncryptionType'));
+          orElse: () => EncryptionType._(value));
+
+  @override
+  bool operator ==(other) => other is EncryptionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about a fleet.
@@ -4610,10 +4665,10 @@ class GetEncryptionConfigurationResponse {
   factory GetEncryptionConfigurationResponse.fromJson(
       Map<String, dynamic> json) {
     return GetEncryptionConfigurationResponse(
-      encryptionStatus:
-          EncryptionStatus.fromString((json['encryptionStatus'] as String)),
+      encryptionStatus: EncryptionStatus.fromString(
+          (json['encryptionStatus'] as String?) ?? ''),
       encryptionType:
-          EncryptionType.fromString((json['encryptionType'] as String)),
+          EncryptionType.fromString((json['encryptionType'] as String?) ?? ''),
       creationTime: timeStampFromJson(json['creationTime']),
       errorMessage: json['errorMessage'] as String?,
       kmsKeyId: json['kmsKeyId'] as String?,
@@ -4844,8 +4899,8 @@ class GetRegisterAccountStatusResponse {
 
   factory GetRegisterAccountStatusResponse.fromJson(Map<String, dynamic> json) {
     return GetRegisterAccountStatusResponse(
-      accountStatus:
-          RegistrationStatus.fromString((json['accountStatus'] as String)),
+      accountStatus: RegistrationStatus.fromString(
+          (json['accountStatus'] as String?) ?? ''),
       creationTime: nonNullableTimeStampFromJson(json['creationTime'] ?? 0),
       customerAccountId: (json['customerAccountId'] as String?) ?? '',
       iamRegistrationResponse: IamRegistrationResponse.fromJson(
@@ -5068,8 +5123,8 @@ class IamRegistrationResponse {
 
   factory IamRegistrationResponse.fromJson(Map<String, dynamic> json) {
     return IamRegistrationResponse(
-      registrationStatus:
-          RegistrationStatus.fromString((json['registrationStatus'] as String)),
+      registrationStatus: RegistrationStatus.fromString(
+          (json['registrationStatus'] as String?) ?? ''),
       roleArn: (json['roleArn'] as String?) ?? '',
       errorMessage: json['errorMessage'] as String?,
     );
@@ -5597,35 +5652,53 @@ class ListVehiclesResponse {
   }
 }
 
-enum LogType {
-  off('OFF'),
-  error('ERROR'),
-  ;
+class LogType {
+  static const off = LogType._('OFF');
+  static const error = LogType._('ERROR');
 
   final String value;
 
-  const LogType(this.value);
+  const LogType._(this.value);
 
-  static LogType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum LogType'));
+  static const values = [off, error];
+
+  static LogType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => LogType._(value));
+
+  @override
+  bool operator ==(other) => other is LogType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ManifestStatus {
-  active('ACTIVE'),
-  draft('DRAFT'),
-  invalid('INVALID'),
-  validating('VALIDATING'),
-  ;
+class ManifestStatus {
+  static const active = ManifestStatus._('ACTIVE');
+  static const draft = ManifestStatus._('DRAFT');
+  static const invalid = ManifestStatus._('INVALID');
+  static const validating = ManifestStatus._('VALIDATING');
 
   final String value;
 
-  const ManifestStatus(this.value);
+  const ManifestStatus._(this.value);
+
+  static const values = [active, draft, invalid, validating];
 
   static ManifestStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ManifestStatus'));
+          orElse: () => ManifestStatus._(value));
+
+  @override
+  bool operator ==(other) => other is ManifestStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The decoding information for a specific message which support higher order
@@ -5791,7 +5864,7 @@ class NetworkInterface {
   factory NetworkInterface.fromJson(Map<String, dynamic> json) {
     return NetworkInterface(
       interfaceId: (json['interfaceId'] as String?) ?? '',
-      type: NetworkInterfaceType.fromString((json['type'] as String)),
+      type: NetworkInterfaceType.fromString((json['type'] as String?) ?? ''),
       canInterface: json['canInterface'] != null
           ? CanInterface.fromJson(json['canInterface'] as Map<String, dynamic>)
           : null,
@@ -5821,20 +5894,30 @@ class NetworkInterface {
   }
 }
 
-enum NetworkInterfaceType {
-  canInterface('CAN_INTERFACE'),
-  obdInterface('OBD_INTERFACE'),
-  vehicleMiddleware('VEHICLE_MIDDLEWARE'),
-  ;
+class NetworkInterfaceType {
+  static const canInterface = NetworkInterfaceType._('CAN_INTERFACE');
+  static const obdInterface = NetworkInterfaceType._('OBD_INTERFACE');
+  static const vehicleMiddleware = NetworkInterfaceType._('VEHICLE_MIDDLEWARE');
 
   final String value;
 
-  const NetworkInterfaceType(this.value);
+  const NetworkInterfaceType._(this.value);
 
-  static NetworkInterfaceType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum NetworkInterfaceType'));
+  static const values = [canInterface, obdInterface, vehicleMiddleware];
+
+  static NetworkInterfaceType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => NetworkInterfaceType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is NetworkInterfaceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A general abstraction of a signal. A node can be specified as an actuator,
@@ -5981,61 +6064,108 @@ class NodeCounts {
   }
 }
 
-enum NodeDataEncoding {
-  binary('BINARY'),
-  typed('TYPED'),
-  ;
+class NodeDataEncoding {
+  static const binary = NodeDataEncoding._('BINARY');
+  static const typed = NodeDataEncoding._('TYPED');
 
   final String value;
 
-  const NodeDataEncoding(this.value);
+  const NodeDataEncoding._(this.value);
+
+  static const values = [binary, typed];
 
   static NodeDataEncoding fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum NodeDataEncoding'));
+          orElse: () => NodeDataEncoding._(value));
+
+  @override
+  bool operator ==(other) => other is NodeDataEncoding && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum NodeDataType {
-  int8('INT8'),
-  uint8('UINT8'),
-  int16('INT16'),
-  uint16('UINT16'),
-  int32('INT32'),
-  uint32('UINT32'),
-  int64('INT64'),
-  uint64('UINT64'),
-  boolean('BOOLEAN'),
-  float('FLOAT'),
-  double('DOUBLE'),
-  string('STRING'),
-  unixTimestamp('UNIX_TIMESTAMP'),
-  int8Array('INT8_ARRAY'),
-  uint8Array('UINT8_ARRAY'),
-  int16Array('INT16_ARRAY'),
-  uint16Array('UINT16_ARRAY'),
-  int32Array('INT32_ARRAY'),
-  uint32Array('UINT32_ARRAY'),
-  int64Array('INT64_ARRAY'),
-  uint64Array('UINT64_ARRAY'),
-  booleanArray('BOOLEAN_ARRAY'),
-  floatArray('FLOAT_ARRAY'),
-  doubleArray('DOUBLE_ARRAY'),
-  stringArray('STRING_ARRAY'),
-  unixTimestampArray('UNIX_TIMESTAMP_ARRAY'),
-  unknown('UNKNOWN'),
-  struct('STRUCT'),
-  structArray('STRUCT_ARRAY'),
-  ;
+class NodeDataType {
+  static const int8 = NodeDataType._('INT8');
+  static const uint8 = NodeDataType._('UINT8');
+  static const int16 = NodeDataType._('INT16');
+  static const uint16 = NodeDataType._('UINT16');
+  static const int32 = NodeDataType._('INT32');
+  static const uint32 = NodeDataType._('UINT32');
+  static const int64 = NodeDataType._('INT64');
+  static const uint64 = NodeDataType._('UINT64');
+  static const boolean = NodeDataType._('BOOLEAN');
+  static const float = NodeDataType._('FLOAT');
+  static const $double = NodeDataType._('DOUBLE');
+  static const string = NodeDataType._('STRING');
+  static const unixTimestamp = NodeDataType._('UNIX_TIMESTAMP');
+  static const int8Array = NodeDataType._('INT8_ARRAY');
+  static const uint8Array = NodeDataType._('UINT8_ARRAY');
+  static const int16Array = NodeDataType._('INT16_ARRAY');
+  static const uint16Array = NodeDataType._('UINT16_ARRAY');
+  static const int32Array = NodeDataType._('INT32_ARRAY');
+  static const uint32Array = NodeDataType._('UINT32_ARRAY');
+  static const int64Array = NodeDataType._('INT64_ARRAY');
+  static const uint64Array = NodeDataType._('UINT64_ARRAY');
+  static const booleanArray = NodeDataType._('BOOLEAN_ARRAY');
+  static const floatArray = NodeDataType._('FLOAT_ARRAY');
+  static const doubleArray = NodeDataType._('DOUBLE_ARRAY');
+  static const stringArray = NodeDataType._('STRING_ARRAY');
+  static const unixTimestampArray = NodeDataType._('UNIX_TIMESTAMP_ARRAY');
+  static const unknown = NodeDataType._('UNKNOWN');
+  static const struct = NodeDataType._('STRUCT');
+  static const structArray = NodeDataType._('STRUCT_ARRAY');
 
   final String value;
 
-  const NodeDataType(this.value);
+  const NodeDataType._(this.value);
 
-  static NodeDataType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum NodeDataType'));
+  static const values = [
+    int8,
+    uint8,
+    int16,
+    uint16,
+    int32,
+    uint32,
+    int64,
+    uint64,
+    boolean,
+    float,
+    $double,
+    string,
+    unixTimestamp,
+    int8Array,
+    uint8Array,
+    int16Array,
+    uint16Array,
+    int32Array,
+    uint32Array,
+    int64Array,
+    uint64Array,
+    booleanArray,
+    floatArray,
+    doubleArray,
+    stringArray,
+    unixTimestampArray,
+    unknown,
+    struct,
+    structArray
+  ];
+
+  static NodeDataType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => NodeDataType._(value));
+
+  @override
+  bool operator ==(other) => other is NodeDataType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A network interface that specifies the On-board diagnostic (OBD) II network
@@ -6239,10 +6369,10 @@ class PutEncryptionConfigurationResponse {
   factory PutEncryptionConfigurationResponse.fromJson(
       Map<String, dynamic> json) {
     return PutEncryptionConfigurationResponse(
-      encryptionStatus:
-          EncryptionStatus.fromString((json['encryptionStatus'] as String)),
+      encryptionStatus: EncryptionStatus.fromString(
+          (json['encryptionStatus'] as String?) ?? ''),
       encryptionType:
-          EncryptionType.fromString((json['encryptionType'] as String)),
+          EncryptionType.fromString((json['encryptionType'] as String?) ?? ''),
       kmsKeyId: json['kmsKeyId'] as String?,
     );
   }
@@ -6298,8 +6428,8 @@ class ROS2PrimitiveMessageDefinition {
 
   factory ROS2PrimitiveMessageDefinition.fromJson(Map<String, dynamic> json) {
     return ROS2PrimitiveMessageDefinition(
-      primitiveType:
-          ROS2PrimitiveType.fromString((json['primitiveType'] as String)),
+      primitiveType: ROS2PrimitiveType.fromString(
+          (json['primitiveType'] as String?) ?? ''),
       offset: json['offset'] as double?,
       scaling: json['scaling'] as double?,
       upperBound: json['upperBound'] as int?,
@@ -6320,32 +6450,57 @@ class ROS2PrimitiveMessageDefinition {
   }
 }
 
-enum ROS2PrimitiveType {
-  $bool('BOOL'),
-  byte('BYTE'),
-  char('CHAR'),
-  float32('FLOAT32'),
-  float64('FLOAT64'),
-  int8('INT8'),
-  uint8('UINT8'),
-  int16('INT16'),
-  uint16('UINT16'),
-  int32('INT32'),
-  uint32('UINT32'),
-  int64('INT64'),
-  uint64('UINT64'),
-  string('STRING'),
-  wstring('WSTRING'),
-  ;
+class ROS2PrimitiveType {
+  static const $bool = ROS2PrimitiveType._('BOOL');
+  static const byte = ROS2PrimitiveType._('BYTE');
+  static const char = ROS2PrimitiveType._('CHAR');
+  static const float32 = ROS2PrimitiveType._('FLOAT32');
+  static const float64 = ROS2PrimitiveType._('FLOAT64');
+  static const int8 = ROS2PrimitiveType._('INT8');
+  static const uint8 = ROS2PrimitiveType._('UINT8');
+  static const int16 = ROS2PrimitiveType._('INT16');
+  static const uint16 = ROS2PrimitiveType._('UINT16');
+  static const int32 = ROS2PrimitiveType._('INT32');
+  static const uint32 = ROS2PrimitiveType._('UINT32');
+  static const int64 = ROS2PrimitiveType._('INT64');
+  static const uint64 = ROS2PrimitiveType._('UINT64');
+  static const string = ROS2PrimitiveType._('STRING');
+  static const wstring = ROS2PrimitiveType._('WSTRING');
 
   final String value;
 
-  const ROS2PrimitiveType(this.value);
+  const ROS2PrimitiveType._(this.value);
+
+  static const values = [
+    $bool,
+    byte,
+    char,
+    float32,
+    float64,
+    int8,
+    uint8,
+    int16,
+    uint16,
+    int32,
+    uint32,
+    int64,
+    uint64,
+    string,
+    wstring
+  ];
 
   static ROS2PrimitiveType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ROS2PrimitiveType'));
+          orElse: () => ROS2PrimitiveType._(value));
+
+  @override
+  bool operator ==(other) => other is ROS2PrimitiveType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class RegisterAccountResponse {
@@ -6383,7 +6538,7 @@ class RegisterAccountResponse {
       lastModificationTime:
           nonNullableTimeStampFromJson(json['lastModificationTime'] ?? 0),
       registerAccountStatus: RegistrationStatus.fromString(
-          (json['registerAccountStatus'] as String)),
+          (json['registerAccountStatus'] as String?) ?? ''),
       timestreamResources: json['timestreamResources'] != null
           ? TimestreamResources.fromJson(
               json['timestreamResources'] as Map<String, dynamic>)
@@ -6408,20 +6563,37 @@ class RegisterAccountResponse {
   }
 }
 
-enum RegistrationStatus {
-  registrationPending('REGISTRATION_PENDING'),
-  registrationSuccess('REGISTRATION_SUCCESS'),
-  registrationFailure('REGISTRATION_FAILURE'),
-  ;
+class RegistrationStatus {
+  static const registrationPending =
+      RegistrationStatus._('REGISTRATION_PENDING');
+  static const registrationSuccess =
+      RegistrationStatus._('REGISTRATION_SUCCESS');
+  static const registrationFailure =
+      RegistrationStatus._('REGISTRATION_FAILURE');
 
   final String value;
 
-  const RegistrationStatus(this.value);
+  const RegistrationStatus._(this.value);
 
-  static RegistrationStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum RegistrationStatus'));
+  static const values = [
+    registrationPending,
+    registrationSuccess,
+    registrationFailure
+  ];
+
+  static RegistrationStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => RegistrationStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RegistrationStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The Amazon S3 bucket where the Amazon Web Services IoT FleetWise campaign
@@ -6556,7 +6728,7 @@ class Sensor {
 
   factory Sensor.fromJson(Map<String, dynamic> json) {
     return Sensor(
-      dataType: NodeDataType.fromString((json['dataType'] as String)),
+      dataType: NodeDataType.fromString((json['dataType'] as String?) ?? ''),
       fullyQualifiedName: (json['fullyQualifiedName'] as String?) ?? '',
       allowedValues: (json['allowedValues'] as List?)
           ?.nonNulls
@@ -6688,7 +6860,7 @@ class SignalDecoder {
     return SignalDecoder(
       fullyQualifiedName: (json['fullyQualifiedName'] as String?) ?? '',
       interfaceId: (json['interfaceId'] as String?) ?? '',
-      type: SignalDecoderType.fromString((json['type'] as String)),
+      type: SignalDecoderType.fromString((json['type'] as String?) ?? ''),
       canSignal: json['canSignal'] != null
           ? CanSignal.fromJson(json['canSignal'] as Map<String, dynamic>)
           : null,
@@ -6720,20 +6892,29 @@ class SignalDecoder {
   }
 }
 
-enum SignalDecoderType {
-  canSignal('CAN_SIGNAL'),
-  obdSignal('OBD_SIGNAL'),
-  messageSignal('MESSAGE_SIGNAL'),
-  ;
+class SignalDecoderType {
+  static const canSignal = SignalDecoderType._('CAN_SIGNAL');
+  static const obdSignal = SignalDecoderType._('OBD_SIGNAL');
+  static const messageSignal = SignalDecoderType._('MESSAGE_SIGNAL');
 
   final String value;
 
-  const SignalDecoderType(this.value);
+  const SignalDecoderType._(this.value);
+
+  static const values = [canSignal, obdSignal, messageSignal];
 
   static SignalDecoderType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum SignalDecoderType'));
+          orElse: () => SignalDecoderType._(value));
+
+  @override
+  bool operator ==(other) => other is SignalDecoderType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about a signal.
@@ -6778,53 +6959,87 @@ class SignalInformation {
   }
 }
 
-enum SignalNodeType {
-  sensor('SENSOR'),
-  actuator('ACTUATOR'),
-  attribute('ATTRIBUTE'),
-  branch('BRANCH'),
-  customStruct('CUSTOM_STRUCT'),
-  customProperty('CUSTOM_PROPERTY'),
-  ;
+class SignalNodeType {
+  static const sensor = SignalNodeType._('SENSOR');
+  static const actuator = SignalNodeType._('ACTUATOR');
+  static const attribute = SignalNodeType._('ATTRIBUTE');
+  static const branch = SignalNodeType._('BRANCH');
+  static const customStruct = SignalNodeType._('CUSTOM_STRUCT');
+  static const customProperty = SignalNodeType._('CUSTOM_PROPERTY');
 
   final String value;
 
-  const SignalNodeType(this.value);
+  const SignalNodeType._(this.value);
+
+  static const values = [
+    sensor,
+    actuator,
+    attribute,
+    branch,
+    customStruct,
+    customProperty
+  ];
 
   static SignalNodeType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum SignalNodeType'));
+          orElse: () => SignalNodeType._(value));
+
+  @override
+  bool operator ==(other) => other is SignalNodeType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum SpoolingMode {
-  off('OFF'),
-  toDisk('TO_DISK'),
-  ;
+class SpoolingMode {
+  static const off = SpoolingMode._('OFF');
+  static const toDisk = SpoolingMode._('TO_DISK');
 
   final String value;
 
-  const SpoolingMode(this.value);
+  const SpoolingMode._(this.value);
 
-  static SpoolingMode fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum SpoolingMode'));
+  static const values = [off, toDisk];
+
+  static SpoolingMode fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => SpoolingMode._(value));
+
+  @override
+  bool operator ==(other) => other is SpoolingMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum StorageCompressionFormat {
-  none('NONE'),
-  gzip('GZIP'),
-  ;
+class StorageCompressionFormat {
+  static const none = StorageCompressionFormat._('NONE');
+  static const gzip = StorageCompressionFormat._('GZIP');
 
   final String value;
 
-  const StorageCompressionFormat(this.value);
+  const StorageCompressionFormat._(this.value);
+
+  static const values = [none, gzip];
 
   static StorageCompressionFormat fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum StorageCompressionFormat'));
+          orElse: () => StorageCompressionFormat._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is StorageCompressionFormat && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The structured message for the message signal. It can be defined with either
@@ -6944,8 +7159,8 @@ class StructuredMessageListDefinition {
 
   factory StructuredMessageListDefinition.fromJson(Map<String, dynamic> json) {
     return StructuredMessageListDefinition(
-      listType:
-          StructuredMessageListType.fromString((json['listType'] as String)),
+      listType: StructuredMessageListType.fromString(
+          (json['listType'] as String?) ?? ''),
       memberType: StructuredMessage.fromJson(
           (json['memberType'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
@@ -6968,20 +7183,36 @@ class StructuredMessageListDefinition {
   }
 }
 
-enum StructuredMessageListType {
-  fixedCapacity('FIXED_CAPACITY'),
-  dynamicUnboundedCapacity('DYNAMIC_UNBOUNDED_CAPACITY'),
-  dynamicBoundedCapacity('DYNAMIC_BOUNDED_CAPACITY'),
-  ;
+class StructuredMessageListType {
+  static const fixedCapacity = StructuredMessageListType._('FIXED_CAPACITY');
+  static const dynamicUnboundedCapacity =
+      StructuredMessageListType._('DYNAMIC_UNBOUNDED_CAPACITY');
+  static const dynamicBoundedCapacity =
+      StructuredMessageListType._('DYNAMIC_BOUNDED_CAPACITY');
 
   final String value;
 
-  const StructuredMessageListType(this.value);
+  const StructuredMessageListType._(this.value);
+
+  static const values = [
+    fixedCapacity,
+    dynamicUnboundedCapacity,
+    dynamicBoundedCapacity
+  ];
 
   static StructuredMessageListType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum StructuredMessageListType'));
+          orElse: () => StructuredMessageListType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is StructuredMessageListType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A set of key/value pairs that are used to manage the resource.
@@ -7122,8 +7353,8 @@ class TimestreamRegistrationResponse {
 
   factory TimestreamRegistrationResponse.fromJson(Map<String, dynamic> json) {
     return TimestreamRegistrationResponse(
-      registrationStatus:
-          RegistrationStatus.fromString((json['registrationStatus'] as String)),
+      registrationStatus: RegistrationStatus.fromString(
+          (json['registrationStatus'] as String?) ?? ''),
       timestreamDatabaseName: (json['timestreamDatabaseName'] as String?) ?? '',
       timestreamTableName: (json['timestreamTableName'] as String?) ?? '',
       errorMessage: json['errorMessage'] as String?,
@@ -7182,18 +7413,27 @@ class TimestreamResources {
   }
 }
 
-enum TriggerMode {
-  always('ALWAYS'),
-  risingEdge('RISING_EDGE'),
-  ;
+class TriggerMode {
+  static const always = TriggerMode._('ALWAYS');
+  static const risingEdge = TriggerMode._('RISING_EDGE');
 
   final String value;
 
-  const TriggerMode(this.value);
+  const TriggerMode._(this.value);
 
-  static TriggerMode fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum TriggerMode'));
+  static const values = [always, risingEdge];
+
+  static TriggerMode fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => TriggerMode._(value));
+
+  @override
+  bool operator ==(other) => other is TriggerMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class UntagResourceResponse {
@@ -7208,21 +7448,31 @@ class UntagResourceResponse {
   }
 }
 
-enum UpdateCampaignAction {
-  approve('APPROVE'),
-  suspend('SUSPEND'),
-  resume('RESUME'),
-  update('UPDATE'),
-  ;
+class UpdateCampaignAction {
+  static const approve = UpdateCampaignAction._('APPROVE');
+  static const suspend = UpdateCampaignAction._('SUSPEND');
+  static const resume = UpdateCampaignAction._('RESUME');
+  static const update = UpdateCampaignAction._('UPDATE');
 
   final String value;
 
-  const UpdateCampaignAction(this.value);
+  const UpdateCampaignAction._(this.value);
 
-  static UpdateCampaignAction fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum UpdateCampaignAction'));
+  static const values = [approve, suspend, resume, update];
+
+  static UpdateCampaignAction fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => UpdateCampaignAction._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is UpdateCampaignAction && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class UpdateCampaignResponse {
@@ -7339,18 +7589,27 @@ class UpdateFleetResponse {
   }
 }
 
-enum UpdateMode {
-  overwrite('Overwrite'),
-  merge('Merge'),
-  ;
+class UpdateMode {
+  static const overwrite = UpdateMode._('Overwrite');
+  static const merge = UpdateMode._('Merge');
 
   final String value;
 
-  const UpdateMode(this.value);
+  const UpdateMode._(this.value);
 
-  static UpdateMode fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum UpdateMode'));
+  static const values = [overwrite, merge];
+
+  static UpdateMode fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => UpdateMode._(value));
+
+  @override
+  bool operator ==(other) => other is UpdateMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class UpdateModelManifestResponse {
@@ -7558,19 +7817,30 @@ class UpdateVehicleResponseItem {
   }
 }
 
-enum VehicleAssociationBehavior {
-  createIotThing('CreateIotThing'),
-  validateIotThingExists('ValidateIotThingExists'),
-  ;
+class VehicleAssociationBehavior {
+  static const createIotThing = VehicleAssociationBehavior._('CreateIotThing');
+  static const validateIotThingExists =
+      VehicleAssociationBehavior._('ValidateIotThingExists');
 
   final String value;
 
-  const VehicleAssociationBehavior(this.value);
+  const VehicleAssociationBehavior._(this.value);
+
+  static const values = [createIotThing, validateIotThingExists];
 
   static VehicleAssociationBehavior fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum VehicleAssociationBehavior'));
+          orElse: () => VehicleAssociationBehavior._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is VehicleAssociationBehavior && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The vehicle middleware defined as a type of network interface. Examples of
@@ -7591,7 +7861,7 @@ class VehicleMiddleware {
     return VehicleMiddleware(
       name: (json['name'] as String?) ?? '',
       protocolName: VehicleMiddlewareProtocol.fromString(
-          (json['protocolName'] as String)),
+          (json['protocolName'] as String?) ?? ''),
     );
   }
 
@@ -7605,36 +7875,54 @@ class VehicleMiddleware {
   }
 }
 
-enum VehicleMiddlewareProtocol {
-  ros_2('ROS_2'),
-  ;
+class VehicleMiddlewareProtocol {
+  static const ros_2 = VehicleMiddlewareProtocol._('ROS_2');
 
   final String value;
 
-  const VehicleMiddlewareProtocol(this.value);
+  const VehicleMiddlewareProtocol._(this.value);
+
+  static const values = [ros_2];
 
   static VehicleMiddlewareProtocol fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum VehicleMiddlewareProtocol'));
+          orElse: () => VehicleMiddlewareProtocol._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is VehicleMiddlewareProtocol && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum VehicleState {
-  created('CREATED'),
-  ready('READY'),
-  healthy('HEALTHY'),
-  suspended('SUSPENDED'),
-  deleting('DELETING'),
-  ;
+class VehicleState {
+  static const created = VehicleState._('CREATED');
+  static const ready = VehicleState._('READY');
+  static const healthy = VehicleState._('HEALTHY');
+  static const suspended = VehicleState._('SUSPENDED');
+  static const deleting = VehicleState._('DELETING');
 
   final String value;
 
-  const VehicleState(this.value);
+  const VehicleState._(this.value);
 
-  static VehicleState fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum VehicleState'));
+  static const values = [created, ready, healthy, suspended, deleting];
+
+  static VehicleState fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => VehicleState._(value));
+
+  @override
+  bool operator ==(other) => other is VehicleState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about the state of a vehicle and how it relates to the status of

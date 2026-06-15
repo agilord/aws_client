@@ -5066,19 +5066,28 @@ class ApiKeyIds {
   }
 }
 
-enum ApiKeySourceType {
-  header('HEADER'),
-  authorizer('AUTHORIZER'),
-  ;
+class ApiKeySourceType {
+  static const header = ApiKeySourceType._('HEADER');
+  static const authorizer = ApiKeySourceType._('AUTHORIZER');
 
   final String value;
 
-  const ApiKeySourceType(this.value);
+  const ApiKeySourceType._(this.value);
+
+  static const values = [header, authorizer];
 
   static ApiKeySourceType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ApiKeySourceType'));
+          orElse: () => ApiKeySourceType._(value));
+
+  @override
+  bool operator ==(other) => other is ApiKeySourceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Represents a collection of API keys as represented by an ApiKeys resource.
@@ -5123,18 +5132,27 @@ class ApiKeys {
   }
 }
 
-enum ApiKeysFormat {
-  csv('csv'),
-  ;
+class ApiKeysFormat {
+  static const csv = ApiKeysFormat._('csv');
 
   final String value;
 
-  const ApiKeysFormat(this.value);
+  const ApiKeysFormat._(this.value);
+
+  static const values = [csv];
 
   static ApiKeysFormat fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ApiKeysFormat'));
+          orElse: () => ApiKeysFormat._(value));
+
+  @override
+  bool operator ==(other) => other is ApiKeysFormat && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// API stage name of the associated API stage in a usage plan.
@@ -5327,20 +5345,29 @@ class Authorizer {
 /// <code>REQUEST</code> for a Lambda function using incoming request
 /// parameters, and <code>COGNITO_USER_POOLS</code> for using an Amazon Cognito
 /// user pool.
-enum AuthorizerType {
-  token('TOKEN'),
-  request('REQUEST'),
-  cognitoUserPools('COGNITO_USER_POOLS'),
-  ;
+class AuthorizerType {
+  static const token = AuthorizerType._('TOKEN');
+  static const request = AuthorizerType._('REQUEST');
+  static const cognitoUserPools = AuthorizerType._('COGNITO_USER_POOLS');
 
   final String value;
 
-  const AuthorizerType(this.value);
+  const AuthorizerType._(this.value);
+
+  static const values = [token, request, cognitoUserPools];
 
   static AuthorizerType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum AuthorizerType'));
+          orElse: () => AuthorizerType._(value));
+
+  @override
+  bool operator ==(other) => other is AuthorizerType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Represents a collection of Authorizer resources.
@@ -5445,44 +5472,69 @@ class BasePathMappings {
 }
 
 /// Returns the size of the CacheCluster.
-enum CacheClusterSize {
-  $0_5('0.5'),
-  $1_6('1.6'),
-  $6_1('6.1'),
-  $13_5('13.5'),
-  $28_4('28.4'),
-  $58_2('58.2'),
-  $118('118'),
-  $237('237'),
-  ;
+class CacheClusterSize {
+  static const $0_5 = CacheClusterSize._('0.5');
+  static const $1_6 = CacheClusterSize._('1.6');
+  static const $6_1 = CacheClusterSize._('6.1');
+  static const $13_5 = CacheClusterSize._('13.5');
+  static const $28_4 = CacheClusterSize._('28.4');
+  static const $58_2 = CacheClusterSize._('58.2');
+  static const $118 = CacheClusterSize._('118');
+  static const $237 = CacheClusterSize._('237');
 
   final String value;
 
-  const CacheClusterSize(this.value);
+  const CacheClusterSize._(this.value);
+
+  static const values = [$0_5, $1_6, $6_1, $13_5, $28_4, $58_2, $118, $237];
 
   static CacheClusterSize fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum CacheClusterSize'));
+          orElse: () => CacheClusterSize._(value));
+
+  @override
+  bool operator ==(other) => other is CacheClusterSize && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Returns the status of the CacheCluster.
-enum CacheClusterStatus {
-  createInProgress('CREATE_IN_PROGRESS'),
-  available('AVAILABLE'),
-  deleteInProgress('DELETE_IN_PROGRESS'),
-  notAvailable('NOT_AVAILABLE'),
-  flushInProgress('FLUSH_IN_PROGRESS'),
-  ;
+class CacheClusterStatus {
+  static const createInProgress = CacheClusterStatus._('CREATE_IN_PROGRESS');
+  static const available = CacheClusterStatus._('AVAILABLE');
+  static const deleteInProgress = CacheClusterStatus._('DELETE_IN_PROGRESS');
+  static const notAvailable = CacheClusterStatus._('NOT_AVAILABLE');
+  static const flushInProgress = CacheClusterStatus._('FLUSH_IN_PROGRESS');
 
   final String value;
 
-  const CacheClusterStatus(this.value);
+  const CacheClusterStatus._(this.value);
 
-  static CacheClusterStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum CacheClusterStatus'));
+  static const values = [
+    createInProgress,
+    available,
+    deleteInProgress,
+    notAvailable,
+    flushInProgress
+  ];
+
+  static CacheClusterStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => CacheClusterStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CacheClusterStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Configuration settings of a canary deployment.
@@ -5632,34 +5684,53 @@ class ClientCertificates {
   }
 }
 
-enum ConnectionType {
-  internet('INTERNET'),
-  vpcLink('VPC_LINK'),
-  ;
+class ConnectionType {
+  static const internet = ConnectionType._('INTERNET');
+  static const vpcLink = ConnectionType._('VPC_LINK');
 
   final String value;
 
-  const ConnectionType(this.value);
+  const ConnectionType._(this.value);
+
+  static const values = [internet, vpcLink];
 
   static ConnectionType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ConnectionType'));
+          orElse: () => ConnectionType._(value));
+
+  @override
+  bool operator ==(other) => other is ConnectionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ContentHandlingStrategy {
-  convertToBinary('CONVERT_TO_BINARY'),
-  convertToText('CONVERT_TO_TEXT'),
-  ;
+class ContentHandlingStrategy {
+  static const convertToBinary = ContentHandlingStrategy._('CONVERT_TO_BINARY');
+  static const convertToText = ContentHandlingStrategy._('CONVERT_TO_TEXT');
 
   final String value;
 
-  const ContentHandlingStrategy(this.value);
+  const ContentHandlingStrategy._(this.value);
+
+  static const values = [convertToBinary, convertToText];
 
   static ContentHandlingStrategy fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ContentHandlingStrategy'));
+          orElse: () => ContentHandlingStrategy._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ContentHandlingStrategy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// An immutable representation of a RestApi resource that can be called by
@@ -5929,7 +6000,7 @@ class DocumentationPartLocation {
 
   factory DocumentationPartLocation.fromJson(Map<String, dynamic> json) {
     return DocumentationPartLocation(
-      type: DocumentationPartType.fromString((json['type'] as String)),
+      type: DocumentationPartType.fromString((json['type'] as String?) ?? ''),
       method: json['method'] as String?,
       name: json['name'] as String?,
       path: json['path'] as String?,
@@ -5953,29 +6024,52 @@ class DocumentationPartLocation {
   }
 }
 
-enum DocumentationPartType {
-  api('API'),
-  authorizer('AUTHORIZER'),
-  model('MODEL'),
-  resource('RESOURCE'),
-  method('METHOD'),
-  pathParameter('PATH_PARAMETER'),
-  queryParameter('QUERY_PARAMETER'),
-  requestHeader('REQUEST_HEADER'),
-  requestBody('REQUEST_BODY'),
-  response('RESPONSE'),
-  responseHeader('RESPONSE_HEADER'),
-  responseBody('RESPONSE_BODY'),
-  ;
+class DocumentationPartType {
+  static const api = DocumentationPartType._('API');
+  static const authorizer = DocumentationPartType._('AUTHORIZER');
+  static const model = DocumentationPartType._('MODEL');
+  static const resource = DocumentationPartType._('RESOURCE');
+  static const method = DocumentationPartType._('METHOD');
+  static const pathParameter = DocumentationPartType._('PATH_PARAMETER');
+  static const queryParameter = DocumentationPartType._('QUERY_PARAMETER');
+  static const requestHeader = DocumentationPartType._('REQUEST_HEADER');
+  static const requestBody = DocumentationPartType._('REQUEST_BODY');
+  static const response = DocumentationPartType._('RESPONSE');
+  static const responseHeader = DocumentationPartType._('RESPONSE_HEADER');
+  static const responseBody = DocumentationPartType._('RESPONSE_BODY');
 
   final String value;
 
-  const DocumentationPartType(this.value);
+  const DocumentationPartType._(this.value);
 
-  static DocumentationPartType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum DocumentationPartType'));
+  static const values = [
+    api,
+    authorizer,
+    model,
+    resource,
+    method,
+    pathParameter,
+    queryParameter,
+    requestHeader,
+    requestBody,
+    response,
+    responseHeader,
+    responseBody
+  ];
+
+  static DocumentationPartType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DocumentationPartType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DocumentationPartType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The collection of documentation parts of an API.
@@ -6269,22 +6363,39 @@ class DomainName {
   }
 }
 
-enum DomainNameStatus {
-  available('AVAILABLE'),
-  updating('UPDATING'),
-  pending('PENDING'),
-  pendingCertificateReimport('PENDING_CERTIFICATE_REIMPORT'),
-  pendingOwnershipVerification('PENDING_OWNERSHIP_VERIFICATION'),
-  ;
+class DomainNameStatus {
+  static const available = DomainNameStatus._('AVAILABLE');
+  static const updating = DomainNameStatus._('UPDATING');
+  static const pending = DomainNameStatus._('PENDING');
+  static const pendingCertificateReimport =
+      DomainNameStatus._('PENDING_CERTIFICATE_REIMPORT');
+  static const pendingOwnershipVerification =
+      DomainNameStatus._('PENDING_OWNERSHIP_VERIFICATION');
 
   final String value;
 
-  const DomainNameStatus(this.value);
+  const DomainNameStatus._(this.value);
+
+  static const values = [
+    available,
+    updating,
+    pending,
+    pendingCertificateReimport,
+    pendingOwnershipVerification
+  ];
 
   static DomainNameStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum DomainNameStatus'));
+          orElse: () => DomainNameStatus._(value));
+
+  @override
+  bool operator ==(other) => other is DomainNameStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Represents a collection of DomainName resources.
@@ -6364,20 +6475,28 @@ class EndpointConfiguration {
 /// API setup, most suitable for mobile applications; <code>REGIONAL</code> for
 /// regional API endpoint setup, most suitable for calling from AWS Region; and
 /// <code>PRIVATE</code> for private APIs.
-enum EndpointType {
-  regional('REGIONAL'),
-  edge('EDGE'),
-  private('PRIVATE'),
-  ;
+class EndpointType {
+  static const regional = EndpointType._('REGIONAL');
+  static const edge = EndpointType._('EDGE');
+  static const private = EndpointType._('PRIVATE');
 
   final String value;
 
-  const EndpointType(this.value);
+  const EndpointType._(this.value);
 
-  static EndpointType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum EndpointType'));
+  static const values = [regional, edge, private];
+
+  static EndpointType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => EndpointType._(value));
+
+  @override
+  bool operator ==(other) => other is EndpointType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The binary blob response to GetExport, which contains the generated SDK.
@@ -6468,38 +6587,77 @@ class GatewayResponse {
   }
 }
 
-enum GatewayResponseType {
-  default_4xx('DEFAULT_4XX'),
-  default_5xx('DEFAULT_5XX'),
-  resourceNotFound('RESOURCE_NOT_FOUND'),
-  unauthorized('UNAUTHORIZED'),
-  invalidApiKey('INVALID_API_KEY'),
-  accessDenied('ACCESS_DENIED'),
-  authorizerFailure('AUTHORIZER_FAILURE'),
-  authorizerConfigurationError('AUTHORIZER_CONFIGURATION_ERROR'),
-  invalidSignature('INVALID_SIGNATURE'),
-  expiredToken('EXPIRED_TOKEN'),
-  missingAuthenticationToken('MISSING_AUTHENTICATION_TOKEN'),
-  integrationFailure('INTEGRATION_FAILURE'),
-  integrationTimeout('INTEGRATION_TIMEOUT'),
-  apiConfigurationError('API_CONFIGURATION_ERROR'),
-  unsupportedMediaType('UNSUPPORTED_MEDIA_TYPE'),
-  badRequestParameters('BAD_REQUEST_PARAMETERS'),
-  badRequestBody('BAD_REQUEST_BODY'),
-  requestTooLarge('REQUEST_TOO_LARGE'),
-  throttled('THROTTLED'),
-  quotaExceeded('QUOTA_EXCEEDED'),
-  wafFiltered('WAF_FILTERED'),
-  ;
+class GatewayResponseType {
+  static const default_4xx = GatewayResponseType._('DEFAULT_4XX');
+  static const default_5xx = GatewayResponseType._('DEFAULT_5XX');
+  static const resourceNotFound = GatewayResponseType._('RESOURCE_NOT_FOUND');
+  static const unauthorized = GatewayResponseType._('UNAUTHORIZED');
+  static const invalidApiKey = GatewayResponseType._('INVALID_API_KEY');
+  static const accessDenied = GatewayResponseType._('ACCESS_DENIED');
+  static const authorizerFailure = GatewayResponseType._('AUTHORIZER_FAILURE');
+  static const authorizerConfigurationError =
+      GatewayResponseType._('AUTHORIZER_CONFIGURATION_ERROR');
+  static const invalidSignature = GatewayResponseType._('INVALID_SIGNATURE');
+  static const expiredToken = GatewayResponseType._('EXPIRED_TOKEN');
+  static const missingAuthenticationToken =
+      GatewayResponseType._('MISSING_AUTHENTICATION_TOKEN');
+  static const integrationFailure =
+      GatewayResponseType._('INTEGRATION_FAILURE');
+  static const integrationTimeout =
+      GatewayResponseType._('INTEGRATION_TIMEOUT');
+  static const apiConfigurationError =
+      GatewayResponseType._('API_CONFIGURATION_ERROR');
+  static const unsupportedMediaType =
+      GatewayResponseType._('UNSUPPORTED_MEDIA_TYPE');
+  static const badRequestParameters =
+      GatewayResponseType._('BAD_REQUEST_PARAMETERS');
+  static const badRequestBody = GatewayResponseType._('BAD_REQUEST_BODY');
+  static const requestTooLarge = GatewayResponseType._('REQUEST_TOO_LARGE');
+  static const throttled = GatewayResponseType._('THROTTLED');
+  static const quotaExceeded = GatewayResponseType._('QUOTA_EXCEEDED');
+  static const wafFiltered = GatewayResponseType._('WAF_FILTERED');
 
   final String value;
 
-  const GatewayResponseType(this.value);
+  const GatewayResponseType._(this.value);
 
-  static GatewayResponseType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum GatewayResponseType'));
+  static const values = [
+    default_4xx,
+    default_5xx,
+    resourceNotFound,
+    unauthorized,
+    invalidApiKey,
+    accessDenied,
+    authorizerFailure,
+    authorizerConfigurationError,
+    invalidSignature,
+    expiredToken,
+    missingAuthenticationToken,
+    integrationFailure,
+    integrationTimeout,
+    apiConfigurationError,
+    unsupportedMediaType,
+    badRequestParameters,
+    badRequestBody,
+    requestTooLarge,
+    throttled,
+    quotaExceeded,
+    wafFiltered
+  ];
+
+  static GatewayResponseType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => GatewayResponseType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is GatewayResponseType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The collection of the GatewayResponse instances of a RestApi as a
@@ -6844,37 +7002,56 @@ class IntegrationResponse {
 /// invoking the backend; <code>HTTP_PROXY</code> for integrating with the HTTP
 /// proxy integration; <code>AWS_PROXY</code> for integrating with the Lambda
 /// proxy integration.
-enum IntegrationType {
-  http('HTTP'),
-  aws('AWS'),
-  mock('MOCK'),
-  httpProxy('HTTP_PROXY'),
-  awsProxy('AWS_PROXY'),
-  ;
+class IntegrationType {
+  static const http = IntegrationType._('HTTP');
+  static const aws = IntegrationType._('AWS');
+  static const mock = IntegrationType._('MOCK');
+  static const httpProxy = IntegrationType._('HTTP_PROXY');
+  static const awsProxy = IntegrationType._('AWS_PROXY');
 
   final String value;
 
-  const IntegrationType(this.value);
+  const IntegrationType._(this.value);
+
+  static const values = [http, aws, mock, httpProxy, awsProxy];
 
   static IntegrationType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum IntegrationType'));
+          orElse: () => IntegrationType._(value));
+
+  @override
+  bool operator ==(other) => other is IntegrationType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum LocationStatusType {
-  documented('DOCUMENTED'),
-  undocumented('UNDOCUMENTED'),
-  ;
+class LocationStatusType {
+  static const documented = LocationStatusType._('DOCUMENTED');
+  static const undocumented = LocationStatusType._('UNDOCUMENTED');
 
   final String value;
 
-  const LocationStatusType(this.value);
+  const LocationStatusType._(this.value);
 
-  static LocationStatusType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum LocationStatusType'));
+  static const values = [documented, undocumented];
+
+  static LocationStatusType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => LocationStatusType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is LocationStatusType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Represents a client-facing interface by which the client calls the API to
@@ -7390,22 +7567,31 @@ class MutualTlsAuthenticationInput {
   }
 }
 
-enum Op {
-  add('add'),
-  remove('remove'),
-  replace('replace'),
-  move('move'),
-  copy('copy'),
-  test('test'),
-  ;
+class Op {
+  static const add = Op._('add');
+  static const remove = Op._('remove');
+  static const replace = Op._('replace');
+  static const move = Op._('move');
+  static const copy = Op._('copy');
+  static const test = Op._('test');
 
   final String value;
 
-  const Op(this.value);
+  const Op._(this.value);
+
+  static const values = [add, remove, replace, move, copy, test];
 
   static Op fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum Op'));
+      values.firstWhere((e) => e.value == value, orElse: () => Op._(value));
+
+  @override
+  bool operator ==(other) => other is Op && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// For more information about supported patch operations, see <a
@@ -7464,34 +7650,52 @@ class PatchOperation {
   }
 }
 
-enum PutMode {
-  merge('merge'),
-  overwrite('overwrite'),
-  ;
+class PutMode {
+  static const merge = PutMode._('merge');
+  static const overwrite = PutMode._('overwrite');
 
   final String value;
 
-  const PutMode(this.value);
+  const PutMode._(this.value);
 
-  static PutMode fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum PutMode'));
+  static const values = [merge, overwrite];
+
+  static PutMode fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => PutMode._(value));
+
+  @override
+  bool operator ==(other) => other is PutMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum QuotaPeriodType {
-  day('DAY'),
-  week('WEEK'),
-  month('MONTH'),
-  ;
+class QuotaPeriodType {
+  static const day = QuotaPeriodType._('DAY');
+  static const week = QuotaPeriodType._('WEEK');
+  static const month = QuotaPeriodType._('MONTH');
 
   final String value;
 
-  const QuotaPeriodType(this.value);
+  const QuotaPeriodType._(this.value);
+
+  static const values = [day, week, month];
 
   static QuotaPeriodType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum QuotaPeriodType'));
+          orElse: () => QuotaPeriodType._(value));
+
+  @override
+  bool operator ==(other) => other is QuotaPeriodType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Quotas configured for a usage plan.
@@ -8035,19 +8239,28 @@ class SdkTypes {
   }
 }
 
-enum SecurityPolicy {
-  tls_1_0('TLS_1_0'),
-  tls_1_2('TLS_1_2'),
-  ;
+class SecurityPolicy {
+  static const tls_1_0 = SecurityPolicy._('TLS_1_0');
+  static const tls_1_2 = SecurityPolicy._('TLS_1_2');
 
   final String value;
 
-  const SecurityPolicy(this.value);
+  const SecurityPolicy._(this.value);
+
+  static const values = [tls_1_0, tls_1_2];
 
   static SecurityPolicy fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum SecurityPolicy'));
+          orElse: () => SecurityPolicy._(value));
+
+  @override
+  bool operator ==(other) => other is SecurityPolicy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Represents a unique identifier for a version of a deployed RestApi that is
@@ -8517,20 +8730,38 @@ class TlsConfig {
   }
 }
 
-enum UnauthorizedCacheControlHeaderStrategy {
-  failWith_403('FAIL_WITH_403'),
-  succeedWithResponseHeader('SUCCEED_WITH_RESPONSE_HEADER'),
-  succeedWithoutResponseHeader('SUCCEED_WITHOUT_RESPONSE_HEADER'),
-  ;
+class UnauthorizedCacheControlHeaderStrategy {
+  static const failWith_403 =
+      UnauthorizedCacheControlHeaderStrategy._('FAIL_WITH_403');
+  static const succeedWithResponseHeader =
+      UnauthorizedCacheControlHeaderStrategy._('SUCCEED_WITH_RESPONSE_HEADER');
+  static const succeedWithoutResponseHeader =
+      UnauthorizedCacheControlHeaderStrategy._(
+          'SUCCEED_WITHOUT_RESPONSE_HEADER');
 
   final String value;
 
-  const UnauthorizedCacheControlHeaderStrategy(this.value);
+  const UnauthorizedCacheControlHeaderStrategy._(this.value);
+
+  static const values = [
+    failWith_403,
+    succeedWithResponseHeader,
+    succeedWithoutResponseHeader
+  ];
 
   static UnauthorizedCacheControlHeaderStrategy fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum UnauthorizedCacheControlHeaderStrategy'));
+          orElse: () => UnauthorizedCacheControlHeaderStrategy._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is UnauthorizedCacheControlHeaderStrategy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Represents the usage data of a usage plan.
@@ -8868,21 +9099,30 @@ class VpcLink {
   }
 }
 
-enum VpcLinkStatus {
-  available('AVAILABLE'),
-  pending('PENDING'),
-  deleting('DELETING'),
-  failed('FAILED'),
-  ;
+class VpcLinkStatus {
+  static const available = VpcLinkStatus._('AVAILABLE');
+  static const pending = VpcLinkStatus._('PENDING');
+  static const deleting = VpcLinkStatus._('DELETING');
+  static const failed = VpcLinkStatus._('FAILED');
 
   final String value;
 
-  const VpcLinkStatus(this.value);
+  const VpcLinkStatus._(this.value);
+
+  static const values = [available, pending, deleting, failed];
 
   static VpcLinkStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum VpcLinkStatus'));
+          orElse: () => VpcLinkStatus._(value));
+
+  @override
+  bool operator ==(other) => other is VpcLinkStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The collection of VPC links under the caller's account in a region.

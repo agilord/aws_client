@@ -2921,20 +2921,30 @@ class ApplicationInfo {
   }
 }
 
-enum ApplicationRevisionSortBy {
-  registerTime('registerTime'),
-  firstUsedTime('firstUsedTime'),
-  lastUsedTime('lastUsedTime'),
-  ;
+class ApplicationRevisionSortBy {
+  static const registerTime = ApplicationRevisionSortBy._('registerTime');
+  static const firstUsedTime = ApplicationRevisionSortBy._('firstUsedTime');
+  static const lastUsedTime = ApplicationRevisionSortBy._('lastUsedTime');
 
   final String value;
 
-  const ApplicationRevisionSortBy(this.value);
+  const ApplicationRevisionSortBy._(this.value);
+
+  static const values = [registerTime, firstUsedTime, lastUsedTime];
 
   static ApplicationRevisionSortBy fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ApplicationRevisionSortBy'));
+          orElse: () => ApplicationRevisionSortBy._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ApplicationRevisionSortBy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about a configuration for automatically rolling back to a
@@ -2973,20 +2983,35 @@ class AutoRollbackConfiguration {
   }
 }
 
-enum AutoRollbackEvent {
-  deploymentFailure('DEPLOYMENT_FAILURE'),
-  deploymentStopOnAlarm('DEPLOYMENT_STOP_ON_ALARM'),
-  deploymentStopOnRequest('DEPLOYMENT_STOP_ON_REQUEST'),
-  ;
+class AutoRollbackEvent {
+  static const deploymentFailure = AutoRollbackEvent._('DEPLOYMENT_FAILURE');
+  static const deploymentStopOnAlarm =
+      AutoRollbackEvent._('DEPLOYMENT_STOP_ON_ALARM');
+  static const deploymentStopOnRequest =
+      AutoRollbackEvent._('DEPLOYMENT_STOP_ON_REQUEST');
 
   final String value;
 
-  const AutoRollbackEvent(this.value);
+  const AutoRollbackEvent._(this.value);
+
+  static const values = [
+    deploymentFailure,
+    deploymentStopOnAlarm,
+    deploymentStopOnRequest
+  ];
 
   static AutoRollbackEvent fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum AutoRollbackEvent'));
+          orElse: () => AutoRollbackEvent._(value));
+
+  @override
+  bool operator ==(other) => other is AutoRollbackEvent && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about an Auto Scaling group.
@@ -3386,21 +3411,30 @@ class BlueInstanceTerminationOption {
   }
 }
 
-enum BundleType {
-  tar('tar'),
-  tgz('tgz'),
-  zip('zip'),
-  yaml('YAML'),
-  json('JSON'),
-  ;
+class BundleType {
+  static const tar = BundleType._('tar');
+  static const tgz = BundleType._('tgz');
+  static const zip = BundleType._('zip');
+  static const yaml = BundleType._('YAML');
+  static const json = BundleType._('JSON');
 
   final String value;
 
-  const BundleType(this.value);
+  const BundleType._(this.value);
 
-  static BundleType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum BundleType'));
+  static const values = [tar, tgz, zip, yaml, json];
+
+  static BundleType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => BundleType._(value));
+
+  @override
+  bool operator ==(other) => other is BundleType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about the target to be updated by an CloudFormation blue/green
@@ -3479,20 +3513,29 @@ class CloudFormationTarget {
   }
 }
 
-enum ComputePlatform {
-  server('Server'),
-  lambda('Lambda'),
-  ecs('ECS'),
-  ;
+class ComputePlatform {
+  static const server = ComputePlatform._('Server');
+  static const lambda = ComputePlatform._('Lambda');
+  static const ecs = ComputePlatform._('ECS');
 
   final String value;
 
-  const ComputePlatform(this.value);
+  const ComputePlatform._(this.value);
+
+  static const values = [server, lambda, ecs];
 
   static ComputePlatform fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ComputePlatform'));
+          orElse: () => ComputePlatform._(value));
+
+  @override
+  bool operator ==(other) => other is ComputePlatform && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Represents the output of a <code>CreateApplication</code> operation.
@@ -3732,25 +3775,46 @@ class DeploymentConfigInfo {
   }
 }
 
-enum DeploymentCreator {
-  user('user'),
-  autoscaling('autoscaling'),
-  codeDeployRollback('codeDeployRollback'),
-  codeDeploy('CodeDeploy'),
-  codeDeployAutoUpdate('CodeDeployAutoUpdate'),
-  cloudFormation('CloudFormation'),
-  cloudFormationRollback('CloudFormationRollback'),
-  autoscalingTermination('autoscalingTermination'),
-  ;
+class DeploymentCreator {
+  static const user = DeploymentCreator._('user');
+  static const autoscaling = DeploymentCreator._('autoscaling');
+  static const codeDeployRollback = DeploymentCreator._('codeDeployRollback');
+  static const codeDeploy = DeploymentCreator._('CodeDeploy');
+  static const codeDeployAutoUpdate =
+      DeploymentCreator._('CodeDeployAutoUpdate');
+  static const cloudFormation = DeploymentCreator._('CloudFormation');
+  static const cloudFormationRollback =
+      DeploymentCreator._('CloudFormationRollback');
+  static const autoscalingTermination =
+      DeploymentCreator._('autoscalingTermination');
 
   final String value;
 
-  const DeploymentCreator(this.value);
+  const DeploymentCreator._(this.value);
+
+  static const values = [
+    user,
+    autoscaling,
+    codeDeployRollback,
+    codeDeploy,
+    codeDeployAutoUpdate,
+    cloudFormation,
+    cloudFormationRollback,
+    autoscalingTermination
+  ];
 
   static DeploymentCreator fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum DeploymentCreator'));
+          orElse: () => DeploymentCreator._(value));
+
+  @override
+  bool operator ==(other) => other is DeploymentCreator && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about a deployment group.
@@ -4383,19 +4447,29 @@ class DeploymentInfo {
   }
 }
 
-enum DeploymentOption {
-  withTrafficControl('WITH_TRAFFIC_CONTROL'),
-  withoutTrafficControl('WITHOUT_TRAFFIC_CONTROL'),
-  ;
+class DeploymentOption {
+  static const withTrafficControl = DeploymentOption._('WITH_TRAFFIC_CONTROL');
+  static const withoutTrafficControl =
+      DeploymentOption._('WITHOUT_TRAFFIC_CONTROL');
 
   final String value;
 
-  const DeploymentOption(this.value);
+  const DeploymentOption._(this.value);
+
+  static const values = [withTrafficControl, withoutTrafficControl];
 
   static DeploymentOption fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum DeploymentOption'));
+          orElse: () => DeploymentOption._(value));
+
+  @override
+  bool operator ==(other) => other is DeploymentOption && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about the deployment status of the instances in the deployment.
@@ -4458,19 +4532,30 @@ class DeploymentOverview {
   }
 }
 
-enum DeploymentReadyAction {
-  continueDeployment('CONTINUE_DEPLOYMENT'),
-  stopDeployment('STOP_DEPLOYMENT'),
-  ;
+class DeploymentReadyAction {
+  static const continueDeployment =
+      DeploymentReadyAction._('CONTINUE_DEPLOYMENT');
+  static const stopDeployment = DeploymentReadyAction._('STOP_DEPLOYMENT');
 
   final String value;
 
-  const DeploymentReadyAction(this.value);
+  const DeploymentReadyAction._(this.value);
 
-  static DeploymentReadyAction fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum DeploymentReadyAction'));
+  static const values = [continueDeployment, stopDeployment];
+
+  static DeploymentReadyAction fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DeploymentReadyAction._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DeploymentReadyAction && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about how traffic is rerouted to instances in a replacement
@@ -4522,25 +4607,43 @@ class DeploymentReadyOption {
   }
 }
 
-enum DeploymentStatus {
-  created('Created'),
-  queued('Queued'),
-  inProgress('InProgress'),
-  baking('Baking'),
-  succeeded('Succeeded'),
-  failed('Failed'),
-  stopped('Stopped'),
-  ready('Ready'),
-  ;
+class DeploymentStatus {
+  static const created = DeploymentStatus._('Created');
+  static const queued = DeploymentStatus._('Queued');
+  static const inProgress = DeploymentStatus._('InProgress');
+  static const baking = DeploymentStatus._('Baking');
+  static const succeeded = DeploymentStatus._('Succeeded');
+  static const failed = DeploymentStatus._('Failed');
+  static const stopped = DeploymentStatus._('Stopped');
+  static const ready = DeploymentStatus._('Ready');
 
   final String value;
 
-  const DeploymentStatus(this.value);
+  const DeploymentStatus._(this.value);
+
+  static const values = [
+    created,
+    queued,
+    inProgress,
+    baking,
+    succeeded,
+    failed,
+    stopped,
+    ready
+  ];
 
   static DeploymentStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum DeploymentStatus'));
+          orElse: () => DeploymentStatus._(value));
+
+  @override
+  bool operator ==(other) => other is DeploymentStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about the type of deployment, either in-place or blue/green, you
@@ -4643,51 +4746,86 @@ class DeploymentTarget {
   }
 }
 
-enum DeploymentTargetType {
-  instanceTarget('InstanceTarget'),
-  lambdaTarget('LambdaTarget'),
-  eCSTarget('ECSTarget'),
-  cloudFormationTarget('CloudFormationTarget'),
-  ;
+class DeploymentTargetType {
+  static const instanceTarget = DeploymentTargetType._('InstanceTarget');
+  static const lambdaTarget = DeploymentTargetType._('LambdaTarget');
+  static const eCSTarget = DeploymentTargetType._('ECSTarget');
+  static const cloudFormationTarget =
+      DeploymentTargetType._('CloudFormationTarget');
 
   final String value;
 
-  const DeploymentTargetType(this.value);
+  const DeploymentTargetType._(this.value);
 
-  static DeploymentTargetType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum DeploymentTargetType'));
+  static const values = [
+    instanceTarget,
+    lambdaTarget,
+    eCSTarget,
+    cloudFormationTarget
+  ];
+
+  static DeploymentTargetType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DeploymentTargetType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DeploymentTargetType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum DeploymentType {
-  inPlace('IN_PLACE'),
-  blueGreen('BLUE_GREEN'),
-  ;
+class DeploymentType {
+  static const inPlace = DeploymentType._('IN_PLACE');
+  static const blueGreen = DeploymentType._('BLUE_GREEN');
 
   final String value;
 
-  const DeploymentType(this.value);
+  const DeploymentType._(this.value);
+
+  static const values = [inPlace, blueGreen];
 
   static DeploymentType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum DeploymentType'));
+          orElse: () => DeploymentType._(value));
+
+  @override
+  bool operator ==(other) => other is DeploymentType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum DeploymentWaitType {
-  readyWait('READY_WAIT'),
-  terminationWait('TERMINATION_WAIT'),
-  ;
+class DeploymentWaitType {
+  static const readyWait = DeploymentWaitType._('READY_WAIT');
+  static const terminationWait = DeploymentWaitType._('TERMINATION_WAIT');
 
   final String value;
 
-  const DeploymentWaitType(this.value);
+  const DeploymentWaitType._(this.value);
 
-  static DeploymentWaitType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum DeploymentWaitType'));
+  static const values = [readyWait, terminationWait];
+
+  static DeploymentWaitType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DeploymentWaitType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DeploymentWaitType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Diagnostic information about executable scripts that are part of a
@@ -4810,20 +4948,29 @@ class EC2TagFilter {
   }
 }
 
-enum EC2TagFilterType {
-  keyOnly('KEY_ONLY'),
-  valueOnly('VALUE_ONLY'),
-  keyAndValue('KEY_AND_VALUE'),
-  ;
+class EC2TagFilterType {
+  static const keyOnly = EC2TagFilterType._('KEY_ONLY');
+  static const valueOnly = EC2TagFilterType._('VALUE_ONLY');
+  static const keyAndValue = EC2TagFilterType._('KEY_AND_VALUE');
 
   final String value;
 
-  const EC2TagFilterType(this.value);
+  const EC2TagFilterType._(this.value);
+
+  static const values = [keyOnly, valueOnly, keyAndValue];
 
   static EC2TagFilterType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum EC2TagFilterType'));
+          orElse: () => EC2TagFilterType._(value));
+
+  @override
+  bool operator ==(other) => other is EC2TagFilterType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about groups of Amazon EC2 instance tags.
@@ -5099,51 +5246,104 @@ class ELBInfo {
   }
 }
 
-enum ErrorCode {
-  agentIssue('AGENT_ISSUE'),
-  alarmActive('ALARM_ACTIVE'),
-  applicationMissing('APPLICATION_MISSING'),
-  autoscalingValidationError('AUTOSCALING_VALIDATION_ERROR'),
-  autoScalingConfiguration('AUTO_SCALING_CONFIGURATION'),
-  autoScalingIamRolePermissions('AUTO_SCALING_IAM_ROLE_PERMISSIONS'),
-  codedeployResourceCannotBeFound('CODEDEPLOY_RESOURCE_CANNOT_BE_FOUND'),
-  customerApplicationUnhealthy('CUSTOMER_APPLICATION_UNHEALTHY'),
-  deploymentGroupMissing('DEPLOYMENT_GROUP_MISSING'),
-  ecsUpdateError('ECS_UPDATE_ERROR'),
-  elasticLoadBalancingInvalid('ELASTIC_LOAD_BALANCING_INVALID'),
-  elbInvalidInstance('ELB_INVALID_INSTANCE'),
-  healthConstraints('HEALTH_CONSTRAINTS'),
-  healthConstraintsInvalid('HEALTH_CONSTRAINTS_INVALID'),
-  hookExecutionFailure('HOOK_EXECUTION_FAILURE'),
-  iamRoleMissing('IAM_ROLE_MISSING'),
-  iamRolePermissions('IAM_ROLE_PERMISSIONS'),
-  internalError('INTERNAL_ERROR'),
-  invalidEcsService('INVALID_ECS_SERVICE'),
-  invalidLambdaConfiguration('INVALID_LAMBDA_CONFIGURATION'),
-  invalidLambdaFunction('INVALID_LAMBDA_FUNCTION'),
-  invalidRevision('INVALID_REVISION'),
-  manualStop('MANUAL_STOP'),
-  missingBlueGreenDeploymentConfiguration(
-      'MISSING_BLUE_GREEN_DEPLOYMENT_CONFIGURATION'),
-  missingElbInformation('MISSING_ELB_INFORMATION'),
-  missingGithubToken('MISSING_GITHUB_TOKEN'),
-  noEc2Subscription('NO_EC2_SUBSCRIPTION'),
-  noInstances('NO_INSTANCES'),
-  overMaxInstances('OVER_MAX_INSTANCES'),
-  resourceLimitExceeded('RESOURCE_LIMIT_EXCEEDED'),
-  revisionMissing('REVISION_MISSING'),
-  throttled('THROTTLED'),
-  timeout('TIMEOUT'),
-  cloudformationStackFailure('CLOUDFORMATION_STACK_FAILURE'),
-  ;
+class ErrorCode {
+  static const agentIssue = ErrorCode._('AGENT_ISSUE');
+  static const alarmActive = ErrorCode._('ALARM_ACTIVE');
+  static const applicationMissing = ErrorCode._('APPLICATION_MISSING');
+  static const autoscalingValidationError =
+      ErrorCode._('AUTOSCALING_VALIDATION_ERROR');
+  static const autoScalingConfiguration =
+      ErrorCode._('AUTO_SCALING_CONFIGURATION');
+  static const autoScalingIamRolePermissions =
+      ErrorCode._('AUTO_SCALING_IAM_ROLE_PERMISSIONS');
+  static const codedeployResourceCannotBeFound =
+      ErrorCode._('CODEDEPLOY_RESOURCE_CANNOT_BE_FOUND');
+  static const customerApplicationUnhealthy =
+      ErrorCode._('CUSTOMER_APPLICATION_UNHEALTHY');
+  static const deploymentGroupMissing = ErrorCode._('DEPLOYMENT_GROUP_MISSING');
+  static const ecsUpdateError = ErrorCode._('ECS_UPDATE_ERROR');
+  static const elasticLoadBalancingInvalid =
+      ErrorCode._('ELASTIC_LOAD_BALANCING_INVALID');
+  static const elbInvalidInstance = ErrorCode._('ELB_INVALID_INSTANCE');
+  static const healthConstraints = ErrorCode._('HEALTH_CONSTRAINTS');
+  static const healthConstraintsInvalid =
+      ErrorCode._('HEALTH_CONSTRAINTS_INVALID');
+  static const hookExecutionFailure = ErrorCode._('HOOK_EXECUTION_FAILURE');
+  static const iamRoleMissing = ErrorCode._('IAM_ROLE_MISSING');
+  static const iamRolePermissions = ErrorCode._('IAM_ROLE_PERMISSIONS');
+  static const internalError = ErrorCode._('INTERNAL_ERROR');
+  static const invalidEcsService = ErrorCode._('INVALID_ECS_SERVICE');
+  static const invalidLambdaConfiguration =
+      ErrorCode._('INVALID_LAMBDA_CONFIGURATION');
+  static const invalidLambdaFunction = ErrorCode._('INVALID_LAMBDA_FUNCTION');
+  static const invalidRevision = ErrorCode._('INVALID_REVISION');
+  static const manualStop = ErrorCode._('MANUAL_STOP');
+  static const missingBlueGreenDeploymentConfiguration =
+      ErrorCode._('MISSING_BLUE_GREEN_DEPLOYMENT_CONFIGURATION');
+  static const missingElbInformation = ErrorCode._('MISSING_ELB_INFORMATION');
+  static const missingGithubToken = ErrorCode._('MISSING_GITHUB_TOKEN');
+  static const noEc2Subscription = ErrorCode._('NO_EC2_SUBSCRIPTION');
+  static const noInstances = ErrorCode._('NO_INSTANCES');
+  static const overMaxInstances = ErrorCode._('OVER_MAX_INSTANCES');
+  static const resourceLimitExceeded = ErrorCode._('RESOURCE_LIMIT_EXCEEDED');
+  static const revisionMissing = ErrorCode._('REVISION_MISSING');
+  static const throttled = ErrorCode._('THROTTLED');
+  static const timeout = ErrorCode._('TIMEOUT');
+  static const cloudformationStackFailure =
+      ErrorCode._('CLOUDFORMATION_STACK_FAILURE');
 
   final String value;
 
-  const ErrorCode(this.value);
+  const ErrorCode._(this.value);
 
-  static ErrorCode fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum ErrorCode'));
+  static const values = [
+    agentIssue,
+    alarmActive,
+    applicationMissing,
+    autoscalingValidationError,
+    autoScalingConfiguration,
+    autoScalingIamRolePermissions,
+    codedeployResourceCannotBeFound,
+    customerApplicationUnhealthy,
+    deploymentGroupMissing,
+    ecsUpdateError,
+    elasticLoadBalancingInvalid,
+    elbInvalidInstance,
+    healthConstraints,
+    healthConstraintsInvalid,
+    hookExecutionFailure,
+    iamRoleMissing,
+    iamRolePermissions,
+    internalError,
+    invalidEcsService,
+    invalidLambdaConfiguration,
+    invalidLambdaFunction,
+    invalidRevision,
+    manualStop,
+    missingBlueGreenDeploymentConfiguration,
+    missingElbInformation,
+    missingGithubToken,
+    noEc2Subscription,
+    noInstances,
+    overMaxInstances,
+    resourceLimitExceeded,
+    revisionMissing,
+    throttled,
+    timeout,
+    cloudformationStackFailure
+  ];
+
+  static ErrorCode fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ErrorCode._(value));
+
+  @override
+  bool operator ==(other) => other is ErrorCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about a deployment error.
@@ -5234,20 +5434,30 @@ class ErrorInformation {
   }
 }
 
-enum FileExistsBehavior {
-  disallow('DISALLOW'),
-  overwrite('OVERWRITE'),
-  retain('RETAIN'),
-  ;
+class FileExistsBehavior {
+  static const disallow = FileExistsBehavior._('DISALLOW');
+  static const overwrite = FileExistsBehavior._('OVERWRITE');
+  static const retain = FileExistsBehavior._('RETAIN');
 
   final String value;
 
-  const FileExistsBehavior(this.value);
+  const FileExistsBehavior._(this.value);
 
-  static FileExistsBehavior fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum FileExistsBehavior'));
+  static const values = [disallow, overwrite, retain];
+
+  static FileExistsBehavior fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => FileExistsBehavior._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is FileExistsBehavior && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about an application revision.
@@ -5569,19 +5779,31 @@ class GitHubLocation {
   }
 }
 
-enum GreenFleetProvisioningAction {
-  discoverExisting('DISCOVER_EXISTING'),
-  copyAutoScalingGroup('COPY_AUTO_SCALING_GROUP'),
-  ;
+class GreenFleetProvisioningAction {
+  static const discoverExisting =
+      GreenFleetProvisioningAction._('DISCOVER_EXISTING');
+  static const copyAutoScalingGroup =
+      GreenFleetProvisioningAction._('COPY_AUTO_SCALING_GROUP');
 
   final String value;
 
-  const GreenFleetProvisioningAction(this.value);
+  const GreenFleetProvisioningAction._(this.value);
+
+  static const values = [discoverExisting, copyAutoScalingGroup];
 
   static GreenFleetProvisioningAction fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum GreenFleetProvisioningAction'));
+          orElse: () => GreenFleetProvisioningAction._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is GreenFleetProvisioningAction && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about the instances that belong to the replacement environment
@@ -5620,19 +5842,28 @@ class GreenFleetProvisioningOption {
   }
 }
 
-enum InstanceAction {
-  terminate('TERMINATE'),
-  keepAlive('KEEP_ALIVE'),
-  ;
+class InstanceAction {
+  static const terminate = InstanceAction._('TERMINATE');
+  static const keepAlive = InstanceAction._('KEEP_ALIVE');
 
   final String value;
 
-  const InstanceAction(this.value);
+  const InstanceAction._(this.value);
+
+  static const values = [terminate, keepAlive];
 
   static InstanceAction fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum InstanceAction'));
+          orElse: () => InstanceAction._(value));
+
+  @override
+  bool operator ==(other) => other is InstanceAction && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about an on-premises instance.
@@ -5707,24 +5938,41 @@ class InstanceInfo {
 }
 
 @Deprecated('InstanceStatus is deprecated, use TargetStatus instead.')
-enum InstanceStatus {
-  pending('Pending'),
-  inProgress('InProgress'),
-  succeeded('Succeeded'),
-  failed('Failed'),
-  skipped('Skipped'),
-  unknown('Unknown'),
-  ready('Ready'),
-  ;
+class InstanceStatus {
+  static const pending = InstanceStatus._('Pending');
+  static const inProgress = InstanceStatus._('InProgress');
+  static const succeeded = InstanceStatus._('Succeeded');
+  static const failed = InstanceStatus._('Failed');
+  static const skipped = InstanceStatus._('Skipped');
+  static const unknown = InstanceStatus._('Unknown');
+  static const ready = InstanceStatus._('Ready');
 
   final String value;
 
-  const InstanceStatus(this.value);
+  const InstanceStatus._(this.value);
+
+  static const values = [
+    pending,
+    inProgress,
+    succeeded,
+    failed,
+    skipped,
+    unknown,
+    ready
+  ];
 
   static InstanceStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum InstanceStatus'));
+          orElse: () => InstanceStatus._(value));
+
+  @override
+  bool operator ==(other) => other is InstanceStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about an instance in a deployment.
@@ -5895,19 +6143,27 @@ class InstanceTarget {
   }
 }
 
-enum InstanceType {
-  blue('Blue'),
-  green('Green'),
-  ;
+class InstanceType {
+  static const blue = InstanceType._('Blue');
+  static const green = InstanceType._('Green');
 
   final String value;
 
-  const InstanceType(this.value);
+  const InstanceType._(this.value);
 
-  static InstanceType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum InstanceType'));
+  static const values = [blue, green];
+
+  static InstanceType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => InstanceType._(value));
+
+  @override
+  bool operator ==(other) => other is InstanceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about a Lambda function specified in a deployment.
@@ -6088,23 +6344,41 @@ class LastDeploymentInfo {
   }
 }
 
-enum LifecycleErrorCode {
-  success('Success'),
-  scriptMissing('ScriptMissing'),
-  scriptNotExecutable('ScriptNotExecutable'),
-  scriptTimedOut('ScriptTimedOut'),
-  scriptFailed('ScriptFailed'),
-  unknownError('UnknownError'),
-  ;
+class LifecycleErrorCode {
+  static const success = LifecycleErrorCode._('Success');
+  static const scriptMissing = LifecycleErrorCode._('ScriptMissing');
+  static const scriptNotExecutable =
+      LifecycleErrorCode._('ScriptNotExecutable');
+  static const scriptTimedOut = LifecycleErrorCode._('ScriptTimedOut');
+  static const scriptFailed = LifecycleErrorCode._('ScriptFailed');
+  static const unknownError = LifecycleErrorCode._('UnknownError');
 
   final String value;
 
-  const LifecycleErrorCode(this.value);
+  const LifecycleErrorCode._(this.value);
 
-  static LifecycleErrorCode fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum LifecycleErrorCode'));
+  static const values = [
+    success,
+    scriptMissing,
+    scriptNotExecutable,
+    scriptTimedOut,
+    scriptFailed,
+    unknownError
+  ];
+
+  static LifecycleErrorCode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => LifecycleErrorCode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is LifecycleErrorCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about a deployment lifecycle event.
@@ -6183,23 +6457,40 @@ class LifecycleEvent {
   }
 }
 
-enum LifecycleEventStatus {
-  pending('Pending'),
-  inProgress('InProgress'),
-  succeeded('Succeeded'),
-  failed('Failed'),
-  skipped('Skipped'),
-  unknown('Unknown'),
-  ;
+class LifecycleEventStatus {
+  static const pending = LifecycleEventStatus._('Pending');
+  static const inProgress = LifecycleEventStatus._('InProgress');
+  static const succeeded = LifecycleEventStatus._('Succeeded');
+  static const failed = LifecycleEventStatus._('Failed');
+  static const skipped = LifecycleEventStatus._('Skipped');
+  static const unknown = LifecycleEventStatus._('Unknown');
 
   final String value;
 
-  const LifecycleEventStatus(this.value);
+  const LifecycleEventStatus._(this.value);
 
-  static LifecycleEventStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum LifecycleEventStatus'));
+  static const values = [
+    pending,
+    inProgress,
+    succeeded,
+    failed,
+    skipped,
+    unknown
+  ];
+
+  static LifecycleEventStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => LifecycleEventStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is LifecycleEventStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Represents the output of a <code>ListApplicationRevisions</code> operation.
@@ -6528,20 +6819,30 @@ class ListOnPremisesInstancesOutput {
   }
 }
 
-enum ListStateFilterAction {
-  include('include'),
-  exclude('exclude'),
-  ignore('ignore'),
-  ;
+class ListStateFilterAction {
+  static const include = ListStateFilterAction._('include');
+  static const exclude = ListStateFilterAction._('exclude');
+  static const ignore = ListStateFilterAction._('ignore');
 
   final String value;
 
-  const ListStateFilterAction(this.value);
+  const ListStateFilterAction._(this.value);
 
-  static ListStateFilterAction fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ListStateFilterAction'));
+  static const values = [include, exclude, ignore];
+
+  static ListStateFilterAction fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ListStateFilterAction._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ListStateFilterAction && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class ListTagsForResourceOutput {
@@ -6749,34 +7050,54 @@ class MinimumHealthyHostsPerZone {
   }
 }
 
-enum MinimumHealthyHostsPerZoneType {
-  hostCount('HOST_COUNT'),
-  fleetPercent('FLEET_PERCENT'),
-  ;
+class MinimumHealthyHostsPerZoneType {
+  static const hostCount = MinimumHealthyHostsPerZoneType._('HOST_COUNT');
+  static const fleetPercent = MinimumHealthyHostsPerZoneType._('FLEET_PERCENT');
 
   final String value;
 
-  const MinimumHealthyHostsPerZoneType(this.value);
+  const MinimumHealthyHostsPerZoneType._(this.value);
+
+  static const values = [hostCount, fleetPercent];
 
   static MinimumHealthyHostsPerZoneType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum MinimumHealthyHostsPerZoneType'));
+          orElse: () => MinimumHealthyHostsPerZoneType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is MinimumHealthyHostsPerZoneType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum MinimumHealthyHostsType {
-  hostCount('HOST_COUNT'),
-  fleetPercent('FLEET_PERCENT'),
-  ;
+class MinimumHealthyHostsType {
+  static const hostCount = MinimumHealthyHostsType._('HOST_COUNT');
+  static const fleetPercent = MinimumHealthyHostsType._('FLEET_PERCENT');
 
   final String value;
 
-  const MinimumHealthyHostsType(this.value);
+  const MinimumHealthyHostsType._(this.value);
+
+  static const values = [hostCount, fleetPercent];
 
   static MinimumHealthyHostsType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum MinimumHealthyHostsType'));
+          orElse: () => MinimumHealthyHostsType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is MinimumHealthyHostsType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about groups of on-premises instance tags.
@@ -6811,19 +7132,29 @@ class OnPremisesTagSet {
   }
 }
 
-enum OutdatedInstancesStrategy {
-  update('UPDATE'),
-  ignore('IGNORE'),
-  ;
+class OutdatedInstancesStrategy {
+  static const update = OutdatedInstancesStrategy._('UPDATE');
+  static const ignore = OutdatedInstancesStrategy._('IGNORE');
 
   final String value;
 
-  const OutdatedInstancesStrategy(this.value);
+  const OutdatedInstancesStrategy._(this.value);
+
+  static const values = [update, ignore];
 
   static OutdatedInstancesStrategy fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum OutdatedInstancesStrategy'));
+          orElse: () => OutdatedInstancesStrategy._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is OutdatedInstancesStrategy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class PutLifecycleEventHookExecutionStatusOutput {
@@ -6888,19 +7219,29 @@ class RawString {
   }
 }
 
-enum RegistrationStatus {
-  registered('Registered'),
-  deregistered('Deregistered'),
-  ;
+class RegistrationStatus {
+  static const registered = RegistrationStatus._('Registered');
+  static const deregistered = RegistrationStatus._('Deregistered');
 
   final String value;
 
-  const RegistrationStatus(this.value);
+  const RegistrationStatus._(this.value);
 
-  static RegistrationStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum RegistrationStatus'));
+  static const values = [registered, deregistered];
+
+  static RegistrationStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => RegistrationStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RegistrationStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about deployments related to the specified deployment.
@@ -7065,21 +7406,31 @@ class RevisionLocation {
   }
 }
 
-enum RevisionLocationType {
-  s3('S3'),
-  gitHub('GitHub'),
-  string('String'),
-  appSpecContent('AppSpecContent'),
-  ;
+class RevisionLocationType {
+  static const s3 = RevisionLocationType._('S3');
+  static const gitHub = RevisionLocationType._('GitHub');
+  static const string = RevisionLocationType._('String');
+  static const appSpecContent = RevisionLocationType._('AppSpecContent');
 
   final String value;
 
-  const RevisionLocationType(this.value);
+  const RevisionLocationType._(this.value);
 
-  static RevisionLocationType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum RevisionLocationType'));
+  static const values = [s3, gitHub, string, appSpecContent];
+
+  static RevisionLocationType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => RevisionLocationType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RevisionLocationType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about a deployment rollback.
@@ -7203,18 +7554,27 @@ class S3Location {
   }
 }
 
-enum SortOrder {
-  ascending('ascending'),
-  descending('descending'),
-  ;
+class SortOrder {
+  static const ascending = SortOrder._('ascending');
+  static const descending = SortOrder._('descending');
 
   final String value;
 
-  const SortOrder(this.value);
+  const SortOrder._(this.value);
 
-  static SortOrder fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum SortOrder'));
+  static const values = [ascending, descending];
+
+  static SortOrder fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => SortOrder._(value));
+
+  @override
+  bool operator ==(other) => other is SortOrder && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Represents the output of a <code>StopDeployment</code> operation.
@@ -7256,18 +7616,27 @@ class StopDeploymentOutput {
   }
 }
 
-enum StopStatus {
-  pending('Pending'),
-  succeeded('Succeeded'),
-  ;
+class StopStatus {
+  static const pending = StopStatus._('Pending');
+  static const succeeded = StopStatus._('Succeeded');
 
   final String value;
 
-  const StopStatus(this.value);
+  const StopStatus._(this.value);
 
-  static StopStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum StopStatus'));
+  static const values = [pending, succeeded];
+
+  static StopStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => StopStatus._(value));
+
+  @override
+  bool operator ==(other) => other is StopStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about a tag.
@@ -7349,20 +7718,29 @@ class TagFilter {
   }
 }
 
-enum TagFilterType {
-  keyOnly('KEY_ONLY'),
-  valueOnly('VALUE_ONLY'),
-  keyAndValue('KEY_AND_VALUE'),
-  ;
+class TagFilterType {
+  static const keyOnly = TagFilterType._('KEY_ONLY');
+  static const valueOnly = TagFilterType._('VALUE_ONLY');
+  static const keyAndValue = TagFilterType._('KEY_AND_VALUE');
 
   final String value;
 
-  const TagFilterType(this.value);
+  const TagFilterType._(this.value);
+
+  static const values = [keyOnly, valueOnly, keyAndValue];
 
   static TagFilterType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum TagFilterType'));
+          orElse: () => TagFilterType._(value));
+
+  @override
+  bool operator ==(other) => other is TagFilterType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class TagResourceOutput {
@@ -7377,19 +7755,28 @@ class TagResourceOutput {
   }
 }
 
-enum TargetFilterName {
-  targetStatus('TargetStatus'),
-  serverInstanceLabel('ServerInstanceLabel'),
-  ;
+class TargetFilterName {
+  static const targetStatus = TargetFilterName._('TargetStatus');
+  static const serverInstanceLabel = TargetFilterName._('ServerInstanceLabel');
 
   final String value;
 
-  const TargetFilterName(this.value);
+  const TargetFilterName._(this.value);
+
+  static const values = [targetStatus, serverInstanceLabel];
 
   static TargetFilterName fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum TargetFilterName'));
+          orElse: () => TargetFilterName._(value));
+
+  @override
+  bool operator ==(other) => other is TargetFilterName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about a target group in Elastic Load Balancing to use in a
@@ -7526,38 +7913,63 @@ class TargetInstances {
   }
 }
 
-enum TargetLabel {
-  blue('Blue'),
-  green('Green'),
-  ;
+class TargetLabel {
+  static const blue = TargetLabel._('Blue');
+  static const green = TargetLabel._('Green');
 
   final String value;
 
-  const TargetLabel(this.value);
+  const TargetLabel._(this.value);
 
-  static TargetLabel fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum TargetLabel'));
+  static const values = [blue, green];
+
+  static TargetLabel fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => TargetLabel._(value));
+
+  @override
+  bool operator ==(other) => other is TargetLabel && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum TargetStatus {
-  pending('Pending'),
-  inProgress('InProgress'),
-  succeeded('Succeeded'),
-  failed('Failed'),
-  skipped('Skipped'),
-  unknown('Unknown'),
-  ready('Ready'),
-  ;
+class TargetStatus {
+  static const pending = TargetStatus._('Pending');
+  static const inProgress = TargetStatus._('InProgress');
+  static const succeeded = TargetStatus._('Succeeded');
+  static const failed = TargetStatus._('Failed');
+  static const skipped = TargetStatus._('Skipped');
+  static const unknown = TargetStatus._('Unknown');
+  static const ready = TargetStatus._('Ready');
 
   final String value;
 
-  const TargetStatus(this.value);
+  const TargetStatus._(this.value);
 
-  static TargetStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum TargetStatus'));
+  static const values = [
+    pending,
+    inProgress,
+    succeeded,
+    failed,
+    skipped,
+    unknown,
+    ready
+  ];
+
+  static TargetStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => TargetStatus._(value));
+
+  @override
+  bool operator ==(other) => other is TargetStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A configuration that shifts traffic from one version of a Lambda function or
@@ -7741,20 +8153,30 @@ class TrafficRoutingConfig {
   }
 }
 
-enum TrafficRoutingType {
-  timeBasedCanary('TimeBasedCanary'),
-  timeBasedLinear('TimeBasedLinear'),
-  allAtOnce('AllAtOnce'),
-  ;
+class TrafficRoutingType {
+  static const timeBasedCanary = TrafficRoutingType._('TimeBasedCanary');
+  static const timeBasedLinear = TrafficRoutingType._('TimeBasedLinear');
+  static const allAtOnce = TrafficRoutingType._('AllAtOnce');
 
   final String value;
 
-  const TrafficRoutingType(this.value);
+  const TrafficRoutingType._(this.value);
 
-  static TrafficRoutingType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum TrafficRoutingType'));
+  static const values = [timeBasedCanary, timeBasedLinear, allAtOnce];
+
+  static TrafficRoutingType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => TrafficRoutingType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TrafficRoutingType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about notification triggers for the deployment group.
@@ -7800,27 +8222,47 @@ class TriggerConfig {
   }
 }
 
-enum TriggerEventType {
-  deploymentStart('DeploymentStart'),
-  deploymentSuccess('DeploymentSuccess'),
-  deploymentFailure('DeploymentFailure'),
-  deploymentStop('DeploymentStop'),
-  deploymentRollback('DeploymentRollback'),
-  deploymentReady('DeploymentReady'),
-  instanceStart('InstanceStart'),
-  instanceSuccess('InstanceSuccess'),
-  instanceFailure('InstanceFailure'),
-  instanceReady('InstanceReady'),
-  ;
+class TriggerEventType {
+  static const deploymentStart = TriggerEventType._('DeploymentStart');
+  static const deploymentSuccess = TriggerEventType._('DeploymentSuccess');
+  static const deploymentFailure = TriggerEventType._('DeploymentFailure');
+  static const deploymentStop = TriggerEventType._('DeploymentStop');
+  static const deploymentRollback = TriggerEventType._('DeploymentRollback');
+  static const deploymentReady = TriggerEventType._('DeploymentReady');
+  static const instanceStart = TriggerEventType._('InstanceStart');
+  static const instanceSuccess = TriggerEventType._('InstanceSuccess');
+  static const instanceFailure = TriggerEventType._('InstanceFailure');
+  static const instanceReady = TriggerEventType._('InstanceReady');
 
   final String value;
 
-  const TriggerEventType(this.value);
+  const TriggerEventType._(this.value);
+
+  static const values = [
+    deploymentStart,
+    deploymentSuccess,
+    deploymentFailure,
+    deploymentStop,
+    deploymentRollback,
+    deploymentReady,
+    instanceStart,
+    instanceSuccess,
+    instanceFailure,
+    instanceReady
+  ];
 
   static TriggerEventType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum TriggerEventType'));
+          orElse: () => TriggerEventType._(value));
+
+  @override
+  bool operator ==(other) => other is TriggerEventType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class UntagResourceOutput {

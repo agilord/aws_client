@@ -95,18 +95,27 @@ class OutputShape {
   }
 }
 
-enum EC2EnumType {
-  foo('foo'),
-  bar('bar'),
-  ;
+class EC2EnumType {
+  static const foo = EC2EnumType._('foo');
+  static const bar = EC2EnumType._('bar');
 
   final String value;
 
-  const EC2EnumType(this.value);
+  const EC2EnumType._(this.value);
 
-  static EC2EnumType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum EC2EnumType'));
+  static const values = [foo, bar];
+
+  static EC2EnumType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => EC2EnumType._(value));
+
+  @override
+  bool operator ==(other) => other is EC2EnumType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 final _exceptionFns = <String, _s.AwsExceptionFn>{};

@@ -4762,41 +4762,61 @@ class AcceleratorCountRequest {
   }
 }
 
-enum AcceleratorManufacturer {
-  nvidia('nvidia'),
-  amd('amd'),
-  amazonWebServices('amazon-web-services'),
-  xilinx('xilinx'),
-  ;
+class AcceleratorManufacturer {
+  static const nvidia = AcceleratorManufacturer._('nvidia');
+  static const amd = AcceleratorManufacturer._('amd');
+  static const amazonWebServices =
+      AcceleratorManufacturer._('amazon-web-services');
+  static const xilinx = AcceleratorManufacturer._('xilinx');
 
   final String value;
 
-  const AcceleratorManufacturer(this.value);
+  const AcceleratorManufacturer._(this.value);
+
+  static const values = [nvidia, amd, amazonWebServices, xilinx];
 
   static AcceleratorManufacturer fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum AcceleratorManufacturer'));
+          orElse: () => AcceleratorManufacturer._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AcceleratorManufacturer && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum AcceleratorName {
-  a100('a100'),
-  v100('v100'),
-  k80('k80'),
-  t4('t4'),
-  m60('m60'),
-  radeonProV520('radeon-pro-v520'),
-  vu9p('vu9p'),
-  ;
+class AcceleratorName {
+  static const a100 = AcceleratorName._('a100');
+  static const v100 = AcceleratorName._('v100');
+  static const k80 = AcceleratorName._('k80');
+  static const t4 = AcceleratorName._('t4');
+  static const m60 = AcceleratorName._('m60');
+  static const radeonProV520 = AcceleratorName._('radeon-pro-v520');
+  static const vu9p = AcceleratorName._('vu9p');
 
   final String value;
 
-  const AcceleratorName(this.value);
+  const AcceleratorName._(this.value);
+
+  static const values = [a100, v100, k80, t4, m60, radeonProV520, vu9p];
 
   static AcceleratorName fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum AcceleratorName'));
+          orElse: () => AcceleratorName._(value));
+
+  @override
+  bool operator ==(other) => other is AcceleratorName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specifies the minimum and maximum for the
@@ -4839,20 +4859,29 @@ class AcceleratorTotalMemoryMiBRequest {
   }
 }
 
-enum AcceleratorType {
-  gpu('gpu'),
-  fpga('fpga'),
-  inference('inference'),
-  ;
+class AcceleratorType {
+  static const gpu = AcceleratorType._('gpu');
+  static const fpga = AcceleratorType._('fpga');
+  static const inference = AcceleratorType._('inference');
 
   final String value;
 
-  const AcceleratorType(this.value);
+  const AcceleratorType._(this.value);
+
+  static const values = [gpu, fpga, inference];
 
   static AcceleratorType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum AcceleratorType'));
+          orElse: () => AcceleratorType._(value));
+
+  @override
+  bool operator ==(other) => other is AcceleratorType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class ActivitiesType {
@@ -5651,19 +5680,28 @@ class AutoScalingInstancesType {
   }
 }
 
-enum BareMetal {
-  included('included'),
-  excluded('excluded'),
-  required('required'),
-  ;
+class BareMetal {
+  static const included = BareMetal._('included');
+  static const excluded = BareMetal._('excluded');
+  static const required = BareMetal._('required');
 
   final String value;
 
-  const BareMetal(this.value);
+  const BareMetal._(this.value);
 
-  static BareMetal fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum BareMetal'));
+  static const values = [included, excluded, required];
+
+  static BareMetal fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => BareMetal._(value));
+
+  @override
+  bool operator ==(other) => other is BareMetal && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specifies the minimum and maximum for the
@@ -5839,20 +5877,30 @@ class BlockDeviceMapping {
   }
 }
 
-enum BurstablePerformance {
-  included('included'),
-  excluded('excluded'),
-  required('required'),
-  ;
+class BurstablePerformance {
+  static const included = BurstablePerformance._('included');
+  static const excluded = BurstablePerformance._('excluded');
+  static const required = BurstablePerformance._('required');
 
   final String value;
 
-  const BurstablePerformance(this.value);
+  const BurstablePerformance._(this.value);
 
-  static BurstablePerformance fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum BurstablePerformance'));
+  static const values = [included, excluded, required];
+
+  static BurstablePerformance fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => BurstablePerformance._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is BurstablePerformance && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class CancelInstanceRefreshAnswer {
@@ -5924,20 +5972,29 @@ class CompleteLifecycleActionAnswer {
   }
 }
 
-enum CpuManufacturer {
-  intel('intel'),
-  amd('amd'),
-  amazonWebServices('amazon-web-services'),
-  ;
+class CpuManufacturer {
+  static const intel = CpuManufacturer._('intel');
+  static const amd = CpuManufacturer._('amd');
+  static const amazonWebServices = CpuManufacturer._('amazon-web-services');
 
   final String value;
 
-  const CpuManufacturer(this.value);
+  const CpuManufacturer._(this.value);
+
+  static const values = [intel, amd, amazonWebServices];
 
   static CpuManufacturer fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum CpuManufacturer'));
+          orElse: () => CpuManufacturer._(value));
+
+  @override
+  bool operator ==(other) => other is CpuManufacturer && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Represents a CloudWatch metric of your choosing for a target tracking
@@ -7222,19 +7279,29 @@ class Instance {
   }
 }
 
-enum InstanceGeneration {
-  current('current'),
-  previous('previous'),
-  ;
+class InstanceGeneration {
+  static const current = InstanceGeneration._('current');
+  static const previous = InstanceGeneration._('previous');
 
   final String value;
 
-  const InstanceGeneration(this.value);
+  const InstanceGeneration._(this.value);
 
-  static InstanceGeneration fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum InstanceGeneration'));
+  static const values = [current, previous];
+
+  static InstanceGeneration fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => InstanceGeneration._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is InstanceGeneration && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes an instance maintenance policy.
@@ -7297,34 +7364,54 @@ class InstanceMaintenancePolicy {
   }
 }
 
-enum InstanceMetadataEndpointState {
-  disabled('disabled'),
-  enabled('enabled'),
-  ;
+class InstanceMetadataEndpointState {
+  static const disabled = InstanceMetadataEndpointState._('disabled');
+  static const enabled = InstanceMetadataEndpointState._('enabled');
 
   final String value;
 
-  const InstanceMetadataEndpointState(this.value);
+  const InstanceMetadataEndpointState._(this.value);
+
+  static const values = [disabled, enabled];
 
   static InstanceMetadataEndpointState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum InstanceMetadataEndpointState'));
+          orElse: () => InstanceMetadataEndpointState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is InstanceMetadataEndpointState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum InstanceMetadataHttpTokensState {
-  optional('optional'),
-  required('required'),
-  ;
+class InstanceMetadataHttpTokensState {
+  static const optional = InstanceMetadataHttpTokensState._('optional');
+  static const required = InstanceMetadataHttpTokensState._('required');
 
   final String value;
 
-  const InstanceMetadataHttpTokensState(this.value);
+  const InstanceMetadataHttpTokensState._(this.value);
+
+  static const values = [optional, required];
 
   static InstanceMetadataHttpTokensState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum InstanceMetadataHttpTokensState'));
+          orElse: () => InstanceMetadataHttpTokensState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is InstanceMetadataHttpTokensState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The metadata options for the instances. For more information, see <a
@@ -7666,26 +7753,48 @@ class InstanceRefreshProgressDetails {
   }
 }
 
-enum InstanceRefreshStatus {
-  pending('Pending'),
-  inProgress('InProgress'),
-  successful('Successful'),
-  failed('Failed'),
-  cancelling('Cancelling'),
-  cancelled('Cancelled'),
-  rollbackInProgress('RollbackInProgress'),
-  rollbackFailed('RollbackFailed'),
-  rollbackSuccessful('RollbackSuccessful'),
-  ;
+class InstanceRefreshStatus {
+  static const pending = InstanceRefreshStatus._('Pending');
+  static const inProgress = InstanceRefreshStatus._('InProgress');
+  static const successful = InstanceRefreshStatus._('Successful');
+  static const failed = InstanceRefreshStatus._('Failed');
+  static const cancelling = InstanceRefreshStatus._('Cancelling');
+  static const cancelled = InstanceRefreshStatus._('Cancelled');
+  static const rollbackInProgress =
+      InstanceRefreshStatus._('RollbackInProgress');
+  static const rollbackFailed = InstanceRefreshStatus._('RollbackFailed');
+  static const rollbackSuccessful =
+      InstanceRefreshStatus._('RollbackSuccessful');
 
   final String value;
 
-  const InstanceRefreshStatus(this.value);
+  const InstanceRefreshStatus._(this.value);
 
-  static InstanceRefreshStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum InstanceRefreshStatus'));
+  static const values = [
+    pending,
+    inProgress,
+    successful,
+    failed,
+    cancelling,
+    cancelled,
+    rollbackInProgress,
+    rollbackFailed,
+    rollbackSuccessful
+  ];
+
+  static InstanceRefreshStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => InstanceRefreshStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is InstanceRefreshStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Reports progress on replacing instances that are in the warm pool.
@@ -9357,40 +9466,76 @@ class LifecycleHookSpecification {
   }
 }
 
-enum LifecycleState {
-  pending('Pending'),
-  pendingWait('Pending:Wait'),
-  pendingProceed('Pending:Proceed'),
-  quarantined('Quarantined'),
-  inService('InService'),
-  terminating('Terminating'),
-  terminatingWait('Terminating:Wait'),
-  terminatingProceed('Terminating:Proceed'),
-  terminated('Terminated'),
-  detaching('Detaching'),
-  detached('Detached'),
-  enteringStandby('EnteringStandby'),
-  standby('Standby'),
-  warmedPending('Warmed:Pending'),
-  warmedPendingWait('Warmed:Pending:Wait'),
-  warmedPendingProceed('Warmed:Pending:Proceed'),
-  warmedTerminating('Warmed:Terminating'),
-  warmedTerminatingWait('Warmed:Terminating:Wait'),
-  warmedTerminatingProceed('Warmed:Terminating:Proceed'),
-  warmedTerminated('Warmed:Terminated'),
-  warmedStopped('Warmed:Stopped'),
-  warmedRunning('Warmed:Running'),
-  warmedHibernated('Warmed:Hibernated'),
-  ;
+class LifecycleState {
+  static const pending = LifecycleState._('Pending');
+  static const pendingWait = LifecycleState._('Pending:Wait');
+  static const pendingProceed = LifecycleState._('Pending:Proceed');
+  static const quarantined = LifecycleState._('Quarantined');
+  static const inService = LifecycleState._('InService');
+  static const terminating = LifecycleState._('Terminating');
+  static const terminatingWait = LifecycleState._('Terminating:Wait');
+  static const terminatingProceed = LifecycleState._('Terminating:Proceed');
+  static const terminated = LifecycleState._('Terminated');
+  static const detaching = LifecycleState._('Detaching');
+  static const detached = LifecycleState._('Detached');
+  static const enteringStandby = LifecycleState._('EnteringStandby');
+  static const standby = LifecycleState._('Standby');
+  static const warmedPending = LifecycleState._('Warmed:Pending');
+  static const warmedPendingWait = LifecycleState._('Warmed:Pending:Wait');
+  static const warmedPendingProceed =
+      LifecycleState._('Warmed:Pending:Proceed');
+  static const warmedTerminating = LifecycleState._('Warmed:Terminating');
+  static const warmedTerminatingWait =
+      LifecycleState._('Warmed:Terminating:Wait');
+  static const warmedTerminatingProceed =
+      LifecycleState._('Warmed:Terminating:Proceed');
+  static const warmedTerminated = LifecycleState._('Warmed:Terminated');
+  static const warmedStopped = LifecycleState._('Warmed:Stopped');
+  static const warmedRunning = LifecycleState._('Warmed:Running');
+  static const warmedHibernated = LifecycleState._('Warmed:Hibernated');
 
   final String value;
 
-  const LifecycleState(this.value);
+  const LifecycleState._(this.value);
+
+  static const values = [
+    pending,
+    pendingWait,
+    pendingProceed,
+    quarantined,
+    inService,
+    terminating,
+    terminatingWait,
+    terminatingProceed,
+    terminated,
+    detaching,
+    detached,
+    enteringStandby,
+    standby,
+    warmedPending,
+    warmedPendingWait,
+    warmedPendingProceed,
+    warmedTerminating,
+    warmedTerminatingWait,
+    warmedTerminatingProceed,
+    warmedTerminated,
+    warmedStopped,
+    warmedRunning,
+    warmedHibernated
+  ];
 
   static LifecycleState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum LifecycleState'));
+          orElse: () => LifecycleState._(value));
+
+  @override
+  bool operator ==(other) => other is LifecycleState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes the state of a Classic Load Balancer.
@@ -9545,35 +9690,52 @@ class LoadForecast {
   }
 }
 
-enum LocalStorage {
-  included('included'),
-  excluded('excluded'),
-  required('required'),
-  ;
+class LocalStorage {
+  static const included = LocalStorage._('included');
+  static const excluded = LocalStorage._('excluded');
+  static const required = LocalStorage._('required');
 
   final String value;
 
-  const LocalStorage(this.value);
+  const LocalStorage._(this.value);
 
-  static LocalStorage fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum LocalStorage'));
+  static const values = [included, excluded, required];
+
+  static LocalStorage fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => LocalStorage._(value));
+
+  @override
+  bool operator ==(other) => other is LocalStorage && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum LocalStorageType {
-  hdd('hdd'),
-  ssd('ssd'),
-  ;
+class LocalStorageType {
+  static const hdd = LocalStorageType._('hdd');
+  static const ssd = LocalStorageType._('ssd');
 
   final String value;
 
-  const LocalStorageType(this.value);
+  const LocalStorageType._(this.value);
+
+  static const values = [hdd, ssd];
 
   static LocalStorageType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum LocalStorageType'));
+          orElse: () => LocalStorageType._(value));
+
+  @override
+  bool operator ==(other) => other is LocalStorageType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specifies the minimum and maximum for the <code>MemoryGiBPerVCpu</code>
@@ -10035,38 +10197,63 @@ class MetricStat {
   }
 }
 
-enum MetricStatistic {
-  average('Average'),
-  minimum('Minimum'),
-  maximum('Maximum'),
-  sampleCount('SampleCount'),
-  sum('Sum'),
-  ;
+class MetricStatistic {
+  static const average = MetricStatistic._('Average');
+  static const minimum = MetricStatistic._('Minimum');
+  static const maximum = MetricStatistic._('Maximum');
+  static const sampleCount = MetricStatistic._('SampleCount');
+  static const sum = MetricStatistic._('Sum');
 
   final String value;
 
-  const MetricStatistic(this.value);
+  const MetricStatistic._(this.value);
+
+  static const values = [average, minimum, maximum, sampleCount, sum];
 
   static MetricStatistic fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum MetricStatistic'));
+          orElse: () => MetricStatistic._(value));
+
+  @override
+  bool operator ==(other) => other is MetricStatistic && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum MetricType {
-  aSGAverageCPUUtilization('ASGAverageCPUUtilization'),
-  aSGAverageNetworkIn('ASGAverageNetworkIn'),
-  aSGAverageNetworkOut('ASGAverageNetworkOut'),
-  aLBRequestCountPerTarget('ALBRequestCountPerTarget'),
-  ;
+class MetricType {
+  static const aSGAverageCPUUtilization =
+      MetricType._('ASGAverageCPUUtilization');
+  static const aSGAverageNetworkIn = MetricType._('ASGAverageNetworkIn');
+  static const aSGAverageNetworkOut = MetricType._('ASGAverageNetworkOut');
+  static const aLBRequestCountPerTarget =
+      MetricType._('ALBRequestCountPerTarget');
 
   final String value;
 
-  const MetricType(this.value);
+  const MetricType._(this.value);
 
-  static MetricType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum MetricType'));
+  static const values = [
+    aSGAverageCPUUtilization,
+    aSGAverageNetworkIn,
+    aSGAverageNetworkOut,
+    aLBRequestCountPerTarget
+  ];
+
+  static MetricType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => MetricType._(value));
+
+  @override
+  bool operator ==(other) => other is MetricType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Use this structure to launch multiple instance types and On-Demand Instances
@@ -10334,38 +10521,73 @@ class PolicyARNType {
   }
 }
 
-enum PredefinedLoadMetricType {
-  aSGTotalCPUUtilization('ASGTotalCPUUtilization'),
-  aSGTotalNetworkIn('ASGTotalNetworkIn'),
-  aSGTotalNetworkOut('ASGTotalNetworkOut'),
-  aLBTargetGroupRequestCount('ALBTargetGroupRequestCount'),
-  ;
+class PredefinedLoadMetricType {
+  static const aSGTotalCPUUtilization =
+      PredefinedLoadMetricType._('ASGTotalCPUUtilization');
+  static const aSGTotalNetworkIn =
+      PredefinedLoadMetricType._('ASGTotalNetworkIn');
+  static const aSGTotalNetworkOut =
+      PredefinedLoadMetricType._('ASGTotalNetworkOut');
+  static const aLBTargetGroupRequestCount =
+      PredefinedLoadMetricType._('ALBTargetGroupRequestCount');
 
   final String value;
 
-  const PredefinedLoadMetricType(this.value);
+  const PredefinedLoadMetricType._(this.value);
+
+  static const values = [
+    aSGTotalCPUUtilization,
+    aSGTotalNetworkIn,
+    aSGTotalNetworkOut,
+    aLBTargetGroupRequestCount
+  ];
 
   static PredefinedLoadMetricType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum PredefinedLoadMetricType'));
+          orElse: () => PredefinedLoadMetricType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is PredefinedLoadMetricType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum PredefinedMetricPairType {
-  aSGCPUUtilization('ASGCPUUtilization'),
-  aSGNetworkIn('ASGNetworkIn'),
-  aSGNetworkOut('ASGNetworkOut'),
-  aLBRequestCount('ALBRequestCount'),
-  ;
+class PredefinedMetricPairType {
+  static const aSGCPUUtilization =
+      PredefinedMetricPairType._('ASGCPUUtilization');
+  static const aSGNetworkIn = PredefinedMetricPairType._('ASGNetworkIn');
+  static const aSGNetworkOut = PredefinedMetricPairType._('ASGNetworkOut');
+  static const aLBRequestCount = PredefinedMetricPairType._('ALBRequestCount');
 
   final String value;
 
-  const PredefinedMetricPairType(this.value);
+  const PredefinedMetricPairType._(this.value);
+
+  static const values = [
+    aSGCPUUtilization,
+    aSGNetworkIn,
+    aSGNetworkOut,
+    aLBRequestCount
+  ];
 
   static PredefinedMetricPairType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum PredefinedMetricPairType'));
+          orElse: () => PredefinedMetricPairType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is PredefinedMetricPairType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Represents a predefined metric for a target tracking scaling policy to use
@@ -10456,21 +10678,40 @@ class PredefinedMetricSpecification {
   }
 }
 
-enum PredefinedScalingMetricType {
-  aSGAverageCPUUtilization('ASGAverageCPUUtilization'),
-  aSGAverageNetworkIn('ASGAverageNetworkIn'),
-  aSGAverageNetworkOut('ASGAverageNetworkOut'),
-  aLBRequestCountPerTarget('ALBRequestCountPerTarget'),
-  ;
+class PredefinedScalingMetricType {
+  static const aSGAverageCPUUtilization =
+      PredefinedScalingMetricType._('ASGAverageCPUUtilization');
+  static const aSGAverageNetworkIn =
+      PredefinedScalingMetricType._('ASGAverageNetworkIn');
+  static const aSGAverageNetworkOut =
+      PredefinedScalingMetricType._('ASGAverageNetworkOut');
+  static const aLBRequestCountPerTarget =
+      PredefinedScalingMetricType._('ALBRequestCountPerTarget');
 
   final String value;
 
-  const PredefinedScalingMetricType(this.value);
+  const PredefinedScalingMetricType._(this.value);
+
+  static const values = [
+    aSGAverageCPUUtilization,
+    aSGAverageNetworkIn,
+    aSGAverageNetworkOut,
+    aLBRequestCountPerTarget
+  ];
 
   static PredefinedScalingMetricType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum PredefinedScalingMetricType'));
+          orElse: () => PredefinedScalingMetricType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is PredefinedScalingMetricType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Represents a predictive scaling policy configuration to use with Amazon EC2
@@ -10728,19 +10969,32 @@ class PredictiveScalingCustomizedScalingMetric {
   }
 }
 
-enum PredictiveScalingMaxCapacityBreachBehavior {
-  honorMaxCapacity('HonorMaxCapacity'),
-  increaseMaxCapacity('IncreaseMaxCapacity'),
-  ;
+class PredictiveScalingMaxCapacityBreachBehavior {
+  static const honorMaxCapacity =
+      PredictiveScalingMaxCapacityBreachBehavior._('HonorMaxCapacity');
+  static const increaseMaxCapacity =
+      PredictiveScalingMaxCapacityBreachBehavior._('IncreaseMaxCapacity');
 
   final String value;
 
-  const PredictiveScalingMaxCapacityBreachBehavior(this.value);
+  const PredictiveScalingMaxCapacityBreachBehavior._(this.value);
+
+  static const values = [honorMaxCapacity, increaseMaxCapacity];
 
   static PredictiveScalingMaxCapacityBreachBehavior fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum PredictiveScalingMaxCapacityBreachBehavior'));
+          orElse: () => PredictiveScalingMaxCapacityBreachBehavior._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is PredictiveScalingMaxCapacityBreachBehavior &&
+      other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// This structure specifies the metrics and target utilization settings for a
@@ -10936,19 +11190,29 @@ class PredictiveScalingMetricSpecification {
   }
 }
 
-enum PredictiveScalingMode {
-  forecastAndScale('ForecastAndScale'),
-  forecastOnly('ForecastOnly'),
-  ;
+class PredictiveScalingMode {
+  static const forecastAndScale = PredictiveScalingMode._('ForecastAndScale');
+  static const forecastOnly = PredictiveScalingMode._('ForecastOnly');
 
   final String value;
 
-  const PredictiveScalingMode(this.value);
+  const PredictiveScalingMode._(this.value);
 
-  static PredictiveScalingMode fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum PredictiveScalingMode'));
+  static const values = [forecastAndScale, forecastOnly];
+
+  static PredictiveScalingMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => PredictiveScalingMode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is PredictiveScalingMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes a load metric for a predictive scaling policy.
@@ -11522,18 +11786,27 @@ class RefreshPreferences {
   }
 }
 
-enum RefreshStrategy {
-  rolling('Rolling'),
-  ;
+class RefreshStrategy {
+  static const rolling = RefreshStrategy._('Rolling');
 
   final String value;
 
-  const RefreshStrategy(this.value);
+  const RefreshStrategy._(this.value);
+
+  static const values = [rolling];
 
   static RefreshStrategy fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum RefreshStrategy'));
+          orElse: () => RefreshStrategy._(value));
+
+  @override
+  bool operator ==(other) => other is RefreshStrategy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Details about an instance refresh rollback.
@@ -11621,46 +11894,88 @@ class RollbackInstanceRefreshAnswer {
   }
 }
 
-enum ScaleInProtectedInstances {
-  refresh('Refresh'),
-  ignore('Ignore'),
-  wait('Wait'),
-  ;
+class ScaleInProtectedInstances {
+  static const refresh = ScaleInProtectedInstances._('Refresh');
+  static const ignore = ScaleInProtectedInstances._('Ignore');
+  static const wait = ScaleInProtectedInstances._('Wait');
 
   final String value;
 
-  const ScaleInProtectedInstances(this.value);
+  const ScaleInProtectedInstances._(this.value);
+
+  static const values = [refresh, ignore, wait];
 
   static ScaleInProtectedInstances fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ScaleInProtectedInstances'));
+          orElse: () => ScaleInProtectedInstances._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ScaleInProtectedInstances && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ScalingActivityStatusCode {
-  pendingSpotBidPlacement('PendingSpotBidPlacement'),
-  waitingForSpotInstanceRequestId('WaitingForSpotInstanceRequestId'),
-  waitingForSpotInstanceId('WaitingForSpotInstanceId'),
-  waitingForInstanceId('WaitingForInstanceId'),
-  preInService('PreInService'),
-  inProgress('InProgress'),
-  waitingForELBConnectionDraining('WaitingForELBConnectionDraining'),
-  midLifecycleAction('MidLifecycleAction'),
-  waitingForInstanceWarmup('WaitingForInstanceWarmup'),
-  successful('Successful'),
-  failed('Failed'),
-  cancelled('Cancelled'),
-  waitingForConnectionDraining('WaitingForConnectionDraining'),
-  ;
+class ScalingActivityStatusCode {
+  static const pendingSpotBidPlacement =
+      ScalingActivityStatusCode._('PendingSpotBidPlacement');
+  static const waitingForSpotInstanceRequestId =
+      ScalingActivityStatusCode._('WaitingForSpotInstanceRequestId');
+  static const waitingForSpotInstanceId =
+      ScalingActivityStatusCode._('WaitingForSpotInstanceId');
+  static const waitingForInstanceId =
+      ScalingActivityStatusCode._('WaitingForInstanceId');
+  static const preInService = ScalingActivityStatusCode._('PreInService');
+  static const inProgress = ScalingActivityStatusCode._('InProgress');
+  static const waitingForELBConnectionDraining =
+      ScalingActivityStatusCode._('WaitingForELBConnectionDraining');
+  static const midLifecycleAction =
+      ScalingActivityStatusCode._('MidLifecycleAction');
+  static const waitingForInstanceWarmup =
+      ScalingActivityStatusCode._('WaitingForInstanceWarmup');
+  static const successful = ScalingActivityStatusCode._('Successful');
+  static const failed = ScalingActivityStatusCode._('Failed');
+  static const cancelled = ScalingActivityStatusCode._('Cancelled');
+  static const waitingForConnectionDraining =
+      ScalingActivityStatusCode._('WaitingForConnectionDraining');
 
   final String value;
 
-  const ScalingActivityStatusCode(this.value);
+  const ScalingActivityStatusCode._(this.value);
+
+  static const values = [
+    pendingSpotBidPlacement,
+    waitingForSpotInstanceRequestId,
+    waitingForSpotInstanceId,
+    waitingForInstanceId,
+    preInService,
+    inProgress,
+    waitingForELBConnectionDraining,
+    midLifecycleAction,
+    waitingForInstanceWarmup,
+    successful,
+    failed,
+    cancelled,
+    waitingForConnectionDraining
+  ];
 
   static ScalingActivityStatusCode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ScalingActivityStatusCode'));
+          orElse: () => ScalingActivityStatusCode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ScalingActivityStatusCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes a scaling policy.
@@ -12100,20 +12415,29 @@ class SetInstanceProtectionAnswer {
   }
 }
 
-enum StandbyInstances {
-  terminate('Terminate'),
-  ignore('Ignore'),
-  wait('Wait'),
-  ;
+class StandbyInstances {
+  static const terminate = StandbyInstances._('Terminate');
+  static const ignore = StandbyInstances._('Ignore');
+  static const wait = StandbyInstances._('Wait');
 
   final String value;
 
-  const StandbyInstances(this.value);
+  const StandbyInstances._(this.value);
+
+  static const values = [terminate, ignore, wait];
 
   static StandbyInstances fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum StandbyInstances'));
+          orElse: () => StandbyInstances._(value));
+
+  @override
+  bool operator ==(other) => other is StandbyInstances && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class StartInstanceRefreshAnswer {
@@ -12979,34 +13303,52 @@ class WarmPoolConfiguration {
   }
 }
 
-enum WarmPoolState {
-  stopped('Stopped'),
-  running('Running'),
-  hibernated('Hibernated'),
-  ;
+class WarmPoolState {
+  static const stopped = WarmPoolState._('Stopped');
+  static const running = WarmPoolState._('Running');
+  static const hibernated = WarmPoolState._('Hibernated');
 
   final String value;
 
-  const WarmPoolState(this.value);
+  const WarmPoolState._(this.value);
+
+  static const values = [stopped, running, hibernated];
 
   static WarmPoolState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum WarmPoolState'));
+          orElse: () => WarmPoolState._(value));
+
+  @override
+  bool operator ==(other) => other is WarmPoolState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum WarmPoolStatus {
-  pendingDelete('PendingDelete'),
-  ;
+class WarmPoolStatus {
+  static const pendingDelete = WarmPoolStatus._('PendingDelete');
 
   final String value;
 
-  const WarmPoolStatus(this.value);
+  const WarmPoolStatus._(this.value);
+
+  static const values = [pendingDelete];
 
   static WarmPoolStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum WarmPoolStatus'));
+          orElse: () => WarmPoolStatus._(value));
+
+  @override
+  bool operator ==(other) => other is WarmPoolStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class ActiveInstanceRefreshNotFoundFault extends _s.GenericAwsException {

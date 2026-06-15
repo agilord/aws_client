@@ -656,33 +656,52 @@ class HealthLake {
   }
 }
 
-enum AuthorizationStrategy {
-  smartOnFhirV1('SMART_ON_FHIR_V1'),
-  awsAuth('AWS_AUTH'),
-  ;
+class AuthorizationStrategy {
+  static const smartOnFhirV1 = AuthorizationStrategy._('SMART_ON_FHIR_V1');
+  static const awsAuth = AuthorizationStrategy._('AWS_AUTH');
 
   final String value;
 
-  const AuthorizationStrategy(this.value);
+  const AuthorizationStrategy._(this.value);
 
-  static AuthorizationStrategy fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum AuthorizationStrategy'));
+  static const values = [smartOnFhirV1, awsAuth];
+
+  static AuthorizationStrategy fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AuthorizationStrategy._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AuthorizationStrategy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum CmkType {
-  customerManagedKmsKey('CUSTOMER_MANAGED_KMS_KEY'),
-  awsOwnedKmsKey('AWS_OWNED_KMS_KEY'),
-  ;
+class CmkType {
+  static const customerManagedKmsKey = CmkType._('CUSTOMER_MANAGED_KMS_KEY');
+  static const awsOwnedKmsKey = CmkType._('AWS_OWNED_KMS_KEY');
 
   final String value;
 
-  const CmkType(this.value);
+  const CmkType._(this.value);
 
-  static CmkType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum CmkType'));
+  static const values = [customerManagedKmsKey, awsOwnedKmsKey];
+
+  static CmkType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => CmkType._(value));
+
+  @override
+  bool operator ==(other) => other is CmkType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class CreateFHIRDatastoreResponse {
@@ -712,8 +731,8 @@ class CreateFHIRDatastoreResponse {
       datastoreArn: (json['DatastoreArn'] as String?) ?? '',
       datastoreEndpoint: (json['DatastoreEndpoint'] as String?) ?? '',
       datastoreId: (json['DatastoreId'] as String?) ?? '',
-      datastoreStatus:
-          DatastoreStatus.fromString((json['DatastoreStatus'] as String)),
+      datastoreStatus: DatastoreStatus.fromString(
+          (json['DatastoreStatus'] as String?) ?? ''),
     );
   }
 
@@ -828,10 +847,10 @@ class DatastoreProperties {
       datastoreArn: (json['DatastoreArn'] as String?) ?? '',
       datastoreEndpoint: (json['DatastoreEndpoint'] as String?) ?? '',
       datastoreId: (json['DatastoreId'] as String?) ?? '',
-      datastoreStatus:
-          DatastoreStatus.fromString((json['DatastoreStatus'] as String)),
-      datastoreTypeVersion:
-          FHIRVersion.fromString((json['DatastoreTypeVersion'] as String)),
+      datastoreStatus: DatastoreStatus.fromString(
+          (json['DatastoreStatus'] as String?) ?? ''),
+      datastoreTypeVersion: FHIRVersion.fromString(
+          (json['DatastoreTypeVersion'] as String?) ?? ''),
       createdAt: timeStampFromJson(json['CreatedAt']),
       datastoreName: json['DatastoreName'] as String?,
       errorCause: json['ErrorCause'] != null
@@ -882,22 +901,31 @@ class DatastoreProperties {
   }
 }
 
-enum DatastoreStatus {
-  creating('CREATING'),
-  active('ACTIVE'),
-  deleting('DELETING'),
-  deleted('DELETED'),
-  createFailed('CREATE_FAILED'),
-  ;
+class DatastoreStatus {
+  static const creating = DatastoreStatus._('CREATING');
+  static const active = DatastoreStatus._('ACTIVE');
+  static const deleting = DatastoreStatus._('DELETING');
+  static const deleted = DatastoreStatus._('DELETED');
+  static const createFailed = DatastoreStatus._('CREATE_FAILED');
 
   final String value;
 
-  const DatastoreStatus(this.value);
+  const DatastoreStatus._(this.value);
+
+  static const values = [creating, active, deleting, deleted, createFailed];
 
   static DatastoreStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum DatastoreStatus'));
+          orElse: () => DatastoreStatus._(value));
+
+  @override
+  bool operator ==(other) => other is DatastoreStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class DeleteFHIRDatastoreResponse {
@@ -925,8 +953,8 @@ class DeleteFHIRDatastoreResponse {
       datastoreArn: (json['DatastoreArn'] as String?) ?? '',
       datastoreEndpoint: (json['DatastoreEndpoint'] as String?) ?? '',
       datastoreId: (json['DatastoreId'] as String?) ?? '',
-      datastoreStatus:
-          DatastoreStatus.fromString((json['DatastoreStatus'] as String)),
+      datastoreStatus: DatastoreStatus.fromString(
+          (json['DatastoreStatus'] as String?) ?? ''),
     );
   }
 
@@ -1020,19 +1048,28 @@ class DescribeFHIRImportJobResponse {
   }
 }
 
-enum ErrorCategory {
-  retryableError('RETRYABLE_ERROR'),
-  nonRetryableError('NON_RETRYABLE_ERROR'),
-  ;
+class ErrorCategory {
+  static const retryableError = ErrorCategory._('RETRYABLE_ERROR');
+  static const nonRetryableError = ErrorCategory._('NON_RETRYABLE_ERROR');
 
   final String value;
 
-  const ErrorCategory(this.value);
+  const ErrorCategory._(this.value);
+
+  static const values = [retryableError, nonRetryableError];
 
   static ErrorCategory fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ErrorCategory'));
+          orElse: () => ErrorCategory._(value));
+
+  @override
+  bool operator ==(other) => other is ErrorCategory && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The error info of the create/delete data store operation.
@@ -1116,7 +1153,7 @@ class ExportJobProperties {
     return ExportJobProperties(
       datastoreId: (json['DatastoreId'] as String?) ?? '',
       jobId: (json['JobId'] as String?) ?? '',
-      jobStatus: JobStatus.fromString((json['JobStatus'] as String)),
+      jobStatus: JobStatus.fromString((json['JobStatus'] as String?) ?? ''),
       outputDataConfig: OutputDataConfig.fromJson(
           (json['OutputDataConfig'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
@@ -1152,17 +1189,26 @@ class ExportJobProperties {
   }
 }
 
-enum FHIRVersion {
-  r4('R4'),
-  ;
+class FHIRVersion {
+  static const r4 = FHIRVersion._('R4');
 
   final String value;
 
-  const FHIRVersion(this.value);
+  const FHIRVersion._(this.value);
 
-  static FHIRVersion fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum FHIRVersion'));
+  static const values = [r4];
+
+  static FHIRVersion fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => FHIRVersion._(value));
+
+  @override
+  bool operator ==(other) => other is FHIRVersion && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The identity provider configuration that you gave when the data store was
@@ -1214,7 +1260,7 @@ class IdentityProviderConfiguration {
   factory IdentityProviderConfiguration.fromJson(Map<String, dynamic> json) {
     return IdentityProviderConfiguration(
       authorizationStrategy: AuthorizationStrategy.fromString(
-          (json['AuthorizationStrategy'] as String)),
+          (json['AuthorizationStrategy'] as String?) ?? ''),
       fineGrainedAuthorizationEnabled:
           json['FineGrainedAuthorizationEnabled'] as bool?,
       idpLambdaArn: json['IdpLambdaArn'] as String?,
@@ -1298,7 +1344,7 @@ class ImportJobProperties {
           (json['InputDataConfig'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
       jobId: (json['JobId'] as String?) ?? '',
-      jobStatus: JobStatus.fromString((json['JobStatus'] as String)),
+      jobStatus: JobStatus.fromString((json['JobStatus'] as String?) ?? ''),
       submitTime: nonNullableTimeStampFromJson(json['SubmitTime'] ?? 0),
       dataAccessRoleArn: json['DataAccessRoleArn'] as String?,
       endTime: timeStampFromJson(json['EndTime']),
@@ -1457,25 +1503,44 @@ class JobProgressReport {
   }
 }
 
-enum JobStatus {
-  submitted('SUBMITTED'),
-  inProgress('IN_PROGRESS'),
-  completedWithErrors('COMPLETED_WITH_ERRORS'),
-  completed('COMPLETED'),
-  failed('FAILED'),
-  cancelSubmitted('CANCEL_SUBMITTED'),
-  cancelInProgress('CANCEL_IN_PROGRESS'),
-  cancelCompleted('CANCEL_COMPLETED'),
-  cancelFailed('CANCEL_FAILED'),
-  ;
+class JobStatus {
+  static const submitted = JobStatus._('SUBMITTED');
+  static const inProgress = JobStatus._('IN_PROGRESS');
+  static const completedWithErrors = JobStatus._('COMPLETED_WITH_ERRORS');
+  static const completed = JobStatus._('COMPLETED');
+  static const failed = JobStatus._('FAILED');
+  static const cancelSubmitted = JobStatus._('CANCEL_SUBMITTED');
+  static const cancelInProgress = JobStatus._('CANCEL_IN_PROGRESS');
+  static const cancelCompleted = JobStatus._('CANCEL_COMPLETED');
+  static const cancelFailed = JobStatus._('CANCEL_FAILED');
 
   final String value;
 
-  const JobStatus(this.value);
+  const JobStatus._(this.value);
 
-  static JobStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum JobStatus'));
+  static const values = [
+    submitted,
+    inProgress,
+    completedWithErrors,
+    completed,
+    failed,
+    cancelSubmitted,
+    cancelInProgress,
+    cancelCompleted,
+    cancelFailed
+  ];
+
+  static JobStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => JobStatus._(value));
+
+  @override
+  bool operator ==(other) => other is JobStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The customer-managed-key(CMK) used when creating a data store. If a customer
@@ -1496,7 +1561,7 @@ class KmsEncryptionConfig {
 
   factory KmsEncryptionConfig.fromJson(Map<String, dynamic> json) {
     return KmsEncryptionConfig(
-      cmkType: CmkType.fromString((json['CmkType'] as String)),
+      cmkType: CmkType.fromString((json['CmkType'] as String?) ?? ''),
       kmsKeyId: json['KmsKeyId'] as String?,
     );
   }
@@ -1679,8 +1744,8 @@ class PreloadDataConfig {
 
   factory PreloadDataConfig.fromJson(Map<String, dynamic> json) {
     return PreloadDataConfig(
-      preloadDataType:
-          PreloadDataType.fromString((json['PreloadDataType'] as String)),
+      preloadDataType: PreloadDataType.fromString(
+          (json['PreloadDataType'] as String?) ?? ''),
     );
   }
 
@@ -1692,18 +1757,27 @@ class PreloadDataConfig {
   }
 }
 
-enum PreloadDataType {
-  synthea('SYNTHEA'),
-  ;
+class PreloadDataType {
+  static const synthea = PreloadDataType._('SYNTHEA');
 
   final String value;
 
-  const PreloadDataType(this.value);
+  const PreloadDataType._(this.value);
+
+  static const values = [synthea];
 
   static PreloadDataType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum PreloadDataType'));
+          orElse: () => PreloadDataType._(value));
+
+  @override
+  bool operator ==(other) => other is PreloadDataType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The configuration of the S3 bucket for either an import or export job. This
@@ -1786,7 +1860,7 @@ class StartFHIRExportJobResponse {
   factory StartFHIRExportJobResponse.fromJson(Map<String, dynamic> json) {
     return StartFHIRExportJobResponse(
       jobId: (json['JobId'] as String?) ?? '',
-      jobStatus: JobStatus.fromString((json['JobStatus'] as String)),
+      jobStatus: JobStatus.fromString((json['JobStatus'] as String?) ?? ''),
       datastoreId: json['DatastoreId'] as String?,
     );
   }
@@ -1822,7 +1896,7 @@ class StartFHIRImportJobResponse {
   factory StartFHIRImportJobResponse.fromJson(Map<String, dynamic> json) {
     return StartFHIRImportJobResponse(
       jobId: (json['JobId'] as String?) ?? '',
-      jobStatus: JobStatus.fromString((json['JobStatus'] as String)),
+      jobStatus: JobStatus.fromString((json['JobStatus'] as String?) ?? ''),
       datastoreId: json['DatastoreId'] as String?,
     );
   }

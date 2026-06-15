@@ -1165,36 +1165,55 @@ class AppDefinitionInput {
   }
 }
 
-enum AppRequiredCapability {
-  fileUpload('FileUpload'),
-  creatorMode('CreatorMode'),
-  retrievalMode('RetrievalMode'),
-  pluginMode('PluginMode'),
-  ;
+class AppRequiredCapability {
+  static const fileUpload = AppRequiredCapability._('FileUpload');
+  static const creatorMode = AppRequiredCapability._('CreatorMode');
+  static const retrievalMode = AppRequiredCapability._('RetrievalMode');
+  static const pluginMode = AppRequiredCapability._('PluginMode');
 
   final String value;
 
-  const AppRequiredCapability(this.value);
+  const AppRequiredCapability._(this.value);
 
-  static AppRequiredCapability fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum AppRequiredCapability'));
+  static const values = [fileUpload, creatorMode, retrievalMode, pluginMode];
+
+  static AppRequiredCapability fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AppRequiredCapability._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AppRequiredCapability && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum AppStatus {
-  published('PUBLISHED'),
-  draft('DRAFT'),
-  deleted('DELETED'),
-  ;
+class AppStatus {
+  static const published = AppStatus._('PUBLISHED');
+  static const draft = AppStatus._('DRAFT');
+  static const deleted = AppStatus._('DELETED');
 
   final String value;
 
-  const AppStatus(this.value);
+  const AppStatus._(this.value);
 
-  static AppStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum AppStatus'));
+  static const values = [published, draft, deleted];
+
+  static AppStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => AppStatus._(value));
+
+  @override
+  bool operator ==(other) => other is AppStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The filter criteria used on responses based on document attributes or
@@ -1443,19 +1462,28 @@ class CardInput {
   }
 }
 
-enum CardOutputSource {
-  approvedSources('approved-sources'),
-  llm('llm'),
-  ;
+class CardOutputSource {
+  static const approvedSources = CardOutputSource._('approved-sources');
+  static const llm = CardOutputSource._('llm');
 
   final String value;
 
-  const CardOutputSource(this.value);
+  const CardOutputSource._(this.value);
+
+  static const values = [approvedSources, llm];
 
   static CardOutputSource fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum CardOutputSource'));
+          orElse: () => CardOutputSource._(value));
+
+  @override
+  bool operator ==(other) => other is CardOutputSource && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The current status and value of a card in an active Amazon Q App session.
@@ -1474,7 +1502,7 @@ class CardStatus {
   factory CardStatus.fromJson(Map<String, dynamic> json) {
     return CardStatus(
       currentState:
-          ExecutionStatus.fromString((json['currentState'] as String)),
+          ExecutionStatus.fromString((json['currentState'] as String?) ?? ''),
       currentValue: (json['currentValue'] as String?) ?? '',
     );
   }
@@ -1489,20 +1517,29 @@ class CardStatus {
   }
 }
 
-enum CardType {
-  textInput('text-input'),
-  qQuery('q-query'),
-  fileUpload('file-upload'),
-  qPlugin('q-plugin'),
-  ;
+class CardType {
+  static const textInput = CardType._('text-input');
+  static const qQuery = CardType._('q-query');
+  static const fileUpload = CardType._('file-upload');
+  static const qPlugin = CardType._('q-plugin');
 
   final String value;
 
-  const CardType(this.value);
+  const CardType._(this.value);
 
-  static CardType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum CardType'));
+  static const values = [textInput, qQuery, fileUpload, qPlugin];
+
+  static CardType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => CardType._(value));
+
+  @override
+  bool operator ==(other) => other is CardType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The value or result associated with a card in a Amazon Q App session.
@@ -1713,7 +1750,7 @@ class CreateQAppOutput {
       appVersion: (json['appVersion'] as int?) ?? 0,
       createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
       createdBy: (json['createdBy'] as String?) ?? '',
-      status: AppStatus.fromString((json['status'] as String)),
+      status: AppStatus.fromString((json['status'] as String?) ?? ''),
       title: (json['title'] as String?) ?? '',
       updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] ?? 0),
       updatedBy: (json['updatedBy'] as String?) ?? '',
@@ -1843,35 +1880,53 @@ class DocumentAttributeValue {
   }
 }
 
-enum DocumentScope {
-  application('APPLICATION'),
-  session('SESSION'),
-  ;
+class DocumentScope {
+  static const application = DocumentScope._('APPLICATION');
+  static const session = DocumentScope._('SESSION');
 
   final String value;
 
-  const DocumentScope(this.value);
+  const DocumentScope._(this.value);
+
+  static const values = [application, session];
 
   static DocumentScope fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum DocumentScope'));
+          orElse: () => DocumentScope._(value));
+
+  @override
+  bool operator ==(other) => other is DocumentScope && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ExecutionStatus {
-  inProgress('IN_PROGRESS'),
-  waiting('WAITING'),
-  completed('COMPLETED'),
-  ;
+class ExecutionStatus {
+  static const inProgress = ExecutionStatus._('IN_PROGRESS');
+  static const waiting = ExecutionStatus._('WAITING');
+  static const completed = ExecutionStatus._('COMPLETED');
 
   final String value;
 
-  const ExecutionStatus(this.value);
+  const ExecutionStatus._(this.value);
+
+  static const values = [inProgress, waiting, completed];
 
   static ExecutionStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ExecutionStatus'));
+          orElse: () => ExecutionStatus._(value));
+
+  @override
+  bool operator ==(other) => other is ExecutionStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A card in an Amazon Q App that allows the user to upload a file.
@@ -1916,7 +1971,7 @@ class FileUploadCard {
           .toList(),
       id: (json['id'] as String?) ?? '',
       title: (json['title'] as String?) ?? '',
-      type: CardType.fromString((json['type'] as String)),
+      type: CardType.fromString((json['type'] as String?) ?? ''),
       allowOverride: json['allowOverride'] as bool?,
       fileId: json['fileId'] as String?,
       filename: json['filename'] as String?,
@@ -1979,7 +2034,7 @@ class FileUploadCardInput {
     return FileUploadCardInput(
       id: (json['id'] as String?) ?? '',
       title: (json['title'] as String?) ?? '',
-      type: CardType.fromString((json['type'] as String)),
+      type: CardType.fromString((json['type'] as String?) ?? ''),
       allowOverride: json['allowOverride'] as bool?,
       fileId: json['fileId'] as String?,
       filename: json['filename'] as String?,
@@ -2180,7 +2235,7 @@ class GetQAppOutput {
       appVersion: (json['appVersion'] as int?) ?? 0,
       createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
       createdBy: (json['createdBy'] as String?) ?? '',
-      status: AppStatus.fromString((json['status'] as String)),
+      status: AppStatus.fromString((json['status'] as String?) ?? ''),
       title: (json['title'] as String?) ?? '',
       updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] ?? 0),
       updatedBy: (json['updatedBy'] as String?) ?? '',
@@ -2255,7 +2310,7 @@ class GetQAppSessionOutput {
               MapEntry(k, CardStatus.fromJson(e as Map<String, dynamic>))),
       sessionArn: (json['sessionArn'] as String?) ?? '',
       sessionId: (json['sessionId'] as String?) ?? '',
-      status: ExecutionStatus.fromString((json['status'] as String)),
+      status: ExecutionStatus.fromString((json['status'] as String?) ?? ''),
     );
   }
 
@@ -2406,19 +2461,28 @@ class LibraryItemMember {
   }
 }
 
-enum LibraryItemStatus {
-  published('PUBLISHED'),
-  disabled('DISABLED'),
-  ;
+class LibraryItemStatus {
+  static const published = LibraryItemStatus._('PUBLISHED');
+  static const disabled = LibraryItemStatus._('DISABLED');
 
   final String value;
 
-  const LibraryItemStatus(this.value);
+  const LibraryItemStatus._(this.value);
+
+  static const values = [published, disabled];
 
   static LibraryItemStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum LibraryItemStatus'));
+          orElse: () => LibraryItemStatus._(value));
+
+  @override
+  bool operator ==(other) => other is LibraryItemStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class ListLibraryItemsOutput {
@@ -2508,21 +2572,30 @@ class ListTagsForResourceResponse {
   }
 }
 
-enum PluginType {
-  serviceNow('SERVICE_NOW'),
-  salesforce('SALESFORCE'),
-  jira('JIRA'),
-  zendesk('ZENDESK'),
-  custom('CUSTOM'),
-  ;
+class PluginType {
+  static const serviceNow = PluginType._('SERVICE_NOW');
+  static const salesforce = PluginType._('SALESFORCE');
+  static const jira = PluginType._('JIRA');
+  static const zendesk = PluginType._('ZENDESK');
+  static const custom = PluginType._('CUSTOM');
 
   final String value;
 
-  const PluginType(this.value);
+  const PluginType._(this.value);
 
-  static PluginType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum PluginType'));
+  static const values = [serviceNow, salesforce, jira, zendesk, custom];
+
+  static PluginType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => PluginType._(value));
+
+  @override
+  bool operator ==(other) => other is PluginType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The definition of an Amazon Q App generated based on input such as a
@@ -2659,10 +2732,10 @@ class QPluginCard {
           .toList(),
       id: (json['id'] as String?) ?? '',
       pluginId: (json['pluginId'] as String?) ?? '',
-      pluginType: PluginType.fromString((json['pluginType'] as String)),
+      pluginType: PluginType.fromString((json['pluginType'] as String?) ?? ''),
       prompt: (json['prompt'] as String?) ?? '',
       title: (json['title'] as String?) ?? '',
-      type: CardType.fromString((json['type'] as String)),
+      type: CardType.fromString((json['type'] as String?) ?? ''),
     );
   }
 
@@ -2717,7 +2790,7 @@ class QPluginCardInput {
       pluginId: (json['pluginId'] as String?) ?? '',
       prompt: (json['prompt'] as String?) ?? '',
       title: (json['title'] as String?) ?? '',
-      type: CardType.fromString((json['type'] as String)),
+      type: CardType.fromString((json['type'] as String?) ?? ''),
     );
   }
 
@@ -2780,10 +2853,10 @@ class QQueryCard {
           .toList(),
       id: (json['id'] as String?) ?? '',
       outputSource:
-          CardOutputSource.fromString((json['outputSource'] as String)),
+          CardOutputSource.fromString((json['outputSource'] as String?) ?? ''),
       prompt: (json['prompt'] as String?) ?? '',
       title: (json['title'] as String?) ?? '',
-      type: CardType.fromString((json['type'] as String)),
+      type: CardType.fromString((json['type'] as String?) ?? ''),
       attributeFilter: json['attributeFilter'] != null
           ? AttributeFilter.fromJson(
               json['attributeFilter'] as Map<String, dynamic>)
@@ -2846,7 +2919,7 @@ class QQueryCardInput {
       id: (json['id'] as String?) ?? '',
       prompt: (json['prompt'] as String?) ?? '',
       title: (json['title'] as String?) ?? '',
-      type: CardType.fromString((json['type'] as String)),
+      type: CardType.fromString((json['type'] as String?) ?? ''),
       attributeFilter: json['attributeFilter'] != null
           ? AttributeFilter.fromJson(
               json['attributeFilter'] as Map<String, dynamic>)
@@ -2874,18 +2947,27 @@ class QQueryCardInput {
   }
 }
 
-enum Sender {
-  user('USER'),
-  system('SYSTEM'),
-  ;
+class Sender {
+  static const user = Sender._('USER');
+  static const system = Sender._('SYSTEM');
 
   final String value;
 
-  const Sender(this.value);
+  const Sender._(this.value);
+
+  static const values = [user, system];
 
   static Sender fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum Sender'));
+      values.firstWhere((e) => e.value == value, orElse: () => Sender._(value));
+
+  @override
+  bool operator ==(other) => other is Sender && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class StartQAppSessionOutput {
@@ -2966,7 +3048,7 @@ class TextInputCard {
           .toList(),
       id: (json['id'] as String?) ?? '',
       title: (json['title'] as String?) ?? '',
-      type: CardType.fromString((json['type'] as String)),
+      type: CardType.fromString((json['type'] as String?) ?? ''),
       defaultValue: json['defaultValue'] as String?,
       placeholder: json['placeholder'] as String?,
     );
@@ -3019,7 +3101,7 @@ class TextInputCardInput {
     return TextInputCardInput(
       id: (json['id'] as String?) ?? '',
       title: (json['title'] as String?) ?? '',
-      type: CardType.fromString((json['type'] as String)),
+      type: CardType.fromString((json['type'] as String?) ?? ''),
       defaultValue: json['defaultValue'] as String?,
       placeholder: json['placeholder'] as String?,
     );
@@ -3221,7 +3303,7 @@ class UpdateQAppOutput {
       appVersion: (json['appVersion'] as int?) ?? 0,
       createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
       createdBy: (json['createdBy'] as String?) ?? '',
-      status: AppStatus.fromString((json['status'] as String)),
+      status: AppStatus.fromString((json['status'] as String?) ?? ''),
       title: (json['title'] as String?) ?? '',
       updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] ?? 0),
       updatedBy: (json['updatedBy'] as String?) ?? '',

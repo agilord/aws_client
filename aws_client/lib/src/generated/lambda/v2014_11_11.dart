@@ -967,17 +967,26 @@ class ListFunctionsResponse {
   }
 }
 
-enum Mode {
-  event('event'),
-  ;
+class Mode {
+  static const event = Mode._('event');
 
   final String value;
 
-  const Mode(this.value);
+  const Mode._(this.value);
+
+  static const values = [event];
 
   static Mode fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum Mode'));
+      values.firstWhere((e) => e.value == value, orElse: () => Mode._(value));
+
+  @override
+  bool operator ==(other) => other is Mode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The function or the event source specified in the request does not exist.
@@ -1007,17 +1016,26 @@ class ResourceNotFoundException implements _s.AwsException {
   }
 }
 
-enum Runtime {
-  nodejs('nodejs'),
-  ;
+class Runtime {
+  static const nodejs = Runtime._('nodejs');
 
   final String value;
 
-  const Runtime(this.value);
+  const Runtime._(this.value);
 
-  static Runtime fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum Runtime'));
+  static const values = [nodejs];
+
+  static Runtime fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Runtime._(value));
+
+  @override
+  bool operator ==(other) => other is Runtime && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The AWS Lambda service encountered an internal error.

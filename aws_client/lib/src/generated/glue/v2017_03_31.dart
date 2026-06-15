@@ -11964,46 +11964,82 @@ class Action {
   }
 }
 
-enum AdditionalOptionKeys {
-  performanceTuningCaching('performanceTuning.caching'),
-  observationsScope('observations.scope'),
-  ;
+class AdditionalOptionKeys {
+  static const performanceTuningCaching =
+      AdditionalOptionKeys._('performanceTuning.caching');
+  static const observationsScope = AdditionalOptionKeys._('observations.scope');
 
   final String value;
 
-  const AdditionalOptionKeys(this.value);
+  const AdditionalOptionKeys._(this.value);
 
-  static AdditionalOptionKeys fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum AdditionalOptionKeys'));
+  static const values = [performanceTuningCaching, observationsScope];
+
+  static AdditionalOptionKeys fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AdditionalOptionKeys._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AdditionalOptionKeys && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum AggFunction {
-  avg('avg'),
-  countDistinct('countDistinct'),
-  count('count'),
-  first('first'),
-  last('last'),
-  kurtosis('kurtosis'),
-  max('max'),
-  min('min'),
-  skewness('skewness'),
-  stddevSamp('stddev_samp'),
-  stddevPop('stddev_pop'),
-  sum('sum'),
-  sumDistinct('sumDistinct'),
-  varSamp('var_samp'),
-  varPop('var_pop'),
-  ;
+class AggFunction {
+  static const avg = AggFunction._('avg');
+  static const countDistinct = AggFunction._('countDistinct');
+  static const count = AggFunction._('count');
+  static const first = AggFunction._('first');
+  static const last = AggFunction._('last');
+  static const kurtosis = AggFunction._('kurtosis');
+  static const max = AggFunction._('max');
+  static const min = AggFunction._('min');
+  static const skewness = AggFunction._('skewness');
+  static const stddevSamp = AggFunction._('stddev_samp');
+  static const stddevPop = AggFunction._('stddev_pop');
+  static const sum = AggFunction._('sum');
+  static const sumDistinct = AggFunction._('sumDistinct');
+  static const varSamp = AggFunction._('var_samp');
+  static const varPop = AggFunction._('var_pop');
 
   final String value;
 
-  const AggFunction(this.value);
+  const AggFunction._(this.value);
 
-  static AggFunction fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum AggFunction'));
+  static const values = [
+    avg,
+    countDistinct,
+    count,
+    first,
+    last,
+    kurtosis,
+    max,
+    min,
+    skewness,
+    stddevSamp,
+    stddevPop,
+    sum,
+    sumDistinct,
+    varSamp,
+    varPop
+  ];
+
+  static AggFunction fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => AggFunction._(value));
+
+  @override
+  bool operator ==(other) => other is AggFunction && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specifies a transform that groups rows by chosen fields and computes the
@@ -12081,7 +12117,7 @@ class AggregateOperation {
 
   factory AggregateOperation.fromJson(Map<String, dynamic> json) {
     return AggregateOperation(
-      aggFunc: AggFunction.fromString((json['AggFunc'] as String)),
+      aggFunc: AggFunction.fromString((json['AggFunc'] as String?) ?? ''),
       column: ((json['Column'] as List?) ?? const [])
           .nonNulls
           .map((e) => e as String)
@@ -12696,20 +12732,30 @@ class AuthenticationConfigurationInput {
   }
 }
 
-enum AuthenticationType {
-  basic('BASIC'),
-  oauth2('OAUTH2'),
-  custom('CUSTOM'),
-  ;
+class AuthenticationType {
+  static const basic = AuthenticationType._('BASIC');
+  static const oauth2 = AuthenticationType._('OAUTH2');
+  static const custom = AuthenticationType._('CUSTOM');
 
   final String value;
 
-  const AuthenticationType(this.value);
+  const AuthenticationType._(this.value);
 
-  static AuthenticationType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum AuthenticationType'));
+  static const values = [basic, oauth2, custom];
+
+  static AuthenticationType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AuthenticationType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AuthenticationType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The set of properties required for the the OAuth2
@@ -12801,22 +12847,41 @@ class BackfillError {
   }
 }
 
-enum BackfillErrorCode {
-  encryptedPartitionError('ENCRYPTED_PARTITION_ERROR'),
-  internalError('INTERNAL_ERROR'),
-  invalidPartitionTypeDataError('INVALID_PARTITION_TYPE_DATA_ERROR'),
-  missingPartitionValueError('MISSING_PARTITION_VALUE_ERROR'),
-  unsupportedPartitionCharacterError('UNSUPPORTED_PARTITION_CHARACTER_ERROR'),
-  ;
+class BackfillErrorCode {
+  static const encryptedPartitionError =
+      BackfillErrorCode._('ENCRYPTED_PARTITION_ERROR');
+  static const internalError = BackfillErrorCode._('INTERNAL_ERROR');
+  static const invalidPartitionTypeDataError =
+      BackfillErrorCode._('INVALID_PARTITION_TYPE_DATA_ERROR');
+  static const missingPartitionValueError =
+      BackfillErrorCode._('MISSING_PARTITION_VALUE_ERROR');
+  static const unsupportedPartitionCharacterError =
+      BackfillErrorCode._('UNSUPPORTED_PARTITION_CHARACTER_ERROR');
 
   final String value;
 
-  const BackfillErrorCode(this.value);
+  const BackfillErrorCode._(this.value);
+
+  static const values = [
+    encryptedPartitionError,
+    internalError,
+    invalidPartitionTypeDataError,
+    missingPartitionValueError,
+    unsupportedPartitionCharacterError
+  ];
 
   static BackfillErrorCode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum BackfillErrorCode'));
+          orElse: () => BackfillErrorCode._(value));
+
+  @override
+  bool operator ==(other) => other is BackfillErrorCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specifies a target that uses a Glue Data Catalog table.
@@ -14023,38 +14088,56 @@ class BlueprintRun {
   }
 }
 
-enum BlueprintRunState {
-  running('RUNNING'),
-  succeeded('SUCCEEDED'),
-  failed('FAILED'),
-  rollingBack('ROLLING_BACK'),
-  ;
+class BlueprintRunState {
+  static const running = BlueprintRunState._('RUNNING');
+  static const succeeded = BlueprintRunState._('SUCCEEDED');
+  static const failed = BlueprintRunState._('FAILED');
+  static const rollingBack = BlueprintRunState._('ROLLING_BACK');
 
   final String value;
 
-  const BlueprintRunState(this.value);
+  const BlueprintRunState._(this.value);
+
+  static const values = [running, succeeded, failed, rollingBack];
 
   static BlueprintRunState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum BlueprintRunState'));
+          orElse: () => BlueprintRunState._(value));
+
+  @override
+  bool operator ==(other) => other is BlueprintRunState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum BlueprintStatus {
-  creating('CREATING'),
-  active('ACTIVE'),
-  updating('UPDATING'),
-  failed('FAILED'),
-  ;
+class BlueprintStatus {
+  static const creating = BlueprintStatus._('CREATING');
+  static const active = BlueprintStatus._('ACTIVE');
+  static const updating = BlueprintStatus._('UPDATING');
+  static const failed = BlueprintStatus._('FAILED');
 
   final String value;
 
-  const BlueprintStatus(this.value);
+  const BlueprintStatus._(this.value);
+
+  static const values = [creating, active, updating, failed];
 
   static BlueprintStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum BlueprintStatus'));
+          orElse: () => BlueprintStatus._(value));
+
+  @override
+  bool operator ==(other) => other is BlueprintStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Defines column statistics supported for Boolean data columns.
@@ -14226,20 +14309,31 @@ class CatalogDeltaSource {
   }
 }
 
-enum CatalogEncryptionMode {
-  disabled('DISABLED'),
-  sseKms('SSE-KMS'),
-  sseKmsWithServiceRole('SSE-KMS-WITH-SERVICE-ROLE'),
-  ;
+class CatalogEncryptionMode {
+  static const disabled = CatalogEncryptionMode._('DISABLED');
+  static const sseKms = CatalogEncryptionMode._('SSE-KMS');
+  static const sseKmsWithServiceRole =
+      CatalogEncryptionMode._('SSE-KMS-WITH-SERVICE-ROLE');
 
   final String value;
 
-  const CatalogEncryptionMode(this.value);
+  const CatalogEncryptionMode._(this.value);
 
-  static CatalogEncryptionMode fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum CatalogEncryptionMode'));
+  static const values = [disabled, sseKms, sseKmsWithServiceRole];
+
+  static CatalogEncryptionMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => CatalogEncryptionMode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CatalogEncryptionMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specifies a table definition in the Glue Data Catalog.
@@ -14759,19 +14853,29 @@ class CloudWatchEncryption {
   }
 }
 
-enum CloudWatchEncryptionMode {
-  disabled('DISABLED'),
-  sseKms('SSE-KMS'),
-  ;
+class CloudWatchEncryptionMode {
+  static const disabled = CloudWatchEncryptionMode._('DISABLED');
+  static const sseKms = CloudWatchEncryptionMode._('SSE-KMS');
 
   final String value;
 
-  const CloudWatchEncryptionMode(this.value);
+  const CloudWatchEncryptionMode._(this.value);
+
+  static const values = [disabled, sseKms];
 
   static CloudWatchEncryptionMode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum CloudWatchEncryptionMode'));
+          orElse: () => CloudWatchEncryptionMode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CloudWatchEncryptionMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// <code>CodeGenConfigurationNode</code> enumerates all valid Node types. One
@@ -15906,7 +16010,7 @@ class ColumnStatisticsData {
 
   factory ColumnStatisticsData.fromJson(Map<String, dynamic> json) {
     return ColumnStatisticsData(
-      type: ColumnStatisticsType.fromString((json['Type'] as String)),
+      type: ColumnStatisticsType.fromString((json['Type'] as String?) ?? ''),
       binaryColumnStatisticsData: json['BinaryColumnStatisticsData'] != null
           ? BinaryColumnStatisticsData.fromJson(
               json['BinaryColumnStatisticsData'] as Map<String, dynamic>)
@@ -16003,22 +16107,32 @@ class ColumnStatisticsError {
   }
 }
 
-enum ColumnStatisticsState {
-  starting('STARTING'),
-  running('RUNNING'),
-  succeeded('SUCCEEDED'),
-  failed('FAILED'),
-  stopped('STOPPED'),
-  ;
+class ColumnStatisticsState {
+  static const starting = ColumnStatisticsState._('STARTING');
+  static const running = ColumnStatisticsState._('RUNNING');
+  static const succeeded = ColumnStatisticsState._('SUCCEEDED');
+  static const failed = ColumnStatisticsState._('FAILED');
+  static const stopped = ColumnStatisticsState._('STOPPED');
 
   final String value;
 
-  const ColumnStatisticsState(this.value);
+  const ColumnStatisticsState._(this.value);
 
-  static ColumnStatisticsState fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ColumnStatisticsState'));
+  static const values = [starting, running, succeeded, failed, stopped];
+
+  static ColumnStatisticsState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ColumnStatisticsState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ColumnStatisticsState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The object that shows the details of the column stats run.
@@ -16176,77 +16290,129 @@ class ColumnStatisticsTaskRun {
   }
 }
 
-enum ColumnStatisticsType {
-  boolean('BOOLEAN'),
-  date('DATE'),
-  decimal('DECIMAL'),
-  double('DOUBLE'),
-  long('LONG'),
-  string('STRING'),
-  binary('BINARY'),
-  ;
+class ColumnStatisticsType {
+  static const boolean = ColumnStatisticsType._('BOOLEAN');
+  static const date = ColumnStatisticsType._('DATE');
+  static const decimal = ColumnStatisticsType._('DECIMAL');
+  static const $double = ColumnStatisticsType._('DOUBLE');
+  static const long = ColumnStatisticsType._('LONG');
+  static const string = ColumnStatisticsType._('STRING');
+  static const binary = ColumnStatisticsType._('BINARY');
 
   final String value;
 
-  const ColumnStatisticsType(this.value);
+  const ColumnStatisticsType._(this.value);
 
-  static ColumnStatisticsType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ColumnStatisticsType'));
+  static const values = [boolean, date, decimal, $double, long, string, binary];
+
+  static ColumnStatisticsType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ColumnStatisticsType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ColumnStatisticsType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum Comparator {
-  equals('EQUALS'),
-  greaterThan('GREATER_THAN'),
-  lessThan('LESS_THAN'),
-  greaterThanEquals('GREATER_THAN_EQUALS'),
-  lessThanEquals('LESS_THAN_EQUALS'),
-  ;
+class Comparator {
+  static const equals = Comparator._('EQUALS');
+  static const greaterThan = Comparator._('GREATER_THAN');
+  static const lessThan = Comparator._('LESS_THAN');
+  static const greaterThanEquals = Comparator._('GREATER_THAN_EQUALS');
+  static const lessThanEquals = Comparator._('LESS_THAN_EQUALS');
 
   final String value;
 
-  const Comparator(this.value);
+  const Comparator._(this.value);
 
-  static Comparator fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum Comparator'));
+  static const values = [
+    equals,
+    greaterThan,
+    lessThan,
+    greaterThanEquals,
+    lessThanEquals
+  ];
+
+  static Comparator fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Comparator._(value));
+
+  @override
+  bool operator ==(other) => other is Comparator && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum Compatibility {
-  none('NONE'),
-  disabled('DISABLED'),
-  backward('BACKWARD'),
-  backwardAll('BACKWARD_ALL'),
-  forward('FORWARD'),
-  forwardAll('FORWARD_ALL'),
-  full('FULL'),
-  fullAll('FULL_ALL'),
-  ;
+class Compatibility {
+  static const none = Compatibility._('NONE');
+  static const disabled = Compatibility._('DISABLED');
+  static const backward = Compatibility._('BACKWARD');
+  static const backwardAll = Compatibility._('BACKWARD_ALL');
+  static const forward = Compatibility._('FORWARD');
+  static const forwardAll = Compatibility._('FORWARD_ALL');
+  static const full = Compatibility._('FULL');
+  static const fullAll = Compatibility._('FULL_ALL');
 
   final String value;
 
-  const Compatibility(this.value);
+  const Compatibility._(this.value);
+
+  static const values = [
+    none,
+    disabled,
+    backward,
+    backwardAll,
+    forward,
+    forwardAll,
+    full,
+    fullAll
+  ];
 
   static Compatibility fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum Compatibility'));
+          orElse: () => Compatibility._(value));
+
+  @override
+  bool operator ==(other) => other is Compatibility && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum CompressionType {
-  gzip('gzip'),
-  bzip2('bzip2'),
-  ;
+class CompressionType {
+  static const gzip = CompressionType._('gzip');
+  static const bzip2 = CompressionType._('bzip2');
 
   final String value;
 
-  const CompressionType(this.value);
+  const CompressionType._(this.value);
+
+  static const values = [gzip, bzip2];
 
   static CompressionType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum CompressionType'));
+          orElse: () => CompressionType._(value));
+
+  @override
+  bool operator ==(other) => other is CompressionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Defines a condition under which a trigger fires.
@@ -17059,104 +17225,220 @@ class ConnectionPasswordEncryption {
   }
 }
 
-enum ConnectionPropertyKey {
-  host('HOST'),
-  port('PORT'),
-  username('USERNAME'),
-  password('PASSWORD'),
-  encryptedPassword('ENCRYPTED_PASSWORD'),
-  jdbcDriverJarUri('JDBC_DRIVER_JAR_URI'),
-  jdbcDriverClassName('JDBC_DRIVER_CLASS_NAME'),
-  jdbcEngine('JDBC_ENGINE'),
-  jdbcEngineVersion('JDBC_ENGINE_VERSION'),
-  configFiles('CONFIG_FILES'),
-  instanceId('INSTANCE_ID'),
-  jdbcConnectionUrl('JDBC_CONNECTION_URL'),
-  jdbcEnforceSsl('JDBC_ENFORCE_SSL'),
-  customJdbcCert('CUSTOM_JDBC_CERT'),
-  skipCustomJdbcCertValidation('SKIP_CUSTOM_JDBC_CERT_VALIDATION'),
-  customJdbcCertString('CUSTOM_JDBC_CERT_STRING'),
-  connectionUrl('CONNECTION_URL'),
-  kafkaBootstrapServers('KAFKA_BOOTSTRAP_SERVERS'),
-  kafkaSslEnabled('KAFKA_SSL_ENABLED'),
-  kafkaCustomCert('KAFKA_CUSTOM_CERT'),
-  kafkaSkipCustomCertValidation('KAFKA_SKIP_CUSTOM_CERT_VALIDATION'),
-  kafkaClientKeystore('KAFKA_CLIENT_KEYSTORE'),
-  kafkaClientKeystorePassword('KAFKA_CLIENT_KEYSTORE_PASSWORD'),
-  kafkaClientKeyPassword('KAFKA_CLIENT_KEY_PASSWORD'),
-  encryptedKafkaClientKeystorePassword(
-      'ENCRYPTED_KAFKA_CLIENT_KEYSTORE_PASSWORD'),
-  encryptedKafkaClientKeyPassword('ENCRYPTED_KAFKA_CLIENT_KEY_PASSWORD'),
-  secretId('SECRET_ID'),
-  connectorUrl('CONNECTOR_URL'),
-  connectorType('CONNECTOR_TYPE'),
-  connectorClassName('CONNECTOR_CLASS_NAME'),
-  kafkaSaslMechanism('KAFKA_SASL_MECHANISM'),
-  kafkaSaslPlainUsername('KAFKA_SASL_PLAIN_USERNAME'),
-  kafkaSaslPlainPassword('KAFKA_SASL_PLAIN_PASSWORD'),
-  encryptedKafkaSaslPlainPassword('ENCRYPTED_KAFKA_SASL_PLAIN_PASSWORD'),
-  kafkaSaslScramUsername('KAFKA_SASL_SCRAM_USERNAME'),
-  kafkaSaslScramPassword('KAFKA_SASL_SCRAM_PASSWORD'),
-  kafkaSaslScramSecretsArn('KAFKA_SASL_SCRAM_SECRETS_ARN'),
-  encryptedKafkaSaslScramPassword('ENCRYPTED_KAFKA_SASL_SCRAM_PASSWORD'),
-  kafkaSaslGssapiKeytab('KAFKA_SASL_GSSAPI_KEYTAB'),
-  kafkaSaslGssapiKrb5Conf('KAFKA_SASL_GSSAPI_KRB5_CONF'),
-  kafkaSaslGssapiService('KAFKA_SASL_GSSAPI_SERVICE'),
-  kafkaSaslGssapiPrincipal('KAFKA_SASL_GSSAPI_PRINCIPAL'),
-  roleArn('ROLE_ARN'),
-  region('REGION'),
-  workgroupName('WORKGROUP_NAME'),
-  clusterIdentifier('CLUSTER_IDENTIFIER'),
-  database('DATABASE'),
-  ;
+class ConnectionPropertyKey {
+  static const host = ConnectionPropertyKey._('HOST');
+  static const port = ConnectionPropertyKey._('PORT');
+  static const username = ConnectionPropertyKey._('USERNAME');
+  static const password = ConnectionPropertyKey._('PASSWORD');
+  static const encryptedPassword =
+      ConnectionPropertyKey._('ENCRYPTED_PASSWORD');
+  static const jdbcDriverJarUri =
+      ConnectionPropertyKey._('JDBC_DRIVER_JAR_URI');
+  static const jdbcDriverClassName =
+      ConnectionPropertyKey._('JDBC_DRIVER_CLASS_NAME');
+  static const jdbcEngine = ConnectionPropertyKey._('JDBC_ENGINE');
+  static const jdbcEngineVersion =
+      ConnectionPropertyKey._('JDBC_ENGINE_VERSION');
+  static const configFiles = ConnectionPropertyKey._('CONFIG_FILES');
+  static const instanceId = ConnectionPropertyKey._('INSTANCE_ID');
+  static const jdbcConnectionUrl =
+      ConnectionPropertyKey._('JDBC_CONNECTION_URL');
+  static const jdbcEnforceSsl = ConnectionPropertyKey._('JDBC_ENFORCE_SSL');
+  static const customJdbcCert = ConnectionPropertyKey._('CUSTOM_JDBC_CERT');
+  static const skipCustomJdbcCertValidation =
+      ConnectionPropertyKey._('SKIP_CUSTOM_JDBC_CERT_VALIDATION');
+  static const customJdbcCertString =
+      ConnectionPropertyKey._('CUSTOM_JDBC_CERT_STRING');
+  static const connectionUrl = ConnectionPropertyKey._('CONNECTION_URL');
+  static const kafkaBootstrapServers =
+      ConnectionPropertyKey._('KAFKA_BOOTSTRAP_SERVERS');
+  static const kafkaSslEnabled = ConnectionPropertyKey._('KAFKA_SSL_ENABLED');
+  static const kafkaCustomCert = ConnectionPropertyKey._('KAFKA_CUSTOM_CERT');
+  static const kafkaSkipCustomCertValidation =
+      ConnectionPropertyKey._('KAFKA_SKIP_CUSTOM_CERT_VALIDATION');
+  static const kafkaClientKeystore =
+      ConnectionPropertyKey._('KAFKA_CLIENT_KEYSTORE');
+  static const kafkaClientKeystorePassword =
+      ConnectionPropertyKey._('KAFKA_CLIENT_KEYSTORE_PASSWORD');
+  static const kafkaClientKeyPassword =
+      ConnectionPropertyKey._('KAFKA_CLIENT_KEY_PASSWORD');
+  static const encryptedKafkaClientKeystorePassword =
+      ConnectionPropertyKey._('ENCRYPTED_KAFKA_CLIENT_KEYSTORE_PASSWORD');
+  static const encryptedKafkaClientKeyPassword =
+      ConnectionPropertyKey._('ENCRYPTED_KAFKA_CLIENT_KEY_PASSWORD');
+  static const secretId = ConnectionPropertyKey._('SECRET_ID');
+  static const connectorUrl = ConnectionPropertyKey._('CONNECTOR_URL');
+  static const connectorType = ConnectionPropertyKey._('CONNECTOR_TYPE');
+  static const connectorClassName =
+      ConnectionPropertyKey._('CONNECTOR_CLASS_NAME');
+  static const kafkaSaslMechanism =
+      ConnectionPropertyKey._('KAFKA_SASL_MECHANISM');
+  static const kafkaSaslPlainUsername =
+      ConnectionPropertyKey._('KAFKA_SASL_PLAIN_USERNAME');
+  static const kafkaSaslPlainPassword =
+      ConnectionPropertyKey._('KAFKA_SASL_PLAIN_PASSWORD');
+  static const encryptedKafkaSaslPlainPassword =
+      ConnectionPropertyKey._('ENCRYPTED_KAFKA_SASL_PLAIN_PASSWORD');
+  static const kafkaSaslScramUsername =
+      ConnectionPropertyKey._('KAFKA_SASL_SCRAM_USERNAME');
+  static const kafkaSaslScramPassword =
+      ConnectionPropertyKey._('KAFKA_SASL_SCRAM_PASSWORD');
+  static const kafkaSaslScramSecretsArn =
+      ConnectionPropertyKey._('KAFKA_SASL_SCRAM_SECRETS_ARN');
+  static const encryptedKafkaSaslScramPassword =
+      ConnectionPropertyKey._('ENCRYPTED_KAFKA_SASL_SCRAM_PASSWORD');
+  static const kafkaSaslGssapiKeytab =
+      ConnectionPropertyKey._('KAFKA_SASL_GSSAPI_KEYTAB');
+  static const kafkaSaslGssapiKrb5Conf =
+      ConnectionPropertyKey._('KAFKA_SASL_GSSAPI_KRB5_CONF');
+  static const kafkaSaslGssapiService =
+      ConnectionPropertyKey._('KAFKA_SASL_GSSAPI_SERVICE');
+  static const kafkaSaslGssapiPrincipal =
+      ConnectionPropertyKey._('KAFKA_SASL_GSSAPI_PRINCIPAL');
+  static const roleArn = ConnectionPropertyKey._('ROLE_ARN');
+  static const region = ConnectionPropertyKey._('REGION');
+  static const workgroupName = ConnectionPropertyKey._('WORKGROUP_NAME');
+  static const clusterIdentifier =
+      ConnectionPropertyKey._('CLUSTER_IDENTIFIER');
+  static const database = ConnectionPropertyKey._('DATABASE');
 
   final String value;
 
-  const ConnectionPropertyKey(this.value);
+  const ConnectionPropertyKey._(this.value);
 
-  static ConnectionPropertyKey fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ConnectionPropertyKey'));
+  static const values = [
+    host,
+    port,
+    username,
+    password,
+    encryptedPassword,
+    jdbcDriverJarUri,
+    jdbcDriverClassName,
+    jdbcEngine,
+    jdbcEngineVersion,
+    configFiles,
+    instanceId,
+    jdbcConnectionUrl,
+    jdbcEnforceSsl,
+    customJdbcCert,
+    skipCustomJdbcCertValidation,
+    customJdbcCertString,
+    connectionUrl,
+    kafkaBootstrapServers,
+    kafkaSslEnabled,
+    kafkaCustomCert,
+    kafkaSkipCustomCertValidation,
+    kafkaClientKeystore,
+    kafkaClientKeystorePassword,
+    kafkaClientKeyPassword,
+    encryptedKafkaClientKeystorePassword,
+    encryptedKafkaClientKeyPassword,
+    secretId,
+    connectorUrl,
+    connectorType,
+    connectorClassName,
+    kafkaSaslMechanism,
+    kafkaSaslPlainUsername,
+    kafkaSaslPlainPassword,
+    encryptedKafkaSaslPlainPassword,
+    kafkaSaslScramUsername,
+    kafkaSaslScramPassword,
+    kafkaSaslScramSecretsArn,
+    encryptedKafkaSaslScramPassword,
+    kafkaSaslGssapiKeytab,
+    kafkaSaslGssapiKrb5Conf,
+    kafkaSaslGssapiService,
+    kafkaSaslGssapiPrincipal,
+    roleArn,
+    region,
+    workgroupName,
+    clusterIdentifier,
+    database
+  ];
+
+  static ConnectionPropertyKey fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ConnectionPropertyKey._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ConnectionPropertyKey && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ConnectionStatus {
-  ready('READY'),
-  inProgress('IN_PROGRESS'),
-  failed('FAILED'),
-  ;
+class ConnectionStatus {
+  static const ready = ConnectionStatus._('READY');
+  static const inProgress = ConnectionStatus._('IN_PROGRESS');
+  static const failed = ConnectionStatus._('FAILED');
 
   final String value;
 
-  const ConnectionStatus(this.value);
+  const ConnectionStatus._(this.value);
+
+  static const values = [ready, inProgress, failed];
 
   static ConnectionStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ConnectionStatus'));
+          orElse: () => ConnectionStatus._(value));
+
+  @override
+  bool operator ==(other) => other is ConnectionStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ConnectionType {
-  jdbc('JDBC'),
-  sftp('SFTP'),
-  mongodb('MONGODB'),
-  kafka('KAFKA'),
-  network('NETWORK'),
-  marketplace('MARKETPLACE'),
-  custom('CUSTOM'),
-  salesforce('SALESFORCE'),
-  viewValidationRedshift('VIEW_VALIDATION_REDSHIFT'),
-  viewValidationAthena('VIEW_VALIDATION_ATHENA'),
-  ;
+class ConnectionType {
+  static const jdbc = ConnectionType._('JDBC');
+  static const sftp = ConnectionType._('SFTP');
+  static const mongodb = ConnectionType._('MONGODB');
+  static const kafka = ConnectionType._('KAFKA');
+  static const network = ConnectionType._('NETWORK');
+  static const marketplace = ConnectionType._('MARKETPLACE');
+  static const custom = ConnectionType._('CUSTOM');
+  static const salesforce = ConnectionType._('SALESFORCE');
+  static const viewValidationRedshift =
+      ConnectionType._('VIEW_VALIDATION_REDSHIFT');
+  static const viewValidationAthena =
+      ConnectionType._('VIEW_VALIDATION_ATHENA');
 
   final String value;
 
-  const ConnectionType(this.value);
+  const ConnectionType._(this.value);
+
+  static const values = [
+    jdbc,
+    sftp,
+    mongodb,
+    kafka,
+    network,
+    marketplace,
+    custom,
+    salesforce,
+    viewValidationRedshift,
+    viewValidationAthena
+  ];
 
   static ConnectionType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ConnectionType'));
+          orElse: () => ConnectionType._(value));
+
+  @override
+  bool operator ==(other) => other is ConnectionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specifies the connections used by a job.
@@ -17395,22 +17677,38 @@ class Crawl {
   }
 }
 
-enum CrawlState {
-  running('RUNNING'),
-  cancelling('CANCELLING'),
-  cancelled('CANCELLED'),
-  succeeded('SUCCEEDED'),
-  failed('FAILED'),
-  error('ERROR'),
-  ;
+class CrawlState {
+  static const running = CrawlState._('RUNNING');
+  static const cancelling = CrawlState._('CANCELLING');
+  static const cancelled = CrawlState._('CANCELLED');
+  static const succeeded = CrawlState._('SUCCEEDED');
+  static const failed = CrawlState._('FAILED');
+  static const error = CrawlState._('ERROR');
 
   final String value;
 
-  const CrawlState(this.value);
+  const CrawlState._(this.value);
 
-  static CrawlState fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum CrawlState'));
+  static const values = [
+    running,
+    cancelling,
+    cancelled,
+    succeeded,
+    failed,
+    error
+  ];
+
+  static CrawlState fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => CrawlState._(value));
+
+  @override
+  bool operator ==(other) => other is CrawlState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specifies a crawler program that examines a data source and uses classifiers
@@ -17695,36 +17993,56 @@ class CrawlerHistory {
   }
 }
 
-enum CrawlerHistoryState {
-  running('RUNNING'),
-  completed('COMPLETED'),
-  failed('FAILED'),
-  stopped('STOPPED'),
-  ;
+class CrawlerHistoryState {
+  static const running = CrawlerHistoryState._('RUNNING');
+  static const completed = CrawlerHistoryState._('COMPLETED');
+  static const failed = CrawlerHistoryState._('FAILED');
+  static const stopped = CrawlerHistoryState._('STOPPED');
 
   final String value;
 
-  const CrawlerHistoryState(this.value);
+  const CrawlerHistoryState._(this.value);
 
-  static CrawlerHistoryState fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum CrawlerHistoryState'));
+  static const values = [running, completed, failed, stopped];
+
+  static CrawlerHistoryState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => CrawlerHistoryState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CrawlerHistoryState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum CrawlerLineageSettings {
-  enable('ENABLE'),
-  disable('DISABLE'),
-  ;
+class CrawlerLineageSettings {
+  static const enable = CrawlerLineageSettings._('ENABLE');
+  static const disable = CrawlerLineageSettings._('DISABLE');
 
   final String value;
 
-  const CrawlerLineageSettings(this.value);
+  const CrawlerLineageSettings._(this.value);
+
+  static const values = [enable, disable];
 
   static CrawlerLineageSettings fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum CrawlerLineageSettings'));
+          orElse: () => CrawlerLineageSettings._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CrawlerLineageSettings && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Metrics for a specified crawler.
@@ -17827,20 +18145,28 @@ class CrawlerNodeDetails {
   }
 }
 
-enum CrawlerState {
-  ready('READY'),
-  running('RUNNING'),
-  stopping('STOPPING'),
-  ;
+class CrawlerState {
+  static const ready = CrawlerState._('READY');
+  static const running = CrawlerState._('RUNNING');
+  static const stopping = CrawlerState._('STOPPING');
 
   final String value;
 
-  const CrawlerState(this.value);
+  const CrawlerState._(this.value);
 
-  static CrawlerState fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum CrawlerState'));
+  static const values = [ready, running, stopping];
+
+  static CrawlerState fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => CrawlerState._(value));
+
+  @override
+  bool operator ==(other) => other is CrawlerState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specifies data stores to crawl.
@@ -19044,36 +19370,54 @@ class CsvClassifier {
   }
 }
 
-enum CsvHeaderOption {
-  unknown('UNKNOWN'),
-  present('PRESENT'),
-  absent('ABSENT'),
-  ;
+class CsvHeaderOption {
+  static const unknown = CsvHeaderOption._('UNKNOWN');
+  static const present = CsvHeaderOption._('PRESENT');
+  static const absent = CsvHeaderOption._('ABSENT');
 
   final String value;
 
-  const CsvHeaderOption(this.value);
+  const CsvHeaderOption._(this.value);
+
+  static const values = [unknown, present, absent];
 
   static CsvHeaderOption fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum CsvHeaderOption'));
+          orElse: () => CsvHeaderOption._(value));
+
+  @override
+  bool operator ==(other) => other is CsvHeaderOption && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum CsvSerdeOption {
-  openCSVSerDe('OpenCSVSerDe'),
-  lazySimpleSerDe('LazySimpleSerDe'),
-  none('None'),
-  ;
+class CsvSerdeOption {
+  static const openCSVSerDe = CsvSerdeOption._('OpenCSVSerDe');
+  static const lazySimpleSerDe = CsvSerdeOption._('LazySimpleSerDe');
+  static const none = CsvSerdeOption._('None');
 
   final String value;
 
-  const CsvSerdeOption(this.value);
+  const CsvSerdeOption._(this.value);
+
+  static const values = [openCSVSerDe, lazySimpleSerDe, none];
 
   static CsvSerdeOption fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum CsvSerdeOption'));
+          orElse: () => CsvSerdeOption._(value));
+
+  @override
+  bool operator ==(other) => other is CsvSerdeOption && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specifies a transform that uses custom code you provide to perform the data
@@ -19181,19 +19525,29 @@ class CustomEntityType {
   }
 }
 
-enum DQCompositeRuleEvaluationMethod {
-  column('COLUMN'),
-  row('ROW'),
-  ;
+class DQCompositeRuleEvaluationMethod {
+  static const column = DQCompositeRuleEvaluationMethod._('COLUMN');
+  static const row = DQCompositeRuleEvaluationMethod._('ROW');
 
   final String value;
 
-  const DQCompositeRuleEvaluationMethod(this.value);
+  const DQCompositeRuleEvaluationMethod._(this.value);
+
+  static const values = [column, row];
 
   static DQCompositeRuleEvaluationMethod fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum DQCompositeRuleEvaluationMethod'));
+          orElse: () => DQCompositeRuleEvaluationMethod._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DQCompositeRuleEvaluationMethod && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Options to configure how your data quality evaluation results are published.
@@ -19269,34 +19623,53 @@ class DQStopJobOnFailureOptions {
   }
 }
 
-enum DQStopJobOnFailureTiming {
-  immediate('Immediate'),
-  afterDataLoad('AfterDataLoad'),
-  ;
+class DQStopJobOnFailureTiming {
+  static const immediate = DQStopJobOnFailureTiming._('Immediate');
+  static const afterDataLoad = DQStopJobOnFailureTiming._('AfterDataLoad');
 
   final String value;
 
-  const DQStopJobOnFailureTiming(this.value);
+  const DQStopJobOnFailureTiming._(this.value);
+
+  static const values = [immediate, afterDataLoad];
 
   static DQStopJobOnFailureTiming fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum DQStopJobOnFailureTiming'));
+          orElse: () => DQStopJobOnFailureTiming._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DQStopJobOnFailureTiming && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum DQTransformOutput {
-  primaryInput('PrimaryInput'),
-  evaluationResults('EvaluationResults'),
-  ;
+class DQTransformOutput {
+  static const primaryInput = DQTransformOutput._('PrimaryInput');
+  static const evaluationResults = DQTransformOutput._('EvaluationResults');
 
   final String value;
 
-  const DQTransformOutput(this.value);
+  const DQTransformOutput._(this.value);
+
+  static const values = [primaryInput, evaluationResults];
 
   static DQTransformOutput fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum DQTransformOutput'));
+          orElse: () => DQTransformOutput._(value));
+
+  @override
+  bool operator ==(other) => other is DQTransformOutput && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains configuration information for maintaining Data Catalog security.
@@ -19340,19 +19713,28 @@ class DataCatalogEncryptionSettings {
   }
 }
 
-enum DataFormat {
-  avro('AVRO'),
-  json('JSON'),
-  protobuf('PROTOBUF'),
-  ;
+class DataFormat {
+  static const avro = DataFormat._('AVRO');
+  static const json = DataFormat._('JSON');
+  static const protobuf = DataFormat._('PROTOBUF');
 
   final String value;
 
-  const DataFormat(this.value);
+  const DataFormat._(this.value);
 
-  static DataFormat fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum DataFormat'));
+  static const values = [avro, json, protobuf];
+
+  static DataFormat fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => DataFormat._(value));
+
+  @override
+  bool operator ==(other) => other is DataFormat && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The Lake Formation principal.
@@ -19515,20 +19897,30 @@ class DataQualityMetricValues {
   }
 }
 
-enum DataQualityModelStatus {
-  running('RUNNING'),
-  succeeded('SUCCEEDED'),
-  failed('FAILED'),
-  ;
+class DataQualityModelStatus {
+  static const running = DataQualityModelStatus._('RUNNING');
+  static const succeeded = DataQualityModelStatus._('SUCCEEDED');
+  static const failed = DataQualityModelStatus._('FAILED');
 
   final String value;
 
-  const DataQualityModelStatus(this.value);
+  const DataQualityModelStatus._(this.value);
+
+  static const values = [running, succeeded, failed];
 
   static DataQualityModelStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum DataQualityModelStatus'));
+          orElse: () => DataQualityModelStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DataQualityModelStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes the observation generated after evaluating the rules and
@@ -19937,20 +20329,30 @@ class DataQualityRuleResult {
   }
 }
 
-enum DataQualityRuleResultStatus {
-  pass('PASS'),
-  fail('FAIL'),
-  error('ERROR'),
-  ;
+class DataQualityRuleResultStatus {
+  static const pass = DataQualityRuleResultStatus._('PASS');
+  static const fail = DataQualityRuleResultStatus._('FAIL');
+  static const error = DataQualityRuleResultStatus._('ERROR');
 
   final String value;
 
-  const DataQualityRuleResultStatus(this.value);
+  const DataQualityRuleResultStatus._(this.value);
+
+  static const values = [pass, fail, error];
 
   static DataQualityRuleResultStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum DataQualityRuleResultStatus'));
+          orElse: () => DataQualityRuleResultStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DataQualityRuleResultStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes the result of a data quality ruleset evaluation run.
@@ -20318,18 +20720,28 @@ class Database {
   }
 }
 
-enum DatabaseAttributes {
-  name('NAME'),
-  ;
+class DatabaseAttributes {
+  static const name = DatabaseAttributes._('NAME');
 
   final String value;
 
-  const DatabaseAttributes(this.value);
+  const DatabaseAttributes._(this.value);
 
-  static DatabaseAttributes fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum DatabaseAttributes'));
+  static const values = [name];
+
+  static DatabaseAttributes fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DatabaseAttributes._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DatabaseAttributes && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A structure that describes a target database for resource linking.
@@ -20615,20 +21027,29 @@ class DecimalNumber {
   }
 }
 
-enum DeleteBehavior {
-  log('LOG'),
-  deleteFromDatabase('DELETE_FROM_DATABASE'),
-  deprecateInDatabase('DEPRECATE_IN_DATABASE'),
-  ;
+class DeleteBehavior {
+  static const log = DeleteBehavior._('LOG');
+  static const deleteFromDatabase = DeleteBehavior._('DELETE_FROM_DATABASE');
+  static const deprecateInDatabase = DeleteBehavior._('DEPRECATE_IN_DATABASE');
 
   final String value;
 
-  const DeleteBehavior(this.value);
+  const DeleteBehavior._(this.value);
+
+  static const values = [log, deleteFromDatabase, deprecateInDatabase];
 
   static DeleteBehavior fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum DeleteBehavior'));
+          orElse: () => DeleteBehavior._(value));
+
+  @override
+  bool operator ==(other) => other is DeleteBehavior && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class DeleteBlueprintResponse {
@@ -21142,19 +21563,29 @@ class DeltaTarget {
   }
 }
 
-enum DeltaTargetCompressionType {
-  uncompressed('uncompressed'),
-  snappy('snappy'),
-  ;
+class DeltaTargetCompressionType {
+  static const uncompressed = DeltaTargetCompressionType._('uncompressed');
+  static const snappy = DeltaTargetCompressionType._('snappy');
 
   final String value;
 
-  const DeltaTargetCompressionType(this.value);
+  const DeltaTargetCompressionType._(this.value);
+
+  static const values = [uncompressed, snappy];
 
   static DeltaTargetCompressionType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum DeltaTargetCompressionType'));
+          orElse: () => DeltaTargetCompressionType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DeltaTargetCompressionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A development endpoint where a developer can remotely debug extract,
@@ -21521,8 +21952,8 @@ class DirectJDBCSource {
   factory DirectJDBCSource.fromJson(Map<String, dynamic> json) {
     return DirectJDBCSource(
       connectionName: (json['ConnectionName'] as String?) ?? '',
-      connectionType:
-          JDBCConnectionType.fromString((json['ConnectionType'] as String)),
+      connectionType: JDBCConnectionType.fromString(
+          (json['ConnectionType'] as String?) ?? ''),
       database: (json['Database'] as String?) ?? '',
       name: (json['Name'] as String?) ?? '',
       table: (json['Table'] as String?) ?? '',
@@ -22106,19 +22537,29 @@ class Edge {
   }
 }
 
-enum EnableHybridValues {
-  $true('TRUE'),
-  $false('FALSE'),
-  ;
+class EnableHybridValues {
+  static const $true = EnableHybridValues._('TRUE');
+  static const $false = EnableHybridValues._('FALSE');
 
   final String value;
 
-  const EnableHybridValues(this.value);
+  const EnableHybridValues._(this.value);
 
-  static EnableHybridValues fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum EnableHybridValues'));
+  static const values = [$true, $false];
+
+  static EnableHybridValues fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => EnableHybridValues._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is EnableHybridValues && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specifies the encryption-at-rest configuration for the Data Catalog.
@@ -22142,7 +22583,7 @@ class EncryptionAtRest {
   factory EncryptionAtRest.fromJson(Map<String, dynamic> json) {
     return EncryptionAtRest(
       catalogEncryptionMode: CatalogEncryptionMode.fromString(
-          (json['CatalogEncryptionMode'] as String)),
+          (json['CatalogEncryptionMode'] as String?) ?? ''),
       catalogEncryptionServiceRole:
           json['CatalogEncryptionServiceRole'] as String?,
       sseAwsKmsKeyId: json['SseAwsKmsKeyId'] as String?,
@@ -22441,7 +22882,7 @@ class EvaluationMetrics {
   factory EvaluationMetrics.fromJson(Map<String, dynamic> json) {
     return EvaluationMetrics(
       transformType:
-          TransformType.fromString((json['TransformType'] as String)),
+          TransformType.fromString((json['TransformType'] as String?) ?? ''),
       findMatchesMetrics: json['FindMatchesMetrics'] != null
           ? FindMatchesMetrics.fromJson(
               json['FindMatchesMetrics'] as Map<String, dynamic>)
@@ -22492,19 +22933,28 @@ class EventBatchingCondition {
   }
 }
 
-enum ExecutionClass {
-  flex('FLEX'),
-  standard('STANDARD'),
-  ;
+class ExecutionClass {
+  static const flex = ExecutionClass._('FLEX');
+  static const standard = ExecutionClass._('STANDARD');
 
   final String value;
 
-  const ExecutionClass(this.value);
+  const ExecutionClass._(this.value);
+
+  static const values = [flex, standard];
 
   static ExecutionClass fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ExecutionClass'));
+          orElse: () => ExecutionClass._(value));
+
+  @override
+  bool operator ==(other) => other is ExecutionClass && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// An execution property of a job.
@@ -22532,20 +22982,29 @@ class ExecutionProperty {
   }
 }
 
-enum ExistCondition {
-  mustExist('MUST_EXIST'),
-  notExist('NOT_EXIST'),
-  none('NONE'),
-  ;
+class ExistCondition {
+  static const mustExist = ExistCondition._('MUST_EXIST');
+  static const notExist = ExistCondition._('NOT_EXIST');
+  static const none = ExistCondition._('NONE');
 
   final String value;
 
-  const ExistCondition(this.value);
+  const ExistCondition._(this.value);
+
+  static const values = [mustExist, notExist, none];
 
   static ExistCondition fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ExistCondition'));
+          orElse: () => ExistCondition._(value));
+
+  @override
+  bool operator ==(other) => other is ExistCondition && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specifies configuration properties for an exporting labels task run.
@@ -22639,21 +23098,30 @@ class FederatedTable {
   }
 }
 
-enum FieldName {
-  crawlId('CRAWL_ID'),
-  state('STATE'),
-  startTime('START_TIME'),
-  endTime('END_TIME'),
-  dpuHour('DPU_HOUR'),
-  ;
+class FieldName {
+  static const crawlId = FieldName._('CRAWL_ID');
+  static const state = FieldName._('STATE');
+  static const startTime = FieldName._('START_TIME');
+  static const endTime = FieldName._('END_TIME');
+  static const dpuHour = FieldName._('DPU_HOUR');
 
   final String value;
 
-  const FieldName(this.value);
+  const FieldName._(this.value);
 
-  static FieldName fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum FieldName'));
+  static const values = [crawlId, state, startTime, endTime, dpuHour];
+
+  static FieldName fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => FieldName._(value));
+
+  @override
+  bool operator ==(other) => other is FieldName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specifies a transform that locates records in the dataset that have missing
@@ -22741,8 +23209,8 @@ class Filter {
           .nonNulls
           .map((e) => e as String)
           .toList(),
-      logicalOperator:
-          FilterLogicalOperator.fromString((json['LogicalOperator'] as String)),
+      logicalOperator: FilterLogicalOperator.fromString(
+          (json['LogicalOperator'] as String?) ?? ''),
       name: (json['Name'] as String?) ?? '',
     );
   }
@@ -22780,7 +23248,8 @@ class FilterExpression {
 
   factory FilterExpression.fromJson(Map<String, dynamic> json) {
     return FilterExpression(
-      operation: FilterOperation.fromString((json['Operation'] as String)),
+      operation:
+          FilterOperation.fromString((json['Operation'] as String?) ?? ''),
       values: ((json['Values'] as List?) ?? const [])
           .nonNulls
           .map((e) => FilterValue.fromJson(e as Map<String, dynamic>))
@@ -22801,58 +23270,86 @@ class FilterExpression {
   }
 }
 
-enum FilterLogicalOperator {
-  and('AND'),
-  or('OR'),
-  ;
+class FilterLogicalOperator {
+  static const and = FilterLogicalOperator._('AND');
+  static const or = FilterLogicalOperator._('OR');
 
   final String value;
 
-  const FilterLogicalOperator(this.value);
+  const FilterLogicalOperator._(this.value);
 
-  static FilterLogicalOperator fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum FilterLogicalOperator'));
+  static const values = [and, or];
+
+  static FilterLogicalOperator fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => FilterLogicalOperator._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is FilterLogicalOperator && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum FilterOperation {
-  eq('EQ'),
-  lt('LT'),
-  gt('GT'),
-  lte('LTE'),
-  gte('GTE'),
-  regex('REGEX'),
-  isnull('ISNULL'),
-  ;
+class FilterOperation {
+  static const eq = FilterOperation._('EQ');
+  static const lt = FilterOperation._('LT');
+  static const gt = FilterOperation._('GT');
+  static const lte = FilterOperation._('LTE');
+  static const gte = FilterOperation._('GTE');
+  static const regex = FilterOperation._('REGEX');
+  static const isnull = FilterOperation._('ISNULL');
 
   final String value;
 
-  const FilterOperation(this.value);
+  const FilterOperation._(this.value);
+
+  static const values = [eq, lt, gt, lte, gte, regex, isnull];
 
   static FilterOperation fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum FilterOperation'));
+          orElse: () => FilterOperation._(value));
+
+  @override
+  bool operator ==(other) => other is FilterOperation && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum FilterOperator {
-  gt('GT'),
-  ge('GE'),
-  lt('LT'),
-  le('LE'),
-  eq('EQ'),
-  ne('NE'),
-  ;
+class FilterOperator {
+  static const gt = FilterOperator._('GT');
+  static const ge = FilterOperator._('GE');
+  static const lt = FilterOperator._('LT');
+  static const le = FilterOperator._('LE');
+  static const eq = FilterOperator._('EQ');
+  static const ne = FilterOperator._('NE');
 
   final String value;
 
-  const FilterOperator(this.value);
+  const FilterOperator._(this.value);
+
+  static const values = [gt, ge, lt, le, eq, ne];
 
   static FilterOperator fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum FilterOperator'));
+          orElse: () => FilterOperator._(value));
+
+  @override
+  bool operator ==(other) => other is FilterOperator && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Represents a single entry in the list of values for a
@@ -22871,7 +23368,7 @@ class FilterValue {
 
   factory FilterValue.fromJson(Map<String, dynamic> json) {
     return FilterValue(
-      type: FilterValueType.fromString((json['Type'] as String)),
+      type: FilterValueType.fromString((json['Type'] as String?) ?? ''),
       value: ((json['Value'] as List?) ?? const [])
           .nonNulls
           .map((e) => e as String)
@@ -22889,19 +23386,28 @@ class FilterValue {
   }
 }
 
-enum FilterValueType {
-  columnextracted('COLUMNEXTRACTED'),
-  constant('CONSTANT'),
-  ;
+class FilterValueType {
+  static const columnextracted = FilterValueType._('COLUMNEXTRACTED');
+  static const constant = FilterValueType._('CONSTANT');
 
   final String value;
 
-  const FilterValueType(this.value);
+  const FilterValueType._(this.value);
+
+  static const values = [columnextracted, constant];
 
   static FilterValueType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum FilterValueType'));
+          orElse: () => FilterValueType._(value));
+
+  @override
+  bool operator ==(other) => other is FilterValueType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The evaluation metrics for the find matches algorithm. The quality of your
@@ -26201,27 +26707,47 @@ class GluePolicy {
   }
 }
 
-enum GlueRecordType {
-  date('DATE'),
-  string('STRING'),
-  timestamp('TIMESTAMP'),
-  int('INT'),
-  float('FLOAT'),
-  long('LONG'),
-  bigdecimal('BIGDECIMAL'),
-  byte('BYTE'),
-  short('SHORT'),
-  double('DOUBLE'),
-  ;
+class GlueRecordType {
+  static const date = GlueRecordType._('DATE');
+  static const string = GlueRecordType._('STRING');
+  static const timestamp = GlueRecordType._('TIMESTAMP');
+  static const $int = GlueRecordType._('INT');
+  static const float = GlueRecordType._('FLOAT');
+  static const long = GlueRecordType._('LONG');
+  static const bigdecimal = GlueRecordType._('BIGDECIMAL');
+  static const byte = GlueRecordType._('BYTE');
+  static const short = GlueRecordType._('SHORT');
+  static const $double = GlueRecordType._('DOUBLE');
 
   final String value;
 
-  const GlueRecordType(this.value);
+  const GlueRecordType._(this.value);
+
+  static const values = [
+    date,
+    string,
+    timestamp,
+    $int,
+    float,
+    long,
+    bigdecimal,
+    byte,
+    short,
+    $double
+  ];
 
   static GlueRecordType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum GlueRecordType'));
+          orElse: () => GlueRecordType._(value));
+
+  @override
+  bool operator ==(other) => other is GlueRecordType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specifies a user-defined schema when a schema cannot be determined by Glue.
@@ -26602,21 +27128,31 @@ class HudiTarget {
   }
 }
 
-enum HudiTargetCompressionType {
-  gzip('gzip'),
-  lzo('lzo'),
-  uncompressed('uncompressed'),
-  snappy('snappy'),
-  ;
+class HudiTargetCompressionType {
+  static const gzip = HudiTargetCompressionType._('gzip');
+  static const lzo = HudiTargetCompressionType._('lzo');
+  static const uncompressed = HudiTargetCompressionType._('uncompressed');
+  static const snappy = HudiTargetCompressionType._('snappy');
 
   final String value;
 
-  const HudiTargetCompressionType(this.value);
+  const HudiTargetCompressionType._(this.value);
+
+  static const values = [gzip, lzo, uncompressed, snappy];
 
   static HudiTargetCompressionType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum HudiTargetCompressionType'));
+          orElse: () => HudiTargetCompressionType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is HudiTargetCompressionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A structure that defines an Apache Iceberg metadata table to create in the
@@ -26742,37 +27278,57 @@ class ImportLabelsTaskRunProperties {
   }
 }
 
-enum InclusionAnnotationValue {
-  include('INCLUDE'),
-  exclude('EXCLUDE'),
-  ;
+class InclusionAnnotationValue {
+  static const include = InclusionAnnotationValue._('INCLUDE');
+  static const exclude = InclusionAnnotationValue._('EXCLUDE');
 
   final String value;
 
-  const InclusionAnnotationValue(this.value);
+  const InclusionAnnotationValue._(this.value);
+
+  static const values = [include, exclude];
 
   static InclusionAnnotationValue fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum InclusionAnnotationValue'));
+          orElse: () => InclusionAnnotationValue._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is InclusionAnnotationValue && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum JDBCConnectionType {
-  sqlserver('sqlserver'),
-  mysql('mysql'),
-  oracle('oracle'),
-  postgresql('postgresql'),
-  redshift('redshift'),
-  ;
+class JDBCConnectionType {
+  static const sqlserver = JDBCConnectionType._('sqlserver');
+  static const mysql = JDBCConnectionType._('mysql');
+  static const oracle = JDBCConnectionType._('oracle');
+  static const postgresql = JDBCConnectionType._('postgresql');
+  static const redshift = JDBCConnectionType._('redshift');
 
   final String value;
 
-  const JDBCConnectionType(this.value);
+  const JDBCConnectionType._(this.value);
 
-  static JDBCConnectionType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum JDBCConnectionType'));
+  static const values = [sqlserver, mysql, oracle, postgresql, redshift];
+
+  static JDBCConnectionType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => JDBCConnectionType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is JDBCConnectionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Additional connection options for the connector.
@@ -27038,71 +27594,129 @@ class JDBCConnectorTarget {
   }
 }
 
-enum JDBCDataType {
-  array('ARRAY'),
-  bigint('BIGINT'),
-  binary('BINARY'),
-  bit('BIT'),
-  blob('BLOB'),
-  boolean('BOOLEAN'),
-  char('CHAR'),
-  clob('CLOB'),
-  datalink('DATALINK'),
-  date('DATE'),
-  decimal('DECIMAL'),
-  distinct('DISTINCT'),
-  double('DOUBLE'),
-  float('FLOAT'),
-  integer('INTEGER'),
-  javaObject('JAVA_OBJECT'),
-  longnvarchar('LONGNVARCHAR'),
-  longvarbinary('LONGVARBINARY'),
-  longvarchar('LONGVARCHAR'),
-  nchar('NCHAR'),
-  nclob('NCLOB'),
-  $null('NULL'),
-  numeric('NUMERIC'),
-  nvarchar('NVARCHAR'),
-  other('OTHER'),
-  real('REAL'),
-  ref('REF'),
-  refCursor('REF_CURSOR'),
-  rowid('ROWID'),
-  smallint('SMALLINT'),
-  sqlxml('SQLXML'),
-  struct('STRUCT'),
-  time('TIME'),
-  timeWithTimezone('TIME_WITH_TIMEZONE'),
-  timestamp('TIMESTAMP'),
-  timestampWithTimezone('TIMESTAMP_WITH_TIMEZONE'),
-  tinyint('TINYINT'),
-  varbinary('VARBINARY'),
-  varchar('VARCHAR'),
-  ;
+class JDBCDataType {
+  static const array = JDBCDataType._('ARRAY');
+  static const bigint = JDBCDataType._('BIGINT');
+  static const binary = JDBCDataType._('BINARY');
+  static const bit = JDBCDataType._('BIT');
+  static const blob = JDBCDataType._('BLOB');
+  static const boolean = JDBCDataType._('BOOLEAN');
+  static const char = JDBCDataType._('CHAR');
+  static const clob = JDBCDataType._('CLOB');
+  static const datalink = JDBCDataType._('DATALINK');
+  static const date = JDBCDataType._('DATE');
+  static const decimal = JDBCDataType._('DECIMAL');
+  static const distinct = JDBCDataType._('DISTINCT');
+  static const $double = JDBCDataType._('DOUBLE');
+  static const float = JDBCDataType._('FLOAT');
+  static const integer = JDBCDataType._('INTEGER');
+  static const javaObject = JDBCDataType._('JAVA_OBJECT');
+  static const longnvarchar = JDBCDataType._('LONGNVARCHAR');
+  static const longvarbinary = JDBCDataType._('LONGVARBINARY');
+  static const longvarchar = JDBCDataType._('LONGVARCHAR');
+  static const nchar = JDBCDataType._('NCHAR');
+  static const nclob = JDBCDataType._('NCLOB');
+  static const $null = JDBCDataType._('NULL');
+  static const numeric = JDBCDataType._('NUMERIC');
+  static const nvarchar = JDBCDataType._('NVARCHAR');
+  static const other = JDBCDataType._('OTHER');
+  static const real = JDBCDataType._('REAL');
+  static const ref = JDBCDataType._('REF');
+  static const refCursor = JDBCDataType._('REF_CURSOR');
+  static const rowid = JDBCDataType._('ROWID');
+  static const smallint = JDBCDataType._('SMALLINT');
+  static const sqlxml = JDBCDataType._('SQLXML');
+  static const struct = JDBCDataType._('STRUCT');
+  static const time = JDBCDataType._('TIME');
+  static const timeWithTimezone = JDBCDataType._('TIME_WITH_TIMEZONE');
+  static const timestamp = JDBCDataType._('TIMESTAMP');
+  static const timestampWithTimezone =
+      JDBCDataType._('TIMESTAMP_WITH_TIMEZONE');
+  static const tinyint = JDBCDataType._('TINYINT');
+  static const varbinary = JDBCDataType._('VARBINARY');
+  static const varchar = JDBCDataType._('VARCHAR');
 
   final String value;
 
-  const JDBCDataType(this.value);
+  const JDBCDataType._(this.value);
 
-  static JDBCDataType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum JDBCDataType'));
+  static const values = [
+    array,
+    bigint,
+    binary,
+    bit,
+    blob,
+    boolean,
+    char,
+    clob,
+    datalink,
+    date,
+    decimal,
+    distinct,
+    $double,
+    float,
+    integer,
+    javaObject,
+    longnvarchar,
+    longvarbinary,
+    longvarchar,
+    nchar,
+    nclob,
+    $null,
+    numeric,
+    nvarchar,
+    other,
+    real,
+    ref,
+    refCursor,
+    rowid,
+    smallint,
+    sqlxml,
+    struct,
+    time,
+    timeWithTimezone,
+    timestamp,
+    timestampWithTimezone,
+    tinyint,
+    varbinary,
+    varchar
+  ];
+
+  static JDBCDataType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => JDBCDataType._(value));
+
+  @override
+  bool operator ==(other) => other is JDBCDataType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum JdbcMetadataEntry {
-  comments('COMMENTS'),
-  rawtypes('RAWTYPES'),
-  ;
+class JdbcMetadataEntry {
+  static const comments = JdbcMetadataEntry._('COMMENTS');
+  static const rawtypes = JdbcMetadataEntry._('RAWTYPES');
 
   final String value;
 
-  const JdbcMetadataEntry(this.value);
+  const JdbcMetadataEntry._(this.value);
+
+  static const values = [comments, rawtypes];
 
   static JdbcMetadataEntry fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum JdbcMetadataEntry'));
+          orElse: () => JdbcMetadataEntry._(value));
+
+  @override
+  bool operator ==(other) => other is JdbcMetadataEntry && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specifies a JDBC data store to crawl.
@@ -27674,19 +28288,29 @@ class JobBookmarksEncryption {
   }
 }
 
-enum JobBookmarksEncryptionMode {
-  disabled('DISABLED'),
-  cseKms('CSE-KMS'),
-  ;
+class JobBookmarksEncryptionMode {
+  static const disabled = JobBookmarksEncryptionMode._('DISABLED');
+  static const cseKms = JobBookmarksEncryptionMode._('CSE-KMS');
 
   final String value;
 
-  const JobBookmarksEncryptionMode(this.value);
+  const JobBookmarksEncryptionMode._(this.value);
+
+  static const values = [disabled, cseKms];
 
   static JobBookmarksEncryptionMode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum JobBookmarksEncryptionMode'));
+          orElse: () => JobBookmarksEncryptionMode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is JobBookmarksEncryptionMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specifies code that runs when a job is run.
@@ -27743,19 +28367,28 @@ class JobCommand {
   }
 }
 
-enum JobMode {
-  script('SCRIPT'),
-  visual('VISUAL'),
-  notebook('NOTEBOOK'),
-  ;
+class JobMode {
+  static const script = JobMode._('SCRIPT');
+  static const visual = JobMode._('VISUAL');
+  static const notebook = JobMode._('NOTEBOOK');
 
   final String value;
 
-  const JobMode(this.value);
+  const JobMode._(this.value);
 
-  static JobMode fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum JobMode'));
+  static const values = [script, visual, notebook];
+
+  static JobMode fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => JobMode._(value));
+
+  @override
+  bool operator ==(other) => other is JobMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The details of a Job node present in the workflow.
@@ -28209,26 +28842,46 @@ class JobRun {
   }
 }
 
-enum JobRunState {
-  starting('STARTING'),
-  running('RUNNING'),
-  stopping('STOPPING'),
-  stopped('STOPPED'),
-  succeeded('SUCCEEDED'),
-  failed('FAILED'),
-  timeout('TIMEOUT'),
-  error('ERROR'),
-  waiting('WAITING'),
-  expired('EXPIRED'),
-  ;
+class JobRunState {
+  static const starting = JobRunState._('STARTING');
+  static const running = JobRunState._('RUNNING');
+  static const stopping = JobRunState._('STOPPING');
+  static const stopped = JobRunState._('STOPPED');
+  static const succeeded = JobRunState._('SUCCEEDED');
+  static const failed = JobRunState._('FAILED');
+  static const timeout = JobRunState._('TIMEOUT');
+  static const error = JobRunState._('ERROR');
+  static const waiting = JobRunState._('WAITING');
+  static const expired = JobRunState._('EXPIRED');
 
   final String value;
 
-  const JobRunState(this.value);
+  const JobRunState._(this.value);
 
-  static JobRunState fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum JobRunState'));
+  static const values = [
+    starting,
+    running,
+    stopping,
+    stopped,
+    succeeded,
+    failed,
+    timeout,
+    error,
+    waiting,
+    expired
+  ];
+
+  static JobRunState fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => JobRunState._(value));
+
+  @override
+  bool operator ==(other) => other is JobRunState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specifies information used to update an existing job definition. The
@@ -28596,7 +29249,7 @@ class Join {
           .nonNulls
           .map((e) => e as String)
           .toList(),
-      joinType: JoinType.fromString((json['JoinType'] as String)),
+      joinType: JoinType.fromString((json['JoinType'] as String?) ?? ''),
       name: (json['Name'] as String?) ?? '',
     );
   }
@@ -28648,22 +29301,31 @@ class JoinColumn {
   }
 }
 
-enum JoinType {
-  equijoin('equijoin'),
-  left('left'),
-  right('right'),
-  outer('outer'),
-  leftsemi('leftsemi'),
-  leftanti('leftanti'),
-  ;
+class JoinType {
+  static const equijoin = JoinType._('equijoin');
+  static const left = JoinType._('left');
+  static const right = JoinType._('right');
+  static const outer = JoinType._('outer');
+  static const leftsemi = JoinType._('leftsemi');
+  static const leftanti = JoinType._('leftanti');
 
   final String value;
 
-  const JoinType(this.value);
+  const JoinType._(this.value);
 
-  static JoinType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum JoinType'));
+  static const values = [equijoin, left, right, outer, leftsemi, leftanti];
+
+  static JoinType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => JoinType._(value));
+
+  @override
+  bool operator ==(other) => other is JoinType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A classifier for <code>JSON</code> content.
@@ -29214,18 +29876,27 @@ class LakeFormationConfiguration {
   }
 }
 
-enum Language {
-  python('PYTHON'),
-  scala('SCALA'),
-  ;
+class Language {
+  static const python = Language._('PYTHON');
+  static const scala = Language._('SCALA');
 
   final String value;
 
-  const Language(this.value);
+  const Language._(this.value);
 
-  static Language fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum Language'));
+  static const values = [python, scala];
+
+  static Language fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Language._(value));
+
+  @override
+  bool operator ==(other) => other is Language && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// When there are multiple versions of a blueprint and the latest version has
@@ -29343,20 +30014,29 @@ class LastCrawlInfo {
   }
 }
 
-enum LastCrawlStatus {
-  succeeded('SUCCEEDED'),
-  cancelled('CANCELLED'),
-  failed('FAILED'),
-  ;
+class LastCrawlStatus {
+  static const succeeded = LastCrawlStatus._('SUCCEEDED');
+  static const cancelled = LastCrawlStatus._('CANCELLED');
+  static const failed = LastCrawlStatus._('FAILED');
 
   final String value;
 
-  const LastCrawlStatus(this.value);
+  const LastCrawlStatus._(this.value);
+
+  static const values = [succeeded, cancelled, failed];
 
   static LastCrawlStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum LastCrawlStatus'));
+          orElse: () => LastCrawlStatus._(value));
+
+  @override
+  bool operator ==(other) => other is LastCrawlStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specifies data lineage configuration settings for the crawler.
@@ -30217,32 +30897,50 @@ class Location {
   }
 }
 
-enum Logical {
-  and('AND'),
-  any('ANY'),
-  ;
+class Logical {
+  static const and = Logical._('AND');
+  static const any = Logical._('ANY');
 
   final String value;
 
-  const Logical(this.value);
+  const Logical._(this.value);
 
-  static Logical fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum Logical'));
+  static const values = [and, any];
+
+  static Logical fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Logical._(value));
+
+  @override
+  bool operator ==(other) => other is Logical && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum LogicalOperator {
-  equals('EQUALS'),
-  ;
+class LogicalOperator {
+  static const equals = LogicalOperator._('EQUALS');
 
   final String value;
 
-  const LogicalOperator(this.value);
+  const LogicalOperator._(this.value);
+
+  static const values = [equals];
 
   static LogicalOperator fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum LogicalOperator'));
+          orElse: () => LogicalOperator._(value));
+
+  @override
+  bool operator ==(other) => other is LogicalOperator && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Defines column statistics supported for integer data columns.
@@ -30590,7 +31288,7 @@ class MLUserDataEncryption {
   factory MLUserDataEncryption.fromJson(Map<String, dynamic> json) {
     return MLUserDataEncryption(
       mlUserDataEncryptionMode: MLUserDataEncryptionModeString.fromString(
-          (json['MlUserDataEncryptionMode'] as String)),
+          (json['MlUserDataEncryptionMode'] as String?) ?? ''),
       kmsKeyId: json['KmsKeyId'] as String?,
     );
   }
@@ -30605,19 +31303,29 @@ class MLUserDataEncryption {
   }
 }
 
-enum MLUserDataEncryptionModeString {
-  disabled('DISABLED'),
-  sseKms('SSE-KMS'),
-  ;
+class MLUserDataEncryptionModeString {
+  static const disabled = MLUserDataEncryptionModeString._('DISABLED');
+  static const sseKms = MLUserDataEncryptionModeString._('SSE-KMS');
 
   final String value;
 
-  const MLUserDataEncryptionModeString(this.value);
+  const MLUserDataEncryptionModeString._(this.value);
+
+  static const values = [disabled, sseKms];
 
   static MLUserDataEncryptionModeString fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum MLUserDataEncryptionModeString'));
+          orElse: () => MLUserDataEncryptionModeString._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is MLUserDataEncryptionModeString && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specifies the mapping of data property keys.
@@ -30879,18 +31587,27 @@ class MetadataKeyValuePair {
   }
 }
 
-enum MetadataOperation {
-  create('CREATE'),
-  ;
+class MetadataOperation {
+  static const create = MetadataOperation._('CREATE');
 
   final String value;
 
-  const MetadataOperation(this.value);
+  const MetadataOperation._(this.value);
+
+  static const values = [create];
 
   static MetadataOperation fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum MetadataOperation'));
+          orElse: () => MetadataOperation._(value));
+
+  @override
+  bool operator ==(other) => other is MetadataOperation && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes the metric based observation generated based on evaluated data
@@ -31225,19 +31942,28 @@ class Node {
   }
 }
 
-enum NodeType {
-  crawler('CRAWLER'),
-  job('JOB'),
-  trigger('TRIGGER'),
-  ;
+class NodeType {
+  static const crawler = NodeType._('CRAWLER');
+  static const job = NodeType._('JOB');
+  static const trigger = NodeType._('TRIGGER');
 
   final String value;
 
-  const NodeType(this.value);
+  const NodeType._(this.value);
 
-  static NodeType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum NodeType'));
+  static const values = [crawler, job, trigger];
+
+  static NodeType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => NodeType._(value));
+
+  @override
+  bool operator ==(other) => other is NodeType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specifies configuration properties of a notification.
@@ -31374,20 +32100,29 @@ class OAuth2ClientApplication {
   }
 }
 
-enum OAuth2GrantType {
-  authorizationCode('AUTHORIZATION_CODE'),
-  clientCredentials('CLIENT_CREDENTIALS'),
-  jwtBearer('JWT_BEARER'),
-  ;
+class OAuth2GrantType {
+  static const authorizationCode = OAuth2GrantType._('AUTHORIZATION_CODE');
+  static const clientCredentials = OAuth2GrantType._('CLIENT_CREDENTIALS');
+  static const jwtBearer = OAuth2GrantType._('JWT_BEARER');
 
   final String value;
 
-  const OAuth2GrantType(this.value);
+  const OAuth2GrantType._(this.value);
+
+  static const values = [authorizationCode, clientCredentials, jwtBearer];
 
   static OAuth2GrantType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum OAuth2GrantType'));
+          orElse: () => OAuth2GrantType._(value));
+
+  @override
+  bool operator ==(other) => other is OAuth2GrantType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A structure containing properties for OAuth2 authentication.
@@ -31753,7 +32488,7 @@ class PIIDetection {
           .map((e) => e as String)
           .toList(),
       name: (json['Name'] as String?) ?? '',
-      piiType: PiiType.fromString((json['PiiType'] as String)),
+      piiType: PiiType.fromString((json['PiiType'] as String?) ?? ''),
       maskValue: json['MaskValue'] as String?,
       outputColumnName: json['OutputColumnName'] as String?,
       sampleFraction: json['SampleFraction'] as double?,
@@ -31783,41 +32518,60 @@ class PIIDetection {
   }
 }
 
-enum ParamType {
-  str('str'),
-  int('int'),
-  float('float'),
-  complex('complex'),
-  $bool('bool'),
-  list('list'),
-  $null('null'),
-  ;
+class ParamType {
+  static const str = ParamType._('str');
+  static const $int = ParamType._('int');
+  static const float = ParamType._('float');
+  static const complex = ParamType._('complex');
+  static const $bool = ParamType._('bool');
+  static const list = ParamType._('list');
+  static const $null = ParamType._('null');
 
   final String value;
 
-  const ParamType(this.value);
+  const ParamType._(this.value);
 
-  static ParamType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum ParamType'));
+  static const values = [str, $int, float, complex, $bool, list, $null];
+
+  static ParamType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ParamType._(value));
+
+  @override
+  bool operator ==(other) => other is ParamType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ParquetCompressionType {
-  snappy('snappy'),
-  lzo('lzo'),
-  gzip('gzip'),
-  uncompressed('uncompressed'),
-  none('none'),
-  ;
+class ParquetCompressionType {
+  static const snappy = ParquetCompressionType._('snappy');
+  static const lzo = ParquetCompressionType._('lzo');
+  static const gzip = ParquetCompressionType._('gzip');
+  static const uncompressed = ParquetCompressionType._('uncompressed');
+  static const none = ParquetCompressionType._('none');
 
   final String value;
 
-  const ParquetCompressionType(this.value);
+  const ParquetCompressionType._(this.value);
+
+  static const values = [snappy, lzo, gzip, uncompressed, none];
 
   static ParquetCompressionType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ParquetCompressionType'));
+          orElse: () => ParquetCompressionType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ParquetCompressionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Represents a slice of table data.
@@ -32010,8 +32764,8 @@ class PartitionIndexDescriptor {
   factory PartitionIndexDescriptor.fromJson(Map<String, dynamic> json) {
     return PartitionIndexDescriptor(
       indexName: (json['IndexName'] as String?) ?? '',
-      indexStatus:
-          PartitionIndexStatus.fromString((json['IndexStatus'] as String)),
+      indexStatus: PartitionIndexStatus.fromString(
+          (json['IndexStatus'] as String?) ?? ''),
       keys: ((json['Keys'] as List?) ?? const [])
           .nonNulls
           .map((e) => KeySchemaElement.fromJson(e as Map<String, dynamic>))
@@ -32037,21 +32791,31 @@ class PartitionIndexDescriptor {
   }
 }
 
-enum PartitionIndexStatus {
-  creating('CREATING'),
-  active('ACTIVE'),
-  deleting('DELETING'),
-  failed('FAILED'),
-  ;
+class PartitionIndexStatus {
+  static const creating = PartitionIndexStatus._('CREATING');
+  static const active = PartitionIndexStatus._('ACTIVE');
+  static const deleting = PartitionIndexStatus._('DELETING');
+  static const failed = PartitionIndexStatus._('FAILED');
 
   final String value;
 
-  const PartitionIndexStatus(this.value);
+  const PartitionIndexStatus._(this.value);
 
-  static PartitionIndexStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum PartitionIndexStatus'));
+  static const values = [creating, active, deleting, failed];
+
+  static PartitionIndexStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => PartitionIndexStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is PartitionIndexStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The structure used to create and update a partition.
@@ -32130,42 +32894,77 @@ class PartitionValueList {
   }
 }
 
-enum Permission {
-  all('ALL'),
-  select('SELECT'),
-  alter('ALTER'),
-  drop('DROP'),
-  delete('DELETE'),
-  insert('INSERT'),
-  createDatabase('CREATE_DATABASE'),
-  createTable('CREATE_TABLE'),
-  dataLocationAccess('DATA_LOCATION_ACCESS'),
-  ;
+class Permission {
+  static const all = Permission._('ALL');
+  static const select = Permission._('SELECT');
+  static const alter = Permission._('ALTER');
+  static const drop = Permission._('DROP');
+  static const delete = Permission._('DELETE');
+  static const insert = Permission._('INSERT');
+  static const createDatabase = Permission._('CREATE_DATABASE');
+  static const createTable = Permission._('CREATE_TABLE');
+  static const dataLocationAccess = Permission._('DATA_LOCATION_ACCESS');
 
   final String value;
 
-  const Permission(this.value);
+  const Permission._(this.value);
 
-  static Permission fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum Permission'));
+  static const values = [
+    all,
+    select,
+    alter,
+    drop,
+    delete,
+    insert,
+    createDatabase,
+    createTable,
+    dataLocationAccess
+  ];
+
+  static Permission fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Permission._(value));
+
+  @override
+  bool operator ==(other) => other is Permission && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum PermissionType {
-  columnPermission('COLUMN_PERMISSION'),
-  cellFilterPermission('CELL_FILTER_PERMISSION'),
-  nestedPermission('NESTED_PERMISSION'),
-  nestedCellPermission('NESTED_CELL_PERMISSION'),
-  ;
+class PermissionType {
+  static const columnPermission = PermissionType._('COLUMN_PERMISSION');
+  static const cellFilterPermission =
+      PermissionType._('CELL_FILTER_PERMISSION');
+  static const nestedPermission = PermissionType._('NESTED_PERMISSION');
+  static const nestedCellPermission =
+      PermissionType._('NESTED_CELL_PERMISSION');
 
   final String value;
 
-  const PermissionType(this.value);
+  const PermissionType._(this.value);
+
+  static const values = [
+    columnPermission,
+    cellFilterPermission,
+    nestedPermission,
+    nestedCellPermission
+  ];
 
   static PermissionType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum PermissionType'));
+          orElse: () => PermissionType._(value));
+
+  @override
+  bool operator ==(other) => other is PermissionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The OAuth client app in GetConnection response.
@@ -32209,20 +33008,29 @@ class PhysicalConnectionRequirements {
   }
 }
 
-enum PiiType {
-  rowAudit('RowAudit'),
-  rowMasking('RowMasking'),
-  columnAudit('ColumnAudit'),
-  columnMasking('ColumnMasking'),
-  ;
+class PiiType {
+  static const rowAudit = PiiType._('RowAudit');
+  static const rowMasking = PiiType._('RowMasking');
+  static const columnAudit = PiiType._('ColumnAudit');
+  static const columnMasking = PiiType._('ColumnMasking');
 
   final String value;
 
-  const PiiType(this.value);
+  const PiiType._(this.value);
 
-  static PiiType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum PiiType'));
+  static const values = [rowAudit, rowMasking, columnAudit, columnMasking];
+
+  static PiiType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => PiiType._(value));
+
+  @override
+  bool operator ==(other) => other is PiiType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specifies a PostgresSQL data source in the Glue Data Catalog.
@@ -32411,20 +33219,29 @@ class PrincipalPermissions {
   }
 }
 
-enum PrincipalType {
-  user('USER'),
-  role('ROLE'),
-  group('GROUP'),
-  ;
+class PrincipalType {
+  static const user = PrincipalType._('USER');
+  static const role = PrincipalType._('ROLE');
+  static const group = PrincipalType._('GROUP');
 
   final String value;
 
-  const PrincipalType(this.value);
+  const PrincipalType._(this.value);
+
+  static const values = [user, role, group];
 
   static PrincipalType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum PrincipalType'));
+          orElse: () => PrincipalType._(value));
+
+  @override
+  bool operator ==(other) => other is PrincipalType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specifies the job and session values that an admin configures in an Glue
@@ -32712,20 +33529,29 @@ class QuerySessionContext {
   }
 }
 
-enum QuoteChar {
-  quote('quote'),
-  quillemet('quillemet'),
-  singleQuote('single_quote'),
-  disabled('disabled'),
-  ;
+class QuoteChar {
+  static const quote = QuoteChar._('quote');
+  static const quillemet = QuoteChar._('quillemet');
+  static const singleQuote = QuoteChar._('single_quote');
+  static const disabled = QuoteChar._('disabled');
 
   final String value;
 
-  const QuoteChar(this.value);
+  const QuoteChar._(this.value);
 
-  static QuoteChar fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum QuoteChar'));
+  static const values = [quote, quillemet, singleQuote, disabled];
+
+  static QuoteChar fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => QuoteChar._(value));
+
+  @override
+  bool operator ==(other) => other is QuoteChar && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A Glue Studio node that uses a Glue DataBrew recipe in Glue jobs.
@@ -32877,20 +33703,30 @@ class RecipeStep {
   }
 }
 
-enum RecrawlBehavior {
-  crawlEverything('CRAWL_EVERYTHING'),
-  crawlNewFoldersOnly('CRAWL_NEW_FOLDERS_ONLY'),
-  crawlEventMode('CRAWL_EVENT_MODE'),
-  ;
+class RecrawlBehavior {
+  static const crawlEverything = RecrawlBehavior._('CRAWL_EVERYTHING');
+  static const crawlNewFoldersOnly =
+      RecrawlBehavior._('CRAWL_NEW_FOLDERS_ONLY');
+  static const crawlEventMode = RecrawlBehavior._('CRAWL_EVENT_MODE');
 
   final String value;
 
-  const RecrawlBehavior(this.value);
+  const RecrawlBehavior._(this.value);
+
+  static const values = [crawlEverything, crawlNewFoldersOnly, crawlEventMode];
 
   static RecrawlBehavior fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum RecrawlBehavior'));
+          orElse: () => RecrawlBehavior._(value));
+
+  @override
+  bool operator ==(other) => other is RecrawlBehavior && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// When crawling an Amazon S3 data source after the first crawl is complete,
@@ -33178,19 +34014,28 @@ class RegistryListItem {
   }
 }
 
-enum RegistryStatus {
-  available('AVAILABLE'),
-  deleting('DELETING'),
-  ;
+class RegistryStatus {
+  static const available = RegistryStatus._('AVAILABLE');
+  static const deleting = RegistryStatus._('DELETING');
 
   final String value;
 
-  const RegistryStatus(this.value);
+  const RegistryStatus._(this.value);
+
+  static const values = [available, deleting];
 
   static RegistryStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum RegistryStatus'));
+          orElse: () => RegistryStatus._(value));
+
+  @override
+  bool operator ==(other) => other is RegistryStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specifies a Relational database data source in the Glue Data Catalog.
@@ -33380,69 +34225,104 @@ class ResetJobBookmarkResponse {
   }
 }
 
-enum ResourceAction {
-  update('UPDATE'),
-  create('CREATE'),
-  ;
+class ResourceAction {
+  static const update = ResourceAction._('UPDATE');
+  static const create = ResourceAction._('CREATE');
 
   final String value;
 
-  const ResourceAction(this.value);
+  const ResourceAction._(this.value);
+
+  static const values = [update, create];
 
   static ResourceAction fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ResourceAction'));
+          orElse: () => ResourceAction._(value));
+
+  @override
+  bool operator ==(other) => other is ResourceAction && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ResourceShareType {
-  foreign('FOREIGN'),
-  all('ALL'),
-  federated('FEDERATED'),
-  ;
+class ResourceShareType {
+  static const foreign = ResourceShareType._('FOREIGN');
+  static const all = ResourceShareType._('ALL');
+  static const federated = ResourceShareType._('FEDERATED');
 
   final String value;
 
-  const ResourceShareType(this.value);
+  const ResourceShareType._(this.value);
+
+  static const values = [foreign, all, federated];
 
   static ResourceShareType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ResourceShareType'));
+          orElse: () => ResourceShareType._(value));
+
+  @override
+  bool operator ==(other) => other is ResourceShareType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ResourceState {
-  queued('QUEUED'),
-  inProgress('IN_PROGRESS'),
-  success('SUCCESS'),
-  stopped('STOPPED'),
-  failed('FAILED'),
-  ;
+class ResourceState {
+  static const queued = ResourceState._('QUEUED');
+  static const inProgress = ResourceState._('IN_PROGRESS');
+  static const success = ResourceState._('SUCCESS');
+  static const stopped = ResourceState._('STOPPED');
+  static const failed = ResourceState._('FAILED');
 
   final String value;
 
-  const ResourceState(this.value);
+  const ResourceState._(this.value);
+
+  static const values = [queued, inProgress, success, stopped, failed];
 
   static ResourceState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ResourceState'));
+          orElse: () => ResourceState._(value));
+
+  @override
+  bool operator ==(other) => other is ResourceState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ResourceType {
-  jar('JAR'),
-  file('FILE'),
-  archive('ARCHIVE'),
-  ;
+class ResourceType {
+  static const jar = ResourceType._('JAR');
+  static const file = ResourceType._('FILE');
+  static const archive = ResourceType._('ARCHIVE');
 
   final String value;
 
-  const ResourceType(this.value);
+  const ResourceType._(this.value);
 
-  static ResourceType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ResourceType'));
+  static const values = [jar, file, archive];
+
+  static ResourceType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ResourceType._(value));
+
+  @override
+  bool operator ==(other) => other is ResourceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The URIs for function resources.
@@ -33964,8 +34844,8 @@ class S3CsvSource {
           .nonNulls
           .map((e) => e as String)
           .toList(),
-      quoteChar: QuoteChar.fromString((json['QuoteChar'] as String)),
-      separator: Separator.fromString((json['Separator'] as String)),
+      quoteChar: QuoteChar.fromString((json['QuoteChar'] as String?) ?? ''),
+      separator: Separator.fromString((json['Separator'] as String?) ?? ''),
       additionalOptions: json['AdditionalOptions'] != null
           ? S3DirectSourceAdditionalOptions.fromJson(
               json['AdditionalOptions'] as Map<String, dynamic>)
@@ -34157,8 +35037,8 @@ class S3DeltaDirectTarget {
   factory S3DeltaDirectTarget.fromJson(Map<String, dynamic> json) {
     return S3DeltaDirectTarget(
       compression: DeltaTargetCompressionType.fromString(
-          (json['Compression'] as String)),
-      format: TargetFormat.fromString((json['Format'] as String)),
+          (json['Compression'] as String?) ?? ''),
+      format: TargetFormat.fromString((json['Format'] as String?) ?? ''),
       inputs: ((json['Inputs'] as List?) ?? const [])
           .nonNulls
           .map((e) => e as String)
@@ -34345,7 +35225,7 @@ class S3DirectTarget {
 
   factory S3DirectTarget.fromJson(Map<String, dynamic> json) {
     return S3DirectTarget(
-      format: TargetFormat.fromString((json['Format'] as String)),
+      format: TargetFormat.fromString((json['Format'] as String?) ?? ''),
       inputs: ((json['Inputs'] as List?) ?? const [])
           .nonNulls
           .map((e) => e as String)
@@ -34417,20 +35297,29 @@ class S3Encryption {
   }
 }
 
-enum S3EncryptionMode {
-  disabled('DISABLED'),
-  sseKms('SSE-KMS'),
-  sseS3('SSE-S3'),
-  ;
+class S3EncryptionMode {
+  static const disabled = S3EncryptionMode._('DISABLED');
+  static const sseKms = S3EncryptionMode._('SSE-KMS');
+  static const sseS3 = S3EncryptionMode._('SSE-S3');
 
   final String value;
 
-  const S3EncryptionMode(this.value);
+  const S3EncryptionMode._(this.value);
+
+  static const values = [disabled, sseKms, sseS3];
 
   static S3EncryptionMode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum S3EncryptionMode'));
+          orElse: () => S3EncryptionMode._(value));
+
+  @override
+  bool operator ==(other) => other is S3EncryptionMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specifies a data target that writes to Amazon S3 in Apache Parquet columnar
@@ -34627,9 +35516,9 @@ class S3HudiDirectTarget {
           ((json['AdditionalOptions'] as Map<String, dynamic>?) ??
                   const <String, dynamic>{})
               .map((k, e) => MapEntry(k, e as String)),
-      compression:
-          HudiTargetCompressionType.fromString((json['Compression'] as String)),
-      format: TargetFormat.fromString((json['Format'] as String)),
+      compression: HudiTargetCompressionType.fromString(
+          (json['Compression'] as String?) ?? ''),
+      format: TargetFormat.fromString((json['Format'] as String?) ?? ''),
       inputs: ((json['Inputs'] as List?) ?? const [])
           .nonNulls
           .map((e) => e as String)
@@ -35128,20 +36017,29 @@ class Schedule {
   }
 }
 
-enum ScheduleState {
-  scheduled('SCHEDULED'),
-  notScheduled('NOT_SCHEDULED'),
-  transitioning('TRANSITIONING'),
-  ;
+class ScheduleState {
+  static const scheduled = ScheduleState._('SCHEDULED');
+  static const notScheduled = ScheduleState._('NOT_SCHEDULED');
+  static const transitioning = ScheduleState._('TRANSITIONING');
 
   final String value;
 
-  const ScheduleState(this.value);
+  const ScheduleState._(this.value);
+
+  static const values = [scheduled, notScheduled, transitioning];
 
   static ScheduleState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ScheduleState'));
+          orElse: () => ScheduleState._(value));
+
+  @override
+  bool operator ==(other) => other is ScheduleState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A policy that specifies update and deletion behaviors for the crawler.
@@ -35208,18 +36106,27 @@ class SchemaColumn {
   }
 }
 
-enum SchemaDiffType {
-  syntaxDiff('SYNTAX_DIFF'),
-  ;
+class SchemaDiffType {
+  static const syntaxDiff = SchemaDiffType._('SYNTAX_DIFF');
 
   final String value;
 
-  const SchemaDiffType(this.value);
+  const SchemaDiffType._(this.value);
+
+  static const values = [syntaxDiff];
 
   static SchemaDiffType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum SchemaDiffType'));
+          orElse: () => SchemaDiffType._(value));
+
+  @override
+  bool operator ==(other) => other is SchemaDiffType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The unique ID of the schema in the Glue schema registry.
@@ -35369,20 +36276,28 @@ class SchemaReference {
   }
 }
 
-enum SchemaStatus {
-  available('AVAILABLE'),
-  pending('PENDING'),
-  deleting('DELETING'),
-  ;
+class SchemaStatus {
+  static const available = SchemaStatus._('AVAILABLE');
+  static const pending = SchemaStatus._('PENDING');
+  static const deleting = SchemaStatus._('DELETING');
 
   final String value;
 
-  const SchemaStatus(this.value);
+  const SchemaStatus._(this.value);
 
-  static SchemaStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum SchemaStatus'));
+  static const values = [available, pending, deleting];
+
+  static SchemaStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => SchemaStatus._(value));
+
+  @override
+  bool operator ==(other) => other is SchemaStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// An object that contains the error details for an operation on a schema
@@ -35492,21 +36407,31 @@ class SchemaVersionNumber {
   }
 }
 
-enum SchemaVersionStatus {
-  available('AVAILABLE'),
-  pending('PENDING'),
-  failure('FAILURE'),
-  deleting('DELETING'),
-  ;
+class SchemaVersionStatus {
+  static const available = SchemaVersionStatus._('AVAILABLE');
+  static const pending = SchemaVersionStatus._('PENDING');
+  static const failure = SchemaVersionStatus._('FAILURE');
+  static const deleting = SchemaVersionStatus._('DELETING');
 
   final String value;
 
-  const SchemaVersionStatus(this.value);
+  const SchemaVersionStatus._(this.value);
 
-  static SchemaVersionStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum SchemaVersionStatus'));
+  static const values = [available, pending, failure, deleting];
+
+  static SchemaVersionStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => SchemaVersionStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SchemaVersionStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class SearchTablesResponse {
@@ -35696,21 +36621,30 @@ class SelectFromCollection {
   }
 }
 
-enum Separator {
-  comma('comma'),
-  ctrla('ctrla'),
-  pipe('pipe'),
-  semicolon('semicolon'),
-  tab('tab'),
-  ;
+class Separator {
+  static const comma = Separator._('comma');
+  static const ctrla = Separator._('ctrla');
+  static const pipe = Separator._('pipe');
+  static const semicolon = Separator._('semicolon');
+  static const tab = Separator._('tab');
 
   final String value;
 
-  const Separator(this.value);
+  const Separator._(this.value);
 
-  static Separator fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum Separator'));
+  static const values = [comma, ctrla, pipe, semicolon, tab];
+
+  static Separator fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Separator._(value));
+
+  @override
+  bool operator ==(other) => other is Separator && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about a serialization/deserialization program (SerDe) that
@@ -35957,23 +36891,39 @@ class SessionCommand {
   }
 }
 
-enum SessionStatus {
-  provisioning('PROVISIONING'),
-  ready('READY'),
-  failed('FAILED'),
-  timeout('TIMEOUT'),
-  stopping('STOPPING'),
-  stopped('STOPPED'),
-  ;
+class SessionStatus {
+  static const provisioning = SessionStatus._('PROVISIONING');
+  static const ready = SessionStatus._('READY');
+  static const failed = SessionStatus._('FAILED');
+  static const timeout = SessionStatus._('TIMEOUT');
+  static const stopping = SessionStatus._('STOPPING');
+  static const stopped = SessionStatus._('STOPPED');
 
   final String value;
 
-  const SessionStatus(this.value);
+  const SessionStatus._(this.value);
+
+  static const values = [
+    provisioning,
+    ready,
+    failed,
+    timeout,
+    stopping,
+    stopped
+  ];
 
   static SessionStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum SessionStatus'));
+          orElse: () => SessionStatus._(value));
+
+  @override
+  bool operator ==(other) => other is SessionStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specifies skewed values in a table. Skewed values are those that occur with
@@ -36301,18 +37251,27 @@ class SnowflakeTarget {
   }
 }
 
-enum Sort {
-  asc('ASC'),
-  desc('DESC'),
-  ;
+class Sort {
+  static const asc = Sort._('ASC');
+  static const desc = Sort._('DESC');
 
   final String value;
 
-  const Sort(this.value);
+  const Sort._(this.value);
+
+  static const values = [asc, desc];
 
   static Sort fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum Sort'));
+      values.firstWhere((e) => e.value == value, orElse: () => Sort._(value));
+
+  @override
+  bool operator ==(other) => other is Sort && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specifies a field to sort by and a sort order.
@@ -36338,34 +37297,55 @@ class SortCriterion {
   }
 }
 
-enum SortDirectionType {
-  descending('DESCENDING'),
-  ascending('ASCENDING'),
-  ;
+class SortDirectionType {
+  static const descending = SortDirectionType._('DESCENDING');
+  static const ascending = SortDirectionType._('ASCENDING');
 
   final String value;
 
-  const SortDirectionType(this.value);
+  const SortDirectionType._(this.value);
+
+  static const values = [descending, ascending];
 
   static SortDirectionType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum SortDirectionType'));
+          orElse: () => SortDirectionType._(value));
+
+  @override
+  bool operator ==(other) => other is SortDirectionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum SourceControlAuthStrategy {
-  personalAccessToken('PERSONAL_ACCESS_TOKEN'),
-  awsSecretsManager('AWS_SECRETS_MANAGER'),
-  ;
+class SourceControlAuthStrategy {
+  static const personalAccessToken =
+      SourceControlAuthStrategy._('PERSONAL_ACCESS_TOKEN');
+  static const awsSecretsManager =
+      SourceControlAuthStrategy._('AWS_SECRETS_MANAGER');
 
   final String value;
 
-  const SourceControlAuthStrategy(this.value);
+  const SourceControlAuthStrategy._(this.value);
+
+  static const values = [personalAccessToken, awsSecretsManager];
 
   static SourceControlAuthStrategy fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum SourceControlAuthStrategy'));
+          orElse: () => SourceControlAuthStrategy._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SourceControlAuthStrategy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The details for a source control configuration for a job, allowing
@@ -36444,21 +37424,31 @@ class SourceControlDetails {
   }
 }
 
-enum SourceControlProvider {
-  github('GITHUB'),
-  gitlab('GITLAB'),
-  bitbucket('BITBUCKET'),
-  awsCodeCommit('AWS_CODE_COMMIT'),
-  ;
+class SourceControlProvider {
+  static const github = SourceControlProvider._('GITHUB');
+  static const gitlab = SourceControlProvider._('GITLAB');
+  static const bitbucket = SourceControlProvider._('BITBUCKET');
+  static const awsCodeCommit = SourceControlProvider._('AWS_CODE_COMMIT');
 
   final String value;
 
-  const SourceControlProvider(this.value);
+  const SourceControlProvider._(this.value);
 
-  static SourceControlProvider fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum SourceControlProvider'));
+  static const values = [github, gitlab, bitbucket, awsCodeCommit];
+
+  static SourceControlProvider fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => SourceControlProvider._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SourceControlProvider && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specifies a connector to an Apache Spark data source.
@@ -37107,21 +38097,30 @@ class StartingEventBatchCondition {
   }
 }
 
-enum StartingPosition {
-  latest('latest'),
-  trimHorizon('trim_horizon'),
-  earliest('earliest'),
-  timestamp('timestamp'),
-  ;
+class StartingPosition {
+  static const latest = StartingPosition._('latest');
+  static const trimHorizon = StartingPosition._('trim_horizon');
+  static const earliest = StartingPosition._('earliest');
+  static const timestamp = StartingPosition._('timestamp');
 
   final String value;
 
-  const StartingPosition(this.value);
+  const StartingPosition._(this.value);
+
+  static const values = [latest, trimHorizon, earliest, timestamp];
 
   static StartingPosition fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum StartingPosition'));
+          orElse: () => StartingPosition._(value));
+
+  @override
+  bool operator ==(other) => other is StartingPosition && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The statement or request for a particular action to occur in a session.
@@ -37277,23 +38276,39 @@ class StatementOutputData {
   }
 }
 
-enum StatementState {
-  waiting('WAITING'),
-  running('RUNNING'),
-  available('AVAILABLE'),
-  cancelling('CANCELLING'),
-  cancelled('CANCELLED'),
-  error('ERROR'),
-  ;
+class StatementState {
+  static const waiting = StatementState._('WAITING');
+  static const running = StatementState._('RUNNING');
+  static const available = StatementState._('AVAILABLE');
+  static const cancelling = StatementState._('CANCELLING');
+  static const cancelled = StatementState._('CANCELLED');
+  static const error = StatementState._('ERROR');
 
   final String value;
 
-  const StatementState(this.value);
+  const StatementState._(this.value);
+
+  static const values = [
+    waiting,
+    running,
+    available,
+    cancelling,
+    cancelled,
+    error
+  ];
 
   static StatementState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum StatementState'));
+          orElse: () => StatementState._(value));
+
+  @override
+  bool operator ==(other) => other is StatementState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A Statistic Annotation.
@@ -37345,20 +38360,30 @@ class StatisticAnnotation {
   }
 }
 
-enum StatisticEvaluationLevel {
-  dataset('Dataset'),
-  column('Column'),
-  multicolumn('Multicolumn'),
-  ;
+class StatisticEvaluationLevel {
+  static const dataset = StatisticEvaluationLevel._('Dataset');
+  static const column = StatisticEvaluationLevel._('Column');
+  static const multicolumn = StatisticEvaluationLevel._('Multicolumn');
 
   final String value;
 
-  const StatisticEvaluationLevel(this.value);
+  const StatisticEvaluationLevel._(this.value);
+
+  static const values = [dataset, column, multicolumn];
 
   static StatisticEvaluationLevel fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum StatisticEvaluationLevel'));
+          orElse: () => StatisticEvaluationLevel._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is StatisticEvaluationLevel && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The statistic model result.
@@ -38137,19 +39162,28 @@ class Table {
   }
 }
 
-enum TableAttributes {
-  name('NAME'),
-  tableType('TABLE_TYPE'),
-  ;
+class TableAttributes {
+  static const name = TableAttributes._('NAME');
+  static const tableType = TableAttributes._('TABLE_TYPE');
 
   final String value;
 
-  const TableAttributes(this.value);
+  const TableAttributes._(this.value);
+
+  static const values = [name, tableType];
 
   static TableAttributes fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum TableAttributes'));
+          orElse: () => TableAttributes._(value));
+
+  @override
+  bool operator ==(other) => other is TableAttributes && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// An error record for table operations.
@@ -38428,21 +39462,31 @@ class TableOptimizerConfiguration {
   }
 }
 
-enum TableOptimizerEventType {
-  starting('starting'),
-  completed('completed'),
-  failed('failed'),
-  inProgress('in_progress'),
-  ;
+class TableOptimizerEventType {
+  static const starting = TableOptimizerEventType._('starting');
+  static const completed = TableOptimizerEventType._('completed');
+  static const failed = TableOptimizerEventType._('failed');
+  static const inProgress = TableOptimizerEventType._('in_progress');
 
   final String value;
 
-  const TableOptimizerEventType(this.value);
+  const TableOptimizerEventType._(this.value);
+
+  static const values = [starting, completed, failed, inProgress];
 
   static TableOptimizerEventType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum TableOptimizerEventType'));
+          orElse: () => TableOptimizerEventType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TableOptimizerEventType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains details for a table optimizer run.
@@ -38502,18 +39546,28 @@ class TableOptimizerRun {
   }
 }
 
-enum TableOptimizerType {
-  compaction('compaction'),
-  ;
+class TableOptimizerType {
+  static const compaction = TableOptimizerType._('compaction');
 
   final String value;
 
-  const TableOptimizerType(this.value);
+  const TableOptimizerType._(this.value);
 
-  static TableOptimizerType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum TableOptimizerType'));
+  static const values = [compaction];
+
+  static TableOptimizerType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => TableOptimizerType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TableOptimizerType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A structure containing information about the state of an asynchronous change
@@ -38686,24 +39740,32 @@ class TagResourceResponse {
   }
 }
 
-enum TargetFormat {
-  json('json'),
-  csv('csv'),
-  avro('avro'),
-  orc('orc'),
-  parquet('parquet'),
-  hudi('hudi'),
-  delta('delta'),
-  ;
+class TargetFormat {
+  static const json = TargetFormat._('json');
+  static const csv = TargetFormat._('csv');
+  static const avro = TargetFormat._('avro');
+  static const orc = TargetFormat._('orc');
+  static const parquet = TargetFormat._('parquet');
+  static const hudi = TargetFormat._('hudi');
+  static const delta = TargetFormat._('delta');
 
   final String value;
 
-  const TargetFormat(this.value);
+  const TargetFormat._(this.value);
 
-  static TargetFormat fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum TargetFormat'));
+  static const values = [json, csv, avro, orc, parquet, hudi, delta];
+
+  static TargetFormat fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => TargetFormat._(value));
+
+  @override
+  bool operator ==(other) => other is TargetFormat && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The sampling parameters that are associated with the machine learning
@@ -38910,20 +39972,30 @@ class TaskRunProperties {
   }
 }
 
-enum TaskRunSortColumnType {
-  taskRunType('TASK_RUN_TYPE'),
-  status('STATUS'),
-  started('STARTED'),
-  ;
+class TaskRunSortColumnType {
+  static const taskRunType = TaskRunSortColumnType._('TASK_RUN_TYPE');
+  static const status = TaskRunSortColumnType._('STATUS');
+  static const started = TaskRunSortColumnType._('STARTED');
 
   final String value;
 
-  const TaskRunSortColumnType(this.value);
+  const TaskRunSortColumnType._(this.value);
 
-  static TaskRunSortColumnType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum TaskRunSortColumnType'));
+  static const values = [taskRunType, status, started];
+
+  static TaskRunSortColumnType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => TaskRunSortColumnType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TaskRunSortColumnType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The sorting criteria that are used to sort the list of task runs for the
@@ -38952,41 +40024,73 @@ class TaskRunSortCriteria {
   }
 }
 
-enum TaskStatusType {
-  starting('STARTING'),
-  running('RUNNING'),
-  stopping('STOPPING'),
-  stopped('STOPPED'),
-  succeeded('SUCCEEDED'),
-  failed('FAILED'),
-  timeout('TIMEOUT'),
-  ;
+class TaskStatusType {
+  static const starting = TaskStatusType._('STARTING');
+  static const running = TaskStatusType._('RUNNING');
+  static const stopping = TaskStatusType._('STOPPING');
+  static const stopped = TaskStatusType._('STOPPED');
+  static const succeeded = TaskStatusType._('SUCCEEDED');
+  static const failed = TaskStatusType._('FAILED');
+  static const timeout = TaskStatusType._('TIMEOUT');
 
   final String value;
 
-  const TaskStatusType(this.value);
+  const TaskStatusType._(this.value);
+
+  static const values = [
+    starting,
+    running,
+    stopping,
+    stopped,
+    succeeded,
+    failed,
+    timeout
+  ];
 
   static TaskStatusType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum TaskStatusType'));
+          orElse: () => TaskStatusType._(value));
+
+  @override
+  bool operator ==(other) => other is TaskStatusType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum TaskType {
-  evaluation('EVALUATION'),
-  labelingSetGeneration('LABELING_SET_GENERATION'),
-  importLabels('IMPORT_LABELS'),
-  exportLabels('EXPORT_LABELS'),
-  findMatches('FIND_MATCHES'),
-  ;
+class TaskType {
+  static const evaluation = TaskType._('EVALUATION');
+  static const labelingSetGeneration = TaskType._('LABELING_SET_GENERATION');
+  static const importLabels = TaskType._('IMPORT_LABELS');
+  static const exportLabels = TaskType._('EXPORT_LABELS');
+  static const findMatches = TaskType._('FIND_MATCHES');
 
   final String value;
 
-  const TaskType(this.value);
+  const TaskType._(this.value);
 
-  static TaskType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum TaskType'));
+  static const values = [
+    evaluation,
+    labelingSetGeneration,
+    importLabels,
+    exportLabels,
+    findMatches
+  ];
+
+  static TaskType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => TaskType._(value));
+
+  @override
+  bool operator ==(other) => other is TaskType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A timestamp filter.
@@ -39087,7 +40191,7 @@ class TransformConfigParameter {
   factory TransformConfigParameter.fromJson(Map<String, dynamic> json) {
     return TransformConfigParameter(
       name: (json['Name'] as String?) ?? '',
-      type: ParamType.fromString((json['Type'] as String)),
+      type: ParamType.fromString((json['Type'] as String?) ?? ''),
       isOptional: json['IsOptional'] as bool?,
       listType: (json['ListType'] as String?)?.let(ParamType.fromString),
       validationMessage: json['ValidationMessage'] as String?,
@@ -39263,7 +40367,7 @@ class TransformParameters {
   factory TransformParameters.fromJson(Map<String, dynamic> json) {
     return TransformParameters(
       transformType:
-          TransformType.fromString((json['TransformType'] as String)),
+          TransformType.fromString((json['TransformType'] as String?) ?? ''),
       findMatchesParameters: json['FindMatchesParameters'] != null
           ? FindMatchesParameters.fromJson(
               json['FindMatchesParameters'] as Map<String, dynamic>)
@@ -39282,22 +40386,32 @@ class TransformParameters {
   }
 }
 
-enum TransformSortColumnType {
-  name('NAME'),
-  transformType('TRANSFORM_TYPE'),
-  status('STATUS'),
-  created('CREATED'),
-  lastModified('LAST_MODIFIED'),
-  ;
+class TransformSortColumnType {
+  static const name = TransformSortColumnType._('NAME');
+  static const transformType = TransformSortColumnType._('TRANSFORM_TYPE');
+  static const status = TransformSortColumnType._('STATUS');
+  static const created = TransformSortColumnType._('CREATED');
+  static const lastModified = TransformSortColumnType._('LAST_MODIFIED');
 
   final String value;
 
-  const TransformSortColumnType(this.value);
+  const TransformSortColumnType._(this.value);
+
+  static const values = [name, transformType, status, created, lastModified];
 
   static TransformSortColumnType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum TransformSortColumnType'));
+          orElse: () => TransformSortColumnType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TransformSortColumnType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The sorting criteria that are associated with the machine learning
@@ -39326,34 +40440,53 @@ class TransformSortCriteria {
   }
 }
 
-enum TransformStatusType {
-  notReady('NOT_READY'),
-  ready('READY'),
-  deleting('DELETING'),
-  ;
+class TransformStatusType {
+  static const notReady = TransformStatusType._('NOT_READY');
+  static const ready = TransformStatusType._('READY');
+  static const deleting = TransformStatusType._('DELETING');
 
   final String value;
 
-  const TransformStatusType(this.value);
+  const TransformStatusType._(this.value);
 
-  static TransformStatusType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum TransformStatusType'));
+  static const values = [notReady, ready, deleting];
+
+  static TransformStatusType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => TransformStatusType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TransformStatusType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum TransformType {
-  findMatches('FIND_MATCHES'),
-  ;
+class TransformType {
+  static const findMatches = TransformType._('FIND_MATCHES');
 
   final String value;
 
-  const TransformType(this.value);
+  const TransformType._(this.value);
+
+  static const values = [findMatches];
 
   static TransformType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum TransformType'));
+          orElse: () => TransformType._(value));
+
+  @override
+  bool operator ==(other) => other is TransformType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about a specific trigger.
@@ -39480,41 +40613,67 @@ class TriggerNodeDetails {
   }
 }
 
-enum TriggerState {
-  creating('CREATING'),
-  created('CREATED'),
-  activating('ACTIVATING'),
-  activated('ACTIVATED'),
-  deactivating('DEACTIVATING'),
-  deactivated('DEACTIVATED'),
-  deleting('DELETING'),
-  updating('UPDATING'),
-  ;
+class TriggerState {
+  static const creating = TriggerState._('CREATING');
+  static const created = TriggerState._('CREATED');
+  static const activating = TriggerState._('ACTIVATING');
+  static const activated = TriggerState._('ACTIVATED');
+  static const deactivating = TriggerState._('DEACTIVATING');
+  static const deactivated = TriggerState._('DEACTIVATED');
+  static const deleting = TriggerState._('DELETING');
+  static const updating = TriggerState._('UPDATING');
 
   final String value;
 
-  const TriggerState(this.value);
+  const TriggerState._(this.value);
 
-  static TriggerState fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum TriggerState'));
+  static const values = [
+    creating,
+    created,
+    activating,
+    activated,
+    deactivating,
+    deactivated,
+    deleting,
+    updating
+  ];
+
+  static TriggerState fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => TriggerState._(value));
+
+  @override
+  bool operator ==(other) => other is TriggerState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum TriggerType {
-  scheduled('SCHEDULED'),
-  conditional('CONDITIONAL'),
-  onDemand('ON_DEMAND'),
-  event('EVENT'),
-  ;
+class TriggerType {
+  static const scheduled = TriggerType._('SCHEDULED');
+  static const conditional = TriggerType._('CONDITIONAL');
+  static const onDemand = TriggerType._('ON_DEMAND');
+  static const event = TriggerType._('EVENT');
 
   final String value;
 
-  const TriggerType(this.value);
+  const TriggerType._(this.value);
 
-  static TriggerType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum TriggerType'));
+  static const values = [scheduled, conditional, onDemand, event];
+
+  static TriggerType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => TriggerType._(value));
+
+  @override
+  bool operator ==(other) => other is TriggerType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A structure used to provide information used to update a trigger. This
@@ -39646,7 +40805,7 @@ class Union {
           .map((e) => e as String)
           .toList(),
       name: (json['Name'] as String?) ?? '',
-      unionType: UnionType.fromString((json['UnionType'] as String)),
+      unionType: UnionType.fromString((json['UnionType'] as String?) ?? ''),
     );
   }
 
@@ -39662,18 +40821,27 @@ class Union {
   }
 }
 
-enum UnionType {
-  all('ALL'),
-  distinct('DISTINCT'),
-  ;
+class UnionType {
+  static const all = UnionType._('ALL');
+  static const distinct = UnionType._('DISTINCT');
 
   final String value;
 
-  const UnionType(this.value);
+  const UnionType._(this.value);
 
-  static UnionType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum UnionType'));
+  static const values = [all, distinct];
+
+  static UnionType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => UnionType._(value));
+
+  @override
+  bool operator ==(other) => other is UnionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class UntagResourceResponse {
@@ -39688,19 +40856,28 @@ class UntagResourceResponse {
   }
 }
 
-enum UpdateBehavior {
-  log('LOG'),
-  updateInDatabase('UPDATE_IN_DATABASE'),
-  ;
+class UpdateBehavior {
+  static const log = UpdateBehavior._('LOG');
+  static const updateInDatabase = UpdateBehavior._('UPDATE_IN_DATABASE');
 
   final String value;
 
-  const UpdateBehavior(this.value);
+  const UpdateBehavior._(this.value);
+
+  static const values = [log, updateInDatabase];
 
   static UpdateBehavior fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum UpdateBehavior'));
+          orElse: () => UpdateBehavior._(value));
+
+  @override
+  bool operator ==(other) => other is UpdateBehavior && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class UpdateBlueprintResponse {
@@ -39725,19 +40902,29 @@ class UpdateBlueprintResponse {
   }
 }
 
-enum UpdateCatalogBehavior {
-  updateInDatabase('UPDATE_IN_DATABASE'),
-  log('LOG'),
-  ;
+class UpdateCatalogBehavior {
+  static const updateInDatabase = UpdateCatalogBehavior._('UPDATE_IN_DATABASE');
+  static const log = UpdateCatalogBehavior._('LOG');
 
   final String value;
 
-  const UpdateCatalogBehavior(this.value);
+  const UpdateCatalogBehavior._(this.value);
 
-  static UpdateCatalogBehavior fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum UpdateCatalogBehavior'));
+  static const values = [updateInDatabase, log];
+
+  static UpdateCatalogBehavior fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => UpdateCatalogBehavior._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is UpdateCatalogBehavior && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class UpdateClassifierResponse {
@@ -40644,19 +41831,28 @@ class ViewDefinitionInput {
   }
 }
 
-enum ViewDialect {
-  redshift('REDSHIFT'),
-  athena('ATHENA'),
-  spark('SPARK'),
-  ;
+class ViewDialect {
+  static const redshift = ViewDialect._('REDSHIFT');
+  static const athena = ViewDialect._('ATHENA');
+  static const spark = ViewDialect._('SPARK');
 
   final String value;
 
-  const ViewDialect(this.value);
+  const ViewDialect._(this.value);
 
-  static ViewDialect fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum ViewDialect'));
+  static const values = [redshift, athena, spark];
+
+  static ViewDialect fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ViewDialect._(value));
+
+  @override
+  bool operator ==(other) => other is ViewDialect && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A structure that contains the dialect of the view, and the query that
@@ -40782,21 +41978,30 @@ class ViewRepresentationInput {
   }
 }
 
-enum ViewUpdateAction {
-  add('ADD'),
-  replace('REPLACE'),
-  addOrReplace('ADD_OR_REPLACE'),
-  drop('DROP'),
-  ;
+class ViewUpdateAction {
+  static const add = ViewUpdateAction._('ADD');
+  static const replace = ViewUpdateAction._('REPLACE');
+  static const addOrReplace = ViewUpdateAction._('ADD_OR_REPLACE');
+  static const drop = ViewUpdateAction._('DROP');
 
   final String value;
 
-  const ViewUpdateAction(this.value);
+  const ViewUpdateAction._(this.value);
+
+  static const values = [add, replace, addOrReplace, drop];
 
   static ViewUpdateAction fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ViewUpdateAction'));
+          orElse: () => ViewUpdateAction._(value));
+
+  @override
+  bool operator ==(other) => other is ViewUpdateAction && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A structure that contains information for an analytical engine to validate a
@@ -40862,23 +42067,32 @@ class ViewValidation {
   }
 }
 
-enum WorkerType {
-  standard('Standard'),
-  g_1x('G.1X'),
-  g_2x('G.2X'),
-  g_025x('G.025X'),
-  g_4x('G.4X'),
-  g_8x('G.8X'),
-  z_2x('Z.2X'),
-  ;
+class WorkerType {
+  static const standard = WorkerType._('Standard');
+  static const g_1x = WorkerType._('G.1X');
+  static const g_2x = WorkerType._('G.2X');
+  static const g_025x = WorkerType._('G.025X');
+  static const g_4x = WorkerType._('G.4X');
+  static const g_8x = WorkerType._('G.8X');
+  static const z_2x = WorkerType._('Z.2X');
 
   final String value;
 
-  const WorkerType(this.value);
+  const WorkerType._(this.value);
 
-  static WorkerType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum WorkerType'));
+  static const values = [standard, g_1x, g_2x, g_025x, g_4x, g_8x, z_2x];
+
+  static WorkerType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => WorkerType._(value));
+
+  @override
+  bool operator ==(other) => other is WorkerType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A workflow is a collection of multiple dependent Glue jobs and crawlers that
@@ -41201,22 +42415,31 @@ class WorkflowRunStatistics {
   }
 }
 
-enum WorkflowRunStatus {
-  running('RUNNING'),
-  completed('COMPLETED'),
-  stopping('STOPPING'),
-  stopped('STOPPED'),
-  error('ERROR'),
-  ;
+class WorkflowRunStatus {
+  static const running = WorkflowRunStatus._('RUNNING');
+  static const completed = WorkflowRunStatus._('COMPLETED');
+  static const stopping = WorkflowRunStatus._('STOPPING');
+  static const stopped = WorkflowRunStatus._('STOPPED');
+  static const error = WorkflowRunStatus._('ERROR');
 
   final String value;
 
-  const WorkflowRunStatus(this.value);
+  const WorkflowRunStatus._(this.value);
+
+  static const values = [running, completed, stopping, stopped, error];
 
   static WorkflowRunStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum WorkflowRunStatus'));
+          orElse: () => WorkflowRunStatus._(value));
+
+  @override
+  bool operator ==(other) => other is WorkflowRunStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A classifier for <code>XML</code> content.

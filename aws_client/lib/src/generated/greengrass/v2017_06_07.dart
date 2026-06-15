@@ -2935,38 +2935,65 @@ class BulkDeploymentResult {
 }
 
 /// The current status of the bulk deployment.
-enum BulkDeploymentStatus {
-  initializing('Initializing'),
-  running('Running'),
-  completed('Completed'),
-  stopping('Stopping'),
-  stopped('Stopped'),
-  failed('Failed'),
-  ;
+class BulkDeploymentStatus {
+  static const initializing = BulkDeploymentStatus._('Initializing');
+  static const running = BulkDeploymentStatus._('Running');
+  static const completed = BulkDeploymentStatus._('Completed');
+  static const stopping = BulkDeploymentStatus._('Stopping');
+  static const stopped = BulkDeploymentStatus._('Stopped');
+  static const failed = BulkDeploymentStatus._('Failed');
 
   final String value;
 
-  const BulkDeploymentStatus(this.value);
+  const BulkDeploymentStatus._(this.value);
 
-  static BulkDeploymentStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum BulkDeploymentStatus'));
+  static const values = [
+    initializing,
+    running,
+    completed,
+    stopping,
+    stopped,
+    failed
+  ];
+
+  static BulkDeploymentStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => BulkDeploymentStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is BulkDeploymentStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ConfigurationSyncStatus {
-  inSync('InSync'),
-  outOfSync('OutOfSync'),
-  ;
+class ConfigurationSyncStatus {
+  static const inSync = ConfigurationSyncStatus._('InSync');
+  static const outOfSync = ConfigurationSyncStatus._('OutOfSync');
 
   final String value;
 
-  const ConfigurationSyncStatus(this.value);
+  const ConfigurationSyncStatus._(this.value);
+
+  static const values = [inSync, outOfSync];
 
   static ConfigurationSyncStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ConfigurationSyncStatus'));
+          orElse: () => ConfigurationSyncStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ConfigurationSyncStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about a Greengrass core's connectivity.
@@ -4353,21 +4380,35 @@ class Deployment {
 
 /// The type of deployment. When used for ''CreateDeployment'', only
 /// ''NewDeployment'' and ''Redeployment'' are valid.
-enum DeploymentType {
-  newDeployment('NewDeployment'),
-  redeployment('Redeployment'),
-  resetDeployment('ResetDeployment'),
-  forceResetDeployment('ForceResetDeployment'),
-  ;
+class DeploymentType {
+  static const newDeployment = DeploymentType._('NewDeployment');
+  static const redeployment = DeploymentType._('Redeployment');
+  static const resetDeployment = DeploymentType._('ResetDeployment');
+  static const forceResetDeployment = DeploymentType._('ForceResetDeployment');
 
   final String value;
 
-  const DeploymentType(this.value);
+  const DeploymentType._(this.value);
+
+  static const values = [
+    newDeployment,
+    redeployment,
+    resetDeployment,
+    forceResetDeployment
+  ];
 
   static DeploymentType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum DeploymentType'));
+          orElse: () => DeploymentType._(value));
+
+  @override
+  bool operator ==(other) => other is DeploymentType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about a device.
@@ -4490,19 +4531,27 @@ class DisassociateServiceRoleFromAccountResponse {
   }
 }
 
-enum EncodingType {
-  binary('binary'),
-  json('json'),
-  ;
+class EncodingType {
+  static const binary = EncodingType._('binary');
+  static const json = EncodingType._('json');
 
   final String value;
 
-  const EncodingType(this.value);
+  const EncodingType._(this.value);
 
-  static EncodingType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum EncodingType'));
+  static const values = [binary, json];
+
+  static EncodingType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => EncodingType._(value));
+
+  @override
+  bool operator ==(other) => other is EncodingType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Details about the error.
@@ -4850,19 +4899,30 @@ class FunctionExecutionConfig {
 /// you run without containerization, we recommend that you run in a Greengrass
 /// container. Omit this value to run the Lambda function with the default
 /// containerization for the group.
-enum FunctionIsolationMode {
-  greengrassContainer('GreengrassContainer'),
-  noContainer('NoContainer'),
-  ;
+class FunctionIsolationMode {
+  static const greengrassContainer =
+      FunctionIsolationMode._('GreengrassContainer');
+  static const noContainer = FunctionIsolationMode._('NoContainer');
 
   final String value;
 
-  const FunctionIsolationMode(this.value);
+  const FunctionIsolationMode._(this.value);
 
-  static FunctionIsolationMode fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum FunctionIsolationMode'));
+  static const values = [greengrassContainer, noContainer];
+
+  static FunctionIsolationMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => FunctionIsolationMode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is FunctionIsolationMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specifies the user and group whose permissions are used when running the
@@ -7304,10 +7364,11 @@ class Logger {
 
   factory Logger.fromJson(Map<String, dynamic> json) {
     return Logger(
-      component: LoggerComponent.fromString((json['Component'] as String)),
+      component:
+          LoggerComponent.fromString((json['Component'] as String?) ?? ''),
       id: (json['Id'] as String?) ?? '',
-      level: LoggerLevel.fromString((json['Level'] as String)),
-      type: LoggerType.fromString((json['Type'] as String)),
+      level: LoggerLevel.fromString((json['Level'] as String?) ?? ''),
+      type: LoggerType.fromString((json['Type'] as String?) ?? ''),
       space: json['Space'] as int?,
     );
   }
@@ -7328,19 +7389,28 @@ class Logger {
   }
 }
 
-enum LoggerComponent {
-  greengrassSystem('GreengrassSystem'),
-  lambda('Lambda'),
-  ;
+class LoggerComponent {
+  static const greengrassSystem = LoggerComponent._('GreengrassSystem');
+  static const lambda = LoggerComponent._('Lambda');
 
   final String value;
 
-  const LoggerComponent(this.value);
+  const LoggerComponent._(this.value);
+
+  static const values = [greengrassSystem, lambda];
 
   static LoggerComponent fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum LoggerComponent'));
+          orElse: () => LoggerComponent._(value));
+
+  @override
+  bool operator ==(other) => other is LoggerComponent && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about a logger definition version.
@@ -7369,50 +7439,77 @@ class LoggerDefinitionVersion {
   }
 }
 
-enum LoggerLevel {
-  debug('DEBUG'),
-  info('INFO'),
-  warn('WARN'),
-  error('ERROR'),
-  fatal('FATAL'),
-  ;
+class LoggerLevel {
+  static const debug = LoggerLevel._('DEBUG');
+  static const info = LoggerLevel._('INFO');
+  static const warn = LoggerLevel._('WARN');
+  static const error = LoggerLevel._('ERROR');
+  static const fatal = LoggerLevel._('FATAL');
 
   final String value;
 
-  const LoggerLevel(this.value);
+  const LoggerLevel._(this.value);
 
-  static LoggerLevel fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum LoggerLevel'));
+  static const values = [debug, info, warn, error, fatal];
+
+  static LoggerLevel fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => LoggerLevel._(value));
+
+  @override
+  bool operator ==(other) => other is LoggerLevel && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum LoggerType {
-  fileSystem('FileSystem'),
-  awsCloudWatch('AWSCloudWatch'),
-  ;
+class LoggerType {
+  static const fileSystem = LoggerType._('FileSystem');
+  static const awsCloudWatch = LoggerType._('AWSCloudWatch');
 
   final String value;
 
-  const LoggerType(this.value);
+  const LoggerType._(this.value);
 
-  static LoggerType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum LoggerType'));
+  static const values = [fileSystem, awsCloudWatch];
+
+  static LoggerType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => LoggerType._(value));
+
+  @override
+  bool operator ==(other) => other is LoggerType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The type of permission a function has to access a resource.
-enum Permission {
-  ro('ro'),
-  rw('rw'),
-  ;
+class Permission {
+  static const ro = Permission._('ro');
+  static const rw = Permission._('rw');
 
   final String value;
 
-  const Permission(this.value);
+  const Permission._(this.value);
 
-  static Permission fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum Permission'));
+  static const values = [ro, rw];
+
+  static Permission fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Permission._(value));
+
+  @override
+  bool operator ==(other) => other is Permission && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class ResetDeploymentsResponse {
@@ -7653,7 +7750,7 @@ class ResourceDownloadOwnerSetting {
     return ResourceDownloadOwnerSetting(
       groupOwner: (json['GroupOwner'] as String?) ?? '',
       groupPermission:
-          Permission.fromString((json['GroupPermission'] as String)),
+          Permission.fromString((json['GroupPermission'] as String?) ?? ''),
     );
   }
 
@@ -7817,19 +7914,28 @@ class SecretsManagerSecretResourceData {
 }
 
 /// The piece of software on the Greengrass core that will be updated.
-enum SoftwareToUpdate {
-  core('core'),
-  otaAgent('ota_agent'),
-  ;
+class SoftwareToUpdate {
+  static const core = SoftwareToUpdate._('core');
+  static const otaAgent = SoftwareToUpdate._('ota_agent');
 
   final String value;
 
-  const SoftwareToUpdate(this.value);
+  const SoftwareToUpdate._(this.value);
+
+  static const values = [core, otaAgent];
 
   static SoftwareToUpdate fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum SoftwareToUpdate'));
+          orElse: () => SoftwareToUpdate._(value));
+
+  @override
+  bool operator ==(other) => other is SoftwareToUpdate && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class StartBulkDeploymentResponse {
@@ -7949,18 +8055,27 @@ class SubscriptionDefinitionVersion {
   }
 }
 
-enum Telemetry {
-  on('On'),
-  off('Off'),
-  ;
+class Telemetry {
+  static const on = Telemetry._('On');
+  static const off = Telemetry._('Off');
 
   final String value;
 
-  const Telemetry(this.value);
+  const Telemetry._(this.value);
 
-  static Telemetry fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum Telemetry'));
+  static const values = [on, off];
+
+  static Telemetry fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Telemetry._(value));
+
+  @override
+  bool operator ==(other) => other is Telemetry && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Configuration settings for running telemetry.
@@ -7979,7 +8094,7 @@ class TelemetryConfiguration {
 
   factory TelemetryConfiguration.fromJson(Map<String, dynamic> json) {
     return TelemetryConfiguration(
-      telemetry: Telemetry.fromString((json['Telemetry'] as String)),
+      telemetry: Telemetry.fromString((json['Telemetry'] as String?) ?? ''),
       configurationSyncStatus: (json['ConfigurationSyncStatus'] as String?)
           ?.let(ConfigurationSyncStatus.fromString),
     );
@@ -8015,25 +8130,35 @@ class TelemetryConfigurationUpdate {
 
 /// The minimum level of log statements that should be logged by the OTA Agent
 /// during an update.
-enum UpdateAgentLogLevel {
-  none('NONE'),
-  trace('TRACE'),
-  debug('DEBUG'),
-  verbose('VERBOSE'),
-  info('INFO'),
-  warn('WARN'),
-  error('ERROR'),
-  fatal('FATAL'),
-  ;
+class UpdateAgentLogLevel {
+  static const none = UpdateAgentLogLevel._('NONE');
+  static const trace = UpdateAgentLogLevel._('TRACE');
+  static const debug = UpdateAgentLogLevel._('DEBUG');
+  static const verbose = UpdateAgentLogLevel._('VERBOSE');
+  static const info = UpdateAgentLogLevel._('INFO');
+  static const warn = UpdateAgentLogLevel._('WARN');
+  static const error = UpdateAgentLogLevel._('ERROR');
+  static const fatal = UpdateAgentLogLevel._('FATAL');
 
   final String value;
 
-  const UpdateAgentLogLevel(this.value);
+  const UpdateAgentLogLevel._(this.value);
 
-  static UpdateAgentLogLevel fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum UpdateAgentLogLevel'));
+  static const values = [none, trace, debug, verbose, info, warn, error, fatal];
+
+  static UpdateAgentLogLevel fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => UpdateAgentLogLevel._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is UpdateAgentLogLevel && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class UpdateConnectivityInfoResponse {
@@ -8209,39 +8334,59 @@ class UpdateSubscriptionDefinitionResponse {
 }
 
 /// The architecture of the cores which are the targets of an update.
-enum UpdateTargetsArchitecture {
-  armv6l('armv6l'),
-  armv7l('armv7l'),
-  x86_64('x86_64'),
-  aarch64('aarch64'),
-  ;
+class UpdateTargetsArchitecture {
+  static const armv6l = UpdateTargetsArchitecture._('armv6l');
+  static const armv7l = UpdateTargetsArchitecture._('armv7l');
+  static const x86_64 = UpdateTargetsArchitecture._('x86_64');
+  static const aarch64 = UpdateTargetsArchitecture._('aarch64');
 
   final String value;
 
-  const UpdateTargetsArchitecture(this.value);
+  const UpdateTargetsArchitecture._(this.value);
+
+  static const values = [armv6l, armv7l, x86_64, aarch64];
 
   static UpdateTargetsArchitecture fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum UpdateTargetsArchitecture'));
+          orElse: () => UpdateTargetsArchitecture._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is UpdateTargetsArchitecture && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The operating system of the cores which are the targets of an update.
-enum UpdateTargetsOperatingSystem {
-  ubuntu('ubuntu'),
-  raspbian('raspbian'),
-  amazonLinux('amazon_linux'),
-  openwrt('openwrt'),
-  ;
+class UpdateTargetsOperatingSystem {
+  static const ubuntu = UpdateTargetsOperatingSystem._('ubuntu');
+  static const raspbian = UpdateTargetsOperatingSystem._('raspbian');
+  static const amazonLinux = UpdateTargetsOperatingSystem._('amazon_linux');
+  static const openwrt = UpdateTargetsOperatingSystem._('openwrt');
 
   final String value;
 
-  const UpdateTargetsOperatingSystem(this.value);
+  const UpdateTargetsOperatingSystem._(this.value);
+
+  static const values = [ubuntu, raspbian, amazonLinux, openwrt];
 
   static UpdateTargetsOperatingSystem fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum UpdateTargetsOperatingSystem'));
+          orElse: () => UpdateTargetsOperatingSystem._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is UpdateTargetsOperatingSystem && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class UpdateThingRuntimeConfigurationResponse {

@@ -5883,48 +5883,78 @@ class AggregatedUtterancesFilter {
   }
 }
 
-enum AggregatedUtterancesFilterName {
-  utterance('Utterance'),
-  ;
+class AggregatedUtterancesFilterName {
+  static const utterance = AggregatedUtterancesFilterName._('Utterance');
 
   final String value;
 
-  const AggregatedUtterancesFilterName(this.value);
+  const AggregatedUtterancesFilterName._(this.value);
+
+  static const values = [utterance];
 
   static AggregatedUtterancesFilterName fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum AggregatedUtterancesFilterName'));
+          orElse: () => AggregatedUtterancesFilterName._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AggregatedUtterancesFilterName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum AggregatedUtterancesFilterOperator {
-  co('CO'),
-  eq('EQ'),
-  ;
+class AggregatedUtterancesFilterOperator {
+  static const co = AggregatedUtterancesFilterOperator._('CO');
+  static const eq = AggregatedUtterancesFilterOperator._('EQ');
 
   final String value;
 
-  const AggregatedUtterancesFilterOperator(this.value);
+  const AggregatedUtterancesFilterOperator._(this.value);
+
+  static const values = [co, eq];
 
   static AggregatedUtterancesFilterOperator fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum AggregatedUtterancesFilterOperator'));
+          orElse: () => AggregatedUtterancesFilterOperator._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AggregatedUtterancesFilterOperator && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum AggregatedUtterancesSortAttribute {
-  hitCount('HitCount'),
-  missedCount('MissedCount'),
-  ;
+class AggregatedUtterancesSortAttribute {
+  static const hitCount = AggregatedUtterancesSortAttribute._('HitCount');
+  static const missedCount = AggregatedUtterancesSortAttribute._('MissedCount');
 
   final String value;
 
-  const AggregatedUtterancesSortAttribute(this.value);
+  const AggregatedUtterancesSortAttribute._(this.value);
+
+  static const values = [hitCount, missedCount];
 
   static AggregatedUtterancesSortAttribute fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum AggregatedUtterancesSortAttribute'));
+          orElse: () => AggregatedUtterancesSortAttribute._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AggregatedUtterancesSortAttribute && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specifies attributes for sorting a list of utterances.
@@ -6063,19 +6093,30 @@ class AllowedInputTypes {
   }
 }
 
-enum AnalyticsBinByName {
-  conversationStartTime('ConversationStartTime'),
-  utteranceTimestamp('UtteranceTimestamp'),
-  ;
+class AnalyticsBinByName {
+  static const conversationStartTime =
+      AnalyticsBinByName._('ConversationStartTime');
+  static const utteranceTimestamp = AnalyticsBinByName._('UtteranceTimestamp');
 
   final String value;
 
-  const AnalyticsBinByName(this.value);
+  const AnalyticsBinByName._(this.value);
 
-  static AnalyticsBinByName fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum AnalyticsBinByName'));
+  static const values = [conversationStartTime, utteranceTimestamp];
+
+  static AnalyticsBinByName fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AnalyticsBinByName._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AnalyticsBinByName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains the time metric, interval, and method by which to bin the analytics
@@ -6141,54 +6182,84 @@ class AnalyticsBinKey {
   }
 }
 
-enum AnalyticsCommonFilterName {
-  botAliasId('BotAliasId'),
-  botVersion('BotVersion'),
-  localeId('LocaleId'),
-  modality('Modality'),
-  channel('Channel'),
-  ;
+class AnalyticsCommonFilterName {
+  static const botAliasId = AnalyticsCommonFilterName._('BotAliasId');
+  static const botVersion = AnalyticsCommonFilterName._('BotVersion');
+  static const localeId = AnalyticsCommonFilterName._('LocaleId');
+  static const modality = AnalyticsCommonFilterName._('Modality');
+  static const channel = AnalyticsCommonFilterName._('Channel');
 
   final String value;
 
-  const AnalyticsCommonFilterName(this.value);
+  const AnalyticsCommonFilterName._(this.value);
+
+  static const values = [botAliasId, botVersion, localeId, modality, channel];
 
   static AnalyticsCommonFilterName fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum AnalyticsCommonFilterName'));
+          orElse: () => AnalyticsCommonFilterName._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AnalyticsCommonFilterName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum AnalyticsFilterOperator {
-  eq('EQ'),
-  gt('GT'),
-  lt('LT'),
-  ;
+class AnalyticsFilterOperator {
+  static const eq = AnalyticsFilterOperator._('EQ');
+  static const gt = AnalyticsFilterOperator._('GT');
+  static const lt = AnalyticsFilterOperator._('LT');
 
   final String value;
 
-  const AnalyticsFilterOperator(this.value);
+  const AnalyticsFilterOperator._(this.value);
+
+  static const values = [eq, gt, lt];
 
   static AnalyticsFilterOperator fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum AnalyticsFilterOperator'));
+          orElse: () => AnalyticsFilterOperator._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AnalyticsFilterOperator && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum AnalyticsIntentField {
-  intentName('IntentName'),
-  intentEndState('IntentEndState'),
-  intentLevel('IntentLevel'),
-  ;
+class AnalyticsIntentField {
+  static const intentName = AnalyticsIntentField._('IntentName');
+  static const intentEndState = AnalyticsIntentField._('IntentEndState');
+  static const intentLevel = AnalyticsIntentField._('IntentLevel');
 
   final String value;
 
-  const AnalyticsIntentField(this.value);
+  const AnalyticsIntentField._(this.value);
 
-  static AnalyticsIntentField fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum AnalyticsIntentField'));
+  static const values = [intentName, intentEndState, intentLevel];
+
+  static AnalyticsIntentField fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AnalyticsIntentField._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AnalyticsIntentField && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains fields describing a condition by which to filter the intents. The
@@ -6350,26 +6421,47 @@ class AnalyticsIntentFilter {
   }
 }
 
-enum AnalyticsIntentFilterName {
-  botAliasId('BotAliasId'),
-  botVersion('BotVersion'),
-  localeId('LocaleId'),
-  modality('Modality'),
-  channel('Channel'),
-  sessionId('SessionId'),
-  originatingRequestId('OriginatingRequestId'),
-  intentName('IntentName'),
-  intentEndState('IntentEndState'),
-  ;
+class AnalyticsIntentFilterName {
+  static const botAliasId = AnalyticsIntentFilterName._('BotAliasId');
+  static const botVersion = AnalyticsIntentFilterName._('BotVersion');
+  static const localeId = AnalyticsIntentFilterName._('LocaleId');
+  static const modality = AnalyticsIntentFilterName._('Modality');
+  static const channel = AnalyticsIntentFilterName._('Channel');
+  static const sessionId = AnalyticsIntentFilterName._('SessionId');
+  static const originatingRequestId =
+      AnalyticsIntentFilterName._('OriginatingRequestId');
+  static const intentName = AnalyticsIntentFilterName._('IntentName');
+  static const intentEndState = AnalyticsIntentFilterName._('IntentEndState');
 
   final String value;
 
-  const AnalyticsIntentFilterName(this.value);
+  const AnalyticsIntentFilterName._(this.value);
+
+  static const values = [
+    botAliasId,
+    botVersion,
+    localeId,
+    modality,
+    channel,
+    sessionId,
+    originatingRequestId,
+    intentName,
+    intentEndState
+  ];
 
   static AnalyticsIntentFilterName fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum AnalyticsIntentFilterName'));
+          orElse: () => AnalyticsIntentFilterName._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AnalyticsIntentFilterName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains the category by which the intent analytics were grouped and a
@@ -6485,22 +6577,32 @@ class AnalyticsIntentMetric {
   }
 }
 
-enum AnalyticsIntentMetricName {
-  count('Count'),
-  success('Success'),
-  failure('Failure'),
-  switched('Switched'),
-  dropped('Dropped'),
-  ;
+class AnalyticsIntentMetricName {
+  static const count = AnalyticsIntentMetricName._('Count');
+  static const success = AnalyticsIntentMetricName._('Success');
+  static const failure = AnalyticsIntentMetricName._('Failure');
+  static const switched = AnalyticsIntentMetricName._('Switched');
+  static const dropped = AnalyticsIntentMetricName._('Dropped');
 
   final String value;
 
-  const AnalyticsIntentMetricName(this.value);
+  const AnalyticsIntentMetricName._(this.value);
+
+  static const values = [count, success, failure, switched, dropped];
 
   static AnalyticsIntentMetricName fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum AnalyticsIntentMetricName'));
+          orElse: () => AnalyticsIntentMetricName._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AnalyticsIntentMetricName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// An object containing the results for the intent metric you requested.
@@ -6684,19 +6786,30 @@ class AnalyticsIntentResult {
   }
 }
 
-enum AnalyticsIntentStageField {
-  intentStageName('IntentStageName'),
-  switchedToIntent('SwitchedToIntent'),
-  ;
+class AnalyticsIntentStageField {
+  static const intentStageName = AnalyticsIntentStageField._('IntentStageName');
+  static const switchedToIntent =
+      AnalyticsIntentStageField._('SwitchedToIntent');
 
   final String value;
 
-  const AnalyticsIntentStageField(this.value);
+  const AnalyticsIntentStageField._(this.value);
+
+  static const values = [intentStageName, switchedToIntent];
 
   static AnalyticsIntentStageField fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum AnalyticsIntentStageField'));
+          orElse: () => AnalyticsIntentStageField._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AnalyticsIntentStageField && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains fields describing a condition by which to filter the intent stages.
@@ -6858,26 +6971,48 @@ class AnalyticsIntentStageFilter {
   }
 }
 
-enum AnalyticsIntentStageFilterName {
-  botAliasId('BotAliasId'),
-  botVersion('BotVersion'),
-  localeId('LocaleId'),
-  modality('Modality'),
-  channel('Channel'),
-  sessionId('SessionId'),
-  originatingRequestId('OriginatingRequestId'),
-  intentName('IntentName'),
-  intentStageName('IntentStageName'),
-  ;
+class AnalyticsIntentStageFilterName {
+  static const botAliasId = AnalyticsIntentStageFilterName._('BotAliasId');
+  static const botVersion = AnalyticsIntentStageFilterName._('BotVersion');
+  static const localeId = AnalyticsIntentStageFilterName._('LocaleId');
+  static const modality = AnalyticsIntentStageFilterName._('Modality');
+  static const channel = AnalyticsIntentStageFilterName._('Channel');
+  static const sessionId = AnalyticsIntentStageFilterName._('SessionId');
+  static const originatingRequestId =
+      AnalyticsIntentStageFilterName._('OriginatingRequestId');
+  static const intentName = AnalyticsIntentStageFilterName._('IntentName');
+  static const intentStageName =
+      AnalyticsIntentStageFilterName._('IntentStageName');
 
   final String value;
 
-  const AnalyticsIntentStageFilterName(this.value);
+  const AnalyticsIntentStageFilterName._(this.value);
+
+  static const values = [
+    botAliasId,
+    botVersion,
+    localeId,
+    modality,
+    channel,
+    sessionId,
+    originatingRequestId,
+    intentName,
+    intentStageName
+  ];
 
   static AnalyticsIntentStageFilterName fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum AnalyticsIntentStageFilterName'));
+          orElse: () => AnalyticsIntentStageFilterName._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AnalyticsIntentStageFilterName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains the category by which the intent stage analytics and the values for
@@ -6999,22 +7134,32 @@ class AnalyticsIntentStageMetric {
   }
 }
 
-enum AnalyticsIntentStageMetricName {
-  count('Count'),
-  success('Success'),
-  failed('Failed'),
-  dropped('Dropped'),
-  retry('Retry'),
-  ;
+class AnalyticsIntentStageMetricName {
+  static const count = AnalyticsIntentStageMetricName._('Count');
+  static const success = AnalyticsIntentStageMetricName._('Success');
+  static const failed = AnalyticsIntentStageMetricName._('Failed');
+  static const dropped = AnalyticsIntentStageMetricName._('Dropped');
+  static const retry = AnalyticsIntentStageMetricName._('Retry');
 
   final String value;
 
-  const AnalyticsIntentStageMetricName(this.value);
+  const AnalyticsIntentStageMetricName._(this.value);
+
+  static const values = [count, success, failed, dropped, retry];
 
   static AnalyticsIntentStageMetricName fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum AnalyticsIntentStageMetricName'));
+          orElse: () => AnalyticsIntentStageMetricName._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AnalyticsIntentStageMetricName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// An object containing the results for an intent stage metric you requested.
@@ -7144,67 +7289,104 @@ class AnalyticsIntentStageResult {
   }
 }
 
-enum AnalyticsInterval {
-  oneHour('OneHour'),
-  oneDay('OneDay'),
-  ;
+class AnalyticsInterval {
+  static const oneHour = AnalyticsInterval._('OneHour');
+  static const oneDay = AnalyticsInterval._('OneDay');
 
   final String value;
 
-  const AnalyticsInterval(this.value);
+  const AnalyticsInterval._(this.value);
+
+  static const values = [oneHour, oneDay];
 
   static AnalyticsInterval fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum AnalyticsInterval'));
+          orElse: () => AnalyticsInterval._(value));
+
+  @override
+  bool operator ==(other) => other is AnalyticsInterval && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum AnalyticsMetricStatistic {
-  sum('Sum'),
-  avg('Avg'),
-  max('Max'),
-  ;
+class AnalyticsMetricStatistic {
+  static const sum = AnalyticsMetricStatistic._('Sum');
+  static const avg = AnalyticsMetricStatistic._('Avg');
+  static const max = AnalyticsMetricStatistic._('Max');
 
   final String value;
 
-  const AnalyticsMetricStatistic(this.value);
+  const AnalyticsMetricStatistic._(this.value);
+
+  static const values = [sum, avg, max];
 
   static AnalyticsMetricStatistic fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum AnalyticsMetricStatistic'));
+          orElse: () => AnalyticsMetricStatistic._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AnalyticsMetricStatistic && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum AnalyticsModality {
-  speech('Speech'),
-  text('Text'),
-  dtmf('DTMF'),
-  multiMode('MultiMode'),
-  ;
+class AnalyticsModality {
+  static const speech = AnalyticsModality._('Speech');
+  static const text = AnalyticsModality._('Text');
+  static const dtmf = AnalyticsModality._('DTMF');
+  static const multiMode = AnalyticsModality._('MultiMode');
 
   final String value;
 
-  const AnalyticsModality(this.value);
+  const AnalyticsModality._(this.value);
+
+  static const values = [speech, text, dtmf, multiMode];
 
   static AnalyticsModality fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum AnalyticsModality'));
+          orElse: () => AnalyticsModality._(value));
+
+  @override
+  bool operator ==(other) => other is AnalyticsModality && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum AnalyticsNodeType {
-  inner('Inner'),
-  exit('Exit'),
-  ;
+class AnalyticsNodeType {
+  static const inner = AnalyticsNodeType._('Inner');
+  static const exit = AnalyticsNodeType._('Exit');
 
   final String value;
 
-  const AnalyticsNodeType(this.value);
+  const AnalyticsNodeType._(this.value);
+
+  static const values = [inner, exit];
 
   static AnalyticsNodeType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum AnalyticsNodeType'));
+          orElse: () => AnalyticsNodeType._(value));
+
+  @override
+  bool operator ==(other) => other is AnalyticsNodeType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains fields describing a condition by which to filter the paths. The
@@ -7328,19 +7510,30 @@ class AnalyticsPathFilter {
   }
 }
 
-enum AnalyticsSessionField {
-  conversationEndState('ConversationEndState'),
-  localeId('LocaleId'),
-  ;
+class AnalyticsSessionField {
+  static const conversationEndState =
+      AnalyticsSessionField._('ConversationEndState');
+  static const localeId = AnalyticsSessionField._('LocaleId');
 
   final String value;
 
-  const AnalyticsSessionField(this.value);
+  const AnalyticsSessionField._(this.value);
 
-  static AnalyticsSessionField fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum AnalyticsSessionField'));
+  static const values = [conversationEndState, localeId];
+
+  static AnalyticsSessionField fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AnalyticsSessionField._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AnalyticsSessionField && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains fields describing a condition by which to filter the sessions. The
@@ -7510,27 +7703,50 @@ class AnalyticsSessionFilter {
   }
 }
 
-enum AnalyticsSessionFilterName {
-  botAliasId('BotAliasId'),
-  botVersion('BotVersion'),
-  localeId('LocaleId'),
-  modality('Modality'),
-  channel('Channel'),
-  duration('Duration'),
-  conversationEndState('ConversationEndState'),
-  sessionId('SessionId'),
-  originatingRequestId('OriginatingRequestId'),
-  intentPath('IntentPath'),
-  ;
+class AnalyticsSessionFilterName {
+  static const botAliasId = AnalyticsSessionFilterName._('BotAliasId');
+  static const botVersion = AnalyticsSessionFilterName._('BotVersion');
+  static const localeId = AnalyticsSessionFilterName._('LocaleId');
+  static const modality = AnalyticsSessionFilterName._('Modality');
+  static const channel = AnalyticsSessionFilterName._('Channel');
+  static const duration = AnalyticsSessionFilterName._('Duration');
+  static const conversationEndState =
+      AnalyticsSessionFilterName._('ConversationEndState');
+  static const sessionId = AnalyticsSessionFilterName._('SessionId');
+  static const originatingRequestId =
+      AnalyticsSessionFilterName._('OriginatingRequestId');
+  static const intentPath = AnalyticsSessionFilterName._('IntentPath');
 
   final String value;
 
-  const AnalyticsSessionFilterName(this.value);
+  const AnalyticsSessionFilterName._(this.value);
+
+  static const values = [
+    botAliasId,
+    botVersion,
+    localeId,
+    modality,
+    channel,
+    duration,
+    conversationEndState,
+    sessionId,
+    originatingRequestId,
+    intentPath
+  ];
 
   static AnalyticsSessionFilterName fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum AnalyticsSessionFilterName'));
+          orElse: () => AnalyticsSessionFilterName._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AnalyticsSessionFilterName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains the category by which the session analytics were grouped and a
@@ -7651,24 +7867,43 @@ class AnalyticsSessionMetric {
   }
 }
 
-enum AnalyticsSessionMetricName {
-  count('Count'),
-  success('Success'),
-  failure('Failure'),
-  dropped('Dropped'),
-  duration('Duration'),
-  turnsPerConversation('TurnsPerConversation'),
-  concurrency('Concurrency'),
-  ;
+class AnalyticsSessionMetricName {
+  static const count = AnalyticsSessionMetricName._('Count');
+  static const success = AnalyticsSessionMetricName._('Success');
+  static const failure = AnalyticsSessionMetricName._('Failure');
+  static const dropped = AnalyticsSessionMetricName._('Dropped');
+  static const duration = AnalyticsSessionMetricName._('Duration');
+  static const turnsPerConversation =
+      AnalyticsSessionMetricName._('TurnsPerConversation');
+  static const concurrency = AnalyticsSessionMetricName._('Concurrency');
 
   final String value;
 
-  const AnalyticsSessionMetricName(this.value);
+  const AnalyticsSessionMetricName._(this.value);
+
+  static const values = [
+    count,
+    success,
+    failure,
+    dropped,
+    duration,
+    turnsPerConversation,
+    concurrency
+  ];
 
   static AnalyticsSessionMetricName fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum AnalyticsSessionMetricName'));
+          orElse: () => AnalyticsSessionMetricName._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AnalyticsSessionMetricName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// An object containing the results for a session metric you requested.
@@ -7803,35 +8038,56 @@ class AnalyticsSessionResult {
   }
 }
 
-enum AnalyticsSessionSortByName {
-  conversationStartTime('ConversationStartTime'),
-  numberOfTurns('NumberOfTurns'),
-  duration('Duration'),
-  ;
+class AnalyticsSessionSortByName {
+  static const conversationStartTime =
+      AnalyticsSessionSortByName._('ConversationStartTime');
+  static const numberOfTurns = AnalyticsSessionSortByName._('NumberOfTurns');
+  static const duration = AnalyticsSessionSortByName._('Duration');
 
   final String value;
 
-  const AnalyticsSessionSortByName(this.value);
+  const AnalyticsSessionSortByName._(this.value);
+
+  static const values = [conversationStartTime, numberOfTurns, duration];
 
   static AnalyticsSessionSortByName fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum AnalyticsSessionSortByName'));
+          orElse: () => AnalyticsSessionSortByName._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AnalyticsSessionSortByName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum AnalyticsSortOrder {
-  ascending('Ascending'),
-  descending('Descending'),
-  ;
+class AnalyticsSortOrder {
+  static const ascending = AnalyticsSortOrder._('Ascending');
+  static const descending = AnalyticsSortOrder._('Descending');
 
   final String value;
 
-  const AnalyticsSortOrder(this.value);
+  const AnalyticsSortOrder._(this.value);
 
-  static AnalyticsSortOrder fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum AnalyticsSortOrder'));
+  static const values = [ascending, descending];
+
+  static AnalyticsSortOrder fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AnalyticsSortOrder._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AnalyticsSortOrder && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// An object that specifies the last used intent at the time of the utterance
@@ -7853,18 +8109,29 @@ class AnalyticsUtteranceAttribute {
   }
 }
 
-enum AnalyticsUtteranceAttributeName {
-  lastUsedIntent('LastUsedIntent'),
-  ;
+class AnalyticsUtteranceAttributeName {
+  static const lastUsedIntent =
+      AnalyticsUtteranceAttributeName._('LastUsedIntent');
 
   final String value;
 
-  const AnalyticsUtteranceAttributeName(this.value);
+  const AnalyticsUtteranceAttributeName._(this.value);
+
+  static const values = [lastUsedIntent];
 
   static AnalyticsUtteranceAttributeName fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum AnalyticsUtteranceAttributeName'));
+          orElse: () => AnalyticsUtteranceAttributeName._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AnalyticsUtteranceAttributeName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// An object containing the intent that the bot mapped the utterance to.
@@ -7891,19 +8158,29 @@ class AnalyticsUtteranceAttributeResult {
   }
 }
 
-enum AnalyticsUtteranceField {
-  utteranceText('UtteranceText'),
-  utteranceState('UtteranceState'),
-  ;
+class AnalyticsUtteranceField {
+  static const utteranceText = AnalyticsUtteranceField._('UtteranceText');
+  static const utteranceState = AnalyticsUtteranceField._('UtteranceState');
 
   final String value;
 
-  const AnalyticsUtteranceField(this.value);
+  const AnalyticsUtteranceField._(this.value);
+
+  static const values = [utteranceText, utteranceState];
 
   static AnalyticsUtteranceField fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum AnalyticsUtteranceField'));
+          orElse: () => AnalyticsUtteranceField._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AnalyticsUtteranceField && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains fields describing a condition by which to filter the utterances.
@@ -8065,26 +8342,48 @@ class AnalyticsUtteranceFilter {
   }
 }
 
-enum AnalyticsUtteranceFilterName {
-  botAliasId('BotAliasId'),
-  botVersion('BotVersion'),
-  localeId('LocaleId'),
-  modality('Modality'),
-  channel('Channel'),
-  sessionId('SessionId'),
-  originatingRequestId('OriginatingRequestId'),
-  utteranceState('UtteranceState'),
-  utteranceText('UtteranceText'),
-  ;
+class AnalyticsUtteranceFilterName {
+  static const botAliasId = AnalyticsUtteranceFilterName._('BotAliasId');
+  static const botVersion = AnalyticsUtteranceFilterName._('BotVersion');
+  static const localeId = AnalyticsUtteranceFilterName._('LocaleId');
+  static const modality = AnalyticsUtteranceFilterName._('Modality');
+  static const channel = AnalyticsUtteranceFilterName._('Channel');
+  static const sessionId = AnalyticsUtteranceFilterName._('SessionId');
+  static const originatingRequestId =
+      AnalyticsUtteranceFilterName._('OriginatingRequestId');
+  static const utteranceState =
+      AnalyticsUtteranceFilterName._('UtteranceState');
+  static const utteranceText = AnalyticsUtteranceFilterName._('UtteranceText');
 
   final String value;
 
-  const AnalyticsUtteranceFilterName(this.value);
+  const AnalyticsUtteranceFilterName._(this.value);
+
+  static const values = [
+    botAliasId,
+    botVersion,
+    localeId,
+    modality,
+    channel,
+    sessionId,
+    originatingRequestId,
+    utteranceState,
+    utteranceText
+  ];
 
   static AnalyticsUtteranceFilterName fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum AnalyticsUtteranceFilterName'));
+          orElse: () => AnalyticsUtteranceFilterName._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AnalyticsUtteranceFilterName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains the category by which the utterance analytics were grouped and the
@@ -8198,21 +8497,32 @@ class AnalyticsUtteranceMetric {
   }
 }
 
-enum AnalyticsUtteranceMetricName {
-  count('Count'),
-  missed('Missed'),
-  detected('Detected'),
-  utteranceTimestamp('UtteranceTimestamp'),
-  ;
+class AnalyticsUtteranceMetricName {
+  static const count = AnalyticsUtteranceMetricName._('Count');
+  static const missed = AnalyticsUtteranceMetricName._('Missed');
+  static const detected = AnalyticsUtteranceMetricName._('Detected');
+  static const utteranceTimestamp =
+      AnalyticsUtteranceMetricName._('UtteranceTimestamp');
 
   final String value;
 
-  const AnalyticsUtteranceMetricName(this.value);
+  const AnalyticsUtteranceMetricName._(this.value);
+
+  static const values = [count, missed, detected, utteranceTimestamp];
 
   static AnalyticsUtteranceMetricName fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum AnalyticsUtteranceMetricName'));
+          orElse: () => AnalyticsUtteranceMetricName._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AnalyticsUtteranceMetricName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// An object containing the results for the utterance metric you requested.
@@ -8351,18 +8661,29 @@ class AnalyticsUtteranceResult {
   }
 }
 
-enum AnalyticsUtteranceSortByName {
-  utteranceTimestamp('UtteranceTimestamp'),
-  ;
+class AnalyticsUtteranceSortByName {
+  static const utteranceTimestamp =
+      AnalyticsUtteranceSortByName._('UtteranceTimestamp');
 
   final String value;
 
-  const AnalyticsUtteranceSortByName(this.value);
+  const AnalyticsUtteranceSortByName._(this.value);
+
+  static const values = [utteranceTimestamp];
 
   static AnalyticsUtteranceSortByName fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum AnalyticsUtteranceSortByName'));
+          orElse: () => AnalyticsUtteranceSortByName._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AnalyticsUtteranceSortByName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The object containing information that associates the recommended
@@ -8416,19 +8737,29 @@ class AssociatedTranscriptFilter {
   }
 }
 
-enum AssociatedTranscriptFilterName {
-  intentId('IntentId'),
-  slotTypeId('SlotTypeId'),
-  ;
+class AssociatedTranscriptFilterName {
+  static const intentId = AssociatedTranscriptFilterName._('IntentId');
+  static const slotTypeId = AssociatedTranscriptFilterName._('SlotTypeId');
 
   final String value;
 
-  const AssociatedTranscriptFilterName(this.value);
+  const AssociatedTranscriptFilterName._(this.value);
+
+  static const values = [intentId, slotTypeId];
 
   static AssociatedTranscriptFilterName fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum AssociatedTranscriptFilterName'));
+          orElse: () => AssociatedTranscriptFilterName._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AssociatedTranscriptFilterName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specifies the audio and DTMF input specification.
@@ -8545,18 +8876,29 @@ class AudioLogSetting {
   }
 }
 
-enum AudioRecognitionStrategy {
-  useSlotValuesAsCustomVocabulary('UseSlotValuesAsCustomVocabulary'),
-  ;
+class AudioRecognitionStrategy {
+  static const useSlotValuesAsCustomVocabulary =
+      AudioRecognitionStrategy._('UseSlotValuesAsCustomVocabulary');
 
   final String value;
 
-  const AudioRecognitionStrategy(this.value);
+  const AudioRecognitionStrategy._(this.value);
+
+  static const values = [useSlotValuesAsCustomVocabulary];
 
   static AudioRecognitionStrategy fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum AudioRecognitionStrategy'));
+          orElse: () => AudioRecognitionStrategy._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AudioRecognitionStrategy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specifies the audio input specifications.
@@ -8932,19 +9274,29 @@ class BedrockModelSpecification {
   }
 }
 
-enum BedrockTraceStatus {
-  enabled('ENABLED'),
-  disabled('DISABLED'),
-  ;
+class BedrockTraceStatus {
+  static const enabled = BedrockTraceStatus._('ENABLED');
+  static const disabled = BedrockTraceStatus._('DISABLED');
 
   final String value;
 
-  const BedrockTraceStatus(this.value);
+  const BedrockTraceStatus._(this.value);
 
-  static BedrockTraceStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum BedrockTraceStatus'));
+  static const values = [enabled, disabled];
+
+  static BedrockTraceStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => BedrockTraceStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is BedrockTraceStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Provides a record of an event that affects a bot alias. For example, when
@@ -9089,39 +9441,58 @@ class BotAliasReplicaSummary {
 
 /// The status of the operation to replicate the bot alias. Values: Creating,
 /// Updating, Available, Deleting, Failed.
-enum BotAliasReplicationStatus {
-  creating('Creating'),
-  updating('Updating'),
-  available('Available'),
-  deleting('Deleting'),
-  failed('Failed'),
-  ;
+class BotAliasReplicationStatus {
+  static const creating = BotAliasReplicationStatus._('Creating');
+  static const updating = BotAliasReplicationStatus._('Updating');
+  static const available = BotAliasReplicationStatus._('Available');
+  static const deleting = BotAliasReplicationStatus._('Deleting');
+  static const failed = BotAliasReplicationStatus._('Failed');
 
   final String value;
 
-  const BotAliasReplicationStatus(this.value);
+  const BotAliasReplicationStatus._(this.value);
+
+  static const values = [creating, updating, available, deleting, failed];
 
   static BotAliasReplicationStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum BotAliasReplicationStatus'));
+          orElse: () => BotAliasReplicationStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is BotAliasReplicationStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum BotAliasStatus {
-  creating('Creating'),
-  available('Available'),
-  deleting('Deleting'),
-  failed('Failed'),
-  ;
+class BotAliasStatus {
+  static const creating = BotAliasStatus._('Creating');
+  static const available = BotAliasStatus._('Available');
+  static const deleting = BotAliasStatus._('Deleting');
+  static const failed = BotAliasStatus._('Failed');
 
   final String value;
 
-  const BotAliasStatus(this.value);
+  const BotAliasStatus._(this.value);
+
+  static const values = [creating, available, deleting, failed];
 
   static BotAliasStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum BotAliasStatus'));
+          orElse: () => BotAliasStatus._(value));
+
+  @override
+  bool operator ==(other) => other is BotAliasStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Summary information about bot aliases returned from the <a
@@ -9298,35 +9669,53 @@ class BotFilter {
   }
 }
 
-enum BotFilterName {
-  botName('BotName'),
-  botType('BotType'),
-  ;
+class BotFilterName {
+  static const botName = BotFilterName._('BotName');
+  static const botType = BotFilterName._('BotType');
 
   final String value;
 
-  const BotFilterName(this.value);
+  const BotFilterName._(this.value);
+
+  static const values = [botName, botType];
 
   static BotFilterName fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum BotFilterName'));
+          orElse: () => BotFilterName._(value));
+
+  @override
+  bool operator ==(other) => other is BotFilterName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum BotFilterOperator {
-  co('CO'),
-  eq('EQ'),
-  ne('NE'),
-  ;
+class BotFilterOperator {
+  static const co = BotFilterOperator._('CO');
+  static const eq = BotFilterOperator._('EQ');
+  static const ne = BotFilterOperator._('NE');
 
   final String value;
 
-  const BotFilterOperator(this.value);
+  const BotFilterOperator._(this.value);
+
+  static const values = [co, eq, ne];
 
   static BotFilterOperator fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum BotFilterOperator'));
+          orElse: () => BotFilterOperator._(value));
+
+  @override
+  bool operator ==(other) => other is BotFilterOperator && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Provides the bot parameters required for importing a bot.
@@ -9474,33 +9863,53 @@ class BotLocaleFilter {
   }
 }
 
-enum BotLocaleFilterName {
-  botLocaleName('BotLocaleName'),
-  ;
+class BotLocaleFilterName {
+  static const botLocaleName = BotLocaleFilterName._('BotLocaleName');
 
   final String value;
 
-  const BotLocaleFilterName(this.value);
+  const BotLocaleFilterName._(this.value);
 
-  static BotLocaleFilterName fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum BotLocaleFilterName'));
+  static const values = [botLocaleName];
+
+  static BotLocaleFilterName fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => BotLocaleFilterName._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is BotLocaleFilterName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum BotLocaleFilterOperator {
-  co('CO'),
-  eq('EQ'),
-  ;
+class BotLocaleFilterOperator {
+  static const co = BotLocaleFilterOperator._('CO');
+  static const eq = BotLocaleFilterOperator._('EQ');
 
   final String value;
 
-  const BotLocaleFilterOperator(this.value);
+  const BotLocaleFilterOperator._(this.value);
+
+  static const values = [co, eq];
 
   static BotLocaleFilterOperator fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum BotLocaleFilterOperator'));
+          orElse: () => BotLocaleFilterOperator._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is BotLocaleFilterOperator && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Provides information about an event that occurred affecting the bot locale.
@@ -9619,18 +10028,28 @@ class BotLocaleImportSpecification {
   }
 }
 
-enum BotLocaleSortAttribute {
-  botLocaleName('BotLocaleName'),
-  ;
+class BotLocaleSortAttribute {
+  static const botLocaleName = BotLocaleSortAttribute._('BotLocaleName');
 
   final String value;
 
-  const BotLocaleSortAttribute(this.value);
+  const BotLocaleSortAttribute._(this.value);
+
+  static const values = [botLocaleName];
 
   static BotLocaleSortAttribute fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum BotLocaleSortAttribute'));
+          orElse: () => BotLocaleSortAttribute._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is BotLocaleSortAttribute && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specifies attributes for sorting a list of bot locales.
@@ -9656,26 +10075,45 @@ class BotLocaleSortBy {
   }
 }
 
-enum BotLocaleStatus {
-  creating('Creating'),
-  building('Building'),
-  built('Built'),
-  readyExpressTesting('ReadyExpressTesting'),
-  failed('Failed'),
-  deleting('Deleting'),
-  notBuilt('NotBuilt'),
-  importing('Importing'),
-  processing('Processing'),
-  ;
+class BotLocaleStatus {
+  static const creating = BotLocaleStatus._('Creating');
+  static const building = BotLocaleStatus._('Building');
+  static const built = BotLocaleStatus._('Built');
+  static const readyExpressTesting = BotLocaleStatus._('ReadyExpressTesting');
+  static const failed = BotLocaleStatus._('Failed');
+  static const deleting = BotLocaleStatus._('Deleting');
+  static const notBuilt = BotLocaleStatus._('NotBuilt');
+  static const importing = BotLocaleStatus._('Importing');
+  static const processing = BotLocaleStatus._('Processing');
 
   final String value;
 
-  const BotLocaleStatus(this.value);
+  const BotLocaleStatus._(this.value);
+
+  static const values = [
+    creating,
+    building,
+    built,
+    readyExpressTesting,
+    failed,
+    deleting,
+    notBuilt,
+    importing,
+    processing
+  ];
 
   static BotLocaleStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum BotLocaleStatus'));
+          orElse: () => BotLocaleStatus._(value));
+
+  @override
+  bool operator ==(other) => other is BotLocaleStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Summary information about bot locales returned by the <a
@@ -9876,26 +10314,46 @@ class BotRecommendationResults {
   }
 }
 
-enum BotRecommendationStatus {
-  processing('Processing'),
-  deleting('Deleting'),
-  deleted('Deleted'),
-  downloading('Downloading'),
-  updating('Updating'),
-  available('Available'),
-  failed('Failed'),
-  stopping('Stopping'),
-  stopped('Stopped'),
-  ;
+class BotRecommendationStatus {
+  static const processing = BotRecommendationStatus._('Processing');
+  static const deleting = BotRecommendationStatus._('Deleting');
+  static const deleted = BotRecommendationStatus._('Deleted');
+  static const downloading = BotRecommendationStatus._('Downloading');
+  static const updating = BotRecommendationStatus._('Updating');
+  static const available = BotRecommendationStatus._('Available');
+  static const failed = BotRecommendationStatus._('Failed');
+  static const stopping = BotRecommendationStatus._('Stopping');
+  static const stopped = BotRecommendationStatus._('Stopped');
 
   final String value;
 
-  const BotRecommendationStatus(this.value);
+  const BotRecommendationStatus._(this.value);
+
+  static const values = [
+    processing,
+    deleting,
+    deleted,
+    downloading,
+    updating,
+    available,
+    failed,
+    stopping,
+    stopped
+  ];
 
   static BotRecommendationStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum BotRecommendationStatus'));
+          orElse: () => BotRecommendationStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is BotRecommendationStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A summary of the bot recommendation.
@@ -9927,7 +10385,7 @@ class BotRecommendationSummary {
     return BotRecommendationSummary(
       botRecommendationId: (json['botRecommendationId'] as String?) ?? '',
       botRecommendationStatus: BotRecommendationStatus.fromString(
-          (json['botRecommendationStatus'] as String)),
+          (json['botRecommendationStatus'] as String?) ?? ''),
       creationDateTime: timeStampFromJson(json['creationDateTime']),
       lastUpdatedDateTime: timeStampFromJson(json['lastUpdatedDateTime']),
     );
@@ -9951,21 +10409,30 @@ class BotRecommendationSummary {
 
 /// The status of the operation to replicate the bot. Values: Enabling, Enabled,
 /// Deleting, Failed.
-enum BotReplicaStatus {
-  enabling('Enabling'),
-  enabled('Enabled'),
-  deleting('Deleting'),
-  failed('Failed'),
-  ;
+class BotReplicaStatus {
+  static const enabling = BotReplicaStatus._('Enabling');
+  static const enabled = BotReplicaStatus._('Enabled');
+  static const deleting = BotReplicaStatus._('Deleting');
+  static const failed = BotReplicaStatus._('Failed');
 
   final String value;
 
-  const BotReplicaStatus(this.value);
+  const BotReplicaStatus._(this.value);
+
+  static const values = [enabling, enabled, deleting, failed];
 
   static BotReplicaStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum BotReplicaStatus'));
+          orElse: () => BotReplicaStatus._(value));
+
+  @override
+  bool operator ==(other) => other is BotReplicaStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains summary information about all the replication statuses applicable
@@ -10018,18 +10485,27 @@ class BotReplicaSummary {
   }
 }
 
-enum BotSortAttribute {
-  botName('BotName'),
-  ;
+class BotSortAttribute {
+  static const botName = BotSortAttribute._('BotName');
 
   final String value;
 
-  const BotSortAttribute(this.value);
+  const BotSortAttribute._(this.value);
+
+  static const values = [botName];
 
   static BotSortAttribute fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum BotSortAttribute'));
+          orElse: () => BotSortAttribute._(value));
+
+  @override
+  bool operator ==(other) => other is BotSortAttribute && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specifies attributes for sorting a list of bots.
@@ -10055,24 +10531,42 @@ class BotSortBy {
   }
 }
 
-enum BotStatus {
-  creating('Creating'),
-  available('Available'),
-  inactive('Inactive'),
-  deleting('Deleting'),
-  failed('Failed'),
-  versioning('Versioning'),
-  importing('Importing'),
-  updating('Updating'),
-  ;
+class BotStatus {
+  static const creating = BotStatus._('Creating');
+  static const available = BotStatus._('Available');
+  static const inactive = BotStatus._('Inactive');
+  static const deleting = BotStatus._('Deleting');
+  static const failed = BotStatus._('Failed');
+  static const versioning = BotStatus._('Versioning');
+  static const importing = BotStatus._('Importing');
+  static const updating = BotStatus._('Updating');
 
   final String value;
 
-  const BotStatus(this.value);
+  const BotStatus._(this.value);
 
-  static BotStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum BotStatus'));
+  static const values = [
+    creating,
+    available,
+    inactive,
+    deleting,
+    failed,
+    versioning,
+    importing,
+    updating
+  ];
+
+  static BotStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => BotStatus._(value));
+
+  @override
+  bool operator ==(other) => other is BotStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Summary information about a bot returned by the <a
@@ -10147,18 +10641,27 @@ class BotSummary {
   }
 }
 
-enum BotType {
-  bot('Bot'),
-  botNetwork('BotNetwork'),
-  ;
+class BotType {
+  static const bot = BotType._('Bot');
+  static const botNetwork = BotType._('BotNetwork');
 
   final String value;
 
-  const BotType(this.value);
+  const BotType._(this.value);
 
-  static BotType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum BotType'));
+  static const values = [bot, botNetwork];
+
+  static BotType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => BotType._(value));
+
+  @override
+  bool operator ==(other) => other is BotType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The version of a bot used for a bot locale.
@@ -10184,18 +10687,28 @@ class BotVersionLocaleDetails {
   }
 }
 
-enum BotVersionReplicaSortAttribute {
-  botVersion('BotVersion'),
-  ;
+class BotVersionReplicaSortAttribute {
+  static const botVersion = BotVersionReplicaSortAttribute._('BotVersion');
 
   final String value;
 
-  const BotVersionReplicaSortAttribute(this.value);
+  const BotVersionReplicaSortAttribute._(this.value);
+
+  static const values = [botVersion];
 
   static BotVersionReplicaSortAttribute fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum BotVersionReplicaSortAttribute'));
+          orElse: () => BotVersionReplicaSortAttribute._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is BotVersionReplicaSortAttribute && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The sort category for the version replicated bots.
@@ -10277,35 +10790,55 @@ class BotVersionReplicaSummary {
 
 /// The status of the operation to replicate the bot version. Values: Creating,
 /// Available, Deleting, Failed.
-enum BotVersionReplicationStatus {
-  creating('Creating'),
-  available('Available'),
-  deleting('Deleting'),
-  failed('Failed'),
-  ;
+class BotVersionReplicationStatus {
+  static const creating = BotVersionReplicationStatus._('Creating');
+  static const available = BotVersionReplicationStatus._('Available');
+  static const deleting = BotVersionReplicationStatus._('Deleting');
+  static const failed = BotVersionReplicationStatus._('Failed');
 
   final String value;
 
-  const BotVersionReplicationStatus(this.value);
+  const BotVersionReplicationStatus._(this.value);
+
+  static const values = [creating, available, deleting, failed];
 
   static BotVersionReplicationStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum BotVersionReplicationStatus'));
+          orElse: () => BotVersionReplicationStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is BotVersionReplicationStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum BotVersionSortAttribute {
-  botVersion('BotVersion'),
-  ;
+class BotVersionSortAttribute {
+  static const botVersion = BotVersionSortAttribute._('BotVersion');
 
   final String value;
 
-  const BotVersionSortAttribute(this.value);
+  const BotVersionSortAttribute._(this.value);
+
+  static const values = [botVersion];
 
   static BotVersionSortAttribute fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum BotVersionSortAttribute'));
+          orElse: () => BotVersionSortAttribute._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is BotVersionSortAttribute && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specifies attributes for sorting a list of bot versions.
@@ -10486,18 +11019,29 @@ class BuildtimeSettings {
   }
 }
 
-enum BuiltInIntentSortAttribute {
-  intentSignature('IntentSignature'),
-  ;
+class BuiltInIntentSortAttribute {
+  static const intentSignature =
+      BuiltInIntentSortAttribute._('IntentSignature');
 
   final String value;
 
-  const BuiltInIntentSortAttribute(this.value);
+  const BuiltInIntentSortAttribute._(this.value);
+
+  static const values = [intentSignature];
 
   static BuiltInIntentSortAttribute fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum BuiltInIntentSortAttribute'));
+          orElse: () => BuiltInIntentSortAttribute._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is BuiltInIntentSortAttribute && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specifies attributes for sorting a list of built-in intents.
@@ -10556,18 +11100,29 @@ class BuiltInIntentSummary {
   }
 }
 
-enum BuiltInSlotTypeSortAttribute {
-  slotTypeSignature('SlotTypeSignature'),
-  ;
+class BuiltInSlotTypeSortAttribute {
+  static const slotTypeSignature =
+      BuiltInSlotTypeSortAttribute._('SlotTypeSignature');
 
   final String value;
 
-  const BuiltInSlotTypeSortAttribute(this.value);
+  const BuiltInSlotTypeSortAttribute._(this.value);
+
+  static const values = [slotTypeSignature];
 
   static BuiltInSlotTypeSortAttribute fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum BuiltInSlotTypeSortAttribute'));
+          orElse: () => BuiltInSlotTypeSortAttribute._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is BuiltInSlotTypeSortAttribute && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specifies attributes for sorting a list of built-in slot types.
@@ -10868,20 +11423,30 @@ class ConditionalSpecification {
   }
 }
 
-enum ConversationEndState {
-  success('Success'),
-  failure('Failure'),
-  dropped('Dropped'),
-  ;
+class ConversationEndState {
+  static const success = ConversationEndState._('Success');
+  static const failure = ConversationEndState._('Failure');
+  static const dropped = ConversationEndState._('Dropped');
 
   final String value;
 
-  const ConversationEndState(this.value);
+  const ConversationEndState._(this.value);
 
-  static ConversationEndState fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ConversationEndState'));
+  static const values = [success, failure, dropped];
+
+  static ConversationEndState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ConversationEndState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ConversationEndState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The item listing the evaluation of intent level success or failure.
@@ -10902,8 +11467,8 @@ class ConversationLevelIntentClassificationResultItem {
       Map<String, dynamic> json) {
     return ConversationLevelIntentClassificationResultItem(
       intentName: (json['intentName'] as String?) ?? '',
-      matchResult:
-          TestResultMatchStatus.fromString((json['matchResult'] as String)),
+      matchResult: TestResultMatchStatus.fromString(
+          (json['matchResult'] as String?) ?? ''),
     );
   }
 
@@ -10932,8 +11497,8 @@ class ConversationLevelResultDetail {
 
   factory ConversationLevelResultDetail.fromJson(Map<String, dynamic> json) {
     return ConversationLevelResultDetail(
-      endToEndResult:
-          TestResultMatchStatus.fromString((json['endToEndResult'] as String)),
+      endToEndResult: TestResultMatchStatus.fromString(
+          (json['endToEndResult'] as String?) ?? ''),
       speechTranscriptionResult: (json['speechTranscriptionResult'] as String?)
           ?.let(TestResultMatchStatus.fromString),
     );
@@ -10972,8 +11537,8 @@ class ConversationLevelSlotResolutionResultItem {
       Map<String, dynamic> json) {
     return ConversationLevelSlotResolutionResultItem(
       intentName: (json['intentName'] as String?) ?? '',
-      matchResult:
-          TestResultMatchStatus.fromString((json['matchResult'] as String)),
+      matchResult: TestResultMatchStatus.fromString(
+          (json['matchResult'] as String?) ?? ''),
       slotName: (json['slotName'] as String?) ?? '',
     );
   }
@@ -11020,8 +11585,8 @@ class ConversationLevelTestResultItem {
   factory ConversationLevelTestResultItem.fromJson(Map<String, dynamic> json) {
     return ConversationLevelTestResultItem(
       conversationId: (json['conversationId'] as String?) ?? '',
-      endToEndResult:
-          TestResultMatchStatus.fromString((json['endToEndResult'] as String)),
+      endToEndResult: TestResultMatchStatus.fromString(
+          (json['endToEndResult'] as String?) ?? ''),
       intentClassificationResults:
           ((json['intentClassificationResults'] as List?) ?? const [])
               .nonNulls
@@ -11207,7 +11772,7 @@ class ConversationLogsDataSourceFilterBy {
     return ConversationLogsDataSourceFilterBy(
       endTime: nonNullableTimeStampFromJson(json['endTime'] ?? 0),
       inputMode: ConversationLogsInputModeFilter.fromString(
-          (json['inputMode'] as String)),
+          (json['inputMode'] as String?) ?? ''),
       startTime: nonNullableTimeStampFromJson(json['startTime'] ?? 0),
     );
   }
@@ -11224,19 +11789,29 @@ class ConversationLogsDataSourceFilterBy {
   }
 }
 
-enum ConversationLogsInputModeFilter {
-  speech('Speech'),
-  text('Text'),
-  ;
+class ConversationLogsInputModeFilter {
+  static const speech = ConversationLogsInputModeFilter._('Speech');
+  static const text = ConversationLogsInputModeFilter._('Text');
 
   final String value;
 
-  const ConversationLogsInputModeFilter(this.value);
+  const ConversationLogsInputModeFilter._(this.value);
+
+  static const values = [speech, text];
 
   static ConversationLogsInputModeFilter fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ConversationLogsInputModeFilter'));
+          orElse: () => ConversationLogsInputModeFilter._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ConversationLogsInputModeFilter && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class CreateBotAliasResponse {
@@ -12487,22 +13062,32 @@ class CustomVocabularyItem {
   }
 }
 
-enum CustomVocabularyStatus {
-  ready('Ready'),
-  deleting('Deleting'),
-  exporting('Exporting'),
-  importing('Importing'),
-  creating('Creating'),
-  ;
+class CustomVocabularyStatus {
+  static const ready = CustomVocabularyStatus._('Ready');
+  static const deleting = CustomVocabularyStatus._('Deleting');
+  static const exporting = CustomVocabularyStatus._('Exporting');
+  static const importing = CustomVocabularyStatus._('Importing');
+  static const creating = CustomVocabularyStatus._('Creating');
 
   final String value;
 
-  const CustomVocabularyStatus(this.value);
+  const CustomVocabularyStatus._(this.value);
+
+  static const values = [ready, deleting, exporting, importing, creating];
 
   static CustomVocabularyStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum CustomVocabularyStatus'));
+          orElse: () => CustomVocabularyStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CustomVocabularyStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specifies the DTMF input specifications.
@@ -15140,7 +15725,7 @@ class DialogAction {
 
   factory DialogAction.fromJson(Map<String, dynamic> json) {
     return DialogAction(
-      type: DialogActionType.fromString((json['type'] as String)),
+      type: DialogActionType.fromString((json['type'] as String?) ?? ''),
       slotToElicit: json['slotToElicit'] as String?,
       suppressNextMessage: json['suppressNextMessage'] as bool?,
     );
@@ -15159,26 +15744,46 @@ class DialogAction {
   }
 }
 
-enum DialogActionType {
-  elicitIntent('ElicitIntent'),
-  startIntent('StartIntent'),
-  elicitSlot('ElicitSlot'),
-  evaluateConditional('EvaluateConditional'),
-  invokeDialogCodeHook('InvokeDialogCodeHook'),
-  confirmIntent('ConfirmIntent'),
-  fulfillIntent('FulfillIntent'),
-  closeIntent('CloseIntent'),
-  endConversation('EndConversation'),
-  ;
+class DialogActionType {
+  static const elicitIntent = DialogActionType._('ElicitIntent');
+  static const startIntent = DialogActionType._('StartIntent');
+  static const elicitSlot = DialogActionType._('ElicitSlot');
+  static const evaluateConditional = DialogActionType._('EvaluateConditional');
+  static const invokeDialogCodeHook =
+      DialogActionType._('InvokeDialogCodeHook');
+  static const confirmIntent = DialogActionType._('ConfirmIntent');
+  static const fulfillIntent = DialogActionType._('FulfillIntent');
+  static const closeIntent = DialogActionType._('CloseIntent');
+  static const endConversation = DialogActionType._('EndConversation');
 
   final String value;
 
-  const DialogActionType(this.value);
+  const DialogActionType._(this.value);
+
+  static const values = [
+    elicitIntent,
+    startIntent,
+    elicitSlot,
+    evaluateConditional,
+    invokeDialogCodeHook,
+    confirmIntent,
+    fulfillIntent,
+    closeIntent,
+    endConversation
+  ];
 
   static DialogActionType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum DialogActionType'));
+          orElse: () => DialogActionType._(value));
+
+  @override
+  bool operator ==(other) => other is DialogActionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Settings that specify the dialog code hook that is called by Amazon Lex at a
@@ -15297,18 +15902,27 @@ class DialogState {
   }
 }
 
-enum Effect {
-  allow('Allow'),
-  deny('Deny'),
-  ;
+class Effect {
+  static const allow = Effect._('Allow');
+  static const deny = Effect._('Deny');
 
   final String value;
 
-  const Effect(this.value);
+  const Effect._(this.value);
+
+  static const values = [allow, deny];
 
   static Effect fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum Effect'));
+      values.firstWhere((e) => e.value == value, orElse: () => Effect._(value));
+
+  @override
+  bool operator ==(other) => other is Effect && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Settings that specify the dialog code hook that is called by Amazon Lex
@@ -15388,20 +16002,34 @@ class EncryptionSetting {
   }
 }
 
-enum ErrorCode {
-  duplicateInput('DUPLICATE_INPUT'),
-  resourceDoesNotExist('RESOURCE_DOES_NOT_EXIST'),
-  resourceAlreadyExists('RESOURCE_ALREADY_EXISTS'),
-  internalServerFailure('INTERNAL_SERVER_FAILURE'),
-  ;
+class ErrorCode {
+  static const duplicateInput = ErrorCode._('DUPLICATE_INPUT');
+  static const resourceDoesNotExist = ErrorCode._('RESOURCE_DOES_NOT_EXIST');
+  static const resourceAlreadyExists = ErrorCode._('RESOURCE_ALREADY_EXISTS');
+  static const internalServerFailure = ErrorCode._('INTERNAL_SERVER_FAILURE');
 
   final String value;
 
-  const ErrorCode(this.value);
+  const ErrorCode._(this.value);
 
-  static ErrorCode fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum ErrorCode'));
+  static const values = [
+    duplicateInput,
+    resourceDoesNotExist,
+    resourceAlreadyExists,
+    internalServerFailure
+  ];
+
+  static ErrorCode fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ErrorCode._(value));
+
+  @override
+  bool operator ==(other) => other is ErrorCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains the names of the fields used for an exact response to the user.
@@ -15501,33 +16129,52 @@ class ExportFilter {
   }
 }
 
-enum ExportFilterName {
-  exportResourceType('ExportResourceType'),
-  ;
+class ExportFilterName {
+  static const exportResourceType = ExportFilterName._('ExportResourceType');
 
   final String value;
 
-  const ExportFilterName(this.value);
+  const ExportFilterName._(this.value);
+
+  static const values = [exportResourceType];
 
   static ExportFilterName fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ExportFilterName'));
+          orElse: () => ExportFilterName._(value));
+
+  @override
+  bool operator ==(other) => other is ExportFilterName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ExportFilterOperator {
-  co('CO'),
-  eq('EQ'),
-  ;
+class ExportFilterOperator {
+  static const co = ExportFilterOperator._('CO');
+  static const eq = ExportFilterOperator._('EQ');
 
   final String value;
 
-  const ExportFilterOperator(this.value);
+  const ExportFilterOperator._(this.value);
 
-  static ExportFilterOperator fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ExportFilterOperator'));
+  static const values = [co, eq];
+
+  static ExportFilterOperator fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ExportFilterOperator._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ExportFilterOperator && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Provides information about the bot or bot locale that you want to export.
@@ -15597,18 +16244,29 @@ class ExportResourceSpecification {
   }
 }
 
-enum ExportSortAttribute {
-  lastUpdatedDateTime('LastUpdatedDateTime'),
-  ;
+class ExportSortAttribute {
+  static const lastUpdatedDateTime =
+      ExportSortAttribute._('LastUpdatedDateTime');
 
   final String value;
 
-  const ExportSortAttribute(this.value);
+  const ExportSortAttribute._(this.value);
 
-  static ExportSortAttribute fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ExportSortAttribute'));
+  static const values = [lastUpdatedDateTime];
+
+  static ExportSortAttribute fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ExportSortAttribute._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ExportSortAttribute && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Provides information about sorting a list of exports.
@@ -15634,21 +16292,29 @@ class ExportSortBy {
   }
 }
 
-enum ExportStatus {
-  inProgress('InProgress'),
-  completed('Completed'),
-  failed('Failed'),
-  deleting('Deleting'),
-  ;
+class ExportStatus {
+  static const inProgress = ExportStatus._('InProgress');
+  static const completed = ExportStatus._('Completed');
+  static const failed = ExportStatus._('Failed');
+  static const deleting = ExportStatus._('Deleting');
 
   final String value;
 
-  const ExportStatus(this.value);
+  const ExportStatus._(this.value);
 
-  static ExportStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ExportStatus'));
+  static const values = [inProgress, completed, failed, deleting];
+
+  static ExportStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ExportStatus._(value));
+
+  @override
+  bool operator ==(other) => other is ExportStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Provides summary information about an export in an export list.
@@ -16092,35 +16758,55 @@ class GenerationSortBy {
   }
 }
 
-enum GenerationSortByAttribute {
-  creationStartTime('creationStartTime'),
-  lastUpdatedTime('lastUpdatedTime'),
-  ;
+class GenerationSortByAttribute {
+  static const creationStartTime =
+      GenerationSortByAttribute._('creationStartTime');
+  static const lastUpdatedTime = GenerationSortByAttribute._('lastUpdatedTime');
 
   final String value;
 
-  const GenerationSortByAttribute(this.value);
+  const GenerationSortByAttribute._(this.value);
+
+  static const values = [creationStartTime, lastUpdatedTime];
 
   static GenerationSortByAttribute fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum GenerationSortByAttribute'));
+          orElse: () => GenerationSortByAttribute._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is GenerationSortByAttribute && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum GenerationStatus {
-  failed('Failed'),
-  complete('Complete'),
-  inProgress('InProgress'),
-  ;
+class GenerationStatus {
+  static const failed = GenerationStatus._('Failed');
+  static const complete = GenerationStatus._('Complete');
+  static const inProgress = GenerationStatus._('InProgress');
 
   final String value;
 
-  const GenerationStatus(this.value);
+  const GenerationStatus._(this.value);
+
+  static const values = [failed, complete, inProgress];
 
   static GenerationStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum GenerationStatus'));
+          orElse: () => GenerationStatus._(value));
+
+  @override
+  bool operator ==(other) => other is GenerationStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains information about a generation request made for the bot locale.
@@ -16356,20 +17042,30 @@ class ImageResponseCard {
   }
 }
 
-enum ImportExportFileFormat {
-  lexJson('LexJson'),
-  tsv('TSV'),
-  csv('CSV'),
-  ;
+class ImportExportFileFormat {
+  static const lexJson = ImportExportFileFormat._('LexJson');
+  static const tsv = ImportExportFileFormat._('TSV');
+  static const csv = ImportExportFileFormat._('CSV');
 
   final String value;
 
-  const ImportExportFileFormat(this.value);
+  const ImportExportFileFormat._(this.value);
+
+  static const values = [lexJson, tsv, csv];
 
   static ImportExportFileFormat fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ImportExportFileFormat'));
+          orElse: () => ImportExportFileFormat._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ImportExportFileFormat && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Filters the response from the <a
@@ -16407,33 +17103,52 @@ class ImportFilter {
   }
 }
 
-enum ImportFilterName {
-  importResourceType('ImportResourceType'),
-  ;
+class ImportFilterName {
+  static const importResourceType = ImportFilterName._('ImportResourceType');
 
   final String value;
 
-  const ImportFilterName(this.value);
+  const ImportFilterName._(this.value);
+
+  static const values = [importResourceType];
 
   static ImportFilterName fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ImportFilterName'));
+          orElse: () => ImportFilterName._(value));
+
+  @override
+  bool operator ==(other) => other is ImportFilterName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ImportFilterOperator {
-  co('CO'),
-  eq('EQ'),
-  ;
+class ImportFilterOperator {
+  static const co = ImportFilterOperator._('CO');
+  static const eq = ImportFilterOperator._('EQ');
 
   final String value;
 
-  const ImportFilterOperator(this.value);
+  const ImportFilterOperator._(this.value);
 
-  static ImportFilterOperator fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ImportFilterOperator'));
+  static const values = [co, eq];
+
+  static ImportFilterOperator fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ImportFilterOperator._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ImportFilterOperator && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Provides information about the bot or bot locale that you want to import.
@@ -16505,35 +17220,56 @@ class ImportResourceSpecification {
   }
 }
 
-enum ImportResourceType {
-  bot('Bot'),
-  botLocale('BotLocale'),
-  customVocabulary('CustomVocabulary'),
-  testSet('TestSet'),
-  ;
+class ImportResourceType {
+  static const bot = ImportResourceType._('Bot');
+  static const botLocale = ImportResourceType._('BotLocale');
+  static const customVocabulary = ImportResourceType._('CustomVocabulary');
+  static const testSet = ImportResourceType._('TestSet');
 
   final String value;
 
-  const ImportResourceType(this.value);
+  const ImportResourceType._(this.value);
 
-  static ImportResourceType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ImportResourceType'));
+  static const values = [bot, botLocale, customVocabulary, testSet];
+
+  static ImportResourceType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ImportResourceType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ImportResourceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ImportSortAttribute {
-  lastUpdatedDateTime('LastUpdatedDateTime'),
-  ;
+class ImportSortAttribute {
+  static const lastUpdatedDateTime =
+      ImportSortAttribute._('LastUpdatedDateTime');
 
   final String value;
 
-  const ImportSortAttribute(this.value);
+  const ImportSortAttribute._(this.value);
 
-  static ImportSortAttribute fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ImportSortAttribute'));
+  static const values = [lastUpdatedDateTime];
+
+  static ImportSortAttribute fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ImportSortAttribute._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ImportSortAttribute && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Provides information for sorting a list of imports.
@@ -16559,21 +17295,29 @@ class ImportSortBy {
   }
 }
 
-enum ImportStatus {
-  inProgress('InProgress'),
-  completed('Completed'),
-  failed('Failed'),
-  deleting('Deleting'),
-  ;
+class ImportStatus {
+  static const inProgress = ImportStatus._('InProgress');
+  static const completed = ImportStatus._('Completed');
+  static const failed = ImportStatus._('Failed');
+  static const deleting = ImportStatus._('Deleting');
 
   final String value;
 
-  const ImportStatus(this.value);
+  const ImportStatus._(this.value);
 
-  static ImportStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ImportStatus'));
+  static const values = [inProgress, completed, failed, deleting];
+
+  static ImportStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ImportStatus._(value));
+
+  @override
+  bool operator ==(other) => other is ImportStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Provides summary information about an import in an import list.
@@ -17145,33 +17889,52 @@ class IntentFilter {
   }
 }
 
-enum IntentFilterName {
-  intentName('IntentName'),
-  ;
+class IntentFilterName {
+  static const intentName = IntentFilterName._('IntentName');
 
   final String value;
 
-  const IntentFilterName(this.value);
+  const IntentFilterName._(this.value);
+
+  static const values = [intentName];
 
   static IntentFilterName fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum IntentFilterName'));
+          orElse: () => IntentFilterName._(value));
+
+  @override
+  bool operator ==(other) => other is IntentFilterName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum IntentFilterOperator {
-  co('CO'),
-  eq('EQ'),
-  ;
+class IntentFilterOperator {
+  static const co = IntentFilterOperator._('CO');
+  static const eq = IntentFilterOperator._('EQ');
 
   final String value;
 
-  const IntentFilterOperator(this.value);
+  const IntentFilterOperator._(this.value);
 
-  static IntentFilterOperator fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum IntentFilterOperator'));
+  static const values = [co, eq];
+
+  static IntentFilterOperator fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => IntentFilterOperator._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is IntentFilterOperator && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about intent-level slot resolution in a test result.
@@ -17278,19 +18041,30 @@ class IntentOverride {
   }
 }
 
-enum IntentSortAttribute {
-  intentName('IntentName'),
-  lastUpdatedDateTime('LastUpdatedDateTime'),
-  ;
+class IntentSortAttribute {
+  static const intentName = IntentSortAttribute._('IntentName');
+  static const lastUpdatedDateTime =
+      IntentSortAttribute._('LastUpdatedDateTime');
 
   final String value;
 
-  const IntentSortAttribute(this.value);
+  const IntentSortAttribute._(this.value);
 
-  static IntentSortAttribute fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum IntentSortAttribute'));
+  static const values = [intentName, lastUpdatedDateTime];
+
+  static IntentSortAttribute fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => IntentSortAttribute._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is IntentSortAttribute && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specifies attributes for sorting a list of intents.
@@ -17316,22 +18090,38 @@ class IntentSortBy {
   }
 }
 
-enum IntentState {
-  failed('Failed'),
-  fulfilled('Fulfilled'),
-  inProgress('InProgress'),
-  readyForFulfillment('ReadyForFulfillment'),
-  waiting('Waiting'),
-  fulfillmentInProgress('FulfillmentInProgress'),
-  ;
+class IntentState {
+  static const failed = IntentState._('Failed');
+  static const fulfilled = IntentState._('Fulfilled');
+  static const inProgress = IntentState._('InProgress');
+  static const readyForFulfillment = IntentState._('ReadyForFulfillment');
+  static const waiting = IntentState._('Waiting');
+  static const fulfillmentInProgress = IntentState._('FulfillmentInProgress');
 
   final String value;
 
-  const IntentState(this.value);
+  const IntentState._(this.value);
 
-  static IntentState fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum IntentState'));
+  static const values = [
+    failed,
+    fulfilled,
+    inProgress,
+    readyForFulfillment,
+    waiting,
+    fulfillmentInProgress
+  ];
+
+  static IntentState fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => IntentState._(value));
+
+  @override
+  bool operator ==(other) => other is IntentState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The object that contains the statistical summary of recommended intents
@@ -19183,20 +19973,29 @@ class ListUtteranceMetricsResponse {
   }
 }
 
-enum MergeStrategy {
-  overwrite('Overwrite'),
-  failOnConflict('FailOnConflict'),
-  append('Append'),
-  ;
+class MergeStrategy {
+  static const overwrite = MergeStrategy._('Overwrite');
+  static const failOnConflict = MergeStrategy._('FailOnConflict');
+  static const append = MergeStrategy._('Append');
 
   final String value;
 
-  const MergeStrategy(this.value);
+  const MergeStrategy._(this.value);
+
+  static const values = [overwrite, failOnConflict, append];
 
   static MergeStrategy fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum MergeStrategy'));
+          orElse: () => MergeStrategy._(value));
+
+  @override
+  bool operator ==(other) => other is MergeStrategy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The object that provides message text and its type.
@@ -19291,19 +20090,29 @@ class MessageGroup {
   }
 }
 
-enum MessageSelectionStrategy {
-  random('Random'),
-  ordered('Ordered'),
-  ;
+class MessageSelectionStrategy {
+  static const random = MessageSelectionStrategy._('Random');
+  static const ordered = MessageSelectionStrategy._('Ordered');
 
   final String value;
 
-  const MessageSelectionStrategy(this.value);
+  const MessageSelectionStrategy._(this.value);
+
+  static const values = [random, ordered];
 
   static MessageSelectionStrategy fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum MessageSelectionStrategy'));
+          orElse: () => MessageSelectionStrategy._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is MessageSelectionStrategy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Indicates whether a slot can return multiple values.
@@ -19384,7 +20193,7 @@ class ObfuscationSetting {
   factory ObfuscationSetting.fromJson(Map<String, dynamic> json) {
     return ObfuscationSetting(
       obfuscationSettingType: ObfuscationSettingType.fromString(
-          (json['obfuscationSettingType'] as String)),
+          (json['obfuscationSettingType'] as String?) ?? ''),
     );
   }
 
@@ -19396,19 +20205,30 @@ class ObfuscationSetting {
   }
 }
 
-enum ObfuscationSettingType {
-  none('None'),
-  defaultObfuscation('DefaultObfuscation'),
-  ;
+class ObfuscationSettingType {
+  static const none = ObfuscationSettingType._('None');
+  static const defaultObfuscation =
+      ObfuscationSettingType._('DefaultObfuscation');
 
   final String value;
 
-  const ObfuscationSettingType(this.value);
+  const ObfuscationSettingType._(this.value);
+
+  static const values = [none, defaultObfuscation];
 
   static ObfuscationSettingType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ObfuscationSettingType'));
+          orElse: () => ObfuscationSettingType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ObfuscationSettingType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains details about the configuration of the Amazon OpenSearch Service
@@ -19924,23 +20744,32 @@ class Principal {
 }
 
 /// The attempt name of attempts of a prompt.
-enum PromptAttempt {
-  initial('Initial'),
-  retry1('Retry1'),
-  retry2('Retry2'),
-  retry3('Retry3'),
-  retry4('Retry4'),
-  retry5('Retry5'),
-  ;
+class PromptAttempt {
+  static const initial = PromptAttempt._('Initial');
+  static const retry1 = PromptAttempt._('Retry1');
+  static const retry2 = PromptAttempt._('Retry2');
+  static const retry3 = PromptAttempt._('Retry3');
+  static const retry4 = PromptAttempt._('Retry4');
+  static const retry5 = PromptAttempt._('Retry5');
 
   final String value;
 
-  const PromptAttempt(this.value);
+  const PromptAttempt._(this.value);
+
+  static const values = [initial, retry1, retry2, retry3, retry4, retry5];
 
   static PromptAttempt fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum PromptAttempt'));
+          orElse: () => PromptAttempt._(value));
+
+  @override
+  bool operator ==(other) => other is PromptAttempt && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specifies the settings on a prompt attempt.
@@ -20250,7 +21079,7 @@ class RelativeAggregationDuration {
   factory RelativeAggregationDuration.fromJson(Map<String, dynamic> json) {
     return RelativeAggregationDuration(
       timeDimension:
-          TimeDimension.fromString((json['timeDimension'] as String)),
+          TimeDimension.fromString((json['timeDimension'] as String?) ?? ''),
       timeValue: (json['timeValue'] as int?) ?? 0,
     );
   }
@@ -20518,8 +21347,8 @@ class S3BucketTranscriptSource {
   factory S3BucketTranscriptSource.fromJson(Map<String, dynamic> json) {
     return S3BucketTranscriptSource(
       s3BucketName: (json['s3BucketName'] as String?) ?? '',
-      transcriptFormat:
-          TranscriptFormat.fromString((json['transcriptFormat'] as String)),
+      transcriptFormat: TranscriptFormat.fromString(
+          (json['transcriptFormat'] as String?) ?? ''),
       kmsKeyArn: json['kmsKeyArn'] as String?,
       pathFormat: json['pathFormat'] != null
           ? PathFormat.fromJson(json['pathFormat'] as Map<String, dynamic>)
@@ -20731,18 +21560,27 @@ class SearchAssociatedTranscriptsResponse {
   }
 }
 
-enum SearchOrder {
-  ascending('Ascending'),
-  descending('Descending'),
-  ;
+class SearchOrder {
+  static const ascending = SearchOrder._('Ascending');
+  static const descending = SearchOrder._('Descending');
 
   final String value;
 
-  const SearchOrder(this.value);
+  const SearchOrder._(this.value);
 
-  static SearchOrder fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum SearchOrder'));
+  static const values = [ascending, descending];
+
+  static SearchOrder fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => SearchOrder._(value));
+
+  @override
+  bool operator ==(other) => other is SearchOrder && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Determines whether Amazon Lex will use Amazon Comprehend to detect the
@@ -21047,19 +21885,28 @@ class SlotCaptureSetting {
   }
 }
 
-enum SlotConstraint {
-  required('Required'),
-  optional('Optional'),
-  ;
+class SlotConstraint {
+  static const required = SlotConstraint._('Required');
+  static const optional = SlotConstraint._('Optional');
 
   final String value;
 
-  const SlotConstraint(this.value);
+  const SlotConstraint._(this.value);
+
+  static const values = [required, optional];
 
   static SlotConstraint fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum SlotConstraint'));
+          orElse: () => SlotConstraint._(value));
+
+  @override
+  bool operator ==(other) => other is SlotConstraint && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specifies the default value to use when a user doesn't provide a value for a
@@ -21146,33 +21993,52 @@ class SlotFilter {
   }
 }
 
-enum SlotFilterName {
-  slotName('SlotName'),
-  ;
+class SlotFilterName {
+  static const slotName = SlotFilterName._('SlotName');
 
   final String value;
 
-  const SlotFilterName(this.value);
+  const SlotFilterName._(this.value);
+
+  static const values = [slotName];
 
   static SlotFilterName fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum SlotFilterName'));
+          orElse: () => SlotFilterName._(value));
+
+  @override
+  bool operator ==(other) => other is SlotFilterName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum SlotFilterOperator {
-  co('CO'),
-  eq('EQ'),
-  ;
+class SlotFilterOperator {
+  static const co = SlotFilterOperator._('CO');
+  static const eq = SlotFilterOperator._('EQ');
 
   final String value;
 
-  const SlotFilterOperator(this.value);
+  const SlotFilterOperator._(this.value);
 
-  static SlotFilterOperator fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum SlotFilterOperator'));
+  static const values = [co, eq];
+
+  static SlotFilterOperator fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => SlotFilterOperator._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SlotFilterOperator && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Sets the priority that Amazon Lex should use when eliciting slot values from
@@ -21259,7 +22125,7 @@ class SlotResolutionSetting {
   factory SlotResolutionSetting.fromJson(Map<String, dynamic> json) {
     return SlotResolutionSetting(
       slotResolutionStrategy: SlotResolutionStrategy.fromString(
-          (json['slotResolutionStrategy'] as String)),
+          (json['slotResolutionStrategy'] as String?) ?? ''),
     );
   }
 
@@ -21271,19 +22137,29 @@ class SlotResolutionSetting {
   }
 }
 
-enum SlotResolutionStrategy {
-  enhancedFallback('EnhancedFallback'),
-  $default('Default'),
-  ;
+class SlotResolutionStrategy {
+  static const enhancedFallback = SlotResolutionStrategy._('EnhancedFallback');
+  static const $default = SlotResolutionStrategy._('Default');
 
   final String value;
 
-  const SlotResolutionStrategy(this.value);
+  const SlotResolutionStrategy._(this.value);
+
+  static const values = [enhancedFallback, $default];
 
   static SlotResolutionStrategy fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum SlotResolutionStrategy'));
+          orElse: () => SlotResolutionStrategy._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SlotResolutionStrategy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about the success and failure rate of slot resolution in the
@@ -21371,33 +22247,51 @@ class SlotResolutionTestResultItemCounts {
   }
 }
 
-enum SlotShape {
-  scalar('Scalar'),
-  list('List'),
-  ;
+class SlotShape {
+  static const scalar = SlotShape._('Scalar');
+  static const list = SlotShape._('List');
 
   final String value;
 
-  const SlotShape(this.value);
+  const SlotShape._(this.value);
 
-  static SlotShape fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum SlotShape'));
+  static const values = [scalar, list];
+
+  static SlotShape fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => SlotShape._(value));
+
+  @override
+  bool operator ==(other) => other is SlotShape && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum SlotSortAttribute {
-  slotName('SlotName'),
-  lastUpdatedDateTime('LastUpdatedDateTime'),
-  ;
+class SlotSortAttribute {
+  static const slotName = SlotSortAttribute._('SlotName');
+  static const lastUpdatedDateTime = SlotSortAttribute._('LastUpdatedDateTime');
 
   final String value;
 
-  const SlotSortAttribute(this.value);
+  const SlotSortAttribute._(this.value);
+
+  static const values = [slotName, lastUpdatedDateTime];
 
   static SlotSortAttribute fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum SlotSortAttribute'));
+          orElse: () => SlotSortAttribute._(value));
+
+  @override
+  bool operator ==(other) => other is SlotSortAttribute && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specifies attributes for sorting a list of bots.
@@ -21501,21 +22395,30 @@ class SlotSummary {
   }
 }
 
-enum SlotTypeCategory {
-  custom('Custom'),
-  extended('Extended'),
-  externalGrammar('ExternalGrammar'),
-  composite('Composite'),
-  ;
+class SlotTypeCategory {
+  static const custom = SlotTypeCategory._('Custom');
+  static const extended = SlotTypeCategory._('Extended');
+  static const externalGrammar = SlotTypeCategory._('ExternalGrammar');
+  static const composite = SlotTypeCategory._('Composite');
 
   final String value;
 
-  const SlotTypeCategory(this.value);
+  const SlotTypeCategory._(this.value);
+
+  static const values = [custom, extended, externalGrammar, composite];
 
   static SlotTypeCategory fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum SlotTypeCategory'));
+          orElse: () => SlotTypeCategory._(value));
+
+  @override
+  bool operator ==(other) => other is SlotTypeCategory && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Filters the response from the <code>ListSlotTypes</code> operation.
@@ -21551,49 +22454,80 @@ class SlotTypeFilter {
   }
 }
 
-enum SlotTypeFilterName {
-  slotTypeName('SlotTypeName'),
-  externalSourceType('ExternalSourceType'),
-  ;
+class SlotTypeFilterName {
+  static const slotTypeName = SlotTypeFilterName._('SlotTypeName');
+  static const externalSourceType = SlotTypeFilterName._('ExternalSourceType');
 
   final String value;
 
-  const SlotTypeFilterName(this.value);
+  const SlotTypeFilterName._(this.value);
 
-  static SlotTypeFilterName fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum SlotTypeFilterName'));
+  static const values = [slotTypeName, externalSourceType];
+
+  static SlotTypeFilterName fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => SlotTypeFilterName._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SlotTypeFilterName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum SlotTypeFilterOperator {
-  co('CO'),
-  eq('EQ'),
-  ;
+class SlotTypeFilterOperator {
+  static const co = SlotTypeFilterOperator._('CO');
+  static const eq = SlotTypeFilterOperator._('EQ');
 
   final String value;
 
-  const SlotTypeFilterOperator(this.value);
+  const SlotTypeFilterOperator._(this.value);
+
+  static const values = [co, eq];
 
   static SlotTypeFilterOperator fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum SlotTypeFilterOperator'));
+          orElse: () => SlotTypeFilterOperator._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SlotTypeFilterOperator && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum SlotTypeSortAttribute {
-  slotTypeName('SlotTypeName'),
-  lastUpdatedDateTime('LastUpdatedDateTime'),
-  ;
+class SlotTypeSortAttribute {
+  static const slotTypeName = SlotTypeSortAttribute._('SlotTypeName');
+  static const lastUpdatedDateTime =
+      SlotTypeSortAttribute._('LastUpdatedDateTime');
 
   final String value;
 
-  const SlotTypeSortAttribute(this.value);
+  const SlotTypeSortAttribute._(this.value);
 
-  static SlotTypeSortAttribute fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum SlotTypeSortAttribute'));
+  static const values = [slotTypeName, lastUpdatedDateTime];
+
+  static SlotTypeSortAttribute fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => SlotTypeSortAttribute._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SlotTypeSortAttribute && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specifies attributes for sorting a list of slot types.
@@ -21831,7 +22765,7 @@ class SlotValueElicitationSetting {
   factory SlotValueElicitationSetting.fromJson(Map<String, dynamic> json) {
     return SlotValueElicitationSetting(
       slotConstraint:
-          SlotConstraint.fromString((json['slotConstraint'] as String)),
+          SlotConstraint.fromString((json['slotConstraint'] as String?) ?? ''),
       defaultValueSpecification: json['defaultValueSpecification'] != null
           ? SlotDefaultValueSpecification.fromJson(
               json['defaultValueSpecification'] as Map<String, dynamic>)
@@ -21982,20 +22916,30 @@ class SlotValueRegexFilter {
   }
 }
 
-enum SlotValueResolutionStrategy {
-  originalValue('OriginalValue'),
-  topResolution('TopResolution'),
-  concatenation('Concatenation'),
-  ;
+class SlotValueResolutionStrategy {
+  static const originalValue = SlotValueResolutionStrategy._('OriginalValue');
+  static const topResolution = SlotValueResolutionStrategy._('TopResolution');
+  static const concatenation = SlotValueResolutionStrategy._('Concatenation');
 
   final String value;
 
-  const SlotValueResolutionStrategy(this.value);
+  const SlotValueResolutionStrategy._(this.value);
+
+  static const values = [originalValue, topResolution, concatenation];
 
   static SlotValueResolutionStrategy fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum SlotValueResolutionStrategy'));
+          orElse: () => SlotValueResolutionStrategy._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SlotValueResolutionStrategy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains settings used by Amazon Lex to select a slot value.
@@ -22035,7 +22979,7 @@ class SlotValueSelectionSetting {
   factory SlotValueSelectionSetting.fromJson(Map<String, dynamic> json) {
     return SlotValueSelectionSetting(
       resolutionStrategy: SlotValueResolutionStrategy.fromString(
-          (json['resolutionStrategy'] as String)),
+          (json['resolutionStrategy'] as String?) ?? ''),
       advancedRecognitionSetting: json['advancedRecognitionSetting'] != null
           ? AdvancedRecognitionSetting.fromJson(
               json['advancedRecognitionSetting'] as Map<String, dynamic>)
@@ -22060,18 +23004,27 @@ class SlotValueSelectionSetting {
   }
 }
 
-enum SortOrder {
-  ascending('Ascending'),
-  descending('Descending'),
-  ;
+class SortOrder {
+  static const ascending = SortOrder._('Ascending');
+  static const descending = SortOrder._('Descending');
 
   final String value;
 
-  const SortOrder(this.value);
+  const SortOrder._(this.value);
 
-  static SortOrder fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum SortOrder'));
+  static const values = [ascending, descending];
+
+  static SortOrder fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => SortOrder._(value));
+
+  @override
+  bool operator ==(other) => other is SortOrder && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Subslot specifications.
@@ -22739,34 +23692,54 @@ class TagResourceResponse {
   }
 }
 
-enum TestExecutionApiMode {
-  streaming('Streaming'),
-  nonStreaming('NonStreaming'),
-  ;
+class TestExecutionApiMode {
+  static const streaming = TestExecutionApiMode._('Streaming');
+  static const nonStreaming = TestExecutionApiMode._('NonStreaming');
 
   final String value;
 
-  const TestExecutionApiMode(this.value);
+  const TestExecutionApiMode._(this.value);
 
-  static TestExecutionApiMode fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum TestExecutionApiMode'));
+  static const values = [streaming, nonStreaming];
+
+  static TestExecutionApiMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => TestExecutionApiMode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TestExecutionApiMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum TestExecutionModality {
-  text('Text'),
-  audio('Audio'),
-  ;
+class TestExecutionModality {
+  static const text = TestExecutionModality._('Text');
+  static const audio = TestExecutionModality._('Audio');
 
   final String value;
 
-  const TestExecutionModality(this.value);
+  const TestExecutionModality._(this.value);
 
-  static TestExecutionModality fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum TestExecutionModality'));
+  static const values = [text, audio];
+
+  static TestExecutionModality fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => TestExecutionModality._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TestExecutionModality && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains information about the method by which to filter the results of the
@@ -22889,19 +23862,30 @@ class TestExecutionResultItems {
   }
 }
 
-enum TestExecutionSortAttribute {
-  testSetName('TestSetName'),
-  creationDateTime('CreationDateTime'),
-  ;
+class TestExecutionSortAttribute {
+  static const testSetName = TestExecutionSortAttribute._('TestSetName');
+  static const creationDateTime =
+      TestExecutionSortAttribute._('CreationDateTime');
 
   final String value;
 
-  const TestExecutionSortAttribute(this.value);
+  const TestExecutionSortAttribute._(this.value);
+
+  static const values = [testSetName, creationDateTime];
 
   static TestExecutionSortAttribute fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum TestExecutionSortAttribute'));
+          orElse: () => TestExecutionSortAttribute._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TestExecutionSortAttribute && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains information about the method by which to sort the instances of test
@@ -22929,24 +23913,42 @@ class TestExecutionSortBy {
   }
 }
 
-enum TestExecutionStatus {
-  pending('Pending'),
-  waiting('Waiting'),
-  inProgress('InProgress'),
-  completed('Completed'),
-  failed('Failed'),
-  stopping('Stopping'),
-  stopped('Stopped'),
-  ;
+class TestExecutionStatus {
+  static const pending = TestExecutionStatus._('Pending');
+  static const waiting = TestExecutionStatus._('Waiting');
+  static const inProgress = TestExecutionStatus._('InProgress');
+  static const completed = TestExecutionStatus._('Completed');
+  static const failed = TestExecutionStatus._('Failed');
+  static const stopping = TestExecutionStatus._('Stopping');
+  static const stopped = TestExecutionStatus._('Stopped');
 
   final String value;
 
-  const TestExecutionStatus(this.value);
+  const TestExecutionStatus._(this.value);
 
-  static TestExecutionStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum TestExecutionStatus'));
+  static const values = [
+    pending,
+    waiting,
+    inProgress,
+    completed,
+    failed,
+    stopping,
+    stopped
+  ];
+
+  static TestExecutionStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => TestExecutionStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TestExecutionStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Summarizes metadata about the test execution.
@@ -23064,38 +24066,69 @@ class TestExecutionTarget {
   }
 }
 
-enum TestResultMatchStatus {
-  matched('Matched'),
-  mismatched('Mismatched'),
-  executionError('ExecutionError'),
-  ;
+class TestResultMatchStatus {
+  static const matched = TestResultMatchStatus._('Matched');
+  static const mismatched = TestResultMatchStatus._('Mismatched');
+  static const executionError = TestResultMatchStatus._('ExecutionError');
 
   final String value;
 
-  const TestResultMatchStatus(this.value);
+  const TestResultMatchStatus._(this.value);
 
-  static TestResultMatchStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum TestResultMatchStatus'));
+  static const values = [matched, mismatched, executionError];
+
+  static TestResultMatchStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => TestResultMatchStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TestResultMatchStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum TestResultTypeFilter {
-  overallTestResults('OverallTestResults'),
-  conversationLevelTestResults('ConversationLevelTestResults'),
-  intentClassificationTestResults('IntentClassificationTestResults'),
-  slotResolutionTestResults('SlotResolutionTestResults'),
-  utteranceLevelResults('UtteranceLevelResults'),
-  ;
+class TestResultTypeFilter {
+  static const overallTestResults =
+      TestResultTypeFilter._('OverallTestResults');
+  static const conversationLevelTestResults =
+      TestResultTypeFilter._('ConversationLevelTestResults');
+  static const intentClassificationTestResults =
+      TestResultTypeFilter._('IntentClassificationTestResults');
+  static const slotResolutionTestResults =
+      TestResultTypeFilter._('SlotResolutionTestResults');
+  static const utteranceLevelResults =
+      TestResultTypeFilter._('UtteranceLevelResults');
 
   final String value;
 
-  const TestResultTypeFilter(this.value);
+  const TestResultTypeFilter._(this.value);
 
-  static TestResultTypeFilter fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum TestResultTypeFilter'));
+  static const values = [
+    overallTestResults,
+    conversationLevelTestResults,
+    intentClassificationTestResults,
+    slotResolutionTestResults,
+    utteranceLevelResults
+  ];
+
+  static TestResultTypeFilter fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => TestResultTypeFilter._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TestResultTypeFilter && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains details about the errors in the test set discrepancy report
@@ -23206,20 +24239,30 @@ class TestSetDiscrepancyReportResourceTarget {
   }
 }
 
-enum TestSetDiscrepancyReportStatus {
-  inProgress('InProgress'),
-  completed('Completed'),
-  failed('Failed'),
-  ;
+class TestSetDiscrepancyReportStatus {
+  static const inProgress = TestSetDiscrepancyReportStatus._('InProgress');
+  static const completed = TestSetDiscrepancyReportStatus._('Completed');
+  static const failed = TestSetDiscrepancyReportStatus._('Failed');
 
   final String value;
 
-  const TestSetDiscrepancyReportStatus(this.value);
+  const TestSetDiscrepancyReportStatus._(this.value);
+
+  static const values = [inProgress, completed, failed];
 
   static TestSetDiscrepancyReportStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum TestSetDiscrepancyReportStatus'));
+          orElse: () => TestSetDiscrepancyReportStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TestSetDiscrepancyReportStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains information about the test set that is exported.
@@ -23274,21 +24317,31 @@ class TestSetGenerationDataSource {
   }
 }
 
-enum TestSetGenerationStatus {
-  generating('Generating'),
-  ready('Ready'),
-  failed('Failed'),
-  pending('Pending'),
-  ;
+class TestSetGenerationStatus {
+  static const generating = TestSetGenerationStatus._('Generating');
+  static const ready = TestSetGenerationStatus._('Ready');
+  static const failed = TestSetGenerationStatus._('Failed');
+  static const pending = TestSetGenerationStatus._('Pending');
 
   final String value;
 
-  const TestSetGenerationStatus(this.value);
+  const TestSetGenerationStatus._(this.value);
+
+  static const values = [generating, ready, failed, pending];
 
   static TestSetGenerationStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum TestSetGenerationStatus'));
+          orElse: () => TestSetGenerationStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TestSetGenerationStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains information about the Amazon S3 location from which the test set is
@@ -23368,7 +24421,7 @@ class TestSetImportResourceSpecification {
       importInputLocation: TestSetImportInputLocation.fromJson(
           (json['importInputLocation'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
-      modality: TestSetModality.fromString((json['modality'] as String)),
+      modality: TestSetModality.fromString((json['modality'] as String?) ?? ''),
       roleArn: (json['roleArn'] as String?) ?? '',
       storageLocation: TestSetStorageLocation.fromJson(
           (json['storageLocation'] as Map<String, dynamic>?) ??
@@ -23432,19 +24485,28 @@ class TestSetIntentDiscrepancyItem {
   }
 }
 
-enum TestSetModality {
-  text('Text'),
-  audio('Audio'),
-  ;
+class TestSetModality {
+  static const text = TestSetModality._('Text');
+  static const audio = TestSetModality._('Audio');
 
   final String value;
 
-  const TestSetModality(this.value);
+  const TestSetModality._(this.value);
+
+  static const values = [text, audio];
 
   static TestSetModality fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum TestSetModality'));
+          orElse: () => TestSetModality._(value));
+
+  @override
+  bool operator ==(other) => other is TestSetModality && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains information about discrepancy in a slot information between the
@@ -23486,19 +24548,30 @@ class TestSetSlotDiscrepancyItem {
   }
 }
 
-enum TestSetSortAttribute {
-  testSetName('TestSetName'),
-  lastUpdatedDateTime('LastUpdatedDateTime'),
-  ;
+class TestSetSortAttribute {
+  static const testSetName = TestSetSortAttribute._('TestSetName');
+  static const lastUpdatedDateTime =
+      TestSetSortAttribute._('LastUpdatedDateTime');
 
   final String value;
 
-  const TestSetSortAttribute(this.value);
+  const TestSetSortAttribute._(this.value);
 
-  static TestSetSortAttribute fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum TestSetSortAttribute'));
+  static const values = [testSetName, lastUpdatedDateTime];
+
+  static TestSetSortAttribute fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => TestSetSortAttribute._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TestSetSortAttribute && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains information about the methods by which to sort the test set.
@@ -23525,22 +24598,37 @@ class TestSetSortBy {
   }
 }
 
-enum TestSetStatus {
-  importing('Importing'),
-  pendingAnnotation('PendingAnnotation'),
-  deleting('Deleting'),
-  validationError('ValidationError'),
-  ready('Ready'),
-  ;
+class TestSetStatus {
+  static const importing = TestSetStatus._('Importing');
+  static const pendingAnnotation = TestSetStatus._('PendingAnnotation');
+  static const deleting = TestSetStatus._('Deleting');
+  static const validationError = TestSetStatus._('ValidationError');
+  static const ready = TestSetStatus._('Ready');
 
   final String value;
 
-  const TestSetStatus(this.value);
+  const TestSetStatus._(this.value);
+
+  static const values = [
+    importing,
+    pendingAnnotation,
+    deleting,
+    validationError,
+    ready
+  ];
 
   static TestSetStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum TestSetStatus'));
+          orElse: () => TestSetStatus._(value));
+
+  @override
+  bool operator ==(other) => other is TestSetStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains information about the location in which the test set is stored.
@@ -23844,20 +24932,29 @@ class TextLogSetting {
   }
 }
 
-enum TimeDimension {
-  hours('Hours'),
-  days('Days'),
-  weeks('Weeks'),
-  ;
+class TimeDimension {
+  static const hours = TimeDimension._('Hours');
+  static const days = TimeDimension._('Days');
+  static const weeks = TimeDimension._('Weeks');
 
   final String value;
 
-  const TimeDimension(this.value);
+  const TimeDimension._(this.value);
+
+  static const values = [hours, days, weeks];
 
   static TimeDimension fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum TimeDimension'));
+          orElse: () => TimeDimension._(value));
+
+  @override
+  bool operator ==(other) => other is TimeDimension && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The object representing the filter that Amazon Lex will use to select the
@@ -23889,18 +24986,27 @@ class TranscriptFilter {
   }
 }
 
-enum TranscriptFormat {
-  lex('Lex'),
-  ;
+class TranscriptFormat {
+  static const lex = TranscriptFormat._('Lex');
 
   final String value;
 
-  const TranscriptFormat(this.value);
+  const TranscriptFormat._(this.value);
+
+  static const values = [lex];
 
   static TranscriptFormat fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum TranscriptFormat'));
+          orElse: () => TranscriptFormat._(value));
+
+  @override
+  bool operator ==(other) => other is TranscriptFormat && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Indicates the setting of the location where the transcript is stored.
@@ -25484,21 +26590,31 @@ class UtteranceBotResponse {
   }
 }
 
-enum UtteranceContentType {
-  plainText('PlainText'),
-  customPayload('CustomPayload'),
-  ssml('SSML'),
-  imageResponseCard('ImageResponseCard'),
-  ;
+class UtteranceContentType {
+  static const plainText = UtteranceContentType._('PlainText');
+  static const customPayload = UtteranceContentType._('CustomPayload');
+  static const ssml = UtteranceContentType._('SSML');
+  static const imageResponseCard = UtteranceContentType._('ImageResponseCard');
 
   final String value;
 
-  const UtteranceContentType(this.value);
+  const UtteranceContentType._(this.value);
 
-  static UtteranceContentType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum UtteranceContentType'));
+  static const values = [plainText, customPayload, ssml, imageResponseCard];
+
+  static UtteranceContentType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => UtteranceContentType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is UtteranceContentType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// An object specifying the measure and method by which to sort the utterance
@@ -25895,18 +27011,27 @@ class UtteranceSpecification {
   }
 }
 
-enum VoiceEngine {
-  standard('standard'),
-  neural('neural'),
-  ;
+class VoiceEngine {
+  static const standard = VoiceEngine._('standard');
+  static const neural = VoiceEngine._('neural');
 
   final String value;
 
-  const VoiceEngine(this.value);
+  const VoiceEngine._(this.value);
 
-  static VoiceEngine fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum VoiceEngine'));
+  static const values = [standard, neural];
+
+  static VoiceEngine fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => VoiceEngine._(value));
+
+  @override
+  bool operator ==(other) => other is VoiceEngine && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Defines settings for using an Amazon Polly voice to communicate with a user.

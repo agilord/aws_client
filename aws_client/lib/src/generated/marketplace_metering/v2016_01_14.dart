@@ -726,20 +726,31 @@ class UsageRecordResult {
   }
 }
 
-enum UsageRecordResultStatus {
-  success('Success'),
-  customerNotSubscribed('CustomerNotSubscribed'),
-  duplicateRecord('DuplicateRecord'),
-  ;
+class UsageRecordResultStatus {
+  static const success = UsageRecordResultStatus._('Success');
+  static const customerNotSubscribed =
+      UsageRecordResultStatus._('CustomerNotSubscribed');
+  static const duplicateRecord = UsageRecordResultStatus._('DuplicateRecord');
 
   final String value;
 
-  const UsageRecordResultStatus(this.value);
+  const UsageRecordResultStatus._(this.value);
+
+  static const values = [success, customerNotSubscribed, duplicateRecord];
 
   static UsageRecordResultStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum UsageRecordResultStatus'));
+          orElse: () => UsageRecordResultStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is UsageRecordResultStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class CustomerNotEntitledException extends _s.GenericAwsException {

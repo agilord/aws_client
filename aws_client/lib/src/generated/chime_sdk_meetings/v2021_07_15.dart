@@ -1171,9 +1171,9 @@ class AttendeeCapabilities {
 
   factory AttendeeCapabilities.fromJson(Map<String, dynamic> json) {
     return AttendeeCapabilities(
-      audio: MediaCapabilities.fromString((json['Audio'] as String)),
-      content: MediaCapabilities.fromString((json['Content'] as String)),
-      video: MediaCapabilities.fromString((json['Video'] as String)),
+      audio: MediaCapabilities.fromString((json['Audio'] as String?) ?? ''),
+      content: MediaCapabilities.fromString((json['Content'] as String?) ?? ''),
+      video: MediaCapabilities.fromString((json['Video'] as String?) ?? ''),
     );
   }
 
@@ -1334,20 +1334,29 @@ class ContentFeatures {
   }
 }
 
-enum ContentResolution {
-  none('None'),
-  fhd('FHD'),
-  uhd('UHD'),
-  ;
+class ContentResolution {
+  static const none = ContentResolution._('None');
+  static const fhd = ContentResolution._('FHD');
+  static const uhd = ContentResolution._('UHD');
 
   final String value;
 
-  const ContentResolution(this.value);
+  const ContentResolution._(this.value);
+
+  static const values = [none, fhd, uhd];
 
   static ContentResolution fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ContentResolution'));
+          orElse: () => ContentResolution._(value));
+
+  @override
+  bool operator ==(other) => other is ContentResolution && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The list of errors returned when errors are encountered during the
@@ -1926,21 +1935,30 @@ class ListTagsForResourceResponse {
   }
 }
 
-enum MediaCapabilities {
-  sendReceive('SendReceive'),
-  send('Send'),
-  receive('Receive'),
-  none('None'),
-  ;
+class MediaCapabilities {
+  static const sendReceive = MediaCapabilities._('SendReceive');
+  static const send = MediaCapabilities._('Send');
+  static const receive = MediaCapabilities._('Receive');
+  static const none = MediaCapabilities._('None');
 
   final String value;
 
-  const MediaCapabilities(this.value);
+  const MediaCapabilities._(this.value);
+
+  static const values = [sendReceive, send, receive, none];
 
   static MediaCapabilities fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum MediaCapabilities'));
+          orElse: () => MediaCapabilities._(value));
+
+  @override
+  bool operator ==(other) => other is MediaCapabilities && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A set of endpoints used by clients to connect to the media service group for
@@ -2137,19 +2155,29 @@ class Meeting {
   }
 }
 
-enum MeetingFeatureStatus {
-  available('AVAILABLE'),
-  unavailable('UNAVAILABLE'),
-  ;
+class MeetingFeatureStatus {
+  static const available = MeetingFeatureStatus._('AVAILABLE');
+  static const unavailable = MeetingFeatureStatus._('UNAVAILABLE');
 
   final String value;
 
-  const MeetingFeatureStatus(this.value);
+  const MeetingFeatureStatus._(this.value);
 
-  static MeetingFeatureStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum MeetingFeatureStatus'));
+  static const values = [available, unavailable];
+
+  static MeetingFeatureStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => MeetingFeatureStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is MeetingFeatureStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The configuration settings of the features available to a meeting.
@@ -2277,199 +2305,353 @@ class TagResourceResponse {
   }
 }
 
-enum TranscribeContentIdentificationType {
-  pii('PII'),
-  ;
+class TranscribeContentIdentificationType {
+  static const pii = TranscribeContentIdentificationType._('PII');
 
   final String value;
 
-  const TranscribeContentIdentificationType(this.value);
+  const TranscribeContentIdentificationType._(this.value);
+
+  static const values = [pii];
 
   static TranscribeContentIdentificationType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum TranscribeContentIdentificationType'));
+          orElse: () => TranscribeContentIdentificationType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TranscribeContentIdentificationType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum TranscribeContentRedactionType {
-  pii('PII'),
-  ;
+class TranscribeContentRedactionType {
+  static const pii = TranscribeContentRedactionType._('PII');
 
   final String value;
 
-  const TranscribeContentRedactionType(this.value);
+  const TranscribeContentRedactionType._(this.value);
+
+  static const values = [pii];
 
   static TranscribeContentRedactionType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum TranscribeContentRedactionType'));
+          orElse: () => TranscribeContentRedactionType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TranscribeContentRedactionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum TranscribeLanguageCode {
-  enUs('en-US'),
-  enGb('en-GB'),
-  esUs('es-US'),
-  frCa('fr-CA'),
-  frFr('fr-FR'),
-  enAu('en-AU'),
-  itIt('it-IT'),
-  deDe('de-DE'),
-  ptBr('pt-BR'),
-  jaJp('ja-JP'),
-  koKr('ko-KR'),
-  zhCn('zh-CN'),
-  thTh('th-TH'),
-  hiIn('hi-IN'),
-  ;
+class TranscribeLanguageCode {
+  static const enUs = TranscribeLanguageCode._('en-US');
+  static const enGb = TranscribeLanguageCode._('en-GB');
+  static const esUs = TranscribeLanguageCode._('es-US');
+  static const frCa = TranscribeLanguageCode._('fr-CA');
+  static const frFr = TranscribeLanguageCode._('fr-FR');
+  static const enAu = TranscribeLanguageCode._('en-AU');
+  static const itIt = TranscribeLanguageCode._('it-IT');
+  static const deDe = TranscribeLanguageCode._('de-DE');
+  static const ptBr = TranscribeLanguageCode._('pt-BR');
+  static const jaJp = TranscribeLanguageCode._('ja-JP');
+  static const koKr = TranscribeLanguageCode._('ko-KR');
+  static const zhCn = TranscribeLanguageCode._('zh-CN');
+  static const thTh = TranscribeLanguageCode._('th-TH');
+  static const hiIn = TranscribeLanguageCode._('hi-IN');
 
   final String value;
 
-  const TranscribeLanguageCode(this.value);
+  const TranscribeLanguageCode._(this.value);
+
+  static const values = [
+    enUs,
+    enGb,
+    esUs,
+    frCa,
+    frFr,
+    enAu,
+    itIt,
+    deDe,
+    ptBr,
+    jaJp,
+    koKr,
+    zhCn,
+    thTh,
+    hiIn
+  ];
 
   static TranscribeLanguageCode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum TranscribeLanguageCode'));
+          orElse: () => TranscribeLanguageCode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TranscribeLanguageCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum TranscribeMedicalContentIdentificationType {
-  phi('PHI'),
-  ;
+class TranscribeMedicalContentIdentificationType {
+  static const phi = TranscribeMedicalContentIdentificationType._('PHI');
 
   final String value;
 
-  const TranscribeMedicalContentIdentificationType(this.value);
+  const TranscribeMedicalContentIdentificationType._(this.value);
+
+  static const values = [phi];
 
   static TranscribeMedicalContentIdentificationType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum TranscribeMedicalContentIdentificationType'));
+          orElse: () => TranscribeMedicalContentIdentificationType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TranscribeMedicalContentIdentificationType &&
+      other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum TranscribeMedicalLanguageCode {
-  enUs('en-US'),
-  ;
+class TranscribeMedicalLanguageCode {
+  static const enUs = TranscribeMedicalLanguageCode._('en-US');
 
   final String value;
 
-  const TranscribeMedicalLanguageCode(this.value);
+  const TranscribeMedicalLanguageCode._(this.value);
+
+  static const values = [enUs];
 
   static TranscribeMedicalLanguageCode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum TranscribeMedicalLanguageCode'));
+          orElse: () => TranscribeMedicalLanguageCode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TranscribeMedicalLanguageCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum TranscribeMedicalRegion {
-  usEast_1('us-east-1'),
-  usEast_2('us-east-2'),
-  usWest_2('us-west-2'),
-  apSoutheast_2('ap-southeast-2'),
-  caCentral_1('ca-central-1'),
-  euWest_1('eu-west-1'),
-  auto('auto'),
-  ;
+class TranscribeMedicalRegion {
+  static const usEast_1 = TranscribeMedicalRegion._('us-east-1');
+  static const usEast_2 = TranscribeMedicalRegion._('us-east-2');
+  static const usWest_2 = TranscribeMedicalRegion._('us-west-2');
+  static const apSoutheast_2 = TranscribeMedicalRegion._('ap-southeast-2');
+  static const caCentral_1 = TranscribeMedicalRegion._('ca-central-1');
+  static const euWest_1 = TranscribeMedicalRegion._('eu-west-1');
+  static const auto = TranscribeMedicalRegion._('auto');
 
   final String value;
 
-  const TranscribeMedicalRegion(this.value);
+  const TranscribeMedicalRegion._(this.value);
+
+  static const values = [
+    usEast_1,
+    usEast_2,
+    usWest_2,
+    apSoutheast_2,
+    caCentral_1,
+    euWest_1,
+    auto
+  ];
 
   static TranscribeMedicalRegion fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum TranscribeMedicalRegion'));
+          orElse: () => TranscribeMedicalRegion._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TranscribeMedicalRegion && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum TranscribeMedicalSpecialty {
-  primarycare('PRIMARYCARE'),
-  cardiology('CARDIOLOGY'),
-  neurology('NEUROLOGY'),
-  oncology('ONCOLOGY'),
-  radiology('RADIOLOGY'),
-  urology('UROLOGY'),
-  ;
+class TranscribeMedicalSpecialty {
+  static const primarycare = TranscribeMedicalSpecialty._('PRIMARYCARE');
+  static const cardiology = TranscribeMedicalSpecialty._('CARDIOLOGY');
+  static const neurology = TranscribeMedicalSpecialty._('NEUROLOGY');
+  static const oncology = TranscribeMedicalSpecialty._('ONCOLOGY');
+  static const radiology = TranscribeMedicalSpecialty._('RADIOLOGY');
+  static const urology = TranscribeMedicalSpecialty._('UROLOGY');
 
   final String value;
 
-  const TranscribeMedicalSpecialty(this.value);
+  const TranscribeMedicalSpecialty._(this.value);
+
+  static const values = [
+    primarycare,
+    cardiology,
+    neurology,
+    oncology,
+    radiology,
+    urology
+  ];
 
   static TranscribeMedicalSpecialty fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum TranscribeMedicalSpecialty'));
+          orElse: () => TranscribeMedicalSpecialty._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TranscribeMedicalSpecialty && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum TranscribeMedicalType {
-  conversation('CONVERSATION'),
-  dictation('DICTATION'),
-  ;
+class TranscribeMedicalType {
+  static const conversation = TranscribeMedicalType._('CONVERSATION');
+  static const dictation = TranscribeMedicalType._('DICTATION');
 
   final String value;
 
-  const TranscribeMedicalType(this.value);
+  const TranscribeMedicalType._(this.value);
 
-  static TranscribeMedicalType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum TranscribeMedicalType'));
+  static const values = [conversation, dictation];
+
+  static TranscribeMedicalType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => TranscribeMedicalType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TranscribeMedicalType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum TranscribePartialResultsStability {
-  low('low'),
-  medium('medium'),
-  high('high'),
-  ;
+class TranscribePartialResultsStability {
+  static const low = TranscribePartialResultsStability._('low');
+  static const medium = TranscribePartialResultsStability._('medium');
+  static const high = TranscribePartialResultsStability._('high');
 
   final String value;
 
-  const TranscribePartialResultsStability(this.value);
+  const TranscribePartialResultsStability._(this.value);
+
+  static const values = [low, medium, high];
 
   static TranscribePartialResultsStability fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum TranscribePartialResultsStability'));
+          orElse: () => TranscribePartialResultsStability._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TranscribePartialResultsStability && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum TranscribeRegion {
-  usEast_2('us-east-2'),
-  usEast_1('us-east-1'),
-  usWest_2('us-west-2'),
-  apNortheast_2('ap-northeast-2'),
-  apSoutheast_2('ap-southeast-2'),
-  apNortheast_1('ap-northeast-1'),
-  caCentral_1('ca-central-1'),
-  euCentral_1('eu-central-1'),
-  euWest_1('eu-west-1'),
-  euWest_2('eu-west-2'),
-  saEast_1('sa-east-1'),
-  auto('auto'),
-  usGovWest_1('us-gov-west-1'),
-  ;
+class TranscribeRegion {
+  static const usEast_2 = TranscribeRegion._('us-east-2');
+  static const usEast_1 = TranscribeRegion._('us-east-1');
+  static const usWest_2 = TranscribeRegion._('us-west-2');
+  static const apNortheast_2 = TranscribeRegion._('ap-northeast-2');
+  static const apSoutheast_2 = TranscribeRegion._('ap-southeast-2');
+  static const apNortheast_1 = TranscribeRegion._('ap-northeast-1');
+  static const caCentral_1 = TranscribeRegion._('ca-central-1');
+  static const euCentral_1 = TranscribeRegion._('eu-central-1');
+  static const euWest_1 = TranscribeRegion._('eu-west-1');
+  static const euWest_2 = TranscribeRegion._('eu-west-2');
+  static const saEast_1 = TranscribeRegion._('sa-east-1');
+  static const auto = TranscribeRegion._('auto');
+  static const usGovWest_1 = TranscribeRegion._('us-gov-west-1');
 
   final String value;
 
-  const TranscribeRegion(this.value);
+  const TranscribeRegion._(this.value);
+
+  static const values = [
+    usEast_2,
+    usEast_1,
+    usWest_2,
+    apNortheast_2,
+    apSoutheast_2,
+    apNortheast_1,
+    caCentral_1,
+    euCentral_1,
+    euWest_1,
+    euWest_2,
+    saEast_1,
+    auto,
+    usGovWest_1
+  ];
 
   static TranscribeRegion fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum TranscribeRegion'));
+          orElse: () => TranscribeRegion._(value));
+
+  @override
+  bool operator ==(other) => other is TranscribeRegion && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum TranscribeVocabularyFilterMethod {
-  remove('remove'),
-  mask('mask'),
-  tag('tag'),
-  ;
+class TranscribeVocabularyFilterMethod {
+  static const remove = TranscribeVocabularyFilterMethod._('remove');
+  static const mask = TranscribeVocabularyFilterMethod._('mask');
+  static const tag = TranscribeVocabularyFilterMethod._('tag');
 
   final String value;
 
-  const TranscribeVocabularyFilterMethod(this.value);
+  const TranscribeVocabularyFilterMethod._(this.value);
+
+  static const values = [remove, mask, tag];
 
   static TranscribeVocabularyFilterMethod fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum TranscribeVocabularyFilterMethod'));
+          orElse: () => TranscribeVocabularyFilterMethod._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TranscribeVocabularyFilterMethod && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The configuration for the current transcription operation. Must contain
@@ -2574,20 +2756,29 @@ class VideoFeatures {
   }
 }
 
-enum VideoResolution {
-  none('None'),
-  hd('HD'),
-  fhd('FHD'),
-  ;
+class VideoResolution {
+  static const none = VideoResolution._('None');
+  static const hd = VideoResolution._('HD');
+  static const fhd = VideoResolution._('FHD');
 
   final String value;
 
-  const VideoResolution(this.value);
+  const VideoResolution._(this.value);
+
+  static const values = [none, hd, fhd];
 
   static VideoResolution fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum VideoResolution'));
+          orElse: () => VideoResolution._(value));
+
+  @override
+  bool operator ==(other) => other is VideoResolution && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class BadRequestException extends _s.GenericAwsException {

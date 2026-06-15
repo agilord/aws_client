@@ -1775,19 +1775,29 @@ class CreateServiceResponse {
   }
 }
 
-enum CustomHealthStatus {
-  healthy('HEALTHY'),
-  unhealthy('UNHEALTHY'),
-  ;
+class CustomHealthStatus {
+  static const healthy = CustomHealthStatus._('HEALTHY');
+  static const unhealthy = CustomHealthStatus._('UNHEALTHY');
 
   final String value;
 
-  const CustomHealthStatus(this.value);
+  const CustomHealthStatus._(this.value);
 
-  static CustomHealthStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum CustomHealthStatus'));
+  static const values = [healthy, unhealthy];
+
+  static CustomHealthStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => CustomHealthStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CustomHealthStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class DeleteNamespaceResponse {
@@ -2205,7 +2215,7 @@ class DnsRecord {
   factory DnsRecord.fromJson(Map<String, dynamic> json) {
     return DnsRecord(
       ttl: (json['TTL'] as int?) ?? 0,
-      type: RecordType.fromString((json['Type'] as String)),
+      type: RecordType.fromString((json['Type'] as String?) ?? ''),
     );
   }
 
@@ -2219,21 +2229,30 @@ class DnsRecord {
   }
 }
 
-enum FilterCondition {
-  eq('EQ'),
-  $in('IN'),
-  between('BETWEEN'),
-  beginsWith('BEGINS_WITH'),
-  ;
+class FilterCondition {
+  static const eq = FilterCondition._('EQ');
+  static const $in = FilterCondition._('IN');
+  static const between = FilterCondition._('BETWEEN');
+  static const beginsWith = FilterCondition._('BEGINS_WITH');
 
   final String value;
 
-  const FilterCondition(this.value);
+  const FilterCondition._(this.value);
+
+  static const values = [eq, $in, between, beginsWith];
 
   static FilterCondition fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum FilterCondition'));
+          orElse: () => FilterCondition._(value));
+
+  @override
+  bool operator ==(other) => other is FilterCondition && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class GetInstanceResponse {
@@ -2488,7 +2507,7 @@ class HealthCheckConfig {
 
   factory HealthCheckConfig.fromJson(Map<String, dynamic> json) {
     return HealthCheckConfig(
-      type: HealthCheckType.fromString((json['Type'] as String)),
+      type: HealthCheckType.fromString((json['Type'] as String?) ?? ''),
       failureThreshold: json['FailureThreshold'] as int?,
       resourcePath: json['ResourcePath'] as String?,
     );
@@ -2599,53 +2618,80 @@ class HealthCheckCustomConfig {
   }
 }
 
-enum HealthCheckType {
-  http('HTTP'),
-  https('HTTPS'),
-  tcp('TCP'),
-  ;
+class HealthCheckType {
+  static const http = HealthCheckType._('HTTP');
+  static const https = HealthCheckType._('HTTPS');
+  static const tcp = HealthCheckType._('TCP');
 
   final String value;
 
-  const HealthCheckType(this.value);
+  const HealthCheckType._(this.value);
+
+  static const values = [http, https, tcp];
 
   static HealthCheckType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum HealthCheckType'));
+          orElse: () => HealthCheckType._(value));
+
+  @override
+  bool operator ==(other) => other is HealthCheckType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum HealthStatus {
-  healthy('HEALTHY'),
-  unhealthy('UNHEALTHY'),
-  unknown('UNKNOWN'),
-  ;
+class HealthStatus {
+  static const healthy = HealthStatus._('HEALTHY');
+  static const unhealthy = HealthStatus._('UNHEALTHY');
+  static const unknown = HealthStatus._('UNKNOWN');
 
   final String value;
 
-  const HealthStatus(this.value);
+  const HealthStatus._(this.value);
 
-  static HealthStatus fromString(String value) =>
+  static const values = [healthy, unhealthy, unknown];
+
+  static HealthStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => HealthStatus._(value));
+
+  @override
+  bool operator ==(other) => other is HealthStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class HealthStatusFilter {
+  static const healthy = HealthStatusFilter._('HEALTHY');
+  static const unhealthy = HealthStatusFilter._('UNHEALTHY');
+  static const all = HealthStatusFilter._('ALL');
+  static const healthyOrElseAll = HealthStatusFilter._('HEALTHY_OR_ELSE_ALL');
+
+  final String value;
+
+  const HealthStatusFilter._(this.value);
+
+  static const values = [healthy, unhealthy, all, healthyOrElseAll];
+
+  static HealthStatusFilter fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum HealthStatus'));
-}
+          orElse: () => HealthStatusFilter._(value));
 
-enum HealthStatusFilter {
-  healthy('HEALTHY'),
-  unhealthy('UNHEALTHY'),
-  all('ALL'),
-  healthyOrElseAll('HEALTHY_OR_ELSE_ALL'),
-  ;
+  @override
+  bool operator ==(other) =>
+      other is HealthStatusFilter && other.value == value;
 
-  final String value;
+  @override
+  int get hashCode => value.hashCode;
 
-  const HealthStatusFilter(this.value);
-
-  static HealthStatusFilter fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum HealthStatusFilter'));
+  @override
+  String toString() => value;
 }
 
 /// In a response to a <a
@@ -3353,20 +3399,30 @@ class NamespaceFilter {
   }
 }
 
-enum NamespaceFilterName {
-  type('TYPE'),
-  name('NAME'),
-  httpName('HTTP_NAME'),
-  ;
+class NamespaceFilterName {
+  static const type = NamespaceFilterName._('TYPE');
+  static const name = NamespaceFilterName._('NAME');
+  static const httpName = NamespaceFilterName._('HTTP_NAME');
 
   final String value;
 
-  const NamespaceFilterName(this.value);
+  const NamespaceFilterName._(this.value);
 
-  static NamespaceFilterName fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum NamespaceFilterName'));
+  static const values = [type, name, httpName];
+
+  static NamespaceFilterName fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => NamespaceFilterName._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is NamespaceFilterName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A complex type that contains information that's specific to the namespace
@@ -3485,20 +3541,29 @@ class NamespaceSummary {
   }
 }
 
-enum NamespaceType {
-  dnsPublic('DNS_PUBLIC'),
-  dnsPrivate('DNS_PRIVATE'),
-  http('HTTP'),
-  ;
+class NamespaceType {
+  static const dnsPublic = NamespaceType._('DNS_PUBLIC');
+  static const dnsPrivate = NamespaceType._('DNS_PRIVATE');
+  static const http = NamespaceType._('HTTP');
 
   final String value;
 
-  const NamespaceType(this.value);
+  const NamespaceType._(this.value);
+
+  static const values = [dnsPublic, dnsPrivate, http];
 
   static NamespaceType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum NamespaceType'));
+          orElse: () => NamespaceType._(value));
+
+  @override
+  bool operator ==(other) => other is NamespaceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A complex type that contains information about a specified operation.
@@ -3723,39 +3788,58 @@ class OperationFilter {
   }
 }
 
-enum OperationFilterName {
-  namespaceId('NAMESPACE_ID'),
-  serviceId('SERVICE_ID'),
-  status('STATUS'),
-  type('TYPE'),
-  updateDate('UPDATE_DATE'),
-  ;
+class OperationFilterName {
+  static const namespaceId = OperationFilterName._('NAMESPACE_ID');
+  static const serviceId = OperationFilterName._('SERVICE_ID');
+  static const status = OperationFilterName._('STATUS');
+  static const type = OperationFilterName._('TYPE');
+  static const updateDate = OperationFilterName._('UPDATE_DATE');
 
   final String value;
 
-  const OperationFilterName(this.value);
+  const OperationFilterName._(this.value);
 
-  static OperationFilterName fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum OperationFilterName'));
+  static const values = [namespaceId, serviceId, status, type, updateDate];
+
+  static OperationFilterName fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => OperationFilterName._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is OperationFilterName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum OperationStatus {
-  submitted('SUBMITTED'),
-  pending('PENDING'),
-  success('SUCCESS'),
-  fail('FAIL'),
-  ;
+class OperationStatus {
+  static const submitted = OperationStatus._('SUBMITTED');
+  static const pending = OperationStatus._('PENDING');
+  static const success = OperationStatus._('SUCCESS');
+  static const fail = OperationStatus._('FAIL');
 
   final String value;
 
-  const OperationStatus(this.value);
+  const OperationStatus._(this.value);
+
+  static const values = [submitted, pending, success, fail];
 
   static OperationStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum OperationStatus'));
+          orElse: () => OperationStatus._(value));
+
+  @override
+  bool operator ==(other) => other is OperationStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A complex type that contains information about an operation that matches the
@@ -3808,39 +3892,65 @@ class OperationSummary {
   }
 }
 
-enum OperationTargetType {
-  namespace('NAMESPACE'),
-  service('SERVICE'),
-  instance('INSTANCE'),
-  ;
+class OperationTargetType {
+  static const namespace = OperationTargetType._('NAMESPACE');
+  static const service = OperationTargetType._('SERVICE');
+  static const instance = OperationTargetType._('INSTANCE');
 
   final String value;
 
-  const OperationTargetType(this.value);
+  const OperationTargetType._(this.value);
 
-  static OperationTargetType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum OperationTargetType'));
+  static const values = [namespace, service, instance];
+
+  static OperationTargetType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => OperationTargetType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is OperationTargetType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum OperationType {
-  createNamespace('CREATE_NAMESPACE'),
-  deleteNamespace('DELETE_NAMESPACE'),
-  updateNamespace('UPDATE_NAMESPACE'),
-  updateService('UPDATE_SERVICE'),
-  registerInstance('REGISTER_INSTANCE'),
-  deregisterInstance('DEREGISTER_INSTANCE'),
-  ;
+class OperationType {
+  static const createNamespace = OperationType._('CREATE_NAMESPACE');
+  static const deleteNamespace = OperationType._('DELETE_NAMESPACE');
+  static const updateNamespace = OperationType._('UPDATE_NAMESPACE');
+  static const updateService = OperationType._('UPDATE_SERVICE');
+  static const registerInstance = OperationType._('REGISTER_INSTANCE');
+  static const deregisterInstance = OperationType._('DEREGISTER_INSTANCE');
 
   final String value;
 
-  const OperationType(this.value);
+  const OperationType._(this.value);
+
+  static const values = [
+    createNamespace,
+    deleteNamespace,
+    updateNamespace,
+    updateService,
+    registerInstance,
+    deregisterInstance
+  ];
 
   static OperationType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum OperationType'));
+          orElse: () => OperationType._(value));
+
+  @override
+  bool operator ==(other) => other is OperationType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Updated properties for the private DNS namespace.
@@ -4029,20 +4139,29 @@ class PublicDnsPropertiesMutableChange {
   }
 }
 
-enum RecordType {
-  srv('SRV'),
-  a('A'),
-  aaaa('AAAA'),
-  cname('CNAME'),
-  ;
+class RecordType {
+  static const srv = RecordType._('SRV');
+  static const a = RecordType._('A');
+  static const aaaa = RecordType._('AAAA');
+  static const cname = RecordType._('CNAME');
 
   final String value;
 
-  const RecordType(this.value);
+  const RecordType._(this.value);
 
-  static RecordType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum RecordType'));
+  static const values = [srv, a, aaaa, cname];
+
+  static RecordType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => RecordType._(value));
+
+  @override
+  bool operator ==(other) => other is RecordType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class RegisterInstanceResponse {
@@ -4069,19 +4188,28 @@ class RegisterInstanceResponse {
   }
 }
 
-enum RoutingPolicy {
-  multivalue('MULTIVALUE'),
-  weighted('WEIGHTED'),
-  ;
+class RoutingPolicy {
+  static const multivalue = RoutingPolicy._('MULTIVALUE');
+  static const weighted = RoutingPolicy._('WEIGHTED');
 
   final String value;
 
-  const RoutingPolicy(this.value);
+  const RoutingPolicy._(this.value);
+
+  static const values = [multivalue, weighted];
 
   static RoutingPolicy fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum RoutingPolicy'));
+          orElse: () => RoutingPolicy._(value));
+
+  @override
+  bool operator ==(other) => other is RoutingPolicy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Start of Authority (SOA) properties for a public or private DNS namespace.
@@ -4343,18 +4471,27 @@ class ServiceFilter {
   }
 }
 
-enum ServiceFilterName {
-  namespaceId('NAMESPACE_ID'),
-  ;
+class ServiceFilterName {
+  static const namespaceId = ServiceFilterName._('NAMESPACE_ID');
 
   final String value;
 
-  const ServiceFilterName(this.value);
+  const ServiceFilterName._(this.value);
+
+  static const values = [namespaceId];
 
   static ServiceFilterName fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ServiceFilterName'));
+          orElse: () => ServiceFilterName._(value));
+
+  @override
+  bool operator ==(other) => other is ServiceFilterName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A complex type that contains information about a specified service.
@@ -4488,33 +4625,51 @@ class ServiceSummary {
   }
 }
 
-enum ServiceType {
-  http('HTTP'),
-  dnsHttp('DNS_HTTP'),
-  dns('DNS'),
-  ;
+class ServiceType {
+  static const http = ServiceType._('HTTP');
+  static const dnsHttp = ServiceType._('DNS_HTTP');
+  static const dns = ServiceType._('DNS');
 
   final String value;
 
-  const ServiceType(this.value);
+  const ServiceType._(this.value);
 
-  static ServiceType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum ServiceType'));
+  static const values = [http, dnsHttp, dns];
+
+  static ServiceType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ServiceType._(value));
+
+  @override
+  bool operator ==(other) => other is ServiceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ServiceTypeOption {
-  http('HTTP'),
-  ;
+class ServiceTypeOption {
+  static const http = ServiceTypeOption._('HTTP');
 
   final String value;
 
-  const ServiceTypeOption(this.value);
+  const ServiceTypeOption._(this.value);
+
+  static const values = [http];
 
   static ServiceTypeOption fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ServiceTypeOption'));
+          orElse: () => ServiceTypeOption._(value));
+
+  @override
+  bool operator ==(other) => other is ServiceTypeOption && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A custom key-value pair that's associated with a resource.

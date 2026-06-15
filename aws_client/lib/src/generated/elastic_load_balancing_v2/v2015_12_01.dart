@@ -3076,22 +3076,37 @@ class Action {
   }
 }
 
-enum ActionTypeEnum {
-  forward('forward'),
-  authenticateOidc('authenticate-oidc'),
-  authenticateCognito('authenticate-cognito'),
-  redirect('redirect'),
-  fixedResponse('fixed-response'),
-  ;
+class ActionTypeEnum {
+  static const forward = ActionTypeEnum._('forward');
+  static const authenticateOidc = ActionTypeEnum._('authenticate-oidc');
+  static const authenticateCognito = ActionTypeEnum._('authenticate-cognito');
+  static const redirect = ActionTypeEnum._('redirect');
+  static const fixedResponse = ActionTypeEnum._('fixed-response');
 
   final String value;
 
-  const ActionTypeEnum(this.value);
+  const ActionTypeEnum._(this.value);
+
+  static const values = [
+    forward,
+    authenticateOidc,
+    authenticateCognito,
+    redirect,
+    fixedResponse
+  ];
 
   static ActionTypeEnum fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ActionTypeEnum'));
+          orElse: () => ActionTypeEnum._(value));
+
+  @override
+  bool operator ==(other) => other is ActionTypeEnum && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class AddListenerCertificatesOutput {
@@ -3190,36 +3205,60 @@ class AnomalyDetection {
   }
 }
 
-enum AnomalyResultEnum {
-  anomalous('anomalous'),
-  normal('normal'),
-  ;
+class AnomalyResultEnum {
+  static const anomalous = AnomalyResultEnum._('anomalous');
+  static const normal = AnomalyResultEnum._('normal');
 
   final String value;
 
-  const AnomalyResultEnum(this.value);
+  const AnomalyResultEnum._(this.value);
+
+  static const values = [anomalous, normal];
 
   static AnomalyResultEnum fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum AnomalyResultEnum'));
+          orElse: () => AnomalyResultEnum._(value));
+
+  @override
+  bool operator ==(other) => other is AnomalyResultEnum && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum AuthenticateCognitoActionConditionalBehaviorEnum {
-  deny('deny'),
-  allow('allow'),
-  authenticate('authenticate'),
-  ;
+class AuthenticateCognitoActionConditionalBehaviorEnum {
+  static const deny =
+      AuthenticateCognitoActionConditionalBehaviorEnum._('deny');
+  static const allow =
+      AuthenticateCognitoActionConditionalBehaviorEnum._('allow');
+  static const authenticate =
+      AuthenticateCognitoActionConditionalBehaviorEnum._('authenticate');
 
   final String value;
 
-  const AuthenticateCognitoActionConditionalBehaviorEnum(this.value);
+  const AuthenticateCognitoActionConditionalBehaviorEnum._(this.value);
+
+  static const values = [deny, allow, authenticate];
 
   static AuthenticateCognitoActionConditionalBehaviorEnum fromString(
           String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum AuthenticateCognitoActionConditionalBehaviorEnum'));
+          orElse: () =>
+              AuthenticateCognitoActionConditionalBehaviorEnum._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AuthenticateCognitoActionConditionalBehaviorEnum &&
+      other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Request parameters to use when integrating with Amazon Cognito to
@@ -3365,21 +3404,33 @@ class AuthenticateCognitoActionConfig {
   }
 }
 
-enum AuthenticateOidcActionConditionalBehaviorEnum {
-  deny('deny'),
-  allow('allow'),
-  authenticate('authenticate'),
-  ;
+class AuthenticateOidcActionConditionalBehaviorEnum {
+  static const deny = AuthenticateOidcActionConditionalBehaviorEnum._('deny');
+  static const allow = AuthenticateOidcActionConditionalBehaviorEnum._('allow');
+  static const authenticate =
+      AuthenticateOidcActionConditionalBehaviorEnum._('authenticate');
 
   final String value;
 
-  const AuthenticateOidcActionConditionalBehaviorEnum(this.value);
+  const AuthenticateOidcActionConditionalBehaviorEnum._(this.value);
+
+  static const values = [deny, allow, authenticate];
 
   static AuthenticateOidcActionConditionalBehaviorEnum fromString(
           String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum AuthenticateOidcActionConditionalBehaviorEnum'));
+          orElse: () => AuthenticateOidcActionConditionalBehaviorEnum._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AuthenticateOidcActionConditionalBehaviorEnum &&
+      other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Request parameters when using an identity provider (IdP) that is compliant
@@ -4196,19 +4247,30 @@ class DescribeTargetGroupsOutput {
   }
 }
 
-enum DescribeTargetHealthInputIncludeEnum {
-  anomalyDetection('AnomalyDetection'),
-  all('All'),
-  ;
+class DescribeTargetHealthInputIncludeEnum {
+  static const anomalyDetection =
+      DescribeTargetHealthInputIncludeEnum._('AnomalyDetection');
+  static const all = DescribeTargetHealthInputIncludeEnum._('All');
 
   final String value;
 
-  const DescribeTargetHealthInputIncludeEnum(this.value);
+  const DescribeTargetHealthInputIncludeEnum._(this.value);
+
+  static const values = [anomalyDetection, all];
 
   static DescribeTargetHealthInputIncludeEnum fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum DescribeTargetHealthInputIncludeEnum'));
+          orElse: () => DescribeTargetHealthInputIncludeEnum._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DescribeTargetHealthInputIncludeEnum && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class DescribeTargetHealthOutput {
@@ -4385,20 +4447,35 @@ class DescribeTrustStoresOutput {
   }
 }
 
-enum EnforceSecurityGroupInboundRulesOnPrivateLinkTrafficEnum {
-  on('on'),
-  off('off'),
-  ;
+class EnforceSecurityGroupInboundRulesOnPrivateLinkTrafficEnum {
+  static const on =
+      EnforceSecurityGroupInboundRulesOnPrivateLinkTrafficEnum._('on');
+  static const off =
+      EnforceSecurityGroupInboundRulesOnPrivateLinkTrafficEnum._('off');
 
   final String value;
 
-  const EnforceSecurityGroupInboundRulesOnPrivateLinkTrafficEnum(this.value);
+  const EnforceSecurityGroupInboundRulesOnPrivateLinkTrafficEnum._(this.value);
+
+  static const values = [on, off];
 
   static EnforceSecurityGroupInboundRulesOnPrivateLinkTrafficEnum fromString(
           String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum EnforceSecurityGroupInboundRulesOnPrivateLinkTrafficEnum'));
+          orElse: () =>
+              EnforceSecurityGroupInboundRulesOnPrivateLinkTrafficEnum._(
+                  value));
+
+  @override
+  bool operator ==(other) =>
+      other is EnforceSecurityGroupInboundRulesOnPrivateLinkTrafficEnum &&
+      other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about an action that returns a custom HTTP response.
@@ -4719,20 +4796,30 @@ class HttpRequestMethodConditionConfig {
   }
 }
 
-enum IpAddressType {
-  ipv4('ipv4'),
-  dualstack('dualstack'),
-  dualstackWithoutPublicIpv4('dualstack-without-public-ipv4'),
-  ;
+class IpAddressType {
+  static const ipv4 = IpAddressType._('ipv4');
+  static const dualstack = IpAddressType._('dualstack');
+  static const dualstackWithoutPublicIpv4 =
+      IpAddressType._('dualstack-without-public-ipv4');
 
   final String value;
 
-  const IpAddressType(this.value);
+  const IpAddressType._(this.value);
+
+  static const values = [ipv4, dualstack, dualstackWithoutPublicIpv4];
 
   static IpAddressType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum IpAddressType'));
+          orElse: () => IpAddressType._(value));
+
+  @override
+  bool operator ==(other) => other is IpAddressType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about an Elastic Load Balancing resource limit for your Amazon
@@ -5375,19 +5462,29 @@ class LoadBalancerAttribute {
   }
 }
 
-enum LoadBalancerSchemeEnum {
-  internetFacing('internet-facing'),
-  internal('internal'),
-  ;
+class LoadBalancerSchemeEnum {
+  static const internetFacing = LoadBalancerSchemeEnum._('internet-facing');
+  static const internal = LoadBalancerSchemeEnum._('internal');
 
   final String value;
 
-  const LoadBalancerSchemeEnum(this.value);
+  const LoadBalancerSchemeEnum._(this.value);
+
+  static const values = [internetFacing, internal];
 
   static LoadBalancerSchemeEnum fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum LoadBalancerSchemeEnum'));
+          orElse: () => LoadBalancerSchemeEnum._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is LoadBalancerSchemeEnum && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about the state of the load balancer.
@@ -5426,37 +5523,57 @@ class LoadBalancerState {
   }
 }
 
-enum LoadBalancerStateEnum {
-  active('active'),
-  provisioning('provisioning'),
-  activeImpaired('active_impaired'),
-  failed('failed'),
-  ;
+class LoadBalancerStateEnum {
+  static const active = LoadBalancerStateEnum._('active');
+  static const provisioning = LoadBalancerStateEnum._('provisioning');
+  static const activeImpaired = LoadBalancerStateEnum._('active_impaired');
+  static const failed = LoadBalancerStateEnum._('failed');
 
   final String value;
 
-  const LoadBalancerStateEnum(this.value);
+  const LoadBalancerStateEnum._(this.value);
 
-  static LoadBalancerStateEnum fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum LoadBalancerStateEnum'));
+  static const values = [active, provisioning, activeImpaired, failed];
+
+  static LoadBalancerStateEnum fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => LoadBalancerStateEnum._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is LoadBalancerStateEnum && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum LoadBalancerTypeEnum {
-  application('application'),
-  network('network'),
-  gateway('gateway'),
-  ;
+class LoadBalancerTypeEnum {
+  static const application = LoadBalancerTypeEnum._('application');
+  static const network = LoadBalancerTypeEnum._('network');
+  static const gateway = LoadBalancerTypeEnum._('gateway');
 
   final String value;
 
-  const LoadBalancerTypeEnum(this.value);
+  const LoadBalancerTypeEnum._(this.value);
 
-  static LoadBalancerTypeEnum fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum LoadBalancerTypeEnum'));
+  static const values = [application, network, gateway];
+
+  static LoadBalancerTypeEnum fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => LoadBalancerTypeEnum._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is LoadBalancerTypeEnum && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The codes to use when checking for a successful response from a target. If
@@ -5512,19 +5629,29 @@ class Matcher {
   }
 }
 
-enum MitigationInEffectEnum {
-  yes('yes'),
-  no('no'),
-  ;
+class MitigationInEffectEnum {
+  static const yes = MitigationInEffectEnum._('yes');
+  static const no = MitigationInEffectEnum._('no');
 
   final String value;
 
-  const MitigationInEffectEnum(this.value);
+  const MitigationInEffectEnum._(this.value);
+
+  static const values = [yes, no];
 
   static MitigationInEffectEnum fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum MitigationInEffectEnum'));
+          orElse: () => MitigationInEffectEnum._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is MitigationInEffectEnum && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class ModifyListenerAttributesOutput {
@@ -5795,24 +5922,32 @@ class PathPatternConditionConfig {
   }
 }
 
-enum ProtocolEnum {
-  http('HTTP'),
-  https('HTTPS'),
-  tcp('TCP'),
-  tls('TLS'),
-  udp('UDP'),
-  tcpUdp('TCP_UDP'),
-  geneve('GENEVE'),
-  ;
+class ProtocolEnum {
+  static const http = ProtocolEnum._('HTTP');
+  static const https = ProtocolEnum._('HTTPS');
+  static const tcp = ProtocolEnum._('TCP');
+  static const tls = ProtocolEnum._('TLS');
+  static const udp = ProtocolEnum._('UDP');
+  static const tcpUdp = ProtocolEnum._('TCP_UDP');
+  static const geneve = ProtocolEnum._('GENEVE');
 
   final String value;
 
-  const ProtocolEnum(this.value);
+  const ProtocolEnum._(this.value);
 
-  static ProtocolEnum fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ProtocolEnum'));
+  static const values = [http, https, tcp, tls, udp, tcpUdp, geneve];
+
+  static ProtocolEnum fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ProtocolEnum._(value));
+
+  @override
+  bool operator ==(other) => other is ProtocolEnum && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about a query string condition.
@@ -6015,19 +6150,29 @@ class RedirectActionConfig {
   }
 }
 
-enum RedirectActionStatusCodeEnum {
-  http_301('HTTP_301'),
-  http_302('HTTP_302'),
-  ;
+class RedirectActionStatusCodeEnum {
+  static const http_301 = RedirectActionStatusCodeEnum._('HTTP_301');
+  static const http_302 = RedirectActionStatusCodeEnum._('HTTP_302');
 
   final String value;
 
-  const RedirectActionStatusCodeEnum(this.value);
+  const RedirectActionStatusCodeEnum._(this.value);
+
+  static const values = [http_301, http_302];
 
   static RedirectActionStatusCodeEnum fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum RedirectActionStatusCodeEnum'));
+          orElse: () => RedirectActionStatusCodeEnum._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RedirectActionStatusCodeEnum && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class RegisterTargetsOutput {
@@ -6130,18 +6275,27 @@ class RevocationContent {
   }
 }
 
-enum RevocationType {
-  crl('CRL'),
-  ;
+class RevocationType {
+  static const crl = RevocationType._('CRL');
 
   final String value;
 
-  const RevocationType(this.value);
+  const RevocationType._(this.value);
+
+  static const values = [crl];
 
   static RevocationType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum RevocationType'));
+          orElse: () => RevocationType._(value));
+
+  @override
+  bool operator ==(other) => other is RevocationType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about a rule.
@@ -7270,19 +7424,29 @@ class TargetGroupAttribute {
   }
 }
 
-enum TargetGroupIpAddressTypeEnum {
-  ipv4('ipv4'),
-  ipv6('ipv6'),
-  ;
+class TargetGroupIpAddressTypeEnum {
+  static const ipv4 = TargetGroupIpAddressTypeEnum._('ipv4');
+  static const ipv6 = TargetGroupIpAddressTypeEnum._('ipv6');
 
   final String value;
 
-  const TargetGroupIpAddressTypeEnum(this.value);
+  const TargetGroupIpAddressTypeEnum._(this.value);
+
+  static const values = [ipv4, ipv6];
 
   static TargetGroupIpAddressTypeEnum fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum TargetGroupIpAddressTypeEnum'));
+          orElse: () => TargetGroupIpAddressTypeEnum._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TargetGroupIpAddressTypeEnum && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about the target group stickiness for a rule.
@@ -7540,66 +7704,125 @@ class TargetHealthDescription {
   }
 }
 
-enum TargetHealthReasonEnum {
-  elbRegistrationInProgress('Elb.RegistrationInProgress'),
-  elbInitialHealthChecking('Elb.InitialHealthChecking'),
-  targetResponseCodeMismatch('Target.ResponseCodeMismatch'),
-  targetTimeout('Target.Timeout'),
-  targetFailedHealthChecks('Target.FailedHealthChecks'),
-  targetNotRegistered('Target.NotRegistered'),
-  targetNotInUse('Target.NotInUse'),
-  targetDeregistrationInProgress('Target.DeregistrationInProgress'),
-  targetInvalidState('Target.InvalidState'),
-  targetIpUnusable('Target.IpUnusable'),
-  targetHealthCheckDisabled('Target.HealthCheckDisabled'),
-  elbInternalError('Elb.InternalError'),
-  ;
+class TargetHealthReasonEnum {
+  static const elbRegistrationInProgress =
+      TargetHealthReasonEnum._('Elb.RegistrationInProgress');
+  static const elbInitialHealthChecking =
+      TargetHealthReasonEnum._('Elb.InitialHealthChecking');
+  static const targetResponseCodeMismatch =
+      TargetHealthReasonEnum._('Target.ResponseCodeMismatch');
+  static const targetTimeout = TargetHealthReasonEnum._('Target.Timeout');
+  static const targetFailedHealthChecks =
+      TargetHealthReasonEnum._('Target.FailedHealthChecks');
+  static const targetNotRegistered =
+      TargetHealthReasonEnum._('Target.NotRegistered');
+  static const targetNotInUse = TargetHealthReasonEnum._('Target.NotInUse');
+  static const targetDeregistrationInProgress =
+      TargetHealthReasonEnum._('Target.DeregistrationInProgress');
+  static const targetInvalidState =
+      TargetHealthReasonEnum._('Target.InvalidState');
+  static const targetIpUnusable = TargetHealthReasonEnum._('Target.IpUnusable');
+  static const targetHealthCheckDisabled =
+      TargetHealthReasonEnum._('Target.HealthCheckDisabled');
+  static const elbInternalError = TargetHealthReasonEnum._('Elb.InternalError');
 
   final String value;
 
-  const TargetHealthReasonEnum(this.value);
+  const TargetHealthReasonEnum._(this.value);
+
+  static const values = [
+    elbRegistrationInProgress,
+    elbInitialHealthChecking,
+    targetResponseCodeMismatch,
+    targetTimeout,
+    targetFailedHealthChecks,
+    targetNotRegistered,
+    targetNotInUse,
+    targetDeregistrationInProgress,
+    targetInvalidState,
+    targetIpUnusable,
+    targetHealthCheckDisabled,
+    elbInternalError
+  ];
 
   static TargetHealthReasonEnum fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum TargetHealthReasonEnum'));
+          orElse: () => TargetHealthReasonEnum._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TargetHealthReasonEnum && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum TargetHealthStateEnum {
-  initial('initial'),
-  healthy('healthy'),
-  unhealthy('unhealthy'),
-  unhealthyDraining('unhealthy.draining'),
-  unused('unused'),
-  draining('draining'),
-  unavailable('unavailable'),
-  ;
+class TargetHealthStateEnum {
+  static const initial = TargetHealthStateEnum._('initial');
+  static const healthy = TargetHealthStateEnum._('healthy');
+  static const unhealthy = TargetHealthStateEnum._('unhealthy');
+  static const unhealthyDraining =
+      TargetHealthStateEnum._('unhealthy.draining');
+  static const unused = TargetHealthStateEnum._('unused');
+  static const draining = TargetHealthStateEnum._('draining');
+  static const unavailable = TargetHealthStateEnum._('unavailable');
 
   final String value;
 
-  const TargetHealthStateEnum(this.value);
+  const TargetHealthStateEnum._(this.value);
 
-  static TargetHealthStateEnum fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum TargetHealthStateEnum'));
+  static const values = [
+    initial,
+    healthy,
+    unhealthy,
+    unhealthyDraining,
+    unused,
+    draining,
+    unavailable
+  ];
+
+  static TargetHealthStateEnum fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => TargetHealthStateEnum._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TargetHealthStateEnum && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum TargetTypeEnum {
-  instance('instance'),
-  ip('ip'),
-  lambda('lambda'),
-  alb('alb'),
-  ;
+class TargetTypeEnum {
+  static const instance = TargetTypeEnum._('instance');
+  static const ip = TargetTypeEnum._('ip');
+  static const lambda = TargetTypeEnum._('lambda');
+  static const alb = TargetTypeEnum._('alb');
 
   final String value;
 
-  const TargetTypeEnum(this.value);
+  const TargetTypeEnum._(this.value);
+
+  static const values = [instance, ip, lambda, alb];
 
   static TargetTypeEnum fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum TargetTypeEnum'));
+          orElse: () => TargetTypeEnum._(value));
+
+  @override
+  bool operator ==(other) => other is TargetTypeEnum && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about a trust store.
@@ -7679,19 +7902,29 @@ class TrustStoreAssociation {
   }
 }
 
-enum TrustStoreAssociationStatusEnum {
-  active('active'),
-  removed('removed'),
-  ;
+class TrustStoreAssociationStatusEnum {
+  static const active = TrustStoreAssociationStatusEnum._('active');
+  static const removed = TrustStoreAssociationStatusEnum._('removed');
 
   final String value;
 
-  const TrustStoreAssociationStatusEnum(this.value);
+  const TrustStoreAssociationStatusEnum._(this.value);
+
+  static const values = [active, removed];
 
   static TrustStoreAssociationStatusEnum fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum TrustStoreAssociationStatusEnum'));
+          orElse: () => TrustStoreAssociationStatusEnum._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TrustStoreAssociationStatusEnum && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about a revocation file in use by a trust store.
@@ -7741,19 +7974,28 @@ class TrustStoreRevocation {
   }
 }
 
-enum TrustStoreStatus {
-  active('ACTIVE'),
-  creating('CREATING'),
-  ;
+class TrustStoreStatus {
+  static const active = TrustStoreStatus._('ACTIVE');
+  static const creating = TrustStoreStatus._('CREATING');
 
   final String value;
 
-  const TrustStoreStatus(this.value);
+  const TrustStoreStatus._(this.value);
+
+  static const values = [active, creating];
 
   static TrustStoreStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum TrustStoreStatus'));
+          orElse: () => TrustStoreStatus._(value));
+
+  @override
+  bool operator ==(other) => other is TrustStoreStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class ALPNPolicyNotSupportedException extends _s.GenericAwsException {

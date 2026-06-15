@@ -2937,7 +2937,7 @@ class AppflowIntegrationWorkflowAttributes {
     return AppflowIntegrationWorkflowAttributes(
       connectorProfileName: (json['ConnectorProfileName'] as String?) ?? '',
       sourceConnectorType: SourceConnectorType.fromString(
-          (json['SourceConnectorType'] as String)),
+          (json['SourceConnectorType'] as String?) ?? ''),
       roleArn: json['RoleArn'] as String?,
     );
   }
@@ -3047,7 +3047,7 @@ class AppflowIntegrationWorkflowStep {
       flowName: (json['FlowName'] as String?) ?? '',
       lastUpdatedAt: nonNullableTimeStampFromJson(json['LastUpdatedAt'] ?? 0),
       recordsProcessed: (json['RecordsProcessed'] as int?) ?? 0,
-      status: Status.fromString((json['Status'] as String)),
+      status: Status.fromString((json['Status'] as String?) ?? ''),
     );
   }
 
@@ -3133,19 +3133,29 @@ class AttributeItem {
   }
 }
 
-enum AttributeMatchingModel {
-  oneToOne('ONE_TO_ONE'),
-  manyToMany('MANY_TO_MANY'),
-  ;
+class AttributeMatchingModel {
+  static const oneToOne = AttributeMatchingModel._('ONE_TO_ONE');
+  static const manyToMany = AttributeMatchingModel._('MANY_TO_MANY');
 
   final String value;
 
-  const AttributeMatchingModel(this.value);
+  const AttributeMatchingModel._(this.value);
+
+  static const values = [oneToOne, manyToMany];
 
   static AttributeMatchingModel fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum AttributeMatchingModel'));
+          orElse: () => AttributeMatchingModel._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AttributeMatchingModel && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Configuration information about the <code>AttributeTypesSelector
@@ -3244,7 +3254,7 @@ class AttributeTypesSelector {
   factory AttributeTypesSelector.fromJson(Map<String, dynamic> json) {
     return AttributeTypesSelector(
       attributeMatchingModel: AttributeMatchingModel.fromString(
-          (json['AttributeMatchingModel'] as String)),
+          (json['AttributeMatchingModel'] as String?) ?? ''),
       address:
           (json['Address'] as List?)?.nonNulls.map((e) => e as String).toList(),
       emailAddress: (json['EmailAddress'] as List?)
@@ -3433,7 +3443,7 @@ class ConflictResolution {
   factory ConflictResolution.fromJson(Map<String, dynamic> json) {
     return ConflictResolution(
       conflictResolvingModel: ConflictResolvingModel.fromString(
-          (json['ConflictResolvingModel'] as String)),
+          (json['ConflictResolvingModel'] as String?) ?? ''),
       sourceName: json['SourceName'] as String?,
     );
   }
@@ -3448,19 +3458,29 @@ class ConflictResolution {
   }
 }
 
-enum ConflictResolvingModel {
-  recency('RECENCY'),
-  source('SOURCE'),
-  ;
+class ConflictResolvingModel {
+  static const recency = ConflictResolvingModel._('RECENCY');
+  static const source = ConflictResolvingModel._('SOURCE');
 
   final String value;
 
-  const ConflictResolvingModel(this.value);
+  const ConflictResolvingModel._(this.value);
+
+  static const values = [recency, source];
 
   static ConflictResolvingModel fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ConflictResolvingModel'));
+          orElse: () => ConflictResolvingModel._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ConflictResolvingModel && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The operation to be performed on the provided source fields.
@@ -3808,19 +3828,27 @@ class CreateProfileResponse {
   }
 }
 
-enum DataPullMode {
-  incremental('Incremental'),
-  complete('Complete'),
-  ;
+class DataPullMode {
+  static const incremental = DataPullMode._('Incremental');
+  static const complete = DataPullMode._('Complete');
 
   final String value;
 
-  const DataPullMode(this.value);
+  const DataPullMode._(this.value);
 
-  static DataPullMode fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum DataPullMode'));
+  static const values = [incremental, complete];
+
+  static DataPullMode fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => DataPullMode._(value));
+
+  @override
+  bool operator ==(other) => other is DataPullMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class DeleteCalculatedAttributeDefinitionResponse {
@@ -4012,8 +4040,8 @@ class DestinationSummary {
 
   factory DestinationSummary.fromJson(Map<String, dynamic> json) {
     return DestinationSummary(
-      status:
-          EventStreamDestinationStatus.fromString((json['Status'] as String)),
+      status: EventStreamDestinationStatus.fromString(
+          (json['Status'] as String?) ?? ''),
       uri: (json['Uri'] as String?) ?? '',
       unhealthySince: timeStampFromJson(json['UnhealthySince']),
     );
@@ -4180,8 +4208,8 @@ class EventStreamDestinationDetails {
 
   factory EventStreamDestinationDetails.fromJson(Map<String, dynamic> json) {
     return EventStreamDestinationDetails(
-      status:
-          EventStreamDestinationStatus.fromString((json['Status'] as String)),
+      status: EventStreamDestinationStatus.fromString(
+          (json['Status'] as String?) ?? ''),
       uri: (json['Uri'] as String?) ?? '',
       message: json['Message'] as String?,
       unhealthySince: timeStampFromJson(json['UnhealthySince']),
@@ -4203,34 +4231,53 @@ class EventStreamDestinationDetails {
   }
 }
 
-enum EventStreamDestinationStatus {
-  healthy('HEALTHY'),
-  unhealthy('UNHEALTHY'),
-  ;
+class EventStreamDestinationStatus {
+  static const healthy = EventStreamDestinationStatus._('HEALTHY');
+  static const unhealthy = EventStreamDestinationStatus._('UNHEALTHY');
 
   final String value;
 
-  const EventStreamDestinationStatus(this.value);
+  const EventStreamDestinationStatus._(this.value);
+
+  static const values = [healthy, unhealthy];
 
   static EventStreamDestinationStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum EventStreamDestinationStatus'));
+          orElse: () => EventStreamDestinationStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is EventStreamDestinationStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum EventStreamState {
-  running('RUNNING'),
-  stopped('STOPPED'),
-  ;
+class EventStreamState {
+  static const running = EventStreamState._('RUNNING');
+  static const stopped = EventStreamState._('STOPPED');
 
   final String value;
 
-  const EventStreamState(this.value);
+  const EventStreamState._(this.value);
+
+  static const values = [running, stopped];
 
   static EventStreamState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum EventStreamState'));
+          orElse: () => EventStreamState._(value));
+
+  @override
+  bool operator ==(other) => other is EventStreamState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// An instance of EventStream in a list of EventStreams.
@@ -4271,7 +4318,7 @@ class EventStreamSummary {
       domainName: (json['DomainName'] as String?) ?? '',
       eventStreamArn: (json['EventStreamArn'] as String?) ?? '',
       eventStreamName: (json['EventStreamName'] as String?) ?? '',
-      state: EventStreamState.fromString((json['State'] as String)),
+      state: EventStreamState.fromString((json['State'] as String?) ?? ''),
       destinationSummary: json['DestinationSummary'] != null
           ? DestinationSummary.fromJson(
               json['DestinationSummary'] as Map<String, dynamic>)
@@ -4364,22 +4411,31 @@ class ExportingLocation {
   }
 }
 
-enum FieldContentType {
-  string('STRING'),
-  number('NUMBER'),
-  phoneNumber('PHONE_NUMBER'),
-  emailAddress('EMAIL_ADDRESS'),
-  name('NAME'),
-  ;
+class FieldContentType {
+  static const string = FieldContentType._('STRING');
+  static const number = FieldContentType._('NUMBER');
+  static const phoneNumber = FieldContentType._('PHONE_NUMBER');
+  static const emailAddress = FieldContentType._('EMAIL_ADDRESS');
+  static const name = FieldContentType._('NAME');
 
   final String value;
 
-  const FieldContentType(this.value);
+  const FieldContentType._(this.value);
+
+  static const values = [string, number, phoneNumber, emailAddress, name];
 
   static FieldContentType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum FieldContentType'));
+          orElse: () => FieldContentType._(value));
+
+  @override
+  bool operator ==(other) => other is FieldContentType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A duplicate customer profile that is to be merged into a main profile.
@@ -4612,19 +4668,28 @@ class FoundByKeyValue {
 }
 
 @Deprecated('Deprecated')
-enum Gender {
-  male('MALE'),
-  female('FEMALE'),
-  unspecified('UNSPECIFIED'),
-  ;
+class Gender {
+  static const male = Gender._('MALE');
+  static const female = Gender._('FEMALE');
+  static const unspecified = Gender._('UNSPECIFIED');
 
   final String value;
 
-  const Gender(this.value);
+  const Gender._(this.value);
+
+  static const values = [male, female, unspecified];
 
   static Gender fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum Gender'));
+      values.firstWhere((e) => e.value == value, orElse: () => Gender._(value));
+
+  @override
+  bool operator ==(other) => other is Gender && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class GetAutoMergingPreviewResponse {
@@ -4967,7 +5032,7 @@ class GetEventStreamResponse {
               const <String, dynamic>{}),
       domainName: (json['DomainName'] as String?) ?? '',
       eventStreamArn: (json['EventStreamArn'] as String?) ?? '',
-      state: EventStreamState.fromString((json['State'] as String)),
+      state: EventStreamState.fromString((json['State'] as String?) ?? ''),
       stoppedSince: timeStampFromJson(json['StoppedSince']),
       tags: (json['Tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
@@ -5790,24 +5855,43 @@ class IdentityResolutionJob {
   }
 }
 
-enum IdentityResolutionJobStatus {
-  pending('PENDING'),
-  preprocessing('PREPROCESSING'),
-  findMatching('FIND_MATCHING'),
-  merging('MERGING'),
-  completed('COMPLETED'),
-  partialSuccess('PARTIAL_SUCCESS'),
-  failed('FAILED'),
-  ;
+class IdentityResolutionJobStatus {
+  static const pending = IdentityResolutionJobStatus._('PENDING');
+  static const preprocessing = IdentityResolutionJobStatus._('PREPROCESSING');
+  static const findMatching = IdentityResolutionJobStatus._('FIND_MATCHING');
+  static const merging = IdentityResolutionJobStatus._('MERGING');
+  static const completed = IdentityResolutionJobStatus._('COMPLETED');
+  static const partialSuccess =
+      IdentityResolutionJobStatus._('PARTIAL_SUCCESS');
+  static const failed = IdentityResolutionJobStatus._('FAILED');
 
   final String value;
 
-  const IdentityResolutionJobStatus(this.value);
+  const IdentityResolutionJobStatus._(this.value);
+
+  static const values = [
+    pending,
+    preprocessing,
+    findMatching,
+    merging,
+    completed,
+    partialSuccess,
+    failed
+  ];
 
   static IdentityResolutionJobStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum IdentityResolutionJobStatus'));
+          orElse: () => IdentityResolutionJobStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is IdentityResolutionJobStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specifies the configuration used when importing incremental records from the
@@ -5863,8 +5947,8 @@ class JobSchedule {
 
   factory JobSchedule.fromJson(Map<String, dynamic> json) {
     return JobSchedule(
-      dayOfTheWeek:
-          JobScheduleDayOfTheWeek.fromString((json['DayOfTheWeek'] as String)),
+      dayOfTheWeek: JobScheduleDayOfTheWeek.fromString(
+          (json['DayOfTheWeek'] as String?) ?? ''),
       time: (json['Time'] as String?) ?? '',
     );
   }
@@ -5879,24 +5963,42 @@ class JobSchedule {
   }
 }
 
-enum JobScheduleDayOfTheWeek {
-  sunday('SUNDAY'),
-  monday('MONDAY'),
-  tuesday('TUESDAY'),
-  wednesday('WEDNESDAY'),
-  thursday('THURSDAY'),
-  friday('FRIDAY'),
-  saturday('SATURDAY'),
-  ;
+class JobScheduleDayOfTheWeek {
+  static const sunday = JobScheduleDayOfTheWeek._('SUNDAY');
+  static const monday = JobScheduleDayOfTheWeek._('MONDAY');
+  static const tuesday = JobScheduleDayOfTheWeek._('TUESDAY');
+  static const wednesday = JobScheduleDayOfTheWeek._('WEDNESDAY');
+  static const thursday = JobScheduleDayOfTheWeek._('THURSDAY');
+  static const friday = JobScheduleDayOfTheWeek._('FRIDAY');
+  static const saturday = JobScheduleDayOfTheWeek._('SATURDAY');
 
   final String value;
 
-  const JobScheduleDayOfTheWeek(this.value);
+  const JobScheduleDayOfTheWeek._(this.value);
+
+  static const values = [
+    sunday,
+    monday,
+    tuesday,
+    wednesday,
+    thursday,
+    friday,
+    saturday
+  ];
 
   static JobScheduleDayOfTheWeek fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum JobScheduleDayOfTheWeek'));
+          orElse: () => JobScheduleDayOfTheWeek._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is JobScheduleDayOfTheWeek && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Statistics about the Identity Resolution Job.
@@ -6751,10 +6853,11 @@ class ListWorkflowsItem {
     return ListWorkflowsItem(
       createdAt: nonNullableTimeStampFromJson(json['CreatedAt'] ?? 0),
       lastUpdatedAt: nonNullableTimeStampFromJson(json['LastUpdatedAt'] ?? 0),
-      status: Status.fromString((json['Status'] as String)),
+      status: Status.fromString((json['Status'] as String?) ?? ''),
       statusDescription: (json['StatusDescription'] as String?) ?? '',
       workflowId: (json['WorkflowId'] as String?) ?? '',
-      workflowType: WorkflowType.fromString((json['WorkflowType'] as String)),
+      workflowType:
+          WorkflowType.fromString((json['WorkflowType'] as String?) ?? ''),
     );
   }
 
@@ -6809,33 +6912,63 @@ class ListWorkflowsResponse {
   }
 }
 
-enum MarketoConnectorOperator {
-  projection('PROJECTION'),
-  lessThan('LESS_THAN'),
-  greaterThan('GREATER_THAN'),
-  between('BETWEEN'),
-  addition('ADDITION'),
-  multiplication('MULTIPLICATION'),
-  division('DIVISION'),
-  subtraction('SUBTRACTION'),
-  maskAll('MASK_ALL'),
-  maskFirstN('MASK_FIRST_N'),
-  maskLastN('MASK_LAST_N'),
-  validateNonNull('VALIDATE_NON_NULL'),
-  validateNonZero('VALIDATE_NON_ZERO'),
-  validateNonNegative('VALIDATE_NON_NEGATIVE'),
-  validateNumeric('VALIDATE_NUMERIC'),
-  noOp('NO_OP'),
-  ;
+class MarketoConnectorOperator {
+  static const projection = MarketoConnectorOperator._('PROJECTION');
+  static const lessThan = MarketoConnectorOperator._('LESS_THAN');
+  static const greaterThan = MarketoConnectorOperator._('GREATER_THAN');
+  static const between = MarketoConnectorOperator._('BETWEEN');
+  static const addition = MarketoConnectorOperator._('ADDITION');
+  static const multiplication = MarketoConnectorOperator._('MULTIPLICATION');
+  static const division = MarketoConnectorOperator._('DIVISION');
+  static const subtraction = MarketoConnectorOperator._('SUBTRACTION');
+  static const maskAll = MarketoConnectorOperator._('MASK_ALL');
+  static const maskFirstN = MarketoConnectorOperator._('MASK_FIRST_N');
+  static const maskLastN = MarketoConnectorOperator._('MASK_LAST_N');
+  static const validateNonNull =
+      MarketoConnectorOperator._('VALIDATE_NON_NULL');
+  static const validateNonZero =
+      MarketoConnectorOperator._('VALIDATE_NON_ZERO');
+  static const validateNonNegative =
+      MarketoConnectorOperator._('VALIDATE_NON_NEGATIVE');
+  static const validateNumeric = MarketoConnectorOperator._('VALIDATE_NUMERIC');
+  static const noOp = MarketoConnectorOperator._('NO_OP');
 
   final String value;
 
-  const MarketoConnectorOperator(this.value);
+  const MarketoConnectorOperator._(this.value);
+
+  static const values = [
+    projection,
+    lessThan,
+    greaterThan,
+    between,
+    addition,
+    multiplication,
+    division,
+    subtraction,
+    maskAll,
+    maskFirstN,
+    maskLastN,
+    validateNonNull,
+    validateNonZero,
+    validateNonNegative,
+    validateNumeric,
+    noOp
+  ];
 
   static MarketoConnectorOperator fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum MarketoConnectorOperator'));
+          orElse: () => MarketoConnectorOperator._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is MarketoConnectorOperator && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The properties that are applied when Marketo is being used as a source.
@@ -6902,18 +7035,27 @@ class MatchItem {
   }
 }
 
-enum MatchType {
-  ruleBasedMatching('RULE_BASED_MATCHING'),
-  mlBasedMatching('ML_BASED_MATCHING'),
-  ;
+class MatchType {
+  static const ruleBasedMatching = MatchType._('RULE_BASED_MATCHING');
+  static const mlBasedMatching = MatchType._('ML_BASED_MATCHING');
 
   final String value;
 
-  const MatchType(this.value);
+  const MatchType._(this.value);
 
-  static MatchType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum MatchType'));
+  static const values = [ruleBasedMatching, mlBasedMatching];
+
+  static MatchType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => MatchType._(value));
+
+  @override
+  bool operator ==(other) => other is MatchType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The flag that enables the matching process of duplicate profiles.
@@ -7228,63 +7370,109 @@ class ObjectTypeKey {
   }
 }
 
-enum Operator {
-  equalTo('EQUAL_TO'),
-  greaterThan('GREATER_THAN'),
-  lessThan('LESS_THAN'),
-  notEqualTo('NOT_EQUAL_TO'),
-  ;
+class Operator {
+  static const equalTo = Operator._('EQUAL_TO');
+  static const greaterThan = Operator._('GREATER_THAN');
+  static const lessThan = Operator._('LESS_THAN');
+  static const notEqualTo = Operator._('NOT_EQUAL_TO');
 
   final String value;
 
-  const Operator(this.value);
+  const Operator._(this.value);
 
-  static Operator fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum Operator'));
+  static const values = [equalTo, greaterThan, lessThan, notEqualTo];
+
+  static Operator fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Operator._(value));
+
+  @override
+  bool operator ==(other) => other is Operator && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum OperatorPropertiesKeys {
-  $value('VALUE'),
-  $values('VALUES'),
-  dataType('DATA_TYPE'),
-  upperBound('UPPER_BOUND'),
-  lowerBound('LOWER_BOUND'),
-  sourceDataType('SOURCE_DATA_TYPE'),
-  destinationDataType('DESTINATION_DATA_TYPE'),
-  validationAction('VALIDATION_ACTION'),
-  maskValue('MASK_VALUE'),
-  maskLength('MASK_LENGTH'),
-  truncateLength('TRUNCATE_LENGTH'),
-  mathOperationFieldsOrder('MATH_OPERATION_FIELDS_ORDER'),
-  concatFormat('CONCAT_FORMAT'),
-  subfieldCategoryMap('SUBFIELD_CATEGORY_MAP'),
-  ;
+class OperatorPropertiesKeys {
+  static const $value = OperatorPropertiesKeys._('VALUE');
+  static const $values = OperatorPropertiesKeys._('VALUES');
+  static const dataType = OperatorPropertiesKeys._('DATA_TYPE');
+  static const upperBound = OperatorPropertiesKeys._('UPPER_BOUND');
+  static const lowerBound = OperatorPropertiesKeys._('LOWER_BOUND');
+  static const sourceDataType = OperatorPropertiesKeys._('SOURCE_DATA_TYPE');
+  static const destinationDataType =
+      OperatorPropertiesKeys._('DESTINATION_DATA_TYPE');
+  static const validationAction = OperatorPropertiesKeys._('VALIDATION_ACTION');
+  static const maskValue = OperatorPropertiesKeys._('MASK_VALUE');
+  static const maskLength = OperatorPropertiesKeys._('MASK_LENGTH');
+  static const truncateLength = OperatorPropertiesKeys._('TRUNCATE_LENGTH');
+  static const mathOperationFieldsOrder =
+      OperatorPropertiesKeys._('MATH_OPERATION_FIELDS_ORDER');
+  static const concatFormat = OperatorPropertiesKeys._('CONCAT_FORMAT');
+  static const subfieldCategoryMap =
+      OperatorPropertiesKeys._('SUBFIELD_CATEGORY_MAP');
 
   final String value;
 
-  const OperatorPropertiesKeys(this.value);
+  const OperatorPropertiesKeys._(this.value);
+
+  static const values = [
+    $value,
+    $values,
+    dataType,
+    upperBound,
+    lowerBound,
+    sourceDataType,
+    destinationDataType,
+    validationAction,
+    maskValue,
+    maskLength,
+    truncateLength,
+    mathOperationFieldsOrder,
+    concatFormat,
+    subfieldCategoryMap
+  ];
 
   static OperatorPropertiesKeys fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum OperatorPropertiesKeys'));
+          orElse: () => OperatorPropertiesKeys._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is OperatorPropertiesKeys && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 @Deprecated('Deprecated')
-enum PartyType {
-  individual('INDIVIDUAL'),
-  business('BUSINESS'),
-  other('OTHER'),
-  ;
+class PartyType {
+  static const individual = PartyType._('INDIVIDUAL');
+  static const business = PartyType._('BUSINESS');
+  static const other = PartyType._('OTHER');
 
   final String value;
 
-  const PartyType(this.value);
+  const PartyType._(this.value);
 
-  static PartyType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum PartyType'));
+  static const values = [individual, business, other];
+
+  static PartyType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => PartyType._(value));
+
+  @override
+  bool operator ==(other) => other is PartyType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The standard profile of a customer.
@@ -7788,7 +7976,7 @@ class Range {
 
   factory Range.fromJson(Map<String, dynamic> json) {
     return Range(
-      unit: Unit.fromString((json['Unit'] as String)),
+      unit: Unit.fromString((json['Unit'] as String?) ?? ''),
       value: (json['Value'] as int?) ?? 0,
     );
   }
@@ -7975,53 +8163,97 @@ class RuleBasedMatchingResponse {
   }
 }
 
-enum RuleBasedMatchingStatus {
-  pending('PENDING'),
-  inProgress('IN_PROGRESS'),
-  active('ACTIVE'),
-  ;
+class RuleBasedMatchingStatus {
+  static const pending = RuleBasedMatchingStatus._('PENDING');
+  static const inProgress = RuleBasedMatchingStatus._('IN_PROGRESS');
+  static const active = RuleBasedMatchingStatus._('ACTIVE');
 
   final String value;
 
-  const RuleBasedMatchingStatus(this.value);
+  const RuleBasedMatchingStatus._(this.value);
+
+  static const values = [pending, inProgress, active];
 
   static RuleBasedMatchingStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum RuleBasedMatchingStatus'));
+          orElse: () => RuleBasedMatchingStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RuleBasedMatchingStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum S3ConnectorOperator {
-  projection('PROJECTION'),
-  lessThan('LESS_THAN'),
-  greaterThan('GREATER_THAN'),
-  between('BETWEEN'),
-  lessThanOrEqualTo('LESS_THAN_OR_EQUAL_TO'),
-  greaterThanOrEqualTo('GREATER_THAN_OR_EQUAL_TO'),
-  equalTo('EQUAL_TO'),
-  notEqualTo('NOT_EQUAL_TO'),
-  addition('ADDITION'),
-  multiplication('MULTIPLICATION'),
-  division('DIVISION'),
-  subtraction('SUBTRACTION'),
-  maskAll('MASK_ALL'),
-  maskFirstN('MASK_FIRST_N'),
-  maskLastN('MASK_LAST_N'),
-  validateNonNull('VALIDATE_NON_NULL'),
-  validateNonZero('VALIDATE_NON_ZERO'),
-  validateNonNegative('VALIDATE_NON_NEGATIVE'),
-  validateNumeric('VALIDATE_NUMERIC'),
-  noOp('NO_OP'),
-  ;
+class S3ConnectorOperator {
+  static const projection = S3ConnectorOperator._('PROJECTION');
+  static const lessThan = S3ConnectorOperator._('LESS_THAN');
+  static const greaterThan = S3ConnectorOperator._('GREATER_THAN');
+  static const between = S3ConnectorOperator._('BETWEEN');
+  static const lessThanOrEqualTo =
+      S3ConnectorOperator._('LESS_THAN_OR_EQUAL_TO');
+  static const greaterThanOrEqualTo =
+      S3ConnectorOperator._('GREATER_THAN_OR_EQUAL_TO');
+  static const equalTo = S3ConnectorOperator._('EQUAL_TO');
+  static const notEqualTo = S3ConnectorOperator._('NOT_EQUAL_TO');
+  static const addition = S3ConnectorOperator._('ADDITION');
+  static const multiplication = S3ConnectorOperator._('MULTIPLICATION');
+  static const division = S3ConnectorOperator._('DIVISION');
+  static const subtraction = S3ConnectorOperator._('SUBTRACTION');
+  static const maskAll = S3ConnectorOperator._('MASK_ALL');
+  static const maskFirstN = S3ConnectorOperator._('MASK_FIRST_N');
+  static const maskLastN = S3ConnectorOperator._('MASK_LAST_N');
+  static const validateNonNull = S3ConnectorOperator._('VALIDATE_NON_NULL');
+  static const validateNonZero = S3ConnectorOperator._('VALIDATE_NON_ZERO');
+  static const validateNonNegative =
+      S3ConnectorOperator._('VALIDATE_NON_NEGATIVE');
+  static const validateNumeric = S3ConnectorOperator._('VALIDATE_NUMERIC');
+  static const noOp = S3ConnectorOperator._('NO_OP');
 
   final String value;
 
-  const S3ConnectorOperator(this.value);
+  const S3ConnectorOperator._(this.value);
 
-  static S3ConnectorOperator fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum S3ConnectorOperator'));
+  static const values = [
+    projection,
+    lessThan,
+    greaterThan,
+    between,
+    lessThanOrEqualTo,
+    greaterThanOrEqualTo,
+    equalTo,
+    notEqualTo,
+    addition,
+    multiplication,
+    division,
+    subtraction,
+    maskAll,
+    maskFirstN,
+    maskLastN,
+    validateNonNull,
+    validateNonZero,
+    validateNonNegative,
+    validateNumeric,
+    noOp
+  ];
+
+  static S3ConnectorOperator fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => S3ConnectorOperator._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is S3ConnectorOperator && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Configuration information about the S3 bucket where Identity Resolution Jobs
@@ -8113,38 +8345,76 @@ class S3SourceProperties {
   }
 }
 
-enum SalesforceConnectorOperator {
-  projection('PROJECTION'),
-  lessThan('LESS_THAN'),
-  contains('CONTAINS'),
-  greaterThan('GREATER_THAN'),
-  between('BETWEEN'),
-  lessThanOrEqualTo('LESS_THAN_OR_EQUAL_TO'),
-  greaterThanOrEqualTo('GREATER_THAN_OR_EQUAL_TO'),
-  equalTo('EQUAL_TO'),
-  notEqualTo('NOT_EQUAL_TO'),
-  addition('ADDITION'),
-  multiplication('MULTIPLICATION'),
-  division('DIVISION'),
-  subtraction('SUBTRACTION'),
-  maskAll('MASK_ALL'),
-  maskFirstN('MASK_FIRST_N'),
-  maskLastN('MASK_LAST_N'),
-  validateNonNull('VALIDATE_NON_NULL'),
-  validateNonZero('VALIDATE_NON_ZERO'),
-  validateNonNegative('VALIDATE_NON_NEGATIVE'),
-  validateNumeric('VALIDATE_NUMERIC'),
-  noOp('NO_OP'),
-  ;
+class SalesforceConnectorOperator {
+  static const projection = SalesforceConnectorOperator._('PROJECTION');
+  static const lessThan = SalesforceConnectorOperator._('LESS_THAN');
+  static const contains = SalesforceConnectorOperator._('CONTAINS');
+  static const greaterThan = SalesforceConnectorOperator._('GREATER_THAN');
+  static const between = SalesforceConnectorOperator._('BETWEEN');
+  static const lessThanOrEqualTo =
+      SalesforceConnectorOperator._('LESS_THAN_OR_EQUAL_TO');
+  static const greaterThanOrEqualTo =
+      SalesforceConnectorOperator._('GREATER_THAN_OR_EQUAL_TO');
+  static const equalTo = SalesforceConnectorOperator._('EQUAL_TO');
+  static const notEqualTo = SalesforceConnectorOperator._('NOT_EQUAL_TO');
+  static const addition = SalesforceConnectorOperator._('ADDITION');
+  static const multiplication = SalesforceConnectorOperator._('MULTIPLICATION');
+  static const division = SalesforceConnectorOperator._('DIVISION');
+  static const subtraction = SalesforceConnectorOperator._('SUBTRACTION');
+  static const maskAll = SalesforceConnectorOperator._('MASK_ALL');
+  static const maskFirstN = SalesforceConnectorOperator._('MASK_FIRST_N');
+  static const maskLastN = SalesforceConnectorOperator._('MASK_LAST_N');
+  static const validateNonNull =
+      SalesforceConnectorOperator._('VALIDATE_NON_NULL');
+  static const validateNonZero =
+      SalesforceConnectorOperator._('VALIDATE_NON_ZERO');
+  static const validateNonNegative =
+      SalesforceConnectorOperator._('VALIDATE_NON_NEGATIVE');
+  static const validateNumeric =
+      SalesforceConnectorOperator._('VALIDATE_NUMERIC');
+  static const noOp = SalesforceConnectorOperator._('NO_OP');
 
   final String value;
 
-  const SalesforceConnectorOperator(this.value);
+  const SalesforceConnectorOperator._(this.value);
+
+  static const values = [
+    projection,
+    lessThan,
+    contains,
+    greaterThan,
+    between,
+    lessThanOrEqualTo,
+    greaterThanOrEqualTo,
+    equalTo,
+    notEqualTo,
+    addition,
+    multiplication,
+    division,
+    subtraction,
+    maskAll,
+    maskFirstN,
+    maskLastN,
+    validateNonNull,
+    validateNonZero,
+    validateNonNegative,
+    validateNumeric,
+    noOp
+  ];
 
   static SalesforceConnectorOperator fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum SalesforceConnectorOperator'));
+          orElse: () => SalesforceConnectorOperator._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SalesforceConnectorOperator && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The properties that are applied when Salesforce is being used as a source.
@@ -8273,38 +8543,76 @@ class SearchProfilesResponse {
   }
 }
 
-enum ServiceNowConnectorOperator {
-  projection('PROJECTION'),
-  contains('CONTAINS'),
-  lessThan('LESS_THAN'),
-  greaterThan('GREATER_THAN'),
-  between('BETWEEN'),
-  lessThanOrEqualTo('LESS_THAN_OR_EQUAL_TO'),
-  greaterThanOrEqualTo('GREATER_THAN_OR_EQUAL_TO'),
-  equalTo('EQUAL_TO'),
-  notEqualTo('NOT_EQUAL_TO'),
-  addition('ADDITION'),
-  multiplication('MULTIPLICATION'),
-  division('DIVISION'),
-  subtraction('SUBTRACTION'),
-  maskAll('MASK_ALL'),
-  maskFirstN('MASK_FIRST_N'),
-  maskLastN('MASK_LAST_N'),
-  validateNonNull('VALIDATE_NON_NULL'),
-  validateNonZero('VALIDATE_NON_ZERO'),
-  validateNonNegative('VALIDATE_NON_NEGATIVE'),
-  validateNumeric('VALIDATE_NUMERIC'),
-  noOp('NO_OP'),
-  ;
+class ServiceNowConnectorOperator {
+  static const projection = ServiceNowConnectorOperator._('PROJECTION');
+  static const contains = ServiceNowConnectorOperator._('CONTAINS');
+  static const lessThan = ServiceNowConnectorOperator._('LESS_THAN');
+  static const greaterThan = ServiceNowConnectorOperator._('GREATER_THAN');
+  static const between = ServiceNowConnectorOperator._('BETWEEN');
+  static const lessThanOrEqualTo =
+      ServiceNowConnectorOperator._('LESS_THAN_OR_EQUAL_TO');
+  static const greaterThanOrEqualTo =
+      ServiceNowConnectorOperator._('GREATER_THAN_OR_EQUAL_TO');
+  static const equalTo = ServiceNowConnectorOperator._('EQUAL_TO');
+  static const notEqualTo = ServiceNowConnectorOperator._('NOT_EQUAL_TO');
+  static const addition = ServiceNowConnectorOperator._('ADDITION');
+  static const multiplication = ServiceNowConnectorOperator._('MULTIPLICATION');
+  static const division = ServiceNowConnectorOperator._('DIVISION');
+  static const subtraction = ServiceNowConnectorOperator._('SUBTRACTION');
+  static const maskAll = ServiceNowConnectorOperator._('MASK_ALL');
+  static const maskFirstN = ServiceNowConnectorOperator._('MASK_FIRST_N');
+  static const maskLastN = ServiceNowConnectorOperator._('MASK_LAST_N');
+  static const validateNonNull =
+      ServiceNowConnectorOperator._('VALIDATE_NON_NULL');
+  static const validateNonZero =
+      ServiceNowConnectorOperator._('VALIDATE_NON_ZERO');
+  static const validateNonNegative =
+      ServiceNowConnectorOperator._('VALIDATE_NON_NEGATIVE');
+  static const validateNumeric =
+      ServiceNowConnectorOperator._('VALIDATE_NUMERIC');
+  static const noOp = ServiceNowConnectorOperator._('NO_OP');
 
   final String value;
 
-  const ServiceNowConnectorOperator(this.value);
+  const ServiceNowConnectorOperator._(this.value);
+
+  static const values = [
+    projection,
+    contains,
+    lessThan,
+    greaterThan,
+    between,
+    lessThanOrEqualTo,
+    greaterThanOrEqualTo,
+    equalTo,
+    notEqualTo,
+    addition,
+    multiplication,
+    division,
+    subtraction,
+    maskAll,
+    maskFirstN,
+    maskLastN,
+    validateNonNull,
+    validateNonZero,
+    validateNonNegative,
+    validateNumeric,
+    noOp
+  ];
 
   static ServiceNowConnectorOperator fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ServiceNowConnectorOperator'));
+          orElse: () => ServiceNowConnectorOperator._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ServiceNowConnectorOperator && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The properties that are applied when ServiceNow is being used as a source.
@@ -8368,22 +8676,32 @@ class SourceConnectorProperties {
   }
 }
 
-enum SourceConnectorType {
-  salesforce('Salesforce'),
-  marketo('Marketo'),
-  zendesk('Zendesk'),
-  servicenow('Servicenow'),
-  s3('S3'),
-  ;
+class SourceConnectorType {
+  static const salesforce = SourceConnectorType._('Salesforce');
+  static const marketo = SourceConnectorType._('Marketo');
+  static const zendesk = SourceConnectorType._('Zendesk');
+  static const servicenow = SourceConnectorType._('Servicenow');
+  static const s3 = SourceConnectorType._('S3');
 
   final String value;
 
-  const SourceConnectorType(this.value);
+  const SourceConnectorType._(this.value);
 
-  static SourceConnectorType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum SourceConnectorType'));
+  static const values = [salesforce, marketo, zendesk, servicenow, s3];
+
+  static SourceConnectorType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => SourceConnectorType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SourceConnectorType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains information about the configuration of the source connector used in
@@ -8428,64 +8746,118 @@ class SourceFlowConfig {
   }
 }
 
-enum StandardIdentifier {
-  profile('PROFILE'),
-  asset('ASSET'),
-  $case('CASE'),
-  unique('UNIQUE'),
-  secondary('SECONDARY'),
-  lookupOnly('LOOKUP_ONLY'),
-  newOnly('NEW_ONLY'),
-  order('ORDER'),
-  ;
+class StandardIdentifier {
+  static const profile = StandardIdentifier._('PROFILE');
+  static const asset = StandardIdentifier._('ASSET');
+  static const $case = StandardIdentifier._('CASE');
+  static const unique = StandardIdentifier._('UNIQUE');
+  static const secondary = StandardIdentifier._('SECONDARY');
+  static const lookupOnly = StandardIdentifier._('LOOKUP_ONLY');
+  static const newOnly = StandardIdentifier._('NEW_ONLY');
+  static const order = StandardIdentifier._('ORDER');
 
   final String value;
 
-  const StandardIdentifier(this.value);
+  const StandardIdentifier._(this.value);
 
-  static StandardIdentifier fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum StandardIdentifier'));
+  static const values = [
+    profile,
+    asset,
+    $case,
+    unique,
+    secondary,
+    lookupOnly,
+    newOnly,
+    order
+  ];
+
+  static StandardIdentifier fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => StandardIdentifier._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is StandardIdentifier && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum Statistic {
-  firstOccurrence('FIRST_OCCURRENCE'),
-  lastOccurrence('LAST_OCCURRENCE'),
-  count('COUNT'),
-  sum('SUM'),
-  minimum('MINIMUM'),
-  maximum('MAXIMUM'),
-  average('AVERAGE'),
-  maxOccurrence('MAX_OCCURRENCE'),
-  ;
+class Statistic {
+  static const firstOccurrence = Statistic._('FIRST_OCCURRENCE');
+  static const lastOccurrence = Statistic._('LAST_OCCURRENCE');
+  static const count = Statistic._('COUNT');
+  static const sum = Statistic._('SUM');
+  static const minimum = Statistic._('MINIMUM');
+  static const maximum = Statistic._('MAXIMUM');
+  static const average = Statistic._('AVERAGE');
+  static const maxOccurrence = Statistic._('MAX_OCCURRENCE');
 
   final String value;
 
-  const Statistic(this.value);
+  const Statistic._(this.value);
 
-  static Statistic fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum Statistic'));
+  static const values = [
+    firstOccurrence,
+    lastOccurrence,
+    count,
+    sum,
+    minimum,
+    maximum,
+    average,
+    maxOccurrence
+  ];
+
+  static Statistic fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Statistic._(value));
+
+  @override
+  bool operator ==(other) => other is Statistic && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum Status {
-  notStarted('NOT_STARTED'),
-  inProgress('IN_PROGRESS'),
-  complete('COMPLETE'),
-  failed('FAILED'),
-  split('SPLIT'),
-  retry('RETRY'),
-  cancelled('CANCELLED'),
-  ;
+class Status {
+  static const notStarted = Status._('NOT_STARTED');
+  static const inProgress = Status._('IN_PROGRESS');
+  static const complete = Status._('COMPLETE');
+  static const failed = Status._('FAILED');
+  static const split = Status._('SPLIT');
+  static const retry = Status._('RETRY');
+  static const cancelled = Status._('CANCELLED');
 
   final String value;
 
-  const Status(this.value);
+  const Status._(this.value);
+
+  static const values = [
+    notStarted,
+    inProgress,
+    complete,
+    failed,
+    split,
+    retry,
+    cancelled
+  ];
 
   static Status fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum Status'));
+      values.firstWhere((e) => e.value == value, orElse: () => Status._(value));
+
+  @override
+  bool operator ==(other) => other is Status && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class TagResourceResponse {
@@ -8545,23 +8917,40 @@ class Task {
   }
 }
 
-enum TaskType {
-  arithmetic('Arithmetic'),
-  filter('Filter'),
-  map('Map'),
-  mask('Mask'),
-  merge('Merge'),
-  truncate('Truncate'),
-  validate('Validate'),
-  ;
+class TaskType {
+  static const arithmetic = TaskType._('Arithmetic');
+  static const filter = TaskType._('Filter');
+  static const map = TaskType._('Map');
+  static const mask = TaskType._('Mask');
+  static const merge = TaskType._('Merge');
+  static const truncate = TaskType._('Truncate');
+  static const validate = TaskType._('Validate');
 
   final String value;
 
-  const TaskType(this.value);
+  const TaskType._(this.value);
 
-  static TaskType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum TaskType'));
+  static const values = [
+    arithmetic,
+    filter,
+    map,
+    mask,
+    merge,
+    truncate,
+    validate
+  ];
+
+  static TaskType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => TaskType._(value));
+
+  @override
+  bool operator ==(other) => other is TaskType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The threshold for the calculated attribute.
@@ -8579,7 +8968,7 @@ class Threshold {
 
   factory Threshold.fromJson(Map<String, dynamic> json) {
     return Threshold(
-      operator: Operator.fromString((json['Operator'] as String)),
+      operator: Operator.fromString((json['Operator'] as String?) ?? ''),
       value: (json['Value'] as String?) ?? '',
     );
   }
@@ -8638,32 +9027,50 @@ class TriggerProperties {
   }
 }
 
-enum TriggerType {
-  scheduled('Scheduled'),
-  event('Event'),
-  onDemand('OnDemand'),
-  ;
+class TriggerType {
+  static const scheduled = TriggerType._('Scheduled');
+  static const event = TriggerType._('Event');
+  static const onDemand = TriggerType._('OnDemand');
 
   final String value;
 
-  const TriggerType(this.value);
+  const TriggerType._(this.value);
 
-  static TriggerType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum TriggerType'));
+  static const values = [scheduled, event, onDemand];
+
+  static TriggerType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => TriggerType._(value));
+
+  @override
+  bool operator ==(other) => other is TriggerType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum Unit {
-  days('DAYS'),
-  ;
+class Unit {
+  static const days = Unit._('DAYS');
 
   final String value;
 
-  const Unit(this.value);
+  const Unit._(this.value);
+
+  static const values = [days];
 
   static Unit fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum Unit'));
+      values.firstWhere((e) => e.value == value, orElse: () => Unit._(value));
+
+  @override
+  bool operator ==(other) => other is Unit && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class UntagResourceResponse {
@@ -9046,45 +9453,81 @@ class WorkflowStepItem {
   }
 }
 
-enum WorkflowType {
-  appflowIntegration('APPFLOW_INTEGRATION'),
-  ;
+class WorkflowType {
+  static const appflowIntegration = WorkflowType._('APPFLOW_INTEGRATION');
 
   final String value;
 
-  const WorkflowType(this.value);
+  const WorkflowType._(this.value);
 
-  static WorkflowType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum WorkflowType'));
+  static const values = [appflowIntegration];
+
+  static WorkflowType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => WorkflowType._(value));
+
+  @override
+  bool operator ==(other) => other is WorkflowType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ZendeskConnectorOperator {
-  projection('PROJECTION'),
-  greaterThan('GREATER_THAN'),
-  addition('ADDITION'),
-  multiplication('MULTIPLICATION'),
-  division('DIVISION'),
-  subtraction('SUBTRACTION'),
-  maskAll('MASK_ALL'),
-  maskFirstN('MASK_FIRST_N'),
-  maskLastN('MASK_LAST_N'),
-  validateNonNull('VALIDATE_NON_NULL'),
-  validateNonZero('VALIDATE_NON_ZERO'),
-  validateNonNegative('VALIDATE_NON_NEGATIVE'),
-  validateNumeric('VALIDATE_NUMERIC'),
-  noOp('NO_OP'),
-  ;
+class ZendeskConnectorOperator {
+  static const projection = ZendeskConnectorOperator._('PROJECTION');
+  static const greaterThan = ZendeskConnectorOperator._('GREATER_THAN');
+  static const addition = ZendeskConnectorOperator._('ADDITION');
+  static const multiplication = ZendeskConnectorOperator._('MULTIPLICATION');
+  static const division = ZendeskConnectorOperator._('DIVISION');
+  static const subtraction = ZendeskConnectorOperator._('SUBTRACTION');
+  static const maskAll = ZendeskConnectorOperator._('MASK_ALL');
+  static const maskFirstN = ZendeskConnectorOperator._('MASK_FIRST_N');
+  static const maskLastN = ZendeskConnectorOperator._('MASK_LAST_N');
+  static const validateNonNull =
+      ZendeskConnectorOperator._('VALIDATE_NON_NULL');
+  static const validateNonZero =
+      ZendeskConnectorOperator._('VALIDATE_NON_ZERO');
+  static const validateNonNegative =
+      ZendeskConnectorOperator._('VALIDATE_NON_NEGATIVE');
+  static const validateNumeric = ZendeskConnectorOperator._('VALIDATE_NUMERIC');
+  static const noOp = ZendeskConnectorOperator._('NO_OP');
 
   final String value;
 
-  const ZendeskConnectorOperator(this.value);
+  const ZendeskConnectorOperator._(this.value);
+
+  static const values = [
+    projection,
+    greaterThan,
+    addition,
+    multiplication,
+    division,
+    subtraction,
+    maskAll,
+    maskFirstN,
+    maskLastN,
+    validateNonNull,
+    validateNonZero,
+    validateNonNegative,
+    validateNumeric,
+    noOp
+  ];
 
   static ZendeskConnectorOperator fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ZendeskConnectorOperator'));
+          orElse: () => ZendeskConnectorOperator._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ZendeskConnectorOperator && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The properties that are applied when using Zendesk as a flow source.
@@ -9104,19 +9547,28 @@ class ZendeskSourceProperties {
   }
 }
 
-enum LogicalOperator {
-  and('AND'),
-  or('OR'),
-  ;
+class LogicalOperator {
+  static const and = LogicalOperator._('AND');
+  static const or = LogicalOperator._('OR');
 
   final String value;
 
-  const LogicalOperator(this.value);
+  const LogicalOperator._(this.value);
+
+  static const values = [and, or];
 
   static LogicalOperator fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum LogicalOperator'));
+          orElse: () => LogicalOperator._(value));
+
+  @override
+  bool operator ==(other) => other is LogicalOperator && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class AccessDeniedException extends _s.GenericAwsException {

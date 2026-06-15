@@ -1056,20 +1056,29 @@ class ServiceQuotas {
   }
 }
 
-enum AppliedLevelEnum {
-  account('ACCOUNT'),
-  resource('RESOURCE'),
-  all('ALL'),
-  ;
+class AppliedLevelEnum {
+  static const account = AppliedLevelEnum._('ACCOUNT');
+  static const resource = AppliedLevelEnum._('RESOURCE');
+  static const all = AppliedLevelEnum._('ALL');
 
   final String value;
 
-  const AppliedLevelEnum(this.value);
+  const AppliedLevelEnum._(this.value);
+
+  static const values = [account, resource, all];
 
   static AppliedLevelEnum fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum AppliedLevelEnum'));
+          orElse: () => AppliedLevelEnum._(value));
+
+  @override
+  bool operator ==(other) => other is AppliedLevelEnum && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class AssociateServiceQuotaTemplateResponse {
@@ -1111,20 +1120,37 @@ class DisassociateServiceQuotaTemplateResponse {
   }
 }
 
-enum ErrorCode {
-  dependencyAccessDeniedError('DEPENDENCY_ACCESS_DENIED_ERROR'),
-  dependencyThrottlingError('DEPENDENCY_THROTTLING_ERROR'),
-  dependencyServiceError('DEPENDENCY_SERVICE_ERROR'),
-  serviceQuotaNotAvailableError('SERVICE_QUOTA_NOT_AVAILABLE_ERROR'),
-  ;
+class ErrorCode {
+  static const dependencyAccessDeniedError =
+      ErrorCode._('DEPENDENCY_ACCESS_DENIED_ERROR');
+  static const dependencyThrottlingError =
+      ErrorCode._('DEPENDENCY_THROTTLING_ERROR');
+  static const dependencyServiceError = ErrorCode._('DEPENDENCY_SERVICE_ERROR');
+  static const serviceQuotaNotAvailableError =
+      ErrorCode._('SERVICE_QUOTA_NOT_AVAILABLE_ERROR');
 
   final String value;
 
-  const ErrorCode(this.value);
+  const ErrorCode._(this.value);
 
-  static ErrorCode fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum ErrorCode'));
+  static const values = [
+    dependencyAccessDeniedError,
+    dependencyThrottlingError,
+    dependencyServiceError,
+    serviceQuotaNotAvailableError
+  ];
+
+  static ErrorCode fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ErrorCode._(value));
+
+  @override
+  bool operator ==(other) => other is ErrorCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// An error that explains why an action did not succeed.
@@ -1616,23 +1642,40 @@ class MetricInfo {
   }
 }
 
-enum PeriodUnit {
-  microsecond('MICROSECOND'),
-  millisecond('MILLISECOND'),
-  second('SECOND'),
-  minute('MINUTE'),
-  hour('HOUR'),
-  day('DAY'),
-  week('WEEK'),
-  ;
+class PeriodUnit {
+  static const microsecond = PeriodUnit._('MICROSECOND');
+  static const millisecond = PeriodUnit._('MILLISECOND');
+  static const second = PeriodUnit._('SECOND');
+  static const minute = PeriodUnit._('MINUTE');
+  static const hour = PeriodUnit._('HOUR');
+  static const day = PeriodUnit._('DAY');
+  static const week = PeriodUnit._('WEEK');
 
   final String value;
 
-  const PeriodUnit(this.value);
+  const PeriodUnit._(this.value);
 
-  static PeriodUnit fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum PeriodUnit'));
+  static const values = [
+    microsecond,
+    millisecond,
+    second,
+    minute,
+    hour,
+    day,
+    week
+  ];
+
+  static PeriodUnit fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => PeriodUnit._(value));
+
+  @override
+  bool operator ==(other) => other is PeriodUnit && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class PutServiceQuotaIncreaseRequestIntoTemplateResponse {
@@ -1710,19 +1753,28 @@ class QuotaContextInfo {
   }
 }
 
-enum QuotaContextScope {
-  resource('RESOURCE'),
-  account('ACCOUNT'),
-  ;
+class QuotaContextScope {
+  static const resource = QuotaContextScope._('RESOURCE');
+  static const account = QuotaContextScope._('ACCOUNT');
 
   final String value;
 
-  const QuotaContextScope(this.value);
+  const QuotaContextScope._(this.value);
+
+  static const values = [resource, account];
 
   static QuotaContextScope fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum QuotaContextScope'));
+          orElse: () => QuotaContextScope._(value));
+
+  @override
+  bool operator ==(other) => other is QuotaContextScope && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about the quota period.
@@ -1781,24 +1833,41 @@ class RequestServiceQuotaIncreaseResponse {
   }
 }
 
-enum RequestStatus {
-  pending('PENDING'),
-  caseOpened('CASE_OPENED'),
-  approved('APPROVED'),
-  denied('DENIED'),
-  caseClosed('CASE_CLOSED'),
-  notApproved('NOT_APPROVED'),
-  invalidRequest('INVALID_REQUEST'),
-  ;
+class RequestStatus {
+  static const pending = RequestStatus._('PENDING');
+  static const caseOpened = RequestStatus._('CASE_OPENED');
+  static const approved = RequestStatus._('APPROVED');
+  static const denied = RequestStatus._('DENIED');
+  static const caseClosed = RequestStatus._('CASE_CLOSED');
+  static const notApproved = RequestStatus._('NOT_APPROVED');
+  static const invalidRequest = RequestStatus._('INVALID_REQUEST');
 
   final String value;
 
-  const RequestStatus(this.value);
+  const RequestStatus._(this.value);
+
+  static const values = [
+    pending,
+    caseOpened,
+    approved,
+    denied,
+    caseClosed,
+    notApproved,
+    invalidRequest
+  ];
 
   static RequestStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum RequestStatus'));
+          orElse: () => RequestStatus._(value));
+
+  @override
+  bool operator ==(other) => other is RequestStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about a quota increase request.
@@ -2174,19 +2243,31 @@ class ServiceQuotaIncreaseRequestInTemplate {
   }
 }
 
-enum ServiceQuotaTemplateAssociationStatus {
-  associated('ASSOCIATED'),
-  disassociated('DISASSOCIATED'),
-  ;
+class ServiceQuotaTemplateAssociationStatus {
+  static const associated =
+      ServiceQuotaTemplateAssociationStatus._('ASSOCIATED');
+  static const disassociated =
+      ServiceQuotaTemplateAssociationStatus._('DISASSOCIATED');
 
   final String value;
 
-  const ServiceQuotaTemplateAssociationStatus(this.value);
+  const ServiceQuotaTemplateAssociationStatus._(this.value);
+
+  static const values = [associated, disassociated];
 
   static ServiceQuotaTemplateAssociationStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ServiceQuotaTemplateAssociationStatus'));
+          orElse: () => ServiceQuotaTemplateAssociationStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ServiceQuotaTemplateAssociationStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A complex data type that contains a tag key and tag value.

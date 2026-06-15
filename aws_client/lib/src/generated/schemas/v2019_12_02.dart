@@ -1099,20 +1099,30 @@ class Schemas {
   }
 }
 
-enum CodeGenerationStatus {
-  createInProgress('CREATE_IN_PROGRESS'),
-  createComplete('CREATE_COMPLETE'),
-  createFailed('CREATE_FAILED'),
-  ;
+class CodeGenerationStatus {
+  static const createInProgress = CodeGenerationStatus._('CREATE_IN_PROGRESS');
+  static const createComplete = CodeGenerationStatus._('CREATE_COMPLETE');
+  static const createFailed = CodeGenerationStatus._('CREATE_FAILED');
 
   final String value;
 
-  const CodeGenerationStatus(this.value);
+  const CodeGenerationStatus._(this.value);
 
-  static CodeGenerationStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum CodeGenerationStatus'));
+  static const values = [createInProgress, createComplete, createFailed];
+
+  static CodeGenerationStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => CodeGenerationStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CodeGenerationStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class CreateDiscovererResponse {
@@ -1529,19 +1539,28 @@ class DescribeSchemaResponse {
   }
 }
 
-enum DiscovererState {
-  started('STARTED'),
-  stopped('STOPPED'),
-  ;
+class DiscovererState {
+  static const started = DiscovererState._('STARTED');
+  static const stopped = DiscovererState._('STOPPED');
 
   final String value;
 
-  const DiscovererState(this.value);
+  const DiscovererState._(this.value);
+
+  static const values = [started, stopped];
 
   static DiscovererState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum DiscovererState'));
+          orElse: () => DiscovererState._(value));
+
+  @override
+  bool operator ==(other) => other is DiscovererState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class DiscovererSummary {
@@ -2249,18 +2268,27 @@ class StopDiscovererResponse {
   }
 }
 
-enum Type {
-  openApi3('OpenApi3'),
-  jSONSchemaDraft4('JSONSchemaDraft4'),
-  ;
+class Type {
+  static const openApi3 = Type._('OpenApi3');
+  static const jSONSchemaDraft4 = Type._('JSONSchemaDraft4');
 
   final String value;
 
-  const Type(this.value);
+  const Type._(this.value);
+
+  static const values = [openApi3, jSONSchemaDraft4];
 
   static Type fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum Type'));
+      values.firstWhere((e) => e.value == value, orElse: () => Type._(value));
+
+  @override
+  bool operator ==(other) => other is Type && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class UpdateDiscovererResponse {

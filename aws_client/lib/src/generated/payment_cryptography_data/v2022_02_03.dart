@@ -1661,22 +1661,32 @@ class DukptDerivationAttributes {
   }
 }
 
-enum DukptDerivationType {
-  tdes_2key('TDES_2KEY'),
-  tdes_3key('TDES_3KEY'),
-  aes_128('AES_128'),
-  aes_192('AES_192'),
-  aes_256('AES_256'),
-  ;
+class DukptDerivationType {
+  static const tdes_2key = DukptDerivationType._('TDES_2KEY');
+  static const tdes_3key = DukptDerivationType._('TDES_3KEY');
+  static const aes_128 = DukptDerivationType._('AES_128');
+  static const aes_192 = DukptDerivationType._('AES_192');
+  static const aes_256 = DukptDerivationType._('AES_256');
 
   final String value;
 
-  const DukptDerivationType(this.value);
+  const DukptDerivationType._(this.value);
 
-  static DukptDerivationType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum DukptDerivationType'));
+  static const values = [tdes_2key, tdes_3key, aes_128, aes_192, aes_256];
+
+  static DukptDerivationType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DukptDerivationType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DukptDerivationType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Parameters that are required to encrypt plaintext data using DUKPT.
@@ -1731,35 +1741,54 @@ class DukptEncryptionAttributes {
   }
 }
 
-enum DukptEncryptionMode {
-  ecb('ECB'),
-  cbc('CBC'),
-  ;
+class DukptEncryptionMode {
+  static const ecb = DukptEncryptionMode._('ECB');
+  static const cbc = DukptEncryptionMode._('CBC');
 
   final String value;
 
-  const DukptEncryptionMode(this.value);
+  const DukptEncryptionMode._(this.value);
 
-  static DukptEncryptionMode fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum DukptEncryptionMode'));
+  static const values = [ecb, cbc];
+
+  static DukptEncryptionMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DukptEncryptionMode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DukptEncryptionMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum DukptKeyVariant {
-  bidirectional('BIDIRECTIONAL'),
-  request('REQUEST'),
-  response('RESPONSE'),
-  ;
+class DukptKeyVariant {
+  static const bidirectional = DukptKeyVariant._('BIDIRECTIONAL');
+  static const request = DukptKeyVariant._('REQUEST');
+  static const response = DukptKeyVariant._('RESPONSE');
 
   final String value;
 
-  const DukptKeyVariant(this.value);
+  const DukptKeyVariant._(this.value);
+
+  static const values = [bidirectional, request, response];
 
   static DukptKeyVariant fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum DukptKeyVariant'));
+          orElse: () => DukptKeyVariant._(value));
+
+  @override
+  bool operator ==(other) => other is DukptKeyVariant && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Parameters that are required to generate or verify Dynamic Card Verification
@@ -1894,34 +1923,53 @@ class EmvEncryptionAttributes {
   }
 }
 
-enum EmvEncryptionMode {
-  ecb('ECB'),
-  cbc('CBC'),
-  ;
+class EmvEncryptionMode {
+  static const ecb = EmvEncryptionMode._('ECB');
+  static const cbc = EmvEncryptionMode._('CBC');
 
   final String value;
 
-  const EmvEncryptionMode(this.value);
+  const EmvEncryptionMode._(this.value);
+
+  static const values = [ecb, cbc];
 
   static EmvEncryptionMode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum EmvEncryptionMode'));
+          orElse: () => EmvEncryptionMode._(value));
+
+  @override
+  bool operator ==(other) => other is EmvEncryptionMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum EmvMajorKeyDerivationMode {
-  emvOptionA('EMV_OPTION_A'),
-  emvOptionB('EMV_OPTION_B'),
-  ;
+class EmvMajorKeyDerivationMode {
+  static const emvOptionA = EmvMajorKeyDerivationMode._('EMV_OPTION_A');
+  static const emvOptionB = EmvMajorKeyDerivationMode._('EMV_OPTION_B');
 
   final String value;
 
-  const EmvMajorKeyDerivationMode(this.value);
+  const EmvMajorKeyDerivationMode._(this.value);
+
+  static const values = [emvOptionA, emvOptionB];
 
   static EmvMajorKeyDerivationMode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum EmvMajorKeyDerivationMode'));
+          orElse: () => EmvMajorKeyDerivationMode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is EmvMajorKeyDerivationMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class EncryptDataOutput {
@@ -2000,25 +2048,34 @@ class EncryptionDecryptionAttributes {
   }
 }
 
-enum EncryptionMode {
-  ecb('ECB'),
-  cbc('CBC'),
-  cfb('CFB'),
-  cfb1('CFB1'),
-  cfb8('CFB8'),
-  cfb64('CFB64'),
-  cfb128('CFB128'),
-  ofb('OFB'),
-  ;
+class EncryptionMode {
+  static const ecb = EncryptionMode._('ECB');
+  static const cbc = EncryptionMode._('CBC');
+  static const cfb = EncryptionMode._('CFB');
+  static const cfb1 = EncryptionMode._('CFB1');
+  static const cfb8 = EncryptionMode._('CFB8');
+  static const cfb64 = EncryptionMode._('CFB64');
+  static const cfb128 = EncryptionMode._('CFB128');
+  static const ofb = EncryptionMode._('OFB');
 
   final String value;
 
-  const EncryptionMode(this.value);
+  const EncryptionMode._(this.value);
+
+  static const values = [ecb, cbc, cfb, cfb1, cfb8, cfb64, cfb128, ofb];
 
   static EncryptionMode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum EncryptionMode'));
+          orElse: () => EncryptionMode._(value));
+
+  @override
+  bool operator ==(other) => other is EncryptionMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class GenerateCardValidationDataOutput {
@@ -2360,39 +2417,65 @@ class Ibm3624RandomPin {
   }
 }
 
-enum KeyCheckValueAlgorithm {
-  cmac('CMAC'),
-  ansiX9_24('ANSI_X9_24'),
-  ;
+class KeyCheckValueAlgorithm {
+  static const cmac = KeyCheckValueAlgorithm._('CMAC');
+  static const ansiX9_24 = KeyCheckValueAlgorithm._('ANSI_X9_24');
 
   final String value;
 
-  const KeyCheckValueAlgorithm(this.value);
+  const KeyCheckValueAlgorithm._(this.value);
+
+  static const values = [cmac, ansiX9_24];
 
   static KeyCheckValueAlgorithm fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum KeyCheckValueAlgorithm'));
+          orElse: () => KeyCheckValueAlgorithm._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is KeyCheckValueAlgorithm && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum MacAlgorithm {
-  iso9797Algorithm1('ISO9797_ALGORITHM1'),
-  iso9797Algorithm3('ISO9797_ALGORITHM3'),
-  cmac('CMAC'),
-  hmacSha224('HMAC_SHA224'),
-  hmacSha256('HMAC_SHA256'),
-  hmacSha384('HMAC_SHA384'),
-  hmacSha512('HMAC_SHA512'),
-  ;
+class MacAlgorithm {
+  static const iso9797Algorithm1 = MacAlgorithm._('ISO9797_ALGORITHM1');
+  static const iso9797Algorithm3 = MacAlgorithm._('ISO9797_ALGORITHM3');
+  static const cmac = MacAlgorithm._('CMAC');
+  static const hmacSha224 = MacAlgorithm._('HMAC_SHA224');
+  static const hmacSha256 = MacAlgorithm._('HMAC_SHA256');
+  static const hmacSha384 = MacAlgorithm._('HMAC_SHA384');
+  static const hmacSha512 = MacAlgorithm._('HMAC_SHA512');
 
   final String value;
 
-  const MacAlgorithm(this.value);
+  const MacAlgorithm._(this.value);
 
-  static MacAlgorithm fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum MacAlgorithm'));
+  static const values = [
+    iso9797Algorithm1,
+    iso9797Algorithm3,
+    cmac,
+    hmacSha224,
+    hmacSha256,
+    hmacSha384,
+    hmacSha512
+  ];
+
+  static MacAlgorithm fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => MacAlgorithm._(value));
+
+  @override
+  bool operator ==(other) => other is MacAlgorithm && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Parameters required for DUKPT MAC generation and verification.
@@ -2524,50 +2607,79 @@ class MacAttributes {
   }
 }
 
-enum MajorKeyDerivationMode {
-  emvOptionA('EMV_OPTION_A'),
-  emvOptionB('EMV_OPTION_B'),
-  ;
+class MajorKeyDerivationMode {
+  static const emvOptionA = MajorKeyDerivationMode._('EMV_OPTION_A');
+  static const emvOptionB = MajorKeyDerivationMode._('EMV_OPTION_B');
 
   final String value;
 
-  const MajorKeyDerivationMode(this.value);
+  const MajorKeyDerivationMode._(this.value);
+
+  static const values = [emvOptionA, emvOptionB];
 
   static MajorKeyDerivationMode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum MajorKeyDerivationMode'));
+          orElse: () => MajorKeyDerivationMode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is MajorKeyDerivationMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum PaddingType {
-  pkcs1('PKCS1'),
-  oaepSha1('OAEP_SHA1'),
-  oaepSha256('OAEP_SHA256'),
-  oaepSha512('OAEP_SHA512'),
-  ;
+class PaddingType {
+  static const pkcs1 = PaddingType._('PKCS1');
+  static const oaepSha1 = PaddingType._('OAEP_SHA1');
+  static const oaepSha256 = PaddingType._('OAEP_SHA256');
+  static const oaepSha512 = PaddingType._('OAEP_SHA512');
 
   final String value;
 
-  const PaddingType(this.value);
+  const PaddingType._(this.value);
 
-  static PaddingType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum PaddingType'));
+  static const values = [pkcs1, oaepSha1, oaepSha256, oaepSha512];
+
+  static PaddingType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => PaddingType._(value));
+
+  @override
+  bool operator ==(other) => other is PaddingType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum PinBlockFormatForPinData {
-  isoFormat_0('ISO_FORMAT_0'),
-  isoFormat_3('ISO_FORMAT_3'),
-  ;
+class PinBlockFormatForPinData {
+  static const isoFormat_0 = PinBlockFormatForPinData._('ISO_FORMAT_0');
+  static const isoFormat_3 = PinBlockFormatForPinData._('ISO_FORMAT_3');
 
   final String value;
 
-  const PinBlockFormatForPinData(this.value);
+  const PinBlockFormatForPinData._(this.value);
+
+  static const values = [isoFormat_0, isoFormat_3];
 
   static PinBlockFormatForPinData fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum PinBlockFormatForPinData'));
+          orElse: () => PinBlockFormatForPinData._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is PinBlockFormatForPinData && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Parameters that are required to generate, translate, or verify PIN data.
@@ -2813,22 +2925,40 @@ class SessionKeyDerivation {
   }
 }
 
-enum SessionKeyDerivationMode {
-  emvCommonSessionKey('EMV_COMMON_SESSION_KEY'),
-  emv2000('EMV2000'),
-  amex('AMEX'),
-  mastercardSessionKey('MASTERCARD_SESSION_KEY'),
-  visa('VISA'),
-  ;
+class SessionKeyDerivationMode {
+  static const emvCommonSessionKey =
+      SessionKeyDerivationMode._('EMV_COMMON_SESSION_KEY');
+  static const emv2000 = SessionKeyDerivationMode._('EMV2000');
+  static const amex = SessionKeyDerivationMode._('AMEX');
+  static const mastercardSessionKey =
+      SessionKeyDerivationMode._('MASTERCARD_SESSION_KEY');
+  static const visa = SessionKeyDerivationMode._('VISA');
 
   final String value;
 
-  const SessionKeyDerivationMode(this.value);
+  const SessionKeyDerivationMode._(this.value);
+
+  static const values = [
+    emvCommonSessionKey,
+    emv2000,
+    amex,
+    mastercardSessionKey,
+    visa
+  ];
 
   static SessionKeyDerivationMode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum SessionKeyDerivationMode'));
+          orElse: () => SessionKeyDerivationMode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SessionKeyDerivationMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Parameters to derive session key value using a MAC EMV algorithm.

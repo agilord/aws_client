@@ -1922,24 +1922,43 @@ class ImageFailure {
   }
 }
 
-enum ImageFailureCode {
-  invalidImageDigest('InvalidImageDigest'),
-  invalidImageTag('InvalidImageTag'),
-  imageTagDoesNotMatchDigest('ImageTagDoesNotMatchDigest'),
-  imageNotFound('ImageNotFound'),
-  missingDigestAndTag('MissingDigestAndTag'),
-  imageReferencedByManifestList('ImageReferencedByManifestList'),
-  kmsError('KmsError'),
-  ;
+class ImageFailureCode {
+  static const invalidImageDigest = ImageFailureCode._('InvalidImageDigest');
+  static const invalidImageTag = ImageFailureCode._('InvalidImageTag');
+  static const imageTagDoesNotMatchDigest =
+      ImageFailureCode._('ImageTagDoesNotMatchDigest');
+  static const imageNotFound = ImageFailureCode._('ImageNotFound');
+  static const missingDigestAndTag = ImageFailureCode._('MissingDigestAndTag');
+  static const imageReferencedByManifestList =
+      ImageFailureCode._('ImageReferencedByManifestList');
+  static const kmsError = ImageFailureCode._('KmsError');
 
   final String value;
 
-  const ImageFailureCode(this.value);
+  const ImageFailureCode._(this.value);
+
+  static const values = [
+    invalidImageDigest,
+    invalidImageTag,
+    imageTagDoesNotMatchDigest,
+    imageNotFound,
+    missingDigestAndTag,
+    imageReferencedByManifestList,
+    kmsError
+  ];
 
   static ImageFailureCode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ImageFailureCode'));
+          orElse: () => ImageFailureCode._(value));
+
+  @override
+  bool operator ==(other) => other is ImageFailureCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// An object with identifying information for an Amazon ECR image.
@@ -2090,19 +2109,28 @@ class Layer {
   }
 }
 
-enum LayerAvailability {
-  available('AVAILABLE'),
-  unavailable('UNAVAILABLE'),
-  ;
+class LayerAvailability {
+  static const available = LayerAvailability._('AVAILABLE');
+  static const unavailable = LayerAvailability._('UNAVAILABLE');
 
   final String value;
 
-  const LayerAvailability(this.value);
+  const LayerAvailability._(this.value);
+
+  static const values = [available, unavailable];
 
   static LayerAvailability fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum LayerAvailability'));
+          orElse: () => LayerAvailability._(value));
+
+  @override
+  bool operator ==(other) => other is LayerAvailability && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// An object that represents an Amazon ECR image layer failure.
@@ -2143,19 +2171,28 @@ class LayerFailure {
   }
 }
 
-enum LayerFailureCode {
-  invalidLayerDigest('InvalidLayerDigest'),
-  missingLayerDigest('MissingLayerDigest'),
-  ;
+class LayerFailureCode {
+  static const invalidLayerDigest = LayerFailureCode._('InvalidLayerDigest');
+  static const missingLayerDigest = LayerFailureCode._('MissingLayerDigest');
 
   final String value;
 
-  const LayerFailureCode(this.value);
+  const LayerFailureCode._(this.value);
+
+  static const values = [invalidLayerDigest, missingLayerDigest];
 
   static LayerFailureCode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum LayerFailureCode'));
+          orElse: () => LayerFailureCode._(value));
+
+  @override
+  bool operator ==(other) => other is LayerFailureCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class ListTagsForResourceResponse {
@@ -2418,7 +2455,7 @@ class RegistryAlias {
       defaultRegistryAlias: (json['defaultRegistryAlias'] as bool?) ?? false,
       name: (json['name'] as String?) ?? '',
       primaryRegistryAlias: (json['primaryRegistryAlias'] as bool?) ?? false,
-      status: RegistryAliasStatus.fromString((json['status'] as String)),
+      status: RegistryAliasStatus.fromString((json['status'] as String?) ?? ''),
     );
   }
 
@@ -2436,20 +2473,30 @@ class RegistryAlias {
   }
 }
 
-enum RegistryAliasStatus {
-  active('ACTIVE'),
-  pending('PENDING'),
-  rejected('REJECTED'),
-  ;
+class RegistryAliasStatus {
+  static const active = RegistryAliasStatus._('ACTIVE');
+  static const pending = RegistryAliasStatus._('PENDING');
+  static const rejected = RegistryAliasStatus._('REJECTED');
 
   final String value;
 
-  const RegistryAliasStatus(this.value);
+  const RegistryAliasStatus._(this.value);
 
-  static RegistryAliasStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum RegistryAliasStatus'));
+  static const values = [active, pending, rejected];
+
+  static RegistryAliasStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => RegistryAliasStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RegistryAliasStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The metadata for a public registry.

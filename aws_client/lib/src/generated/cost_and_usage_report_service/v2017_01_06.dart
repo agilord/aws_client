@@ -293,79 +293,136 @@ class CostAndUsageReport {
 
 /// The region of the S3 bucket that Amazon Web Services delivers the report
 /// into.
-enum AWSRegion {
-  afSouth_1('af-south-1'),
-  apEast_1('ap-east-1'),
-  apSouth_1('ap-south-1'),
-  apSouth_2('ap-south-2'),
-  apSoutheast_1('ap-southeast-1'),
-  apSoutheast_2('ap-southeast-2'),
-  apSoutheast_3('ap-southeast-3'),
-  apNortheast_1('ap-northeast-1'),
-  apNortheast_2('ap-northeast-2'),
-  apNortheast_3('ap-northeast-3'),
-  caCentral_1('ca-central-1'),
-  euCentral_1('eu-central-1'),
-  euCentral_2('eu-central-2'),
-  euWest_1('eu-west-1'),
-  euWest_2('eu-west-2'),
-  euWest_3('eu-west-3'),
-  euNorth_1('eu-north-1'),
-  euSouth_1('eu-south-1'),
-  euSouth_2('eu-south-2'),
-  meCentral_1('me-central-1'),
-  meSouth_1('me-south-1'),
-  saEast_1('sa-east-1'),
-  usEast_1('us-east-1'),
-  usEast_2('us-east-2'),
-  usWest_1('us-west-1'),
-  usWest_2('us-west-2'),
-  cnNorth_1('cn-north-1'),
-  cnNorthwest_1('cn-northwest-1'),
-  ;
+class AWSRegion {
+  static const afSouth_1 = AWSRegion._('af-south-1');
+  static const apEast_1 = AWSRegion._('ap-east-1');
+  static const apSouth_1 = AWSRegion._('ap-south-1');
+  static const apSouth_2 = AWSRegion._('ap-south-2');
+  static const apSoutheast_1 = AWSRegion._('ap-southeast-1');
+  static const apSoutheast_2 = AWSRegion._('ap-southeast-2');
+  static const apSoutheast_3 = AWSRegion._('ap-southeast-3');
+  static const apNortheast_1 = AWSRegion._('ap-northeast-1');
+  static const apNortheast_2 = AWSRegion._('ap-northeast-2');
+  static const apNortheast_3 = AWSRegion._('ap-northeast-3');
+  static const caCentral_1 = AWSRegion._('ca-central-1');
+  static const euCentral_1 = AWSRegion._('eu-central-1');
+  static const euCentral_2 = AWSRegion._('eu-central-2');
+  static const euWest_1 = AWSRegion._('eu-west-1');
+  static const euWest_2 = AWSRegion._('eu-west-2');
+  static const euWest_3 = AWSRegion._('eu-west-3');
+  static const euNorth_1 = AWSRegion._('eu-north-1');
+  static const euSouth_1 = AWSRegion._('eu-south-1');
+  static const euSouth_2 = AWSRegion._('eu-south-2');
+  static const meCentral_1 = AWSRegion._('me-central-1');
+  static const meSouth_1 = AWSRegion._('me-south-1');
+  static const saEast_1 = AWSRegion._('sa-east-1');
+  static const usEast_1 = AWSRegion._('us-east-1');
+  static const usEast_2 = AWSRegion._('us-east-2');
+  static const usWest_1 = AWSRegion._('us-west-1');
+  static const usWest_2 = AWSRegion._('us-west-2');
+  static const cnNorth_1 = AWSRegion._('cn-north-1');
+  static const cnNorthwest_1 = AWSRegion._('cn-northwest-1');
 
   final String value;
 
-  const AWSRegion(this.value);
+  const AWSRegion._(this.value);
 
-  static AWSRegion fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum AWSRegion'));
+  static const values = [
+    afSouth_1,
+    apEast_1,
+    apSouth_1,
+    apSouth_2,
+    apSoutheast_1,
+    apSoutheast_2,
+    apSoutheast_3,
+    apNortheast_1,
+    apNortheast_2,
+    apNortheast_3,
+    caCentral_1,
+    euCentral_1,
+    euCentral_2,
+    euWest_1,
+    euWest_2,
+    euWest_3,
+    euNorth_1,
+    euSouth_1,
+    euSouth_2,
+    meCentral_1,
+    meSouth_1,
+    saEast_1,
+    usEast_1,
+    usEast_2,
+    usWest_1,
+    usWest_2,
+    cnNorth_1,
+    cnNorthwest_1
+  ];
+
+  static AWSRegion fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => AWSRegion._(value));
+
+  @override
+  bool operator ==(other) => other is AWSRegion && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The types of manifest that you want Amazon Web Services to create for this
 /// report.
-enum AdditionalArtifact {
-  redshift('REDSHIFT'),
-  quicksight('QUICKSIGHT'),
-  athena('ATHENA'),
-  ;
+class AdditionalArtifact {
+  static const redshift = AdditionalArtifact._('REDSHIFT');
+  static const quicksight = AdditionalArtifact._('QUICKSIGHT');
+  static const athena = AdditionalArtifact._('ATHENA');
 
   final String value;
 
-  const AdditionalArtifact(this.value);
+  const AdditionalArtifact._(this.value);
 
-  static AdditionalArtifact fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum AdditionalArtifact'));
+  static const values = [redshift, quicksight, athena];
+
+  static AdditionalArtifact fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AdditionalArtifact._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AdditionalArtifact && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The compression format that Amazon Web Services uses for the report.
-enum CompressionFormat {
-  zip('ZIP'),
-  gzip('GZIP'),
-  parquet('Parquet'),
-  ;
+class CompressionFormat {
+  static const zip = CompressionFormat._('ZIP');
+  static const gzip = CompressionFormat._('GZIP');
+  static const parquet = CompressionFormat._('Parquet');
 
   final String value;
 
-  const CompressionFormat(this.value);
+  const CompressionFormat._(this.value);
+
+  static const values = [zip, gzip, parquet];
 
   static CompressionFormat fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum CompressionFormat'));
+          orElse: () => CompressionFormat._(value));
+
+  @override
+  bool operator ==(other) => other is CompressionFormat && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// If the action is successful, the service sends back an HTTP 200 response.
@@ -423,19 +480,28 @@ class DescribeReportDefinitionsResponse {
   }
 }
 
-enum LastStatus {
-  success('SUCCESS'),
-  errorPermissions('ERROR_PERMISSIONS'),
-  errorNoBucket('ERROR_NO_BUCKET'),
-  ;
+class LastStatus {
+  static const success = LastStatus._('SUCCESS');
+  static const errorPermissions = LastStatus._('ERROR_PERMISSIONS');
+  static const errorNoBucket = LastStatus._('ERROR_NO_BUCKET');
 
   final String value;
 
-  const LastStatus(this.value);
+  const LastStatus._(this.value);
 
-  static LastStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum LastStatus'));
+  static const values = [success, errorPermissions, errorNoBucket];
+
+  static LastStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => LastStatus._(value));
+
+  @override
+  bool operator ==(other) => other is LastStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class ListTagsForResourceResponse {
@@ -552,13 +618,13 @@ class ReportDefinition {
               .map((e) => SchemaElement.fromString((e as String)))
               .toList(),
       compression:
-          CompressionFormat.fromString((json['Compression'] as String)),
-      format: ReportFormat.fromString((json['Format'] as String)),
+          CompressionFormat.fromString((json['Compression'] as String?) ?? ''),
+      format: ReportFormat.fromString((json['Format'] as String?) ?? ''),
       reportName: (json['ReportName'] as String?) ?? '',
       s3Bucket: (json['S3Bucket'] as String?) ?? '',
       s3Prefix: (json['S3Prefix'] as String?) ?? '',
-      s3Region: AWSRegion.fromString((json['S3Region'] as String)),
-      timeUnit: TimeUnit.fromString((json['TimeUnit'] as String)),
+      s3Region: AWSRegion.fromString((json['S3Region'] as String?) ?? ''),
+      timeUnit: TimeUnit.fromString((json['TimeUnit'] as String?) ?? ''),
       additionalArtifacts: (json['AdditionalArtifacts'] as List?)
           ?.nonNulls
           .map((e) => AdditionalArtifact.fromString((e as String)))
@@ -609,19 +675,27 @@ class ReportDefinition {
 }
 
 /// The format that Amazon Web Services saves the report in.
-enum ReportFormat {
-  textORcsv('textORcsv'),
-  parquet('Parquet'),
-  ;
+class ReportFormat {
+  static const textORcsv = ReportFormat._('textORcsv');
+  static const parquet = ReportFormat._('Parquet');
 
   final String value;
 
-  const ReportFormat(this.value);
+  const ReportFormat._(this.value);
 
-  static ReportFormat fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ReportFormat'));
+  static const values = [textORcsv, parquet];
+
+  static ReportFormat fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ReportFormat._(value));
+
+  @override
+  bool operator ==(other) => other is ReportFormat && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A two element dictionary with a <code>lastDelivery</code> and
@@ -656,36 +730,60 @@ class ReportStatus {
   }
 }
 
-enum ReportVersioning {
-  createNewReport('CREATE_NEW_REPORT'),
-  overwriteReport('OVERWRITE_REPORT'),
-  ;
+class ReportVersioning {
+  static const createNewReport = ReportVersioning._('CREATE_NEW_REPORT');
+  static const overwriteReport = ReportVersioning._('OVERWRITE_REPORT');
 
   final String value;
 
-  const ReportVersioning(this.value);
+  const ReportVersioning._(this.value);
+
+  static const values = [createNewReport, overwriteReport];
 
   static ReportVersioning fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ReportVersioning'));
+          orElse: () => ReportVersioning._(value));
+
+  @override
+  bool operator ==(other) => other is ReportVersioning && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Whether or not Amazon Web Services includes resource IDs in the report.
-enum SchemaElement {
-  resources('RESOURCES'),
-  splitCostAllocationData('SPLIT_COST_ALLOCATION_DATA'),
-  manualDiscountCompatibility('MANUAL_DISCOUNT_COMPATIBILITY'),
-  ;
+class SchemaElement {
+  static const resources = SchemaElement._('RESOURCES');
+  static const splitCostAllocationData =
+      SchemaElement._('SPLIT_COST_ALLOCATION_DATA');
+  static const manualDiscountCompatibility =
+      SchemaElement._('MANUAL_DISCOUNT_COMPATIBILITY');
 
   final String value;
 
-  const SchemaElement(this.value);
+  const SchemaElement._(this.value);
+
+  static const values = [
+    resources,
+    splitCostAllocationData,
+    manualDiscountCompatibility
+  ];
 
   static SchemaElement fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum SchemaElement'));
+          orElse: () => SchemaElement._(value));
+
+  @override
+  bool operator ==(other) => other is SchemaElement && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes a tag. A tag is a key-value pair. You can add up to 50 tags to a
@@ -735,19 +833,28 @@ class TagResourceResponse {
 }
 
 /// The length of time covered by the report.
-enum TimeUnit {
-  hourly('HOURLY'),
-  daily('DAILY'),
-  monthly('MONTHLY'),
-  ;
+class TimeUnit {
+  static const hourly = TimeUnit._('HOURLY');
+  static const daily = TimeUnit._('DAILY');
+  static const monthly = TimeUnit._('MONTHLY');
 
   final String value;
 
-  const TimeUnit(this.value);
+  const TimeUnit._(this.value);
 
-  static TimeUnit fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum TimeUnit'));
+  static const values = [hourly, daily, monthly];
+
+  static TimeUnit fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => TimeUnit._(value));
+
+  @override
+  bool operator ==(other) => other is TimeUnit && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class UntagResourceResponse {

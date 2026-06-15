@@ -9383,19 +9383,28 @@ class AcceptMatchOutput {
   }
 }
 
-enum AcceptanceType {
-  accept('ACCEPT'),
-  reject('REJECT'),
-  ;
+class AcceptanceType {
+  static const accept = AcceptanceType._('ACCEPT');
+  static const reject = AcceptanceType._('REJECT');
 
   final String value;
 
-  const AcceptanceType(this.value);
+  const AcceptanceType._(this.value);
+
+  static const values = [accept, reject];
 
   static AcceptanceType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum AcceptanceType'));
+          orElse: () => AcceptanceType._(value));
+
+  @override
+  bool operator ==(other) => other is AcceptanceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Properties that describe an alias resource.
@@ -9621,35 +9630,52 @@ class AwsCredentials {
   }
 }
 
-enum BackfillMode {
-  automatic('AUTOMATIC'),
-  manual('MANUAL'),
-  ;
+class BackfillMode {
+  static const automatic = BackfillMode._('AUTOMATIC');
+  static const manual = BackfillMode._('MANUAL');
 
   final String value;
 
-  const BackfillMode(this.value);
+  const BackfillMode._(this.value);
 
-  static BackfillMode fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum BackfillMode'));
+  static const values = [automatic, manual];
+
+  static BackfillMode fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => BackfillMode._(value));
+
+  @override
+  bool operator ==(other) => other is BackfillMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum BalancingStrategy {
-  spotOnly('SPOT_ONLY'),
-  spotPreferred('SPOT_PREFERRED'),
-  onDemandOnly('ON_DEMAND_ONLY'),
-  ;
+class BalancingStrategy {
+  static const spotOnly = BalancingStrategy._('SPOT_ONLY');
+  static const spotPreferred = BalancingStrategy._('SPOT_PREFERRED');
+  static const onDemandOnly = BalancingStrategy._('ON_DEMAND_ONLY');
 
   final String value;
 
-  const BalancingStrategy(this.value);
+  const BalancingStrategy._(this.value);
+
+  static const values = [spotOnly, spotPreferred, onDemandOnly];
 
   static BalancingStrategy fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum BalancingStrategy'));
+          orElse: () => BalancingStrategy._(value));
+
+  @override
+  bool operator ==(other) => other is BalancingStrategy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Properties describing a custom game build.
@@ -9780,19 +9806,28 @@ class Build {
   }
 }
 
-enum BuildStatus {
-  initialized('INITIALIZED'),
-  ready('READY'),
-  failed('FAILED'),
-  ;
+class BuildStatus {
+  static const initialized = BuildStatus._('INITIALIZED');
+  static const ready = BuildStatus._('READY');
+  static const failed = BuildStatus._('FAILED');
 
   final String value;
 
-  const BuildStatus(this.value);
+  const BuildStatus._(this.value);
 
-  static BuildStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum BuildStatus'));
+  static const values = [initialized, ready, failed];
+
+  static BuildStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => BuildStatus._(value));
+
+  @override
+  bool operator ==(other) => other is BuildStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// <b>This data type has been expanded to use with the Amazon GameLift
@@ -9826,8 +9861,8 @@ class CertificateConfiguration {
 
   factory CertificateConfiguration.fromJson(Map<String, dynamic> json) {
     return CertificateConfiguration(
-      certificateType:
-          CertificateType.fromString((json['CertificateType'] as String)),
+      certificateType: CertificateType.fromString(
+          (json['CertificateType'] as String?) ?? ''),
     );
   }
 
@@ -9839,19 +9874,28 @@ class CertificateConfiguration {
   }
 }
 
-enum CertificateType {
-  disabled('DISABLED'),
-  generated('GENERATED'),
-  ;
+class CertificateType {
+  static const disabled = CertificateType._('DISABLED');
+  static const generated = CertificateType._('GENERATED');
 
   final String value;
 
-  const CertificateType(this.value);
+  const CertificateType._(this.value);
+
+  static const values = [disabled, generated];
 
   static CertificateType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum CertificateType'));
+          orElse: () => CertificateType._(value));
+
+  @override
+  bool operator ==(other) => other is CertificateType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// <b>This data type is used with the Amazon GameLift FleetIQ and game server
@@ -9901,21 +9945,40 @@ class ClaimGameServerOutput {
   }
 }
 
-enum ComparisonOperatorType {
-  greaterThanOrEqualToThreshold('GreaterThanOrEqualToThreshold'),
-  greaterThanThreshold('GreaterThanThreshold'),
-  lessThanThreshold('LessThanThreshold'),
-  lessThanOrEqualToThreshold('LessThanOrEqualToThreshold'),
-  ;
+class ComparisonOperatorType {
+  static const greaterThanOrEqualToThreshold =
+      ComparisonOperatorType._('GreaterThanOrEqualToThreshold');
+  static const greaterThanThreshold =
+      ComparisonOperatorType._('GreaterThanThreshold');
+  static const lessThanThreshold =
+      ComparisonOperatorType._('LessThanThreshold');
+  static const lessThanOrEqualToThreshold =
+      ComparisonOperatorType._('LessThanOrEqualToThreshold');
 
   final String value;
 
-  const ComparisonOperatorType(this.value);
+  const ComparisonOperatorType._(this.value);
+
+  static const values = [
+    greaterThanOrEqualToThreshold,
+    greaterThanThreshold,
+    lessThanThreshold,
+    lessThanOrEqualToThreshold
+  ];
 
   static ComparisonOperatorType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ComparisonOperatorType'));
+          orElse: () => ComparisonOperatorType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ComparisonOperatorType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// <b>This data type has been expanded to use with the Amazon GameLift
@@ -10089,35 +10152,53 @@ class Compute {
   }
 }
 
-enum ComputeStatus {
-  pending('PENDING'),
-  active('ACTIVE'),
-  terminating('TERMINATING'),
-  ;
+class ComputeStatus {
+  static const pending = ComputeStatus._('PENDING');
+  static const active = ComputeStatus._('ACTIVE');
+  static const terminating = ComputeStatus._('TERMINATING');
 
   final String value;
 
-  const ComputeStatus(this.value);
+  const ComputeStatus._(this.value);
+
+  static const values = [pending, active, terminating];
 
   static ComputeStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ComputeStatus'));
+          orElse: () => ComputeStatus._(value));
+
+  @override
+  bool operator ==(other) => other is ComputeStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ComputeType {
-  ec2('EC2'),
-  anywhere('ANYWHERE'),
-  container('CONTAINER'),
-  ;
+class ComputeType {
+  static const ec2 = ComputeType._('EC2');
+  static const anywhere = ComputeType._('ANYWHERE');
+  static const container = ComputeType._('CONTAINER');
 
   final String value;
 
-  const ComputeType(this.value);
+  const ComputeType._(this.value);
 
-  static ComputeType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum ComputeType'));
+  static const values = [ec2, anywhere, container];
+
+  static ComputeType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ComputeType._(value));
+
+  @override
+  bool operator ==(other) => other is ComputeType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// <b>This operation has been expanded to use with the Amazon GameLift
@@ -10613,7 +10694,7 @@ class ContainerDependency {
   factory ContainerDependency.fromJson(Map<String, dynamic> json) {
     return ContainerDependency(
       condition: ContainerDependencyCondition.fromString(
-          (json['Condition'] as String)),
+          (json['Condition'] as String?) ?? ''),
       containerName: (json['ContainerName'] as String?) ?? '',
     );
   }
@@ -10628,21 +10709,31 @@ class ContainerDependency {
   }
 }
 
-enum ContainerDependencyCondition {
-  start('START'),
-  complete('COMPLETE'),
-  success('SUCCESS'),
-  healthy('HEALTHY'),
-  ;
+class ContainerDependencyCondition {
+  static const start = ContainerDependencyCondition._('START');
+  static const complete = ContainerDependencyCondition._('COMPLETE');
+  static const success = ContainerDependencyCondition._('SUCCESS');
+  static const healthy = ContainerDependencyCondition._('HEALTHY');
 
   final String value;
 
-  const ContainerDependencyCondition(this.value);
+  const ContainerDependencyCondition._(this.value);
+
+  static const values = [start, complete, success, healthy];
 
   static ContainerDependencyCondition fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ContainerDependencyCondition'));
+          orElse: () => ContainerDependencyCondition._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ContainerDependencyCondition && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// <b>This data type is used with the Amazon GameLift containers feature, which
@@ -10929,20 +11020,30 @@ class ContainerGroupDefinitionProperty {
   }
 }
 
-enum ContainerGroupDefinitionStatus {
-  ready('READY'),
-  copying('COPYING'),
-  failed('FAILED'),
-  ;
+class ContainerGroupDefinitionStatus {
+  static const ready = ContainerGroupDefinitionStatus._('READY');
+  static const copying = ContainerGroupDefinitionStatus._('COPYING');
+  static const failed = ContainerGroupDefinitionStatus._('FAILED');
 
   final String value;
 
-  const ContainerGroupDefinitionStatus(this.value);
+  const ContainerGroupDefinitionStatus._(this.value);
+
+  static const values = [ready, copying, failed];
 
   static ContainerGroupDefinitionStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ContainerGroupDefinitionStatus'));
+          orElse: () => ContainerGroupDefinitionStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ContainerGroupDefinitionStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// <b>This data type is used with the Amazon GameLift containers feature, which
@@ -11263,18 +11364,29 @@ class ContainerMemoryLimits {
   }
 }
 
-enum ContainerOperatingSystem {
-  amazonLinux_2023('AMAZON_LINUX_2023'),
-  ;
+class ContainerOperatingSystem {
+  static const amazonLinux_2023 =
+      ContainerOperatingSystem._('AMAZON_LINUX_2023');
 
   final String value;
 
-  const ContainerOperatingSystem(this.value);
+  const ContainerOperatingSystem._(this.value);
+
+  static const values = [amazonLinux_2023];
 
   static ContainerOperatingSystem fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ContainerOperatingSystem'));
+          orElse: () => ContainerOperatingSystem._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ContainerOperatingSystem && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Defines ranges of ports that server processes can connect to.
@@ -11380,7 +11492,7 @@ class ContainerPortRange {
   factory ContainerPortRange.fromJson(Map<String, dynamic> json) {
     return ContainerPortRange(
       fromPort: (json['FromPort'] as int?) ?? 0,
-      protocol: IpProtocol.fromString((json['Protocol'] as String)),
+      protocol: IpProtocol.fromString((json['Protocol'] as String?) ?? ''),
       toPort: (json['ToPort'] as int?) ?? 0,
     );
   }
@@ -11397,19 +11509,29 @@ class ContainerPortRange {
   }
 }
 
-enum ContainerSchedulingStrategy {
-  replica('REPLICA'),
-  daemon('DAEMON'),
-  ;
+class ContainerSchedulingStrategy {
+  static const replica = ContainerSchedulingStrategy._('REPLICA');
+  static const daemon = ContainerSchedulingStrategy._('DAEMON');
 
   final String value;
 
-  const ContainerSchedulingStrategy(this.value);
+  const ContainerSchedulingStrategy._(this.value);
+
+  static const values = [replica, daemon];
 
   static ContainerSchedulingStrategy fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ContainerSchedulingStrategy'));
+          orElse: () => ContainerSchedulingStrategy._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ContainerSchedulingStrategy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class CreateAliasOutput {
@@ -13141,192 +13263,377 @@ class EC2InstanceLimit {
   }
 }
 
-enum EC2InstanceType {
-  t2Micro('t2.micro'),
-  t2Small('t2.small'),
-  t2Medium('t2.medium'),
-  t2Large('t2.large'),
-  c3Large('c3.large'),
-  c3Xlarge('c3.xlarge'),
-  c3_2xlarge('c3.2xlarge'),
-  c3_4xlarge('c3.4xlarge'),
-  c3_8xlarge('c3.8xlarge'),
-  c4Large('c4.large'),
-  c4Xlarge('c4.xlarge'),
-  c4_2xlarge('c4.2xlarge'),
-  c4_4xlarge('c4.4xlarge'),
-  c4_8xlarge('c4.8xlarge'),
-  c5Large('c5.large'),
-  c5Xlarge('c5.xlarge'),
-  c5_2xlarge('c5.2xlarge'),
-  c5_4xlarge('c5.4xlarge'),
-  c5_9xlarge('c5.9xlarge'),
-  c5_12xlarge('c5.12xlarge'),
-  c5_18xlarge('c5.18xlarge'),
-  c5_24xlarge('c5.24xlarge'),
-  c5aLarge('c5a.large'),
-  c5aXlarge('c5a.xlarge'),
-  c5a_2xlarge('c5a.2xlarge'),
-  c5a_4xlarge('c5a.4xlarge'),
-  c5a_8xlarge('c5a.8xlarge'),
-  c5a_12xlarge('c5a.12xlarge'),
-  c5a_16xlarge('c5a.16xlarge'),
-  c5a_24xlarge('c5a.24xlarge'),
-  r3Large('r3.large'),
-  r3Xlarge('r3.xlarge'),
-  r3_2xlarge('r3.2xlarge'),
-  r3_4xlarge('r3.4xlarge'),
-  r3_8xlarge('r3.8xlarge'),
-  r4Large('r4.large'),
-  r4Xlarge('r4.xlarge'),
-  r4_2xlarge('r4.2xlarge'),
-  r4_4xlarge('r4.4xlarge'),
-  r4_8xlarge('r4.8xlarge'),
-  r4_16xlarge('r4.16xlarge'),
-  r5Large('r5.large'),
-  r5Xlarge('r5.xlarge'),
-  r5_2xlarge('r5.2xlarge'),
-  r5_4xlarge('r5.4xlarge'),
-  r5_8xlarge('r5.8xlarge'),
-  r5_12xlarge('r5.12xlarge'),
-  r5_16xlarge('r5.16xlarge'),
-  r5_24xlarge('r5.24xlarge'),
-  r5aLarge('r5a.large'),
-  r5aXlarge('r5a.xlarge'),
-  r5a_2xlarge('r5a.2xlarge'),
-  r5a_4xlarge('r5a.4xlarge'),
-  r5a_8xlarge('r5a.8xlarge'),
-  r5a_12xlarge('r5a.12xlarge'),
-  r5a_16xlarge('r5a.16xlarge'),
-  r5a_24xlarge('r5a.24xlarge'),
-  m3Medium('m3.medium'),
-  m3Large('m3.large'),
-  m3Xlarge('m3.xlarge'),
-  m3_2xlarge('m3.2xlarge'),
-  m4Large('m4.large'),
-  m4Xlarge('m4.xlarge'),
-  m4_2xlarge('m4.2xlarge'),
-  m4_4xlarge('m4.4xlarge'),
-  m4_10xlarge('m4.10xlarge'),
-  m5Large('m5.large'),
-  m5Xlarge('m5.xlarge'),
-  m5_2xlarge('m5.2xlarge'),
-  m5_4xlarge('m5.4xlarge'),
-  m5_8xlarge('m5.8xlarge'),
-  m5_12xlarge('m5.12xlarge'),
-  m5_16xlarge('m5.16xlarge'),
-  m5_24xlarge('m5.24xlarge'),
-  m5aLarge('m5a.large'),
-  m5aXlarge('m5a.xlarge'),
-  m5a_2xlarge('m5a.2xlarge'),
-  m5a_4xlarge('m5a.4xlarge'),
-  m5a_8xlarge('m5a.8xlarge'),
-  m5a_12xlarge('m5a.12xlarge'),
-  m5a_16xlarge('m5a.16xlarge'),
-  m5a_24xlarge('m5a.24xlarge'),
-  c5dLarge('c5d.large'),
-  c5dXlarge('c5d.xlarge'),
-  c5d_2xlarge('c5d.2xlarge'),
-  c5d_4xlarge('c5d.4xlarge'),
-  c5d_9xlarge('c5d.9xlarge'),
-  c5d_12xlarge('c5d.12xlarge'),
-  c5d_18xlarge('c5d.18xlarge'),
-  c5d_24xlarge('c5d.24xlarge'),
-  c6aLarge('c6a.large'),
-  c6aXlarge('c6a.xlarge'),
-  c6a_2xlarge('c6a.2xlarge'),
-  c6a_4xlarge('c6a.4xlarge'),
-  c6a_8xlarge('c6a.8xlarge'),
-  c6a_12xlarge('c6a.12xlarge'),
-  c6a_16xlarge('c6a.16xlarge'),
-  c6a_24xlarge('c6a.24xlarge'),
-  c6iLarge('c6i.large'),
-  c6iXlarge('c6i.xlarge'),
-  c6i_2xlarge('c6i.2xlarge'),
-  c6i_4xlarge('c6i.4xlarge'),
-  c6i_8xlarge('c6i.8xlarge'),
-  c6i_12xlarge('c6i.12xlarge'),
-  c6i_16xlarge('c6i.16xlarge'),
-  c6i_24xlarge('c6i.24xlarge'),
-  r5dLarge('r5d.large'),
-  r5dXlarge('r5d.xlarge'),
-  r5d_2xlarge('r5d.2xlarge'),
-  r5d_4xlarge('r5d.4xlarge'),
-  r5d_8xlarge('r5d.8xlarge'),
-  r5d_12xlarge('r5d.12xlarge'),
-  r5d_16xlarge('r5d.16xlarge'),
-  r5d_24xlarge('r5d.24xlarge'),
-  m6gMedium('m6g.medium'),
-  m6gLarge('m6g.large'),
-  m6gXlarge('m6g.xlarge'),
-  m6g_2xlarge('m6g.2xlarge'),
-  m6g_4xlarge('m6g.4xlarge'),
-  m6g_8xlarge('m6g.8xlarge'),
-  m6g_12xlarge('m6g.12xlarge'),
-  m6g_16xlarge('m6g.16xlarge'),
-  c6gMedium('c6g.medium'),
-  c6gLarge('c6g.large'),
-  c6gXlarge('c6g.xlarge'),
-  c6g_2xlarge('c6g.2xlarge'),
-  c6g_4xlarge('c6g.4xlarge'),
-  c6g_8xlarge('c6g.8xlarge'),
-  c6g_12xlarge('c6g.12xlarge'),
-  c6g_16xlarge('c6g.16xlarge'),
-  r6gMedium('r6g.medium'),
-  r6gLarge('r6g.large'),
-  r6gXlarge('r6g.xlarge'),
-  r6g_2xlarge('r6g.2xlarge'),
-  r6g_4xlarge('r6g.4xlarge'),
-  r6g_8xlarge('r6g.8xlarge'),
-  r6g_12xlarge('r6g.12xlarge'),
-  r6g_16xlarge('r6g.16xlarge'),
-  c6gnMedium('c6gn.medium'),
-  c6gnLarge('c6gn.large'),
-  c6gnXlarge('c6gn.xlarge'),
-  c6gn_2xlarge('c6gn.2xlarge'),
-  c6gn_4xlarge('c6gn.4xlarge'),
-  c6gn_8xlarge('c6gn.8xlarge'),
-  c6gn_12xlarge('c6gn.12xlarge'),
-  c6gn_16xlarge('c6gn.16xlarge'),
-  c7gMedium('c7g.medium'),
-  c7gLarge('c7g.large'),
-  c7gXlarge('c7g.xlarge'),
-  c7g_2xlarge('c7g.2xlarge'),
-  c7g_4xlarge('c7g.4xlarge'),
-  c7g_8xlarge('c7g.8xlarge'),
-  c7g_12xlarge('c7g.12xlarge'),
-  c7g_16xlarge('c7g.16xlarge'),
-  r7gMedium('r7g.medium'),
-  r7gLarge('r7g.large'),
-  r7gXlarge('r7g.xlarge'),
-  r7g_2xlarge('r7g.2xlarge'),
-  r7g_4xlarge('r7g.4xlarge'),
-  r7g_8xlarge('r7g.8xlarge'),
-  r7g_12xlarge('r7g.12xlarge'),
-  r7g_16xlarge('r7g.16xlarge'),
-  m7gMedium('m7g.medium'),
-  m7gLarge('m7g.large'),
-  m7gXlarge('m7g.xlarge'),
-  m7g_2xlarge('m7g.2xlarge'),
-  m7g_4xlarge('m7g.4xlarge'),
-  m7g_8xlarge('m7g.8xlarge'),
-  m7g_12xlarge('m7g.12xlarge'),
-  m7g_16xlarge('m7g.16xlarge'),
-  g5gXlarge('g5g.xlarge'),
-  g5g_2xlarge('g5g.2xlarge'),
-  g5g_4xlarge('g5g.4xlarge'),
-  g5g_8xlarge('g5g.8xlarge'),
-  g5g_16xlarge('g5g.16xlarge'),
-  ;
+class EC2InstanceType {
+  static const t2Micro = EC2InstanceType._('t2.micro');
+  static const t2Small = EC2InstanceType._('t2.small');
+  static const t2Medium = EC2InstanceType._('t2.medium');
+  static const t2Large = EC2InstanceType._('t2.large');
+  static const c3Large = EC2InstanceType._('c3.large');
+  static const c3Xlarge = EC2InstanceType._('c3.xlarge');
+  static const c3_2xlarge = EC2InstanceType._('c3.2xlarge');
+  static const c3_4xlarge = EC2InstanceType._('c3.4xlarge');
+  static const c3_8xlarge = EC2InstanceType._('c3.8xlarge');
+  static const c4Large = EC2InstanceType._('c4.large');
+  static const c4Xlarge = EC2InstanceType._('c4.xlarge');
+  static const c4_2xlarge = EC2InstanceType._('c4.2xlarge');
+  static const c4_4xlarge = EC2InstanceType._('c4.4xlarge');
+  static const c4_8xlarge = EC2InstanceType._('c4.8xlarge');
+  static const c5Large = EC2InstanceType._('c5.large');
+  static const c5Xlarge = EC2InstanceType._('c5.xlarge');
+  static const c5_2xlarge = EC2InstanceType._('c5.2xlarge');
+  static const c5_4xlarge = EC2InstanceType._('c5.4xlarge');
+  static const c5_9xlarge = EC2InstanceType._('c5.9xlarge');
+  static const c5_12xlarge = EC2InstanceType._('c5.12xlarge');
+  static const c5_18xlarge = EC2InstanceType._('c5.18xlarge');
+  static const c5_24xlarge = EC2InstanceType._('c5.24xlarge');
+  static const c5aLarge = EC2InstanceType._('c5a.large');
+  static const c5aXlarge = EC2InstanceType._('c5a.xlarge');
+  static const c5a_2xlarge = EC2InstanceType._('c5a.2xlarge');
+  static const c5a_4xlarge = EC2InstanceType._('c5a.4xlarge');
+  static const c5a_8xlarge = EC2InstanceType._('c5a.8xlarge');
+  static const c5a_12xlarge = EC2InstanceType._('c5a.12xlarge');
+  static const c5a_16xlarge = EC2InstanceType._('c5a.16xlarge');
+  static const c5a_24xlarge = EC2InstanceType._('c5a.24xlarge');
+  static const r3Large = EC2InstanceType._('r3.large');
+  static const r3Xlarge = EC2InstanceType._('r3.xlarge');
+  static const r3_2xlarge = EC2InstanceType._('r3.2xlarge');
+  static const r3_4xlarge = EC2InstanceType._('r3.4xlarge');
+  static const r3_8xlarge = EC2InstanceType._('r3.8xlarge');
+  static const r4Large = EC2InstanceType._('r4.large');
+  static const r4Xlarge = EC2InstanceType._('r4.xlarge');
+  static const r4_2xlarge = EC2InstanceType._('r4.2xlarge');
+  static const r4_4xlarge = EC2InstanceType._('r4.4xlarge');
+  static const r4_8xlarge = EC2InstanceType._('r4.8xlarge');
+  static const r4_16xlarge = EC2InstanceType._('r4.16xlarge');
+  static const r5Large = EC2InstanceType._('r5.large');
+  static const r5Xlarge = EC2InstanceType._('r5.xlarge');
+  static const r5_2xlarge = EC2InstanceType._('r5.2xlarge');
+  static const r5_4xlarge = EC2InstanceType._('r5.4xlarge');
+  static const r5_8xlarge = EC2InstanceType._('r5.8xlarge');
+  static const r5_12xlarge = EC2InstanceType._('r5.12xlarge');
+  static const r5_16xlarge = EC2InstanceType._('r5.16xlarge');
+  static const r5_24xlarge = EC2InstanceType._('r5.24xlarge');
+  static const r5aLarge = EC2InstanceType._('r5a.large');
+  static const r5aXlarge = EC2InstanceType._('r5a.xlarge');
+  static const r5a_2xlarge = EC2InstanceType._('r5a.2xlarge');
+  static const r5a_4xlarge = EC2InstanceType._('r5a.4xlarge');
+  static const r5a_8xlarge = EC2InstanceType._('r5a.8xlarge');
+  static const r5a_12xlarge = EC2InstanceType._('r5a.12xlarge');
+  static const r5a_16xlarge = EC2InstanceType._('r5a.16xlarge');
+  static const r5a_24xlarge = EC2InstanceType._('r5a.24xlarge');
+  static const m3Medium = EC2InstanceType._('m3.medium');
+  static const m3Large = EC2InstanceType._('m3.large');
+  static const m3Xlarge = EC2InstanceType._('m3.xlarge');
+  static const m3_2xlarge = EC2InstanceType._('m3.2xlarge');
+  static const m4Large = EC2InstanceType._('m4.large');
+  static const m4Xlarge = EC2InstanceType._('m4.xlarge');
+  static const m4_2xlarge = EC2InstanceType._('m4.2xlarge');
+  static const m4_4xlarge = EC2InstanceType._('m4.4xlarge');
+  static const m4_10xlarge = EC2InstanceType._('m4.10xlarge');
+  static const m5Large = EC2InstanceType._('m5.large');
+  static const m5Xlarge = EC2InstanceType._('m5.xlarge');
+  static const m5_2xlarge = EC2InstanceType._('m5.2xlarge');
+  static const m5_4xlarge = EC2InstanceType._('m5.4xlarge');
+  static const m5_8xlarge = EC2InstanceType._('m5.8xlarge');
+  static const m5_12xlarge = EC2InstanceType._('m5.12xlarge');
+  static const m5_16xlarge = EC2InstanceType._('m5.16xlarge');
+  static const m5_24xlarge = EC2InstanceType._('m5.24xlarge');
+  static const m5aLarge = EC2InstanceType._('m5a.large');
+  static const m5aXlarge = EC2InstanceType._('m5a.xlarge');
+  static const m5a_2xlarge = EC2InstanceType._('m5a.2xlarge');
+  static const m5a_4xlarge = EC2InstanceType._('m5a.4xlarge');
+  static const m5a_8xlarge = EC2InstanceType._('m5a.8xlarge');
+  static const m5a_12xlarge = EC2InstanceType._('m5a.12xlarge');
+  static const m5a_16xlarge = EC2InstanceType._('m5a.16xlarge');
+  static const m5a_24xlarge = EC2InstanceType._('m5a.24xlarge');
+  static const c5dLarge = EC2InstanceType._('c5d.large');
+  static const c5dXlarge = EC2InstanceType._('c5d.xlarge');
+  static const c5d_2xlarge = EC2InstanceType._('c5d.2xlarge');
+  static const c5d_4xlarge = EC2InstanceType._('c5d.4xlarge');
+  static const c5d_9xlarge = EC2InstanceType._('c5d.9xlarge');
+  static const c5d_12xlarge = EC2InstanceType._('c5d.12xlarge');
+  static const c5d_18xlarge = EC2InstanceType._('c5d.18xlarge');
+  static const c5d_24xlarge = EC2InstanceType._('c5d.24xlarge');
+  static const c6aLarge = EC2InstanceType._('c6a.large');
+  static const c6aXlarge = EC2InstanceType._('c6a.xlarge');
+  static const c6a_2xlarge = EC2InstanceType._('c6a.2xlarge');
+  static const c6a_4xlarge = EC2InstanceType._('c6a.4xlarge');
+  static const c6a_8xlarge = EC2InstanceType._('c6a.8xlarge');
+  static const c6a_12xlarge = EC2InstanceType._('c6a.12xlarge');
+  static const c6a_16xlarge = EC2InstanceType._('c6a.16xlarge');
+  static const c6a_24xlarge = EC2InstanceType._('c6a.24xlarge');
+  static const c6iLarge = EC2InstanceType._('c6i.large');
+  static const c6iXlarge = EC2InstanceType._('c6i.xlarge');
+  static const c6i_2xlarge = EC2InstanceType._('c6i.2xlarge');
+  static const c6i_4xlarge = EC2InstanceType._('c6i.4xlarge');
+  static const c6i_8xlarge = EC2InstanceType._('c6i.8xlarge');
+  static const c6i_12xlarge = EC2InstanceType._('c6i.12xlarge');
+  static const c6i_16xlarge = EC2InstanceType._('c6i.16xlarge');
+  static const c6i_24xlarge = EC2InstanceType._('c6i.24xlarge');
+  static const r5dLarge = EC2InstanceType._('r5d.large');
+  static const r5dXlarge = EC2InstanceType._('r5d.xlarge');
+  static const r5d_2xlarge = EC2InstanceType._('r5d.2xlarge');
+  static const r5d_4xlarge = EC2InstanceType._('r5d.4xlarge');
+  static const r5d_8xlarge = EC2InstanceType._('r5d.8xlarge');
+  static const r5d_12xlarge = EC2InstanceType._('r5d.12xlarge');
+  static const r5d_16xlarge = EC2InstanceType._('r5d.16xlarge');
+  static const r5d_24xlarge = EC2InstanceType._('r5d.24xlarge');
+  static const m6gMedium = EC2InstanceType._('m6g.medium');
+  static const m6gLarge = EC2InstanceType._('m6g.large');
+  static const m6gXlarge = EC2InstanceType._('m6g.xlarge');
+  static const m6g_2xlarge = EC2InstanceType._('m6g.2xlarge');
+  static const m6g_4xlarge = EC2InstanceType._('m6g.4xlarge');
+  static const m6g_8xlarge = EC2InstanceType._('m6g.8xlarge');
+  static const m6g_12xlarge = EC2InstanceType._('m6g.12xlarge');
+  static const m6g_16xlarge = EC2InstanceType._('m6g.16xlarge');
+  static const c6gMedium = EC2InstanceType._('c6g.medium');
+  static const c6gLarge = EC2InstanceType._('c6g.large');
+  static const c6gXlarge = EC2InstanceType._('c6g.xlarge');
+  static const c6g_2xlarge = EC2InstanceType._('c6g.2xlarge');
+  static const c6g_4xlarge = EC2InstanceType._('c6g.4xlarge');
+  static const c6g_8xlarge = EC2InstanceType._('c6g.8xlarge');
+  static const c6g_12xlarge = EC2InstanceType._('c6g.12xlarge');
+  static const c6g_16xlarge = EC2InstanceType._('c6g.16xlarge');
+  static const r6gMedium = EC2InstanceType._('r6g.medium');
+  static const r6gLarge = EC2InstanceType._('r6g.large');
+  static const r6gXlarge = EC2InstanceType._('r6g.xlarge');
+  static const r6g_2xlarge = EC2InstanceType._('r6g.2xlarge');
+  static const r6g_4xlarge = EC2InstanceType._('r6g.4xlarge');
+  static const r6g_8xlarge = EC2InstanceType._('r6g.8xlarge');
+  static const r6g_12xlarge = EC2InstanceType._('r6g.12xlarge');
+  static const r6g_16xlarge = EC2InstanceType._('r6g.16xlarge');
+  static const c6gnMedium = EC2InstanceType._('c6gn.medium');
+  static const c6gnLarge = EC2InstanceType._('c6gn.large');
+  static const c6gnXlarge = EC2InstanceType._('c6gn.xlarge');
+  static const c6gn_2xlarge = EC2InstanceType._('c6gn.2xlarge');
+  static const c6gn_4xlarge = EC2InstanceType._('c6gn.4xlarge');
+  static const c6gn_8xlarge = EC2InstanceType._('c6gn.8xlarge');
+  static const c6gn_12xlarge = EC2InstanceType._('c6gn.12xlarge');
+  static const c6gn_16xlarge = EC2InstanceType._('c6gn.16xlarge');
+  static const c7gMedium = EC2InstanceType._('c7g.medium');
+  static const c7gLarge = EC2InstanceType._('c7g.large');
+  static const c7gXlarge = EC2InstanceType._('c7g.xlarge');
+  static const c7g_2xlarge = EC2InstanceType._('c7g.2xlarge');
+  static const c7g_4xlarge = EC2InstanceType._('c7g.4xlarge');
+  static const c7g_8xlarge = EC2InstanceType._('c7g.8xlarge');
+  static const c7g_12xlarge = EC2InstanceType._('c7g.12xlarge');
+  static const c7g_16xlarge = EC2InstanceType._('c7g.16xlarge');
+  static const r7gMedium = EC2InstanceType._('r7g.medium');
+  static const r7gLarge = EC2InstanceType._('r7g.large');
+  static const r7gXlarge = EC2InstanceType._('r7g.xlarge');
+  static const r7g_2xlarge = EC2InstanceType._('r7g.2xlarge');
+  static const r7g_4xlarge = EC2InstanceType._('r7g.4xlarge');
+  static const r7g_8xlarge = EC2InstanceType._('r7g.8xlarge');
+  static const r7g_12xlarge = EC2InstanceType._('r7g.12xlarge');
+  static const r7g_16xlarge = EC2InstanceType._('r7g.16xlarge');
+  static const m7gMedium = EC2InstanceType._('m7g.medium');
+  static const m7gLarge = EC2InstanceType._('m7g.large');
+  static const m7gXlarge = EC2InstanceType._('m7g.xlarge');
+  static const m7g_2xlarge = EC2InstanceType._('m7g.2xlarge');
+  static const m7g_4xlarge = EC2InstanceType._('m7g.4xlarge');
+  static const m7g_8xlarge = EC2InstanceType._('m7g.8xlarge');
+  static const m7g_12xlarge = EC2InstanceType._('m7g.12xlarge');
+  static const m7g_16xlarge = EC2InstanceType._('m7g.16xlarge');
+  static const g5gXlarge = EC2InstanceType._('g5g.xlarge');
+  static const g5g_2xlarge = EC2InstanceType._('g5g.2xlarge');
+  static const g5g_4xlarge = EC2InstanceType._('g5g.4xlarge');
+  static const g5g_8xlarge = EC2InstanceType._('g5g.8xlarge');
+  static const g5g_16xlarge = EC2InstanceType._('g5g.16xlarge');
 
   final String value;
 
-  const EC2InstanceType(this.value);
+  const EC2InstanceType._(this.value);
+
+  static const values = [
+    t2Micro,
+    t2Small,
+    t2Medium,
+    t2Large,
+    c3Large,
+    c3Xlarge,
+    c3_2xlarge,
+    c3_4xlarge,
+    c3_8xlarge,
+    c4Large,
+    c4Xlarge,
+    c4_2xlarge,
+    c4_4xlarge,
+    c4_8xlarge,
+    c5Large,
+    c5Xlarge,
+    c5_2xlarge,
+    c5_4xlarge,
+    c5_9xlarge,
+    c5_12xlarge,
+    c5_18xlarge,
+    c5_24xlarge,
+    c5aLarge,
+    c5aXlarge,
+    c5a_2xlarge,
+    c5a_4xlarge,
+    c5a_8xlarge,
+    c5a_12xlarge,
+    c5a_16xlarge,
+    c5a_24xlarge,
+    r3Large,
+    r3Xlarge,
+    r3_2xlarge,
+    r3_4xlarge,
+    r3_8xlarge,
+    r4Large,
+    r4Xlarge,
+    r4_2xlarge,
+    r4_4xlarge,
+    r4_8xlarge,
+    r4_16xlarge,
+    r5Large,
+    r5Xlarge,
+    r5_2xlarge,
+    r5_4xlarge,
+    r5_8xlarge,
+    r5_12xlarge,
+    r5_16xlarge,
+    r5_24xlarge,
+    r5aLarge,
+    r5aXlarge,
+    r5a_2xlarge,
+    r5a_4xlarge,
+    r5a_8xlarge,
+    r5a_12xlarge,
+    r5a_16xlarge,
+    r5a_24xlarge,
+    m3Medium,
+    m3Large,
+    m3Xlarge,
+    m3_2xlarge,
+    m4Large,
+    m4Xlarge,
+    m4_2xlarge,
+    m4_4xlarge,
+    m4_10xlarge,
+    m5Large,
+    m5Xlarge,
+    m5_2xlarge,
+    m5_4xlarge,
+    m5_8xlarge,
+    m5_12xlarge,
+    m5_16xlarge,
+    m5_24xlarge,
+    m5aLarge,
+    m5aXlarge,
+    m5a_2xlarge,
+    m5a_4xlarge,
+    m5a_8xlarge,
+    m5a_12xlarge,
+    m5a_16xlarge,
+    m5a_24xlarge,
+    c5dLarge,
+    c5dXlarge,
+    c5d_2xlarge,
+    c5d_4xlarge,
+    c5d_9xlarge,
+    c5d_12xlarge,
+    c5d_18xlarge,
+    c5d_24xlarge,
+    c6aLarge,
+    c6aXlarge,
+    c6a_2xlarge,
+    c6a_4xlarge,
+    c6a_8xlarge,
+    c6a_12xlarge,
+    c6a_16xlarge,
+    c6a_24xlarge,
+    c6iLarge,
+    c6iXlarge,
+    c6i_2xlarge,
+    c6i_4xlarge,
+    c6i_8xlarge,
+    c6i_12xlarge,
+    c6i_16xlarge,
+    c6i_24xlarge,
+    r5dLarge,
+    r5dXlarge,
+    r5d_2xlarge,
+    r5d_4xlarge,
+    r5d_8xlarge,
+    r5d_12xlarge,
+    r5d_16xlarge,
+    r5d_24xlarge,
+    m6gMedium,
+    m6gLarge,
+    m6gXlarge,
+    m6g_2xlarge,
+    m6g_4xlarge,
+    m6g_8xlarge,
+    m6g_12xlarge,
+    m6g_16xlarge,
+    c6gMedium,
+    c6gLarge,
+    c6gXlarge,
+    c6g_2xlarge,
+    c6g_4xlarge,
+    c6g_8xlarge,
+    c6g_12xlarge,
+    c6g_16xlarge,
+    r6gMedium,
+    r6gLarge,
+    r6gXlarge,
+    r6g_2xlarge,
+    r6g_4xlarge,
+    r6g_8xlarge,
+    r6g_12xlarge,
+    r6g_16xlarge,
+    c6gnMedium,
+    c6gnLarge,
+    c6gnXlarge,
+    c6gn_2xlarge,
+    c6gn_4xlarge,
+    c6gn_8xlarge,
+    c6gn_12xlarge,
+    c6gn_16xlarge,
+    c7gMedium,
+    c7gLarge,
+    c7gXlarge,
+    c7g_2xlarge,
+    c7g_4xlarge,
+    c7g_8xlarge,
+    c7g_12xlarge,
+    c7g_16xlarge,
+    r7gMedium,
+    r7gLarge,
+    r7gXlarge,
+    r7g_2xlarge,
+    r7g_4xlarge,
+    r7g_8xlarge,
+    r7g_12xlarge,
+    r7g_16xlarge,
+    m7gMedium,
+    m7gLarge,
+    m7gXlarge,
+    m7g_2xlarge,
+    m7g_4xlarge,
+    m7g_8xlarge,
+    m7g_12xlarge,
+    m7g_16xlarge,
+    g5gXlarge,
+    g5g_2xlarge,
+    g5g_4xlarge,
+    g5g_8xlarge,
+    g5g_16xlarge
+  ];
 
   static EC2InstanceType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum EC2InstanceType'));
+          orElse: () => EC2InstanceType._(value));
+
+  @override
+  bool operator ==(other) => other is EC2InstanceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Log entry describing an event that involves Amazon GameLift resources (such
@@ -13622,56 +13929,119 @@ class Event {
   }
 }
 
-enum EventCode {
-  genericEvent('GENERIC_EVENT'),
-  fleetCreated('FLEET_CREATED'),
-  fleetDeleted('FLEET_DELETED'),
-  fleetScalingEvent('FLEET_SCALING_EVENT'),
-  fleetStateDownloading('FLEET_STATE_DOWNLOADING'),
-  fleetStateValidating('FLEET_STATE_VALIDATING'),
-  fleetStateBuilding('FLEET_STATE_BUILDING'),
-  fleetStateActivating('FLEET_STATE_ACTIVATING'),
-  fleetStateActive('FLEET_STATE_ACTIVE'),
-  fleetStateError('FLEET_STATE_ERROR'),
-  fleetInitializationFailed('FLEET_INITIALIZATION_FAILED'),
-  fleetBinaryDownloadFailed('FLEET_BINARY_DOWNLOAD_FAILED'),
-  fleetValidationLaunchPathNotFound('FLEET_VALIDATION_LAUNCH_PATH_NOT_FOUND'),
-  fleetValidationExecutableRuntimeFailure(
-      'FLEET_VALIDATION_EXECUTABLE_RUNTIME_FAILURE'),
-  fleetValidationTimedOut('FLEET_VALIDATION_TIMED_OUT'),
-  fleetActivationFailed('FLEET_ACTIVATION_FAILED'),
-  fleetActivationFailedNoInstances('FLEET_ACTIVATION_FAILED_NO_INSTANCES'),
-  fleetNewGameSessionProtectionPolicyUpdated(
-      'FLEET_NEW_GAME_SESSION_PROTECTION_POLICY_UPDATED'),
-  serverProcessInvalidPath('SERVER_PROCESS_INVALID_PATH'),
-  serverProcessSdkInitializationTimeout(
-      'SERVER_PROCESS_SDK_INITIALIZATION_TIMEOUT'),
-  serverProcessProcessReadyTimeout('SERVER_PROCESS_PROCESS_READY_TIMEOUT'),
-  serverProcessCrashed('SERVER_PROCESS_CRASHED'),
-  serverProcessTerminatedUnhealthy('SERVER_PROCESS_TERMINATED_UNHEALTHY'),
-  serverProcessForceTerminated('SERVER_PROCESS_FORCE_TERMINATED'),
-  serverProcessProcessExitTimeout('SERVER_PROCESS_PROCESS_EXIT_TIMEOUT'),
-  gameSessionActivationTimeout('GAME_SESSION_ACTIVATION_TIMEOUT'),
-  fleetCreationExtractingBuild('FLEET_CREATION_EXTRACTING_BUILD'),
-  fleetCreationRunningInstaller('FLEET_CREATION_RUNNING_INSTALLER'),
-  fleetCreationValidatingRuntimeConfig(
-      'FLEET_CREATION_VALIDATING_RUNTIME_CONFIG'),
-  fleetVpcPeeringSucceeded('FLEET_VPC_PEERING_SUCCEEDED'),
-  fleetVpcPeeringFailed('FLEET_VPC_PEERING_FAILED'),
-  fleetVpcPeeringDeleted('FLEET_VPC_PEERING_DELETED'),
-  instanceInterrupted('INSTANCE_INTERRUPTED'),
-  instanceRecycled('INSTANCE_RECYCLED'),
-  fleetCreationCompletedInstaller('FLEET_CREATION_COMPLETED_INSTALLER'),
-  fleetCreationFailedInstaller('FLEET_CREATION_FAILED_INSTALLER'),
-  ;
+class EventCode {
+  static const genericEvent = EventCode._('GENERIC_EVENT');
+  static const fleetCreated = EventCode._('FLEET_CREATED');
+  static const fleetDeleted = EventCode._('FLEET_DELETED');
+  static const fleetScalingEvent = EventCode._('FLEET_SCALING_EVENT');
+  static const fleetStateDownloading = EventCode._('FLEET_STATE_DOWNLOADING');
+  static const fleetStateValidating = EventCode._('FLEET_STATE_VALIDATING');
+  static const fleetStateBuilding = EventCode._('FLEET_STATE_BUILDING');
+  static const fleetStateActivating = EventCode._('FLEET_STATE_ACTIVATING');
+  static const fleetStateActive = EventCode._('FLEET_STATE_ACTIVE');
+  static const fleetStateError = EventCode._('FLEET_STATE_ERROR');
+  static const fleetInitializationFailed =
+      EventCode._('FLEET_INITIALIZATION_FAILED');
+  static const fleetBinaryDownloadFailed =
+      EventCode._('FLEET_BINARY_DOWNLOAD_FAILED');
+  static const fleetValidationLaunchPathNotFound =
+      EventCode._('FLEET_VALIDATION_LAUNCH_PATH_NOT_FOUND');
+  static const fleetValidationExecutableRuntimeFailure =
+      EventCode._('FLEET_VALIDATION_EXECUTABLE_RUNTIME_FAILURE');
+  static const fleetValidationTimedOut =
+      EventCode._('FLEET_VALIDATION_TIMED_OUT');
+  static const fleetActivationFailed = EventCode._('FLEET_ACTIVATION_FAILED');
+  static const fleetActivationFailedNoInstances =
+      EventCode._('FLEET_ACTIVATION_FAILED_NO_INSTANCES');
+  static const fleetNewGameSessionProtectionPolicyUpdated =
+      EventCode._('FLEET_NEW_GAME_SESSION_PROTECTION_POLICY_UPDATED');
+  static const serverProcessInvalidPath =
+      EventCode._('SERVER_PROCESS_INVALID_PATH');
+  static const serverProcessSdkInitializationTimeout =
+      EventCode._('SERVER_PROCESS_SDK_INITIALIZATION_TIMEOUT');
+  static const serverProcessProcessReadyTimeout =
+      EventCode._('SERVER_PROCESS_PROCESS_READY_TIMEOUT');
+  static const serverProcessCrashed = EventCode._('SERVER_PROCESS_CRASHED');
+  static const serverProcessTerminatedUnhealthy =
+      EventCode._('SERVER_PROCESS_TERMINATED_UNHEALTHY');
+  static const serverProcessForceTerminated =
+      EventCode._('SERVER_PROCESS_FORCE_TERMINATED');
+  static const serverProcessProcessExitTimeout =
+      EventCode._('SERVER_PROCESS_PROCESS_EXIT_TIMEOUT');
+  static const gameSessionActivationTimeout =
+      EventCode._('GAME_SESSION_ACTIVATION_TIMEOUT');
+  static const fleetCreationExtractingBuild =
+      EventCode._('FLEET_CREATION_EXTRACTING_BUILD');
+  static const fleetCreationRunningInstaller =
+      EventCode._('FLEET_CREATION_RUNNING_INSTALLER');
+  static const fleetCreationValidatingRuntimeConfig =
+      EventCode._('FLEET_CREATION_VALIDATING_RUNTIME_CONFIG');
+  static const fleetVpcPeeringSucceeded =
+      EventCode._('FLEET_VPC_PEERING_SUCCEEDED');
+  static const fleetVpcPeeringFailed = EventCode._('FLEET_VPC_PEERING_FAILED');
+  static const fleetVpcPeeringDeleted =
+      EventCode._('FLEET_VPC_PEERING_DELETED');
+  static const instanceInterrupted = EventCode._('INSTANCE_INTERRUPTED');
+  static const instanceRecycled = EventCode._('INSTANCE_RECYCLED');
+  static const fleetCreationCompletedInstaller =
+      EventCode._('FLEET_CREATION_COMPLETED_INSTALLER');
+  static const fleetCreationFailedInstaller =
+      EventCode._('FLEET_CREATION_FAILED_INSTALLER');
 
   final String value;
 
-  const EventCode(this.value);
+  const EventCode._(this.value);
 
-  static EventCode fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum EventCode'));
+  static const values = [
+    genericEvent,
+    fleetCreated,
+    fleetDeleted,
+    fleetScalingEvent,
+    fleetStateDownloading,
+    fleetStateValidating,
+    fleetStateBuilding,
+    fleetStateActivating,
+    fleetStateActive,
+    fleetStateError,
+    fleetInitializationFailed,
+    fleetBinaryDownloadFailed,
+    fleetValidationLaunchPathNotFound,
+    fleetValidationExecutableRuntimeFailure,
+    fleetValidationTimedOut,
+    fleetActivationFailed,
+    fleetActivationFailedNoInstances,
+    fleetNewGameSessionProtectionPolicyUpdated,
+    serverProcessInvalidPath,
+    serverProcessSdkInitializationTimeout,
+    serverProcessProcessReadyTimeout,
+    serverProcessCrashed,
+    serverProcessTerminatedUnhealthy,
+    serverProcessForceTerminated,
+    serverProcessProcessExitTimeout,
+    gameSessionActivationTimeout,
+    fleetCreationExtractingBuild,
+    fleetCreationRunningInstaller,
+    fleetCreationValidatingRuntimeConfig,
+    fleetVpcPeeringSucceeded,
+    fleetVpcPeeringFailed,
+    fleetVpcPeeringDeleted,
+    instanceInterrupted,
+    instanceRecycled,
+    fleetCreationCompletedInstaller,
+    fleetCreationFailedInstaller
+  ];
+
+  static EventCode fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => EventCode._(value));
+
+  @override
+  bool operator ==(other) => other is EventCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A list of fleet locations where a game session queue can place new game
@@ -13705,32 +14075,51 @@ class FilterConfiguration {
   }
 }
 
-enum FilterInstanceStatus {
-  active('ACTIVE'),
-  draining('DRAINING'),
-  ;
+class FilterInstanceStatus {
+  static const active = FilterInstanceStatus._('ACTIVE');
+  static const draining = FilterInstanceStatus._('DRAINING');
 
   final String value;
 
-  const FilterInstanceStatus(this.value);
+  const FilterInstanceStatus._(this.value);
 
-  static FilterInstanceStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum FilterInstanceStatus'));
+  static const values = [active, draining];
+
+  static FilterInstanceStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => FilterInstanceStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is FilterInstanceStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum FleetAction {
-  autoScaling('AUTO_SCALING'),
-  ;
+class FleetAction {
+  static const autoScaling = FleetAction._('AUTO_SCALING');
 
   final String value;
 
-  const FleetAction(this.value);
+  const FleetAction._(this.value);
 
-  static FleetAction fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum FleetAction'));
+  static const values = [autoScaling];
+
+  static FleetAction fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => FleetAction._(value));
+
+  @override
+  bool operator ==(other) => other is FleetAction && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// <b>This operation has been expanded to use with the Amazon GameLift
@@ -14219,40 +14608,69 @@ class FleetCapacity {
   }
 }
 
-enum FleetStatus {
-  $new('NEW'),
-  downloading('DOWNLOADING'),
-  validating('VALIDATING'),
-  building('BUILDING'),
-  activating('ACTIVATING'),
-  active('ACTIVE'),
-  deleting('DELETING'),
-  error('ERROR'),
-  terminated('TERMINATED'),
-  notFound('NOT_FOUND'),
-  ;
+class FleetStatus {
+  static const $new = FleetStatus._('NEW');
+  static const downloading = FleetStatus._('DOWNLOADING');
+  static const validating = FleetStatus._('VALIDATING');
+  static const building = FleetStatus._('BUILDING');
+  static const activating = FleetStatus._('ACTIVATING');
+  static const active = FleetStatus._('ACTIVE');
+  static const deleting = FleetStatus._('DELETING');
+  static const error = FleetStatus._('ERROR');
+  static const terminated = FleetStatus._('TERMINATED');
+  static const notFound = FleetStatus._('NOT_FOUND');
 
   final String value;
 
-  const FleetStatus(this.value);
+  const FleetStatus._(this.value);
 
-  static FleetStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum FleetStatus'));
+  static const values = [
+    $new,
+    downloading,
+    validating,
+    building,
+    activating,
+    active,
+    deleting,
+    error,
+    terminated,
+    notFound
+  ];
+
+  static FleetStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => FleetStatus._(value));
+
+  @override
+  bool operator ==(other) => other is FleetStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum FleetType {
-  onDemand('ON_DEMAND'),
-  spot('SPOT'),
-  ;
+class FleetType {
+  static const onDemand = FleetType._('ON_DEMAND');
+  static const spot = FleetType._('SPOT');
 
   final String value;
 
-  const FleetType(this.value);
+  const FleetType._(this.value);
 
-  static FleetType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum FleetType'));
+  static const values = [onDemand, spot];
+
+  static FleetType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => FleetType._(value));
+
+  @override
+  bool operator ==(other) => other is FleetType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Current resource utilization statistics in a specified fleet or location.
@@ -14335,19 +14753,28 @@ class FleetUtilization {
   }
 }
 
-enum FlexMatchMode {
-  standalone('STANDALONE'),
-  withQueue('WITH_QUEUE'),
-  ;
+class FlexMatchMode {
+  static const standalone = FlexMatchMode._('STANDALONE');
+  static const withQueue = FlexMatchMode._('WITH_QUEUE');
 
   final String value;
 
-  const FlexMatchMode(this.value);
+  const FlexMatchMode._(this.value);
+
+  static const values = [standalone, withQueue];
 
   static FlexMatchMode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum FlexMatchMode'));
+          orElse: () => FlexMatchMode._(value));
+
+  @override
+  bool operator ==(other) => other is FlexMatchMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// This key-value pair can store custom data about a game session. For example,
@@ -14537,18 +14964,28 @@ class GameServer {
   }
 }
 
-enum GameServerClaimStatus {
-  claimed('CLAIMED'),
-  ;
+class GameServerClaimStatus {
+  static const claimed = GameServerClaimStatus._('CLAIMED');
 
   final String value;
 
-  const GameServerClaimStatus(this.value);
+  const GameServerClaimStatus._(this.value);
 
-  static GameServerClaimStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum GameServerClaimStatus'));
+  static const values = [claimed];
+
+  static GameServerClaimStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => GameServerClaimStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is GameServerClaimStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// <b>This data type is used with the Amazon GameLift FleetIQ and game server
@@ -14758,18 +15195,29 @@ class GameServerGroup {
   }
 }
 
-enum GameServerGroupAction {
-  replaceInstanceTypes('REPLACE_INSTANCE_TYPES'),
-  ;
+class GameServerGroupAction {
+  static const replaceInstanceTypes =
+      GameServerGroupAction._('REPLACE_INSTANCE_TYPES');
 
   final String value;
 
-  const GameServerGroupAction(this.value);
+  const GameServerGroupAction._(this.value);
 
-  static GameServerGroupAction fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum GameServerGroupAction'));
+  static const values = [replaceInstanceTypes];
+
+  static GameServerGroupAction fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => GameServerGroupAction._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is GameServerGroupAction && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// <b>This data type is used with the Amazon GameLift FleetIQ and game server
@@ -14812,155 +15260,292 @@ class GameServerGroupAutoScalingPolicy {
   }
 }
 
-enum GameServerGroupDeleteOption {
-  safeDelete('SAFE_DELETE'),
-  forceDelete('FORCE_DELETE'),
-  retain('RETAIN'),
-  ;
+class GameServerGroupDeleteOption {
+  static const safeDelete = GameServerGroupDeleteOption._('SAFE_DELETE');
+  static const forceDelete = GameServerGroupDeleteOption._('FORCE_DELETE');
+  static const retain = GameServerGroupDeleteOption._('RETAIN');
 
   final String value;
 
-  const GameServerGroupDeleteOption(this.value);
+  const GameServerGroupDeleteOption._(this.value);
+
+  static const values = [safeDelete, forceDelete, retain];
 
   static GameServerGroupDeleteOption fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum GameServerGroupDeleteOption'));
+          orElse: () => GameServerGroupDeleteOption._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is GameServerGroupDeleteOption && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum GameServerGroupInstanceType {
-  c4Large('c4.large'),
-  c4Xlarge('c4.xlarge'),
-  c4_2xlarge('c4.2xlarge'),
-  c4_4xlarge('c4.4xlarge'),
-  c4_8xlarge('c4.8xlarge'),
-  c5Large('c5.large'),
-  c5Xlarge('c5.xlarge'),
-  c5_2xlarge('c5.2xlarge'),
-  c5_4xlarge('c5.4xlarge'),
-  c5_9xlarge('c5.9xlarge'),
-  c5_12xlarge('c5.12xlarge'),
-  c5_18xlarge('c5.18xlarge'),
-  c5_24xlarge('c5.24xlarge'),
-  c5aLarge('c5a.large'),
-  c5aXlarge('c5a.xlarge'),
-  c5a_2xlarge('c5a.2xlarge'),
-  c5a_4xlarge('c5a.4xlarge'),
-  c5a_8xlarge('c5a.8xlarge'),
-  c5a_12xlarge('c5a.12xlarge'),
-  c5a_16xlarge('c5a.16xlarge'),
-  c5a_24xlarge('c5a.24xlarge'),
-  c6gMedium('c6g.medium'),
-  c6gLarge('c6g.large'),
-  c6gXlarge('c6g.xlarge'),
-  c6g_2xlarge('c6g.2xlarge'),
-  c6g_4xlarge('c6g.4xlarge'),
-  c6g_8xlarge('c6g.8xlarge'),
-  c6g_12xlarge('c6g.12xlarge'),
-  c6g_16xlarge('c6g.16xlarge'),
-  r4Large('r4.large'),
-  r4Xlarge('r4.xlarge'),
-  r4_2xlarge('r4.2xlarge'),
-  r4_4xlarge('r4.4xlarge'),
-  r4_8xlarge('r4.8xlarge'),
-  r4_16xlarge('r4.16xlarge'),
-  r5Large('r5.large'),
-  r5Xlarge('r5.xlarge'),
-  r5_2xlarge('r5.2xlarge'),
-  r5_4xlarge('r5.4xlarge'),
-  r5_8xlarge('r5.8xlarge'),
-  r5_12xlarge('r5.12xlarge'),
-  r5_16xlarge('r5.16xlarge'),
-  r5_24xlarge('r5.24xlarge'),
-  r5aLarge('r5a.large'),
-  r5aXlarge('r5a.xlarge'),
-  r5a_2xlarge('r5a.2xlarge'),
-  r5a_4xlarge('r5a.4xlarge'),
-  r5a_8xlarge('r5a.8xlarge'),
-  r5a_12xlarge('r5a.12xlarge'),
-  r5a_16xlarge('r5a.16xlarge'),
-  r5a_24xlarge('r5a.24xlarge'),
-  r6gMedium('r6g.medium'),
-  r6gLarge('r6g.large'),
-  r6gXlarge('r6g.xlarge'),
-  r6g_2xlarge('r6g.2xlarge'),
-  r6g_4xlarge('r6g.4xlarge'),
-  r6g_8xlarge('r6g.8xlarge'),
-  r6g_12xlarge('r6g.12xlarge'),
-  r6g_16xlarge('r6g.16xlarge'),
-  m4Large('m4.large'),
-  m4Xlarge('m4.xlarge'),
-  m4_2xlarge('m4.2xlarge'),
-  m4_4xlarge('m4.4xlarge'),
-  m4_10xlarge('m4.10xlarge'),
-  m5Large('m5.large'),
-  m5Xlarge('m5.xlarge'),
-  m5_2xlarge('m5.2xlarge'),
-  m5_4xlarge('m5.4xlarge'),
-  m5_8xlarge('m5.8xlarge'),
-  m5_12xlarge('m5.12xlarge'),
-  m5_16xlarge('m5.16xlarge'),
-  m5_24xlarge('m5.24xlarge'),
-  m5aLarge('m5a.large'),
-  m5aXlarge('m5a.xlarge'),
-  m5a_2xlarge('m5a.2xlarge'),
-  m5a_4xlarge('m5a.4xlarge'),
-  m5a_8xlarge('m5a.8xlarge'),
-  m5a_12xlarge('m5a.12xlarge'),
-  m5a_16xlarge('m5a.16xlarge'),
-  m5a_24xlarge('m5a.24xlarge'),
-  m6gMedium('m6g.medium'),
-  m6gLarge('m6g.large'),
-  m6gXlarge('m6g.xlarge'),
-  m6g_2xlarge('m6g.2xlarge'),
-  m6g_4xlarge('m6g.4xlarge'),
-  m6g_8xlarge('m6g.8xlarge'),
-  m6g_12xlarge('m6g.12xlarge'),
-  m6g_16xlarge('m6g.16xlarge'),
-  ;
+class GameServerGroupInstanceType {
+  static const c4Large = GameServerGroupInstanceType._('c4.large');
+  static const c4Xlarge = GameServerGroupInstanceType._('c4.xlarge');
+  static const c4_2xlarge = GameServerGroupInstanceType._('c4.2xlarge');
+  static const c4_4xlarge = GameServerGroupInstanceType._('c4.4xlarge');
+  static const c4_8xlarge = GameServerGroupInstanceType._('c4.8xlarge');
+  static const c5Large = GameServerGroupInstanceType._('c5.large');
+  static const c5Xlarge = GameServerGroupInstanceType._('c5.xlarge');
+  static const c5_2xlarge = GameServerGroupInstanceType._('c5.2xlarge');
+  static const c5_4xlarge = GameServerGroupInstanceType._('c5.4xlarge');
+  static const c5_9xlarge = GameServerGroupInstanceType._('c5.9xlarge');
+  static const c5_12xlarge = GameServerGroupInstanceType._('c5.12xlarge');
+  static const c5_18xlarge = GameServerGroupInstanceType._('c5.18xlarge');
+  static const c5_24xlarge = GameServerGroupInstanceType._('c5.24xlarge');
+  static const c5aLarge = GameServerGroupInstanceType._('c5a.large');
+  static const c5aXlarge = GameServerGroupInstanceType._('c5a.xlarge');
+  static const c5a_2xlarge = GameServerGroupInstanceType._('c5a.2xlarge');
+  static const c5a_4xlarge = GameServerGroupInstanceType._('c5a.4xlarge');
+  static const c5a_8xlarge = GameServerGroupInstanceType._('c5a.8xlarge');
+  static const c5a_12xlarge = GameServerGroupInstanceType._('c5a.12xlarge');
+  static const c5a_16xlarge = GameServerGroupInstanceType._('c5a.16xlarge');
+  static const c5a_24xlarge = GameServerGroupInstanceType._('c5a.24xlarge');
+  static const c6gMedium = GameServerGroupInstanceType._('c6g.medium');
+  static const c6gLarge = GameServerGroupInstanceType._('c6g.large');
+  static const c6gXlarge = GameServerGroupInstanceType._('c6g.xlarge');
+  static const c6g_2xlarge = GameServerGroupInstanceType._('c6g.2xlarge');
+  static const c6g_4xlarge = GameServerGroupInstanceType._('c6g.4xlarge');
+  static const c6g_8xlarge = GameServerGroupInstanceType._('c6g.8xlarge');
+  static const c6g_12xlarge = GameServerGroupInstanceType._('c6g.12xlarge');
+  static const c6g_16xlarge = GameServerGroupInstanceType._('c6g.16xlarge');
+  static const r4Large = GameServerGroupInstanceType._('r4.large');
+  static const r4Xlarge = GameServerGroupInstanceType._('r4.xlarge');
+  static const r4_2xlarge = GameServerGroupInstanceType._('r4.2xlarge');
+  static const r4_4xlarge = GameServerGroupInstanceType._('r4.4xlarge');
+  static const r4_8xlarge = GameServerGroupInstanceType._('r4.8xlarge');
+  static const r4_16xlarge = GameServerGroupInstanceType._('r4.16xlarge');
+  static const r5Large = GameServerGroupInstanceType._('r5.large');
+  static const r5Xlarge = GameServerGroupInstanceType._('r5.xlarge');
+  static const r5_2xlarge = GameServerGroupInstanceType._('r5.2xlarge');
+  static const r5_4xlarge = GameServerGroupInstanceType._('r5.4xlarge');
+  static const r5_8xlarge = GameServerGroupInstanceType._('r5.8xlarge');
+  static const r5_12xlarge = GameServerGroupInstanceType._('r5.12xlarge');
+  static const r5_16xlarge = GameServerGroupInstanceType._('r5.16xlarge');
+  static const r5_24xlarge = GameServerGroupInstanceType._('r5.24xlarge');
+  static const r5aLarge = GameServerGroupInstanceType._('r5a.large');
+  static const r5aXlarge = GameServerGroupInstanceType._('r5a.xlarge');
+  static const r5a_2xlarge = GameServerGroupInstanceType._('r5a.2xlarge');
+  static const r5a_4xlarge = GameServerGroupInstanceType._('r5a.4xlarge');
+  static const r5a_8xlarge = GameServerGroupInstanceType._('r5a.8xlarge');
+  static const r5a_12xlarge = GameServerGroupInstanceType._('r5a.12xlarge');
+  static const r5a_16xlarge = GameServerGroupInstanceType._('r5a.16xlarge');
+  static const r5a_24xlarge = GameServerGroupInstanceType._('r5a.24xlarge');
+  static const r6gMedium = GameServerGroupInstanceType._('r6g.medium');
+  static const r6gLarge = GameServerGroupInstanceType._('r6g.large');
+  static const r6gXlarge = GameServerGroupInstanceType._('r6g.xlarge');
+  static const r6g_2xlarge = GameServerGroupInstanceType._('r6g.2xlarge');
+  static const r6g_4xlarge = GameServerGroupInstanceType._('r6g.4xlarge');
+  static const r6g_8xlarge = GameServerGroupInstanceType._('r6g.8xlarge');
+  static const r6g_12xlarge = GameServerGroupInstanceType._('r6g.12xlarge');
+  static const r6g_16xlarge = GameServerGroupInstanceType._('r6g.16xlarge');
+  static const m4Large = GameServerGroupInstanceType._('m4.large');
+  static const m4Xlarge = GameServerGroupInstanceType._('m4.xlarge');
+  static const m4_2xlarge = GameServerGroupInstanceType._('m4.2xlarge');
+  static const m4_4xlarge = GameServerGroupInstanceType._('m4.4xlarge');
+  static const m4_10xlarge = GameServerGroupInstanceType._('m4.10xlarge');
+  static const m5Large = GameServerGroupInstanceType._('m5.large');
+  static const m5Xlarge = GameServerGroupInstanceType._('m5.xlarge');
+  static const m5_2xlarge = GameServerGroupInstanceType._('m5.2xlarge');
+  static const m5_4xlarge = GameServerGroupInstanceType._('m5.4xlarge');
+  static const m5_8xlarge = GameServerGroupInstanceType._('m5.8xlarge');
+  static const m5_12xlarge = GameServerGroupInstanceType._('m5.12xlarge');
+  static const m5_16xlarge = GameServerGroupInstanceType._('m5.16xlarge');
+  static const m5_24xlarge = GameServerGroupInstanceType._('m5.24xlarge');
+  static const m5aLarge = GameServerGroupInstanceType._('m5a.large');
+  static const m5aXlarge = GameServerGroupInstanceType._('m5a.xlarge');
+  static const m5a_2xlarge = GameServerGroupInstanceType._('m5a.2xlarge');
+  static const m5a_4xlarge = GameServerGroupInstanceType._('m5a.4xlarge');
+  static const m5a_8xlarge = GameServerGroupInstanceType._('m5a.8xlarge');
+  static const m5a_12xlarge = GameServerGroupInstanceType._('m5a.12xlarge');
+  static const m5a_16xlarge = GameServerGroupInstanceType._('m5a.16xlarge');
+  static const m5a_24xlarge = GameServerGroupInstanceType._('m5a.24xlarge');
+  static const m6gMedium = GameServerGroupInstanceType._('m6g.medium');
+  static const m6gLarge = GameServerGroupInstanceType._('m6g.large');
+  static const m6gXlarge = GameServerGroupInstanceType._('m6g.xlarge');
+  static const m6g_2xlarge = GameServerGroupInstanceType._('m6g.2xlarge');
+  static const m6g_4xlarge = GameServerGroupInstanceType._('m6g.4xlarge');
+  static const m6g_8xlarge = GameServerGroupInstanceType._('m6g.8xlarge');
+  static const m6g_12xlarge = GameServerGroupInstanceType._('m6g.12xlarge');
+  static const m6g_16xlarge = GameServerGroupInstanceType._('m6g.16xlarge');
 
   final String value;
 
-  const GameServerGroupInstanceType(this.value);
+  const GameServerGroupInstanceType._(this.value);
+
+  static const values = [
+    c4Large,
+    c4Xlarge,
+    c4_2xlarge,
+    c4_4xlarge,
+    c4_8xlarge,
+    c5Large,
+    c5Xlarge,
+    c5_2xlarge,
+    c5_4xlarge,
+    c5_9xlarge,
+    c5_12xlarge,
+    c5_18xlarge,
+    c5_24xlarge,
+    c5aLarge,
+    c5aXlarge,
+    c5a_2xlarge,
+    c5a_4xlarge,
+    c5a_8xlarge,
+    c5a_12xlarge,
+    c5a_16xlarge,
+    c5a_24xlarge,
+    c6gMedium,
+    c6gLarge,
+    c6gXlarge,
+    c6g_2xlarge,
+    c6g_4xlarge,
+    c6g_8xlarge,
+    c6g_12xlarge,
+    c6g_16xlarge,
+    r4Large,
+    r4Xlarge,
+    r4_2xlarge,
+    r4_4xlarge,
+    r4_8xlarge,
+    r4_16xlarge,
+    r5Large,
+    r5Xlarge,
+    r5_2xlarge,
+    r5_4xlarge,
+    r5_8xlarge,
+    r5_12xlarge,
+    r5_16xlarge,
+    r5_24xlarge,
+    r5aLarge,
+    r5aXlarge,
+    r5a_2xlarge,
+    r5a_4xlarge,
+    r5a_8xlarge,
+    r5a_12xlarge,
+    r5a_16xlarge,
+    r5a_24xlarge,
+    r6gMedium,
+    r6gLarge,
+    r6gXlarge,
+    r6g_2xlarge,
+    r6g_4xlarge,
+    r6g_8xlarge,
+    r6g_12xlarge,
+    r6g_16xlarge,
+    m4Large,
+    m4Xlarge,
+    m4_2xlarge,
+    m4_4xlarge,
+    m4_10xlarge,
+    m5Large,
+    m5Xlarge,
+    m5_2xlarge,
+    m5_4xlarge,
+    m5_8xlarge,
+    m5_12xlarge,
+    m5_16xlarge,
+    m5_24xlarge,
+    m5aLarge,
+    m5aXlarge,
+    m5a_2xlarge,
+    m5a_4xlarge,
+    m5a_8xlarge,
+    m5a_12xlarge,
+    m5a_16xlarge,
+    m5a_24xlarge,
+    m6gMedium,
+    m6gLarge,
+    m6gXlarge,
+    m6g_2xlarge,
+    m6g_4xlarge,
+    m6g_8xlarge,
+    m6g_12xlarge,
+    m6g_16xlarge
+  ];
 
   static GameServerGroupInstanceType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum GameServerGroupInstanceType'));
+          orElse: () => GameServerGroupInstanceType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is GameServerGroupInstanceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum GameServerGroupStatus {
-  $new('NEW'),
-  activating('ACTIVATING'),
-  active('ACTIVE'),
-  deleteScheduled('DELETE_SCHEDULED'),
-  deleting('DELETING'),
-  deleted('DELETED'),
-  error('ERROR'),
-  ;
+class GameServerGroupStatus {
+  static const $new = GameServerGroupStatus._('NEW');
+  static const activating = GameServerGroupStatus._('ACTIVATING');
+  static const active = GameServerGroupStatus._('ACTIVE');
+  static const deleteScheduled = GameServerGroupStatus._('DELETE_SCHEDULED');
+  static const deleting = GameServerGroupStatus._('DELETING');
+  static const deleted = GameServerGroupStatus._('DELETED');
+  static const error = GameServerGroupStatus._('ERROR');
 
   final String value;
 
-  const GameServerGroupStatus(this.value);
+  const GameServerGroupStatus._(this.value);
 
-  static GameServerGroupStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum GameServerGroupStatus'));
+  static const values = [
+    $new,
+    activating,
+    active,
+    deleteScheduled,
+    deleting,
+    deleted,
+    error
+  ];
+
+  static GameServerGroupStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => GameServerGroupStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is GameServerGroupStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum GameServerHealthCheck {
-  healthy('HEALTHY'),
-  ;
+class GameServerHealthCheck {
+  static const healthy = GameServerHealthCheck._('HEALTHY');
 
   final String value;
 
-  const GameServerHealthCheck(this.value);
+  const GameServerHealthCheck._(this.value);
 
-  static GameServerHealthCheck fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum GameServerHealthCheck'));
+  static const values = [healthy];
+
+  static GameServerHealthCheck fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => GameServerHealthCheck._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is GameServerHealthCheck && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// <b>This data type is used with the Amazon GameLift FleetIQ and game server
@@ -15023,50 +15608,80 @@ class GameServerInstance {
   }
 }
 
-enum GameServerInstanceStatus {
-  active('ACTIVE'),
-  draining('DRAINING'),
-  spotTerminating('SPOT_TERMINATING'),
-  ;
+class GameServerInstanceStatus {
+  static const active = GameServerInstanceStatus._('ACTIVE');
+  static const draining = GameServerInstanceStatus._('DRAINING');
+  static const spotTerminating = GameServerInstanceStatus._('SPOT_TERMINATING');
 
   final String value;
 
-  const GameServerInstanceStatus(this.value);
+  const GameServerInstanceStatus._(this.value);
+
+  static const values = [active, draining, spotTerminating];
 
   static GameServerInstanceStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum GameServerInstanceStatus'));
+          orElse: () => GameServerInstanceStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is GameServerInstanceStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum GameServerProtectionPolicy {
-  noProtection('NO_PROTECTION'),
-  fullProtection('FULL_PROTECTION'),
-  ;
+class GameServerProtectionPolicy {
+  static const noProtection = GameServerProtectionPolicy._('NO_PROTECTION');
+  static const fullProtection = GameServerProtectionPolicy._('FULL_PROTECTION');
 
   final String value;
 
-  const GameServerProtectionPolicy(this.value);
+  const GameServerProtectionPolicy._(this.value);
+
+  static const values = [noProtection, fullProtection];
 
   static GameServerProtectionPolicy fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum GameServerProtectionPolicy'));
+          orElse: () => GameServerProtectionPolicy._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is GameServerProtectionPolicy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum GameServerUtilizationStatus {
-  available('AVAILABLE'),
-  utilized('UTILIZED'),
-  ;
+class GameServerUtilizationStatus {
+  static const available = GameServerUtilizationStatus._('AVAILABLE');
+  static const utilized = GameServerUtilizationStatus._('UTILIZED');
 
   final String value;
 
-  const GameServerUtilizationStatus(this.value);
+  const GameServerUtilizationStatus._(this.value);
+
+  static const values = [available, utilized];
 
   static GameServerUtilizationStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum GameServerUtilizationStatus'));
+          orElse: () => GameServerUtilizationStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is GameServerUtilizationStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Properties describing a game session.
@@ -15648,22 +16263,32 @@ class GameSessionPlacement {
   }
 }
 
-enum GameSessionPlacementState {
-  pending('PENDING'),
-  fulfilled('FULFILLED'),
-  cancelled('CANCELLED'),
-  timedOut('TIMED_OUT'),
-  failed('FAILED'),
-  ;
+class GameSessionPlacementState {
+  static const pending = GameSessionPlacementState._('PENDING');
+  static const fulfilled = GameSessionPlacementState._('FULFILLED');
+  static const cancelled = GameSessionPlacementState._('CANCELLED');
+  static const timedOut = GameSessionPlacementState._('TIMED_OUT');
+  static const failed = GameSessionPlacementState._('FAILED');
 
   final String value;
 
-  const GameSessionPlacementState(this.value);
+  const GameSessionPlacementState._(this.value);
+
+  static const values = [pending, fulfilled, cancelled, timedOut, failed];
 
   static GameSessionPlacementState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum GameSessionPlacementState'));
+          orElse: () => GameSessionPlacementState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is GameSessionPlacementState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Configuration for a game session placement mechanism that processes requests
@@ -15819,36 +16444,55 @@ class GameSessionQueueDestination {
   }
 }
 
-enum GameSessionStatus {
-  active('ACTIVE'),
-  activating('ACTIVATING'),
-  terminated('TERMINATED'),
-  terminating('TERMINATING'),
-  error('ERROR'),
-  ;
+class GameSessionStatus {
+  static const active = GameSessionStatus._('ACTIVE');
+  static const activating = GameSessionStatus._('ACTIVATING');
+  static const terminated = GameSessionStatus._('TERMINATED');
+  static const terminating = GameSessionStatus._('TERMINATING');
+  static const error = GameSessionStatus._('ERROR');
 
   final String value;
 
-  const GameSessionStatus(this.value);
+  const GameSessionStatus._(this.value);
+
+  static const values = [active, activating, terminated, terminating, error];
 
   static GameSessionStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum GameSessionStatus'));
+          orElse: () => GameSessionStatus._(value));
+
+  @override
+  bool operator ==(other) => other is GameSessionStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum GameSessionStatusReason {
-  interrupted('INTERRUPTED'),
-  ;
+class GameSessionStatusReason {
+  static const interrupted = GameSessionStatusReason._('INTERRUPTED');
 
   final String value;
 
-  const GameSessionStatusReason(this.value);
+  const GameSessionStatusReason._(this.value);
+
+  static const values = [interrupted];
 
   static GameSessionStatusReason fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum GameSessionStatusReason'));
+          orElse: () => GameSessionStatusReason._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is GameSessionStatusReason && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class GetComputeAccessOutput {
@@ -16300,7 +16944,7 @@ class InstanceDefinition {
   factory InstanceDefinition.fromJson(Map<String, dynamic> json) {
     return InstanceDefinition(
       instanceType: GameServerGroupInstanceType.fromString(
-          (json['InstanceType'] as String)),
+          (json['InstanceType'] as String?) ?? ''),
       weightedCapacity: json['WeightedCapacity'] as String?,
     );
   }
@@ -16315,34 +16959,54 @@ class InstanceDefinition {
   }
 }
 
-enum InstanceRoleCredentialsProvider {
-  sharedCredentialFile('SHARED_CREDENTIAL_FILE'),
-  ;
+class InstanceRoleCredentialsProvider {
+  static const sharedCredentialFile =
+      InstanceRoleCredentialsProvider._('SHARED_CREDENTIAL_FILE');
 
   final String value;
 
-  const InstanceRoleCredentialsProvider(this.value);
+  const InstanceRoleCredentialsProvider._(this.value);
+
+  static const values = [sharedCredentialFile];
 
   static InstanceRoleCredentialsProvider fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum InstanceRoleCredentialsProvider'));
+          orElse: () => InstanceRoleCredentialsProvider._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is InstanceRoleCredentialsProvider && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum InstanceStatus {
-  pending('PENDING'),
-  active('ACTIVE'),
-  terminating('TERMINATING'),
-  ;
+class InstanceStatus {
+  static const pending = InstanceStatus._('PENDING');
+  static const active = InstanceStatus._('ACTIVE');
+  static const terminating = InstanceStatus._('TERMINATING');
 
   final String value;
 
-  const InstanceStatus(this.value);
+  const InstanceStatus._(this.value);
+
+  static const values = [pending, active, terminating];
 
   static InstanceStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum InstanceStatus'));
+          orElse: () => InstanceStatus._(value));
+
+  @override
+  bool operator ==(other) => other is InstanceStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A range of IP addresses and port settings that allow inbound traffic to
@@ -16393,7 +17057,7 @@ class IpPermission {
     return IpPermission(
       fromPort: (json['FromPort'] as int?) ?? 0,
       ipRange: (json['IpRange'] as String?) ?? '',
-      protocol: IpProtocol.fromString((json['Protocol'] as String)),
+      protocol: IpProtocol.fromString((json['Protocol'] as String?) ?? ''),
       toPort: (json['ToPort'] as int?) ?? 0,
     );
   }
@@ -16412,18 +17076,27 @@ class IpPermission {
   }
 }
 
-enum IpProtocol {
-  tcp('TCP'),
-  udp('UDP'),
-  ;
+class IpProtocol {
+  static const tcp = IpProtocol._('TCP');
+  static const udp = IpProtocol._('UDP');
 
   final String value;
 
-  const IpProtocol(this.value);
+  const IpProtocol._(this.value);
 
-  static IpProtocol fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum IpProtocol'));
+  static const values = [tcp, udp];
+
+  static IpProtocol fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => IpProtocol._(value));
+
+  @override
+  bool operator ==(other) => other is IpProtocol && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// <b>This data type is used with the Amazon GameLift FleetIQ and game server
@@ -16869,19 +17542,28 @@ class LocationConfiguration {
   }
 }
 
-enum LocationFilter {
-  aws('AWS'),
-  custom('CUSTOM'),
-  ;
+class LocationFilter {
+  static const aws = LocationFilter._('AWS');
+  static const custom = LocationFilter._('CUSTOM');
 
   final String value;
 
-  const LocationFilter(this.value);
+  const LocationFilter._(this.value);
+
+  static const values = [aws, custom];
 
   static LocationFilter fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum LocationFilter'));
+          orElse: () => LocationFilter._(value));
+
+  @override
+  bool operator ==(other) => other is LocationFilter && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Properties of a custom location for use in an Amazon GameLift Anywhere
@@ -16984,18 +17666,28 @@ class LocationState {
   }
 }
 
-enum LocationUpdateStatus {
-  pendingUpdate('PENDING_UPDATE'),
-  ;
+class LocationUpdateStatus {
+  static const pendingUpdate = LocationUpdateStatus._('PENDING_UPDATE');
 
   final String value;
 
-  const LocationUpdateStatus(this.value);
+  const LocationUpdateStatus._(this.value);
 
-  static LocationUpdateStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum LocationUpdateStatus'));
+  static const values = [pendingUpdate];
+
+  static LocationUpdateStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => LocationUpdateStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is LocationUpdateStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Represents a new player session that is created as a result of a successful
@@ -17252,25 +17944,45 @@ class MatchmakingConfiguration {
   }
 }
 
-enum MatchmakingConfigurationStatus {
-  cancelled('CANCELLED'),
-  completed('COMPLETED'),
-  failed('FAILED'),
-  placing('PLACING'),
-  queued('QUEUED'),
-  requiresAcceptance('REQUIRES_ACCEPTANCE'),
-  searching('SEARCHING'),
-  timedOut('TIMED_OUT'),
-  ;
+class MatchmakingConfigurationStatus {
+  static const cancelled = MatchmakingConfigurationStatus._('CANCELLED');
+  static const completed = MatchmakingConfigurationStatus._('COMPLETED');
+  static const failed = MatchmakingConfigurationStatus._('FAILED');
+  static const placing = MatchmakingConfigurationStatus._('PLACING');
+  static const queued = MatchmakingConfigurationStatus._('QUEUED');
+  static const requiresAcceptance =
+      MatchmakingConfigurationStatus._('REQUIRES_ACCEPTANCE');
+  static const searching = MatchmakingConfigurationStatus._('SEARCHING');
+  static const timedOut = MatchmakingConfigurationStatus._('TIMED_OUT');
 
   final String value;
 
-  const MatchmakingConfigurationStatus(this.value);
+  const MatchmakingConfigurationStatus._(this.value);
+
+  static const values = [
+    cancelled,
+    completed,
+    failed,
+    placing,
+    queued,
+    requiresAcceptance,
+    searching,
+    timedOut
+  ];
 
   static MatchmakingConfigurationStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum MatchmakingConfigurationStatus'));
+          orElse: () => MatchmakingConfigurationStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is MatchmakingConfigurationStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Set of rule statements, used with FlexMatch, that determine how to build
@@ -17530,46 +18242,86 @@ class MatchmakingTicket {
   }
 }
 
-enum MetricName {
-  activatingGameSessions('ActivatingGameSessions'),
-  activeGameSessions('ActiveGameSessions'),
-  activeInstances('ActiveInstances'),
-  availableGameSessions('AvailableGameSessions'),
-  availablePlayerSessions('AvailablePlayerSessions'),
-  currentPlayerSessions('CurrentPlayerSessions'),
-  idleInstances('IdleInstances'),
-  percentAvailableGameSessions('PercentAvailableGameSessions'),
-  percentIdleInstances('PercentIdleInstances'),
-  queueDepth('QueueDepth'),
-  waitTime('WaitTime'),
-  concurrentActivatableGameSessions('ConcurrentActivatableGameSessions'),
-  ;
+class MetricName {
+  static const activatingGameSessions = MetricName._('ActivatingGameSessions');
+  static const activeGameSessions = MetricName._('ActiveGameSessions');
+  static const activeInstances = MetricName._('ActiveInstances');
+  static const availableGameSessions = MetricName._('AvailableGameSessions');
+  static const availablePlayerSessions =
+      MetricName._('AvailablePlayerSessions');
+  static const currentPlayerSessions = MetricName._('CurrentPlayerSessions');
+  static const idleInstances = MetricName._('IdleInstances');
+  static const percentAvailableGameSessions =
+      MetricName._('PercentAvailableGameSessions');
+  static const percentIdleInstances = MetricName._('PercentIdleInstances');
+  static const queueDepth = MetricName._('QueueDepth');
+  static const waitTime = MetricName._('WaitTime');
+  static const concurrentActivatableGameSessions =
+      MetricName._('ConcurrentActivatableGameSessions');
 
   final String value;
 
-  const MetricName(this.value);
+  const MetricName._(this.value);
 
-  static MetricName fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum MetricName'));
+  static const values = [
+    activatingGameSessions,
+    activeGameSessions,
+    activeInstances,
+    availableGameSessions,
+    availablePlayerSessions,
+    currentPlayerSessions,
+    idleInstances,
+    percentAvailableGameSessions,
+    percentIdleInstances,
+    queueDepth,
+    waitTime,
+    concurrentActivatableGameSessions
+  ];
+
+  static MetricName fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => MetricName._(value));
+
+  @override
+  bool operator ==(other) => other is MetricName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum OperatingSystem {
-  windows_2012('WINDOWS_2012'),
-  amazonLinux('AMAZON_LINUX'),
-  amazonLinux_2('AMAZON_LINUX_2'),
-  windows_2016('WINDOWS_2016'),
-  amazonLinux_2023('AMAZON_LINUX_2023'),
-  ;
+class OperatingSystem {
+  static const windows_2012 = OperatingSystem._('WINDOWS_2012');
+  static const amazonLinux = OperatingSystem._('AMAZON_LINUX');
+  static const amazonLinux_2 = OperatingSystem._('AMAZON_LINUX_2');
+  static const windows_2016 = OperatingSystem._('WINDOWS_2016');
+  static const amazonLinux_2023 = OperatingSystem._('AMAZON_LINUX_2023');
 
   final String value;
 
-  const OperatingSystem(this.value);
+  const OperatingSystem._(this.value);
+
+  static const values = [
+    windows_2012,
+    amazonLinux,
+    amazonLinux_2,
+    windows_2016,
+    amazonLinux_2023
+  ];
 
   static OperatingSystem fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum OperatingSystem'));
+          orElse: () => OperatingSystem._(value));
+
+  @override
+  bool operator ==(other) => other is OperatingSystem && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about a player session. This object contains only the player ID
@@ -17921,50 +18673,79 @@ class PlayerSession {
   }
 }
 
-enum PlayerSessionCreationPolicy {
-  acceptAll('ACCEPT_ALL'),
-  denyAll('DENY_ALL'),
-  ;
+class PlayerSessionCreationPolicy {
+  static const acceptAll = PlayerSessionCreationPolicy._('ACCEPT_ALL');
+  static const denyAll = PlayerSessionCreationPolicy._('DENY_ALL');
 
   final String value;
 
-  const PlayerSessionCreationPolicy(this.value);
+  const PlayerSessionCreationPolicy._(this.value);
+
+  static const values = [acceptAll, denyAll];
 
   static PlayerSessionCreationPolicy fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum PlayerSessionCreationPolicy'));
+          orElse: () => PlayerSessionCreationPolicy._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is PlayerSessionCreationPolicy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum PlayerSessionStatus {
-  reserved('RESERVED'),
-  active('ACTIVE'),
-  completed('COMPLETED'),
-  timedout('TIMEDOUT'),
-  ;
+class PlayerSessionStatus {
+  static const reserved = PlayerSessionStatus._('RESERVED');
+  static const active = PlayerSessionStatus._('ACTIVE');
+  static const completed = PlayerSessionStatus._('COMPLETED');
+  static const timedout = PlayerSessionStatus._('TIMEDOUT');
 
   final String value;
 
-  const PlayerSessionStatus(this.value);
+  const PlayerSessionStatus._(this.value);
 
-  static PlayerSessionStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum PlayerSessionStatus'));
+  static const values = [reserved, active, completed, timedout];
+
+  static PlayerSessionStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => PlayerSessionStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is PlayerSessionStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum PolicyType {
-  ruleBased('RuleBased'),
-  targetBased('TargetBased'),
-  ;
+class PolicyType {
+  static const ruleBased = PolicyType._('RuleBased');
+  static const targetBased = PolicyType._('TargetBased');
 
   final String value;
 
-  const PolicyType(this.value);
+  const PolicyType._(this.value);
 
-  static PolicyType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum PolicyType'));
+  static const values = [ruleBased, targetBased];
+
+  static PolicyType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => PolicyType._(value));
+
+  @override
+  bool operator ==(other) => other is PolicyType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Custom prioritization settings for use by a game session queue when placing
@@ -18051,36 +18832,53 @@ class PriorityConfiguration {
   }
 }
 
-enum PriorityType {
-  latency('LATENCY'),
-  cost('COST'),
-  destination('DESTINATION'),
-  location('LOCATION'),
-  ;
+class PriorityType {
+  static const latency = PriorityType._('LATENCY');
+  static const cost = PriorityType._('COST');
+  static const destination = PriorityType._('DESTINATION');
+  static const location = PriorityType._('LOCATION');
 
   final String value;
 
-  const PriorityType(this.value);
+  const PriorityType._(this.value);
 
-  static PriorityType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum PriorityType'));
+  static const values = [latency, cost, destination, location];
+
+  static PriorityType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => PriorityType._(value));
+
+  @override
+  bool operator ==(other) => other is PriorityType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ProtectionPolicy {
-  noProtection('NoProtection'),
-  fullProtection('FullProtection'),
-  ;
+class ProtectionPolicy {
+  static const noProtection = ProtectionPolicy._('NoProtection');
+  static const fullProtection = ProtectionPolicy._('FullProtection');
 
   final String value;
 
-  const ProtectionPolicy(this.value);
+  const ProtectionPolicy._(this.value);
+
+  static const values = [noProtection, fullProtection];
 
   static ProtectionPolicy fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ProtectionPolicy'));
+          orElse: () => ProtectionPolicy._(value));
+
+  @override
+  bool operator ==(other) => other is ProtectionPolicy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class PutScalingPolicyOutput {
@@ -18407,19 +19205,29 @@ class RoutingStrategy {
   }
 }
 
-enum RoutingStrategyType {
-  simple('SIMPLE'),
-  terminal('TERMINAL'),
-  ;
+class RoutingStrategyType {
+  static const simple = RoutingStrategyType._('SIMPLE');
+  static const terminal = RoutingStrategyType._('TERMINAL');
 
   final String value;
 
-  const RoutingStrategyType(this.value);
+  const RoutingStrategyType._(this.value);
 
-  static RoutingStrategyType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum RoutingStrategyType'));
+  static const values = [simple, terminal];
+
+  static RoutingStrategyType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => RoutingStrategyType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RoutingStrategyType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// <b>This data type has been expanded to use with the Amazon GameLift
@@ -18549,20 +19357,35 @@ class S3Location {
   }
 }
 
-enum ScalingAdjustmentType {
-  changeInCapacity('ChangeInCapacity'),
-  exactCapacity('ExactCapacity'),
-  percentChangeInCapacity('PercentChangeInCapacity'),
-  ;
+class ScalingAdjustmentType {
+  static const changeInCapacity = ScalingAdjustmentType._('ChangeInCapacity');
+  static const exactCapacity = ScalingAdjustmentType._('ExactCapacity');
+  static const percentChangeInCapacity =
+      ScalingAdjustmentType._('PercentChangeInCapacity');
 
   final String value;
 
-  const ScalingAdjustmentType(this.value);
+  const ScalingAdjustmentType._(this.value);
 
-  static ScalingAdjustmentType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ScalingAdjustmentType'));
+  static const values = [
+    changeInCapacity,
+    exactCapacity,
+    percentChangeInCapacity
+  ];
+
+  static ScalingAdjustmentType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ScalingAdjustmentType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ScalingAdjustmentType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Rule that controls how a fleet is scaled. Scaling policies are uniquely
@@ -18803,24 +19626,41 @@ class ScalingPolicy {
   }
 }
 
-enum ScalingStatusType {
-  active('ACTIVE'),
-  updateRequested('UPDATE_REQUESTED'),
-  updating('UPDATING'),
-  deleteRequested('DELETE_REQUESTED'),
-  deleting('DELETING'),
-  deleted('DELETED'),
-  error('ERROR'),
-  ;
+class ScalingStatusType {
+  static const active = ScalingStatusType._('ACTIVE');
+  static const updateRequested = ScalingStatusType._('UPDATE_REQUESTED');
+  static const updating = ScalingStatusType._('UPDATING');
+  static const deleteRequested = ScalingStatusType._('DELETE_REQUESTED');
+  static const deleting = ScalingStatusType._('DELETING');
+  static const deleted = ScalingStatusType._('DELETED');
+  static const error = ScalingStatusType._('ERROR');
 
   final String value;
 
-  const ScalingStatusType(this.value);
+  const ScalingStatusType._(this.value);
+
+  static const values = [
+    active,
+    updateRequested,
+    updating,
+    deleteRequested,
+    deleting,
+    deleted,
+    error
+  ];
 
   static ScalingStatusType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ScalingStatusType'));
+          orElse: () => ScalingStatusType._(value));
+
+  @override
+  bool operator ==(other) => other is ScalingStatusType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Properties describing a Realtime script.
@@ -19008,18 +19848,27 @@ class ServerProcess {
   }
 }
 
-enum SortOrder {
-  ascending('ASCENDING'),
-  descending('DESCENDING'),
-  ;
+class SortOrder {
+  static const ascending = SortOrder._('ASCENDING');
+  static const descending = SortOrder._('DESCENDING');
 
   final String value;
 
-  const SortOrder(this.value);
+  const SortOrder._(this.value);
 
-  static SortOrder fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum SortOrder'));
+  static const values = [ascending, descending];
+
+  static SortOrder fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => SortOrder._(value));
+
+  @override
+  bool operator ==(other) => other is SortOrder && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class StartFleetActionsOutput {

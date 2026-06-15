@@ -1388,59 +1388,110 @@ class ApplicationInstance {
   }
 }
 
-enum ApplicationInstanceHealthStatus {
-  running('RUNNING'),
-  error('ERROR'),
-  notAvailable('NOT_AVAILABLE'),
-  ;
+class ApplicationInstanceHealthStatus {
+  static const running = ApplicationInstanceHealthStatus._('RUNNING');
+  static const error = ApplicationInstanceHealthStatus._('ERROR');
+  static const notAvailable =
+      ApplicationInstanceHealthStatus._('NOT_AVAILABLE');
 
   final String value;
 
-  const ApplicationInstanceHealthStatus(this.value);
+  const ApplicationInstanceHealthStatus._(this.value);
+
+  static const values = [running, error, notAvailable];
 
   static ApplicationInstanceHealthStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ApplicationInstanceHealthStatus'));
+          orElse: () => ApplicationInstanceHealthStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ApplicationInstanceHealthStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ApplicationInstanceStatus {
-  deploymentPending('DEPLOYMENT_PENDING'),
-  deploymentRequested('DEPLOYMENT_REQUESTED'),
-  deploymentInProgress('DEPLOYMENT_IN_PROGRESS'),
-  deploymentError('DEPLOYMENT_ERROR'),
-  deploymentSucceeded('DEPLOYMENT_SUCCEEDED'),
-  removalPending('REMOVAL_PENDING'),
-  removalRequested('REMOVAL_REQUESTED'),
-  removalInProgress('REMOVAL_IN_PROGRESS'),
-  removalFailed('REMOVAL_FAILED'),
-  removalSucceeded('REMOVAL_SUCCEEDED'),
-  deploymentFailed('DEPLOYMENT_FAILED'),
-  ;
+class ApplicationInstanceStatus {
+  static const deploymentPending =
+      ApplicationInstanceStatus._('DEPLOYMENT_PENDING');
+  static const deploymentRequested =
+      ApplicationInstanceStatus._('DEPLOYMENT_REQUESTED');
+  static const deploymentInProgress =
+      ApplicationInstanceStatus._('DEPLOYMENT_IN_PROGRESS');
+  static const deploymentError =
+      ApplicationInstanceStatus._('DEPLOYMENT_ERROR');
+  static const deploymentSucceeded =
+      ApplicationInstanceStatus._('DEPLOYMENT_SUCCEEDED');
+  static const removalPending = ApplicationInstanceStatus._('REMOVAL_PENDING');
+  static const removalRequested =
+      ApplicationInstanceStatus._('REMOVAL_REQUESTED');
+  static const removalInProgress =
+      ApplicationInstanceStatus._('REMOVAL_IN_PROGRESS');
+  static const removalFailed = ApplicationInstanceStatus._('REMOVAL_FAILED');
+  static const removalSucceeded =
+      ApplicationInstanceStatus._('REMOVAL_SUCCEEDED');
+  static const deploymentFailed =
+      ApplicationInstanceStatus._('DEPLOYMENT_FAILED');
 
   final String value;
 
-  const ApplicationInstanceStatus(this.value);
+  const ApplicationInstanceStatus._(this.value);
+
+  static const values = [
+    deploymentPending,
+    deploymentRequested,
+    deploymentInProgress,
+    deploymentError,
+    deploymentSucceeded,
+    removalPending,
+    removalRequested,
+    removalInProgress,
+    removalFailed,
+    removalSucceeded,
+    deploymentFailed
+  ];
 
   static ApplicationInstanceStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ApplicationInstanceStatus'));
+          orElse: () => ApplicationInstanceStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ApplicationInstanceStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ConnectionType {
-  staticIp('STATIC_IP'),
-  dhcp('DHCP'),
-  ;
+class ConnectionType {
+  static const staticIp = ConnectionType._('STATIC_IP');
+  static const dhcp = ConnectionType._('DHCP');
 
   final String value;
 
-  const ConnectionType(this.value);
+  const ConnectionType._(this.value);
+
+  static const values = [staticIp, dhcp];
 
   static ConnectionType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ConnectionType'));
+          orElse: () => ConnectionType._(value));
+
+  @override
+  bool operator ==(other) => other is ConnectionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class CreateApplicationInstanceResponse {
@@ -2163,13 +2214,15 @@ class DescribeNodeFromTemplateJobResponse {
       nodeName: (json['NodeName'] as String?) ?? '',
       outputPackageName: (json['OutputPackageName'] as String?) ?? '',
       outputPackageVersion: (json['OutputPackageVersion'] as String?) ?? '',
-      status: NodeFromTemplateJobStatus.fromString((json['Status'] as String)),
+      status: NodeFromTemplateJobStatus.fromString(
+          (json['Status'] as String?) ?? ''),
       statusMessage: (json['StatusMessage'] as String?) ?? '',
       templateParameters:
           ((json['TemplateParameters'] as Map<String, dynamic>?) ??
                   const <String, dynamic>{})
               .map((k, e) => MapEntry(k, e as String)),
-      templateType: TemplateType.fromString((json['TemplateType'] as String)),
+      templateType:
+          TemplateType.fromString((json['TemplateType'] as String?) ?? ''),
       jobTags: (json['JobTags'] as List?)
           ?.nonNulls
           .map((e) => JobResourceTags.fromJson(e as Map<String, dynamic>))
@@ -2270,7 +2323,7 @@ class DescribeNodeResponse {
 
   factory DescribeNodeResponse.fromJson(Map<String, dynamic> json) {
     return DescribeNodeResponse(
-      category: NodeCategory.fromString((json['Category'] as String)),
+      category: NodeCategory.fromString((json['Category'] as String?) ?? ''),
       createdTime: nonNullableTimeStampFromJson(json['CreatedTime'] ?? 0),
       description: (json['Description'] as String?) ?? '',
       lastUpdatedTime:
@@ -2379,7 +2432,8 @@ class DescribePackageImportJobResponse {
           (json['InputConfig'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
       jobId: (json['JobId'] as String?) ?? '',
-      jobType: PackageImportJobType.fromString((json['JobType'] as String)),
+      jobType:
+          PackageImportJobType.fromString((json['JobType'] as String?) ?? ''),
       lastUpdatedTime:
           nonNullableTimeStampFromJson(json['LastUpdatedTime'] ?? 0),
       output: PackageImportJobOutput.fromJson(
@@ -2388,7 +2442,8 @@ class DescribePackageImportJobResponse {
       outputConfig: PackageImportJobOutputConfig.fromJson(
           (json['OutputConfig'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
-      status: PackageImportJobStatus.fromString((json['Status'] as String)),
+      status:
+          PackageImportJobStatus.fromString((json['Status'] as String?) ?? ''),
       statusMessage: (json['StatusMessage'] as String?) ?? '',
       clientToken: json['ClientToken'] as String?,
       jobTags: (json['JobTags'] as List?)
@@ -2560,7 +2615,8 @@ class DescribePackageVersionResponse {
       packageName: (json['PackageName'] as String?) ?? '',
       packageVersion: (json['PackageVersion'] as String?) ?? '',
       patchVersion: (json['PatchVersion'] as String?) ?? '',
-      status: PackageVersionStatus.fromString((json['Status'] as String)),
+      status:
+          PackageVersionStatus.fromString((json['Status'] as String?) ?? ''),
       ownerAccount: json['OwnerAccount'] as String?,
       packageArn: json['PackageArn'] as String?,
       registeredTime: timeStampFromJson(json['RegisteredTime']),
@@ -2595,20 +2651,28 @@ class DescribePackageVersionResponse {
   }
 }
 
-enum DesiredState {
-  running('RUNNING'),
-  stopped('STOPPED'),
-  removed('REMOVED'),
-  ;
+class DesiredState {
+  static const running = DesiredState._('RUNNING');
+  static const stopped = DesiredState._('STOPPED');
+  static const removed = DesiredState._('REMOVED');
 
   final String value;
 
-  const DesiredState(this.value);
+  const DesiredState._(this.value);
 
-  static DesiredState fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum DesiredState'));
+  static const values = [running, stopped, removed];
+
+  static DesiredState fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => DesiredState._(value));
+
+  @override
+  bool operator ==(other) => other is DesiredState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A device.
@@ -2730,59 +2794,107 @@ class Device {
   }
 }
 
-enum DeviceAggregatedStatus {
-  error('ERROR'),
-  awaitingProvisioning('AWAITING_PROVISIONING'),
-  pending('PENDING'),
-  failed('FAILED'),
-  deleting('DELETING'),
-  online('ONLINE'),
-  offline('OFFLINE'),
-  leaseExpired('LEASE_EXPIRED'),
-  updateNeeded('UPDATE_NEEDED'),
-  rebooting('REBOOTING'),
-  ;
+class DeviceAggregatedStatus {
+  static const error = DeviceAggregatedStatus._('ERROR');
+  static const awaitingProvisioning =
+      DeviceAggregatedStatus._('AWAITING_PROVISIONING');
+  static const pending = DeviceAggregatedStatus._('PENDING');
+  static const failed = DeviceAggregatedStatus._('FAILED');
+  static const deleting = DeviceAggregatedStatus._('DELETING');
+  static const online = DeviceAggregatedStatus._('ONLINE');
+  static const offline = DeviceAggregatedStatus._('OFFLINE');
+  static const leaseExpired = DeviceAggregatedStatus._('LEASE_EXPIRED');
+  static const updateNeeded = DeviceAggregatedStatus._('UPDATE_NEEDED');
+  static const rebooting = DeviceAggregatedStatus._('REBOOTING');
 
   final String value;
 
-  const DeviceAggregatedStatus(this.value);
+  const DeviceAggregatedStatus._(this.value);
+
+  static const values = [
+    error,
+    awaitingProvisioning,
+    pending,
+    failed,
+    deleting,
+    online,
+    offline,
+    leaseExpired,
+    updateNeeded,
+    rebooting
+  ];
 
   static DeviceAggregatedStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum DeviceAggregatedStatus'));
+          orElse: () => DeviceAggregatedStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DeviceAggregatedStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum DeviceBrand {
-  awsPanorama('AWS_PANORAMA'),
-  lenovo('LENOVO'),
-  ;
+class DeviceBrand {
+  static const awsPanorama = DeviceBrand._('AWS_PANORAMA');
+  static const lenovo = DeviceBrand._('LENOVO');
 
   final String value;
 
-  const DeviceBrand(this.value);
+  const DeviceBrand._(this.value);
 
-  static DeviceBrand fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum DeviceBrand'));
+  static const values = [awsPanorama, lenovo];
+
+  static DeviceBrand fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => DeviceBrand._(value));
+
+  @override
+  bool operator ==(other) => other is DeviceBrand && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum DeviceConnectionStatus {
-  online('ONLINE'),
-  offline('OFFLINE'),
-  awaitingCredentials('AWAITING_CREDENTIALS'),
-  notAvailable('NOT_AVAILABLE'),
-  error('ERROR'),
-  ;
+class DeviceConnectionStatus {
+  static const online = DeviceConnectionStatus._('ONLINE');
+  static const offline = DeviceConnectionStatus._('OFFLINE');
+  static const awaitingCredentials =
+      DeviceConnectionStatus._('AWAITING_CREDENTIALS');
+  static const notAvailable = DeviceConnectionStatus._('NOT_AVAILABLE');
+  static const error = DeviceConnectionStatus._('ERROR');
 
   final String value;
 
-  const DeviceConnectionStatus(this.value);
+  const DeviceConnectionStatus._(this.value);
+
+  static const values = [
+    online,
+    offline,
+    awaitingCredentials,
+    notAvailable,
+    error
+  ];
 
   static DeviceConnectionStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum DeviceConnectionStatus'));
+          orElse: () => DeviceConnectionStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DeviceConnectionStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A job that runs on a device.
@@ -2853,61 +2965,110 @@ class DeviceJobConfig {
   }
 }
 
-enum DeviceReportedStatus {
-  stopping('STOPPING'),
-  stopped('STOPPED'),
-  stopError('STOP_ERROR'),
-  removalFailed('REMOVAL_FAILED'),
-  removalInProgress('REMOVAL_IN_PROGRESS'),
-  starting('STARTING'),
-  running('RUNNING'),
-  installError('INSTALL_ERROR'),
-  launched('LAUNCHED'),
-  launchError('LAUNCH_ERROR'),
-  installInProgress('INSTALL_IN_PROGRESS'),
-  ;
+class DeviceReportedStatus {
+  static const stopping = DeviceReportedStatus._('STOPPING');
+  static const stopped = DeviceReportedStatus._('STOPPED');
+  static const stopError = DeviceReportedStatus._('STOP_ERROR');
+  static const removalFailed = DeviceReportedStatus._('REMOVAL_FAILED');
+  static const removalInProgress =
+      DeviceReportedStatus._('REMOVAL_IN_PROGRESS');
+  static const starting = DeviceReportedStatus._('STARTING');
+  static const running = DeviceReportedStatus._('RUNNING');
+  static const installError = DeviceReportedStatus._('INSTALL_ERROR');
+  static const launched = DeviceReportedStatus._('LAUNCHED');
+  static const launchError = DeviceReportedStatus._('LAUNCH_ERROR');
+  static const installInProgress =
+      DeviceReportedStatus._('INSTALL_IN_PROGRESS');
 
   final String value;
 
-  const DeviceReportedStatus(this.value);
+  const DeviceReportedStatus._(this.value);
 
-  static DeviceReportedStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum DeviceReportedStatus'));
-}
+  static const values = [
+    stopping,
+    stopped,
+    stopError,
+    removalFailed,
+    removalInProgress,
+    starting,
+    running,
+    installError,
+    launched,
+    launchError,
+    installInProgress
+  ];
 
-enum DeviceStatus {
-  awaitingProvisioning('AWAITING_PROVISIONING'),
-  pending('PENDING'),
-  succeeded('SUCCEEDED'),
-  failed('FAILED'),
-  error('ERROR'),
-  deleting('DELETING'),
-  ;
-
-  final String value;
-
-  const DeviceStatus(this.value);
-
-  static DeviceStatus fromString(String value) =>
+  static DeviceReportedStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum DeviceStatus'));
+          orElse: () => DeviceReportedStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DeviceReportedStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum DeviceType {
-  panoramaApplianceDeveloperKit('PANORAMA_APPLIANCE_DEVELOPER_KIT'),
-  panoramaAppliance('PANORAMA_APPLIANCE'),
-  ;
+class DeviceStatus {
+  static const awaitingProvisioning = DeviceStatus._('AWAITING_PROVISIONING');
+  static const pending = DeviceStatus._('PENDING');
+  static const succeeded = DeviceStatus._('SUCCEEDED');
+  static const failed = DeviceStatus._('FAILED');
+  static const error = DeviceStatus._('ERROR');
+  static const deleting = DeviceStatus._('DELETING');
 
   final String value;
 
-  const DeviceType(this.value);
+  const DeviceStatus._(this.value);
 
-  static DeviceType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum DeviceType'));
+  static const values = [
+    awaitingProvisioning,
+    pending,
+    succeeded,
+    failed,
+    error,
+    deleting
+  ];
+
+  static DeviceStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => DeviceStatus._(value));
+
+  @override
+  bool operator ==(other) => other is DeviceStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class DeviceType {
+  static const panoramaApplianceDeveloperKit =
+      DeviceType._('PANORAMA_APPLIANCE_DEVELOPER_KIT');
+  static const panoramaAppliance = DeviceType._('PANORAMA_APPLIANCE');
+
+  final String value;
+
+  const DeviceType._(this.value);
+
+  static const values = [panoramaApplianceDeveloperKit, panoramaAppliance];
+
+  static DeviceType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => DeviceType._(value));
+
+  @override
+  bool operator ==(other) => other is DeviceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A device's network configuration.
@@ -2926,7 +3087,7 @@ class EthernetPayload {
   factory EthernetPayload.fromJson(Map<String, dynamic> json) {
     return EthernetPayload(
       connectionType:
-          ConnectionType.fromString((json['ConnectionType'] as String)),
+          ConnectionType.fromString((json['ConnectionType'] as String?) ?? ''),
       staticIpConnectionInfo: json['StaticIpConnectionInfo'] != null
           ? StaticIpConnectionInfo.fromJson(
               json['StaticIpConnectionInfo'] as Map<String, dynamic>)
@@ -3029,7 +3190,7 @@ class JobResourceTags {
   factory JobResourceTags.fromJson(Map<String, dynamic> json) {
     return JobResourceTags(
       resourceType:
-          JobResourceType.fromString((json['ResourceType'] as String)),
+          JobResourceType.fromString((json['ResourceType'] as String?) ?? ''),
       tags:
           ((json['Tags'] as Map<String, dynamic>?) ?? const <String, dynamic>{})
               .map((k, e) => MapEntry(k, e as String)),
@@ -3046,32 +3207,50 @@ class JobResourceTags {
   }
 }
 
-enum JobResourceType {
-  package('PACKAGE'),
-  ;
+class JobResourceType {
+  static const package = JobResourceType._('PACKAGE');
 
   final String value;
 
-  const JobResourceType(this.value);
+  const JobResourceType._(this.value);
+
+  static const values = [package];
 
   static JobResourceType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum JobResourceType'));
+          orElse: () => JobResourceType._(value));
+
+  @override
+  bool operator ==(other) => other is JobResourceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum JobType {
-  ota('OTA'),
-  reboot('REBOOT'),
-  ;
+class JobType {
+  static const ota = JobType._('OTA');
+  static const reboot = JobType._('REBOOT');
 
   final String value;
 
-  const JobType(this.value);
+  const JobType._(this.value);
 
-  static JobType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum JobType'));
+  static const values = [ota, reboot];
+
+  static JobType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => JobType._(value));
+
+  @override
+  bool operator ==(other) => other is JobType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Returns information about the latest device job.
@@ -3274,21 +3453,31 @@ class ListDevicesResponse {
   }
 }
 
-enum ListDevicesSortBy {
-  deviceId('DEVICE_ID'),
-  createdTime('CREATED_TIME'),
-  name('NAME'),
-  deviceAggregatedStatus('DEVICE_AGGREGATED_STATUS'),
-  ;
+class ListDevicesSortBy {
+  static const deviceId = ListDevicesSortBy._('DEVICE_ID');
+  static const createdTime = ListDevicesSortBy._('CREATED_TIME');
+  static const name = ListDevicesSortBy._('NAME');
+  static const deviceAggregatedStatus =
+      ListDevicesSortBy._('DEVICE_AGGREGATED_STATUS');
 
   final String value;
 
-  const ListDevicesSortBy(this.value);
+  const ListDevicesSortBy._(this.value);
+
+  static const values = [deviceId, createdTime, name, deviceAggregatedStatus];
 
   static ListDevicesSortBy fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ListDevicesSortBy'));
+          orElse: () => ListDevicesSortBy._(value));
+
+  @override
+  bool operator ==(other) => other is ListDevicesSortBy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class ListNodeFromTemplateJobsResponse {
@@ -3495,20 +3684,30 @@ class ManifestPayload {
   }
 }
 
-enum NetworkConnectionStatus {
-  connected('CONNECTED'),
-  notConnected('NOT_CONNECTED'),
-  connecting('CONNECTING'),
-  ;
+class NetworkConnectionStatus {
+  static const connected = NetworkConnectionStatus._('CONNECTED');
+  static const notConnected = NetworkConnectionStatus._('NOT_CONNECTED');
+  static const connecting = NetworkConnectionStatus._('CONNECTING');
 
   final String value;
 
-  const NetworkConnectionStatus(this.value);
+  const NetworkConnectionStatus._(this.value);
+
+  static const values = [connected, notConnected, connecting];
 
   static NetworkConnectionStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum NetworkConnectionStatus'));
+          orElse: () => NetworkConnectionStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is NetworkConnectionStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The network configuration for a device.
@@ -3659,7 +3858,7 @@ class Node {
 
   factory Node.fromJson(Map<String, dynamic> json) {
     return Node(
-      category: NodeCategory.fromString((json['Category'] as String)),
+      category: NodeCategory.fromString((json['Category'] as String?) ?? ''),
       createdTime: nonNullableTimeStampFromJson(json['CreatedTime'] ?? 0),
       name: (json['Name'] as String?) ?? '',
       nodeId: (json['NodeId'] as String?) ?? '',
@@ -3701,21 +3900,29 @@ class Node {
   }
 }
 
-enum NodeCategory {
-  businessLogic('BUSINESS_LOGIC'),
-  mlModel('ML_MODEL'),
-  mediaSource('MEDIA_SOURCE'),
-  mediaSink('MEDIA_SINK'),
-  ;
+class NodeCategory {
+  static const businessLogic = NodeCategory._('BUSINESS_LOGIC');
+  static const mlModel = NodeCategory._('ML_MODEL');
+  static const mediaSource = NodeCategory._('MEDIA_SOURCE');
+  static const mediaSink = NodeCategory._('MEDIA_SINK');
 
   final String value;
 
-  const NodeCategory(this.value);
+  const NodeCategory._(this.value);
 
-  static NodeCategory fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum NodeCategory'));
+  static const values = [businessLogic, mlModel, mediaSource, mediaSink];
+
+  static NodeCategory fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => NodeCategory._(value));
+
+  @override
+  bool operator ==(other) => other is NodeCategory && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A job to create a camera stream node.
@@ -3778,20 +3985,30 @@ class NodeFromTemplateJob {
   }
 }
 
-enum NodeFromTemplateJobStatus {
-  pending('PENDING'),
-  succeeded('SUCCEEDED'),
-  failed('FAILED'),
-  ;
+class NodeFromTemplateJobStatus {
+  static const pending = NodeFromTemplateJobStatus._('PENDING');
+  static const succeeded = NodeFromTemplateJobStatus._('SUCCEEDED');
+  static const failed = NodeFromTemplateJobStatus._('FAILED');
 
   final String value;
 
-  const NodeFromTemplateJobStatus(this.value);
+  const NodeFromTemplateJobStatus._(this.value);
+
+  static const values = [pending, succeeded, failed];
 
   static NodeFromTemplateJobStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum NodeFromTemplateJobStatus'));
+          orElse: () => NodeFromTemplateJobStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is NodeFromTemplateJobStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A node input port.
@@ -3880,8 +4097,8 @@ class NodeInstance {
 
   factory NodeInstance.fromJson(Map<String, dynamic> json) {
     return NodeInstance(
-      currentStatus:
-          NodeInstanceStatus.fromString((json['CurrentStatus'] as String)),
+      currentStatus: NodeInstanceStatus.fromString(
+          (json['CurrentStatus'] as String?) ?? ''),
       nodeInstanceId: (json['NodeInstanceId'] as String?) ?? '',
       nodeId: json['NodeId'] as String?,
       nodeName: json['NodeName'] as String?,
@@ -3912,21 +4129,31 @@ class NodeInstance {
   }
 }
 
-enum NodeInstanceStatus {
-  running('RUNNING'),
-  error('ERROR'),
-  notAvailable('NOT_AVAILABLE'),
-  paused('PAUSED'),
-  ;
+class NodeInstanceStatus {
+  static const running = NodeInstanceStatus._('RUNNING');
+  static const error = NodeInstanceStatus._('ERROR');
+  static const notAvailable = NodeInstanceStatus._('NOT_AVAILABLE');
+  static const paused = NodeInstanceStatus._('PAUSED');
 
   final String value;
 
-  const NodeInstanceStatus(this.value);
+  const NodeInstanceStatus._(this.value);
 
-  static NodeInstanceStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum NodeInstanceStatus'));
+  static const values = [running, error, notAvailable, paused];
+
+  static NodeInstanceStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => NodeInstanceStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is NodeInstanceStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A node interface.
@@ -4025,19 +4252,28 @@ class NodeSignal {
   }
 }
 
-enum NodeSignalValue {
-  pause('PAUSE'),
-  resume('RESUME'),
-  ;
+class NodeSignalValue {
+  static const pause = NodeSignalValue._('PAUSE');
+  static const resume = NodeSignalValue._('RESUME');
 
   final String value;
 
-  const NodeSignalValue(this.value);
+  const NodeSignalValue._(this.value);
+
+  static const values = [pause, resume];
 
   static NodeSignalValue fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum NodeSignalValue'));
+          orElse: () => NodeSignalValue._(value));
+
+  @override
+  bool operator ==(other) => other is NodeSignalValue && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Network time protocol (NTP) server settings. Use this option to connect to
@@ -4320,35 +4556,57 @@ class PackageImportJobOutputConfig {
   }
 }
 
-enum PackageImportJobStatus {
-  pending('PENDING'),
-  succeeded('SUCCEEDED'),
-  failed('FAILED'),
-  ;
+class PackageImportJobStatus {
+  static const pending = PackageImportJobStatus._('PENDING');
+  static const succeeded = PackageImportJobStatus._('SUCCEEDED');
+  static const failed = PackageImportJobStatus._('FAILED');
 
   final String value;
 
-  const PackageImportJobStatus(this.value);
+  const PackageImportJobStatus._(this.value);
+
+  static const values = [pending, succeeded, failed];
 
   static PackageImportJobStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum PackageImportJobStatus'));
+          orElse: () => PackageImportJobStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is PackageImportJobStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum PackageImportJobType {
-  nodePackageVersion('NODE_PACKAGE_VERSION'),
-  marketplaceNodePackageVersion('MARKETPLACE_NODE_PACKAGE_VERSION'),
-  ;
+class PackageImportJobType {
+  static const nodePackageVersion =
+      PackageImportJobType._('NODE_PACKAGE_VERSION');
+  static const marketplaceNodePackageVersion =
+      PackageImportJobType._('MARKETPLACE_NODE_PACKAGE_VERSION');
 
   final String value;
 
-  const PackageImportJobType(this.value);
+  const PackageImportJobType._(this.value);
 
-  static PackageImportJobType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum PackageImportJobType'));
+  static const values = [nodePackageVersion, marketplaceNodePackageVersion];
+
+  static PackageImportJobType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => PackageImportJobType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is PackageImportJobType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A package summary.
@@ -4502,38 +4760,57 @@ class PackageVersionOutputConfig {
   }
 }
 
-enum PackageVersionStatus {
-  registerPending('REGISTER_PENDING'),
-  registerCompleted('REGISTER_COMPLETED'),
-  failed('FAILED'),
-  deleting('DELETING'),
-  ;
+class PackageVersionStatus {
+  static const registerPending = PackageVersionStatus._('REGISTER_PENDING');
+  static const registerCompleted = PackageVersionStatus._('REGISTER_COMPLETED');
+  static const failed = PackageVersionStatus._('FAILED');
+  static const deleting = PackageVersionStatus._('DELETING');
 
   final String value;
 
-  const PackageVersionStatus(this.value);
+  const PackageVersionStatus._(this.value);
 
-  static PackageVersionStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum PackageVersionStatus'));
+  static const values = [registerPending, registerCompleted, failed, deleting];
+
+  static PackageVersionStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => PackageVersionStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is PackageVersionStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum PortType {
-  boolean('BOOLEAN'),
-  string('STRING'),
-  int32('INT32'),
-  float32('FLOAT32'),
-  media('MEDIA'),
-  ;
+class PortType {
+  static const boolean = PortType._('BOOLEAN');
+  static const string = PortType._('STRING');
+  static const int32 = PortType._('INT32');
+  static const float32 = PortType._('FLOAT32');
+  static const media = PortType._('MEDIA');
 
   final String value;
 
-  const PortType(this.value);
+  const PortType._(this.value);
 
-  static PortType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum PortType'));
+  static const values = [boolean, string, int32, float32, media];
+
+  static PortType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => PortType._(value));
+
+  @override
+  bool operator ==(other) => other is PortType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class ProvisionDeviceResponse {
@@ -4563,7 +4840,7 @@ class ProvisionDeviceResponse {
   factory ProvisionDeviceResponse.fromJson(Map<String, dynamic> json) {
     return ProvisionDeviceResponse(
       arn: (json['Arn'] as String?) ?? '',
-      status: DeviceStatus.fromString((json['Status'] as String)),
+      status: DeviceStatus.fromString((json['Status'] as String?) ?? ''),
       certificates: _s.decodeNullableUint8List(json['Certificates'] as String?),
       deviceId: json['DeviceId'] as String?,
       iotThingName: json['IotThingName'] as String?,
@@ -4633,9 +4910,10 @@ class ReportedRuntimeContextState {
 
   factory ReportedRuntimeContextState.fromJson(Map<String, dynamic> json) {
     return ReportedRuntimeContextState(
-      desiredState: DesiredState.fromString((json['DesiredState'] as String)),
+      desiredState:
+          DesiredState.fromString((json['DesiredState'] as String?) ?? ''),
       deviceReportedStatus: DeviceReportedStatus.fromString(
-          (json['DeviceReportedStatus'] as String)),
+          (json['DeviceReportedStatus'] as String?) ?? ''),
       deviceReportedTime:
           nonNullableTimeStampFromJson(json['DeviceReportedTime'] ?? 0),
       runtimeContextName: (json['RuntimeContextName'] as String?) ?? '',
@@ -4716,18 +4994,27 @@ class SignalApplicationInstanceNodeInstancesResponse {
   }
 }
 
-enum SortOrder {
-  ascending('ASCENDING'),
-  descending('DESCENDING'),
-  ;
+class SortOrder {
+  static const ascending = SortOrder._('ASCENDING');
+  static const descending = SortOrder._('DESCENDING');
 
   final String value;
 
-  const SortOrder(this.value);
+  const SortOrder._(this.value);
 
-  static SortOrder fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum SortOrder'));
+  static const values = [ascending, descending];
+
+  static SortOrder fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => SortOrder._(value));
+
+  @override
+  bool operator ==(other) => other is SortOrder && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A static IP configuration.
@@ -4777,24 +5064,40 @@ class StaticIpConnectionInfo {
   }
 }
 
-enum StatusFilter {
-  deploymentSucceeded('DEPLOYMENT_SUCCEEDED'),
-  deploymentError('DEPLOYMENT_ERROR'),
-  removalSucceeded('REMOVAL_SUCCEEDED'),
-  removalFailed('REMOVAL_FAILED'),
-  processingDeployment('PROCESSING_DEPLOYMENT'),
-  processingRemoval('PROCESSING_REMOVAL'),
-  deploymentFailed('DEPLOYMENT_FAILED'),
-  ;
+class StatusFilter {
+  static const deploymentSucceeded = StatusFilter._('DEPLOYMENT_SUCCEEDED');
+  static const deploymentError = StatusFilter._('DEPLOYMENT_ERROR');
+  static const removalSucceeded = StatusFilter._('REMOVAL_SUCCEEDED');
+  static const removalFailed = StatusFilter._('REMOVAL_FAILED');
+  static const processingDeployment = StatusFilter._('PROCESSING_DEPLOYMENT');
+  static const processingRemoval = StatusFilter._('PROCESSING_REMOVAL');
+  static const deploymentFailed = StatusFilter._('DEPLOYMENT_FAILED');
 
   final String value;
 
-  const StatusFilter(this.value);
+  const StatusFilter._(this.value);
 
-  static StatusFilter fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum StatusFilter'));
+  static const values = [
+    deploymentSucceeded,
+    deploymentError,
+    removalSucceeded,
+    removalFailed,
+    processingDeployment,
+    processingRemoval,
+    deploymentFailed
+  ];
+
+  static StatusFilter fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => StatusFilter._(value));
+
+  @override
+  bool operator ==(other) => other is StatusFilter && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A storage location.
@@ -4861,18 +5164,26 @@ class TagResourceResponse {
   }
 }
 
-enum TemplateType {
-  rtspCameraStream('RTSP_CAMERA_STREAM'),
-  ;
+class TemplateType {
+  static const rtspCameraStream = TemplateType._('RTSP_CAMERA_STREAM');
 
   final String value;
 
-  const TemplateType(this.value);
+  const TemplateType._(this.value);
 
-  static TemplateType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum TemplateType'));
+  static const values = [rtspCameraStream];
+
+  static TemplateType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => TemplateType._(value));
+
+  @override
+  bool operator ==(other) => other is TemplateType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class UntagResourceResponse {
@@ -4909,24 +5220,41 @@ class UpdateDeviceMetadataResponse {
   }
 }
 
-enum UpdateProgress {
-  pending('PENDING'),
-  inProgress('IN_PROGRESS'),
-  verifying('VERIFYING'),
-  rebooting('REBOOTING'),
-  downloading('DOWNLOADING'),
-  completed('COMPLETED'),
-  failed('FAILED'),
-  ;
+class UpdateProgress {
+  static const pending = UpdateProgress._('PENDING');
+  static const inProgress = UpdateProgress._('IN_PROGRESS');
+  static const verifying = UpdateProgress._('VERIFYING');
+  static const rebooting = UpdateProgress._('REBOOTING');
+  static const downloading = UpdateProgress._('DOWNLOADING');
+  static const completed = UpdateProgress._('COMPLETED');
+  static const failed = UpdateProgress._('FAILED');
 
   final String value;
 
-  const UpdateProgress(this.value);
+  const UpdateProgress._(this.value);
+
+  static const values = [
+    pending,
+    inProgress,
+    verifying,
+    rebooting,
+    downloading,
+    completed,
+    failed
+  ];
 
   static UpdateProgress fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum UpdateProgress'));
+          orElse: () => UpdateProgress._(value));
+
+  @override
+  bool operator ==(other) => other is UpdateProgress && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class AccessDeniedException extends _s.GenericAwsException {

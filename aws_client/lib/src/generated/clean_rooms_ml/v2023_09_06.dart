@@ -1203,21 +1203,32 @@ class AudienceDestination {
   }
 }
 
-enum AudienceExportJobStatus {
-  createPending('CREATE_PENDING'),
-  createInProgress('CREATE_IN_PROGRESS'),
-  createFailed('CREATE_FAILED'),
-  active('ACTIVE'),
-  ;
+class AudienceExportJobStatus {
+  static const createPending = AudienceExportJobStatus._('CREATE_PENDING');
+  static const createInProgress =
+      AudienceExportJobStatus._('CREATE_IN_PROGRESS');
+  static const createFailed = AudienceExportJobStatus._('CREATE_FAILED');
+  static const active = AudienceExportJobStatus._('ACTIVE');
 
   final String value;
 
-  const AudienceExportJobStatus(this.value);
+  const AudienceExportJobStatus._(this.value);
+
+  static const values = [createPending, createInProgress, createFailed, active];
 
   static AudienceExportJobStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum AudienceExportJobStatus'));
+          orElse: () => AudienceExportJobStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AudienceExportJobStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Provides information about the audience export job.
@@ -1267,7 +1278,8 @@ class AudienceExportJobSummary {
               const <String, dynamic>{}),
       createTime: nonNullableTimeStampFromJson(json['createTime'] ?? 0),
       name: (json['name'] as String?) ?? '',
-      status: AudienceExportJobStatus.fromString((json['status'] as String)),
+      status:
+          AudienceExportJobStatus.fromString((json['status'] as String?) ?? ''),
       updateTime: nonNullableTimeStampFromJson(json['updateTime'] ?? 0),
       description: json['description'] as String?,
       outputLocation: json['outputLocation'] as String?,
@@ -1354,24 +1366,44 @@ class AudienceGenerationJobDataSource {
   }
 }
 
-enum AudienceGenerationJobStatus {
-  createPending('CREATE_PENDING'),
-  createInProgress('CREATE_IN_PROGRESS'),
-  createFailed('CREATE_FAILED'),
-  active('ACTIVE'),
-  deletePending('DELETE_PENDING'),
-  deleteInProgress('DELETE_IN_PROGRESS'),
-  deleteFailed('DELETE_FAILED'),
-  ;
+class AudienceGenerationJobStatus {
+  static const createPending = AudienceGenerationJobStatus._('CREATE_PENDING');
+  static const createInProgress =
+      AudienceGenerationJobStatus._('CREATE_IN_PROGRESS');
+  static const createFailed = AudienceGenerationJobStatus._('CREATE_FAILED');
+  static const active = AudienceGenerationJobStatus._('ACTIVE');
+  static const deletePending = AudienceGenerationJobStatus._('DELETE_PENDING');
+  static const deleteInProgress =
+      AudienceGenerationJobStatus._('DELETE_IN_PROGRESS');
+  static const deleteFailed = AudienceGenerationJobStatus._('DELETE_FAILED');
 
   final String value;
 
-  const AudienceGenerationJobStatus(this.value);
+  const AudienceGenerationJobStatus._(this.value);
+
+  static const values = [
+    createPending,
+    createInProgress,
+    createFailed,
+    active,
+    deletePending,
+    deleteInProgress,
+    deleteFailed
+  ];
 
   static AudienceGenerationJobStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum AudienceGenerationJobStatus'));
+          orElse: () => AudienceGenerationJobStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AudienceGenerationJobStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Provides information about the configured audience generation job.
@@ -1425,8 +1457,8 @@ class AudienceGenerationJobSummary {
           (json['configuredAudienceModelArn'] as String?) ?? '',
       createTime: nonNullableTimeStampFromJson(json['createTime'] ?? 0),
       name: (json['name'] as String?) ?? '',
-      status:
-          AudienceGenerationJobStatus.fromString((json['status'] as String)),
+      status: AudienceGenerationJobStatus.fromString(
+          (json['status'] as String?) ?? ''),
       updateTime: nonNullableTimeStampFromJson(json['updateTime'] ?? 0),
       collaborationId: json['collaborationId'] as String?,
       description: json['description'] as String?,
@@ -1458,24 +1490,42 @@ class AudienceGenerationJobSummary {
   }
 }
 
-enum AudienceModelStatus {
-  createPending('CREATE_PENDING'),
-  createInProgress('CREATE_IN_PROGRESS'),
-  createFailed('CREATE_FAILED'),
-  active('ACTIVE'),
-  deletePending('DELETE_PENDING'),
-  deleteInProgress('DELETE_IN_PROGRESS'),
-  deleteFailed('DELETE_FAILED'),
-  ;
+class AudienceModelStatus {
+  static const createPending = AudienceModelStatus._('CREATE_PENDING');
+  static const createInProgress = AudienceModelStatus._('CREATE_IN_PROGRESS');
+  static const createFailed = AudienceModelStatus._('CREATE_FAILED');
+  static const active = AudienceModelStatus._('ACTIVE');
+  static const deletePending = AudienceModelStatus._('DELETE_PENDING');
+  static const deleteInProgress = AudienceModelStatus._('DELETE_IN_PROGRESS');
+  static const deleteFailed = AudienceModelStatus._('DELETE_FAILED');
 
   final String value;
 
-  const AudienceModelStatus(this.value);
+  const AudienceModelStatus._(this.value);
 
-  static AudienceModelStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum AudienceModelStatus'));
+  static const values = [
+    createPending,
+    createInProgress,
+    createFailed,
+    active,
+    deletePending,
+    deleteInProgress,
+    deleteFailed
+  ];
+
+  static AudienceModelStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AudienceModelStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AudienceModelStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about the audience model.
@@ -1517,7 +1567,7 @@ class AudienceModelSummary {
       audienceModelArn: (json['audienceModelArn'] as String?) ?? '',
       createTime: nonNullableTimeStampFromJson(json['createTime'] ?? 0),
       name: (json['name'] as String?) ?? '',
-      status: AudienceModelStatus.fromString((json['status'] as String)),
+      status: AudienceModelStatus.fromString((json['status'] as String?) ?? ''),
       trainingDatasetArn: (json['trainingDatasetArn'] as String?) ?? '',
       updateTime: nonNullableTimeStampFromJson(json['updateTime'] ?? 0),
       description: json['description'] as String?,
@@ -1602,7 +1652,7 @@ class AudienceSize {
 
   factory AudienceSize.fromJson(Map<String, dynamic> json) {
     return AudienceSize(
-      type: AudienceSizeType.fromString((json['type'] as String)),
+      type: AudienceSizeType.fromString((json['type'] as String?) ?? ''),
       value: (json['value'] as int?) ?? 0,
     );
   }
@@ -1646,8 +1696,8 @@ class AudienceSizeConfig {
           .nonNulls
           .map((e) => e as int)
           .toList(),
-      audienceSizeType:
-          AudienceSizeType.fromString((json['audienceSizeType'] as String)),
+      audienceSizeType: AudienceSizeType.fromString(
+          (json['audienceSizeType'] as String?) ?? ''),
     );
   }
 
@@ -1661,19 +1711,28 @@ class AudienceSizeConfig {
   }
 }
 
-enum AudienceSizeType {
-  absolute('ABSOLUTE'),
-  percentage('PERCENTAGE'),
-  ;
+class AudienceSizeType {
+  static const absolute = AudienceSizeType._('ABSOLUTE');
+  static const percentage = AudienceSizeType._('PERCENTAGE');
 
   final String value;
 
-  const AudienceSizeType(this.value);
+  const AudienceSizeType._(this.value);
+
+  static const values = [absolute, percentage];
 
   static AudienceSizeType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum AudienceSizeType'));
+          orElse: () => AudienceSizeType._(value));
+
+  @override
+  bool operator ==(other) => other is AudienceSizeType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Metadata for a column.
@@ -1709,21 +1768,36 @@ class ColumnSchema {
   }
 }
 
-enum ColumnType {
-  userId('USER_ID'),
-  itemId('ITEM_ID'),
-  timestamp('TIMESTAMP'),
-  categoricalFeature('CATEGORICAL_FEATURE'),
-  numericalFeature('NUMERICAL_FEATURE'),
-  ;
+class ColumnType {
+  static const userId = ColumnType._('USER_ID');
+  static const itemId = ColumnType._('ITEM_ID');
+  static const timestamp = ColumnType._('TIMESTAMP');
+  static const categoricalFeature = ColumnType._('CATEGORICAL_FEATURE');
+  static const numericalFeature = ColumnType._('NUMERICAL_FEATURE');
 
   final String value;
 
-  const ColumnType(this.value);
+  const ColumnType._(this.value);
 
-  static ColumnType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum ColumnType'));
+  static const values = [
+    userId,
+    itemId,
+    timestamp,
+    categoricalFeature,
+    numericalFeature
+  ];
+
+  static ColumnType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ColumnType._(value));
+
+  @override
+  bool operator ==(other) => other is ColumnType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Configuration information necessary for the configure audience model output.
@@ -1758,18 +1832,28 @@ class ConfiguredAudienceModelOutputConfig {
   }
 }
 
-enum ConfiguredAudienceModelStatus {
-  active('ACTIVE'),
-  ;
+class ConfiguredAudienceModelStatus {
+  static const active = ConfiguredAudienceModelStatus._('ACTIVE');
 
   final String value;
 
-  const ConfiguredAudienceModelStatus(this.value);
+  const ConfiguredAudienceModelStatus._(this.value);
+
+  static const values = [active];
 
   static ConfiguredAudienceModelStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ConfiguredAudienceModelStatus'));
+          orElse: () => ConfiguredAudienceModelStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ConfiguredAudienceModelStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about the configured audience model.
@@ -1821,8 +1905,8 @@ class ConfiguredAudienceModelSummary {
       outputConfig: ConfiguredAudienceModelOutputConfig.fromJson(
           (json['outputConfig'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
-      status:
-          ConfiguredAudienceModelStatus.fromString((json['status'] as String)),
+      status: ConfiguredAudienceModelStatus.fromString(
+          (json['status'] as String?) ?? ''),
       updateTime: nonNullableTimeStampFromJson(json['updateTime'] ?? 0),
       description: json['description'] as String?,
     );
@@ -1964,7 +2048,7 @@ class Dataset {
       inputConfig: DatasetInputConfig.fromJson(
           (json['inputConfig'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
-      type: DatasetType.fromString((json['type'] as String)),
+      type: DatasetType.fromString((json['type'] as String?) ?? ''),
     );
   }
 
@@ -2014,17 +2098,26 @@ class DatasetInputConfig {
   }
 }
 
-enum DatasetType {
-  interactions('INTERACTIONS'),
-  ;
+class DatasetType {
+  static const interactions = DatasetType._('INTERACTIONS');
 
   final String value;
 
-  const DatasetType(this.value);
+  const DatasetType._(this.value);
 
-  static DatasetType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum DatasetType'));
+  static const values = [interactions];
+
+  static DatasetType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => DatasetType._(value));
+
+  @override
+  bool operator ==(other) => other is DatasetType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class GetAudienceGenerationJobResponse {
@@ -2110,8 +2203,8 @@ class GetAudienceGenerationJobResponse {
           (json['configuredAudienceModelArn'] as String?) ?? '',
       createTime: nonNullableTimeStampFromJson(json['createTime'] ?? 0),
       name: (json['name'] as String?) ?? '',
-      status:
-          AudienceGenerationJobStatus.fromString((json['status'] as String)),
+      status: AudienceGenerationJobStatus.fromString(
+          (json['status'] as String?) ?? ''),
       updateTime: nonNullableTimeStampFromJson(json['updateTime'] ?? 0),
       collaborationId: json['collaborationId'] as String?,
       description: json['description'] as String?,
@@ -2231,7 +2324,7 @@ class GetAudienceModelResponse {
       audienceModelArn: (json['audienceModelArn'] as String?) ?? '',
       createTime: nonNullableTimeStampFromJson(json['createTime'] ?? 0),
       name: (json['name'] as String?) ?? '',
-      status: AudienceModelStatus.fromString((json['status'] as String)),
+      status: AudienceModelStatus.fromString((json['status'] as String?) ?? ''),
       trainingDatasetArn: (json['trainingDatasetArn'] as String?) ?? '',
       updateTime: nonNullableTimeStampFromJson(json['updateTime'] ?? 0),
       description: json['description'] as String?,
@@ -2401,8 +2494,8 @@ class GetConfiguredAudienceModelResponse {
               .nonNulls
               .map((e) => SharedAudienceMetrics.fromString((e as String)))
               .toList(),
-      status:
-          ConfiguredAudienceModelStatus.fromString((json['status'] as String)),
+      status: ConfiguredAudienceModelStatus.fromString(
+          (json['status'] as String?) ?? ''),
       updateTime: nonNullableTimeStampFromJson(json['updateTime'] ?? 0),
       audienceSizeConfig: json['audienceSizeConfig'] != null
           ? AudienceSizeConfig.fromJson(
@@ -2498,7 +2591,8 @@ class GetTrainingDatasetResponse {
       createTime: nonNullableTimeStampFromJson(json['createTime'] ?? 0),
       name: (json['name'] as String?) ?? '',
       roleArn: (json['roleArn'] as String?) ?? '',
-      status: TrainingDatasetStatus.fromString((json['status'] as String)),
+      status:
+          TrainingDatasetStatus.fromString((json['status'] as String?) ?? ''),
       trainingData: ((json['trainingData'] as List?) ?? const [])
           .nonNulls
           .map((e) => Dataset.fromJson(e as Map<String, dynamic>))
@@ -2769,19 +2863,31 @@ class ListTrainingDatasetsResponse {
   }
 }
 
-enum PolicyExistenceCondition {
-  policyMustExist('POLICY_MUST_EXIST'),
-  policyMustNotExist('POLICY_MUST_NOT_EXIST'),
-  ;
+class PolicyExistenceCondition {
+  static const policyMustExist =
+      PolicyExistenceCondition._('POLICY_MUST_EXIST');
+  static const policyMustNotExist =
+      PolicyExistenceCondition._('POLICY_MUST_NOT_EXIST');
 
   final String value;
 
-  const PolicyExistenceCondition(this.value);
+  const PolicyExistenceCondition._(this.value);
+
+  static const values = [policyMustExist, policyMustNotExist];
 
   static PolicyExistenceCondition fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum PolicyExistenceCondition'));
+          orElse: () => PolicyExistenceCondition._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is PolicyExistenceCondition && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The parameters for the SQL type Protected Query.
@@ -2910,19 +3016,29 @@ class S3ConfigMap {
   }
 }
 
-enum SharedAudienceMetrics {
-  all('ALL'),
-  none('NONE'),
-  ;
+class SharedAudienceMetrics {
+  static const all = SharedAudienceMetrics._('ALL');
+  static const none = SharedAudienceMetrics._('NONE');
 
   final String value;
 
-  const SharedAudienceMetrics(this.value);
+  const SharedAudienceMetrics._(this.value);
 
-  static SharedAudienceMetrics fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum SharedAudienceMetrics'));
+  static const values = [all, none];
+
+  static SharedAudienceMetrics fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => SharedAudienceMetrics._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SharedAudienceMetrics && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class StartAudienceGenerationJobResponse {
@@ -2983,19 +3099,28 @@ class StatusDetails {
   }
 }
 
-enum TagOnCreatePolicy {
-  fromParentResource('FROM_PARENT_RESOURCE'),
-  none('NONE'),
-  ;
+class TagOnCreatePolicy {
+  static const fromParentResource = TagOnCreatePolicy._('FROM_PARENT_RESOURCE');
+  static const none = TagOnCreatePolicy._('NONE');
 
   final String value;
 
-  const TagOnCreatePolicy(this.value);
+  const TagOnCreatePolicy._(this.value);
+
+  static const values = [fromParentResource, none];
 
   static TagOnCreatePolicy fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum TagOnCreatePolicy'));
+          orElse: () => TagOnCreatePolicy._(value));
+
+  @override
+  bool operator ==(other) => other is TagOnCreatePolicy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class TagResourceResponse {
@@ -3010,18 +3135,28 @@ class TagResourceResponse {
   }
 }
 
-enum TrainingDatasetStatus {
-  active('ACTIVE'),
-  ;
+class TrainingDatasetStatus {
+  static const active = TrainingDatasetStatus._('ACTIVE');
 
   final String value;
 
-  const TrainingDatasetStatus(this.value);
+  const TrainingDatasetStatus._(this.value);
 
-  static TrainingDatasetStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum TrainingDatasetStatus'));
+  static const values = [active];
+
+  static TrainingDatasetStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => TrainingDatasetStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TrainingDatasetStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Provides information about the training dataset.
@@ -3057,7 +3192,8 @@ class TrainingDatasetSummary {
     return TrainingDatasetSummary(
       createTime: nonNullableTimeStampFromJson(json['createTime'] ?? 0),
       name: (json['name'] as String?) ?? '',
-      status: TrainingDatasetStatus.fromString((json['status'] as String)),
+      status:
+          TrainingDatasetStatus.fromString((json['status'] as String?) ?? ''),
       trainingDatasetArn: (json['trainingDatasetArn'] as String?) ?? '',
       updateTime: nonNullableTimeStampFromJson(json['updateTime'] ?? 0),
       description: json['description'] as String?,

@@ -927,33 +927,53 @@ class Button {
   }
 }
 
-enum ConfirmationStatus {
-  none('None'),
-  confirmed('Confirmed'),
-  denied('Denied'),
-  ;
+class ConfirmationStatus {
+  static const none = ConfirmationStatus._('None');
+  static const confirmed = ConfirmationStatus._('Confirmed');
+  static const denied = ConfirmationStatus._('Denied');
 
   final String value;
 
-  const ConfirmationStatus(this.value);
+  const ConfirmationStatus._(this.value);
 
-  static ConfirmationStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ConfirmationStatus'));
+  static const values = [none, confirmed, denied];
+
+  static ConfirmationStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ConfirmationStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ConfirmationStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ContentType {
-  applicationVndAmazonawsCardGeneric('application/vnd.amazonaws.card.generic'),
-  ;
+class ContentType {
+  static const applicationVndAmazonawsCardGeneric =
+      ContentType._('application/vnd.amazonaws.card.generic');
 
   final String value;
 
-  const ContentType(this.value);
+  const ContentType._(this.value);
 
-  static ContentType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum ContentType'));
+  static const values = [applicationVndAmazonawsCardGeneric];
+
+  static ContentType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ContentType._(value));
+
+  @override
+  bool operator ==(other) => other is ContentType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class DeleteSessionResponse {
@@ -1096,7 +1116,7 @@ class DialogAction {
 
   factory DialogAction.fromJson(Map<String, dynamic> json) {
     return DialogAction(
-      type: DialogActionType.fromString((json['type'] as String)),
+      type: DialogActionType.fromString((json['type'] as String?) ?? ''),
       fulfillmentState: (json['fulfillmentState'] as String?)
           ?.let(FulfillmentState.fromString),
       intentName: json['intentName'] as String?,
@@ -1129,56 +1149,96 @@ class DialogAction {
   }
 }
 
-enum DialogActionType {
-  elicitIntent('ElicitIntent'),
-  confirmIntent('ConfirmIntent'),
-  elicitSlot('ElicitSlot'),
-  close('Close'),
-  delegate('Delegate'),
-  ;
+class DialogActionType {
+  static const elicitIntent = DialogActionType._('ElicitIntent');
+  static const confirmIntent = DialogActionType._('ConfirmIntent');
+  static const elicitSlot = DialogActionType._('ElicitSlot');
+  static const close = DialogActionType._('Close');
+  static const delegate = DialogActionType._('Delegate');
 
   final String value;
 
-  const DialogActionType(this.value);
+  const DialogActionType._(this.value);
+
+  static const values = [
+    elicitIntent,
+    confirmIntent,
+    elicitSlot,
+    close,
+    delegate
+  ];
 
   static DialogActionType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum DialogActionType'));
+          orElse: () => DialogActionType._(value));
+
+  @override
+  bool operator ==(other) => other is DialogActionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum DialogState {
-  elicitIntent('ElicitIntent'),
-  confirmIntent('ConfirmIntent'),
-  elicitSlot('ElicitSlot'),
-  fulfilled('Fulfilled'),
-  readyForFulfillment('ReadyForFulfillment'),
-  failed('Failed'),
-  ;
+class DialogState {
+  static const elicitIntent = DialogState._('ElicitIntent');
+  static const confirmIntent = DialogState._('ConfirmIntent');
+  static const elicitSlot = DialogState._('ElicitSlot');
+  static const fulfilled = DialogState._('Fulfilled');
+  static const readyForFulfillment = DialogState._('ReadyForFulfillment');
+  static const failed = DialogState._('Failed');
 
   final String value;
 
-  const DialogState(this.value);
+  const DialogState._(this.value);
 
-  static DialogState fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum DialogState'));
+  static const values = [
+    elicitIntent,
+    confirmIntent,
+    elicitSlot,
+    fulfilled,
+    readyForFulfillment,
+    failed
+  ];
+
+  static DialogState fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => DialogState._(value));
+
+  @override
+  bool operator ==(other) => other is DialogState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum FulfillmentState {
-  fulfilled('Fulfilled'),
-  failed('Failed'),
-  readyForFulfillment('ReadyForFulfillment'),
-  ;
+class FulfillmentState {
+  static const fulfilled = FulfillmentState._('Fulfilled');
+  static const failed = FulfillmentState._('Failed');
+  static const readyForFulfillment = FulfillmentState._('ReadyForFulfillment');
 
   final String value;
 
-  const FulfillmentState(this.value);
+  const FulfillmentState._(this.value);
+
+  static const values = [fulfilled, failed, readyForFulfillment];
 
   static FulfillmentState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum FulfillmentState'));
+          orElse: () => FulfillmentState._(value));
+
+  @override
+  bool operator ==(other) => other is FulfillmentState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Represents an option rendered to the user when a prompt is shown. It could
@@ -1435,8 +1495,8 @@ class IntentSummary {
 
   factory IntentSummary.fromJson(Map<String, dynamic> json) {
     return IntentSummary(
-      dialogActionType:
-          DialogActionType.fromString((json['dialogActionType'] as String)),
+      dialogActionType: DialogActionType.fromString(
+          (json['dialogActionType'] as String?) ?? ''),
       checkpointLabel: json['checkpointLabel'] as String?,
       confirmationStatus: (json['confirmationStatus'] as String?)
           ?.let(ConfirmationStatus.fromString),
@@ -1470,21 +1530,30 @@ class IntentSummary {
   }
 }
 
-enum MessageFormatType {
-  plainText('PlainText'),
-  customPayload('CustomPayload'),
-  ssml('SSML'),
-  composite('Composite'),
-  ;
+class MessageFormatType {
+  static const plainText = MessageFormatType._('PlainText');
+  static const customPayload = MessageFormatType._('CustomPayload');
+  static const ssml = MessageFormatType._('SSML');
+  static const composite = MessageFormatType._('Composite');
 
   final String value;
 
-  const MessageFormatType(this.value);
+  const MessageFormatType._(this.value);
+
+  static const values = [plainText, customPayload, ssml, composite];
 
   static MessageFormatType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum MessageFormatType'));
+          orElse: () => MessageFormatType._(value));
+
+  @override
+  bool operator ==(other) => other is MessageFormatType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class PostContentResponse {

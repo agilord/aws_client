@@ -1259,18 +1259,28 @@ class AssociateWebsiteCertificateAuthorityResponse {
   }
 }
 
-enum AuthorizationProviderType {
-  saml('SAML'),
-  ;
+class AuthorizationProviderType {
+  static const saml = AuthorizationProviderType._('SAML');
 
   final String value;
 
-  const AuthorizationProviderType(this.value);
+  const AuthorizationProviderType._(this.value);
+
+  static const values = [saml];
 
   static AuthorizationProviderType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum AuthorizationProviderType'));
+          orElse: () => AuthorizationProviderType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AuthorizationProviderType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class CreateFleetResponse {
@@ -1689,19 +1699,27 @@ class DescribeWebsiteCertificateAuthorityResponse {
   }
 }
 
-enum DeviceStatus {
-  active('ACTIVE'),
-  signedOut('SIGNED_OUT'),
-  ;
+class DeviceStatus {
+  static const active = DeviceStatus._('ACTIVE');
+  static const signedOut = DeviceStatus._('SIGNED_OUT');
 
   final String value;
 
-  const DeviceStatus(this.value);
+  const DeviceStatus._(this.value);
 
-  static DeviceStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum DeviceStatus'));
+  static const values = [active, signedOut];
+
+  static DeviceStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => DeviceStatus._(value));
+
+  @override
+  bool operator ==(other) => other is DeviceStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The summary of devices.
@@ -1773,25 +1791,42 @@ class DisassociateWebsiteCertificateAuthorityResponse {
   }
 }
 
-enum DomainStatus {
-  pendingValidation('PENDING_VALIDATION'),
-  associating('ASSOCIATING'),
-  active('ACTIVE'),
-  inactive('INACTIVE'),
-  disassociating('DISASSOCIATING'),
-  disassociated('DISASSOCIATED'),
-  failedToAssociate('FAILED_TO_ASSOCIATE'),
-  failedToDisassociate('FAILED_TO_DISASSOCIATE'),
-  ;
+class DomainStatus {
+  static const pendingValidation = DomainStatus._('PENDING_VALIDATION');
+  static const associating = DomainStatus._('ASSOCIATING');
+  static const active = DomainStatus._('ACTIVE');
+  static const inactive = DomainStatus._('INACTIVE');
+  static const disassociating = DomainStatus._('DISASSOCIATING');
+  static const disassociated = DomainStatus._('DISASSOCIATED');
+  static const failedToAssociate = DomainStatus._('FAILED_TO_ASSOCIATE');
+  static const failedToDisassociate = DomainStatus._('FAILED_TO_DISASSOCIATE');
 
   final String value;
 
-  const DomainStatus(this.value);
+  const DomainStatus._(this.value);
 
-  static DomainStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum DomainStatus'));
+  static const values = [
+    pendingValidation,
+    associating,
+    active,
+    inactive,
+    disassociating,
+    disassociated,
+    failedToAssociate,
+    failedToDisassociate
+  ];
+
+  static DomainStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => DomainStatus._(value));
+
+  @override
+  bool operator ==(other) => other is DomainStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The summary of the domain.
@@ -1819,7 +1854,8 @@ class DomainSummary {
     return DomainSummary(
       createdTime: nonNullableTimeStampFromJson(json['CreatedTime'] ?? 0),
       domainName: (json['DomainName'] as String?) ?? '',
-      domainStatus: DomainStatus.fromString((json['DomainStatus'] as String)),
+      domainStatus:
+          DomainStatus.fromString((json['DomainStatus'] as String?) ?? ''),
       displayName: json['DisplayName'] as String?,
     );
   }
@@ -1838,22 +1874,38 @@ class DomainSummary {
   }
 }
 
-enum FleetStatus {
-  creating('CREATING'),
-  active('ACTIVE'),
-  deleting('DELETING'),
-  deleted('DELETED'),
-  failedToCreate('FAILED_TO_CREATE'),
-  failedToDelete('FAILED_TO_DELETE'),
-  ;
+class FleetStatus {
+  static const creating = FleetStatus._('CREATING');
+  static const active = FleetStatus._('ACTIVE');
+  static const deleting = FleetStatus._('DELETING');
+  static const deleted = FleetStatus._('DELETED');
+  static const failedToCreate = FleetStatus._('FAILED_TO_CREATE');
+  static const failedToDelete = FleetStatus._('FAILED_TO_DELETE');
 
   final String value;
 
-  const FleetStatus(this.value);
+  const FleetStatus._(this.value);
 
-  static FleetStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum FleetStatus'));
+  static const values = [
+    creating,
+    active,
+    deleting,
+    deleted,
+    failedToCreate,
+    failedToDelete
+  ];
+
+  static FleetStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => FleetStatus._(value));
+
+  @override
+  bool operator ==(other) => other is FleetStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The summary of the fleet.
@@ -1931,18 +1983,28 @@ class FleetSummary {
   }
 }
 
-enum IdentityProviderType {
-  saml('SAML'),
-  ;
+class IdentityProviderType {
+  static const saml = IdentityProviderType._('SAML');
 
   final String value;
 
-  const IdentityProviderType(this.value);
+  const IdentityProviderType._(this.value);
 
-  static IdentityProviderType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum IdentityProviderType'));
+  static const values = [saml];
+
+  static IdentityProviderType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => IdentityProviderType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is IdentityProviderType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class ListDevicesResponse {
@@ -2303,7 +2365,7 @@ class WebsiteAuthorizationProviderSummary {
       Map<String, dynamic> json) {
     return WebsiteAuthorizationProviderSummary(
       authorizationProviderType: AuthorizationProviderType.fromString(
-          (json['AuthorizationProviderType'] as String)),
+          (json['AuthorizationProviderType'] as String?) ?? ''),
       authorizationProviderId: json['AuthorizationProviderId'] as String?,
       createdTime: timeStampFromJson(json['CreatedTime']),
       domainName: json['DomainName'] as String?,

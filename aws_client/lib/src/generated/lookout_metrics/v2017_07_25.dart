@@ -1323,19 +1323,29 @@ class ActivateAnomalyDetectorResponse {
   }
 }
 
-enum AggregationFunction {
-  avg('AVG'),
-  sum('SUM'),
-  ;
+class AggregationFunction {
+  static const avg = AggregationFunction._('AVG');
+  static const sum = AggregationFunction._('SUM');
 
   final String value;
 
-  const AggregationFunction(this.value);
+  const AggregationFunction._(this.value);
 
-  static AggregationFunction fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum AggregationFunction'));
+  static const values = [avg, sum];
+
+  static AggregationFunction fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AggregationFunction._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AggregationFunction && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A configuration for Amazon SNS-integrated notifications.
@@ -1478,18 +1488,27 @@ class AlertFilters {
   }
 }
 
-enum AlertStatus {
-  active('ACTIVE'),
-  inactive('INACTIVE'),
-  ;
+class AlertStatus {
+  static const active = AlertStatus._('ACTIVE');
+  static const inactive = AlertStatus._('INACTIVE');
 
   final String value;
 
-  const AlertStatus(this.value);
+  const AlertStatus._(this.value);
 
-  static AlertStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum AlertStatus'));
+  static const values = [active, inactive];
+
+  static AlertStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => AlertStatus._(value));
+
+  @override
+  bool operator ==(other) => other is AlertStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Provides a summary of an alert's configuration.
@@ -1577,36 +1596,62 @@ class AlertSummary {
   }
 }
 
-enum AlertType {
-  sns('SNS'),
-  lambda('LAMBDA'),
-  ;
+class AlertType {
+  static const sns = AlertType._('SNS');
+  static const lambda = AlertType._('LAMBDA');
 
   final String value;
 
-  const AlertType(this.value);
+  const AlertType._(this.value);
 
-  static AlertType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum AlertType'));
+  static const values = [sns, lambda];
+
+  static AlertType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => AlertType._(value));
+
+  @override
+  bool operator ==(other) => other is AlertType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum AnomalyDetectionTaskStatus {
-  pending('PENDING'),
-  inProgress('IN_PROGRESS'),
-  completed('COMPLETED'),
-  failed('FAILED'),
-  failedToSchedule('FAILED_TO_SCHEDULE'),
-  ;
+class AnomalyDetectionTaskStatus {
+  static const pending = AnomalyDetectionTaskStatus._('PENDING');
+  static const inProgress = AnomalyDetectionTaskStatus._('IN_PROGRESS');
+  static const completed = AnomalyDetectionTaskStatus._('COMPLETED');
+  static const failed = AnomalyDetectionTaskStatus._('FAILED');
+  static const failedToSchedule =
+      AnomalyDetectionTaskStatus._('FAILED_TO_SCHEDULE');
 
   final String value;
 
-  const AnomalyDetectionTaskStatus(this.value);
+  const AnomalyDetectionTaskStatus._(this.value);
+
+  static const values = [
+    pending,
+    inProgress,
+    completed,
+    failed,
+    failedToSchedule
+  ];
 
   static AnomalyDetectionTaskStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum AnomalyDetectionTaskStatus'));
+          orElse: () => AnomalyDetectionTaskStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AnomalyDetectionTaskStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains information about a detector's configuration.
@@ -1692,45 +1737,87 @@ class AnomalyDetectorDataQualityMetric {
   }
 }
 
-enum AnomalyDetectorFailureType {
-  activationFailure('ACTIVATION_FAILURE'),
-  backTestActivationFailure('BACK_TEST_ACTIVATION_FAILURE'),
-  deletionFailure('DELETION_FAILURE'),
-  deactivationFailure('DEACTIVATION_FAILURE'),
-  ;
+class AnomalyDetectorFailureType {
+  static const activationFailure =
+      AnomalyDetectorFailureType._('ACTIVATION_FAILURE');
+  static const backTestActivationFailure =
+      AnomalyDetectorFailureType._('BACK_TEST_ACTIVATION_FAILURE');
+  static const deletionFailure =
+      AnomalyDetectorFailureType._('DELETION_FAILURE');
+  static const deactivationFailure =
+      AnomalyDetectorFailureType._('DEACTIVATION_FAILURE');
 
   final String value;
 
-  const AnomalyDetectorFailureType(this.value);
+  const AnomalyDetectorFailureType._(this.value);
+
+  static const values = [
+    activationFailure,
+    backTestActivationFailure,
+    deletionFailure,
+    deactivationFailure
+  ];
 
   static AnomalyDetectorFailureType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum AnomalyDetectorFailureType'));
+          orElse: () => AnomalyDetectorFailureType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AnomalyDetectorFailureType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum AnomalyDetectorStatus {
-  active('ACTIVE'),
-  activating('ACTIVATING'),
-  deleting('DELETING'),
-  failed('FAILED'),
-  inactive('INACTIVE'),
-  learning('LEARNING'),
-  backTestActivating('BACK_TEST_ACTIVATING'),
-  backTestActive('BACK_TEST_ACTIVE'),
-  backTestComplete('BACK_TEST_COMPLETE'),
-  deactivated('DEACTIVATED'),
-  deactivating('DEACTIVATING'),
-  ;
+class AnomalyDetectorStatus {
+  static const active = AnomalyDetectorStatus._('ACTIVE');
+  static const activating = AnomalyDetectorStatus._('ACTIVATING');
+  static const deleting = AnomalyDetectorStatus._('DELETING');
+  static const failed = AnomalyDetectorStatus._('FAILED');
+  static const inactive = AnomalyDetectorStatus._('INACTIVE');
+  static const learning = AnomalyDetectorStatus._('LEARNING');
+  static const backTestActivating =
+      AnomalyDetectorStatus._('BACK_TEST_ACTIVATING');
+  static const backTestActive = AnomalyDetectorStatus._('BACK_TEST_ACTIVE');
+  static const backTestComplete = AnomalyDetectorStatus._('BACK_TEST_COMPLETE');
+  static const deactivated = AnomalyDetectorStatus._('DEACTIVATED');
+  static const deactivating = AnomalyDetectorStatus._('DEACTIVATING');
 
   final String value;
 
-  const AnomalyDetectorStatus(this.value);
+  const AnomalyDetectorStatus._(this.value);
 
-  static AnomalyDetectorStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum AnomalyDetectorStatus'));
+  static const values = [
+    active,
+    activating,
+    deleting,
+    failed,
+    inactive,
+    learning,
+    backTestActivating,
+    backTestActive,
+    backTestComplete,
+    deactivated,
+    deactivating
+  ];
+
+  static AnomalyDetectorStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AnomalyDetectorStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AnomalyDetectorStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains information about an an anomaly detector.
@@ -2247,19 +2334,29 @@ class BackTestConfiguration {
   }
 }
 
-enum CSVFileCompression {
-  none('NONE'),
-  gzip('GZIP'),
-  ;
+class CSVFileCompression {
+  static const none = CSVFileCompression._('NONE');
+  static const gzip = CSVFileCompression._('GZIP');
 
   final String value;
 
-  const CSVFileCompression(this.value);
+  const CSVFileCompression._(this.value);
 
-  static CSVFileCompression fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum CSVFileCompression'));
+  static const values = [none, gzip];
+
+  static CSVFileCompression fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => CSVFileCompression._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CSVFileCompression && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Details about an Amazon CloudWatch datasource.
@@ -2297,19 +2394,28 @@ class CloudWatchConfig {
   }
 }
 
-enum Confidence {
-  high('HIGH'),
-  low('LOW'),
-  none('NONE'),
-  ;
+class Confidence {
+  static const high = Confidence._('HIGH');
+  static const low = Confidence._('LOW');
+  static const none = Confidence._('NONE');
 
   final String value;
 
-  const Confidence(this.value);
+  const Confidence._(this.value);
 
-  static Confidence fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum Confidence'));
+  static const values = [high, low, none];
+
+  static Confidence fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Confidence._(value));
+
+  @override
+  bool operator ==(other) => other is Confidence && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Details about dimensions that contributed to an anomaly.
@@ -2514,28 +2620,56 @@ class DataQualityMetric {
   }
 }
 
-enum DataQualityMetricType {
-  columnCompleteness('COLUMN_COMPLETENESS'),
-  dimensionUniqueness('DIMENSION_UNIQUENESS'),
-  timeSeriesCount('TIME_SERIES_COUNT'),
-  rowsProcessed('ROWS_PROCESSED'),
-  rowsPartialCompliance('ROWS_PARTIAL_COMPLIANCE'),
-  invalidRowsCompliance('INVALID_ROWS_COMPLIANCE'),
-  backtestTrainingDataStartTimeStamp('BACKTEST_TRAINING_DATA_START_TIME_STAMP'),
-  backtestTrainingDataEndTimeStamp('BACKTEST_TRAINING_DATA_END_TIME_STAMP'),
-  backtestInferenceDataStartTimeStamp(
-      'BACKTEST_INFERENCE_DATA_START_TIME_STAMP'),
-  backtestInferenceDataEndTimeStamp('BACKTEST_INFERENCE_DATA_END_TIME_STAMP'),
-  ;
+class DataQualityMetricType {
+  static const columnCompleteness =
+      DataQualityMetricType._('COLUMN_COMPLETENESS');
+  static const dimensionUniqueness =
+      DataQualityMetricType._('DIMENSION_UNIQUENESS');
+  static const timeSeriesCount = DataQualityMetricType._('TIME_SERIES_COUNT');
+  static const rowsProcessed = DataQualityMetricType._('ROWS_PROCESSED');
+  static const rowsPartialCompliance =
+      DataQualityMetricType._('ROWS_PARTIAL_COMPLIANCE');
+  static const invalidRowsCompliance =
+      DataQualityMetricType._('INVALID_ROWS_COMPLIANCE');
+  static const backtestTrainingDataStartTimeStamp =
+      DataQualityMetricType._('BACKTEST_TRAINING_DATA_START_TIME_STAMP');
+  static const backtestTrainingDataEndTimeStamp =
+      DataQualityMetricType._('BACKTEST_TRAINING_DATA_END_TIME_STAMP');
+  static const backtestInferenceDataStartTimeStamp =
+      DataQualityMetricType._('BACKTEST_INFERENCE_DATA_START_TIME_STAMP');
+  static const backtestInferenceDataEndTimeStamp =
+      DataQualityMetricType._('BACKTEST_INFERENCE_DATA_END_TIME_STAMP');
 
   final String value;
 
-  const DataQualityMetricType(this.value);
+  const DataQualityMetricType._(this.value);
 
-  static DataQualityMetricType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum DataQualityMetricType'));
+  static const values = [
+    columnCompleteness,
+    dimensionUniqueness,
+    timeSeriesCount,
+    rowsProcessed,
+    rowsPartialCompliance,
+    invalidRowsCompliance,
+    backtestTrainingDataStartTimeStamp,
+    backtestTrainingDataEndTimeStamp,
+    backtestInferenceDataStartTimeStamp,
+    backtestInferenceDataEndTimeStamp
+  ];
+
+  static DataQualityMetricType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DataQualityMetricType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DataQualityMetricType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class DeactivateAnomalyDetectorResponse {
@@ -3411,34 +3545,52 @@ class Filter {
   }
 }
 
-enum FilterOperation {
-  equals('EQUALS'),
-  ;
+class FilterOperation {
+  static const equals = FilterOperation._('EQUALS');
 
   final String value;
 
-  const FilterOperation(this.value);
+  const FilterOperation._(this.value);
+
+  static const values = [equals];
 
   static FilterOperation fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum FilterOperation'));
+          orElse: () => FilterOperation._(value));
+
+  @override
+  bool operator ==(other) => other is FilterOperation && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum Frequency {
-  p1d('P1D'),
-  pt1h('PT1H'),
-  pt10m('PT10M'),
-  pt5m('PT5M'),
-  ;
+class Frequency {
+  static const p1d = Frequency._('P1D');
+  static const pt1h = Frequency._('PT1H');
+  static const pt10m = Frequency._('PT10M');
+  static const pt5m = Frequency._('PT5M');
 
   final String value;
 
-  const Frequency(this.value);
+  const Frequency._(this.value);
 
-  static Frequency fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum Frequency'));
+  static const values = [p1d, pt1h, pt10m, pt5m];
+
+  static Frequency fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Frequency._(value));
+
+  @override
+  bool operator ==(other) => other is Frequency && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class GetAnomalyGroupResponse {
@@ -3647,19 +3799,29 @@ class ItemizedMetricStats {
   }
 }
 
-enum JsonFileCompression {
-  none('NONE'),
-  gzip('GZIP'),
-  ;
+class JsonFileCompression {
+  static const none = JsonFileCompression._('NONE');
+  static const gzip = JsonFileCompression._('GZIP');
 
   final String value;
 
-  const JsonFileCompression(this.value);
+  const JsonFileCompression._(this.value);
 
-  static JsonFileCompression fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum JsonFileCompression'));
+  static const values = [none, gzip];
+
+  static JsonFileCompression fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => JsonFileCompression._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is JsonFileCompression && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains information about how a source JSON data file should be analyzed.
@@ -4008,7 +4170,7 @@ class Metric {
   factory Metric.fromJson(Map<String, dynamic> json) {
     return Metric(
       aggregationFunction: AggregationFunction.fromString(
-          (json['AggregationFunction'] as String)),
+          (json['AggregationFunction'] as String?) ?? ''),
       metricName: (json['MetricName'] as String?) ?? '',
       namespace: json['Namespace'] as String?,
     );
@@ -4449,19 +4611,30 @@ class RedshiftSourceConfig {
   }
 }
 
-enum RelationshipType {
-  causeOfInputAnomalyGroup('CAUSE_OF_INPUT_ANOMALY_GROUP'),
-  effectOfInputAnomalyGroup('EFFECT_OF_INPUT_ANOMALY_GROUP'),
-  ;
+class RelationshipType {
+  static const causeOfInputAnomalyGroup =
+      RelationshipType._('CAUSE_OF_INPUT_ANOMALY_GROUP');
+  static const effectOfInputAnomalyGroup =
+      RelationshipType._('EFFECT_OF_INPUT_ANOMALY_GROUP');
 
   final String value;
 
-  const RelationshipType(this.value);
+  const RelationshipType._(this.value);
+
+  static const values = [causeOfInputAnomalyGroup, effectOfInputAnomalyGroup];
 
   static RelationshipType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum RelationshipType'));
+          orElse: () => RelationshipType._(value));
+
+  @override
+  bool operator ==(other) => other is RelationshipType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains information about the configuration of the S3 bucket that contains
@@ -4610,19 +4783,28 @@ class SampleDataS3SourceConfig {
   }
 }
 
-enum SnsFormat {
-  longText('LONG_TEXT'),
-  shortText('SHORT_TEXT'),
-  json('JSON'),
-  ;
+class SnsFormat {
+  static const longText = SnsFormat._('LONG_TEXT');
+  static const shortText = SnsFormat._('SHORT_TEXT');
+  static const json = SnsFormat._('JSON');
 
   final String value;
 
-  const SnsFormat(this.value);
+  const SnsFormat._(this.value);
 
-  static SnsFormat fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum SnsFormat'));
+  static const values = [longText, shortText, json];
+
+  static SnsFormat fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => SnsFormat._(value));
+
+  @override
+  bool operator ==(other) => other is SnsFormat && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class TagResourceResponse {

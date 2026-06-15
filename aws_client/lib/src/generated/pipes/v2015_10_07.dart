@@ -482,19 +482,28 @@ class EventBridgePipes {
   }
 }
 
-enum AssignPublicIp {
-  enabled('ENABLED'),
-  disabled('DISABLED'),
-  ;
+class AssignPublicIp {
+  static const enabled = AssignPublicIp._('ENABLED');
+  static const disabled = AssignPublicIp._('DISABLED');
 
   final String value;
 
-  const AssignPublicIp(this.value);
+  const AssignPublicIp._(this.value);
+
+  static const values = [enabled, disabled];
 
   static AssignPublicIp fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum AssignPublicIp'));
+          orElse: () => AssignPublicIp._(value));
+
+  @override
+  bool operator ==(other) => other is AssignPublicIp && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// This structure specifies the VPC subnets and security groups for the task,
@@ -713,19 +722,29 @@ class BatchJobDependency {
   }
 }
 
-enum BatchJobDependencyType {
-  nToN('N_TO_N'),
-  sequential('SEQUENTIAL'),
-  ;
+class BatchJobDependencyType {
+  static const nToN = BatchJobDependencyType._('N_TO_N');
+  static const sequential = BatchJobDependencyType._('SEQUENTIAL');
 
   final String value;
 
-  const BatchJobDependencyType(this.value);
+  const BatchJobDependencyType._(this.value);
+
+  static const values = [nToN, sequential];
 
   static BatchJobDependencyType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum BatchJobDependencyType'));
+          orElse: () => BatchJobDependencyType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is BatchJobDependencyType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The type and amount of a resource to assign to a container. The supported
@@ -855,7 +874,8 @@ class BatchResourceRequirement {
 
   factory BatchResourceRequirement.fromJson(Map<String, dynamic> json) {
     return BatchResourceRequirement(
-      type: BatchResourceRequirementType.fromString((json['Type'] as String)),
+      type: BatchResourceRequirementType.fromString(
+          (json['Type'] as String?) ?? ''),
       value: (json['Value'] as String?) ?? '',
     );
   }
@@ -870,20 +890,30 @@ class BatchResourceRequirement {
   }
 }
 
-enum BatchResourceRequirementType {
-  gpu('GPU'),
-  memory('MEMORY'),
-  vcpu('VCPU'),
-  ;
+class BatchResourceRequirementType {
+  static const gpu = BatchResourceRequirementType._('GPU');
+  static const memory = BatchResourceRequirementType._('MEMORY');
+  static const vcpu = BatchResourceRequirementType._('VCPU');
 
   final String value;
 
-  const BatchResourceRequirementType(this.value);
+  const BatchResourceRequirementType._(this.value);
+
+  static const values = [gpu, memory, vcpu];
 
   static BatchResourceRequirementType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum BatchResourceRequirementType'));
+          orElse: () => BatchResourceRequirementType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is BatchResourceRequirementType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The retry strategy that's associated with a job. For more information, see
@@ -1341,8 +1371,8 @@ class DimensionMapping {
     return DimensionMapping(
       dimensionName: (json['DimensionName'] as String?) ?? '',
       dimensionValue: (json['DimensionValue'] as String?) ?? '',
-      dimensionValueType:
-          DimensionValueType.fromString((json['DimensionValueType'] as String)),
+      dimensionValueType: DimensionValueType.fromString(
+          (json['DimensionValueType'] as String?) ?? ''),
     );
   }
 
@@ -1358,33 +1388,53 @@ class DimensionMapping {
   }
 }
 
-enum DimensionValueType {
-  varchar('VARCHAR'),
-  ;
+class DimensionValueType {
+  static const varchar = DimensionValueType._('VARCHAR');
 
   final String value;
 
-  const DimensionValueType(this.value);
+  const DimensionValueType._(this.value);
 
-  static DimensionValueType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum DimensionValueType'));
+  static const values = [varchar];
+
+  static DimensionValueType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DimensionValueType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DimensionValueType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum DynamoDBStreamStartPosition {
-  trimHorizon('TRIM_HORIZON'),
-  latest('LATEST'),
-  ;
+class DynamoDBStreamStartPosition {
+  static const trimHorizon = DynamoDBStreamStartPosition._('TRIM_HORIZON');
+  static const latest = DynamoDBStreamStartPosition._('LATEST');
 
   final String value;
 
-  const DynamoDBStreamStartPosition(this.value);
+  const DynamoDBStreamStartPosition._(this.value);
+
+  static const values = [trimHorizon, latest];
 
   static DynamoDBStreamStartPosition fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum DynamoDBStreamStartPosition'));
+          orElse: () => DynamoDBStreamStartPosition._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DynamoDBStreamStartPosition && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The overrides that are sent to a container. An empty container override can
@@ -1536,7 +1586,7 @@ class EcsEnvironmentFile {
 
   factory EcsEnvironmentFile.fromJson(Map<String, dynamic> json) {
     return EcsEnvironmentFile(
-      type: EcsEnvironmentFileType.fromString((json['type'] as String)),
+      type: EcsEnvironmentFileType.fromString((json['type'] as String?) ?? ''),
       value: (json['value'] as String?) ?? '',
     );
   }
@@ -1551,18 +1601,28 @@ class EcsEnvironmentFile {
   }
 }
 
-enum EcsEnvironmentFileType {
-  s3('s3'),
-  ;
+class EcsEnvironmentFileType {
+  static const s3 = EcsEnvironmentFileType._('s3');
 
   final String value;
 
-  const EcsEnvironmentFileType(this.value);
+  const EcsEnvironmentFileType._(this.value);
+
+  static const values = [s3];
 
   static EcsEnvironmentFileType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum EcsEnvironmentFileType'));
+          orElse: () => EcsEnvironmentFileType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is EcsEnvironmentFileType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The environment variables to send to the container. You can add new
@@ -1704,7 +1764,8 @@ class EcsResourceRequirement {
 
   factory EcsResourceRequirement.fromJson(Map<String, dynamic> json) {
     return EcsResourceRequirement(
-      type: EcsResourceRequirementType.fromString((json['type'] as String)),
+      type: EcsResourceRequirementType.fromString(
+          (json['type'] as String?) ?? ''),
       value: (json['value'] as String?) ?? '',
     );
   }
@@ -1719,19 +1780,30 @@ class EcsResourceRequirement {
   }
 }
 
-enum EcsResourceRequirementType {
-  gpu('GPU'),
-  inferenceAccelerator('InferenceAccelerator'),
-  ;
+class EcsResourceRequirementType {
+  static const gpu = EcsResourceRequirementType._('GPU');
+  static const inferenceAccelerator =
+      EcsResourceRequirementType._('InferenceAccelerator');
 
   final String value;
 
-  const EcsResourceRequirementType(this.value);
+  const EcsResourceRequirementType._(this.value);
+
+  static const values = [gpu, inferenceAccelerator];
 
   static EcsResourceRequirementType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum EcsResourceRequirementType'));
+          orElse: () => EcsResourceRequirementType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is EcsResourceRequirementType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The overrides that are associated with a task.
@@ -1832,21 +1904,30 @@ class EcsTaskOverride {
   }
 }
 
-enum EpochTimeUnit {
-  milliseconds('MILLISECONDS'),
-  seconds('SECONDS'),
-  microseconds('MICROSECONDS'),
-  nanoseconds('NANOSECONDS'),
-  ;
+class EpochTimeUnit {
+  static const milliseconds = EpochTimeUnit._('MILLISECONDS');
+  static const seconds = EpochTimeUnit._('SECONDS');
+  static const microseconds = EpochTimeUnit._('MICROSECONDS');
+  static const nanoseconds = EpochTimeUnit._('NANOSECONDS');
 
   final String value;
 
-  const EpochTimeUnit(this.value);
+  const EpochTimeUnit._(this.value);
+
+  static const values = [milliseconds, seconds, microseconds, nanoseconds];
 
   static EpochTimeUnit fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum EpochTimeUnit'));
+          orElse: () => EpochTimeUnit._(value));
+
+  @override
+  bool operator ==(other) => other is EpochTimeUnit && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Filter events using an event pattern. For more information, see <a
@@ -1949,49 +2030,78 @@ class FirehoseLogDestinationParameters {
   }
 }
 
-enum IncludeExecutionDataOption {
-  all('ALL'),
-  ;
+class IncludeExecutionDataOption {
+  static const all = IncludeExecutionDataOption._('ALL');
 
   final String value;
 
-  const IncludeExecutionDataOption(this.value);
+  const IncludeExecutionDataOption._(this.value);
+
+  static const values = [all];
 
   static IncludeExecutionDataOption fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum IncludeExecutionDataOption'));
+          orElse: () => IncludeExecutionDataOption._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is IncludeExecutionDataOption && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum KinesisStreamStartPosition {
-  trimHorizon('TRIM_HORIZON'),
-  latest('LATEST'),
-  atTimestamp('AT_TIMESTAMP'),
-  ;
+class KinesisStreamStartPosition {
+  static const trimHorizon = KinesisStreamStartPosition._('TRIM_HORIZON');
+  static const latest = KinesisStreamStartPosition._('LATEST');
+  static const atTimestamp = KinesisStreamStartPosition._('AT_TIMESTAMP');
 
   final String value;
 
-  const KinesisStreamStartPosition(this.value);
+  const KinesisStreamStartPosition._(this.value);
+
+  static const values = [trimHorizon, latest, atTimestamp];
 
   static KinesisStreamStartPosition fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum KinesisStreamStartPosition'));
+          orElse: () => KinesisStreamStartPosition._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is KinesisStreamStartPosition && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum LaunchType {
-  ec2('EC2'),
-  fargate('FARGATE'),
-  external('EXTERNAL'),
-  ;
+class LaunchType {
+  static const ec2 = LaunchType._('EC2');
+  static const fargate = LaunchType._('FARGATE');
+  static const external = LaunchType._('EXTERNAL');
 
   final String value;
 
-  const LaunchType(this.value);
+  const LaunchType._(this.value);
 
-  static LaunchType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum LaunchType'));
+  static const values = [ec2, fargate, external];
+
+  static LaunchType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => LaunchType._(value));
+
+  @override
+  bool operator ==(other) => other is LaunchType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class ListPipesResponse {
@@ -2054,20 +2164,29 @@ class ListTagsForResourceResponse {
   }
 }
 
-enum LogLevel {
-  off('OFF'),
-  error('ERROR'),
-  info('INFO'),
-  trace('TRACE'),
-  ;
+class LogLevel {
+  static const off = LogLevel._('OFF');
+  static const error = LogLevel._('ERROR');
+  static const info = LogLevel._('INFO');
+  static const trace = LogLevel._('TRACE');
 
   final String value;
 
-  const LogLevel(this.value);
+  const LogLevel._(this.value);
 
-  static LogLevel fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum LogLevel'));
+  static const values = [off, error, info, trace];
+
+  static LogLevel fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => LogLevel._(value));
+
+  @override
+  bool operator ==(other) => other is LogLevel && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The Secrets Manager secret that stores your broker credentials.
@@ -2124,37 +2243,55 @@ class MSKAccessCredentials {
   }
 }
 
-enum MSKStartPosition {
-  trimHorizon('TRIM_HORIZON'),
-  latest('LATEST'),
-  ;
+class MSKStartPosition {
+  static const trimHorizon = MSKStartPosition._('TRIM_HORIZON');
+  static const latest = MSKStartPosition._('LATEST');
 
   final String value;
 
-  const MSKStartPosition(this.value);
+  const MSKStartPosition._(this.value);
+
+  static const values = [trimHorizon, latest];
 
   static MSKStartPosition fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum MSKStartPosition'));
+          orElse: () => MSKStartPosition._(value));
+
+  @override
+  bool operator ==(other) => other is MSKStartPosition && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum MeasureValueType {
-  double('DOUBLE'),
-  bigint('BIGINT'),
-  varchar('VARCHAR'),
-  boolean('BOOLEAN'),
-  timestamp('TIMESTAMP'),
-  ;
+class MeasureValueType {
+  static const $double = MeasureValueType._('DOUBLE');
+  static const bigint = MeasureValueType._('BIGINT');
+  static const varchar = MeasureValueType._('VARCHAR');
+  static const boolean = MeasureValueType._('BOOLEAN');
+  static const timestamp = MeasureValueType._('TIMESTAMP');
 
   final String value;
 
-  const MeasureValueType(this.value);
+  const MeasureValueType._(this.value);
+
+  static const values = [$double, bigint, varchar, boolean, timestamp];
 
   static MeasureValueType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum MeasureValueType'));
+          orElse: () => MeasureValueType._(value));
+
+  @override
+  bool operator ==(other) => other is MeasureValueType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A mapping of a source event data field to a measure in a Timestream for
@@ -2178,8 +2315,8 @@ class MultiMeasureAttributeMapping {
   factory MultiMeasureAttributeMapping.fromJson(Map<String, dynamic> json) {
     return MultiMeasureAttributeMapping(
       measureValue: (json['MeasureValue'] as String?) ?? '',
-      measureValueType:
-          MeasureValueType.fromString((json['MeasureValueType'] as String)),
+      measureValueType: MeasureValueType.fromString(
+          (json['MeasureValueType'] as String?) ?? ''),
       multiMeasureAttributeName:
           (json['MultiMeasureAttributeName'] as String?) ?? '',
     );
@@ -2268,18 +2405,29 @@ class NetworkConfiguration {
   }
 }
 
-enum OnPartialBatchItemFailureStreams {
-  automaticBisect('AUTOMATIC_BISECT'),
-  ;
+class OnPartialBatchItemFailureStreams {
+  static const automaticBisect =
+      OnPartialBatchItemFailureStreams._('AUTOMATIC_BISECT');
 
   final String value;
 
-  const OnPartialBatchItemFailureStreams(this.value);
+  const OnPartialBatchItemFailureStreams._(this.value);
+
+  static const values = [automaticBisect];
 
   static OnPartialBatchItemFailureStreams fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum OnPartialBatchItemFailureStreams'));
+          orElse: () => OnPartialBatchItemFailureStreams._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is OnPartialBatchItemFailureStreams && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// An object that represents a pipe. Amazon EventBridgePipes connect event
@@ -2729,7 +2877,7 @@ class PipeSourceDynamoDBStreamParameters {
       Map<String, dynamic> json) {
     return PipeSourceDynamoDBStreamParameters(
       startingPosition: DynamoDBStreamStartPosition.fromString(
-          (json['StartingPosition'] as String)),
+          (json['StartingPosition'] as String?) ?? ''),
       batchSize: json['BatchSize'] as int?,
       deadLetterConfig: json['DeadLetterConfig'] != null
           ? DeadLetterConfig.fromJson(
@@ -2827,7 +2975,7 @@ class PipeSourceKinesisStreamParameters {
       Map<String, dynamic> json) {
     return PipeSourceKinesisStreamParameters(
       startingPosition: KinesisStreamStartPosition.fromString(
-          (json['StartingPosition'] as String)),
+          (json['StartingPosition'] as String?) ?? ''),
       batchSize: json['BatchSize'] as int?,
       deadLetterConfig: json['DeadLetterConfig'] != null
           ? DeadLetterConfig.fromJson(
@@ -3255,31 +3403,56 @@ class PipeSourceSqsQueueParameters {
   }
 }
 
-enum PipeState {
-  running('RUNNING'),
-  stopped('STOPPED'),
-  creating('CREATING'),
-  updating('UPDATING'),
-  deleting('DELETING'),
-  starting('STARTING'),
-  stopping('STOPPING'),
-  createFailed('CREATE_FAILED'),
-  updateFailed('UPDATE_FAILED'),
-  startFailed('START_FAILED'),
-  stopFailed('STOP_FAILED'),
-  deleteFailed('DELETE_FAILED'),
-  createRollbackFailed('CREATE_ROLLBACK_FAILED'),
-  deleteRollbackFailed('DELETE_ROLLBACK_FAILED'),
-  updateRollbackFailed('UPDATE_ROLLBACK_FAILED'),
-  ;
+class PipeState {
+  static const running = PipeState._('RUNNING');
+  static const stopped = PipeState._('STOPPED');
+  static const creating = PipeState._('CREATING');
+  static const updating = PipeState._('UPDATING');
+  static const deleting = PipeState._('DELETING');
+  static const starting = PipeState._('STARTING');
+  static const stopping = PipeState._('STOPPING');
+  static const createFailed = PipeState._('CREATE_FAILED');
+  static const updateFailed = PipeState._('UPDATE_FAILED');
+  static const startFailed = PipeState._('START_FAILED');
+  static const stopFailed = PipeState._('STOP_FAILED');
+  static const deleteFailed = PipeState._('DELETE_FAILED');
+  static const createRollbackFailed = PipeState._('CREATE_ROLLBACK_FAILED');
+  static const deleteRollbackFailed = PipeState._('DELETE_ROLLBACK_FAILED');
+  static const updateRollbackFailed = PipeState._('UPDATE_ROLLBACK_FAILED');
 
   final String value;
 
-  const PipeState(this.value);
+  const PipeState._(this.value);
 
-  static PipeState fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum PipeState'));
+  static const values = [
+    running,
+    stopped,
+    creating,
+    updating,
+    deleting,
+    starting,
+    stopping,
+    createFailed,
+    updateFailed,
+    startFailed,
+    stopFailed,
+    deleteFailed,
+    createRollbackFailed,
+    deleteRollbackFailed,
+    updateRollbackFailed
+  ];
+
+  static PipeState fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => PipeState._(value));
+
+  @override
+  bool operator ==(other) => other is PipeState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The parameters for using an Batch job as a target.
@@ -3716,19 +3889,29 @@ class PipeTargetHttpParameters {
   }
 }
 
-enum PipeTargetInvocationType {
-  requestResponse('REQUEST_RESPONSE'),
-  fireAndForget('FIRE_AND_FORGET'),
-  ;
+class PipeTargetInvocationType {
+  static const requestResponse = PipeTargetInvocationType._('REQUEST_RESPONSE');
+  static const fireAndForget = PipeTargetInvocationType._('FIRE_AND_FORGET');
 
   final String value;
 
-  const PipeTargetInvocationType(this.value);
+  const PipeTargetInvocationType._(this.value);
+
+  static const values = [requestResponse, fireAndForget];
 
   static PipeTargetInvocationType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum PipeTargetInvocationType'));
+          orElse: () => PipeTargetInvocationType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is PipeTargetInvocationType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The parameters for using a Kinesis stream as a target.
@@ -4311,19 +4494,29 @@ class PlacementConstraint {
   }
 }
 
-enum PlacementConstraintType {
-  distinctInstance('distinctInstance'),
-  memberOf('memberOf'),
-  ;
+class PlacementConstraintType {
+  static const distinctInstance = PlacementConstraintType._('distinctInstance');
+  static const memberOf = PlacementConstraintType._('memberOf');
 
   final String value;
 
-  const PlacementConstraintType(this.value);
+  const PlacementConstraintType._(this.value);
+
+  static const values = [distinctInstance, memberOf];
 
   static PlacementConstraintType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum PlacementConstraintType'));
+          orElse: () => PlacementConstraintType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is PlacementConstraintType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The task placement strategy for a task or service. To learn more, see <a
@@ -4371,65 +4564,104 @@ class PlacementStrategy {
   }
 }
 
-enum PlacementStrategyType {
-  random('random'),
-  spread('spread'),
-  binpack('binpack'),
-  ;
+class PlacementStrategyType {
+  static const random = PlacementStrategyType._('random');
+  static const spread = PlacementStrategyType._('spread');
+  static const binpack = PlacementStrategyType._('binpack');
 
   final String value;
 
-  const PlacementStrategyType(this.value);
+  const PlacementStrategyType._(this.value);
 
-  static PlacementStrategyType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum PlacementStrategyType'));
+  static const values = [random, spread, binpack];
+
+  static PlacementStrategyType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => PlacementStrategyType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is PlacementStrategyType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum PropagateTags {
-  taskDefinition('TASK_DEFINITION'),
-  ;
+class PropagateTags {
+  static const taskDefinition = PropagateTags._('TASK_DEFINITION');
 
   final String value;
 
-  const PropagateTags(this.value);
+  const PropagateTags._(this.value);
+
+  static const values = [taskDefinition];
 
   static PropagateTags fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum PropagateTags'));
+          orElse: () => PropagateTags._(value));
+
+  @override
+  bool operator ==(other) => other is PropagateTags && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum RequestedPipeState {
-  running('RUNNING'),
-  stopped('STOPPED'),
-  ;
+class RequestedPipeState {
+  static const running = RequestedPipeState._('RUNNING');
+  static const stopped = RequestedPipeState._('STOPPED');
 
   final String value;
 
-  const RequestedPipeState(this.value);
+  const RequestedPipeState._(this.value);
 
-  static RequestedPipeState fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum RequestedPipeState'));
+  static const values = [running, stopped];
+
+  static RequestedPipeState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => RequestedPipeState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RequestedPipeState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum RequestedPipeStateDescribeResponse {
-  running('RUNNING'),
-  stopped('STOPPED'),
-  deleted('DELETED'),
-  ;
+class RequestedPipeStateDescribeResponse {
+  static const running = RequestedPipeStateDescribeResponse._('RUNNING');
+  static const stopped = RequestedPipeStateDescribeResponse._('STOPPED');
+  static const deleted = RequestedPipeStateDescribeResponse._('DELETED');
 
   final String value;
 
-  const RequestedPipeStateDescribeResponse(this.value);
+  const RequestedPipeStateDescribeResponse._(this.value);
+
+  static const values = [running, stopped, deleted];
 
   static RequestedPipeStateDescribeResponse fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum RequestedPipeStateDescribeResponse'));
+          orElse: () => RequestedPipeStateDescribeResponse._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RequestedPipeStateDescribeResponse && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The Amazon S3 logging configuration settings for the pipe.
@@ -4555,20 +4787,29 @@ class S3LogDestinationParameters {
   }
 }
 
-enum S3OutputFormat {
-  json('json'),
-  plain('plain'),
-  w3c('w3c'),
-  ;
+class S3OutputFormat {
+  static const json = S3OutputFormat._('json');
+  static const plain = S3OutputFormat._('plain');
+  static const w3c = S3OutputFormat._('w3c');
 
   final String value;
 
-  const S3OutputFormat(this.value);
+  const S3OutputFormat._(this.value);
+
+  static const values = [json, plain, w3c];
 
   static S3OutputFormat fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum S3OutputFormat'));
+          orElse: () => S3OutputFormat._(value));
+
+  @override
+  bool operator ==(other) => other is S3OutputFormat && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Name/Value pair of a parameter to start execution of a SageMaker Model
@@ -4689,19 +4930,29 @@ class SelfManagedKafkaAccessConfigurationVpc {
   }
 }
 
-enum SelfManagedKafkaStartPosition {
-  trimHorizon('TRIM_HORIZON'),
-  latest('LATEST'),
-  ;
+class SelfManagedKafkaStartPosition {
+  static const trimHorizon = SelfManagedKafkaStartPosition._('TRIM_HORIZON');
+  static const latest = SelfManagedKafkaStartPosition._('LATEST');
 
   final String value;
 
-  const SelfManagedKafkaStartPosition(this.value);
+  const SelfManagedKafkaStartPosition._(this.value);
+
+  static const values = [trimHorizon, latest];
 
   static SelfManagedKafkaStartPosition fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum SelfManagedKafkaStartPosition'));
+          orElse: () => SelfManagedKafkaStartPosition._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SelfManagedKafkaStartPosition && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Maps a single source data field to a single record in the specified
@@ -4730,8 +4981,8 @@ class SingleMeasureMapping {
     return SingleMeasureMapping(
       measureName: (json['MeasureName'] as String?) ?? '',
       measureValue: (json['MeasureValue'] as String?) ?? '',
-      measureValueType:
-          MeasureValueType.fromString((json['MeasureValueType'] as String)),
+      measureValueType: MeasureValueType.fromString(
+          (json['MeasureValueType'] as String?) ?? ''),
     );
   }
 
@@ -4917,19 +5168,28 @@ class TagResourceResponse {
   }
 }
 
-enum TimeFieldType {
-  epoch('EPOCH'),
-  timestampFormat('TIMESTAMP_FORMAT'),
-  ;
+class TimeFieldType {
+  static const epoch = TimeFieldType._('EPOCH');
+  static const timestampFormat = TimeFieldType._('TIMESTAMP_FORMAT');
 
   final String value;
 
-  const TimeFieldType(this.value);
+  const TimeFieldType._(this.value);
+
+  static const values = [epoch, timestampFormat];
 
   static TimeFieldType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum TimeFieldType'));
+          orElse: () => TimeFieldType._(value));
+
+  @override
+  bool operator ==(other) => other is TimeFieldType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class UntagResourceResponse {

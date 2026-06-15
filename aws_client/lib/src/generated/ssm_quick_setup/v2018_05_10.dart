@@ -1949,26 +1949,46 @@ class ServiceSettings {
   }
 }
 
-enum Status {
-  initializing('INITIALIZING'),
-  deploying('DEPLOYING'),
-  succeeded('SUCCEEDED'),
-  deleting('DELETING'),
-  stopping('STOPPING'),
-  failed('FAILED'),
-  stopped('STOPPED'),
-  deleteFailed('DELETE_FAILED'),
-  stopFailed('STOP_FAILED'),
-  none('NONE'),
-  ;
+class Status {
+  static const initializing = Status._('INITIALIZING');
+  static const deploying = Status._('DEPLOYING');
+  static const succeeded = Status._('SUCCEEDED');
+  static const deleting = Status._('DELETING');
+  static const stopping = Status._('STOPPING');
+  static const failed = Status._('FAILED');
+  static const stopped = Status._('STOPPED');
+  static const deleteFailed = Status._('DELETE_FAILED');
+  static const stopFailed = Status._('STOP_FAILED');
+  static const none = Status._('NONE');
 
   final String value;
 
-  const Status(this.value);
+  const Status._(this.value);
+
+  static const values = [
+    initializing,
+    deploying,
+    succeeded,
+    deleting,
+    stopping,
+    failed,
+    stopped,
+    deleteFailed,
+    stopFailed,
+    none
+  ];
 
   static Status fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum Status'));
+      values.firstWhere((e) => e.value == value, orElse: () => Status._(value));
+
+  @override
+  bool operator ==(other) => other is Status && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A summarized description of the status.
@@ -2002,7 +2022,7 @@ class StatusSummary {
   factory StatusSummary.fromJson(Map<String, dynamic> json) {
     return StatusSummary(
       lastUpdatedAt: nonNullableTimeStampFromJson(json['LastUpdatedAt'] ?? 0),
-      statusType: StatusType.fromString((json['StatusType'] as String)),
+      statusType: StatusType.fromString((json['StatusType'] as String?) ?? ''),
       status: (json['Status'] as String?)?.let(Status.fromString),
       statusDetails: (json['StatusDetails'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
@@ -2026,18 +2046,27 @@ class StatusSummary {
   }
 }
 
-enum StatusType {
-  deployment('Deployment'),
-  asyncExecutions('AsyncExecutions'),
-  ;
+class StatusType {
+  static const deployment = StatusType._('Deployment');
+  static const asyncExecutions = StatusType._('AsyncExecutions');
 
   final String value;
 
-  const StatusType(this.value);
+  const StatusType._(this.value);
 
-  static StatusType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum StatusType'));
+  static const values = [deployment, asyncExecutions];
+
+  static StatusType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => StatusType._(value));
+
+  @override
+  bool operator ==(other) => other is StatusType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Key-value pairs of metadata.

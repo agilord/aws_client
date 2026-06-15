@@ -607,34 +607,52 @@ class DescribeVoicesOutput {
   }
 }
 
-enum Engine {
-  standard('standard'),
-  neural('neural'),
-  longForm('long-form'),
-  generative('generative'),
-  ;
+class Engine {
+  static const standard = Engine._('standard');
+  static const neural = Engine._('neural');
+  static const longForm = Engine._('long-form');
+  static const generative = Engine._('generative');
 
   final String value;
 
-  const Engine(this.value);
+  const Engine._(this.value);
+
+  static const values = [standard, neural, longForm, generative];
 
   static Engine fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum Engine'));
+      values.firstWhere((e) => e.value == value, orElse: () => Engine._(value));
+
+  @override
+  bool operator ==(other) => other is Engine && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum Gender {
-  female('Female'),
-  male('Male'),
-  ;
+class Gender {
+  static const female = Gender._('Female');
+  static const male = Gender._('Male');
 
   final String value;
 
-  const Gender(this.value);
+  const Gender._(this.value);
+
+  static const values = [female, male];
 
   static Gender fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum Gender'));
+      values.firstWhere((e) => e.value == value, orElse: () => Gender._(value));
+
+  @override
+  bool operator ==(other) => other is Gender && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class GetLexiconOutput {
@@ -699,58 +717,108 @@ class GetSpeechSynthesisTaskOutput {
   }
 }
 
-enum LanguageCode {
-  arb('arb'),
-  cmnCn('cmn-CN'),
-  cyGb('cy-GB'),
-  daDk('da-DK'),
-  deDe('de-DE'),
-  enAu('en-AU'),
-  enGb('en-GB'),
-  enGbWls('en-GB-WLS'),
-  enIn('en-IN'),
-  enUs('en-US'),
-  esEs('es-ES'),
-  esMx('es-MX'),
-  esUs('es-US'),
-  frCa('fr-CA'),
-  frFr('fr-FR'),
-  isIs('is-IS'),
-  itIt('it-IT'),
-  jaJp('ja-JP'),
-  hiIn('hi-IN'),
-  koKr('ko-KR'),
-  nbNo('nb-NO'),
-  nlNl('nl-NL'),
-  plPl('pl-PL'),
-  ptBr('pt-BR'),
-  ptPt('pt-PT'),
-  roRo('ro-RO'),
-  ruRu('ru-RU'),
-  svSe('sv-SE'),
-  trTr('tr-TR'),
-  enNz('en-NZ'),
-  enZa('en-ZA'),
-  caEs('ca-ES'),
-  deAt('de-AT'),
-  yueCn('yue-CN'),
-  arAe('ar-AE'),
-  fiFi('fi-FI'),
-  enIe('en-IE'),
-  nlBe('nl-BE'),
-  frBe('fr-BE'),
-  csCz('cs-CZ'),
-  deCh('de-CH'),
-  ;
+class LanguageCode {
+  static const arb = LanguageCode._('arb');
+  static const cmnCn = LanguageCode._('cmn-CN');
+  static const cyGb = LanguageCode._('cy-GB');
+  static const daDk = LanguageCode._('da-DK');
+  static const deDe = LanguageCode._('de-DE');
+  static const enAu = LanguageCode._('en-AU');
+  static const enGb = LanguageCode._('en-GB');
+  static const enGbWls = LanguageCode._('en-GB-WLS');
+  static const enIn = LanguageCode._('en-IN');
+  static const enUs = LanguageCode._('en-US');
+  static const esEs = LanguageCode._('es-ES');
+  static const esMx = LanguageCode._('es-MX');
+  static const esUs = LanguageCode._('es-US');
+  static const frCa = LanguageCode._('fr-CA');
+  static const frFr = LanguageCode._('fr-FR');
+  static const isIs = LanguageCode._('is-IS');
+  static const itIt = LanguageCode._('it-IT');
+  static const jaJp = LanguageCode._('ja-JP');
+  static const hiIn = LanguageCode._('hi-IN');
+  static const koKr = LanguageCode._('ko-KR');
+  static const nbNo = LanguageCode._('nb-NO');
+  static const nlNl = LanguageCode._('nl-NL');
+  static const plPl = LanguageCode._('pl-PL');
+  static const ptBr = LanguageCode._('pt-BR');
+  static const ptPt = LanguageCode._('pt-PT');
+  static const roRo = LanguageCode._('ro-RO');
+  static const ruRu = LanguageCode._('ru-RU');
+  static const svSe = LanguageCode._('sv-SE');
+  static const trTr = LanguageCode._('tr-TR');
+  static const enNz = LanguageCode._('en-NZ');
+  static const enZa = LanguageCode._('en-ZA');
+  static const caEs = LanguageCode._('ca-ES');
+  static const deAt = LanguageCode._('de-AT');
+  static const yueCn = LanguageCode._('yue-CN');
+  static const arAe = LanguageCode._('ar-AE');
+  static const fiFi = LanguageCode._('fi-FI');
+  static const enIe = LanguageCode._('en-IE');
+  static const nlBe = LanguageCode._('nl-BE');
+  static const frBe = LanguageCode._('fr-BE');
+  static const csCz = LanguageCode._('cs-CZ');
+  static const deCh = LanguageCode._('de-CH');
 
   final String value;
 
-  const LanguageCode(this.value);
+  const LanguageCode._(this.value);
 
-  static LanguageCode fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum LanguageCode'));
+  static const values = [
+    arb,
+    cmnCn,
+    cyGb,
+    daDk,
+    deDe,
+    enAu,
+    enGb,
+    enGbWls,
+    enIn,
+    enUs,
+    esEs,
+    esMx,
+    esUs,
+    frCa,
+    frFr,
+    isIs,
+    itIt,
+    jaJp,
+    hiIn,
+    koKr,
+    nbNo,
+    nlNl,
+    plPl,
+    ptBr,
+    ptPt,
+    roRo,
+    ruRu,
+    svSe,
+    trTr,
+    enNz,
+    enZa,
+    caEs,
+    deAt,
+    yueCn,
+    arAe,
+    fiFi,
+    enIe,
+    nlBe,
+    frBe,
+    csCz,
+    deCh
+  ];
+
+  static LanguageCode fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => LanguageCode._(value));
+
+  @override
+  bool operator ==(other) => other is LanguageCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Provides lexicon name and lexicon content in string format. For more
@@ -955,21 +1023,29 @@ class ListSpeechSynthesisTasksOutput {
   }
 }
 
-enum OutputFormat {
-  json('json'),
-  mp3('mp3'),
-  oggVorbis('ogg_vorbis'),
-  pcm('pcm'),
-  ;
+class OutputFormat {
+  static const json = OutputFormat._('json');
+  static const mp3 = OutputFormat._('mp3');
+  static const oggVorbis = OutputFormat._('ogg_vorbis');
+  static const pcm = OutputFormat._('pcm');
 
   final String value;
 
-  const OutputFormat(this.value);
+  const OutputFormat._(this.value);
 
-  static OutputFormat fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum OutputFormat'));
+  static const values = [json, mp3, oggVorbis, pcm];
+
+  static OutputFormat fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => OutputFormat._(value));
+
+  @override
+  bool operator ==(other) => other is OutputFormat && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class PutLexiconOutput {
@@ -984,21 +1060,30 @@ class PutLexiconOutput {
   }
 }
 
-enum SpeechMarkType {
-  sentence('sentence'),
-  ssml('ssml'),
-  viseme('viseme'),
-  word('word'),
-  ;
+class SpeechMarkType {
+  static const sentence = SpeechMarkType._('sentence');
+  static const ssml = SpeechMarkType._('ssml');
+  static const viseme = SpeechMarkType._('viseme');
+  static const word = SpeechMarkType._('word');
 
   final String value;
 
-  const SpeechMarkType(this.value);
+  const SpeechMarkType._(this.value);
+
+  static const values = [sentence, ssml, viseme, word];
 
   static SpeechMarkType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum SpeechMarkType'));
+          orElse: () => SpeechMarkType._(value));
+
+  @override
+  bool operator ==(other) => other is SpeechMarkType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class StartSpeechSynthesisTaskOutput {
@@ -1232,34 +1317,52 @@ class SynthesizeSpeechOutput {
   }
 }
 
-enum TaskStatus {
-  scheduled('scheduled'),
-  inProgress('inProgress'),
-  completed('completed'),
-  failed('failed'),
-  ;
+class TaskStatus {
+  static const scheduled = TaskStatus._('scheduled');
+  static const inProgress = TaskStatus._('inProgress');
+  static const completed = TaskStatus._('completed');
+  static const failed = TaskStatus._('failed');
 
   final String value;
 
-  const TaskStatus(this.value);
+  const TaskStatus._(this.value);
 
-  static TaskStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum TaskStatus'));
+  static const values = [scheduled, inProgress, completed, failed];
+
+  static TaskStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => TaskStatus._(value));
+
+  @override
+  bool operator ==(other) => other is TaskStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum TextType {
-  ssml('ssml'),
-  text('text'),
-  ;
+class TextType {
+  static const ssml = TextType._('ssml');
+  static const text = TextType._('text');
 
   final String value;
 
-  const TextType(this.value);
+  const TextType._(this.value);
 
-  static TextType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum TextType'));
+  static const values = [ssml, text];
+
+  static TextType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => TextType._(value));
+
+  @override
+  bool operator ==(other) => other is TextType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Description of the voice.
@@ -1347,114 +1450,222 @@ class Voice {
   }
 }
 
-enum VoiceId {
-  aditi('Aditi'),
-  amy('Amy'),
-  astrid('Astrid'),
-  bianca('Bianca'),
-  brian('Brian'),
-  camila('Camila'),
-  carla('Carla'),
-  carmen('Carmen'),
-  celine('Celine'),
-  chantal('Chantal'),
-  conchita('Conchita'),
-  cristiano('Cristiano'),
-  dora('Dora'),
-  emma('Emma'),
-  enrique('Enrique'),
-  ewa('Ewa'),
-  filiz('Filiz'),
-  gabrielle('Gabrielle'),
-  geraint('Geraint'),
-  giorgio('Giorgio'),
-  gwyneth('Gwyneth'),
-  hans('Hans'),
-  ines('Ines'),
-  ivy('Ivy'),
-  jacek('Jacek'),
-  jan('Jan'),
-  joanna('Joanna'),
-  joey('Joey'),
-  justin('Justin'),
-  karl('Karl'),
-  kendra('Kendra'),
-  kevin('Kevin'),
-  kimberly('Kimberly'),
-  lea('Lea'),
-  liv('Liv'),
-  lotte('Lotte'),
-  lucia('Lucia'),
-  lupe('Lupe'),
-  mads('Mads'),
-  maja('Maja'),
-  marlene('Marlene'),
-  mathieu('Mathieu'),
-  matthew('Matthew'),
-  maxim('Maxim'),
-  mia('Mia'),
-  miguel('Miguel'),
-  mizuki('Mizuki'),
-  naja('Naja'),
-  nicole('Nicole'),
-  olivia('Olivia'),
-  penelope('Penelope'),
-  raveena('Raveena'),
-  ricardo('Ricardo'),
-  ruben('Ruben'),
-  russell('Russell'),
-  salli('Salli'),
-  seoyeon('Seoyeon'),
-  takumi('Takumi'),
-  tatyana('Tatyana'),
-  vicki('Vicki'),
-  vitoria('Vitoria'),
-  zeina('Zeina'),
-  zhiyu('Zhiyu'),
-  aria('Aria'),
-  ayanda('Ayanda'),
-  arlet('Arlet'),
-  hannah('Hannah'),
-  arthur('Arthur'),
-  daniel('Daniel'),
-  liam('Liam'),
-  pedro('Pedro'),
-  kajal('Kajal'),
-  hiujin('Hiujin'),
-  laura('Laura'),
-  elin('Elin'),
-  ida('Ida'),
-  suvi('Suvi'),
-  ola('Ola'),
-  hala('Hala'),
-  andres('Andres'),
-  sergio('Sergio'),
-  remi('Remi'),
-  adriano('Adriano'),
-  thiago('Thiago'),
-  ruth('Ruth'),
-  stephen('Stephen'),
-  kazuha('Kazuha'),
-  tomoko('Tomoko'),
-  niamh('Niamh'),
-  sofie('Sofie'),
-  lisa('Lisa'),
-  isabelle('Isabelle'),
-  zayd('Zayd'),
-  danielle('Danielle'),
-  gregory('Gregory'),
-  burcu('Burcu'),
-  jitka('Jitka'),
-  sabrina('Sabrina'),
-  ;
+class VoiceId {
+  static const aditi = VoiceId._('Aditi');
+  static const amy = VoiceId._('Amy');
+  static const astrid = VoiceId._('Astrid');
+  static const bianca = VoiceId._('Bianca');
+  static const brian = VoiceId._('Brian');
+  static const camila = VoiceId._('Camila');
+  static const carla = VoiceId._('Carla');
+  static const carmen = VoiceId._('Carmen');
+  static const celine = VoiceId._('Celine');
+  static const chantal = VoiceId._('Chantal');
+  static const conchita = VoiceId._('Conchita');
+  static const cristiano = VoiceId._('Cristiano');
+  static const dora = VoiceId._('Dora');
+  static const emma = VoiceId._('Emma');
+  static const enrique = VoiceId._('Enrique');
+  static const ewa = VoiceId._('Ewa');
+  static const filiz = VoiceId._('Filiz');
+  static const gabrielle = VoiceId._('Gabrielle');
+  static const geraint = VoiceId._('Geraint');
+  static const giorgio = VoiceId._('Giorgio');
+  static const gwyneth = VoiceId._('Gwyneth');
+  static const hans = VoiceId._('Hans');
+  static const ines = VoiceId._('Ines');
+  static const ivy = VoiceId._('Ivy');
+  static const jacek = VoiceId._('Jacek');
+  static const jan = VoiceId._('Jan');
+  static const joanna = VoiceId._('Joanna');
+  static const joey = VoiceId._('Joey');
+  static const justin = VoiceId._('Justin');
+  static const karl = VoiceId._('Karl');
+  static const kendra = VoiceId._('Kendra');
+  static const kevin = VoiceId._('Kevin');
+  static const kimberly = VoiceId._('Kimberly');
+  static const lea = VoiceId._('Lea');
+  static const liv = VoiceId._('Liv');
+  static const lotte = VoiceId._('Lotte');
+  static const lucia = VoiceId._('Lucia');
+  static const lupe = VoiceId._('Lupe');
+  static const mads = VoiceId._('Mads');
+  static const maja = VoiceId._('Maja');
+  static const marlene = VoiceId._('Marlene');
+  static const mathieu = VoiceId._('Mathieu');
+  static const matthew = VoiceId._('Matthew');
+  static const maxim = VoiceId._('Maxim');
+  static const mia = VoiceId._('Mia');
+  static const miguel = VoiceId._('Miguel');
+  static const mizuki = VoiceId._('Mizuki');
+  static const naja = VoiceId._('Naja');
+  static const nicole = VoiceId._('Nicole');
+  static const olivia = VoiceId._('Olivia');
+  static const penelope = VoiceId._('Penelope');
+  static const raveena = VoiceId._('Raveena');
+  static const ricardo = VoiceId._('Ricardo');
+  static const ruben = VoiceId._('Ruben');
+  static const russell = VoiceId._('Russell');
+  static const salli = VoiceId._('Salli');
+  static const seoyeon = VoiceId._('Seoyeon');
+  static const takumi = VoiceId._('Takumi');
+  static const tatyana = VoiceId._('Tatyana');
+  static const vicki = VoiceId._('Vicki');
+  static const vitoria = VoiceId._('Vitoria');
+  static const zeina = VoiceId._('Zeina');
+  static const zhiyu = VoiceId._('Zhiyu');
+  static const aria = VoiceId._('Aria');
+  static const ayanda = VoiceId._('Ayanda');
+  static const arlet = VoiceId._('Arlet');
+  static const hannah = VoiceId._('Hannah');
+  static const arthur = VoiceId._('Arthur');
+  static const daniel = VoiceId._('Daniel');
+  static const liam = VoiceId._('Liam');
+  static const pedro = VoiceId._('Pedro');
+  static const kajal = VoiceId._('Kajal');
+  static const hiujin = VoiceId._('Hiujin');
+  static const laura = VoiceId._('Laura');
+  static const elin = VoiceId._('Elin');
+  static const ida = VoiceId._('Ida');
+  static const suvi = VoiceId._('Suvi');
+  static const ola = VoiceId._('Ola');
+  static const hala = VoiceId._('Hala');
+  static const andres = VoiceId._('Andres');
+  static const sergio = VoiceId._('Sergio');
+  static const remi = VoiceId._('Remi');
+  static const adriano = VoiceId._('Adriano');
+  static const thiago = VoiceId._('Thiago');
+  static const ruth = VoiceId._('Ruth');
+  static const stephen = VoiceId._('Stephen');
+  static const kazuha = VoiceId._('Kazuha');
+  static const tomoko = VoiceId._('Tomoko');
+  static const niamh = VoiceId._('Niamh');
+  static const sofie = VoiceId._('Sofie');
+  static const lisa = VoiceId._('Lisa');
+  static const isabelle = VoiceId._('Isabelle');
+  static const zayd = VoiceId._('Zayd');
+  static const danielle = VoiceId._('Danielle');
+  static const gregory = VoiceId._('Gregory');
+  static const burcu = VoiceId._('Burcu');
+  static const jitka = VoiceId._('Jitka');
+  static const sabrina = VoiceId._('Sabrina');
 
   final String value;
 
-  const VoiceId(this.value);
+  const VoiceId._(this.value);
 
-  static VoiceId fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum VoiceId'));
+  static const values = [
+    aditi,
+    amy,
+    astrid,
+    bianca,
+    brian,
+    camila,
+    carla,
+    carmen,
+    celine,
+    chantal,
+    conchita,
+    cristiano,
+    dora,
+    emma,
+    enrique,
+    ewa,
+    filiz,
+    gabrielle,
+    geraint,
+    giorgio,
+    gwyneth,
+    hans,
+    ines,
+    ivy,
+    jacek,
+    jan,
+    joanna,
+    joey,
+    justin,
+    karl,
+    kendra,
+    kevin,
+    kimberly,
+    lea,
+    liv,
+    lotte,
+    lucia,
+    lupe,
+    mads,
+    maja,
+    marlene,
+    mathieu,
+    matthew,
+    maxim,
+    mia,
+    miguel,
+    mizuki,
+    naja,
+    nicole,
+    olivia,
+    penelope,
+    raveena,
+    ricardo,
+    ruben,
+    russell,
+    salli,
+    seoyeon,
+    takumi,
+    tatyana,
+    vicki,
+    vitoria,
+    zeina,
+    zhiyu,
+    aria,
+    ayanda,
+    arlet,
+    hannah,
+    arthur,
+    daniel,
+    liam,
+    pedro,
+    kajal,
+    hiujin,
+    laura,
+    elin,
+    ida,
+    suvi,
+    ola,
+    hala,
+    andres,
+    sergio,
+    remi,
+    adriano,
+    thiago,
+    ruth,
+    stephen,
+    kazuha,
+    tomoko,
+    niamh,
+    sofie,
+    lisa,
+    isabelle,
+    zayd,
+    danielle,
+    gregory,
+    burcu,
+    jitka,
+    sabrina
+  ];
+
+  static VoiceId fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => VoiceId._(value));
+
+  @override
+  bool operator ==(other) => other is VoiceId && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class EngineNotSupportedException extends _s.GenericAwsException {

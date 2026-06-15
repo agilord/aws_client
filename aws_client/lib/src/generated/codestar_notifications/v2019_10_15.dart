@@ -791,18 +791,27 @@ class DescribeNotificationRuleResult {
   }
 }
 
-enum DetailType {
-  basic('BASIC'),
-  full('FULL'),
-  ;
+class DetailType {
+  static const basic = DetailType._('BASIC');
+  static const full = DetailType._('FULL');
 
   final String value;
 
-  const DetailType(this.value);
+  const DetailType._(this.value);
 
-  static DetailType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum DetailType'));
+  static const values = [basic, full];
+
+  static DetailType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => DetailType._(value));
+
+  @override
+  bool operator ==(other) => other is DetailType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Returns information about an event that has triggered a notification rule.
@@ -877,19 +886,29 @@ class ListEventTypesFilter {
   }
 }
 
-enum ListEventTypesFilterName {
-  resourceType('RESOURCE_TYPE'),
-  serviceName('SERVICE_NAME'),
-  ;
+class ListEventTypesFilterName {
+  static const resourceType = ListEventTypesFilterName._('RESOURCE_TYPE');
+  static const serviceName = ListEventTypesFilterName._('SERVICE_NAME');
 
   final String value;
 
-  const ListEventTypesFilterName(this.value);
+  const ListEventTypesFilterName._(this.value);
+
+  static const values = [resourceType, serviceName];
 
   static ListEventTypesFilterName fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ListEventTypesFilterName'));
+          orElse: () => ListEventTypesFilterName._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ListEventTypesFilterName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class ListEventTypesResult {
@@ -954,21 +973,32 @@ class ListNotificationRulesFilter {
   }
 }
 
-enum ListNotificationRulesFilterName {
-  eventTypeId('EVENT_TYPE_ID'),
-  createdBy('CREATED_BY'),
-  resource('RESOURCE'),
-  targetAddress('TARGET_ADDRESS'),
-  ;
+class ListNotificationRulesFilterName {
+  static const eventTypeId = ListNotificationRulesFilterName._('EVENT_TYPE_ID');
+  static const createdBy = ListNotificationRulesFilterName._('CREATED_BY');
+  static const resource = ListNotificationRulesFilterName._('RESOURCE');
+  static const targetAddress =
+      ListNotificationRulesFilterName._('TARGET_ADDRESS');
 
   final String value;
 
-  const ListNotificationRulesFilterName(this.value);
+  const ListNotificationRulesFilterName._(this.value);
+
+  static const values = [eventTypeId, createdBy, resource, targetAddress];
 
   static ListNotificationRulesFilterName fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ListNotificationRulesFilterName'));
+          orElse: () => ListNotificationRulesFilterName._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ListNotificationRulesFilterName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class ListNotificationRulesResult {
@@ -1059,20 +1089,30 @@ class ListTargetsFilter {
   }
 }
 
-enum ListTargetsFilterName {
-  targetType('TARGET_TYPE'),
-  targetAddress('TARGET_ADDRESS'),
-  targetStatus('TARGET_STATUS'),
-  ;
+class ListTargetsFilterName {
+  static const targetType = ListTargetsFilterName._('TARGET_TYPE');
+  static const targetAddress = ListTargetsFilterName._('TARGET_ADDRESS');
+  static const targetStatus = ListTargetsFilterName._('TARGET_STATUS');
 
   final String value;
 
-  const ListTargetsFilterName(this.value);
+  const ListTargetsFilterName._(this.value);
 
-  static ListTargetsFilterName fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ListTargetsFilterName'));
+  static const values = [targetType, targetAddress, targetStatus];
+
+  static ListTargetsFilterName fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ListTargetsFilterName._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ListTargetsFilterName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class ListTargetsResult {
@@ -1108,19 +1148,29 @@ class ListTargetsResult {
   }
 }
 
-enum NotificationRuleStatus {
-  enabled('ENABLED'),
-  disabled('DISABLED'),
-  ;
+class NotificationRuleStatus {
+  static const enabled = NotificationRuleStatus._('ENABLED');
+  static const disabled = NotificationRuleStatus._('DISABLED');
 
   final String value;
 
-  const NotificationRuleStatus(this.value);
+  const NotificationRuleStatus._(this.value);
+
+  static const values = [enabled, disabled];
 
   static NotificationRuleStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum NotificationRuleStatus'));
+          orElse: () => NotificationRuleStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is NotificationRuleStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about a specified notification rule.
@@ -1232,22 +1282,30 @@ class Target {
   }
 }
 
-enum TargetStatus {
-  pending('PENDING'),
-  active('ACTIVE'),
-  unreachable('UNREACHABLE'),
-  inactive('INACTIVE'),
-  deactivated('DEACTIVATED'),
-  ;
+class TargetStatus {
+  static const pending = TargetStatus._('PENDING');
+  static const active = TargetStatus._('ACTIVE');
+  static const unreachable = TargetStatus._('UNREACHABLE');
+  static const inactive = TargetStatus._('INACTIVE');
+  static const deactivated = TargetStatus._('DEACTIVATED');
 
   final String value;
 
-  const TargetStatus(this.value);
+  const TargetStatus._(this.value);
 
-  static TargetStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum TargetStatus'));
+  static const values = [pending, active, unreachable, inactive, deactivated];
+
+  static TargetStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => TargetStatus._(value));
+
+  @override
+  bool operator ==(other) => other is TargetStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about the targets specified for a notification rule.

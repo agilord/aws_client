@@ -9228,23 +9228,40 @@ class Kms {
   }
 }
 
-enum AlgorithmSpec {
-  rsaesPkcs1V1_5('RSAES_PKCS1_V1_5'),
-  rsaesOaepSha_1('RSAES_OAEP_SHA_1'),
-  rsaesOaepSha_256('RSAES_OAEP_SHA_256'),
-  rsaAesKeyWrapSha_1('RSA_AES_KEY_WRAP_SHA_1'),
-  rsaAesKeyWrapSha_256('RSA_AES_KEY_WRAP_SHA_256'),
-  sm2pke('SM2PKE'),
-  ;
+class AlgorithmSpec {
+  static const rsaesPkcs1V1_5 = AlgorithmSpec._('RSAES_PKCS1_V1_5');
+  static const rsaesOaepSha_1 = AlgorithmSpec._('RSAES_OAEP_SHA_1');
+  static const rsaesOaepSha_256 = AlgorithmSpec._('RSAES_OAEP_SHA_256');
+  static const rsaAesKeyWrapSha_1 = AlgorithmSpec._('RSA_AES_KEY_WRAP_SHA_1');
+  static const rsaAesKeyWrapSha_256 =
+      AlgorithmSpec._('RSA_AES_KEY_WRAP_SHA_256');
+  static const sm2pke = AlgorithmSpec._('SM2PKE');
 
   final String value;
 
-  const AlgorithmSpec(this.value);
+  const AlgorithmSpec._(this.value);
+
+  static const values = [
+    rsaesPkcs1V1_5,
+    rsaesOaepSha_1,
+    rsaesOaepSha_256,
+    rsaAesKeyWrapSha_1,
+    rsaAesKeyWrapSha_256,
+    sm2pke
+  ];
 
   static AlgorithmSpec fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum AlgorithmSpec'));
+          orElse: () => AlgorithmSpec._(value));
+
+  @override
+  bool operator ==(other) => other is AlgorithmSpec && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains information about an alias.
@@ -9339,54 +9356,110 @@ class ConnectCustomKeyStoreResponse {
   }
 }
 
-enum ConnectionErrorCodeType {
-  invalidCredentials('INVALID_CREDENTIALS'),
-  clusterNotFound('CLUSTER_NOT_FOUND'),
-  networkErrors('NETWORK_ERRORS'),
-  internalError('INTERNAL_ERROR'),
-  insufficientCloudhsmHsms('INSUFFICIENT_CLOUDHSM_HSMS'),
-  userLockedOut('USER_LOCKED_OUT'),
-  userNotFound('USER_NOT_FOUND'),
-  userLoggedIn('USER_LOGGED_IN'),
-  subnetNotFound('SUBNET_NOT_FOUND'),
-  insufficientFreeAddressesInSubnet('INSUFFICIENT_FREE_ADDRESSES_IN_SUBNET'),
-  xksProxyAccessDenied('XKS_PROXY_ACCESS_DENIED'),
-  xksProxyNotReachable('XKS_PROXY_NOT_REACHABLE'),
-  xksVpcEndpointServiceNotFound('XKS_VPC_ENDPOINT_SERVICE_NOT_FOUND'),
-  xksProxyInvalidResponse('XKS_PROXY_INVALID_RESPONSE'),
-  xksProxyInvalidConfiguration('XKS_PROXY_INVALID_CONFIGURATION'),
-  xksVpcEndpointServiceInvalidConfiguration(
-      'XKS_VPC_ENDPOINT_SERVICE_INVALID_CONFIGURATION'),
-  xksProxyTimedOut('XKS_PROXY_TIMED_OUT'),
-  xksProxyInvalidTlsConfiguration('XKS_PROXY_INVALID_TLS_CONFIGURATION'),
-  ;
+class ConnectionErrorCodeType {
+  static const invalidCredentials =
+      ConnectionErrorCodeType._('INVALID_CREDENTIALS');
+  static const clusterNotFound = ConnectionErrorCodeType._('CLUSTER_NOT_FOUND');
+  static const networkErrors = ConnectionErrorCodeType._('NETWORK_ERRORS');
+  static const internalError = ConnectionErrorCodeType._('INTERNAL_ERROR');
+  static const insufficientCloudhsmHsms =
+      ConnectionErrorCodeType._('INSUFFICIENT_CLOUDHSM_HSMS');
+  static const userLockedOut = ConnectionErrorCodeType._('USER_LOCKED_OUT');
+  static const userNotFound = ConnectionErrorCodeType._('USER_NOT_FOUND');
+  static const userLoggedIn = ConnectionErrorCodeType._('USER_LOGGED_IN');
+  static const subnetNotFound = ConnectionErrorCodeType._('SUBNET_NOT_FOUND');
+  static const insufficientFreeAddressesInSubnet =
+      ConnectionErrorCodeType._('INSUFFICIENT_FREE_ADDRESSES_IN_SUBNET');
+  static const xksProxyAccessDenied =
+      ConnectionErrorCodeType._('XKS_PROXY_ACCESS_DENIED');
+  static const xksProxyNotReachable =
+      ConnectionErrorCodeType._('XKS_PROXY_NOT_REACHABLE');
+  static const xksVpcEndpointServiceNotFound =
+      ConnectionErrorCodeType._('XKS_VPC_ENDPOINT_SERVICE_NOT_FOUND');
+  static const xksProxyInvalidResponse =
+      ConnectionErrorCodeType._('XKS_PROXY_INVALID_RESPONSE');
+  static const xksProxyInvalidConfiguration =
+      ConnectionErrorCodeType._('XKS_PROXY_INVALID_CONFIGURATION');
+  static const xksVpcEndpointServiceInvalidConfiguration =
+      ConnectionErrorCodeType._(
+          'XKS_VPC_ENDPOINT_SERVICE_INVALID_CONFIGURATION');
+  static const xksProxyTimedOut =
+      ConnectionErrorCodeType._('XKS_PROXY_TIMED_OUT');
+  static const xksProxyInvalidTlsConfiguration =
+      ConnectionErrorCodeType._('XKS_PROXY_INVALID_TLS_CONFIGURATION');
 
   final String value;
 
-  const ConnectionErrorCodeType(this.value);
+  const ConnectionErrorCodeType._(this.value);
+
+  static const values = [
+    invalidCredentials,
+    clusterNotFound,
+    networkErrors,
+    internalError,
+    insufficientCloudhsmHsms,
+    userLockedOut,
+    userNotFound,
+    userLoggedIn,
+    subnetNotFound,
+    insufficientFreeAddressesInSubnet,
+    xksProxyAccessDenied,
+    xksProxyNotReachable,
+    xksVpcEndpointServiceNotFound,
+    xksProxyInvalidResponse,
+    xksProxyInvalidConfiguration,
+    xksVpcEndpointServiceInvalidConfiguration,
+    xksProxyTimedOut,
+    xksProxyInvalidTlsConfiguration
+  ];
 
   static ConnectionErrorCodeType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ConnectionErrorCodeType'));
+          orElse: () => ConnectionErrorCodeType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ConnectionErrorCodeType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ConnectionStateType {
-  connected('CONNECTED'),
-  connecting('CONNECTING'),
-  failed('FAILED'),
-  disconnected('DISCONNECTED'),
-  disconnecting('DISCONNECTING'),
-  ;
+class ConnectionStateType {
+  static const connected = ConnectionStateType._('CONNECTED');
+  static const connecting = ConnectionStateType._('CONNECTING');
+  static const failed = ConnectionStateType._('FAILED');
+  static const disconnected = ConnectionStateType._('DISCONNECTED');
+  static const disconnecting = ConnectionStateType._('DISCONNECTING');
 
   final String value;
 
-  const ConnectionStateType(this.value);
+  const ConnectionStateType._(this.value);
 
-  static ConnectionStateType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ConnectionStateType'));
+  static const values = [
+    connected,
+    connecting,
+    failed,
+    disconnected,
+    disconnecting
+  ];
+
+  static ConnectionStateType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ConnectionStateType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ConnectionStateType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class CreateCustomKeyStoreResponse {
@@ -9475,19 +9548,29 @@ class CreateKeyResponse {
   }
 }
 
-enum CustomKeyStoreType {
-  awsCloudhsm('AWS_CLOUDHSM'),
-  externalKeyStore('EXTERNAL_KEY_STORE'),
-  ;
+class CustomKeyStoreType {
+  static const awsCloudhsm = CustomKeyStoreType._('AWS_CLOUDHSM');
+  static const externalKeyStore = CustomKeyStoreType._('EXTERNAL_KEY_STORE');
 
   final String value;
 
-  const CustomKeyStoreType(this.value);
+  const CustomKeyStoreType._(this.value);
 
-  static CustomKeyStoreType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum CustomKeyStoreType'));
+  static const values = [awsCloudhsm, externalKeyStore];
+
+  static CustomKeyStoreType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => CustomKeyStoreType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CustomKeyStoreType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains information about each custom key store in the custom key store
@@ -9819,65 +9902,116 @@ class CustomKeyStoresListEntry {
 }
 
 @Deprecated('This enum has been deprecated. Instead, use the KeySpec enum.')
-enum CustomerMasterKeySpec {
-  rsa_2048('RSA_2048'),
-  rsa_3072('RSA_3072'),
-  rsa_4096('RSA_4096'),
-  eccNistP256('ECC_NIST_P256'),
-  eccNistP384('ECC_NIST_P384'),
-  eccNistP521('ECC_NIST_P521'),
-  eccSecgP256k1('ECC_SECG_P256K1'),
-  symmetricDefault('SYMMETRIC_DEFAULT'),
-  hmac_224('HMAC_224'),
-  hmac_256('HMAC_256'),
-  hmac_384('HMAC_384'),
-  hmac_512('HMAC_512'),
-  sm2('SM2'),
-  ;
+class CustomerMasterKeySpec {
+  static const rsa_2048 = CustomerMasterKeySpec._('RSA_2048');
+  static const rsa_3072 = CustomerMasterKeySpec._('RSA_3072');
+  static const rsa_4096 = CustomerMasterKeySpec._('RSA_4096');
+  static const eccNistP256 = CustomerMasterKeySpec._('ECC_NIST_P256');
+  static const eccNistP384 = CustomerMasterKeySpec._('ECC_NIST_P384');
+  static const eccNistP521 = CustomerMasterKeySpec._('ECC_NIST_P521');
+  static const eccSecgP256k1 = CustomerMasterKeySpec._('ECC_SECG_P256K1');
+  static const symmetricDefault = CustomerMasterKeySpec._('SYMMETRIC_DEFAULT');
+  static const hmac_224 = CustomerMasterKeySpec._('HMAC_224');
+  static const hmac_256 = CustomerMasterKeySpec._('HMAC_256');
+  static const hmac_384 = CustomerMasterKeySpec._('HMAC_384');
+  static const hmac_512 = CustomerMasterKeySpec._('HMAC_512');
+  static const sm2 = CustomerMasterKeySpec._('SM2');
 
   final String value;
 
-  const CustomerMasterKeySpec(this.value);
+  const CustomerMasterKeySpec._(this.value);
 
-  static CustomerMasterKeySpec fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum CustomerMasterKeySpec'));
+  static const values = [
+    rsa_2048,
+    rsa_3072,
+    rsa_4096,
+    eccNistP256,
+    eccNistP384,
+    eccNistP521,
+    eccSecgP256k1,
+    symmetricDefault,
+    hmac_224,
+    hmac_256,
+    hmac_384,
+    hmac_512,
+    sm2
+  ];
+
+  static CustomerMasterKeySpec fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => CustomerMasterKeySpec._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CustomerMasterKeySpec && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum DataKeyPairSpec {
-  rsa_2048('RSA_2048'),
-  rsa_3072('RSA_3072'),
-  rsa_4096('RSA_4096'),
-  eccNistP256('ECC_NIST_P256'),
-  eccNistP384('ECC_NIST_P384'),
-  eccNistP521('ECC_NIST_P521'),
-  eccSecgP256k1('ECC_SECG_P256K1'),
-  sm2('SM2'),
-  ;
+class DataKeyPairSpec {
+  static const rsa_2048 = DataKeyPairSpec._('RSA_2048');
+  static const rsa_3072 = DataKeyPairSpec._('RSA_3072');
+  static const rsa_4096 = DataKeyPairSpec._('RSA_4096');
+  static const eccNistP256 = DataKeyPairSpec._('ECC_NIST_P256');
+  static const eccNistP384 = DataKeyPairSpec._('ECC_NIST_P384');
+  static const eccNistP521 = DataKeyPairSpec._('ECC_NIST_P521');
+  static const eccSecgP256k1 = DataKeyPairSpec._('ECC_SECG_P256K1');
+  static const sm2 = DataKeyPairSpec._('SM2');
 
   final String value;
 
-  const DataKeyPairSpec(this.value);
+  const DataKeyPairSpec._(this.value);
+
+  static const values = [
+    rsa_2048,
+    rsa_3072,
+    rsa_4096,
+    eccNistP256,
+    eccNistP384,
+    eccNistP521,
+    eccSecgP256k1,
+    sm2
+  ];
 
   static DataKeyPairSpec fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum DataKeyPairSpec'));
+          orElse: () => DataKeyPairSpec._(value));
+
+  @override
+  bool operator ==(other) => other is DataKeyPairSpec && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum DataKeySpec {
-  aes_256('AES_256'),
-  aes_128('AES_128'),
-  ;
+class DataKeySpec {
+  static const aes_256 = DataKeySpec._('AES_256');
+  static const aes_128 = DataKeySpec._('AES_128');
 
   final String value;
 
-  const DataKeySpec(this.value);
+  const DataKeySpec._(this.value);
 
-  static DataKeySpec fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum DataKeySpec'));
+  static const values = [aes_256, aes_128];
+
+  static DataKeySpec fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => DataKeySpec._(value));
+
+  @override
+  bool operator ==(other) => other is DataKeySpec && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class DecryptResponse {
@@ -10156,36 +10290,65 @@ class EncryptResponse {
   }
 }
 
-enum EncryptionAlgorithmSpec {
-  symmetricDefault('SYMMETRIC_DEFAULT'),
-  rsaesOaepSha_1('RSAES_OAEP_SHA_1'),
-  rsaesOaepSha_256('RSAES_OAEP_SHA_256'),
-  sm2pke('SM2PKE'),
-  ;
+class EncryptionAlgorithmSpec {
+  static const symmetricDefault =
+      EncryptionAlgorithmSpec._('SYMMETRIC_DEFAULT');
+  static const rsaesOaepSha_1 = EncryptionAlgorithmSpec._('RSAES_OAEP_SHA_1');
+  static const rsaesOaepSha_256 =
+      EncryptionAlgorithmSpec._('RSAES_OAEP_SHA_256');
+  static const sm2pke = EncryptionAlgorithmSpec._('SM2PKE');
 
   final String value;
 
-  const EncryptionAlgorithmSpec(this.value);
+  const EncryptionAlgorithmSpec._(this.value);
+
+  static const values = [
+    symmetricDefault,
+    rsaesOaepSha_1,
+    rsaesOaepSha_256,
+    sm2pke
+  ];
 
   static EncryptionAlgorithmSpec fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum EncryptionAlgorithmSpec'));
+          orElse: () => EncryptionAlgorithmSpec._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is EncryptionAlgorithmSpec && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ExpirationModelType {
-  keyMaterialExpires('KEY_MATERIAL_EXPIRES'),
-  keyMaterialDoesNotExpire('KEY_MATERIAL_DOES_NOT_EXPIRE'),
-  ;
+class ExpirationModelType {
+  static const keyMaterialExpires =
+      ExpirationModelType._('KEY_MATERIAL_EXPIRES');
+  static const keyMaterialDoesNotExpire =
+      ExpirationModelType._('KEY_MATERIAL_DOES_NOT_EXPIRE');
 
   final String value;
 
-  const ExpirationModelType(this.value);
+  const ExpirationModelType._(this.value);
 
-  static ExpirationModelType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ExpirationModelType'));
+  static const values = [keyMaterialExpires, keyMaterialDoesNotExpire];
+
+  static ExpirationModelType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ExpirationModelType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ExpirationModelType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class GenerateDataKeyPairResponse {
@@ -10954,34 +11117,63 @@ class GrantListEntry {
   }
 }
 
-enum GrantOperation {
-  decrypt('Decrypt'),
-  encrypt('Encrypt'),
-  generateDataKey('GenerateDataKey'),
-  generateDataKeyWithoutPlaintext('GenerateDataKeyWithoutPlaintext'),
-  reEncryptFrom('ReEncryptFrom'),
-  reEncryptTo('ReEncryptTo'),
-  sign('Sign'),
-  verify('Verify'),
-  getPublicKey('GetPublicKey'),
-  createGrant('CreateGrant'),
-  retireGrant('RetireGrant'),
-  describeKey('DescribeKey'),
-  generateDataKeyPair('GenerateDataKeyPair'),
-  generateDataKeyPairWithoutPlaintext('GenerateDataKeyPairWithoutPlaintext'),
-  generateMac('GenerateMac'),
-  verifyMac('VerifyMac'),
-  deriveSharedSecret('DeriveSharedSecret'),
-  ;
+class GrantOperation {
+  static const decrypt = GrantOperation._('Decrypt');
+  static const encrypt = GrantOperation._('Encrypt');
+  static const generateDataKey = GrantOperation._('GenerateDataKey');
+  static const generateDataKeyWithoutPlaintext =
+      GrantOperation._('GenerateDataKeyWithoutPlaintext');
+  static const reEncryptFrom = GrantOperation._('ReEncryptFrom');
+  static const reEncryptTo = GrantOperation._('ReEncryptTo');
+  static const sign = GrantOperation._('Sign');
+  static const verify = GrantOperation._('Verify');
+  static const getPublicKey = GrantOperation._('GetPublicKey');
+  static const createGrant = GrantOperation._('CreateGrant');
+  static const retireGrant = GrantOperation._('RetireGrant');
+  static const describeKey = GrantOperation._('DescribeKey');
+  static const generateDataKeyPair = GrantOperation._('GenerateDataKeyPair');
+  static const generateDataKeyPairWithoutPlaintext =
+      GrantOperation._('GenerateDataKeyPairWithoutPlaintext');
+  static const generateMac = GrantOperation._('GenerateMac');
+  static const verifyMac = GrantOperation._('VerifyMac');
+  static const deriveSharedSecret = GrantOperation._('DeriveSharedSecret');
 
   final String value;
 
-  const GrantOperation(this.value);
+  const GrantOperation._(this.value);
+
+  static const values = [
+    decrypt,
+    encrypt,
+    generateDataKey,
+    generateDataKeyWithoutPlaintext,
+    reEncryptFrom,
+    reEncryptTo,
+    sign,
+    verify,
+    getPublicKey,
+    createGrant,
+    retireGrant,
+    describeKey,
+    generateDataKeyPair,
+    generateDataKeyPairWithoutPlaintext,
+    generateMac,
+    verifyMac,
+    deriveSharedSecret
+  ];
 
   static GrantOperation fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum GrantOperation'));
+          orElse: () => GrantOperation._(value));
+
+  @override
+  bool operator ==(other) => other is GrantOperation && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class ImportKeyMaterialResponse {
@@ -10996,32 +11188,53 @@ class ImportKeyMaterialResponse {
   }
 }
 
-enum KeyAgreementAlgorithmSpec {
-  ecdh('ECDH'),
-  ;
+class KeyAgreementAlgorithmSpec {
+  static const ecdh = KeyAgreementAlgorithmSpec._('ECDH');
 
   final String value;
 
-  const KeyAgreementAlgorithmSpec(this.value);
+  const KeyAgreementAlgorithmSpec._(this.value);
+
+  static const values = [ecdh];
 
   static KeyAgreementAlgorithmSpec fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum KeyAgreementAlgorithmSpec'));
+          orElse: () => KeyAgreementAlgorithmSpec._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is KeyAgreementAlgorithmSpec && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum KeyEncryptionMechanism {
-  rsaesOaepSha_256('RSAES_OAEP_SHA_256'),
-  ;
+class KeyEncryptionMechanism {
+  static const rsaesOaepSha_256 =
+      KeyEncryptionMechanism._('RSAES_OAEP_SHA_256');
 
   final String value;
 
-  const KeyEncryptionMechanism(this.value);
+  const KeyEncryptionMechanism._(this.value);
+
+  static const values = [rsaesOaepSha_256];
 
   static KeyEncryptionMechanism fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum KeyEncryptionMechanism'));
+          orElse: () => KeyEncryptionMechanism._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is KeyEncryptionMechanism && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains information about each entry in the key list.
@@ -11054,19 +11267,28 @@ class KeyListEntry {
   }
 }
 
-enum KeyManagerType {
-  aws('AWS'),
-  customer('CUSTOMER'),
-  ;
+class KeyManagerType {
+  static const aws = KeyManagerType._('AWS');
+  static const customer = KeyManagerType._('CUSTOMER');
 
   final String value;
 
-  const KeyManagerType(this.value);
+  const KeyManagerType._(this.value);
+
+  static const values = [aws, customer];
 
   static KeyManagerType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum KeyManagerType'));
+          orElse: () => KeyManagerType._(value));
+
+  @override
+  bool operator ==(other) => other is KeyManagerType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains metadata about a KMS key.
@@ -11401,66 +11623,120 @@ class KeyMetadata {
   }
 }
 
-enum KeySpec {
-  rsa_2048('RSA_2048'),
-  rsa_3072('RSA_3072'),
-  rsa_4096('RSA_4096'),
-  eccNistP256('ECC_NIST_P256'),
-  eccNistP384('ECC_NIST_P384'),
-  eccNistP521('ECC_NIST_P521'),
-  eccSecgP256k1('ECC_SECG_P256K1'),
-  symmetricDefault('SYMMETRIC_DEFAULT'),
-  hmac_224('HMAC_224'),
-  hmac_256('HMAC_256'),
-  hmac_384('HMAC_384'),
-  hmac_512('HMAC_512'),
-  sm2('SM2'),
-  ;
+class KeySpec {
+  static const rsa_2048 = KeySpec._('RSA_2048');
+  static const rsa_3072 = KeySpec._('RSA_3072');
+  static const rsa_4096 = KeySpec._('RSA_4096');
+  static const eccNistP256 = KeySpec._('ECC_NIST_P256');
+  static const eccNistP384 = KeySpec._('ECC_NIST_P384');
+  static const eccNistP521 = KeySpec._('ECC_NIST_P521');
+  static const eccSecgP256k1 = KeySpec._('ECC_SECG_P256K1');
+  static const symmetricDefault = KeySpec._('SYMMETRIC_DEFAULT');
+  static const hmac_224 = KeySpec._('HMAC_224');
+  static const hmac_256 = KeySpec._('HMAC_256');
+  static const hmac_384 = KeySpec._('HMAC_384');
+  static const hmac_512 = KeySpec._('HMAC_512');
+  static const sm2 = KeySpec._('SM2');
 
   final String value;
 
-  const KeySpec(this.value);
+  const KeySpec._(this.value);
 
-  static KeySpec fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum KeySpec'));
+  static const values = [
+    rsa_2048,
+    rsa_3072,
+    rsa_4096,
+    eccNistP256,
+    eccNistP384,
+    eccNistP521,
+    eccSecgP256k1,
+    symmetricDefault,
+    hmac_224,
+    hmac_256,
+    hmac_384,
+    hmac_512,
+    sm2
+  ];
+
+  static KeySpec fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => KeySpec._(value));
+
+  @override
+  bool operator ==(other) => other is KeySpec && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum KeyState {
-  creating('Creating'),
-  enabled('Enabled'),
-  disabled('Disabled'),
-  pendingDeletion('PendingDeletion'),
-  pendingImport('PendingImport'),
-  pendingReplicaDeletion('PendingReplicaDeletion'),
-  unavailable('Unavailable'),
-  updating('Updating'),
-  ;
+class KeyState {
+  static const creating = KeyState._('Creating');
+  static const enabled = KeyState._('Enabled');
+  static const disabled = KeyState._('Disabled');
+  static const pendingDeletion = KeyState._('PendingDeletion');
+  static const pendingImport = KeyState._('PendingImport');
+  static const pendingReplicaDeletion = KeyState._('PendingReplicaDeletion');
+  static const unavailable = KeyState._('Unavailable');
+  static const updating = KeyState._('Updating');
 
   final String value;
 
-  const KeyState(this.value);
+  const KeyState._(this.value);
 
-  static KeyState fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum KeyState'));
+  static const values = [
+    creating,
+    enabled,
+    disabled,
+    pendingDeletion,
+    pendingImport,
+    pendingReplicaDeletion,
+    unavailable,
+    updating
+  ];
+
+  static KeyState fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => KeyState._(value));
+
+  @override
+  bool operator ==(other) => other is KeyState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum KeyUsageType {
-  signVerify('SIGN_VERIFY'),
-  encryptDecrypt('ENCRYPT_DECRYPT'),
-  generateVerifyMac('GENERATE_VERIFY_MAC'),
-  keyAgreement('KEY_AGREEMENT'),
-  ;
+class KeyUsageType {
+  static const signVerify = KeyUsageType._('SIGN_VERIFY');
+  static const encryptDecrypt = KeyUsageType._('ENCRYPT_DECRYPT');
+  static const generateVerifyMac = KeyUsageType._('GENERATE_VERIFY_MAC');
+  static const keyAgreement = KeyUsageType._('KEY_AGREEMENT');
 
   final String value;
 
-  const KeyUsageType(this.value);
+  const KeyUsageType._(this.value);
 
-  static KeyUsageType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum KeyUsageType'));
+  static const values = [
+    signVerify,
+    encryptDecrypt,
+    generateVerifyMac,
+    keyAgreement
+  ];
+
+  static KeyUsageType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => KeyUsageType._(value));
+
+  @override
+  bool operator ==(other) => other is KeyUsageType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class ListAliasesResponse {
@@ -11735,35 +12011,53 @@ class ListResourceTagsResponse {
   }
 }
 
-enum MacAlgorithmSpec {
-  hmacSha_224('HMAC_SHA_224'),
-  hmacSha_256('HMAC_SHA_256'),
-  hmacSha_384('HMAC_SHA_384'),
-  hmacSha_512('HMAC_SHA_512'),
-  ;
+class MacAlgorithmSpec {
+  static const hmacSha_224 = MacAlgorithmSpec._('HMAC_SHA_224');
+  static const hmacSha_256 = MacAlgorithmSpec._('HMAC_SHA_256');
+  static const hmacSha_384 = MacAlgorithmSpec._('HMAC_SHA_384');
+  static const hmacSha_512 = MacAlgorithmSpec._('HMAC_SHA_512');
 
   final String value;
 
-  const MacAlgorithmSpec(this.value);
+  const MacAlgorithmSpec._(this.value);
+
+  static const values = [hmacSha_224, hmacSha_256, hmacSha_384, hmacSha_512];
 
   static MacAlgorithmSpec fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum MacAlgorithmSpec'));
+          orElse: () => MacAlgorithmSpec._(value));
+
+  @override
+  bool operator ==(other) => other is MacAlgorithmSpec && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum MessageType {
-  raw('RAW'),
-  digest('DIGEST'),
-  ;
+class MessageType {
+  static const raw = MessageType._('RAW');
+  static const digest = MessageType._('DIGEST');
 
   final String value;
 
-  const MessageType(this.value);
+  const MessageType._(this.value);
 
-  static MessageType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum MessageType'));
+  static const values = [raw, digest];
+
+  static MessageType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => MessageType._(value));
+
+  @override
+  bool operator ==(other) => other is MessageType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes the configuration of this multi-Region key. This field appears
@@ -11848,35 +12142,54 @@ class MultiRegionKey {
   }
 }
 
-enum MultiRegionKeyType {
-  primary('PRIMARY'),
-  replica('REPLICA'),
-  ;
+class MultiRegionKeyType {
+  static const primary = MultiRegionKeyType._('PRIMARY');
+  static const replica = MultiRegionKeyType._('REPLICA');
 
   final String value;
 
-  const MultiRegionKeyType(this.value);
+  const MultiRegionKeyType._(this.value);
 
-  static MultiRegionKeyType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum MultiRegionKeyType'));
+  static const values = [primary, replica];
+
+  static MultiRegionKeyType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => MultiRegionKeyType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is MultiRegionKeyType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum OriginType {
-  awsKms('AWS_KMS'),
-  external('EXTERNAL'),
-  awsCloudhsm('AWS_CLOUDHSM'),
-  externalKeyStore('EXTERNAL_KEY_STORE'),
-  ;
+class OriginType {
+  static const awsKms = OriginType._('AWS_KMS');
+  static const external = OriginType._('EXTERNAL');
+  static const awsCloudhsm = OriginType._('AWS_CLOUDHSM');
+  static const externalKeyStore = OriginType._('EXTERNAL_KEY_STORE');
 
   final String value;
 
-  const OriginType(this.value);
+  const OriginType._(this.value);
 
-  static OriginType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum OriginType'));
+  static const values = [awsKms, external, awsCloudhsm, externalKeyStore];
+
+  static OriginType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => OriginType._(value));
+
+  @override
+  bool operator ==(other) => other is OriginType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class ReEncryptResponse {
@@ -12050,19 +12363,27 @@ class RotateKeyOnDemandResponse {
   }
 }
 
-enum RotationType {
-  automatic('AUTOMATIC'),
-  onDemand('ON_DEMAND'),
-  ;
+class RotationType {
+  static const automatic = RotationType._('AUTOMATIC');
+  static const onDemand = RotationType._('ON_DEMAND');
 
   final String value;
 
-  const RotationType(this.value);
+  const RotationType._(this.value);
 
-  static RotationType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum RotationType'));
+  static const values = [automatic, onDemand];
+
+  static RotationType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => RotationType._(value));
+
+  @override
+  bool operator ==(other) => other is RotationType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains information about completed key material rotations.
@@ -12226,27 +12547,51 @@ class SignResponse {
   }
 }
 
-enum SigningAlgorithmSpec {
-  rsassaPssSha_256('RSASSA_PSS_SHA_256'),
-  rsassaPssSha_384('RSASSA_PSS_SHA_384'),
-  rsassaPssSha_512('RSASSA_PSS_SHA_512'),
-  rsassaPkcs1V1_5Sha_256('RSASSA_PKCS1_V1_5_SHA_256'),
-  rsassaPkcs1V1_5Sha_384('RSASSA_PKCS1_V1_5_SHA_384'),
-  rsassaPkcs1V1_5Sha_512('RSASSA_PKCS1_V1_5_SHA_512'),
-  ecdsaSha_256('ECDSA_SHA_256'),
-  ecdsaSha_384('ECDSA_SHA_384'),
-  ecdsaSha_512('ECDSA_SHA_512'),
-  sm2dsa('SM2DSA'),
-  ;
+class SigningAlgorithmSpec {
+  static const rsassaPssSha_256 = SigningAlgorithmSpec._('RSASSA_PSS_SHA_256');
+  static const rsassaPssSha_384 = SigningAlgorithmSpec._('RSASSA_PSS_SHA_384');
+  static const rsassaPssSha_512 = SigningAlgorithmSpec._('RSASSA_PSS_SHA_512');
+  static const rsassaPkcs1V1_5Sha_256 =
+      SigningAlgorithmSpec._('RSASSA_PKCS1_V1_5_SHA_256');
+  static const rsassaPkcs1V1_5Sha_384 =
+      SigningAlgorithmSpec._('RSASSA_PKCS1_V1_5_SHA_384');
+  static const rsassaPkcs1V1_5Sha_512 =
+      SigningAlgorithmSpec._('RSASSA_PKCS1_V1_5_SHA_512');
+  static const ecdsaSha_256 = SigningAlgorithmSpec._('ECDSA_SHA_256');
+  static const ecdsaSha_384 = SigningAlgorithmSpec._('ECDSA_SHA_384');
+  static const ecdsaSha_512 = SigningAlgorithmSpec._('ECDSA_SHA_512');
+  static const sm2dsa = SigningAlgorithmSpec._('SM2DSA');
 
   final String value;
 
-  const SigningAlgorithmSpec(this.value);
+  const SigningAlgorithmSpec._(this.value);
 
-  static SigningAlgorithmSpec fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum SigningAlgorithmSpec'));
+  static const values = [
+    rsassaPssSha_256,
+    rsassaPssSha_384,
+    rsassaPssSha_512,
+    rsassaPkcs1V1_5Sha_256,
+    rsassaPkcs1V1_5Sha_384,
+    rsassaPkcs1V1_5Sha_512,
+    ecdsaSha_256,
+    ecdsaSha_384,
+    ecdsaSha_512,
+    sm2dsa
+  ];
+
+  static SigningAlgorithmSpec fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => SigningAlgorithmSpec._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SigningAlgorithmSpec && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A key-value pair. A tag consists of a tag key and a tag value. Tag keys and
@@ -12389,21 +12734,30 @@ class VerifyResponse {
   }
 }
 
-enum WrappingKeySpec {
-  rsa_2048('RSA_2048'),
-  rsa_3072('RSA_3072'),
-  rsa_4096('RSA_4096'),
-  sm2('SM2'),
-  ;
+class WrappingKeySpec {
+  static const rsa_2048 = WrappingKeySpec._('RSA_2048');
+  static const rsa_3072 = WrappingKeySpec._('RSA_3072');
+  static const rsa_4096 = WrappingKeySpec._('RSA_4096');
+  static const sm2 = WrappingKeySpec._('SM2');
 
   final String value;
 
-  const WrappingKeySpec(this.value);
+  const WrappingKeySpec._(this.value);
+
+  static const values = [rsa_2048, rsa_3072, rsa_4096, sm2];
 
   static WrappingKeySpec fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum WrappingKeySpec'));
+          orElse: () => WrappingKeySpec._(value));
+
+  @override
+  bool operator ==(other) => other is WrappingKeySpec && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about the <a
@@ -12541,19 +12895,30 @@ class XksProxyConfigurationType {
   }
 }
 
-enum XksProxyConnectivityType {
-  publicEndpoint('PUBLIC_ENDPOINT'),
-  vpcEndpointService('VPC_ENDPOINT_SERVICE'),
-  ;
+class XksProxyConnectivityType {
+  static const publicEndpoint = XksProxyConnectivityType._('PUBLIC_ENDPOINT');
+  static const vpcEndpointService =
+      XksProxyConnectivityType._('VPC_ENDPOINT_SERVICE');
 
   final String value;
 
-  const XksProxyConnectivityType(this.value);
+  const XksProxyConnectivityType._(this.value);
+
+  static const values = [publicEndpoint, vpcEndpointService];
 
   static XksProxyConnectivityType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum XksProxyConnectivityType'));
+          orElse: () => XksProxyConnectivityType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is XksProxyConnectivityType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class AlreadyExistsException extends _s.GenericAwsException {

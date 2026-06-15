@@ -1174,7 +1174,7 @@ class AlertManagerDefinitionStatus {
   factory AlertManagerDefinitionStatus.fromJson(Map<String, dynamic> json) {
     return AlertManagerDefinitionStatus(
       statusCode: AlertManagerDefinitionStatusCode.fromString(
-          (json['statusCode'] as String)),
+          (json['statusCode'] as String?) ?? ''),
       statusReason: json['statusReason'] as String?,
     );
   }
@@ -1190,23 +1190,42 @@ class AlertManagerDefinitionStatus {
 }
 
 /// State of an <code>AlertManagerDefinition</code>.
-enum AlertManagerDefinitionStatusCode {
-  creating('CREATING'),
-  active('ACTIVE'),
-  updating('UPDATING'),
-  deleting('DELETING'),
-  creationFailed('CREATION_FAILED'),
-  updateFailed('UPDATE_FAILED'),
-  ;
+class AlertManagerDefinitionStatusCode {
+  static const creating = AlertManagerDefinitionStatusCode._('CREATING');
+  static const active = AlertManagerDefinitionStatusCode._('ACTIVE');
+  static const updating = AlertManagerDefinitionStatusCode._('UPDATING');
+  static const deleting = AlertManagerDefinitionStatusCode._('DELETING');
+  static const creationFailed =
+      AlertManagerDefinitionStatusCode._('CREATION_FAILED');
+  static const updateFailed =
+      AlertManagerDefinitionStatusCode._('UPDATE_FAILED');
 
   final String value;
 
-  const AlertManagerDefinitionStatusCode(this.value);
+  const AlertManagerDefinitionStatusCode._(this.value);
+
+  static const values = [
+    creating,
+    active,
+    updating,
+    deleting,
+    creationFailed,
+    updateFailed
+  ];
 
   static AlertManagerDefinitionStatusCode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum AlertManagerDefinitionStatusCode'));
+          orElse: () => AlertManagerDefinitionStatusCode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AlertManagerDefinitionStatusCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The <code>AmpConfiguration</code> structure defines the Amazon Managed
@@ -1904,7 +1923,7 @@ class LoggingConfigurationStatus {
   factory LoggingConfigurationStatus.fromJson(Map<String, dynamic> json) {
     return LoggingConfigurationStatus(
       statusCode: LoggingConfigurationStatusCode.fromString(
-          (json['statusCode'] as String)),
+          (json['statusCode'] as String?) ?? ''),
       statusReason: json['statusReason'] as String?,
     );
   }
@@ -1920,23 +1939,41 @@ class LoggingConfigurationStatus {
 }
 
 /// State of a logging configuration.
-enum LoggingConfigurationStatusCode {
-  creating('CREATING'),
-  active('ACTIVE'),
-  updating('UPDATING'),
-  deleting('DELETING'),
-  creationFailed('CREATION_FAILED'),
-  updateFailed('UPDATE_FAILED'),
-  ;
+class LoggingConfigurationStatusCode {
+  static const creating = LoggingConfigurationStatusCode._('CREATING');
+  static const active = LoggingConfigurationStatusCode._('ACTIVE');
+  static const updating = LoggingConfigurationStatusCode._('UPDATING');
+  static const deleting = LoggingConfigurationStatusCode._('DELETING');
+  static const creationFailed =
+      LoggingConfigurationStatusCode._('CREATION_FAILED');
+  static const updateFailed = LoggingConfigurationStatusCode._('UPDATE_FAILED');
 
   final String value;
 
-  const LoggingConfigurationStatusCode(this.value);
+  const LoggingConfigurationStatusCode._(this.value);
+
+  static const values = [
+    creating,
+    active,
+    updating,
+    deleting,
+    creationFailed,
+    updateFailed
+  ];
 
   static LoggingConfigurationStatusCode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum LoggingConfigurationStatusCode'));
+          orElse: () => LoggingConfigurationStatusCode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is LoggingConfigurationStatusCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Represents the output of a <code>PutAlertManagerDefinition</code> operation.
@@ -2100,7 +2137,7 @@ class RuleGroupsNamespaceStatus {
   factory RuleGroupsNamespaceStatus.fromJson(Map<String, dynamic> json) {
     return RuleGroupsNamespaceStatus(
       statusCode: RuleGroupsNamespaceStatusCode.fromString(
-          (json['statusCode'] as String)),
+          (json['statusCode'] as String?) ?? ''),
       statusReason: json['statusReason'] as String?,
     );
   }
@@ -2116,23 +2153,41 @@ class RuleGroupsNamespaceStatus {
 }
 
 /// State of a namespace.
-enum RuleGroupsNamespaceStatusCode {
-  creating('CREATING'),
-  active('ACTIVE'),
-  updating('UPDATING'),
-  deleting('DELETING'),
-  creationFailed('CREATION_FAILED'),
-  updateFailed('UPDATE_FAILED'),
-  ;
+class RuleGroupsNamespaceStatusCode {
+  static const creating = RuleGroupsNamespaceStatusCode._('CREATING');
+  static const active = RuleGroupsNamespaceStatusCode._('ACTIVE');
+  static const updating = RuleGroupsNamespaceStatusCode._('UPDATING');
+  static const deleting = RuleGroupsNamespaceStatusCode._('DELETING');
+  static const creationFailed =
+      RuleGroupsNamespaceStatusCode._('CREATION_FAILED');
+  static const updateFailed = RuleGroupsNamespaceStatusCode._('UPDATE_FAILED');
 
   final String value;
 
-  const RuleGroupsNamespaceStatusCode(this.value);
+  const RuleGroupsNamespaceStatusCode._(this.value);
+
+  static const values = [
+    creating,
+    active,
+    updating,
+    deleting,
+    creationFailed,
+    updateFailed
+  ];
 
   static RuleGroupsNamespaceStatusCode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum RuleGroupsNamespaceStatusCode'));
+          orElse: () => RuleGroupsNamespaceStatusCode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RuleGroupsNamespaceStatusCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The high-level information about a rule groups namespace. To retrieve more
@@ -2350,7 +2405,8 @@ class ScraperStatus {
 
   factory ScraperStatus.fromJson(Map<String, dynamic> json) {
     return ScraperStatus(
-      statusCode: ScraperStatusCode.fromString((json['statusCode'] as String)),
+      statusCode:
+          ScraperStatusCode.fromString((json['statusCode'] as String?) ?? ''),
     );
   }
 
@@ -2363,22 +2419,37 @@ class ScraperStatus {
 }
 
 /// State of a scraper.
-enum ScraperStatusCode {
-  creating('CREATING'),
-  active('ACTIVE'),
-  deleting('DELETING'),
-  creationFailed('CREATION_FAILED'),
-  deletionFailed('DELETION_FAILED'),
-  ;
+class ScraperStatusCode {
+  static const creating = ScraperStatusCode._('CREATING');
+  static const active = ScraperStatusCode._('ACTIVE');
+  static const deleting = ScraperStatusCode._('DELETING');
+  static const creationFailed = ScraperStatusCode._('CREATION_FAILED');
+  static const deletionFailed = ScraperStatusCode._('DELETION_FAILED');
 
   final String value;
 
-  const ScraperStatusCode(this.value);
+  const ScraperStatusCode._(this.value);
+
+  static const values = [
+    creating,
+    active,
+    deleting,
+    creationFailed,
+    deletionFailed
+  ];
 
   static ScraperStatusCode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ScraperStatusCode'));
+          orElse: () => ScraperStatusCode._(value));
+
+  @override
+  bool operator ==(other) => other is ScraperStatusCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The <code>ScraperSummary</code> structure contains a summary of the details
@@ -2650,7 +2721,7 @@ class WorkspaceStatus {
   factory WorkspaceStatus.fromJson(Map<String, dynamic> json) {
     return WorkspaceStatus(
       statusCode:
-          WorkspaceStatusCode.fromString((json['statusCode'] as String)),
+          WorkspaceStatusCode.fromString((json['statusCode'] as String?) ?? ''),
     );
   }
 
@@ -2663,22 +2734,32 @@ class WorkspaceStatus {
 }
 
 /// State of a workspace.
-enum WorkspaceStatusCode {
-  creating('CREATING'),
-  active('ACTIVE'),
-  updating('UPDATING'),
-  deleting('DELETING'),
-  creationFailed('CREATION_FAILED'),
-  ;
+class WorkspaceStatusCode {
+  static const creating = WorkspaceStatusCode._('CREATING');
+  static const active = WorkspaceStatusCode._('ACTIVE');
+  static const updating = WorkspaceStatusCode._('UPDATING');
+  static const deleting = WorkspaceStatusCode._('DELETING');
+  static const creationFailed = WorkspaceStatusCode._('CREATION_FAILED');
 
   final String value;
 
-  const WorkspaceStatusCode(this.value);
+  const WorkspaceStatusCode._(this.value);
 
-  static WorkspaceStatusCode fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum WorkspaceStatusCode'));
+  static const values = [creating, active, updating, deleting, creationFailed];
+
+  static WorkspaceStatusCode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => WorkspaceStatusCode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is WorkspaceStatusCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The information about one Amazon Managed Service for Prometheus workspace in

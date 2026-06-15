@@ -733,21 +733,30 @@ class AmiProductSort {
   }
 }
 
-enum AmiProductSortBy {
-  entityId('EntityId'),
-  lastModifiedDate('LastModifiedDate'),
-  productTitle('ProductTitle'),
-  visibility('Visibility'),
-  ;
+class AmiProductSortBy {
+  static const entityId = AmiProductSortBy._('EntityId');
+  static const lastModifiedDate = AmiProductSortBy._('LastModifiedDate');
+  static const productTitle = AmiProductSortBy._('ProductTitle');
+  static const visibility = AmiProductSortBy._('Visibility');
 
   final String value;
 
-  const AmiProductSortBy(this.value);
+  const AmiProductSortBy._(this.value);
+
+  static const values = [entityId, lastModifiedDate, productTitle, visibility];
 
   static AmiProductSortBy fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum AmiProductSortBy'));
+          orElse: () => AmiProductSortBy._(value));
+
+  @override
+  bool operator ==(other) => other is AmiProductSortBy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Object that contains summarized information about an AMI product.
@@ -824,21 +833,31 @@ class AmiProductVisibilityFilter {
   }
 }
 
-enum AmiProductVisibilityString {
-  limited('Limited'),
-  public('Public'),
-  restricted('Restricted'),
-  draft('Draft'),
-  ;
+class AmiProductVisibilityString {
+  static const limited = AmiProductVisibilityString._('Limited');
+  static const public = AmiProductVisibilityString._('Public');
+  static const restricted = AmiProductVisibilityString._('Restricted');
+  static const draft = AmiProductVisibilityString._('Draft');
 
   final String value;
 
-  const AmiProductVisibilityString(this.value);
+  const AmiProductVisibilityString._(this.value);
+
+  static const values = [limited, public, restricted, draft];
 
   static AmiProductVisibilityString fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum AmiProductVisibilityString'));
+          orElse: () => AmiProductVisibilityString._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AmiProductVisibilityString && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class BatchDescribeEntitiesResponse {
@@ -1084,22 +1103,30 @@ class ChangeSetSummaryListItem {
   }
 }
 
-enum ChangeStatus {
-  preparing('PREPARING'),
-  applying('APPLYING'),
-  succeeded('SUCCEEDED'),
-  cancelled('CANCELLED'),
-  failed('FAILED'),
-  ;
+class ChangeStatus {
+  static const preparing = ChangeStatus._('PREPARING');
+  static const applying = ChangeStatus._('APPLYING');
+  static const succeeded = ChangeStatus._('SUCCEEDED');
+  static const cancelled = ChangeStatus._('CANCELLED');
+  static const failed = ChangeStatus._('FAILED');
 
   final String value;
 
-  const ChangeStatus(this.value);
+  const ChangeStatus._(this.value);
 
-  static ChangeStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ChangeStatus'));
+  static const values = [preparing, applying, succeeded, cancelled, failed];
+
+  static ChangeStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ChangeStatus._(value));
+
+  @override
+  bool operator ==(other) => other is ChangeStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// This object is a container for common summary information about the change.
@@ -1293,21 +1320,31 @@ class ContainerProductSort {
   }
 }
 
-enum ContainerProductSortBy {
-  entityId('EntityId'),
-  lastModifiedDate('LastModifiedDate'),
-  productTitle('ProductTitle'),
-  visibility('Visibility'),
-  ;
+class ContainerProductSortBy {
+  static const entityId = ContainerProductSortBy._('EntityId');
+  static const lastModifiedDate = ContainerProductSortBy._('LastModifiedDate');
+  static const productTitle = ContainerProductSortBy._('ProductTitle');
+  static const visibility = ContainerProductSortBy._('Visibility');
 
   final String value;
 
-  const ContainerProductSortBy(this.value);
+  const ContainerProductSortBy._(this.value);
+
+  static const values = [entityId, lastModifiedDate, productTitle, visibility];
 
   static ContainerProductSortBy fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ContainerProductSortBy'));
+          orElse: () => ContainerProductSortBy._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ContainerProductSortBy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Object that contains summarized information about a container product.
@@ -1384,21 +1421,31 @@ class ContainerProductVisibilityFilter {
   }
 }
 
-enum ContainerProductVisibilityString {
-  limited('Limited'),
-  public('Public'),
-  restricted('Restricted'),
-  draft('Draft'),
-  ;
+class ContainerProductVisibilityString {
+  static const limited = ContainerProductVisibilityString._('Limited');
+  static const public = ContainerProductVisibilityString._('Public');
+  static const restricted = ContainerProductVisibilityString._('Restricted');
+  static const draft = ContainerProductVisibilityString._('Draft');
 
   final String value;
 
-  const ContainerProductVisibilityString(this.value);
+  const ContainerProductVisibilityString._(this.value);
+
+  static const values = [limited, public, restricted, draft];
 
   static ContainerProductVisibilityString fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ContainerProductVisibilityString'));
+          orElse: () => ContainerProductVisibilityString._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ContainerProductVisibilityString && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Object that allows filtering on entity id of a data product.
@@ -1523,21 +1570,30 @@ class DataProductSort {
   }
 }
 
-enum DataProductSortBy {
-  entityId('EntityId'),
-  productTitle('ProductTitle'),
-  visibility('Visibility'),
-  lastModifiedDate('LastModifiedDate'),
-  ;
+class DataProductSortBy {
+  static const entityId = DataProductSortBy._('EntityId');
+  static const productTitle = DataProductSortBy._('ProductTitle');
+  static const visibility = DataProductSortBy._('Visibility');
+  static const lastModifiedDate = DataProductSortBy._('LastModifiedDate');
 
   final String value;
 
-  const DataProductSortBy(this.value);
+  const DataProductSortBy._(this.value);
+
+  static const values = [entityId, productTitle, visibility, lastModifiedDate];
 
   static DataProductSortBy fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum DataProductSortBy'));
+          orElse: () => DataProductSortBy._(value));
+
+  @override
+  bool operator ==(other) => other is DataProductSortBy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Object that contains summarized information about a data product.
@@ -1614,22 +1670,32 @@ class DataProductVisibilityFilter {
   }
 }
 
-enum DataProductVisibilityString {
-  limited('Limited'),
-  public('Public'),
-  restricted('Restricted'),
-  unavailable('Unavailable'),
-  draft('Draft'),
-  ;
+class DataProductVisibilityString {
+  static const limited = DataProductVisibilityString._('Limited');
+  static const public = DataProductVisibilityString._('Public');
+  static const restricted = DataProductVisibilityString._('Restricted');
+  static const unavailable = DataProductVisibilityString._('Unavailable');
+  static const draft = DataProductVisibilityString._('Draft');
 
   final String value;
 
-  const DataProductVisibilityString(this.value);
+  const DataProductVisibilityString._(this.value);
+
+  static const values = [limited, public, restricted, unavailable, draft];
 
   static DataProductVisibilityString fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum DataProductVisibilityString'));
+          orElse: () => DataProductVisibilityString._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DataProductVisibilityString && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class DeleteResourcePolicyResponse {
@@ -2175,18 +2241,27 @@ class ErrorDetail {
   }
 }
 
-enum FailureCode {
-  clientError('CLIENT_ERROR'),
-  serverFault('SERVER_FAULT'),
-  ;
+class FailureCode {
+  static const clientError = FailureCode._('CLIENT_ERROR');
+  static const serverFault = FailureCode._('SERVER_FAULT');
 
   final String value;
 
-  const FailureCode(this.value);
+  const FailureCode._(this.value);
 
-  static FailureCode fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum FailureCode'));
+  static const values = [clientError, serverFault];
+
+  static FailureCode fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => FailureCode._(value));
+
+  @override
+  bool operator ==(other) => other is FailureCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A filter object, used to optionally filter results from calls to the
@@ -2273,18 +2348,27 @@ class GetResourcePolicyResponse {
   }
 }
 
-enum Intent {
-  validate('VALIDATE'),
-  apply('APPLY'),
-  ;
+class Intent {
+  static const validate = Intent._('VALIDATE');
+  static const apply = Intent._('APPLY');
 
   final String value;
 
-  const Intent(this.value);
+  const Intent._(this.value);
+
+  static const values = [validate, apply];
 
   static Intent fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum Intent'));
+      values.firstWhere((e) => e.value == value, orElse: () => Intent._(value));
+
+  @override
+  bool operator ==(other) => other is Intent && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class JsonDocumentType {
@@ -2728,26 +2812,46 @@ class OfferSort {
   }
 }
 
-enum OfferSortBy {
-  entityId('EntityId'),
-  name('Name'),
-  productId('ProductId'),
-  resaleAuthorizationId('ResaleAuthorizationId'),
-  releaseDate('ReleaseDate'),
-  availabilityEndDate('AvailabilityEndDate'),
-  buyerAccounts('BuyerAccounts'),
-  state('State'),
-  targeting('Targeting'),
-  lastModifiedDate('LastModifiedDate'),
-  ;
+class OfferSortBy {
+  static const entityId = OfferSortBy._('EntityId');
+  static const name = OfferSortBy._('Name');
+  static const productId = OfferSortBy._('ProductId');
+  static const resaleAuthorizationId = OfferSortBy._('ResaleAuthorizationId');
+  static const releaseDate = OfferSortBy._('ReleaseDate');
+  static const availabilityEndDate = OfferSortBy._('AvailabilityEndDate');
+  static const buyerAccounts = OfferSortBy._('BuyerAccounts');
+  static const state = OfferSortBy._('State');
+  static const targeting = OfferSortBy._('Targeting');
+  static const lastModifiedDate = OfferSortBy._('LastModifiedDate');
 
   final String value;
 
-  const OfferSortBy(this.value);
+  const OfferSortBy._(this.value);
 
-  static OfferSortBy fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum OfferSortBy'));
+  static const values = [
+    entityId,
+    name,
+    productId,
+    resaleAuthorizationId,
+    releaseDate,
+    availabilityEndDate,
+    buyerAccounts,
+    state,
+    targeting,
+    lastModifiedDate
+  ];
+
+  static OfferSortBy fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => OfferSortBy._(value));
+
+  @override
+  bool operator ==(other) => other is OfferSortBy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Allows filtering on the <code>State</code> of an offer.
@@ -2768,19 +2872,28 @@ class OfferStateFilter {
   }
 }
 
-enum OfferStateString {
-  draft('Draft'),
-  released('Released'),
-  ;
+class OfferStateString {
+  static const draft = OfferStateString._('Draft');
+  static const released = OfferStateString._('Released');
 
   final String value;
 
-  const OfferStateString(this.value);
+  const OfferStateString._(this.value);
+
+  static const values = [draft, released];
 
   static OfferStateString fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum OfferStateString'));
+          orElse: () => OfferStateString._(value));
+
+  @override
+  bool operator ==(other) => other is OfferStateString && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Summarized information about an offer.
@@ -2882,36 +2995,61 @@ class OfferTargetingFilter {
   }
 }
 
-enum OfferTargetingString {
-  buyerAccounts('BuyerAccounts'),
-  participatingPrograms('ParticipatingPrograms'),
-  countryCodes('CountryCodes'),
-  none('None'),
-  ;
+class OfferTargetingString {
+  static const buyerAccounts = OfferTargetingString._('BuyerAccounts');
+  static const participatingPrograms =
+      OfferTargetingString._('ParticipatingPrograms');
+  static const countryCodes = OfferTargetingString._('CountryCodes');
+  static const none = OfferTargetingString._('None');
 
   final String value;
 
-  const OfferTargetingString(this.value);
+  const OfferTargetingString._(this.value);
 
-  static OfferTargetingString fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum OfferTargetingString'));
+  static const values = [
+    buyerAccounts,
+    participatingPrograms,
+    countryCodes,
+    none
+  ];
+
+  static OfferTargetingString fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => OfferTargetingString._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is OfferTargetingString && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum OwnershipType {
-  self('SELF'),
-  shared('SHARED'),
-  ;
+class OwnershipType {
+  static const self = OwnershipType._('SELF');
+  static const shared = OwnershipType._('SHARED');
 
   final String value;
 
-  const OwnershipType(this.value);
+  const OwnershipType._(this.value);
+
+  static const values = [self, shared];
 
   static OwnershipType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum OwnershipType'));
+          orElse: () => OwnershipType._(value));
+
+  @override
+  bool operator ==(other) => other is OwnershipType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class PutResourcePolicyResponse {
@@ -3414,30 +3552,61 @@ class ResaleAuthorizationSort {
   }
 }
 
-enum ResaleAuthorizationSortBy {
-  entityId('EntityId'),
-  name('Name'),
-  productId('ProductId'),
-  productName('ProductName'),
-  manufacturerAccountId('ManufacturerAccountId'),
-  manufacturerLegalName('ManufacturerLegalName'),
-  resellerAccountID('ResellerAccountID'),
-  resellerLegalName('ResellerLegalName'),
-  status('Status'),
-  offerExtendedStatus('OfferExtendedStatus'),
-  createdDate('CreatedDate'),
-  availabilityEndDate('AvailabilityEndDate'),
-  lastModifiedDate('LastModifiedDate'),
-  ;
+class ResaleAuthorizationSortBy {
+  static const entityId = ResaleAuthorizationSortBy._('EntityId');
+  static const name = ResaleAuthorizationSortBy._('Name');
+  static const productId = ResaleAuthorizationSortBy._('ProductId');
+  static const productName = ResaleAuthorizationSortBy._('ProductName');
+  static const manufacturerAccountId =
+      ResaleAuthorizationSortBy._('ManufacturerAccountId');
+  static const manufacturerLegalName =
+      ResaleAuthorizationSortBy._('ManufacturerLegalName');
+  static const resellerAccountID =
+      ResaleAuthorizationSortBy._('ResellerAccountID');
+  static const resellerLegalName =
+      ResaleAuthorizationSortBy._('ResellerLegalName');
+  static const status = ResaleAuthorizationSortBy._('Status');
+  static const offerExtendedStatus =
+      ResaleAuthorizationSortBy._('OfferExtendedStatus');
+  static const createdDate = ResaleAuthorizationSortBy._('CreatedDate');
+  static const availabilityEndDate =
+      ResaleAuthorizationSortBy._('AvailabilityEndDate');
+  static const lastModifiedDate =
+      ResaleAuthorizationSortBy._('LastModifiedDate');
 
   final String value;
 
-  const ResaleAuthorizationSortBy(this.value);
+  const ResaleAuthorizationSortBy._(this.value);
+
+  static const values = [
+    entityId,
+    name,
+    productId,
+    productName,
+    manufacturerAccountId,
+    manufacturerLegalName,
+    resellerAccountID,
+    resellerLegalName,
+    status,
+    offerExtendedStatus,
+    createdDate,
+    availabilityEndDate,
+    lastModifiedDate
+  ];
 
   static ResaleAuthorizationSortBy fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ResaleAuthorizationSortBy'));
+          orElse: () => ResaleAuthorizationSortBy._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ResaleAuthorizationSortBy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Allows filtering on the <code>Status</code> of a ResaleAuthorization.
@@ -3459,20 +3628,30 @@ class ResaleAuthorizationStatusFilter {
   }
 }
 
-enum ResaleAuthorizationStatusString {
-  draft('Draft'),
-  active('Active'),
-  restricted('Restricted'),
-  ;
+class ResaleAuthorizationStatusString {
+  static const draft = ResaleAuthorizationStatusString._('Draft');
+  static const active = ResaleAuthorizationStatusString._('Active');
+  static const restricted = ResaleAuthorizationStatusString._('Restricted');
 
   final String value;
 
-  const ResaleAuthorizationStatusString(this.value);
+  const ResaleAuthorizationStatusString._(this.value);
+
+  static const values = [draft, active, restricted];
 
   static ResaleAuthorizationStatusString fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ResaleAuthorizationStatusString'));
+          orElse: () => ResaleAuthorizationStatusString._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ResaleAuthorizationStatusString && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Summarized information about a Resale Authorization.
@@ -3695,21 +3874,30 @@ class SaaSProductSort {
   }
 }
 
-enum SaaSProductSortBy {
-  entityId('EntityId'),
-  productTitle('ProductTitle'),
-  visibility('Visibility'),
-  lastModifiedDate('LastModifiedDate'),
-  ;
+class SaaSProductSortBy {
+  static const entityId = SaaSProductSortBy._('EntityId');
+  static const productTitle = SaaSProductSortBy._('ProductTitle');
+  static const visibility = SaaSProductSortBy._('Visibility');
+  static const lastModifiedDate = SaaSProductSortBy._('LastModifiedDate');
 
   final String value;
 
-  const SaaSProductSortBy(this.value);
+  const SaaSProductSortBy._(this.value);
+
+  static const values = [entityId, productTitle, visibility, lastModifiedDate];
 
   static SaaSProductSortBy fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum SaaSProductSortBy'));
+          orElse: () => SaaSProductSortBy._(value));
+
+  @override
+  bool operator ==(other) => other is SaaSProductSortBy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Object that contains summarized information about a SaaS product.
@@ -3786,21 +3974,31 @@ class SaaSProductVisibilityFilter {
   }
 }
 
-enum SaaSProductVisibilityString {
-  limited('Limited'),
-  public('Public'),
-  restricted('Restricted'),
-  draft('Draft'),
-  ;
+class SaaSProductVisibilityString {
+  static const limited = SaaSProductVisibilityString._('Limited');
+  static const public = SaaSProductVisibilityString._('Public');
+  static const restricted = SaaSProductVisibilityString._('Restricted');
+  static const draft = SaaSProductVisibilityString._('Draft');
 
   final String value;
 
-  const SaaSProductVisibilityString(this.value);
+  const SaaSProductVisibilityString._(this.value);
+
+  static const values = [limited, public, restricted, draft];
 
   static SaaSProductVisibilityString fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum SaaSProductVisibilityString'));
+          orElse: () => SaaSProductVisibilityString._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SaaSProductVisibilityString && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// An object that contains two attributes, <code>SortBy</code> and
@@ -3834,18 +4032,27 @@ class Sort {
   }
 }
 
-enum SortOrder {
-  ascending('ASCENDING'),
-  descending('DESCENDING'),
-  ;
+class SortOrder {
+  static const ascending = SortOrder._('ASCENDING');
+  static const descending = SortOrder._('DESCENDING');
 
   final String value;
 
-  const SortOrder(this.value);
+  const SortOrder._(this.value);
 
-  static SortOrder fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum SortOrder'));
+  static const values = [ascending, descending];
+
+  static SortOrder fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => SortOrder._(value));
+
+  @override
+  bool operator ==(other) => other is SortOrder && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class StartChangeSetResponse {

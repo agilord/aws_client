@@ -666,22 +666,31 @@ class CampaignFilters {
 }
 
 /// State of a campaign
-enum CampaignState {
-  initialized('Initialized'),
-  running('Running'),
-  paused('Paused'),
-  stopped('Stopped'),
-  failed('Failed'),
-  ;
+class CampaignState {
+  static const initialized = CampaignState._('Initialized');
+  static const running = CampaignState._('Running');
+  static const paused = CampaignState._('Paused');
+  static const stopped = CampaignState._('Stopped');
+  static const failed = CampaignState._('Failed');
 
   final String value;
 
-  const CampaignState(this.value);
+  const CampaignState._(this.value);
+
+  static const values = [initialized, running, paused, stopped, failed];
 
   static CampaignState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum CampaignState'));
+          orElse: () => CampaignState._(value));
+
+  @override
+  bool operator ==(other) => other is CampaignState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// An Amazon Connect campaign summary.
@@ -887,18 +896,27 @@ class EncryptionConfig {
 }
 
 /// Server-side encryption type.
-enum EncryptionType {
-  kms('KMS'),
-  ;
+class EncryptionType {
+  static const kms = EncryptionType._('KMS');
 
   final String value;
 
-  const EncryptionType(this.value);
+  const EncryptionType._(this.value);
+
+  static const values = [kms];
 
   static EncryptionType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum EncryptionType'));
+          orElse: () => EncryptionType._(value));
+
+  @override
+  bool operator ==(other) => other is EncryptionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Failed response of campaign state
@@ -963,36 +981,57 @@ class FailedRequest {
 }
 
 /// A predefined code indicating the error that caused the failure.
-enum FailureCode {
-  invalidInput('InvalidInput'),
-  requestThrottled('RequestThrottled'),
-  unknownError('UnknownError'),
-  ;
+class FailureCode {
+  static const invalidInput = FailureCode._('InvalidInput');
+  static const requestThrottled = FailureCode._('RequestThrottled');
+  static const unknownError = FailureCode._('UnknownError');
 
   final String value;
 
-  const FailureCode(this.value);
+  const FailureCode._(this.value);
 
-  static FailureCode fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum FailureCode'));
+  static const values = [invalidInput, requestThrottled, unknownError];
+
+  static FailureCode fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => FailureCode._(value));
+
+  @override
+  bool operator ==(other) => other is FailureCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A predefined code indicating the error that caused the failure in getting
 /// state of campaigns
-enum GetCampaignStateBatchFailureCode {
-  resourceNotFound('ResourceNotFound'),
-  unknownError('UnknownError'),
-  ;
+class GetCampaignStateBatchFailureCode {
+  static const resourceNotFound =
+      GetCampaignStateBatchFailureCode._('ResourceNotFound');
+  static const unknownError =
+      GetCampaignStateBatchFailureCode._('UnknownError');
 
   final String value;
 
-  const GetCampaignStateBatchFailureCode(this.value);
+  const GetCampaignStateBatchFailureCode._(this.value);
+
+  static const values = [resourceNotFound, unknownError];
 
   static GetCampaignStateBatchFailureCode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum GetCampaignStateBatchFailureCode'));
+          orElse: () => GetCampaignStateBatchFailureCode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is GetCampaignStateBatchFailureCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// GetCampaignStateBatchResponse
@@ -1164,39 +1203,72 @@ class InstanceIdFilter {
 }
 
 /// Operators for Connect instance identifier filter
-enum InstanceIdFilterOperator {
-  eq('Eq'),
-  ;
+class InstanceIdFilterOperator {
+  static const eq = InstanceIdFilterOperator._('Eq');
 
   final String value;
 
-  const InstanceIdFilterOperator(this.value);
+  const InstanceIdFilterOperator._(this.value);
+
+  static const values = [eq];
 
   static InstanceIdFilterOperator fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum InstanceIdFilterOperator'));
+          orElse: () => InstanceIdFilterOperator._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is InstanceIdFilterOperator && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Enumeration of the possible failure codes for instance onboarding job
-enum InstanceOnboardingJobFailureCode {
-  eventBridgeAccessDenied('EVENT_BRIDGE_ACCESS_DENIED'),
-  eventBridgeManagedRuleLimitExceeded(
-      'EVENT_BRIDGE_MANAGED_RULE_LIMIT_EXCEEDED'),
-  iamAccessDenied('IAM_ACCESS_DENIED'),
-  kmsAccessDenied('KMS_ACCESS_DENIED'),
-  kmsKeyNotFound('KMS_KEY_NOT_FOUND'),
-  internalFailure('INTERNAL_FAILURE'),
-  ;
+class InstanceOnboardingJobFailureCode {
+  static const eventBridgeAccessDenied =
+      InstanceOnboardingJobFailureCode._('EVENT_BRIDGE_ACCESS_DENIED');
+  static const eventBridgeManagedRuleLimitExceeded =
+      InstanceOnboardingJobFailureCode._(
+          'EVENT_BRIDGE_MANAGED_RULE_LIMIT_EXCEEDED');
+  static const iamAccessDenied =
+      InstanceOnboardingJobFailureCode._('IAM_ACCESS_DENIED');
+  static const kmsAccessDenied =
+      InstanceOnboardingJobFailureCode._('KMS_ACCESS_DENIED');
+  static const kmsKeyNotFound =
+      InstanceOnboardingJobFailureCode._('KMS_KEY_NOT_FOUND');
+  static const internalFailure =
+      InstanceOnboardingJobFailureCode._('INTERNAL_FAILURE');
 
   final String value;
 
-  const InstanceOnboardingJobFailureCode(this.value);
+  const InstanceOnboardingJobFailureCode._(this.value);
+
+  static const values = [
+    eventBridgeAccessDenied,
+    eventBridgeManagedRuleLimitExceeded,
+    iamAccessDenied,
+    kmsAccessDenied,
+    kmsKeyNotFound,
+    internalFailure
+  ];
 
   static InstanceOnboardingJobFailureCode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum InstanceOnboardingJobFailureCode'));
+          orElse: () => InstanceOnboardingJobFailureCode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is InstanceOnboardingJobFailureCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Instance onboarding job status object
@@ -1215,7 +1287,7 @@ class InstanceOnboardingJobStatus {
     return InstanceOnboardingJobStatus(
       connectInstanceId: (json['connectInstanceId'] as String?) ?? '',
       status: InstanceOnboardingJobStatusCode.fromString(
-          (json['status'] as String)),
+          (json['status'] as String?) ?? ''),
       failureCode: (json['failureCode'] as String?)
           ?.let(InstanceOnboardingJobFailureCode.fromString),
     );
@@ -1234,20 +1306,30 @@ class InstanceOnboardingJobStatus {
 }
 
 /// Enumeration of the possible states for instance onboarding job
-enum InstanceOnboardingJobStatusCode {
-  inProgress('IN_PROGRESS'),
-  succeeded('SUCCEEDED'),
-  failed('FAILED'),
-  ;
+class InstanceOnboardingJobStatusCode {
+  static const inProgress = InstanceOnboardingJobStatusCode._('IN_PROGRESS');
+  static const succeeded = InstanceOnboardingJobStatusCode._('SUCCEEDED');
+  static const failed = InstanceOnboardingJobStatusCode._('FAILED');
 
   final String value;
 
-  const InstanceOnboardingJobStatusCode(this.value);
+  const InstanceOnboardingJobStatusCode._(this.value);
+
+  static const values = [inProgress, succeeded, failed];
 
   static InstanceOnboardingJobStatusCode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum InstanceOnboardingJobStatusCode'));
+          orElse: () => InstanceOnboardingJobStatusCode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is InstanceOnboardingJobStatusCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// ListCampaignsResponse

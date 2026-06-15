@@ -678,34 +678,53 @@ class EventBridgeScheduler {
   }
 }
 
-enum ActionAfterCompletion {
-  none('NONE'),
-  delete('DELETE'),
-  ;
+class ActionAfterCompletion {
+  static const none = ActionAfterCompletion._('NONE');
+  static const delete = ActionAfterCompletion._('DELETE');
 
   final String value;
 
-  const ActionAfterCompletion(this.value);
+  const ActionAfterCompletion._(this.value);
 
-  static ActionAfterCompletion fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ActionAfterCompletion'));
+  static const values = [none, delete];
+
+  static ActionAfterCompletion fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ActionAfterCompletion._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ActionAfterCompletion && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum AssignPublicIp {
-  enabled('ENABLED'),
-  disabled('DISABLED'),
-  ;
+class AssignPublicIp {
+  static const enabled = AssignPublicIp._('ENABLED');
+  static const disabled = AssignPublicIp._('DISABLED');
 
   final String value;
 
-  const AssignPublicIp(this.value);
+  const AssignPublicIp._(this.value);
+
+  static const values = [enabled, disabled];
 
   static AssignPublicIp fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum AssignPublicIp'));
+          orElse: () => AssignPublicIp._(value));
+
+  @override
+  bool operator ==(other) => other is AssignPublicIp && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// This structure specifies the VPC subnets and security groups for the task,
@@ -1113,7 +1132,7 @@ class FlexibleTimeWindow {
 
   factory FlexibleTimeWindow.fromJson(Map<String, dynamic> json) {
     return FlexibleTimeWindow(
-      mode: FlexibleTimeWindowMode.fromString((json['Mode'] as String)),
+      mode: FlexibleTimeWindowMode.fromString((json['Mode'] as String?) ?? ''),
       maximumWindowInMinutes: json['MaximumWindowInMinutes'] as int?,
     );
   }
@@ -1129,19 +1148,29 @@ class FlexibleTimeWindow {
   }
 }
 
-enum FlexibleTimeWindowMode {
-  off('OFF'),
-  flexible('FLEXIBLE'),
-  ;
+class FlexibleTimeWindowMode {
+  static const off = FlexibleTimeWindowMode._('OFF');
+  static const flexible = FlexibleTimeWindowMode._('FLEXIBLE');
 
   final String value;
 
-  const FlexibleTimeWindowMode(this.value);
+  const FlexibleTimeWindowMode._(this.value);
+
+  static const values = [off, flexible];
 
   static FlexibleTimeWindowMode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum FlexibleTimeWindowMode'));
+          orElse: () => FlexibleTimeWindowMode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is FlexibleTimeWindowMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class GetScheduleGroupOutput {
@@ -1398,19 +1427,28 @@ class KinesisParameters {
   }
 }
 
-enum LaunchType {
-  ec2('EC2'),
-  fargate('FARGATE'),
-  external('EXTERNAL'),
-  ;
+class LaunchType {
+  static const ec2 = LaunchType._('EC2');
+  static const fargate = LaunchType._('FARGATE');
+  static const external = LaunchType._('EXTERNAL');
 
   final String value;
 
-  const LaunchType(this.value);
+  const LaunchType._(this.value);
 
-  static LaunchType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum LaunchType'));
+  static const values = [ec2, fargate, external];
+
+  static LaunchType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => LaunchType._(value));
+
+  @override
+  bool operator ==(other) => other is LaunchType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class ListScheduleGroupsOutput {
@@ -1570,19 +1608,29 @@ class PlacementConstraint {
   }
 }
 
-enum PlacementConstraintType {
-  distinctInstance('distinctInstance'),
-  memberOf('memberOf'),
-  ;
+class PlacementConstraintType {
+  static const distinctInstance = PlacementConstraintType._('distinctInstance');
+  static const memberOf = PlacementConstraintType._('memberOf');
 
   final String value;
 
-  const PlacementConstraintType(this.value);
+  const PlacementConstraintType._(this.value);
+
+  static const values = [distinctInstance, memberOf];
 
   static PlacementConstraintType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum PlacementConstraintType'));
+          orElse: () => PlacementConstraintType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is PlacementConstraintType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The task placement strategy for a task or service.
@@ -1628,34 +1676,53 @@ class PlacementStrategy {
   }
 }
 
-enum PlacementStrategyType {
-  random('random'),
-  spread('spread'),
-  binpack('binpack'),
-  ;
+class PlacementStrategyType {
+  static const random = PlacementStrategyType._('random');
+  static const spread = PlacementStrategyType._('spread');
+  static const binpack = PlacementStrategyType._('binpack');
 
   final String value;
 
-  const PlacementStrategyType(this.value);
+  const PlacementStrategyType._(this.value);
 
-  static PlacementStrategyType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum PlacementStrategyType'));
+  static const values = [random, spread, binpack];
+
+  static PlacementStrategyType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => PlacementStrategyType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is PlacementStrategyType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum PropagateTags {
-  taskDefinition('TASK_DEFINITION'),
-  ;
+class PropagateTags {
+  static const taskDefinition = PropagateTags._('TASK_DEFINITION');
 
   final String value;
 
-  const PropagateTags(this.value);
+  const PropagateTags._(this.value);
+
+  static const values = [taskDefinition];
 
   static PropagateTags fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum PropagateTags'));
+          orElse: () => PropagateTags._(value));
+
+  @override
+  bool operator ==(other) => other is PropagateTags && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A <code>RetryPolicy</code> object that includes information about the retry
@@ -1759,19 +1826,29 @@ class SageMakerPipelineParameters {
   }
 }
 
-enum ScheduleGroupState {
-  active('ACTIVE'),
-  deleting('DELETING'),
-  ;
+class ScheduleGroupState {
+  static const active = ScheduleGroupState._('ACTIVE');
+  static const deleting = ScheduleGroupState._('DELETING');
 
   final String value;
 
-  const ScheduleGroupState(this.value);
+  const ScheduleGroupState._(this.value);
 
-  static ScheduleGroupState fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ScheduleGroupState'));
+  static const values = [active, deleting];
+
+  static ScheduleGroupState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ScheduleGroupState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ScheduleGroupState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The details of a schedule group.
@@ -1827,19 +1904,28 @@ class ScheduleGroupSummary {
   }
 }
 
-enum ScheduleState {
-  enabled('ENABLED'),
-  disabled('DISABLED'),
-  ;
+class ScheduleState {
+  static const enabled = ScheduleState._('ENABLED');
+  static const disabled = ScheduleState._('DISABLED');
 
   final String value;
 
-  const ScheduleState(this.value);
+  const ScheduleState._(this.value);
+
+  static const values = [enabled, disabled];
 
   static ScheduleState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ScheduleState'));
+          orElse: () => ScheduleState._(value));
+
+  @override
+  bool operator ==(other) => other is ScheduleState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The details of a schedule.

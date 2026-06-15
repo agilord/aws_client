@@ -3885,32 +3885,70 @@ class AdministrativeActionFailureDetails {
 /// or CLI (<code>copy-snapshot-and-update-volume</code>).
 /// </li>
 /// </ul>
-enum AdministrativeActionType {
-  fileSystemUpdate('FILE_SYSTEM_UPDATE'),
-  storageOptimization('STORAGE_OPTIMIZATION'),
-  fileSystemAliasAssociation('FILE_SYSTEM_ALIAS_ASSOCIATION'),
-  fileSystemAliasDisassociation('FILE_SYSTEM_ALIAS_DISASSOCIATION'),
-  volumeUpdate('VOLUME_UPDATE'),
-  snapshotUpdate('SNAPSHOT_UPDATE'),
-  releaseNfsV3Locks('RELEASE_NFS_V3_LOCKS'),
-  volumeRestore('VOLUME_RESTORE'),
-  throughputOptimization('THROUGHPUT_OPTIMIZATION'),
-  iopsOptimization('IOPS_OPTIMIZATION'),
-  storageTypeOptimization('STORAGE_TYPE_OPTIMIZATION'),
-  misconfiguredStateRecovery('MISCONFIGURED_STATE_RECOVERY'),
-  volumeUpdateWithSnapshot('VOLUME_UPDATE_WITH_SNAPSHOT'),
-  volumeInitializeWithSnapshot('VOLUME_INITIALIZE_WITH_SNAPSHOT'),
-  downloadDataFromBackup('DOWNLOAD_DATA_FROM_BACKUP'),
-  ;
+class AdministrativeActionType {
+  static const fileSystemUpdate =
+      AdministrativeActionType._('FILE_SYSTEM_UPDATE');
+  static const storageOptimization =
+      AdministrativeActionType._('STORAGE_OPTIMIZATION');
+  static const fileSystemAliasAssociation =
+      AdministrativeActionType._('FILE_SYSTEM_ALIAS_ASSOCIATION');
+  static const fileSystemAliasDisassociation =
+      AdministrativeActionType._('FILE_SYSTEM_ALIAS_DISASSOCIATION');
+  static const volumeUpdate = AdministrativeActionType._('VOLUME_UPDATE');
+  static const snapshotUpdate = AdministrativeActionType._('SNAPSHOT_UPDATE');
+  static const releaseNfsV3Locks =
+      AdministrativeActionType._('RELEASE_NFS_V3_LOCKS');
+  static const volumeRestore = AdministrativeActionType._('VOLUME_RESTORE');
+  static const throughputOptimization =
+      AdministrativeActionType._('THROUGHPUT_OPTIMIZATION');
+  static const iopsOptimization =
+      AdministrativeActionType._('IOPS_OPTIMIZATION');
+  static const storageTypeOptimization =
+      AdministrativeActionType._('STORAGE_TYPE_OPTIMIZATION');
+  static const misconfiguredStateRecovery =
+      AdministrativeActionType._('MISCONFIGURED_STATE_RECOVERY');
+  static const volumeUpdateWithSnapshot =
+      AdministrativeActionType._('VOLUME_UPDATE_WITH_SNAPSHOT');
+  static const volumeInitializeWithSnapshot =
+      AdministrativeActionType._('VOLUME_INITIALIZE_WITH_SNAPSHOT');
+  static const downloadDataFromBackup =
+      AdministrativeActionType._('DOWNLOAD_DATA_FROM_BACKUP');
 
   final String value;
 
-  const AdministrativeActionType(this.value);
+  const AdministrativeActionType._(this.value);
+
+  static const values = [
+    fileSystemUpdate,
+    storageOptimization,
+    fileSystemAliasAssociation,
+    fileSystemAliasDisassociation,
+    volumeUpdate,
+    snapshotUpdate,
+    releaseNfsV3Locks,
+    volumeRestore,
+    throughputOptimization,
+    iopsOptimization,
+    storageTypeOptimization,
+    misconfiguredStateRecovery,
+    volumeUpdateWithSnapshot,
+    volumeInitializeWithSnapshot,
+    downloadDataFromBackup
+  ];
 
   static AdministrativeActionType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum AdministrativeActionType'));
+          orElse: () => AdministrativeActionType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AdministrativeActionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Used to specify configuration options for a volume’s storage aggregate or
@@ -4048,22 +4086,37 @@ class Alias {
   }
 }
 
-enum AliasLifecycle {
-  available('AVAILABLE'),
-  creating('CREATING'),
-  deleting('DELETING'),
-  createFailed('CREATE_FAILED'),
-  deleteFailed('DELETE_FAILED'),
-  ;
+class AliasLifecycle {
+  static const available = AliasLifecycle._('AVAILABLE');
+  static const creating = AliasLifecycle._('CREATING');
+  static const deleting = AliasLifecycle._('DELETING');
+  static const createFailed = AliasLifecycle._('CREATE_FAILED');
+  static const deleteFailed = AliasLifecycle._('DELETE_FAILED');
 
   final String value;
 
-  const AliasLifecycle(this.value);
+  const AliasLifecycle._(this.value);
+
+  static const values = [
+    available,
+    creating,
+    deleting,
+    createFailed,
+    deleteFailed
+  ];
 
   static AliasLifecycle fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum AliasLifecycle'));
+          orElse: () => AliasLifecycle._(value));
+
+  @override
+  bool operator ==(other) => other is AliasLifecycle && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The system generated response showing the DNS aliases that Amazon FSx is
@@ -4199,21 +4252,32 @@ class AutoImportPolicy {
   }
 }
 
-enum AutoImportPolicyType {
-  none('NONE'),
-  $new('NEW'),
-  newChanged('NEW_CHANGED'),
-  newChangedDeleted('NEW_CHANGED_DELETED'),
-  ;
+class AutoImportPolicyType {
+  static const none = AutoImportPolicyType._('NONE');
+  static const $new = AutoImportPolicyType._('NEW');
+  static const newChanged = AutoImportPolicyType._('NEW_CHANGED');
+  static const newChangedDeleted =
+      AutoImportPolicyType._('NEW_CHANGED_DELETED');
 
   final String value;
 
-  const AutoImportPolicyType(this.value);
+  const AutoImportPolicyType._(this.value);
 
-  static AutoImportPolicyType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum AutoImportPolicyType'));
+  static const values = [none, $new, newChanged, newChangedDeleted];
+
+  static AutoImportPolicyType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AutoImportPolicyType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AutoImportPolicyType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Sets the autocommit period of files in an FSx for ONTAP SnapLock volume,
@@ -4257,7 +4321,7 @@ class AutocommitPeriod {
 
   factory AutocommitPeriod.fromJson(Map<String, dynamic> json) {
     return AutocommitPeriod(
-      type: AutocommitPeriodType.fromString((json['Type'] as String)),
+      type: AutocommitPeriodType.fromString((json['Type'] as String?) ?? ''),
       value: json['Value'] as int?,
     );
   }
@@ -4272,23 +4336,33 @@ class AutocommitPeriod {
   }
 }
 
-enum AutocommitPeriodType {
-  minutes('MINUTES'),
-  hours('HOURS'),
-  days('DAYS'),
-  months('MONTHS'),
-  years('YEARS'),
-  none('NONE'),
-  ;
+class AutocommitPeriodType {
+  static const minutes = AutocommitPeriodType._('MINUTES');
+  static const hours = AutocommitPeriodType._('HOURS');
+  static const days = AutocommitPeriodType._('DAYS');
+  static const months = AutocommitPeriodType._('MONTHS');
+  static const years = AutocommitPeriodType._('YEARS');
+  static const none = AutocommitPeriodType._('NONE');
 
   final String value;
 
-  const AutocommitPeriodType(this.value);
+  const AutocommitPeriodType._(this.value);
 
-  static AutocommitPeriodType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum AutocommitPeriodType'));
+  static const values = [minutes, hours, days, months, years, none];
+
+  static AutocommitPeriodType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AutocommitPeriodType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AutocommitPeriodType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A backup of an Amazon FSx for Windows File Server, Amazon FSx for Lustre
@@ -4392,8 +4466,9 @@ class Backup {
       fileSystem: FileSystem.fromJson(
           (json['FileSystem'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
-      lifecycle: BackupLifecycle.fromString((json['Lifecycle'] as String)),
-      type: BackupType.fromString((json['Type'] as String)),
+      lifecycle:
+          BackupLifecycle.fromString((json['Lifecycle'] as String?) ?? ''),
+      type: BackupType.fromString((json['Type'] as String?) ?? ''),
       directoryInformation: json['DirectoryInformation'] != null
           ? ActiveDirectoryBackupAttributes.fromJson(
               json['DirectoryInformation'] as Map<String, dynamic>)
@@ -4512,40 +4587,66 @@ class BackupFailureDetails {
 /// <code>FAILED</code> - Amazon FSx couldn't finish the backup.
 /// </li>
 /// </ul>
-enum BackupLifecycle {
-  available('AVAILABLE'),
-  creating('CREATING'),
-  transferring('TRANSFERRING'),
-  deleted('DELETED'),
-  failed('FAILED'),
-  pending('PENDING'),
-  copying('COPYING'),
-  ;
+class BackupLifecycle {
+  static const available = BackupLifecycle._('AVAILABLE');
+  static const creating = BackupLifecycle._('CREATING');
+  static const transferring = BackupLifecycle._('TRANSFERRING');
+  static const deleted = BackupLifecycle._('DELETED');
+  static const failed = BackupLifecycle._('FAILED');
+  static const pending = BackupLifecycle._('PENDING');
+  static const copying = BackupLifecycle._('COPYING');
 
   final String value;
 
-  const BackupLifecycle(this.value);
+  const BackupLifecycle._(this.value);
+
+  static const values = [
+    available,
+    creating,
+    transferring,
+    deleted,
+    failed,
+    pending,
+    copying
+  ];
 
   static BackupLifecycle fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum BackupLifecycle'));
+          orElse: () => BackupLifecycle._(value));
+
+  @override
+  bool operator ==(other) => other is BackupLifecycle && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The type of the backup.
-enum BackupType {
-  automatic('AUTOMATIC'),
-  userInitiated('USER_INITIATED'),
-  awsBackup('AWS_BACKUP'),
-  ;
+class BackupType {
+  static const automatic = BackupType._('AUTOMATIC');
+  static const userInitiated = BackupType._('USER_INITIATED');
+  static const awsBackup = BackupType._('AWS_BACKUP');
 
   final String value;
 
-  const BackupType(this.value);
+  const BackupType._(this.value);
 
-  static BackupType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum BackupType'));
+  static const values = [automatic, userInitiated, awsBackup];
+
+  static BackupType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => BackupType._(value));
+
+  @override
+  bool operator ==(other) => other is BackupType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class CancelDataRepositoryTaskResponse {
@@ -6449,19 +6550,29 @@ class CreateVolumeResponse {
   }
 }
 
-enum DataCompressionType {
-  none('NONE'),
-  lz4('LZ4'),
-  ;
+class DataCompressionType {
+  static const none = DataCompressionType._('NONE');
+  static const lz4 = DataCompressionType._('LZ4');
 
   final String value;
 
-  const DataCompressionType(this.value);
+  const DataCompressionType._(this.value);
 
-  static DataCompressionType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum DataCompressionType'));
+  static const values = [none, lz4];
+
+  static DataCompressionType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DataCompressionType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DataCompressionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The configuration of a data repository association that links an Amazon FSx
@@ -6899,23 +7010,40 @@ class DataRepositoryFailureDetails {
   }
 }
 
-enum DataRepositoryLifecycle {
-  creating('CREATING'),
-  available('AVAILABLE'),
-  misconfigured('MISCONFIGURED'),
-  updating('UPDATING'),
-  deleting('DELETING'),
-  failed('FAILED'),
-  ;
+class DataRepositoryLifecycle {
+  static const creating = DataRepositoryLifecycle._('CREATING');
+  static const available = DataRepositoryLifecycle._('AVAILABLE');
+  static const misconfigured = DataRepositoryLifecycle._('MISCONFIGURED');
+  static const updating = DataRepositoryLifecycle._('UPDATING');
+  static const deleting = DataRepositoryLifecycle._('DELETING');
+  static const failed = DataRepositoryLifecycle._('FAILED');
 
   final String value;
 
-  const DataRepositoryLifecycle(this.value);
+  const DataRepositoryLifecycle._(this.value);
+
+  static const values = [
+    creating,
+    available,
+    misconfigured,
+    updating,
+    deleting,
+    failed
+  ];
 
   static DataRepositoryLifecycle fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum DataRepositoryLifecycle'));
+          orElse: () => DataRepositoryLifecycle._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DataRepositoryLifecycle && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A description of the data repository task.
@@ -7064,10 +7192,10 @@ class DataRepositoryTask {
   factory DataRepositoryTask.fromJson(Map<String, dynamic> json) {
     return DataRepositoryTask(
       creationTime: nonNullableTimeStampFromJson(json['CreationTime'] ?? 0),
-      lifecycle:
-          DataRepositoryTaskLifecycle.fromString((json['Lifecycle'] as String)),
+      lifecycle: DataRepositoryTaskLifecycle.fromString(
+          (json['Lifecycle'] as String?) ?? ''),
       taskId: (json['TaskId'] as String?) ?? '',
-      type: DataRepositoryTaskType.fromString((json['Type'] as String)),
+      type: DataRepositoryTaskType.fromString((json['Type'] as String?) ?? ''),
       capacityToRelease: json['CapacityToRelease'] as int?,
       endTime: timeStampFromJson(json['EndTime']),
       failureDetails: json['FailureDetails'] != null
@@ -7201,40 +7329,73 @@ class DataRepositoryTaskFilter {
   }
 }
 
-enum DataRepositoryTaskFilterName {
-  fileSystemId('file-system-id'),
-  taskLifecycle('task-lifecycle'),
-  dataRepositoryAssociationId('data-repository-association-id'),
-  fileCacheId('file-cache-id'),
-  ;
+class DataRepositoryTaskFilterName {
+  static const fileSystemId = DataRepositoryTaskFilterName._('file-system-id');
+  static const taskLifecycle = DataRepositoryTaskFilterName._('task-lifecycle');
+  static const dataRepositoryAssociationId =
+      DataRepositoryTaskFilterName._('data-repository-association-id');
+  static const fileCacheId = DataRepositoryTaskFilterName._('file-cache-id');
 
   final String value;
 
-  const DataRepositoryTaskFilterName(this.value);
+  const DataRepositoryTaskFilterName._(this.value);
+
+  static const values = [
+    fileSystemId,
+    taskLifecycle,
+    dataRepositoryAssociationId,
+    fileCacheId
+  ];
 
   static DataRepositoryTaskFilterName fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum DataRepositoryTaskFilterName'));
+          orElse: () => DataRepositoryTaskFilterName._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DataRepositoryTaskFilterName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum DataRepositoryTaskLifecycle {
-  pending('PENDING'),
-  executing('EXECUTING'),
-  failed('FAILED'),
-  succeeded('SUCCEEDED'),
-  canceled('CANCELED'),
-  canceling('CANCELING'),
-  ;
+class DataRepositoryTaskLifecycle {
+  static const pending = DataRepositoryTaskLifecycle._('PENDING');
+  static const executing = DataRepositoryTaskLifecycle._('EXECUTING');
+  static const failed = DataRepositoryTaskLifecycle._('FAILED');
+  static const succeeded = DataRepositoryTaskLifecycle._('SUCCEEDED');
+  static const canceled = DataRepositoryTaskLifecycle._('CANCELED');
+  static const canceling = DataRepositoryTaskLifecycle._('CANCELING');
 
   final String value;
 
-  const DataRepositoryTaskLifecycle(this.value);
+  const DataRepositoryTaskLifecycle._(this.value);
+
+  static const values = [
+    pending,
+    executing,
+    failed,
+    succeeded,
+    canceled,
+    canceling
+  ];
 
   static DataRepositoryTaskLifecycle fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum DataRepositoryTaskLifecycle'));
+          orElse: () => DataRepositoryTaskLifecycle._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DataRepositoryTaskLifecycle && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Provides the task status showing a running total of the total number of
@@ -7297,21 +7458,39 @@ class DataRepositoryTaskStatus {
   }
 }
 
-enum DataRepositoryTaskType {
-  exportToRepository('EXPORT_TO_REPOSITORY'),
-  importMetadataFromRepository('IMPORT_METADATA_FROM_REPOSITORY'),
-  releaseDataFromFilesystem('RELEASE_DATA_FROM_FILESYSTEM'),
-  autoReleaseData('AUTO_RELEASE_DATA'),
-  ;
+class DataRepositoryTaskType {
+  static const exportToRepository =
+      DataRepositoryTaskType._('EXPORT_TO_REPOSITORY');
+  static const importMetadataFromRepository =
+      DataRepositoryTaskType._('IMPORT_METADATA_FROM_REPOSITORY');
+  static const releaseDataFromFilesystem =
+      DataRepositoryTaskType._('RELEASE_DATA_FROM_FILESYSTEM');
+  static const autoReleaseData = DataRepositoryTaskType._('AUTO_RELEASE_DATA');
 
   final String value;
 
-  const DataRepositoryTaskType(this.value);
+  const DataRepositoryTaskType._(this.value);
+
+  static const values = [
+    exportToRepository,
+    importMetadataFromRepository,
+    releaseDataFromFilesystem,
+    autoReleaseData
+  ];
 
   static DataRepositoryTaskType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum DataRepositoryTaskType'));
+          orElse: () => DataRepositoryTaskType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DataRepositoryTaskType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The response object for the <code>DeleteBackup</code> operation.
@@ -7526,18 +7705,29 @@ class DeleteFileSystemOpenZFSConfiguration {
   }
 }
 
-enum DeleteFileSystemOpenZFSOption {
-  deleteChildVolumesAndSnapshots('DELETE_CHILD_VOLUMES_AND_SNAPSHOTS'),
-  ;
+class DeleteFileSystemOpenZFSOption {
+  static const deleteChildVolumesAndSnapshots =
+      DeleteFileSystemOpenZFSOption._('DELETE_CHILD_VOLUMES_AND_SNAPSHOTS');
 
   final String value;
 
-  const DeleteFileSystemOpenZFSOption(this.value);
+  const DeleteFileSystemOpenZFSOption._(this.value);
+
+  static const values = [deleteChildVolumesAndSnapshots];
 
   static DeleteFileSystemOpenZFSOption fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum DeleteFileSystemOpenZFSOption'));
+          orElse: () => DeleteFileSystemOpenZFSOption._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DeleteFileSystemOpenZFSOption && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The response object for the Amazon FSx for OpenZFS file system that's being
@@ -7692,18 +7882,29 @@ class DeleteFileSystemWindowsResponse {
   }
 }
 
-enum DeleteOpenZFSVolumeOption {
-  deleteChildVolumesAndSnapshots('DELETE_CHILD_VOLUMES_AND_SNAPSHOTS'),
-  ;
+class DeleteOpenZFSVolumeOption {
+  static const deleteChildVolumesAndSnapshots =
+      DeleteOpenZFSVolumeOption._('DELETE_CHILD_VOLUMES_AND_SNAPSHOTS');
 
   final String value;
 
-  const DeleteOpenZFSVolumeOption(this.value);
+  const DeleteOpenZFSVolumeOption._(this.value);
+
+  static const values = [deleteChildVolumesAndSnapshots];
 
   static DeleteOpenZFSVolumeOption fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum DeleteOpenZFSVolumeOption'));
+          orElse: () => DeleteOpenZFSVolumeOption._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DeleteOpenZFSVolumeOption && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class DeleteSnapshotResponse {
@@ -8307,34 +8508,54 @@ class DiskIopsConfiguration {
   }
 }
 
-enum DiskIopsConfigurationMode {
-  automatic('AUTOMATIC'),
-  userProvisioned('USER_PROVISIONED'),
-  ;
+class DiskIopsConfigurationMode {
+  static const automatic = DiskIopsConfigurationMode._('AUTOMATIC');
+  static const userProvisioned =
+      DiskIopsConfigurationMode._('USER_PROVISIONED');
 
   final String value;
 
-  const DiskIopsConfigurationMode(this.value);
+  const DiskIopsConfigurationMode._(this.value);
+
+  static const values = [automatic, userProvisioned];
 
   static DiskIopsConfigurationMode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum DiskIopsConfigurationMode'));
+          orElse: () => DiskIopsConfigurationMode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DiskIopsConfigurationMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum DriveCacheType {
-  none('NONE'),
-  read('READ'),
-  ;
+class DriveCacheType {
+  static const none = DriveCacheType._('NONE');
+  static const read = DriveCacheType._('READ');
 
   final String value;
 
-  const DriveCacheType(this.value);
+  const DriveCacheType._(this.value);
+
+  static const values = [none, read];
 
   static DriveCacheType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum DriveCacheType'));
+          orElse: () => DriveCacheType._(value));
+
+  @override
+  bool operator ==(other) => other is DriveCacheType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Defines the minimum amount of time since last access for a file to be
@@ -8382,19 +8603,28 @@ class DurationSinceLastAccess {
   }
 }
 
-enum EventType {
-  $new('NEW'),
-  changed('CHANGED'),
-  deleted('DELETED'),
-  ;
+class EventType {
+  static const $new = EventType._('NEW');
+  static const changed = EventType._('CHANGED');
+  static const deleted = EventType._('DELETED');
 
   final String value;
 
-  const EventType(this.value);
+  const EventType._(this.value);
 
-  static EventType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum EventType'));
+  static const values = [$new, changed, deleted];
+
+  static EventType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => EventType._(value));
+
+  @override
+  bool operator ==(other) => other is EventType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A description of a specific Amazon File Cache resource, which is a response
@@ -8869,22 +9099,32 @@ class FileCacheFailureDetails {
   }
 }
 
-enum FileCacheLifecycle {
-  available('AVAILABLE'),
-  creating('CREATING'),
-  deleting('DELETING'),
-  updating('UPDATING'),
-  failed('FAILED'),
-  ;
+class FileCacheLifecycle {
+  static const available = FileCacheLifecycle._('AVAILABLE');
+  static const creating = FileCacheLifecycle._('CREATING');
+  static const deleting = FileCacheLifecycle._('DELETING');
+  static const updating = FileCacheLifecycle._('UPDATING');
+  static const failed = FileCacheLifecycle._('FAILED');
 
   final String value;
 
-  const FileCacheLifecycle(this.value);
+  const FileCacheLifecycle._(this.value);
 
-  static FileCacheLifecycle fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum FileCacheLifecycle'));
+  static const values = [available, creating, deleting, updating, failed];
+
+  static FileCacheLifecycle fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => FileCacheLifecycle._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is FileCacheLifecycle && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The configuration for the Amazon File Cache resource.
@@ -8960,18 +9200,28 @@ class FileCacheLustreConfiguration {
   }
 }
 
-enum FileCacheLustreDeploymentType {
-  cache_1('CACHE_1'),
-  ;
+class FileCacheLustreDeploymentType {
+  static const cache_1 = FileCacheLustreDeploymentType._('CACHE_1');
 
   final String value;
 
-  const FileCacheLustreDeploymentType(this.value);
+  const FileCacheLustreDeploymentType._(this.value);
+
+  static const values = [cache_1];
 
   static FileCacheLustreDeploymentType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum FileCacheLustreDeploymentType'));
+          orElse: () => FileCacheLustreDeploymentType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is FileCacheLustreDeploymentType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The configuration for a Lustre MDT (Metadata Target) storage volume. The
@@ -9030,18 +9280,27 @@ class FileCacheNFSConfiguration {
   }
 }
 
-enum FileCacheType {
-  lustre('LUSTRE'),
-  ;
+class FileCacheType {
+  static const lustre = FileCacheType._('LUSTRE');
 
   final String value;
 
-  const FileCacheType(this.value);
+  const FileCacheType._(this.value);
+
+  static const values = [lustre];
 
   static FileCacheType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum FileCacheType'));
+          orElse: () => FileCacheType._(value));
+
+  @override
+  bool operator ==(other) => other is FileCacheType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A description of a specific Amazon FSx file system.
@@ -9426,24 +9685,43 @@ class FileSystemFailureDetails {
 }
 
 /// The lifecycle status of the file system.
-enum FileSystemLifecycle {
-  available('AVAILABLE'),
-  creating('CREATING'),
-  failed('FAILED'),
-  deleting('DELETING'),
-  misconfigured('MISCONFIGURED'),
-  updating('UPDATING'),
-  misconfiguredUnavailable('MISCONFIGURED_UNAVAILABLE'),
-  ;
+class FileSystemLifecycle {
+  static const available = FileSystemLifecycle._('AVAILABLE');
+  static const creating = FileSystemLifecycle._('CREATING');
+  static const failed = FileSystemLifecycle._('FAILED');
+  static const deleting = FileSystemLifecycle._('DELETING');
+  static const misconfigured = FileSystemLifecycle._('MISCONFIGURED');
+  static const updating = FileSystemLifecycle._('UPDATING');
+  static const misconfiguredUnavailable =
+      FileSystemLifecycle._('MISCONFIGURED_UNAVAILABLE');
 
   final String value;
 
-  const FileSystemLifecycle(this.value);
+  const FileSystemLifecycle._(this.value);
 
-  static FileSystemLifecycle fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum FileSystemLifecycle'));
+  static const values = [
+    available,
+    creating,
+    failed,
+    deleting,
+    misconfigured,
+    updating,
+    misconfiguredUnavailable
+  ];
+
+  static FileSystemLifecycle fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => FileSystemLifecycle._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is FileSystemLifecycle && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The Lustre metadata performance configuration of an Amazon FSx for Lustre
@@ -9481,7 +9759,8 @@ class FileSystemLustreMetadataConfiguration {
   factory FileSystemLustreMetadataConfiguration.fromJson(
       Map<String, dynamic> json) {
     return FileSystemLustreMetadataConfiguration(
-      mode: MetadataConfigurationMode.fromString((json['Mode'] as String)),
+      mode:
+          MetadataConfigurationMode.fromString((json['Mode'] as String?) ?? ''),
       iops: json['Iops'] as int?,
     );
   }
@@ -9497,37 +9776,56 @@ class FileSystemLustreMetadataConfiguration {
 }
 
 /// An enumeration specifying the currently ongoing maintenance operation.
-enum FileSystemMaintenanceOperation {
-  patching('PATCHING'),
-  backingUp('BACKING_UP'),
-  ;
+class FileSystemMaintenanceOperation {
+  static const patching = FileSystemMaintenanceOperation._('PATCHING');
+  static const backingUp = FileSystemMaintenanceOperation._('BACKING_UP');
 
   final String value;
 
-  const FileSystemMaintenanceOperation(this.value);
+  const FileSystemMaintenanceOperation._(this.value);
+
+  static const values = [patching, backingUp];
 
   static FileSystemMaintenanceOperation fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum FileSystemMaintenanceOperation'));
+          orElse: () => FileSystemMaintenanceOperation._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is FileSystemMaintenanceOperation && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The type of file system.
-enum FileSystemType {
-  windows('WINDOWS'),
-  lustre('LUSTRE'),
-  ontap('ONTAP'),
-  openzfs('OPENZFS'),
-  ;
+class FileSystemType {
+  static const windows = FileSystemType._('WINDOWS');
+  static const lustre = FileSystemType._('LUSTRE');
+  static const ontap = FileSystemType._('ONTAP');
+  static const openzfs = FileSystemType._('OPENZFS');
 
   final String value;
 
-  const FileSystemType(this.value);
+  const FileSystemType._(this.value);
+
+  static const values = [windows, lustre, ontap, openzfs];
 
   static FileSystemType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum FileSystemType'));
+          orElse: () => FileSystemType._(value));
+
+  @override
+  bool operator ==(other) => other is FileSystemType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A filter used to restrict the results of describe calls. You can use
@@ -9557,54 +9855,91 @@ class Filter {
 }
 
 /// The name for a filter.
-enum FilterName {
-  fileSystemId('file-system-id'),
-  backupType('backup-type'),
-  fileSystemType('file-system-type'),
-  volumeId('volume-id'),
-  dataRepositoryType('data-repository-type'),
-  fileCacheId('file-cache-id'),
-  fileCacheType('file-cache-type'),
-  ;
+class FilterName {
+  static const fileSystemId = FilterName._('file-system-id');
+  static const backupType = FilterName._('backup-type');
+  static const fileSystemType = FilterName._('file-system-type');
+  static const volumeId = FilterName._('volume-id');
+  static const dataRepositoryType = FilterName._('data-repository-type');
+  static const fileCacheId = FilterName._('file-cache-id');
+  static const fileCacheType = FilterName._('file-cache-type');
 
   final String value;
 
-  const FilterName(this.value);
+  const FilterName._(this.value);
 
-  static FilterName fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum FilterName'));
+  static const values = [
+    fileSystemId,
+    backupType,
+    fileSystemType,
+    volumeId,
+    dataRepositoryType,
+    fileCacheId,
+    fileCacheType
+  ];
+
+  static FilterName fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => FilterName._(value));
+
+  @override
+  bool operator ==(other) => other is FilterName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum FlexCacheEndpointType {
-  none('NONE'),
-  origin('ORIGIN'),
-  cache('CACHE'),
-  ;
+class FlexCacheEndpointType {
+  static const none = FlexCacheEndpointType._('NONE');
+  static const origin = FlexCacheEndpointType._('ORIGIN');
+  static const cache = FlexCacheEndpointType._('CACHE');
 
   final String value;
 
-  const FlexCacheEndpointType(this.value);
+  const FlexCacheEndpointType._(this.value);
 
-  static FlexCacheEndpointType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum FlexCacheEndpointType'));
+  static const values = [none, origin, cache];
+
+  static FlexCacheEndpointType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => FlexCacheEndpointType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is FlexCacheEndpointType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum InputOntapVolumeType {
-  rw('RW'),
-  dp('DP'),
-  ;
+class InputOntapVolumeType {
+  static const rw = InputOntapVolumeType._('RW');
+  static const dp = InputOntapVolumeType._('DP');
 
   final String value;
 
-  const InputOntapVolumeType(this.value);
+  const InputOntapVolumeType._(this.value);
 
-  static InputOntapVolumeType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum InputOntapVolumeType'));
+  static const values = [rw, dp];
+
+  static InputOntapVolumeType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => InputOntapVolumeType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is InputOntapVolumeType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes why a resource lifecycle state changed.
@@ -9664,38 +9999,58 @@ class ListTagsForResourceResponse {
   }
 }
 
-enum LustreAccessAuditLogLevel {
-  disabled('DISABLED'),
-  warnOnly('WARN_ONLY'),
-  errorOnly('ERROR_ONLY'),
-  warnError('WARN_ERROR'),
-  ;
+class LustreAccessAuditLogLevel {
+  static const disabled = LustreAccessAuditLogLevel._('DISABLED');
+  static const warnOnly = LustreAccessAuditLogLevel._('WARN_ONLY');
+  static const errorOnly = LustreAccessAuditLogLevel._('ERROR_ONLY');
+  static const warnError = LustreAccessAuditLogLevel._('WARN_ERROR');
 
   final String value;
 
-  const LustreAccessAuditLogLevel(this.value);
+  const LustreAccessAuditLogLevel._(this.value);
+
+  static const values = [disabled, warnOnly, errorOnly, warnError];
 
   static LustreAccessAuditLogLevel fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum LustreAccessAuditLogLevel'));
+          orElse: () => LustreAccessAuditLogLevel._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is LustreAccessAuditLogLevel && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum LustreDeploymentType {
-  scratch_1('SCRATCH_1'),
-  scratch_2('SCRATCH_2'),
-  persistent_1('PERSISTENT_1'),
-  persistent_2('PERSISTENT_2'),
-  ;
+class LustreDeploymentType {
+  static const scratch_1 = LustreDeploymentType._('SCRATCH_1');
+  static const scratch_2 = LustreDeploymentType._('SCRATCH_2');
+  static const persistent_1 = LustreDeploymentType._('PERSISTENT_1');
+  static const persistent_2 = LustreDeploymentType._('PERSISTENT_2');
 
   final String value;
 
-  const LustreDeploymentType(this.value);
+  const LustreDeploymentType._(this.value);
 
-  static LustreDeploymentType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum LustreDeploymentType'));
+  static const values = [scratch_1, scratch_2, persistent_1, persistent_2];
+
+  static LustreDeploymentType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => LustreDeploymentType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is LustreDeploymentType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The configuration for the Amazon FSx for Lustre file system.
@@ -9937,7 +10292,8 @@ class LustreLogConfiguration {
 
   factory LustreLogConfiguration.fromJson(Map<String, dynamic> json) {
     return LustreLogConfiguration(
-      level: LustreAccessAuditLogLevel.fromString((json['Level'] as String)),
+      level: LustreAccessAuditLogLevel.fromString(
+          (json['Level'] as String?) ?? ''),
       destination: json['Destination'] as String?,
     );
   }
@@ -10098,19 +10454,30 @@ class LustreRootSquashConfiguration {
   }
 }
 
-enum MetadataConfigurationMode {
-  automatic('AUTOMATIC'),
-  userProvisioned('USER_PROVISIONED'),
-  ;
+class MetadataConfigurationMode {
+  static const automatic = MetadataConfigurationMode._('AUTOMATIC');
+  static const userProvisioned =
+      MetadataConfigurationMode._('USER_PROVISIONED');
 
   final String value;
 
-  const MetadataConfigurationMode(this.value);
+  const MetadataConfigurationMode._(this.value);
+
+  static const values = [automatic, userProvisioned];
 
   static MetadataConfigurationMode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum MetadataConfigurationMode'));
+          orElse: () => MetadataConfigurationMode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is MetadataConfigurationMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The configuration for a data repository association that links an Amazon
@@ -10138,7 +10505,7 @@ class NFSDataRepositoryConfiguration {
 
   factory NFSDataRepositoryConfiguration.fromJson(Map<String, dynamic> json) {
     return NFSDataRepositoryConfiguration(
-      version: NfsVersion.fromString((json['Version'] as String)),
+      version: NfsVersion.fromString((json['Version'] as String?) ?? ''),
       autoExportPolicy: json['AutoExportPolicy'] != null
           ? AutoExportPolicy.fromJson(
               json['AutoExportPolicy'] as Map<String, dynamic>)
@@ -10160,34 +10527,53 @@ class NFSDataRepositoryConfiguration {
   }
 }
 
-enum NfsVersion {
-  nfs3('NFS3'),
-  ;
+class NfsVersion {
+  static const nfs3 = NfsVersion._('NFS3');
 
   final String value;
 
-  const NfsVersion(this.value);
+  const NfsVersion._(this.value);
 
-  static NfsVersion fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum NfsVersion'));
+  static const values = [nfs3];
+
+  static NfsVersion fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => NfsVersion._(value));
+
+  @override
+  bool operator ==(other) => other is NfsVersion && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum OntapDeploymentType {
-  multiAz_1('MULTI_AZ_1'),
-  singleAz_1('SINGLE_AZ_1'),
-  singleAz_2('SINGLE_AZ_2'),
-  multiAz_2('MULTI_AZ_2'),
-  ;
+class OntapDeploymentType {
+  static const multiAz_1 = OntapDeploymentType._('MULTI_AZ_1');
+  static const singleAz_1 = OntapDeploymentType._('SINGLE_AZ_1');
+  static const singleAz_2 = OntapDeploymentType._('SINGLE_AZ_2');
+  static const multiAz_2 = OntapDeploymentType._('MULTI_AZ_2');
 
   final String value;
 
-  const OntapDeploymentType(this.value);
+  const OntapDeploymentType._(this.value);
 
-  static OntapDeploymentType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum OntapDeploymentType'));
+  static const values = [multiAz_1, singleAz_1, singleAz_2, multiAz_2];
+
+  static OntapDeploymentType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => OntapDeploymentType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is OntapDeploymentType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Configuration for the FSx for NetApp ONTAP file system.
@@ -10632,20 +11018,29 @@ class OntapVolumeConfiguration {
   }
 }
 
-enum OntapVolumeType {
-  rw('RW'),
-  dp('DP'),
-  ls('LS'),
-  ;
+class OntapVolumeType {
+  static const rw = OntapVolumeType._('RW');
+  static const dp = OntapVolumeType._('DP');
+  static const ls = OntapVolumeType._('LS');
 
   final String value;
 
-  const OntapVolumeType(this.value);
+  const OntapVolumeType._(this.value);
+
+  static const values = [rw, dp, ls];
 
   static OntapVolumeType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum OntapVolumeType'));
+          orElse: () => OntapVolumeType._(value));
+
+  @override
+  bool operator ==(other) => other is OntapVolumeType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specifies who can mount an OpenZFS file system and the options available
@@ -10702,20 +11097,30 @@ class OpenZFSClientConfiguration {
   }
 }
 
-enum OpenZFSCopyStrategy {
-  clone('CLONE'),
-  fullCopy('FULL_COPY'),
-  incrementalCopy('INCREMENTAL_COPY'),
-  ;
+class OpenZFSCopyStrategy {
+  static const clone = OpenZFSCopyStrategy._('CLONE');
+  static const fullCopy = OpenZFSCopyStrategy._('FULL_COPY');
+  static const incrementalCopy = OpenZFSCopyStrategy._('INCREMENTAL_COPY');
 
   final String value;
 
-  const OpenZFSCopyStrategy(this.value);
+  const OpenZFSCopyStrategy._(this.value);
 
-  static OpenZFSCopyStrategy fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum OpenZFSCopyStrategy'));
+  static const values = [clone, fullCopy, incrementalCopy];
+
+  static OpenZFSCopyStrategy fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => OpenZFSCopyStrategy._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is OpenZFSCopyStrategy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The configuration of an Amazon FSx for OpenZFS root volume.
@@ -10801,38 +11206,64 @@ class OpenZFSCreateRootVolumeConfiguration {
   }
 }
 
-enum OpenZFSDataCompressionType {
-  none('NONE'),
-  zstd('ZSTD'),
-  lz4('LZ4'),
-  ;
+class OpenZFSDataCompressionType {
+  static const none = OpenZFSDataCompressionType._('NONE');
+  static const zstd = OpenZFSDataCompressionType._('ZSTD');
+  static const lz4 = OpenZFSDataCompressionType._('LZ4');
 
   final String value;
 
-  const OpenZFSDataCompressionType(this.value);
+  const OpenZFSDataCompressionType._(this.value);
+
+  static const values = [none, zstd, lz4];
 
   static OpenZFSDataCompressionType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum OpenZFSDataCompressionType'));
+          orElse: () => OpenZFSDataCompressionType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is OpenZFSDataCompressionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum OpenZFSDeploymentType {
-  singleAz_1('SINGLE_AZ_1'),
-  singleAz_2('SINGLE_AZ_2'),
-  singleAzHa_1('SINGLE_AZ_HA_1'),
-  singleAzHa_2('SINGLE_AZ_HA_2'),
-  multiAz_1('MULTI_AZ_1'),
-  ;
+class OpenZFSDeploymentType {
+  static const singleAz_1 = OpenZFSDeploymentType._('SINGLE_AZ_1');
+  static const singleAz_2 = OpenZFSDeploymentType._('SINGLE_AZ_2');
+  static const singleAzHa_1 = OpenZFSDeploymentType._('SINGLE_AZ_HA_1');
+  static const singleAzHa_2 = OpenZFSDeploymentType._('SINGLE_AZ_HA_2');
+  static const multiAz_1 = OpenZFSDeploymentType._('MULTI_AZ_1');
 
   final String value;
 
-  const OpenZFSDeploymentType(this.value);
+  const OpenZFSDeploymentType._(this.value);
 
-  static OpenZFSDeploymentType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum OpenZFSDeploymentType'));
+  static const values = [
+    singleAz_1,
+    singleAz_2,
+    singleAzHa_1,
+    singleAzHa_2,
+    multiAz_1
+  ];
+
+  static OpenZFSDeploymentType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => OpenZFSDeploymentType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is OpenZFSDeploymentType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The configuration for the Amazon FSx for OpenZFS file system.
@@ -11052,19 +11483,28 @@ class OpenZFSOriginSnapshotConfiguration {
   }
 }
 
-enum OpenZFSQuotaType {
-  user('USER'),
-  group('GROUP'),
-  ;
+class OpenZFSQuotaType {
+  static const user = OpenZFSQuotaType._('USER');
+  static const group = OpenZFSQuotaType._('GROUP');
 
   final String value;
 
-  const OpenZFSQuotaType(this.value);
+  const OpenZFSQuotaType._(this.value);
+
+  static const values = [user, group];
 
   static OpenZFSQuotaType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum OpenZFSQuotaType'));
+          orElse: () => OpenZFSQuotaType._(value));
+
+  @override
+  bool operator ==(other) => other is OpenZFSQuotaType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Used to configure quotas that define how much storage a user or group can
@@ -11091,7 +11531,7 @@ class OpenZFSUserOrGroupQuota {
     return OpenZFSUserOrGroupQuota(
       id: (json['Id'] as int?) ?? 0,
       storageCapacityQuotaGiB: (json['StorageCapacityQuotaGiB'] as int?) ?? 0,
-      type: OpenZFSQuotaType.fromString((json['Type'] as String)),
+      type: OpenZFSQuotaType.fromString((json['Type'] as String?) ?? ''),
     );
   }
 
@@ -11330,20 +11770,29 @@ class OpenZFSVolumeConfiguration {
   }
 }
 
-enum PrivilegedDelete {
-  disabled('DISABLED'),
-  enabled('ENABLED'),
-  permanentlyDisabled('PERMANENTLY_DISABLED'),
-  ;
+class PrivilegedDelete {
+  static const disabled = PrivilegedDelete._('DISABLED');
+  static const enabled = PrivilegedDelete._('ENABLED');
+  static const permanentlyDisabled = PrivilegedDelete._('PERMANENTLY_DISABLED');
 
   final String value;
 
-  const PrivilegedDelete(this.value);
+  const PrivilegedDelete._(this.value);
+
+  static const values = [disabled, enabled, permanentlyDisabled];
 
   static PrivilegedDelete fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum PrivilegedDelete'));
+          orElse: () => PrivilegedDelete._(value));
+
+  @override
+  bool operator ==(other) => other is PrivilegedDelete && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The configuration that specifies a minimum amount of time since last access
@@ -11416,61 +11865,98 @@ class ReleaseFileSystemNfsV3LocksResponse {
   }
 }
 
-enum ReportFormat {
-  reportCsv_20191124('REPORT_CSV_20191124'),
-  ;
+class ReportFormat {
+  static const reportCsv_20191124 = ReportFormat._('REPORT_CSV_20191124');
 
   final String value;
 
-  const ReportFormat(this.value);
+  const ReportFormat._(this.value);
 
-  static ReportFormat fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ReportFormat'));
+  static const values = [reportCsv_20191124];
+
+  static ReportFormat fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ReportFormat._(value));
+
+  @override
+  bool operator ==(other) => other is ReportFormat && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ReportScope {
-  failedFilesOnly('FAILED_FILES_ONLY'),
-  ;
+class ReportScope {
+  static const failedFilesOnly = ReportScope._('FAILED_FILES_ONLY');
 
   final String value;
 
-  const ReportScope(this.value);
+  const ReportScope._(this.value);
 
-  static ReportScope fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum ReportScope'));
+  static const values = [failedFilesOnly];
+
+  static ReportScope fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ReportScope._(value));
+
+  @override
+  bool operator ==(other) => other is ReportScope && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ResourceType {
-  fileSystem('FILE_SYSTEM'),
-  volume('VOLUME'),
-  ;
+class ResourceType {
+  static const fileSystem = ResourceType._('FILE_SYSTEM');
+  static const volume = ResourceType._('VOLUME');
 
   final String value;
 
-  const ResourceType(this.value);
+  const ResourceType._(this.value);
 
-  static ResourceType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ResourceType'));
+  static const values = [fileSystem, volume];
+
+  static ResourceType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ResourceType._(value));
+
+  @override
+  bool operator ==(other) => other is ResourceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum RestoreOpenZFSVolumeOption {
-  deleteIntermediateSnapshots('DELETE_INTERMEDIATE_SNAPSHOTS'),
-  deleteClonedVolumes('DELETE_CLONED_VOLUMES'),
-  ;
+class RestoreOpenZFSVolumeOption {
+  static const deleteIntermediateSnapshots =
+      RestoreOpenZFSVolumeOption._('DELETE_INTERMEDIATE_SNAPSHOTS');
+  static const deleteClonedVolumes =
+      RestoreOpenZFSVolumeOption._('DELETE_CLONED_VOLUMES');
 
   final String value;
 
-  const RestoreOpenZFSVolumeOption(this.value);
+  const RestoreOpenZFSVolumeOption._(this.value);
+
+  static const values = [deleteIntermediateSnapshots, deleteClonedVolumes];
 
   static RestoreOpenZFSVolumeOption fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum RestoreOpenZFSVolumeOption'));
+          orElse: () => RestoreOpenZFSVolumeOption._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RestoreOpenZFSVolumeOption && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class RestoreVolumeFromSnapshotResponse {
@@ -11566,7 +12052,7 @@ class RetentionPeriod {
 
   factory RetentionPeriod.fromJson(Map<String, dynamic> json) {
     return RetentionPeriod(
-      type: RetentionPeriodType.fromString((json['Type'] as String)),
+      type: RetentionPeriodType.fromString((json['Type'] as String?) ?? ''),
       value: json['Value'] as int?,
     );
   }
@@ -11581,25 +12067,44 @@ class RetentionPeriod {
   }
 }
 
-enum RetentionPeriodType {
-  seconds('SECONDS'),
-  minutes('MINUTES'),
-  hours('HOURS'),
-  days('DAYS'),
-  months('MONTHS'),
-  years('YEARS'),
-  infinite('INFINITE'),
-  unspecified('UNSPECIFIED'),
-  ;
+class RetentionPeriodType {
+  static const seconds = RetentionPeriodType._('SECONDS');
+  static const minutes = RetentionPeriodType._('MINUTES');
+  static const hours = RetentionPeriodType._('HOURS');
+  static const days = RetentionPeriodType._('DAYS');
+  static const months = RetentionPeriodType._('MONTHS');
+  static const years = RetentionPeriodType._('YEARS');
+  static const infinite = RetentionPeriodType._('INFINITE');
+  static const unspecified = RetentionPeriodType._('UNSPECIFIED');
 
   final String value;
 
-  const RetentionPeriodType(this.value);
+  const RetentionPeriodType._(this.value);
 
-  static RetentionPeriodType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum RetentionPeriodType'));
+  static const values = [
+    seconds,
+    minutes,
+    hours,
+    days,
+    months,
+    years,
+    infinite,
+    unspecified
+  ];
+
+  static RetentionPeriodType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => RetentionPeriodType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RetentionPeriodType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The configuration for an Amazon S3 data repository linked to an Amazon FSx
@@ -11652,20 +12157,29 @@ class S3DataRepositoryConfiguration {
   }
 }
 
-enum SecurityStyle {
-  unix('UNIX'),
-  ntfs('NTFS'),
-  mixed('MIXED'),
-  ;
+class SecurityStyle {
+  static const unix = SecurityStyle._('UNIX');
+  static const ntfs = SecurityStyle._('NTFS');
+  static const mixed = SecurityStyle._('MIXED');
 
   final String value;
 
-  const SecurityStyle(this.value);
+  const SecurityStyle._(this.value);
+
+  static const values = [unix, ntfs, mixed];
 
   static SecurityStyle fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum SecurityStyle'));
+          orElse: () => SecurityStyle._(value));
+
+  @override
+  bool operator ==(other) => other is SecurityStyle && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The configuration of the self-managed Microsoft Active Directory (AD)
@@ -12049,19 +12563,27 @@ class SnaplockRetentionPeriod {
   }
 }
 
-enum SnaplockType {
-  compliance('COMPLIANCE'),
-  enterprise('ENTERPRISE'),
-  ;
+class SnaplockType {
+  static const compliance = SnaplockType._('COMPLIANCE');
+  static const enterprise = SnaplockType._('ENTERPRISE');
 
   final String value;
 
-  const SnaplockType(this.value);
+  const SnaplockType._(this.value);
 
-  static SnaplockType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum SnaplockType'));
+  static const values = [compliance, enterprise];
+
+  static SnaplockType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => SnaplockType._(value));
+
+  @override
+  bool operator ==(other) => other is SnaplockType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A snapshot of an Amazon FSx for OpenZFS volume.
@@ -12192,36 +12714,55 @@ class SnapshotFilter {
   }
 }
 
-enum SnapshotFilterName {
-  fileSystemId('file-system-id'),
-  volumeId('volume-id'),
-  ;
+class SnapshotFilterName {
+  static const fileSystemId = SnapshotFilterName._('file-system-id');
+  static const volumeId = SnapshotFilterName._('volume-id');
 
   final String value;
 
-  const SnapshotFilterName(this.value);
+  const SnapshotFilterName._(this.value);
 
-  static SnapshotFilterName fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum SnapshotFilterName'));
+  static const values = [fileSystemId, volumeId];
+
+  static SnapshotFilterName fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => SnapshotFilterName._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SnapshotFilterName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum SnapshotLifecycle {
-  pending('PENDING'),
-  creating('CREATING'),
-  deleting('DELETING'),
-  available('AVAILABLE'),
-  ;
+class SnapshotLifecycle {
+  static const pending = SnapshotLifecycle._('PENDING');
+  static const creating = SnapshotLifecycle._('CREATING');
+  static const deleting = SnapshotLifecycle._('DELETING');
+  static const available = SnapshotLifecycle._('AVAILABLE');
 
   final String value;
 
-  const SnapshotLifecycle(this.value);
+  const SnapshotLifecycle._(this.value);
+
+  static const values = [pending, creating, deleting, available];
 
   static SnapshotLifecycle fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum SnapshotLifecycle'));
+          orElse: () => SnapshotLifecycle._(value));
+
+  @override
+  bool operator ==(other) => other is SnapshotLifecycle && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class StartMisconfiguredStateRecoveryResponse {
@@ -12248,37 +12789,62 @@ class StartMisconfiguredStateRecoveryResponse {
   }
 }
 
-enum Status {
-  failed('FAILED'),
-  inProgress('IN_PROGRESS'),
-  pending('PENDING'),
-  completed('COMPLETED'),
-  updatedOptimizing('UPDATED_OPTIMIZING'),
-  optimizing('OPTIMIZING'),
-  ;
+class Status {
+  static const failed = Status._('FAILED');
+  static const inProgress = Status._('IN_PROGRESS');
+  static const pending = Status._('PENDING');
+  static const completed = Status._('COMPLETED');
+  static const updatedOptimizing = Status._('UPDATED_OPTIMIZING');
+  static const optimizing = Status._('OPTIMIZING');
 
   final String value;
 
-  const Status(this.value);
+  const Status._(this.value);
+
+  static const values = [
+    failed,
+    inProgress,
+    pending,
+    completed,
+    updatedOptimizing,
+    optimizing
+  ];
 
   static Status fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum Status'));
+      values.firstWhere((e) => e.value == value, orElse: () => Status._(value));
+
+  @override
+  bool operator ==(other) => other is Status && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specifies the file system's storage type.
-enum StorageType {
-  ssd('SSD'),
-  hdd('HDD'),
-  ;
+class StorageType {
+  static const ssd = StorageType._('SSD');
+  static const hdd = StorageType._('HDD');
 
   final String value;
 
-  const StorageType(this.value);
+  const StorageType._(this.value);
 
-  static StorageType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum StorageType'));
+  static const values = [ssd, hdd];
+
+  static StorageType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => StorageType._(value));
+
+  @override
+  bool operator ==(other) => other is StorageType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes the Amazon FSx for NetApp ONTAP storage virtual machine (SVM)
@@ -12451,71 +13017,122 @@ class StorageVirtualMachineFilter {
   }
 }
 
-enum StorageVirtualMachineFilterName {
-  fileSystemId('file-system-id'),
-  ;
+class StorageVirtualMachineFilterName {
+  static const fileSystemId =
+      StorageVirtualMachineFilterName._('file-system-id');
 
   final String value;
 
-  const StorageVirtualMachineFilterName(this.value);
+  const StorageVirtualMachineFilterName._(this.value);
+
+  static const values = [fileSystemId];
 
   static StorageVirtualMachineFilterName fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum StorageVirtualMachineFilterName'));
+          orElse: () => StorageVirtualMachineFilterName._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is StorageVirtualMachineFilterName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum StorageVirtualMachineLifecycle {
-  created('CREATED'),
-  creating('CREATING'),
-  deleting('DELETING'),
-  failed('FAILED'),
-  misconfigured('MISCONFIGURED'),
-  pending('PENDING'),
-  ;
+class StorageVirtualMachineLifecycle {
+  static const created = StorageVirtualMachineLifecycle._('CREATED');
+  static const creating = StorageVirtualMachineLifecycle._('CREATING');
+  static const deleting = StorageVirtualMachineLifecycle._('DELETING');
+  static const failed = StorageVirtualMachineLifecycle._('FAILED');
+  static const misconfigured =
+      StorageVirtualMachineLifecycle._('MISCONFIGURED');
+  static const pending = StorageVirtualMachineLifecycle._('PENDING');
 
   final String value;
 
-  const StorageVirtualMachineLifecycle(this.value);
+  const StorageVirtualMachineLifecycle._(this.value);
+
+  static const values = [
+    created,
+    creating,
+    deleting,
+    failed,
+    misconfigured,
+    pending
+  ];
 
   static StorageVirtualMachineLifecycle fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum StorageVirtualMachineLifecycle'));
+          orElse: () => StorageVirtualMachineLifecycle._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is StorageVirtualMachineLifecycle && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum StorageVirtualMachineRootVolumeSecurityStyle {
-  unix('UNIX'),
-  ntfs('NTFS'),
-  mixed('MIXED'),
-  ;
+class StorageVirtualMachineRootVolumeSecurityStyle {
+  static const unix = StorageVirtualMachineRootVolumeSecurityStyle._('UNIX');
+  static const ntfs = StorageVirtualMachineRootVolumeSecurityStyle._('NTFS');
+  static const mixed = StorageVirtualMachineRootVolumeSecurityStyle._('MIXED');
 
   final String value;
 
-  const StorageVirtualMachineRootVolumeSecurityStyle(this.value);
+  const StorageVirtualMachineRootVolumeSecurityStyle._(this.value);
+
+  static const values = [unix, ntfs, mixed];
 
   static StorageVirtualMachineRootVolumeSecurityStyle fromString(
           String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum StorageVirtualMachineRootVolumeSecurityStyle'));
+          orElse: () => StorageVirtualMachineRootVolumeSecurityStyle._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is StorageVirtualMachineRootVolumeSecurityStyle &&
+      other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum StorageVirtualMachineSubtype {
-  $default('DEFAULT'),
-  dpDestination('DP_DESTINATION'),
-  syncDestination('SYNC_DESTINATION'),
-  syncSource('SYNC_SOURCE'),
-  ;
+class StorageVirtualMachineSubtype {
+  static const $default = StorageVirtualMachineSubtype._('DEFAULT');
+  static const dpDestination = StorageVirtualMachineSubtype._('DP_DESTINATION');
+  static const syncDestination =
+      StorageVirtualMachineSubtype._('SYNC_DESTINATION');
+  static const syncSource = StorageVirtualMachineSubtype._('SYNC_SOURCE');
 
   final String value;
 
-  const StorageVirtualMachineSubtype(this.value);
+  const StorageVirtualMachineSubtype._(this.value);
+
+  static const values = [$default, dpDestination, syncDestination, syncSource];
 
   static StorageVirtualMachineSubtype fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum StorageVirtualMachineSubtype'));
+          orElse: () => StorageVirtualMachineSubtype._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is StorageVirtualMachineSubtype && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes the Microsoft Active Directory (AD) directory configuration to
@@ -12780,34 +13397,52 @@ class TieringPolicy {
   }
 }
 
-enum TieringPolicyName {
-  snapshotOnly('SNAPSHOT_ONLY'),
-  auto('AUTO'),
-  all('ALL'),
-  none('NONE'),
-  ;
+class TieringPolicyName {
+  static const snapshotOnly = TieringPolicyName._('SNAPSHOT_ONLY');
+  static const auto = TieringPolicyName._('AUTO');
+  static const all = TieringPolicyName._('ALL');
+  static const none = TieringPolicyName._('NONE');
 
   final String value;
 
-  const TieringPolicyName(this.value);
+  const TieringPolicyName._(this.value);
+
+  static const values = [snapshotOnly, auto, all, none];
 
   static TieringPolicyName fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum TieringPolicyName'));
+          orElse: () => TieringPolicyName._(value));
+
+  @override
+  bool operator ==(other) => other is TieringPolicyName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum Unit {
-  days('DAYS'),
-  ;
+class Unit {
+  static const days = Unit._('DAYS');
 
   final String value;
 
-  const Unit(this.value);
+  const Unit._(this.value);
+
+  static const values = [days];
 
   static Unit fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum Unit'));
+      values.firstWhere((e) => e.value == value, orElse: () => Unit._(value));
+
+  @override
+  bool operator ==(other) => other is Unit && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The response object for <code>UntagResource</code> action.
@@ -13646,20 +14281,37 @@ class UpdateOpenZFSVolumeConfiguration {
   }
 }
 
-enum UpdateOpenZFSVolumeOption {
-  deleteIntermediateSnapshots('DELETE_INTERMEDIATE_SNAPSHOTS'),
-  deleteClonedVolumes('DELETE_CLONED_VOLUMES'),
-  deleteIntermediateData('DELETE_INTERMEDIATE_DATA'),
-  ;
+class UpdateOpenZFSVolumeOption {
+  static const deleteIntermediateSnapshots =
+      UpdateOpenZFSVolumeOption._('DELETE_INTERMEDIATE_SNAPSHOTS');
+  static const deleteClonedVolumes =
+      UpdateOpenZFSVolumeOption._('DELETE_CLONED_VOLUMES');
+  static const deleteIntermediateData =
+      UpdateOpenZFSVolumeOption._('DELETE_INTERMEDIATE_DATA');
 
   final String value;
 
-  const UpdateOpenZFSVolumeOption(this.value);
+  const UpdateOpenZFSVolumeOption._(this.value);
+
+  static const values = [
+    deleteIntermediateSnapshots,
+    deleteClonedVolumes,
+    deleteIntermediateData
+  ];
 
   static UpdateOpenZFSVolumeOption fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum UpdateOpenZFSVolumeOption'));
+          orElse: () => UpdateOpenZFSVolumeOption._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is UpdateOpenZFSVolumeOption && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class UpdateSharedVpcConfigurationResponse {
@@ -14023,84 +14675,140 @@ class VolumeFilter {
   }
 }
 
-enum VolumeFilterName {
-  fileSystemId('file-system-id'),
-  storageVirtualMachineId('storage-virtual-machine-id'),
-  ;
+class VolumeFilterName {
+  static const fileSystemId = VolumeFilterName._('file-system-id');
+  static const storageVirtualMachineId =
+      VolumeFilterName._('storage-virtual-machine-id');
 
   final String value;
 
-  const VolumeFilterName(this.value);
+  const VolumeFilterName._(this.value);
+
+  static const values = [fileSystemId, storageVirtualMachineId];
 
   static VolumeFilterName fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum VolumeFilterName'));
+          orElse: () => VolumeFilterName._(value));
+
+  @override
+  bool operator ==(other) => other is VolumeFilterName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum VolumeLifecycle {
-  creating('CREATING'),
-  created('CREATED'),
-  deleting('DELETING'),
-  failed('FAILED'),
-  misconfigured('MISCONFIGURED'),
-  pending('PENDING'),
-  available('AVAILABLE'),
-  ;
+class VolumeLifecycle {
+  static const creating = VolumeLifecycle._('CREATING');
+  static const created = VolumeLifecycle._('CREATED');
+  static const deleting = VolumeLifecycle._('DELETING');
+  static const failed = VolumeLifecycle._('FAILED');
+  static const misconfigured = VolumeLifecycle._('MISCONFIGURED');
+  static const pending = VolumeLifecycle._('PENDING');
+  static const available = VolumeLifecycle._('AVAILABLE');
 
   final String value;
 
-  const VolumeLifecycle(this.value);
+  const VolumeLifecycle._(this.value);
+
+  static const values = [
+    creating,
+    created,
+    deleting,
+    failed,
+    misconfigured,
+    pending,
+    available
+  ];
 
   static VolumeLifecycle fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum VolumeLifecycle'));
+          orElse: () => VolumeLifecycle._(value));
+
+  @override
+  bool operator ==(other) => other is VolumeLifecycle && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum VolumeStyle {
-  flexvol('FLEXVOL'),
-  flexgroup('FLEXGROUP'),
-  ;
+class VolumeStyle {
+  static const flexvol = VolumeStyle._('FLEXVOL');
+  static const flexgroup = VolumeStyle._('FLEXGROUP');
 
   final String value;
 
-  const VolumeStyle(this.value);
+  const VolumeStyle._(this.value);
 
-  static VolumeStyle fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum VolumeStyle'));
+  static const values = [flexvol, flexgroup];
+
+  static VolumeStyle fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => VolumeStyle._(value));
+
+  @override
+  bool operator ==(other) => other is VolumeStyle && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum VolumeType {
-  ontap('ONTAP'),
-  openzfs('OPENZFS'),
-  ;
+class VolumeType {
+  static const ontap = VolumeType._('ONTAP');
+  static const openzfs = VolumeType._('OPENZFS');
 
   final String value;
 
-  const VolumeType(this.value);
+  const VolumeType._(this.value);
 
-  static VolumeType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum VolumeType'));
+  static const values = [ontap, openzfs];
+
+  static VolumeType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => VolumeType._(value));
+
+  @override
+  bool operator ==(other) => other is VolumeType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum WindowsAccessAuditLogLevel {
-  disabled('DISABLED'),
-  successOnly('SUCCESS_ONLY'),
-  failureOnly('FAILURE_ONLY'),
-  successAndFailure('SUCCESS_AND_FAILURE'),
-  ;
+class WindowsAccessAuditLogLevel {
+  static const disabled = WindowsAccessAuditLogLevel._('DISABLED');
+  static const successOnly = WindowsAccessAuditLogLevel._('SUCCESS_ONLY');
+  static const failureOnly = WindowsAccessAuditLogLevel._('FAILURE_ONLY');
+  static const successAndFailure =
+      WindowsAccessAuditLogLevel._('SUCCESS_AND_FAILURE');
 
   final String value;
 
-  const WindowsAccessAuditLogLevel(this.value);
+  const WindowsAccessAuditLogLevel._(this.value);
+
+  static const values = [disabled, successOnly, failureOnly, successAndFailure];
 
   static WindowsAccessAuditLogLevel fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum WindowsAccessAuditLogLevel'));
+          orElse: () => WindowsAccessAuditLogLevel._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is WindowsAccessAuditLogLevel && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The configuration that Amazon FSx for Windows File Server uses to audit and
@@ -14175,9 +14883,9 @@ class WindowsAuditLogConfiguration {
   factory WindowsAuditLogConfiguration.fromJson(Map<String, dynamic> json) {
     return WindowsAuditLogConfiguration(
       fileAccessAuditLogLevel: WindowsAccessAuditLogLevel.fromString(
-          (json['FileAccessAuditLogLevel'] as String)),
+          (json['FileAccessAuditLogLevel'] as String?) ?? ''),
       fileShareAccessAuditLogLevel: WindowsAccessAuditLogLevel.fromString(
-          (json['FileShareAccessAuditLogLevel'] as String)),
+          (json['FileShareAccessAuditLogLevel'] as String?) ?? ''),
       auditLogDestination: json['AuditLogDestination'] as String?,
     );
   }
@@ -14296,20 +15004,30 @@ class WindowsAuditLogCreateConfiguration {
   }
 }
 
-enum WindowsDeploymentType {
-  multiAz_1('MULTI_AZ_1'),
-  singleAz_1('SINGLE_AZ_1'),
-  singleAz_2('SINGLE_AZ_2'),
-  ;
+class WindowsDeploymentType {
+  static const multiAz_1 = WindowsDeploymentType._('MULTI_AZ_1');
+  static const singleAz_1 = WindowsDeploymentType._('SINGLE_AZ_1');
+  static const singleAz_2 = WindowsDeploymentType._('SINGLE_AZ_2');
 
   final String value;
 
-  const WindowsDeploymentType(this.value);
+  const WindowsDeploymentType._(this.value);
 
-  static WindowsDeploymentType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum WindowsDeploymentType'));
+  static const values = [multiAz_1, singleAz_1, singleAz_2];
+
+  static WindowsDeploymentType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => WindowsDeploymentType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is WindowsDeploymentType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The configuration for this Microsoft Windows file system.

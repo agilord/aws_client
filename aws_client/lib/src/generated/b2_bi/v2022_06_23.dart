@@ -1373,7 +1373,7 @@ class CapabilitySummary {
       capabilityId: (json['capabilityId'] as String?) ?? '',
       createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
       name: (json['name'] as String?) ?? '',
-      type: CapabilityType.fromString((json['type'] as String)),
+      type: CapabilityType.fromString((json['type'] as String?) ?? ''),
       modifiedAt: timeStampFromJson(json['modifiedAt']),
     );
   }
@@ -1394,18 +1394,27 @@ class CapabilitySummary {
   }
 }
 
-enum CapabilityType {
-  edi('edi'),
-  ;
+class CapabilityType {
+  static const edi = CapabilityType._('edi');
 
   final String value;
 
-  const CapabilityType(this.value);
+  const CapabilityType._(this.value);
+
+  static const values = [edi];
 
   static CapabilityType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum CapabilityType'));
+          orElse: () => CapabilityType._(value));
+
+  @override
+  bool operator ==(other) => other is CapabilityType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class CreateCapabilityResponse {
@@ -1453,7 +1462,7 @@ class CreateCapabilityResponse {
               const <String, dynamic>{}),
       createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
       name: (json['name'] as String?) ?? '',
-      type: CapabilityType.fromString((json['type'] as String)),
+      type: CapabilityType.fromString((json['type'] as String?) ?? ''),
       instructionsDocuments: (json['instructionsDocuments'] as List?)
           ?.nonNulls
           .map((e) => S3Location.fromJson(e as Map<String, dynamic>))
@@ -1696,10 +1705,10 @@ class CreateTransformerResponse {
       createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
       ediType: EdiType.fromJson((json['ediType'] as Map<String, dynamic>?) ??
           const <String, dynamic>{}),
-      fileFormat: FileFormat.fromString((json['fileFormat'] as String)),
+      fileFormat: FileFormat.fromString((json['fileFormat'] as String?) ?? ''),
       mappingTemplate: (json['mappingTemplate'] as String?) ?? '',
       name: (json['name'] as String?) ?? '',
-      status: TransformerStatus.fromString((json['status'] as String)),
+      status: TransformerStatus.fromString((json['status'] as String?) ?? ''),
       transformerArn: (json['transformerArn'] as String?) ?? '',
       transformerId: (json['transformerId'] as String?) ?? '',
       sampleDocument: json['sampleDocument'] as String?,
@@ -1812,18 +1821,27 @@ class EdiType {
   }
 }
 
-enum FileFormat {
-  xml('XML'),
-  json('JSON'),
-  ;
+class FileFormat {
+  static const xml = FileFormat._('XML');
+  static const json = FileFormat._('JSON');
 
   final String value;
 
-  const FileFormat(this.value);
+  const FileFormat._(this.value);
 
-  static FileFormat fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum FileFormat'));
+  static const values = [xml, json];
+
+  static FileFormat fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => FileFormat._(value));
+
+  @override
+  bool operator ==(other) => other is FileFormat && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class GetCapabilityResponse {
@@ -1875,7 +1893,7 @@ class GetCapabilityResponse {
               const <String, dynamic>{}),
       createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
       name: (json['name'] as String?) ?? '',
-      type: CapabilityType.fromString((json['type'] as String)),
+      type: CapabilityType.fromString((json['type'] as String?) ?? ''),
       instructionsDocuments: (json['instructionsDocuments'] as List?)
           ?.nonNulls
           .map((e) => S3Location.fromJson(e as Map<String, dynamic>))
@@ -2106,7 +2124,8 @@ class GetTransformerJobResponse {
 
   factory GetTransformerJobResponse.fromJson(Map<String, dynamic> json) {
     return GetTransformerJobResponse(
-      status: TransformerJobStatus.fromString((json['status'] as String)),
+      status:
+          TransformerJobStatus.fromString((json['status'] as String?) ?? ''),
       message: json['message'] as String?,
       outputFiles: (json['outputFiles'] as List?)
           ?.nonNulls
@@ -2184,10 +2203,10 @@ class GetTransformerResponse {
       createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
       ediType: EdiType.fromJson((json['ediType'] as Map<String, dynamic>?) ??
           const <String, dynamic>{}),
-      fileFormat: FileFormat.fromString((json['fileFormat'] as String)),
+      fileFormat: FileFormat.fromString((json['fileFormat'] as String?) ?? ''),
       mappingTemplate: (json['mappingTemplate'] as String?) ?? '',
       name: (json['name'] as String?) ?? '',
-      status: TransformerStatus.fromString((json['status'] as String)),
+      status: TransformerStatus.fromString((json['status'] as String?) ?? ''),
       transformerArn: (json['transformerArn'] as String?) ?? '',
       transformerId: (json['transformerId'] as String?) ?? '',
       modifiedAt: timeStampFromJson(json['modifiedAt']),
@@ -2392,18 +2411,27 @@ class ListTransformersResponse {
   }
 }
 
-enum Logging {
-  enabled('ENABLED'),
-  disabled('DISABLED'),
-  ;
+class Logging {
+  static const enabled = Logging._('ENABLED');
+  static const disabled = Logging._('DISABLED');
 
   final String value;
 
-  const Logging(this.value);
+  const Logging._(this.value);
 
-  static Logging fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum Logging'));
+  static const values = [enabled, disabled];
+
+  static Logging fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Logging._(value));
+
+  @override
+  bool operator ==(other) => other is Logging && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A structure that contains the details for a partnership. A partnership
@@ -2682,35 +2710,54 @@ class TestParsingResponse {
   }
 }
 
-enum TransformerJobStatus {
-  running('running'),
-  succeeded('succeeded'),
-  failed('failed'),
-  ;
+class TransformerJobStatus {
+  static const running = TransformerJobStatus._('running');
+  static const succeeded = TransformerJobStatus._('succeeded');
+  static const failed = TransformerJobStatus._('failed');
 
   final String value;
 
-  const TransformerJobStatus(this.value);
+  const TransformerJobStatus._(this.value);
 
-  static TransformerJobStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum TransformerJobStatus'));
+  static const values = [running, succeeded, failed];
+
+  static TransformerJobStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => TransformerJobStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TransformerJobStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum TransformerStatus {
-  active('active'),
-  inactive('inactive'),
-  ;
+class TransformerStatus {
+  static const active = TransformerStatus._('active');
+  static const inactive = TransformerStatus._('inactive');
 
   final String value;
 
-  const TransformerStatus(this.value);
+  const TransformerStatus._(this.value);
+
+  static const values = [active, inactive];
 
   static TransformerStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum TransformerStatus'));
+          orElse: () => TransformerStatus._(value));
+
+  @override
+  bool operator ==(other) => other is TransformerStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains the details for a transformer object. A transformer describes how
@@ -2770,10 +2817,10 @@ class TransformerSummary {
       createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
       ediType: EdiType.fromJson((json['ediType'] as Map<String, dynamic>?) ??
           const <String, dynamic>{}),
-      fileFormat: FileFormat.fromString((json['fileFormat'] as String)),
+      fileFormat: FileFormat.fromString((json['fileFormat'] as String?) ?? ''),
       mappingTemplate: (json['mappingTemplate'] as String?) ?? '',
       name: (json['name'] as String?) ?? '',
-      status: TransformerStatus.fromString((json['status'] as String)),
+      status: TransformerStatus.fromString((json['status'] as String?) ?? ''),
       transformerId: (json['transformerId'] as String?) ?? '',
       modifiedAt: timeStampFromJson(json['modifiedAt']),
       sampleDocument: json['sampleDocument'] as String?,
@@ -2853,7 +2900,7 @@ class UpdateCapabilityResponse {
               const <String, dynamic>{}),
       createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
       name: (json['name'] as String?) ?? '',
-      type: CapabilityType.fromString((json['type'] as String)),
+      type: CapabilityType.fromString((json['type'] as String?) ?? ''),
       instructionsDocuments: (json['instructionsDocuments'] as List?)
           ?.nonNulls
           .map((e) => S3Location.fromJson(e as Map<String, dynamic>))
@@ -3119,11 +3166,11 @@ class UpdateTransformerResponse {
       createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
       ediType: EdiType.fromJson((json['ediType'] as Map<String, dynamic>?) ??
           const <String, dynamic>{}),
-      fileFormat: FileFormat.fromString((json['fileFormat'] as String)),
+      fileFormat: FileFormat.fromString((json['fileFormat'] as String?) ?? ''),
       mappingTemplate: (json['mappingTemplate'] as String?) ?? '',
       modifiedAt: nonNullableTimeStampFromJson(json['modifiedAt'] ?? 0),
       name: (json['name'] as String?) ?? '',
-      status: TransformerStatus.fromString((json['status'] as String)),
+      status: TransformerStatus.fromString((json['status'] as String?) ?? ''),
       transformerArn: (json['transformerArn'] as String?) ?? '',
       transformerId: (json['transformerId'] as String?) ?? '',
       sampleDocument: json['sampleDocument'] as String?,
@@ -3197,108 +3244,207 @@ class X12Details {
   }
 }
 
-enum X12TransactionSet {
-  x12_110('X12_110'),
-  x12_180('X12_180'),
-  x12_204('X12_204'),
-  x12_210('X12_210'),
-  x12_211('X12_211'),
-  x12_214('X12_214'),
-  x12_215('X12_215'),
-  x12_259('X12_259'),
-  x12_260('X12_260'),
-  x12_266('X12_266'),
-  x12_269('X12_269'),
-  x12_270('X12_270'),
-  x12_271('X12_271'),
-  x12_274('X12_274'),
-  x12_275('X12_275'),
-  x12_276('X12_276'),
-  x12_277('X12_277'),
-  x12_278('X12_278'),
-  x12_310('X12_310'),
-  x12_315('X12_315'),
-  x12_322('X12_322'),
-  x12_404('X12_404'),
-  x12_410('X12_410'),
-  x12_417('X12_417'),
-  x12_421('X12_421'),
-  x12_426('X12_426'),
-  x12_810('X12_810'),
-  x12_820('X12_820'),
-  x12_824('X12_824'),
-  x12_830('X12_830'),
-  x12_832('X12_832'),
-  x12_834('X12_834'),
-  x12_835('X12_835'),
-  x12_837('X12_837'),
-  x12_844('X12_844'),
-  x12_846('X12_846'),
-  x12_849('X12_849'),
-  x12_850('X12_850'),
-  x12_852('X12_852'),
-  x12_855('X12_855'),
-  x12_856('X12_856'),
-  x12_860('X12_860'),
-  x12_861('X12_861'),
-  x12_864('X12_864'),
-  x12_865('X12_865'),
-  x12_869('X12_869'),
-  x12_870('X12_870'),
-  x12_940('X12_940'),
-  x12_945('X12_945'),
-  x12_990('X12_990'),
-  x12_997('X12_997'),
-  x12_999('X12_999'),
-  x12_270x279('X12_270_X279'),
-  x12_271x279('X12_271_X279'),
-  x12_275x210('X12_275_X210'),
-  x12_275x211('X12_275_X211'),
-  x12_276x212('X12_276_X212'),
-  x12_277x212('X12_277_X212'),
-  x12_277x214('X12_277_X214'),
-  x12_277x364('X12_277_X364'),
-  x12_278x217('X12_278_X217'),
-  x12_820x218('X12_820_X218'),
-  x12_820x306('X12_820_X306'),
-  x12_824x186('X12_824_X186'),
-  x12_834x220('X12_834_X220'),
-  x12_834x307('X12_834_X307'),
-  x12_834x318('X12_834_X318'),
-  x12_835x221('X12_835_X221'),
-  x12_837x222('X12_837_X222'),
-  x12_837x223('X12_837_X223'),
-  x12_837x224('X12_837_X224'),
-  x12_837x291('X12_837_X291'),
-  x12_837x292('X12_837_X292'),
-  x12_837x298('X12_837_X298'),
-  x12_999x231('X12_999_X231'),
-  ;
+class X12TransactionSet {
+  static const x12_110 = X12TransactionSet._('X12_110');
+  static const x12_180 = X12TransactionSet._('X12_180');
+  static const x12_204 = X12TransactionSet._('X12_204');
+  static const x12_210 = X12TransactionSet._('X12_210');
+  static const x12_211 = X12TransactionSet._('X12_211');
+  static const x12_214 = X12TransactionSet._('X12_214');
+  static const x12_215 = X12TransactionSet._('X12_215');
+  static const x12_259 = X12TransactionSet._('X12_259');
+  static const x12_260 = X12TransactionSet._('X12_260');
+  static const x12_266 = X12TransactionSet._('X12_266');
+  static const x12_269 = X12TransactionSet._('X12_269');
+  static const x12_270 = X12TransactionSet._('X12_270');
+  static const x12_271 = X12TransactionSet._('X12_271');
+  static const x12_274 = X12TransactionSet._('X12_274');
+  static const x12_275 = X12TransactionSet._('X12_275');
+  static const x12_276 = X12TransactionSet._('X12_276');
+  static const x12_277 = X12TransactionSet._('X12_277');
+  static const x12_278 = X12TransactionSet._('X12_278');
+  static const x12_310 = X12TransactionSet._('X12_310');
+  static const x12_315 = X12TransactionSet._('X12_315');
+  static const x12_322 = X12TransactionSet._('X12_322');
+  static const x12_404 = X12TransactionSet._('X12_404');
+  static const x12_410 = X12TransactionSet._('X12_410');
+  static const x12_417 = X12TransactionSet._('X12_417');
+  static const x12_421 = X12TransactionSet._('X12_421');
+  static const x12_426 = X12TransactionSet._('X12_426');
+  static const x12_810 = X12TransactionSet._('X12_810');
+  static const x12_820 = X12TransactionSet._('X12_820');
+  static const x12_824 = X12TransactionSet._('X12_824');
+  static const x12_830 = X12TransactionSet._('X12_830');
+  static const x12_832 = X12TransactionSet._('X12_832');
+  static const x12_834 = X12TransactionSet._('X12_834');
+  static const x12_835 = X12TransactionSet._('X12_835');
+  static const x12_837 = X12TransactionSet._('X12_837');
+  static const x12_844 = X12TransactionSet._('X12_844');
+  static const x12_846 = X12TransactionSet._('X12_846');
+  static const x12_849 = X12TransactionSet._('X12_849');
+  static const x12_850 = X12TransactionSet._('X12_850');
+  static const x12_852 = X12TransactionSet._('X12_852');
+  static const x12_855 = X12TransactionSet._('X12_855');
+  static const x12_856 = X12TransactionSet._('X12_856');
+  static const x12_860 = X12TransactionSet._('X12_860');
+  static const x12_861 = X12TransactionSet._('X12_861');
+  static const x12_864 = X12TransactionSet._('X12_864');
+  static const x12_865 = X12TransactionSet._('X12_865');
+  static const x12_869 = X12TransactionSet._('X12_869');
+  static const x12_870 = X12TransactionSet._('X12_870');
+  static const x12_940 = X12TransactionSet._('X12_940');
+  static const x12_945 = X12TransactionSet._('X12_945');
+  static const x12_990 = X12TransactionSet._('X12_990');
+  static const x12_997 = X12TransactionSet._('X12_997');
+  static const x12_999 = X12TransactionSet._('X12_999');
+  static const x12_270x279 = X12TransactionSet._('X12_270_X279');
+  static const x12_271x279 = X12TransactionSet._('X12_271_X279');
+  static const x12_275x210 = X12TransactionSet._('X12_275_X210');
+  static const x12_275x211 = X12TransactionSet._('X12_275_X211');
+  static const x12_276x212 = X12TransactionSet._('X12_276_X212');
+  static const x12_277x212 = X12TransactionSet._('X12_277_X212');
+  static const x12_277x214 = X12TransactionSet._('X12_277_X214');
+  static const x12_277x364 = X12TransactionSet._('X12_277_X364');
+  static const x12_278x217 = X12TransactionSet._('X12_278_X217');
+  static const x12_820x218 = X12TransactionSet._('X12_820_X218');
+  static const x12_820x306 = X12TransactionSet._('X12_820_X306');
+  static const x12_824x186 = X12TransactionSet._('X12_824_X186');
+  static const x12_834x220 = X12TransactionSet._('X12_834_X220');
+  static const x12_834x307 = X12TransactionSet._('X12_834_X307');
+  static const x12_834x318 = X12TransactionSet._('X12_834_X318');
+  static const x12_835x221 = X12TransactionSet._('X12_835_X221');
+  static const x12_837x222 = X12TransactionSet._('X12_837_X222');
+  static const x12_837x223 = X12TransactionSet._('X12_837_X223');
+  static const x12_837x224 = X12TransactionSet._('X12_837_X224');
+  static const x12_837x291 = X12TransactionSet._('X12_837_X291');
+  static const x12_837x292 = X12TransactionSet._('X12_837_X292');
+  static const x12_837x298 = X12TransactionSet._('X12_837_X298');
+  static const x12_999x231 = X12TransactionSet._('X12_999_X231');
 
   final String value;
 
-  const X12TransactionSet(this.value);
+  const X12TransactionSet._(this.value);
+
+  static const values = [
+    x12_110,
+    x12_180,
+    x12_204,
+    x12_210,
+    x12_211,
+    x12_214,
+    x12_215,
+    x12_259,
+    x12_260,
+    x12_266,
+    x12_269,
+    x12_270,
+    x12_271,
+    x12_274,
+    x12_275,
+    x12_276,
+    x12_277,
+    x12_278,
+    x12_310,
+    x12_315,
+    x12_322,
+    x12_404,
+    x12_410,
+    x12_417,
+    x12_421,
+    x12_426,
+    x12_810,
+    x12_820,
+    x12_824,
+    x12_830,
+    x12_832,
+    x12_834,
+    x12_835,
+    x12_837,
+    x12_844,
+    x12_846,
+    x12_849,
+    x12_850,
+    x12_852,
+    x12_855,
+    x12_856,
+    x12_860,
+    x12_861,
+    x12_864,
+    x12_865,
+    x12_869,
+    x12_870,
+    x12_940,
+    x12_945,
+    x12_990,
+    x12_997,
+    x12_999,
+    x12_270x279,
+    x12_271x279,
+    x12_275x210,
+    x12_275x211,
+    x12_276x212,
+    x12_277x212,
+    x12_277x214,
+    x12_277x364,
+    x12_278x217,
+    x12_820x218,
+    x12_820x306,
+    x12_824x186,
+    x12_834x220,
+    x12_834x307,
+    x12_834x318,
+    x12_835x221,
+    x12_837x222,
+    x12_837x223,
+    x12_837x224,
+    x12_837x291,
+    x12_837x292,
+    x12_837x298,
+    x12_999x231
+  ];
 
   static X12TransactionSet fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum X12TransactionSet'));
+          orElse: () => X12TransactionSet._(value));
+
+  @override
+  bool operator ==(other) => other is X12TransactionSet && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum X12Version {
-  version_4010('VERSION_4010'),
-  version_4030('VERSION_4030'),
-  version_5010('VERSION_5010'),
-  version_5010Hipaa('VERSION_5010_HIPAA'),
-  ;
+class X12Version {
+  static const version_4010 = X12Version._('VERSION_4010');
+  static const version_4030 = X12Version._('VERSION_4030');
+  static const version_5010 = X12Version._('VERSION_5010');
+  static const version_5010Hipaa = X12Version._('VERSION_5010_HIPAA');
 
   final String value;
 
-  const X12Version(this.value);
+  const X12Version._(this.value);
 
-  static X12Version fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum X12Version'));
+  static const values = [
+    version_4010,
+    version_4030,
+    version_5010,
+    version_5010Hipaa
+  ];
+
+  static X12Version fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => X12Version._(value));
+
+  @override
+  bool operator ==(other) => other is X12Version && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class AccessDeniedException extends _s.GenericAwsException {

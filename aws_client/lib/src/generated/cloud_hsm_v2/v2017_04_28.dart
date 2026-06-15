@@ -1126,18 +1126,26 @@ class Backup {
   }
 }
 
-enum BackupPolicy {
-  $default('DEFAULT'),
-  ;
+class BackupPolicy {
+  static const $default = BackupPolicy._('DEFAULT');
 
   final String value;
 
-  const BackupPolicy(this.value);
+  const BackupPolicy._(this.value);
 
-  static BackupPolicy fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum BackupPolicy'));
+  static const values = [$default];
+
+  static BackupPolicy fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => BackupPolicy._(value));
+
+  @override
+  bool operator ==(other) => other is BackupPolicy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A policy that defines the number of days to retain backups.
@@ -1171,34 +1179,53 @@ class BackupRetentionPolicy {
   }
 }
 
-enum BackupRetentionType {
-  days('DAYS'),
-  ;
+class BackupRetentionType {
+  static const days = BackupRetentionType._('DAYS');
 
   final String value;
 
-  const BackupRetentionType(this.value);
+  const BackupRetentionType._(this.value);
 
-  static BackupRetentionType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum BackupRetentionType'));
+  static const values = [days];
+
+  static BackupRetentionType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => BackupRetentionType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is BackupRetentionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum BackupState {
-  createInProgress('CREATE_IN_PROGRESS'),
-  ready('READY'),
-  deleted('DELETED'),
-  pendingDeletion('PENDING_DELETION'),
-  ;
+class BackupState {
+  static const createInProgress = BackupState._('CREATE_IN_PROGRESS');
+  static const ready = BackupState._('READY');
+  static const deleted = BackupState._('DELETED');
+  static const pendingDeletion = BackupState._('PENDING_DELETION');
 
   final String value;
 
-  const BackupState(this.value);
+  const BackupState._(this.value);
 
-  static BackupState fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum BackupState'));
+  static const values = [createInProgress, ready, deleted, pendingDeletion];
+
+  static BackupState fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => BackupState._(value));
+
+  @override
+  bool operator ==(other) => other is BackupState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains one or more certificates or a certificate signing request (CSR).
@@ -1404,40 +1431,67 @@ class Cluster {
   }
 }
 
-enum ClusterMode {
-  fips('FIPS'),
-  nonFips('NON_FIPS'),
-  ;
+class ClusterMode {
+  static const fips = ClusterMode._('FIPS');
+  static const nonFips = ClusterMode._('NON_FIPS');
 
   final String value;
 
-  const ClusterMode(this.value);
+  const ClusterMode._(this.value);
 
-  static ClusterMode fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum ClusterMode'));
+  static const values = [fips, nonFips];
+
+  static ClusterMode fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ClusterMode._(value));
+
+  @override
+  bool operator ==(other) => other is ClusterMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ClusterState {
-  createInProgress('CREATE_IN_PROGRESS'),
-  uninitialized('UNINITIALIZED'),
-  initializeInProgress('INITIALIZE_IN_PROGRESS'),
-  initialized('INITIALIZED'),
-  active('ACTIVE'),
-  updateInProgress('UPDATE_IN_PROGRESS'),
-  deleteInProgress('DELETE_IN_PROGRESS'),
-  deleted('DELETED'),
-  degraded('DEGRADED'),
-  ;
+class ClusterState {
+  static const createInProgress = ClusterState._('CREATE_IN_PROGRESS');
+  static const uninitialized = ClusterState._('UNINITIALIZED');
+  static const initializeInProgress = ClusterState._('INITIALIZE_IN_PROGRESS');
+  static const initialized = ClusterState._('INITIALIZED');
+  static const active = ClusterState._('ACTIVE');
+  static const updateInProgress = ClusterState._('UPDATE_IN_PROGRESS');
+  static const deleteInProgress = ClusterState._('DELETE_IN_PROGRESS');
+  static const deleted = ClusterState._('DELETED');
+  static const degraded = ClusterState._('DEGRADED');
 
   final String value;
 
-  const ClusterState(this.value);
+  const ClusterState._(this.value);
 
-  static ClusterState fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ClusterState'));
+  static const values = [
+    createInProgress,
+    uninitialized,
+    initializeInProgress,
+    initialized,
+    active,
+    updateInProgress,
+    deleteInProgress,
+    deleted,
+    degraded
+  ];
+
+  static ClusterState fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ClusterState._(value));
+
+  @override
+  bool operator ==(other) => other is ClusterState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class CopyBackupToRegionResponse {
@@ -1832,21 +1886,36 @@ class Hsm {
   }
 }
 
-enum HsmState {
-  createInProgress('CREATE_IN_PROGRESS'),
-  active('ACTIVE'),
-  degraded('DEGRADED'),
-  deleteInProgress('DELETE_IN_PROGRESS'),
-  deleted('DELETED'),
-  ;
+class HsmState {
+  static const createInProgress = HsmState._('CREATE_IN_PROGRESS');
+  static const active = HsmState._('ACTIVE');
+  static const degraded = HsmState._('DEGRADED');
+  static const deleteInProgress = HsmState._('DELETE_IN_PROGRESS');
+  static const deleted = HsmState._('DELETED');
 
   final String value;
 
-  const HsmState(this.value);
+  const HsmState._(this.value);
 
-  static HsmState fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum HsmState'));
+  static const values = [
+    createInProgress,
+    active,
+    degraded,
+    deleteInProgress,
+    deleted
+  ];
+
+  static HsmState fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => HsmState._(value));
+
+  @override
+  bool operator ==(other) => other is HsmState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class InitializeClusterResponse {

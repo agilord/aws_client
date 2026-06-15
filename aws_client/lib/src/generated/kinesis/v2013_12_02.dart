@@ -2627,7 +2627,7 @@ class Consumer {
           nonNullableTimeStampFromJson(json['ConsumerCreationTimestamp'] ?? 0),
       consumerName: (json['ConsumerName'] as String?) ?? '',
       consumerStatus:
-          ConsumerStatus.fromString((json['ConsumerStatus'] as String)),
+          ConsumerStatus.fromString((json['ConsumerStatus'] as String?) ?? ''),
     );
   }
 
@@ -2687,7 +2687,7 @@ class ConsumerDescription {
           nonNullableTimeStampFromJson(json['ConsumerCreationTimestamp'] ?? 0),
       consumerName: (json['ConsumerName'] as String?) ?? '',
       consumerStatus:
-          ConsumerStatus.fromString((json['ConsumerStatus'] as String)),
+          ConsumerStatus.fromString((json['ConsumerStatus'] as String?) ?? ''),
       streamARN: (json['StreamARN'] as String?) ?? '',
     );
   }
@@ -2709,20 +2709,29 @@ class ConsumerDescription {
   }
 }
 
-enum ConsumerStatus {
-  creating('CREATING'),
-  deleting('DELETING'),
-  active('ACTIVE'),
-  ;
+class ConsumerStatus {
+  static const creating = ConsumerStatus._('CREATING');
+  static const deleting = ConsumerStatus._('DELETING');
+  static const active = ConsumerStatus._('ACTIVE');
 
   final String value;
 
-  const ConsumerStatus(this.value);
+  const ConsumerStatus._(this.value);
+
+  static const values = [creating, deleting, active];
 
   static ConsumerStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ConsumerStatus'));
+          orElse: () => ConsumerStatus._(value));
+
+  @override
+  bool operator ==(other) => other is ConsumerStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class DescribeLimitsOutput {
@@ -2843,19 +2852,28 @@ class DescribeStreamSummaryOutput {
   }
 }
 
-enum EncryptionType {
-  none('NONE'),
-  kms('KMS'),
-  ;
+class EncryptionType {
+  static const none = EncryptionType._('NONE');
+  static const kms = EncryptionType._('KMS');
 
   final String value;
 
-  const EncryptionType(this.value);
+  const EncryptionType._(this.value);
+
+  static const values = [none, kms];
 
   static EncryptionType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum EncryptionType'));
+          orElse: () => EncryptionType._(value));
+
+  @override
+  bool operator ==(other) => other is EncryptionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Represents enhanced metrics types.
@@ -3296,24 +3314,45 @@ class ListTagsForStreamOutput {
   }
 }
 
-enum MetricsName {
-  incomingBytes('IncomingBytes'),
-  incomingRecords('IncomingRecords'),
-  outgoingBytes('OutgoingBytes'),
-  outgoingRecords('OutgoingRecords'),
-  writeProvisionedThroughputExceeded('WriteProvisionedThroughputExceeded'),
-  readProvisionedThroughputExceeded('ReadProvisionedThroughputExceeded'),
-  iteratorAgeMilliseconds('IteratorAgeMilliseconds'),
-  all('ALL'),
-  ;
+class MetricsName {
+  static const incomingBytes = MetricsName._('IncomingBytes');
+  static const incomingRecords = MetricsName._('IncomingRecords');
+  static const outgoingBytes = MetricsName._('OutgoingBytes');
+  static const outgoingRecords = MetricsName._('OutgoingRecords');
+  static const writeProvisionedThroughputExceeded =
+      MetricsName._('WriteProvisionedThroughputExceeded');
+  static const readProvisionedThroughputExceeded =
+      MetricsName._('ReadProvisionedThroughputExceeded');
+  static const iteratorAgeMilliseconds =
+      MetricsName._('IteratorAgeMilliseconds');
+  static const all = MetricsName._('ALL');
 
   final String value;
 
-  const MetricsName(this.value);
+  const MetricsName._(this.value);
 
-  static MetricsName fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum MetricsName'));
+  static const values = [
+    incomingBytes,
+    incomingRecords,
+    outgoingBytes,
+    outgoingRecords,
+    writeProvisionedThroughputExceeded,
+    readProvisionedThroughputExceeded,
+    iteratorAgeMilliseconds,
+    all
+  ];
+
+  static MetricsName fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => MetricsName._(value));
+
+  @override
+  bool operator ==(other) => other is MetricsName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Represents the output for <code>PutRecord</code>.
@@ -3615,17 +3654,26 @@ class RegisterStreamConsumerOutput {
   }
 }
 
-enum ScalingType {
-  uniformScaling('UNIFORM_SCALING'),
-  ;
+class ScalingType {
+  static const uniformScaling = ScalingType._('UNIFORM_SCALING');
 
   final String value;
 
-  const ScalingType(this.value);
+  const ScalingType._(this.value);
 
-  static ScalingType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum ScalingType'));
+  static const values = [uniformScaling];
+
+  static ScalingType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ScalingType._(value));
+
+  @override
+  bool operator ==(other) => other is ScalingType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The range of possible sequence numbers for the shard.
@@ -3788,41 +3836,73 @@ class ShardFilter {
   }
 }
 
-enum ShardFilterType {
-  afterShardId('AFTER_SHARD_ID'),
-  atTrimHorizon('AT_TRIM_HORIZON'),
-  fromTrimHorizon('FROM_TRIM_HORIZON'),
-  atLatest('AT_LATEST'),
-  atTimestamp('AT_TIMESTAMP'),
-  fromTimestamp('FROM_TIMESTAMP'),
-  ;
+class ShardFilterType {
+  static const afterShardId = ShardFilterType._('AFTER_SHARD_ID');
+  static const atTrimHorizon = ShardFilterType._('AT_TRIM_HORIZON');
+  static const fromTrimHorizon = ShardFilterType._('FROM_TRIM_HORIZON');
+  static const atLatest = ShardFilterType._('AT_LATEST');
+  static const atTimestamp = ShardFilterType._('AT_TIMESTAMP');
+  static const fromTimestamp = ShardFilterType._('FROM_TIMESTAMP');
 
   final String value;
 
-  const ShardFilterType(this.value);
+  const ShardFilterType._(this.value);
+
+  static const values = [
+    afterShardId,
+    atTrimHorizon,
+    fromTrimHorizon,
+    atLatest,
+    atTimestamp,
+    fromTimestamp
+  ];
 
   static ShardFilterType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ShardFilterType'));
+          orElse: () => ShardFilterType._(value));
+
+  @override
+  bool operator ==(other) => other is ShardFilterType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ShardIteratorType {
-  atSequenceNumber('AT_SEQUENCE_NUMBER'),
-  afterSequenceNumber('AFTER_SEQUENCE_NUMBER'),
-  trimHorizon('TRIM_HORIZON'),
-  latest('LATEST'),
-  atTimestamp('AT_TIMESTAMP'),
-  ;
+class ShardIteratorType {
+  static const atSequenceNumber = ShardIteratorType._('AT_SEQUENCE_NUMBER');
+  static const afterSequenceNumber =
+      ShardIteratorType._('AFTER_SEQUENCE_NUMBER');
+  static const trimHorizon = ShardIteratorType._('TRIM_HORIZON');
+  static const latest = ShardIteratorType._('LATEST');
+  static const atTimestamp = ShardIteratorType._('AT_TIMESTAMP');
 
   final String value;
 
-  const ShardIteratorType(this.value);
+  const ShardIteratorType._(this.value);
+
+  static const values = [
+    atSequenceNumber,
+    afterSequenceNumber,
+    trimHorizon,
+    latest,
+    atTimestamp
+  ];
 
   static ShardIteratorType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ShardIteratorType'));
+          orElse: () => ShardIteratorType._(value));
+
+  @override
+  bool operator ==(other) => other is ShardIteratorType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Represents the output for <a>DescribeStream</a>.
@@ -3955,7 +4035,8 @@ class StreamDescription {
       streamCreationTimestamp:
           nonNullableTimeStampFromJson(json['StreamCreationTimestamp'] ?? 0),
       streamName: (json['StreamName'] as String?) ?? '',
-      streamStatus: StreamStatus.fromString((json['StreamStatus'] as String)),
+      streamStatus:
+          StreamStatus.fromString((json['StreamStatus'] as String?) ?? ''),
       encryptionType:
           (json['EncryptionType'] as String?)?.let(EncryptionType.fromString),
       keyId: json['KeyId'] as String?,
@@ -4116,7 +4197,8 @@ class StreamDescriptionSummary {
       streamCreationTimestamp:
           nonNullableTimeStampFromJson(json['StreamCreationTimestamp'] ?? 0),
       streamName: (json['StreamName'] as String?) ?? '',
-      streamStatus: StreamStatus.fromString((json['StreamStatus'] as String)),
+      streamStatus:
+          StreamStatus.fromString((json['StreamStatus'] as String?) ?? ''),
       consumerCount: json['ConsumerCount'] as int?,
       encryptionType:
           (json['EncryptionType'] as String?)?.let(EncryptionType.fromString),
@@ -4156,18 +4238,27 @@ class StreamDescriptionSummary {
   }
 }
 
-enum StreamMode {
-  provisioned('PROVISIONED'),
-  onDemand('ON_DEMAND'),
-  ;
+class StreamMode {
+  static const provisioned = StreamMode._('PROVISIONED');
+  static const onDemand = StreamMode._('ON_DEMAND');
 
   final String value;
 
-  const StreamMode(this.value);
+  const StreamMode._(this.value);
 
-  static StreamMode fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum StreamMode'));
+  static const values = [provisioned, onDemand];
+
+  static StreamMode fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => StreamMode._(value));
+
+  @override
+  bool operator ==(other) => other is StreamMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specifies the capacity mode to which you want to set your data stream.
@@ -4187,7 +4278,7 @@ class StreamModeDetails {
 
   factory StreamModeDetails.fromJson(Map<String, dynamic> json) {
     return StreamModeDetails(
-      streamMode: StreamMode.fromString((json['StreamMode'] as String)),
+      streamMode: StreamMode.fromString((json['StreamMode'] as String?) ?? ''),
     );
   }
 
@@ -4199,21 +4290,29 @@ class StreamModeDetails {
   }
 }
 
-enum StreamStatus {
-  creating('CREATING'),
-  deleting('DELETING'),
-  active('ACTIVE'),
-  updating('UPDATING'),
-  ;
+class StreamStatus {
+  static const creating = StreamStatus._('CREATING');
+  static const deleting = StreamStatus._('DELETING');
+  static const active = StreamStatus._('ACTIVE');
+  static const updating = StreamStatus._('UPDATING');
 
   final String value;
 
-  const StreamStatus(this.value);
+  const StreamStatus._(this.value);
 
-  static StreamStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum StreamStatus'));
+  static const values = [creating, deleting, active, updating];
+
+  static StreamStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => StreamStatus._(value));
+
+  @override
+  bool operator ==(other) => other is StreamStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The summary of a stream.
@@ -4243,7 +4342,8 @@ class StreamSummary {
     return StreamSummary(
       streamARN: (json['StreamARN'] as String?) ?? '',
       streamName: (json['StreamName'] as String?) ?? '',
-      streamStatus: StreamStatus.fromString((json['StreamStatus'] as String)),
+      streamStatus:
+          StreamStatus.fromString((json['StreamStatus'] as String?) ?? ''),
       streamCreationTimestamp:
           timeStampFromJson(json['StreamCreationTimestamp']),
       streamModeDetails: json['StreamModeDetails'] != null

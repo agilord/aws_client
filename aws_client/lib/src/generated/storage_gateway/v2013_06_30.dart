@@ -5393,24 +5393,42 @@ class ActivateGatewayOutput {
   }
 }
 
-enum ActiveDirectoryStatus {
-  accessDenied('ACCESS_DENIED'),
-  detached('DETACHED'),
-  joined('JOINED'),
-  joining('JOINING'),
-  networkError('NETWORK_ERROR'),
-  timeout('TIMEOUT'),
-  unknownError('UNKNOWN_ERROR'),
-  ;
+class ActiveDirectoryStatus {
+  static const accessDenied = ActiveDirectoryStatus._('ACCESS_DENIED');
+  static const detached = ActiveDirectoryStatus._('DETACHED');
+  static const joined = ActiveDirectoryStatus._('JOINED');
+  static const joining = ActiveDirectoryStatus._('JOINING');
+  static const networkError = ActiveDirectoryStatus._('NETWORK_ERROR');
+  static const timeout = ActiveDirectoryStatus._('TIMEOUT');
+  static const unknownError = ActiveDirectoryStatus._('UNKNOWN_ERROR');
 
   final String value;
 
-  const ActiveDirectoryStatus(this.value);
+  const ActiveDirectoryStatus._(this.value);
 
-  static ActiveDirectoryStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ActiveDirectoryStatus'));
+  static const values = [
+    accessDenied,
+    detached,
+    joined,
+    joining,
+    networkError,
+    timeout,
+    unknownError
+  ];
+
+  static ActiveDirectoryStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ActiveDirectoryStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ActiveDirectoryStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class AddCacheOutput {
@@ -5688,35 +5706,56 @@ class AutomaticTapeCreationRule {
   }
 }
 
-enum AutomaticUpdatePolicy {
-  allVersions('ALL_VERSIONS'),
-  emergencyVersionsOnly('EMERGENCY_VERSIONS_ONLY'),
-  ;
+class AutomaticUpdatePolicy {
+  static const allVersions = AutomaticUpdatePolicy._('ALL_VERSIONS');
+  static const emergencyVersionsOnly =
+      AutomaticUpdatePolicy._('EMERGENCY_VERSIONS_ONLY');
 
   final String value;
 
-  const AutomaticUpdatePolicy(this.value);
+  const AutomaticUpdatePolicy._(this.value);
 
-  static AutomaticUpdatePolicy fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum AutomaticUpdatePolicy'));
+  static const values = [allVersions, emergencyVersionsOnly];
+
+  static AutomaticUpdatePolicy fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AutomaticUpdatePolicy._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AutomaticUpdatePolicy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum AvailabilityMonitorTestStatus {
-  complete('COMPLETE'),
-  failed('FAILED'),
-  pending('PENDING'),
-  ;
+class AvailabilityMonitorTestStatus {
+  static const complete = AvailabilityMonitorTestStatus._('COMPLETE');
+  static const failed = AvailabilityMonitorTestStatus._('FAILED');
+  static const pending = AvailabilityMonitorTestStatus._('PENDING');
 
   final String value;
 
-  const AvailabilityMonitorTestStatus(this.value);
+  const AvailabilityMonitorTestStatus._(this.value);
+
+  static const values = [complete, failed, pending];
 
   static AvailabilityMonitorTestStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum AvailabilityMonitorTestStatus'));
+          orElse: () => AvailabilityMonitorTestStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AvailabilityMonitorTestStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes a bandwidth rate limit interval for a gateway. A bandwidth rate
@@ -6040,19 +6079,28 @@ class CancelRetrievalOutput {
   }
 }
 
-enum CaseSensitivity {
-  clientSpecified('ClientSpecified'),
-  caseSensitive('CaseSensitive'),
-  ;
+class CaseSensitivity {
+  static const clientSpecified = CaseSensitivity._('ClientSpecified');
+  static const caseSensitive = CaseSensitivity._('CaseSensitive');
 
   final String value;
 
-  const CaseSensitivity(this.value);
+  const CaseSensitivity._(this.value);
+
+  static const values = [clientSpecified, caseSensitive];
 
   static CaseSensitivity fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum CaseSensitivity'));
+          orElse: () => CaseSensitivity._(value));
+
+  @override
+  bool operator ==(other) => other is CaseSensitivity && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes Challenge-Handshake Authentication Protocol (CHAP) information
@@ -8106,19 +8154,28 @@ class FileShareInfo {
 }
 
 /// The type of the file share.
-enum FileShareType {
-  nfs('NFS'),
-  smb('SMB'),
-  ;
+class FileShareType {
+  static const nfs = FileShareType._('NFS');
+  static const smb = FileShareType._('SMB');
 
   final String value;
 
-  const FileShareType(this.value);
+  const FileShareType._(this.value);
+
+  static const values = [nfs, smb];
 
   static FileShareType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum FileShareType'));
+          orElse: () => FileShareType._(value));
+
+  @override
+  bool operator ==(other) => other is FileShareType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes the object returned by <code>DescribeFileSystemAssociations</code>
@@ -8305,20 +8362,29 @@ class FileSystemAssociationSummary {
   }
 }
 
-enum GatewayCapacity {
-  small('Small'),
-  medium('Medium'),
-  large('Large'),
-  ;
+class GatewayCapacity {
+  static const small = GatewayCapacity._('Small');
+  static const medium = GatewayCapacity._('Medium');
+  static const large = GatewayCapacity._('Large');
 
   final String value;
 
-  const GatewayCapacity(this.value);
+  const GatewayCapacity._(this.value);
+
+  static const values = [small, medium, large];
 
   static GatewayCapacity fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum GatewayCapacity'));
+          orElse: () => GatewayCapacity._(value));
+
+  @override
+  bool operator ==(other) => other is GatewayCapacity && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes a gateway object.
@@ -8428,23 +8494,32 @@ class GatewayInfo {
   }
 }
 
-enum HostEnvironment {
-  vmware('VMWARE'),
-  hyperV('HYPER-V'),
-  ec2('EC2'),
-  kvm('KVM'),
-  other('OTHER'),
-  snowball('SNOWBALL'),
-  ;
+class HostEnvironment {
+  static const vmware = HostEnvironment._('VMWARE');
+  static const hyperV = HostEnvironment._('HYPER-V');
+  static const ec2 = HostEnvironment._('EC2');
+  static const kvm = HostEnvironment._('KVM');
+  static const other = HostEnvironment._('OTHER');
+  static const snowball = HostEnvironment._('SNOWBALL');
 
   final String value;
 
-  const HostEnvironment(this.value);
+  const HostEnvironment._(this.value);
+
+  static const values = [vmware, hyperV, ec2, kvm, other, snowball];
 
   static HostEnvironment fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum HostEnvironment'));
+          orElse: () => HostEnvironment._(value));
+
+  @override
+  bool operator ==(other) => other is HostEnvironment && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// JoinDomainOutput
@@ -9303,23 +9378,41 @@ class NotifyWhenUploadedOutput {
 /// A value that sets the access control list (ACL) permission for objects in
 /// the S3 bucket that an S3 File Gateway puts objects into. The default value
 /// is <code>private</code>.
-enum ObjectACL {
-  private('private'),
-  publicRead('public-read'),
-  publicReadWrite('public-read-write'),
-  authenticatedRead('authenticated-read'),
-  bucketOwnerRead('bucket-owner-read'),
-  bucketOwnerFullControl('bucket-owner-full-control'),
-  awsExecRead('aws-exec-read'),
-  ;
+class ObjectACL {
+  static const private = ObjectACL._('private');
+  static const publicRead = ObjectACL._('public-read');
+  static const publicReadWrite = ObjectACL._('public-read-write');
+  static const authenticatedRead = ObjectACL._('authenticated-read');
+  static const bucketOwnerRead = ObjectACL._('bucket-owner-read');
+  static const bucketOwnerFullControl =
+      ObjectACL._('bucket-owner-full-control');
+  static const awsExecRead = ObjectACL._('aws-exec-read');
 
   final String value;
 
-  const ObjectACL(this.value);
+  const ObjectACL._(this.value);
 
-  static ObjectACL fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum ObjectACL'));
+  static const values = [
+    private,
+    publicRead,
+    publicReadWrite,
+    authenticatedRead,
+    bucketOwnerRead,
+    bucketOwnerFullControl,
+    awsExecRead
+  ];
+
+  static ObjectACL fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ObjectACL._(value));
+
+  @override
+  bool operator ==(other) => other is ObjectACL && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes a custom tape pool.
@@ -9397,18 +9490,27 @@ class PoolInfo {
   }
 }
 
-enum PoolStatus {
-  active('ACTIVE'),
-  deleted('DELETED'),
-  ;
+class PoolStatus {
+  static const active = PoolStatus._('ACTIVE');
+  static const deleted = PoolStatus._('DELETED');
 
   final String value;
 
-  const PoolStatus(this.value);
+  const PoolStatus._(this.value);
 
-  static PoolStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum PoolStatus'));
+  static const values = [active, deleted];
+
+  static PoolStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => PoolStatus._(value));
+
+  @override
+  bool operator ==(other) => other is PoolStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// RefreshCacheOutput
@@ -9483,20 +9585,29 @@ class ResetCacheOutput {
   }
 }
 
-enum RetentionLockType {
-  compliance('COMPLIANCE'),
-  governance('GOVERNANCE'),
-  none('NONE'),
-  ;
+class RetentionLockType {
+  static const compliance = RetentionLockType._('COMPLIANCE');
+  static const governance = RetentionLockType._('GOVERNANCE');
+  static const none = RetentionLockType._('NONE');
 
   final String value;
 
-  const RetentionLockType(this.value);
+  const RetentionLockType._(this.value);
+
+  static const values = [compliance, governance, none];
 
   static RetentionLockType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum RetentionLockType'));
+          orElse: () => RetentionLockType._(value));
+
+  @override
+  bool operator ==(other) => other is RetentionLockType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// RetrieveTapeArchiveOutput
@@ -9894,21 +10005,38 @@ class SMBLocalGroups {
   }
 }
 
-enum SMBSecurityStrategy {
-  clientSpecified('ClientSpecified'),
-  mandatorySigning('MandatorySigning'),
-  mandatoryEncryption('MandatoryEncryption'),
-  mandatoryEncryptionNoAes128('MandatoryEncryptionNoAes128'),
-  ;
+class SMBSecurityStrategy {
+  static const clientSpecified = SMBSecurityStrategy._('ClientSpecified');
+  static const mandatorySigning = SMBSecurityStrategy._('MandatorySigning');
+  static const mandatoryEncryption =
+      SMBSecurityStrategy._('MandatoryEncryption');
+  static const mandatoryEncryptionNoAes128 =
+      SMBSecurityStrategy._('MandatoryEncryptionNoAes128');
 
   final String value;
 
-  const SMBSecurityStrategy(this.value);
+  const SMBSecurityStrategy._(this.value);
 
-  static SMBSecurityStrategy fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum SMBSecurityStrategy'));
+  static const values = [
+    clientSpecified,
+    mandatorySigning,
+    mandatoryEncryption,
+    mandatoryEncryptionNoAes128
+  ];
+
+  static SMBSecurityStrategy fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => SMBSecurityStrategy._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SMBSecurityStrategy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class SetLocalConsolePasswordOutput {
@@ -10615,19 +10743,28 @@ class TapeRecoveryPointInfo {
   }
 }
 
-enum TapeStorageClass {
-  deepArchive('DEEP_ARCHIVE'),
-  glacier('GLACIER'),
-  ;
+class TapeStorageClass {
+  static const deepArchive = TapeStorageClass._('DEEP_ARCHIVE');
+  static const glacier = TapeStorageClass._('GLACIER');
 
   final String value;
 
-  const TapeStorageClass(this.value);
+  const TapeStorageClass._(this.value);
+
+  static const values = [deepArchive, glacier];
 
   static TapeStorageClass fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum TapeStorageClass'));
+          orElse: () => TapeStorageClass._(value));
+
+  @override
+  bool operator ==(other) => other is TapeStorageClass && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class UpdateAutomaticTapeCreationPolicyOutput {

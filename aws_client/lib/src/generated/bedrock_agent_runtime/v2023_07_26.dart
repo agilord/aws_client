@@ -580,20 +580,31 @@ class ActionGroupInvocationOutput {
   }
 }
 
-enum ActionInvocationType {
-  result('RESULT'),
-  userConfirmation('USER_CONFIRMATION'),
-  userConfirmationAndResult('USER_CONFIRMATION_AND_RESULT'),
-  ;
+class ActionInvocationType {
+  static const result = ActionInvocationType._('RESULT');
+  static const userConfirmation = ActionInvocationType._('USER_CONFIRMATION');
+  static const userConfirmationAndResult =
+      ActionInvocationType._('USER_CONFIRMATION_AND_RESULT');
 
   final String value;
 
-  const ActionInvocationType(this.value);
+  const ActionInvocationType._(this.value);
 
-  static ActionInvocationType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ActionInvocationType'));
+  static const values = [result, userConfirmation, userConfirmationAndResult];
+
+  static ActionInvocationType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ActionInvocationType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ActionInvocationType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class AdditionalModelRequestFieldsValue {
@@ -1077,19 +1088,28 @@ class CodeInterpreterInvocationOutput {
   }
 }
 
-enum ConfirmationState {
-  confirm('CONFIRM'),
-  deny('DENY'),
-  ;
+class ConfirmationState {
+  static const confirm = ConfirmationState._('CONFIRM');
+  static const deny = ConfirmationState._('DENY');
 
   final String value;
 
-  const ConfirmationState(this.value);
+  const ConfirmationState._(this.value);
+
+  static const values = [confirm, deny];
 
   static ConfirmationState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ConfirmationState'));
+          orElse: () => ConfirmationState._(value));
+
+  @override
+  bool operator ==(other) => other is ConfirmationState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// There was a conflict performing an operation. Resolve the conflict and retry
@@ -1142,19 +1162,27 @@ class ContentBody {
   }
 }
 
-enum CreationMode {
-  $default('DEFAULT'),
-  overridden('OVERRIDDEN'),
-  ;
+class CreationMode {
+  static const $default = CreationMode._('DEFAULT');
+  static const overridden = CreationMode._('OVERRIDDEN');
 
   final String value;
 
-  const CreationMode(this.value);
+  const CreationMode._(this.value);
 
-  static CreationMode fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum CreationMode'));
+  static const values = [$default, overridden];
+
+  static CreationMode fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => CreationMode._(value));
+
+  @override
+  bool operator ==(other) => other is CreationMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class DeleteAgentMemoryResponse {
@@ -1212,19 +1240,28 @@ class Document {
   }
 }
 
-enum ExecutionType {
-  lambda('LAMBDA'),
-  returnControl('RETURN_CONTROL'),
-  ;
+class ExecutionType {
+  static const lambda = ExecutionType._('LAMBDA');
+  static const returnControl = ExecutionType._('RETURN_CONTROL');
 
   final String value;
 
-  const ExecutionType(this.value);
+  const ExecutionType._(this.value);
+
+  static const values = [lambda, returnControl];
 
   static ExecutionType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ExecutionType'));
+          orElse: () => ExecutionType._(value));
+
+  @override
+  bool operator ==(other) => other is ExecutionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The unique external source of the content contained in the wrapper object.
@@ -1256,19 +1293,29 @@ class ExternalSource {
   }
 }
 
-enum ExternalSourceType {
-  s3('S3'),
-  byteContent('BYTE_CONTENT'),
-  ;
+class ExternalSourceType {
+  static const s3 = ExternalSourceType._('S3');
+  static const byteContent = ExternalSourceType._('BYTE_CONTENT');
 
   final String value;
 
-  const ExternalSourceType(this.value);
+  const ExternalSourceType._(this.value);
 
-  static ExternalSourceType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ExternalSourceType'));
+  static const values = [s3, byteContent];
+
+  static ExternalSourceType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ExternalSourceType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ExternalSourceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains the generation configuration of the external source wrapper object.
@@ -1433,33 +1480,51 @@ class FileSource {
   }
 }
 
-enum FileSourceType {
-  s3('S3'),
-  byteContent('BYTE_CONTENT'),
-  ;
+class FileSourceType {
+  static const s3 = FileSourceType._('S3');
+  static const byteContent = FileSourceType._('BYTE_CONTENT');
 
   final String value;
 
-  const FileSourceType(this.value);
+  const FileSourceType._(this.value);
+
+  static const values = [s3, byteContent];
 
   static FileSourceType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum FileSourceType'));
+          orElse: () => FileSourceType._(value));
+
+  @override
+  bool operator ==(other) => other is FileSourceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum FileUseCase {
-  codeInterpreter('CODE_INTERPRETER'),
-  chat('CHAT'),
-  ;
+class FileUseCase {
+  static const codeInterpreter = FileUseCase._('CODE_INTERPRETER');
+  static const chat = FileUseCase._('CHAT');
 
   final String value;
 
-  const FileUseCase(this.value);
+  const FileUseCase._(this.value);
 
-  static FileUseCase fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum FileUseCase'));
+  static const values = [codeInterpreter, chat];
+
+  static FileUseCase fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => FileUseCase._(value));
+
+  @override
+  bool operator ==(other) => other is FileUseCase && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specifies the name that the metadata attribute must match and the value to
@@ -1551,8 +1616,8 @@ class FlowCompletionEvent {
 
   factory FlowCompletionEvent.fromJson(Map<String, dynamic> json) {
     return FlowCompletionEvent(
-      completionReason:
-          FlowCompletionReason.fromString((json['completionReason'] as String)),
+      completionReason: FlowCompletionReason.fromString(
+          (json['completionReason'] as String?) ?? ''),
     );
   }
 
@@ -1564,18 +1629,28 @@ class FlowCompletionEvent {
   }
 }
 
-enum FlowCompletionReason {
-  success('SUCCESS'),
-  ;
+class FlowCompletionReason {
+  static const success = FlowCompletionReason._('SUCCESS');
 
   final String value;
 
-  const FlowCompletionReason(this.value);
+  const FlowCompletionReason._(this.value);
 
-  static FlowCompletionReason fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum FlowCompletionReason'));
+  static const values = [success];
+
+  static FlowCompletionReason fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => FlowCompletionReason._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is FlowCompletionReason && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains information about an input into the prompt flow and where to send
@@ -1714,7 +1789,7 @@ class FlowOutputEvent {
           (json['content'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
       nodeName: (json['nodeName'] as String?) ?? '',
-      nodeType: NodeType.fromString((json['nodeType'] as String)),
+      nodeType: NodeType.fromString((json['nodeType'] as String?) ?? ''),
     );
   }
 
@@ -2179,34 +2254,52 @@ class GetAgentMemoryResponse {
   }
 }
 
-enum GuadrailAction {
-  intervened('INTERVENED'),
-  none('NONE'),
-  ;
+class GuadrailAction {
+  static const intervened = GuadrailAction._('INTERVENED');
+  static const none = GuadrailAction._('NONE');
 
   final String value;
 
-  const GuadrailAction(this.value);
+  const GuadrailAction._(this.value);
+
+  static const values = [intervened, none];
 
   static GuadrailAction fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum GuadrailAction'));
+          orElse: () => GuadrailAction._(value));
+
+  @override
+  bool operator ==(other) => other is GuadrailAction && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum GuardrailAction {
-  intervened('INTERVENED'),
-  none('NONE'),
-  ;
+class GuardrailAction {
+  static const intervened = GuardrailAction._('INTERVENED');
+  static const none = GuardrailAction._('NONE');
 
   final String value;
 
-  const GuardrailAction(this.value);
+  const GuardrailAction._(this.value);
+
+  static const values = [intervened, none];
 
   static GuardrailAction fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum GuardrailAction'));
+          orElse: () => GuardrailAction._(value));
+
+  @override
+  bool operator ==(other) => other is GuardrailAction && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Assessment details of the content analyzed by Guardrails.
@@ -2331,54 +2424,91 @@ class GuardrailContentFilter {
   }
 }
 
-enum GuardrailContentFilterConfidence {
-  none('NONE'),
-  low('LOW'),
-  medium('MEDIUM'),
-  high('HIGH'),
-  ;
+class GuardrailContentFilterConfidence {
+  static const none = GuardrailContentFilterConfidence._('NONE');
+  static const low = GuardrailContentFilterConfidence._('LOW');
+  static const medium = GuardrailContentFilterConfidence._('MEDIUM');
+  static const high = GuardrailContentFilterConfidence._('HIGH');
 
   final String value;
 
-  const GuardrailContentFilterConfidence(this.value);
+  const GuardrailContentFilterConfidence._(this.value);
+
+  static const values = [none, low, medium, high];
 
   static GuardrailContentFilterConfidence fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum GuardrailContentFilterConfidence'));
+          orElse: () => GuardrailContentFilterConfidence._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is GuardrailContentFilterConfidence && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum GuardrailContentFilterType {
-  insults('INSULTS'),
-  hate('HATE'),
-  sexual('SEXUAL'),
-  violence('VIOLENCE'),
-  misconduct('MISCONDUCT'),
-  promptAttack('PROMPT_ATTACK'),
-  ;
+class GuardrailContentFilterType {
+  static const insults = GuardrailContentFilterType._('INSULTS');
+  static const hate = GuardrailContentFilterType._('HATE');
+  static const sexual = GuardrailContentFilterType._('SEXUAL');
+  static const violence = GuardrailContentFilterType._('VIOLENCE');
+  static const misconduct = GuardrailContentFilterType._('MISCONDUCT');
+  static const promptAttack = GuardrailContentFilterType._('PROMPT_ATTACK');
 
   final String value;
 
-  const GuardrailContentFilterType(this.value);
+  const GuardrailContentFilterType._(this.value);
+
+  static const values = [
+    insults,
+    hate,
+    sexual,
+    violence,
+    misconduct,
+    promptAttack
+  ];
 
   static GuardrailContentFilterType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum GuardrailContentFilterType'));
+          orElse: () => GuardrailContentFilterType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is GuardrailContentFilterType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum GuardrailContentPolicyAction {
-  blocked('BLOCKED'),
-  ;
+class GuardrailContentPolicyAction {
+  static const blocked = GuardrailContentPolicyAction._('BLOCKED');
 
   final String value;
 
-  const GuardrailContentPolicyAction(this.value);
+  const GuardrailContentPolicyAction._(this.value);
+
+  static const values = [blocked];
 
   static GuardrailContentPolicyAction fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum GuardrailContentPolicyAction'));
+          orElse: () => GuardrailContentPolicyAction._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is GuardrailContentPolicyAction && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The details of the policy assessment in the Guardrails filter.
@@ -2477,18 +2607,28 @@ class GuardrailManagedWord {
   }
 }
 
-enum GuardrailManagedWordType {
-  profanity('PROFANITY'),
-  ;
+class GuardrailManagedWordType {
+  static const profanity = GuardrailManagedWordType._('PROFANITY');
 
   final String value;
 
-  const GuardrailManagedWordType(this.value);
+  const GuardrailManagedWordType._(this.value);
+
+  static const values = [profanity];
 
   static GuardrailManagedWordType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum GuardrailManagedWordType'));
+          orElse: () => GuardrailManagedWordType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is GuardrailManagedWordType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The Guardrail filter to identify and remove personally identifiable
@@ -2530,49 +2670,104 @@ class GuardrailPiiEntityFilter {
   }
 }
 
-enum GuardrailPiiEntityType {
-  address('ADDRESS'),
-  age('AGE'),
-  awsAccessKey('AWS_ACCESS_KEY'),
-  awsSecretKey('AWS_SECRET_KEY'),
-  caHealthNumber('CA_HEALTH_NUMBER'),
-  caSocialInsuranceNumber('CA_SOCIAL_INSURANCE_NUMBER'),
-  creditDebitCardCvv('CREDIT_DEBIT_CARD_CVV'),
-  creditDebitCardExpiry('CREDIT_DEBIT_CARD_EXPIRY'),
-  creditDebitCardNumber('CREDIT_DEBIT_CARD_NUMBER'),
-  driverId('DRIVER_ID'),
-  email('EMAIL'),
-  internationalBankAccountNumber('INTERNATIONAL_BANK_ACCOUNT_NUMBER'),
-  ipAddress('IP_ADDRESS'),
-  licensePlate('LICENSE_PLATE'),
-  macAddress('MAC_ADDRESS'),
-  name('NAME'),
-  password('PASSWORD'),
-  phone('PHONE'),
-  pin('PIN'),
-  swiftCode('SWIFT_CODE'),
-  ukNationalHealthServiceNumber('UK_NATIONAL_HEALTH_SERVICE_NUMBER'),
-  ukNationalInsuranceNumber('UK_NATIONAL_INSURANCE_NUMBER'),
-  ukUniqueTaxpayerReferenceNumber('UK_UNIQUE_TAXPAYER_REFERENCE_NUMBER'),
-  url('URL'),
-  username('USERNAME'),
-  usBankAccountNumber('US_BANK_ACCOUNT_NUMBER'),
-  usBankRoutingNumber('US_BANK_ROUTING_NUMBER'),
-  usIndividualTaxIdentificationNumber(
-      'US_INDIVIDUAL_TAX_IDENTIFICATION_NUMBER'),
-  usPassportNumber('US_PASSPORT_NUMBER'),
-  usSocialSecurityNumber('US_SOCIAL_SECURITY_NUMBER'),
-  vehicleIdentificationNumber('VEHICLE_IDENTIFICATION_NUMBER'),
-  ;
+class GuardrailPiiEntityType {
+  static const address = GuardrailPiiEntityType._('ADDRESS');
+  static const age = GuardrailPiiEntityType._('AGE');
+  static const awsAccessKey = GuardrailPiiEntityType._('AWS_ACCESS_KEY');
+  static const awsSecretKey = GuardrailPiiEntityType._('AWS_SECRET_KEY');
+  static const caHealthNumber = GuardrailPiiEntityType._('CA_HEALTH_NUMBER');
+  static const caSocialInsuranceNumber =
+      GuardrailPiiEntityType._('CA_SOCIAL_INSURANCE_NUMBER');
+  static const creditDebitCardCvv =
+      GuardrailPiiEntityType._('CREDIT_DEBIT_CARD_CVV');
+  static const creditDebitCardExpiry =
+      GuardrailPiiEntityType._('CREDIT_DEBIT_CARD_EXPIRY');
+  static const creditDebitCardNumber =
+      GuardrailPiiEntityType._('CREDIT_DEBIT_CARD_NUMBER');
+  static const driverId = GuardrailPiiEntityType._('DRIVER_ID');
+  static const email = GuardrailPiiEntityType._('EMAIL');
+  static const internationalBankAccountNumber =
+      GuardrailPiiEntityType._('INTERNATIONAL_BANK_ACCOUNT_NUMBER');
+  static const ipAddress = GuardrailPiiEntityType._('IP_ADDRESS');
+  static const licensePlate = GuardrailPiiEntityType._('LICENSE_PLATE');
+  static const macAddress = GuardrailPiiEntityType._('MAC_ADDRESS');
+  static const name = GuardrailPiiEntityType._('NAME');
+  static const password = GuardrailPiiEntityType._('PASSWORD');
+  static const phone = GuardrailPiiEntityType._('PHONE');
+  static const pin = GuardrailPiiEntityType._('PIN');
+  static const swiftCode = GuardrailPiiEntityType._('SWIFT_CODE');
+  static const ukNationalHealthServiceNumber =
+      GuardrailPiiEntityType._('UK_NATIONAL_HEALTH_SERVICE_NUMBER');
+  static const ukNationalInsuranceNumber =
+      GuardrailPiiEntityType._('UK_NATIONAL_INSURANCE_NUMBER');
+  static const ukUniqueTaxpayerReferenceNumber =
+      GuardrailPiiEntityType._('UK_UNIQUE_TAXPAYER_REFERENCE_NUMBER');
+  static const url = GuardrailPiiEntityType._('URL');
+  static const username = GuardrailPiiEntityType._('USERNAME');
+  static const usBankAccountNumber =
+      GuardrailPiiEntityType._('US_BANK_ACCOUNT_NUMBER');
+  static const usBankRoutingNumber =
+      GuardrailPiiEntityType._('US_BANK_ROUTING_NUMBER');
+  static const usIndividualTaxIdentificationNumber =
+      GuardrailPiiEntityType._('US_INDIVIDUAL_TAX_IDENTIFICATION_NUMBER');
+  static const usPassportNumber =
+      GuardrailPiiEntityType._('US_PASSPORT_NUMBER');
+  static const usSocialSecurityNumber =
+      GuardrailPiiEntityType._('US_SOCIAL_SECURITY_NUMBER');
+  static const vehicleIdentificationNumber =
+      GuardrailPiiEntityType._('VEHICLE_IDENTIFICATION_NUMBER');
 
   final String value;
 
-  const GuardrailPiiEntityType(this.value);
+  const GuardrailPiiEntityType._(this.value);
+
+  static const values = [
+    address,
+    age,
+    awsAccessKey,
+    awsSecretKey,
+    caHealthNumber,
+    caSocialInsuranceNumber,
+    creditDebitCardCvv,
+    creditDebitCardExpiry,
+    creditDebitCardNumber,
+    driverId,
+    email,
+    internationalBankAccountNumber,
+    ipAddress,
+    licensePlate,
+    macAddress,
+    name,
+    password,
+    phone,
+    pin,
+    swiftCode,
+    ukNationalHealthServiceNumber,
+    ukNationalInsuranceNumber,
+    ukUniqueTaxpayerReferenceNumber,
+    url,
+    username,
+    usBankAccountNumber,
+    usBankRoutingNumber,
+    usIndividualTaxIdentificationNumber,
+    usPassportNumber,
+    usSocialSecurityNumber,
+    vehicleIdentificationNumber
+  ];
 
   static GuardrailPiiEntityType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum GuardrailPiiEntityType'));
+          orElse: () => GuardrailPiiEntityType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is GuardrailPiiEntityType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The details for the regex filter used in the Guardrail.
@@ -2620,19 +2815,31 @@ class GuardrailRegexFilter {
   }
 }
 
-enum GuardrailSensitiveInformationPolicyAction {
-  blocked('BLOCKED'),
-  anonymized('ANONYMIZED'),
-  ;
+class GuardrailSensitiveInformationPolicyAction {
+  static const blocked = GuardrailSensitiveInformationPolicyAction._('BLOCKED');
+  static const anonymized =
+      GuardrailSensitiveInformationPolicyAction._('ANONYMIZED');
 
   final String value;
 
-  const GuardrailSensitiveInformationPolicyAction(this.value);
+  const GuardrailSensitiveInformationPolicyAction._(this.value);
+
+  static const values = [blocked, anonymized];
 
   static GuardrailSensitiveInformationPolicyAction fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum GuardrailSensitiveInformationPolicyAction'));
+          orElse: () => GuardrailSensitiveInformationPolicyAction._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is GuardrailSensitiveInformationPolicyAction &&
+      other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The details of the sensitive policy assessment used in the Guardrail.
@@ -2713,18 +2920,28 @@ class GuardrailTopic {
   }
 }
 
-enum GuardrailTopicPolicyAction {
-  blocked('BLOCKED'),
-  ;
+class GuardrailTopicPolicyAction {
+  static const blocked = GuardrailTopicPolicyAction._('BLOCKED');
 
   final String value;
 
-  const GuardrailTopicPolicyAction(this.value);
+  const GuardrailTopicPolicyAction._(this.value);
+
+  static const values = [blocked];
 
   static GuardrailTopicPolicyAction fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum GuardrailTopicPolicyAction'));
+          orElse: () => GuardrailTopicPolicyAction._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is GuardrailTopicPolicyAction && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The details of the policy assessment used in the Guardrail.
@@ -2753,18 +2970,28 @@ class GuardrailTopicPolicyAssessment {
   }
 }
 
-enum GuardrailTopicType {
-  deny('DENY'),
-  ;
+class GuardrailTopicType {
+  static const deny = GuardrailTopicType._('DENY');
 
   final String value;
 
-  const GuardrailTopicType(this.value);
+  const GuardrailTopicType._(this.value);
 
-  static GuardrailTopicType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum GuardrailTopicType'));
+  static const values = [deny];
+
+  static GuardrailTopicType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => GuardrailTopicType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is GuardrailTopicType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The trace details used in the Guardrail.
@@ -2817,18 +3044,28 @@ class GuardrailTrace {
   }
 }
 
-enum GuardrailWordPolicyAction {
-  blocked('BLOCKED'),
-  ;
+class GuardrailWordPolicyAction {
+  static const blocked = GuardrailWordPolicyAction._('BLOCKED');
 
   final String value;
 
-  const GuardrailWordPolicyAction(this.value);
+  const GuardrailWordPolicyAction._(this.value);
+
+  static const values = [blocked];
 
   static GuardrailWordPolicyAction fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum GuardrailWordPolicyAction'));
+          orElse: () => GuardrailWordPolicyAction._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is GuardrailWordPolicyAction && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The assessment details for words defined in the Guardrail filter.
@@ -3166,21 +3403,36 @@ class InvocationResultMember {
   }
 }
 
-enum InvocationType {
-  actionGroup('ACTION_GROUP'),
-  knowledgeBase('KNOWLEDGE_BASE'),
-  finish('FINISH'),
-  actionGroupCodeInterpreter('ACTION_GROUP_CODE_INTERPRETER'),
-  ;
+class InvocationType {
+  static const actionGroup = InvocationType._('ACTION_GROUP');
+  static const knowledgeBase = InvocationType._('KNOWLEDGE_BASE');
+  static const finish = InvocationType._('FINISH');
+  static const actionGroupCodeInterpreter =
+      InvocationType._('ACTION_GROUP_CODE_INTERPRETER');
 
   final String value;
 
-  const InvocationType(this.value);
+  const InvocationType._(this.value);
+
+  static const values = [
+    actionGroup,
+    knowledgeBase,
+    finish,
+    actionGroupCodeInterpreter
+  ];
 
   static InvocationType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum InvocationType'));
+          orElse: () => InvocationType._(value));
+
+  @override
+  bool operator ==(other) => other is InvocationType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class InvokeAgentResponse {
@@ -3651,17 +3903,26 @@ class MemorySessionSummary {
   }
 }
 
-enum MemoryType {
-  sessionSummary('SESSION_SUMMARY'),
-  ;
+class MemoryType {
+  static const sessionSummary = MemoryType._('SESSION_SUMMARY');
 
   final String value;
 
-  const MemoryType(this.value);
+  const MemoryType._(this.value);
 
-  static MemoryType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum MemoryType'));
+  static const values = [sessionSummary];
+
+  static MemoryType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => MemoryType._(value));
+
+  @override
+  bool operator ==(other) => other is MemoryType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Provides details of the foundation model.
@@ -3787,23 +4048,40 @@ class ModelInvocationInput {
   }
 }
 
-enum NodeType {
-  flowInputNode('FlowInputNode'),
-  flowOutputNode('FlowOutputNode'),
-  lambdaFunctionNode('LambdaFunctionNode'),
-  knowledgeBaseNode('KnowledgeBaseNode'),
-  promptNode('PromptNode'),
-  conditionNode('ConditionNode'),
-  lexNode('LexNode'),
-  ;
+class NodeType {
+  static const flowInputNode = NodeType._('FlowInputNode');
+  static const flowOutputNode = NodeType._('FlowOutputNode');
+  static const lambdaFunctionNode = NodeType._('LambdaFunctionNode');
+  static const knowledgeBaseNode = NodeType._('KnowledgeBaseNode');
+  static const promptNode = NodeType._('PromptNode');
+  static const conditionNode = NodeType._('ConditionNode');
+  static const lexNode = NodeType._('LexNode');
 
   final String value;
 
-  const NodeType(this.value);
+  const NodeType._(this.value);
 
-  static NodeType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum NodeType'));
+  static const values = [
+    flowInputNode,
+    flowOutputNode,
+    lambdaFunctionNode,
+    knowledgeBaseNode,
+    promptNode,
+    conditionNode,
+    lexNode
+  ];
+
+  static NodeType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => NodeType._(value));
+
+  @override
+  bool operator ==(other) => other is NodeType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains the result or output of an action group or knowledge base, or the
@@ -4456,20 +4734,35 @@ class PromptTemplate {
   }
 }
 
-enum PromptType {
-  preProcessing('PRE_PROCESSING'),
-  orchestration('ORCHESTRATION'),
-  knowledgeBaseResponseGeneration('KNOWLEDGE_BASE_RESPONSE_GENERATION'),
-  postProcessing('POST_PROCESSING'),
-  ;
+class PromptType {
+  static const preProcessing = PromptType._('PRE_PROCESSING');
+  static const orchestration = PromptType._('ORCHESTRATION');
+  static const knowledgeBaseResponseGeneration =
+      PromptType._('KNOWLEDGE_BASE_RESPONSE_GENERATION');
+  static const postProcessing = PromptType._('POST_PROCESSING');
 
   final String value;
 
-  const PromptType(this.value);
+  const PromptType._(this.value);
 
-  static PromptType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum PromptType'));
+  static const values = [
+    preProcessing,
+    orchestration,
+    knowledgeBaseResponseGeneration,
+    postProcessing
+  ];
+
+  static PromptType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => PromptType._(value));
+
+  @override
+  bool operator ==(other) => other is PromptType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains the parameters in the request body.
@@ -4516,18 +4809,29 @@ class QueryTransformationConfiguration {
   }
 }
 
-enum QueryTransformationType {
-  queryDecomposition('QUERY_DECOMPOSITION'),
-  ;
+class QueryTransformationType {
+  static const queryDecomposition =
+      QueryTransformationType._('QUERY_DECOMPOSITION');
 
   final String value;
 
-  const QueryTransformationType(this.value);
+  const QueryTransformationType._(this.value);
+
+  static const values = [queryDecomposition];
 
   static QueryTransformationType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum QueryTransformationType'));
+          orElse: () => QueryTransformationType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is QueryTransformationType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains the reasoning, based on the input, that the agent uses to justify
@@ -4666,19 +4970,28 @@ class ResourceNotFoundException implements _s.AwsException {
   }
 }
 
-enum ResponseState {
-  failure('FAILURE'),
-  reprompt('REPROMPT'),
-  ;
+class ResponseState {
+  static const failure = ResponseState._('FAILURE');
+  static const reprompt = ResponseState._('REPROMPT');
 
   final String value;
 
-  const ResponseState(this.value);
+  const ResponseState._(this.value);
+
+  static const values = [failure, reprompt];
 
   static ResponseState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ResponseState'));
+          orElse: () => ResponseState._(value));
+
+  @override
+  bool operator ==(other) => other is ResponseState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The response from invoking the agent and associated citations and trace
@@ -5171,7 +5484,8 @@ class RetrievalResultLocation {
 
   factory RetrievalResultLocation.fromJson(Map<String, dynamic> json) {
     return RetrievalResultLocation(
-      type: RetrievalResultLocationType.fromString((json['type'] as String)),
+      type: RetrievalResultLocationType.fromString(
+          (json['type'] as String?) ?? ''),
       confluenceLocation: json['confluenceLocation'] != null
           ? RetrievalResultConfluenceLocation.fromJson(
               json['confluenceLocation'] as Map<String, dynamic>)
@@ -5213,22 +5527,32 @@ class RetrievalResultLocation {
   }
 }
 
-enum RetrievalResultLocationType {
-  s3('S3'),
-  web('WEB'),
-  confluence('CONFLUENCE'),
-  salesforce('SALESFORCE'),
-  sharepoint('SHAREPOINT'),
-  ;
+class RetrievalResultLocationType {
+  static const s3 = RetrievalResultLocationType._('S3');
+  static const web = RetrievalResultLocationType._('WEB');
+  static const confluence = RetrievalResultLocationType._('CONFLUENCE');
+  static const salesforce = RetrievalResultLocationType._('SALESFORCE');
+  static const sharepoint = RetrievalResultLocationType._('SHAREPOINT');
 
   final String value;
 
-  const RetrievalResultLocationType(this.value);
+  const RetrievalResultLocationType._(this.value);
+
+  static const values = [s3, web, confluence, salesforce, sharepoint];
 
   static RetrievalResultLocationType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum RetrievalResultLocationType'));
+          orElse: () => RetrievalResultLocationType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RetrievalResultLocationType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class RetrievalResultMetadataValue {
@@ -5543,19 +5867,29 @@ class RetrieveAndGenerateSessionConfiguration {
   }
 }
 
-enum RetrieveAndGenerateType {
-  knowledgeBase('KNOWLEDGE_BASE'),
-  externalSources('EXTERNAL_SOURCES'),
-  ;
+class RetrieveAndGenerateType {
+  static const knowledgeBase = RetrieveAndGenerateType._('KNOWLEDGE_BASE');
+  static const externalSources = RetrieveAndGenerateType._('EXTERNAL_SOURCES');
 
   final String value;
 
-  const RetrieveAndGenerateType(this.value);
+  const RetrieveAndGenerateType._(this.value);
+
+  static const values = [knowledgeBase, externalSources];
 
   static RetrieveAndGenerateType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum RetrieveAndGenerateType'));
+          orElse: () => RetrieveAndGenerateType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RetrieveAndGenerateType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class RetrieveResponse {
@@ -5738,18 +6072,27 @@ class S3ObjectFile {
   }
 }
 
-enum SearchType {
-  hybrid('HYBRID'),
-  semantic('SEMANTIC'),
-  ;
+class SearchType {
+  static const hybrid = SearchType._('HYBRID');
+  static const semantic = SearchType._('SEMANTIC');
 
   final String value;
 
-  const SearchType(this.value);
+  const SearchType._(this.value);
 
-  static SearchType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum SearchType'));
+  static const values = [hybrid, semantic];
+
+  static SearchType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => SearchType._(value));
+
+  @override
+  bool operator ==(other) => other is SearchType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The number of requests exceeds the service quota. Resubmit your request
@@ -5858,19 +6201,28 @@ class SessionState {
   }
 }
 
-enum Source {
-  actionGroup('ACTION_GROUP'),
-  knowledgeBase('KNOWLEDGE_BASE'),
-  parser('PARSER'),
-  ;
+class Source {
+  static const actionGroup = Source._('ACTION_GROUP');
+  static const knowledgeBase = Source._('KNOWLEDGE_BASE');
+  static const parser = Source._('PARSER');
 
   final String value;
 
-  const Source(this.value);
+  const Source._(this.value);
+
+  static const values = [actionGroup, knowledgeBase, parser];
 
   static Source fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum Source'));
+      values.firstWhere((e) => e.value == value, orElse: () => Source._(value));
+
+  @override
+  bool operator ==(other) => other is Source && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains information about where the text with a citation begins and ends in
@@ -6185,21 +6537,30 @@ class TracePart {
   }
 }
 
-enum Type {
-  actionGroup('ACTION_GROUP'),
-  knowledgeBase('KNOWLEDGE_BASE'),
-  finish('FINISH'),
-  askUser('ASK_USER'),
-  reprompt('REPROMPT'),
-  ;
+class Type {
+  static const actionGroup = Type._('ACTION_GROUP');
+  static const knowledgeBase = Type._('KNOWLEDGE_BASE');
+  static const finish = Type._('FINISH');
+  static const askUser = Type._('ASK_USER');
+  static const reprompt = Type._('REPROMPT');
 
   final String value;
 
-  const Type(this.value);
+  const Type._(this.value);
+
+  static const values = [actionGroup, knowledgeBase, finish, askUser, reprompt];
 
   static Type fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum Type'));
+      values.firstWhere((e) => e.value == value, orElse: () => Type._(value));
+
+  @override
+  bool operator ==(other) => other is Type && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains information of the usage of the foundation model.

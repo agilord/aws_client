@@ -2904,21 +2904,35 @@ class Emr {
   }
 }
 
-enum ActionOnFailure {
-  terminateJobFlow('TERMINATE_JOB_FLOW'),
-  terminateCluster('TERMINATE_CLUSTER'),
-  cancelAndWait('CANCEL_AND_WAIT'),
-  $continue('CONTINUE'),
-  ;
+class ActionOnFailure {
+  static const terminateJobFlow = ActionOnFailure._('TERMINATE_JOB_FLOW');
+  static const terminateCluster = ActionOnFailure._('TERMINATE_CLUSTER');
+  static const cancelAndWait = ActionOnFailure._('CANCEL_AND_WAIT');
+  static const $continue = ActionOnFailure._('CONTINUE');
 
   final String value;
 
-  const ActionOnFailure(this.value);
+  const ActionOnFailure._(this.value);
+
+  static const values = [
+    terminateJobFlow,
+    terminateCluster,
+    cancelAndWait,
+    $continue
+  ];
 
   static ActionOnFailure fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ActionOnFailure'));
+          orElse: () => ActionOnFailure._(value));
+
+  @override
+  bool operator ==(other) => other is ActionOnFailure && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class AddInstanceFleetOutput {
@@ -3034,20 +3048,34 @@ class AddTagsOutput {
   }
 }
 
-enum AdjustmentType {
-  changeInCapacity('CHANGE_IN_CAPACITY'),
-  percentChangeInCapacity('PERCENT_CHANGE_IN_CAPACITY'),
-  exactCapacity('EXACT_CAPACITY'),
-  ;
+class AdjustmentType {
+  static const changeInCapacity = AdjustmentType._('CHANGE_IN_CAPACITY');
+  static const percentChangeInCapacity =
+      AdjustmentType._('PERCENT_CHANGE_IN_CAPACITY');
+  static const exactCapacity = AdjustmentType._('EXACT_CAPACITY');
 
   final String value;
 
-  const AdjustmentType(this.value);
+  const AdjustmentType._(this.value);
+
+  static const values = [
+    changeInCapacity,
+    percentChangeInCapacity,
+    exactCapacity
+  ];
 
   static AdjustmentType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum AdjustmentType'));
+          orElse: () => AdjustmentType._(value));
+
+  @override
+  bool operator ==(other) => other is AdjustmentType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// With Amazon EMR release version 4.0 and later, the only accepted parameter
@@ -3108,18 +3136,27 @@ class Application {
   }
 }
 
-enum AuthMode {
-  sso('SSO'),
-  iam('IAM'),
-  ;
+class AuthMode {
+  static const sso = AuthMode._('SSO');
+  static const iam = AuthMode._('IAM');
 
   final String value;
 
-  const AuthMode(this.value);
+  const AuthMode._(this.value);
 
-  static AuthMode fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum AuthMode'));
+  static const values = [sso, iam];
+
+  static AuthMode fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => AuthMode._(value));
+
+  @override
+  bool operator ==(other) => other is AuthMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// An automatic scaling policy for a core instance group or task instance group
@@ -3203,23 +3240,40 @@ class AutoScalingPolicyDescription {
   }
 }
 
-enum AutoScalingPolicyState {
-  pending('PENDING'),
-  attaching('ATTACHING'),
-  attached('ATTACHED'),
-  detaching('DETACHING'),
-  detached('DETACHED'),
-  failed('FAILED'),
-  ;
+class AutoScalingPolicyState {
+  static const pending = AutoScalingPolicyState._('PENDING');
+  static const attaching = AutoScalingPolicyState._('ATTACHING');
+  static const attached = AutoScalingPolicyState._('ATTACHED');
+  static const detaching = AutoScalingPolicyState._('DETACHING');
+  static const detached = AutoScalingPolicyState._('DETACHED');
+  static const failed = AutoScalingPolicyState._('FAILED');
 
   final String value;
 
-  const AutoScalingPolicyState(this.value);
+  const AutoScalingPolicyState._(this.value);
+
+  static const values = [
+    pending,
+    attaching,
+    attached,
+    detaching,
+    detached,
+    failed
+  ];
 
   static AutoScalingPolicyState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum AutoScalingPolicyState'));
+          orElse: () => AutoScalingPolicyState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AutoScalingPolicyState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The reason for an <a>AutoScalingPolicyStatus</a> change.
@@ -3259,20 +3313,33 @@ class AutoScalingPolicyStateChangeReason {
   }
 }
 
-enum AutoScalingPolicyStateChangeReasonCode {
-  userRequest('USER_REQUEST'),
-  provisionFailure('PROVISION_FAILURE'),
-  cleanupFailure('CLEANUP_FAILURE'),
-  ;
+class AutoScalingPolicyStateChangeReasonCode {
+  static const userRequest =
+      AutoScalingPolicyStateChangeReasonCode._('USER_REQUEST');
+  static const provisionFailure =
+      AutoScalingPolicyStateChangeReasonCode._('PROVISION_FAILURE');
+  static const cleanupFailure =
+      AutoScalingPolicyStateChangeReasonCode._('CLEANUP_FAILURE');
 
   final String value;
 
-  const AutoScalingPolicyStateChangeReasonCode(this.value);
+  const AutoScalingPolicyStateChangeReasonCode._(this.value);
+
+  static const values = [userRequest, provisionFailure, cleanupFailure];
 
   static AutoScalingPolicyStateChangeReasonCode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum AutoScalingPolicyStateChangeReasonCode'));
+          orElse: () => AutoScalingPolicyStateChangeReasonCode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AutoScalingPolicyStateChangeReasonCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The status of an automatic scaling policy.
@@ -3557,19 +3624,29 @@ class CancelStepsOutput {
   }
 }
 
-enum CancelStepsRequestStatus {
-  submitted('SUBMITTED'),
-  failed('FAILED'),
-  ;
+class CancelStepsRequestStatus {
+  static const submitted = CancelStepsRequestStatus._('SUBMITTED');
+  static const failed = CancelStepsRequestStatus._('FAILED');
 
   final String value;
 
-  const CancelStepsRequestStatus(this.value);
+  const CancelStepsRequestStatus._(this.value);
+
+  static const values = [submitted, failed];
 
   static CancelStepsRequestStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum CancelStepsRequestStatus'));
+          orElse: () => CancelStepsRequestStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CancelStepsRequestStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The definition of a CloudWatch metric alarm, which determines when an
@@ -3627,8 +3704,8 @@ class CloudWatchAlarmDefinition {
 
   factory CloudWatchAlarmDefinition.fromJson(Map<String, dynamic> json) {
     return CloudWatchAlarmDefinition(
-      comparisonOperator:
-          ComparisonOperator.fromString((json['ComparisonOperator'] as String)),
+      comparisonOperator: ComparisonOperator.fromString(
+          (json['ComparisonOperator'] as String?) ?? ''),
       metricName: (json['MetricName'] as String?) ?? '',
       period: (json['Period'] as int?) ?? 0,
       threshold: (json['Threshold'] as double?) ?? 0,
@@ -4027,24 +4104,40 @@ class Cluster {
   }
 }
 
-enum ClusterState {
-  starting('STARTING'),
-  bootstrapping('BOOTSTRAPPING'),
-  running('RUNNING'),
-  waiting('WAITING'),
-  terminating('TERMINATING'),
-  terminated('TERMINATED'),
-  terminatedWithErrors('TERMINATED_WITH_ERRORS'),
-  ;
+class ClusterState {
+  static const starting = ClusterState._('STARTING');
+  static const bootstrapping = ClusterState._('BOOTSTRAPPING');
+  static const running = ClusterState._('RUNNING');
+  static const waiting = ClusterState._('WAITING');
+  static const terminating = ClusterState._('TERMINATING');
+  static const terminated = ClusterState._('TERMINATED');
+  static const terminatedWithErrors = ClusterState._('TERMINATED_WITH_ERRORS');
 
   final String value;
 
-  const ClusterState(this.value);
+  const ClusterState._(this.value);
 
-  static ClusterState fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ClusterState'));
+  static const values = [
+    starting,
+    bootstrapping,
+    running,
+    waiting,
+    terminating,
+    terminated,
+    terminatedWithErrors
+  ];
+
+  static ClusterState fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ClusterState._(value));
+
+  @override
+  bool operator ==(other) => other is ClusterState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The reason that the cluster changed to its current state.
@@ -4078,25 +4171,49 @@ class ClusterStateChangeReason {
   }
 }
 
-enum ClusterStateChangeReasonCode {
-  internalError('INTERNAL_ERROR'),
-  validationError('VALIDATION_ERROR'),
-  instanceFailure('INSTANCE_FAILURE'),
-  instanceFleetTimeout('INSTANCE_FLEET_TIMEOUT'),
-  bootstrapFailure('BOOTSTRAP_FAILURE'),
-  userRequest('USER_REQUEST'),
-  stepFailure('STEP_FAILURE'),
-  allStepsCompleted('ALL_STEPS_COMPLETED'),
-  ;
+class ClusterStateChangeReasonCode {
+  static const internalError = ClusterStateChangeReasonCode._('INTERNAL_ERROR');
+  static const validationError =
+      ClusterStateChangeReasonCode._('VALIDATION_ERROR');
+  static const instanceFailure =
+      ClusterStateChangeReasonCode._('INSTANCE_FAILURE');
+  static const instanceFleetTimeout =
+      ClusterStateChangeReasonCode._('INSTANCE_FLEET_TIMEOUT');
+  static const bootstrapFailure =
+      ClusterStateChangeReasonCode._('BOOTSTRAP_FAILURE');
+  static const userRequest = ClusterStateChangeReasonCode._('USER_REQUEST');
+  static const stepFailure = ClusterStateChangeReasonCode._('STEP_FAILURE');
+  static const allStepsCompleted =
+      ClusterStateChangeReasonCode._('ALL_STEPS_COMPLETED');
 
   final String value;
 
-  const ClusterStateChangeReasonCode(this.value);
+  const ClusterStateChangeReasonCode._(this.value);
+
+  static const values = [
+    internalError,
+    validationError,
+    instanceFailure,
+    instanceFleetTimeout,
+    bootstrapFailure,
+    userRequest,
+    stepFailure,
+    allStepsCompleted
+  ];
 
   static ClusterStateChangeReasonCode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ClusterStateChangeReasonCode'));
+          orElse: () => ClusterStateChangeReasonCode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ClusterStateChangeReasonCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The detailed status of the cluster.
@@ -4296,21 +4413,37 @@ class Command {
   }
 }
 
-enum ComparisonOperator {
-  greaterThanOrEqual('GREATER_THAN_OR_EQUAL'),
-  greaterThan('GREATER_THAN'),
-  lessThan('LESS_THAN'),
-  lessThanOrEqual('LESS_THAN_OR_EQUAL'),
-  ;
+class ComparisonOperator {
+  static const greaterThanOrEqual =
+      ComparisonOperator._('GREATER_THAN_OR_EQUAL');
+  static const greaterThan = ComparisonOperator._('GREATER_THAN');
+  static const lessThan = ComparisonOperator._('LESS_THAN');
+  static const lessThanOrEqual = ComparisonOperator._('LESS_THAN_OR_EQUAL');
 
   final String value;
 
-  const ComparisonOperator(this.value);
+  const ComparisonOperator._(this.value);
 
-  static ComparisonOperator fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ComparisonOperator'));
+  static const values = [
+    greaterThanOrEqual,
+    greaterThan,
+    lessThan,
+    lessThanOrEqual
+  ];
+
+  static ComparisonOperator fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ComparisonOperator._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ComparisonOperator && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The Amazon EC2 unit limits for a managed scaling policy. The managed scaling
@@ -4361,7 +4494,8 @@ class ComputeLimits {
     return ComputeLimits(
       maximumCapacityUnits: (json['MaximumCapacityUnits'] as int?) ?? 0,
       minimumCapacityUnits: (json['MinimumCapacityUnits'] as int?) ?? 0,
-      unitType: ComputeLimitsUnitType.fromString((json['UnitType'] as String)),
+      unitType:
+          ComputeLimitsUnitType.fromString((json['UnitType'] as String?) ?? ''),
       maximumCoreCapacityUnits: json['MaximumCoreCapacityUnits'] as int?,
       maximumOnDemandCapacityUnits:
           json['MaximumOnDemandCapacityUnits'] as int?,
@@ -4386,20 +4520,31 @@ class ComputeLimits {
   }
 }
 
-enum ComputeLimitsUnitType {
-  instanceFleetUnits('InstanceFleetUnits'),
-  instances('Instances'),
-  vcpu('VCPU'),
-  ;
+class ComputeLimitsUnitType {
+  static const instanceFleetUnits =
+      ComputeLimitsUnitType._('InstanceFleetUnits');
+  static const instances = ComputeLimitsUnitType._('Instances');
+  static const vcpu = ComputeLimitsUnitType._('VCPU');
 
   final String value;
 
-  const ComputeLimitsUnitType(this.value);
+  const ComputeLimitsUnitType._(this.value);
 
-  static ComputeLimitsUnitType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ComputeLimitsUnitType'));
+  static const values = [instanceFleetUnits, instances, vcpu];
+
+  static ComputeLimitsUnitType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ComputeLimitsUnitType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ComputeLimitsUnitType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// <note>
@@ -5131,18 +5276,28 @@ class ExecutionEngineConfig {
   }
 }
 
-enum ExecutionEngineType {
-  emr('EMR'),
-  ;
+class ExecutionEngineType {
+  static const emr = ExecutionEngineType._('EMR');
 
   final String value;
 
-  const ExecutionEngineType(this.value);
+  const ExecutionEngineType._(this.value);
 
-  static ExecutionEngineType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ExecutionEngineType'));
+  static const values = [emr];
+
+  static ExecutionEngineType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ExecutionEngineType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ExecutionEngineType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The details of the step failure. The service attempts to detect the root
@@ -5463,34 +5618,51 @@ class HadoopStepConfig {
   }
 }
 
-enum IdcUserAssignment {
-  required('REQUIRED'),
-  optional('OPTIONAL'),
-  ;
+class IdcUserAssignment {
+  static const required = IdcUserAssignment._('REQUIRED');
+  static const optional = IdcUserAssignment._('OPTIONAL');
 
   final String value;
 
-  const IdcUserAssignment(this.value);
+  const IdcUserAssignment._(this.value);
+
+  static const values = [required, optional];
 
   static IdcUserAssignment fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum IdcUserAssignment'));
+          orElse: () => IdcUserAssignment._(value));
+
+  @override
+  bool operator ==(other) => other is IdcUserAssignment && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum IdentityType {
-  user('USER'),
-  group('GROUP'),
-  ;
+class IdentityType {
+  static const user = IdentityType._('USER');
+  static const group = IdentityType._('GROUP');
 
   final String value;
 
-  const IdentityType(this.value);
+  const IdentityType._(this.value);
 
-  static IdentityType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum IdentityType'));
+  static const values = [user, group];
+
+  static IdentityType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => IdentityType._(value));
+
+  @override
+  bool operator ==(other) => other is IdentityType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Represents an Amazon EC2 instance provisioned as part of cluster.
@@ -5600,19 +5772,29 @@ class Instance {
   }
 }
 
-enum InstanceCollectionType {
-  instanceFleet('INSTANCE_FLEET'),
-  instanceGroup('INSTANCE_GROUP'),
-  ;
+class InstanceCollectionType {
+  static const instanceFleet = InstanceCollectionType._('INSTANCE_FLEET');
+  static const instanceGroup = InstanceCollectionType._('INSTANCE_GROUP');
 
   final String value;
 
-  const InstanceCollectionType(this.value);
+  const InstanceCollectionType._(this.value);
+
+  static const values = [instanceFleet, instanceGroup];
 
   static InstanceCollectionType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum InstanceCollectionType'));
+          orElse: () => InstanceCollectionType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is InstanceCollectionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes an instance fleet, which is a group of Amazon EC2 instances that
@@ -6019,24 +6201,42 @@ class InstanceFleetResizingSpecifications {
   }
 }
 
-enum InstanceFleetState {
-  provisioning('PROVISIONING'),
-  bootstrapping('BOOTSTRAPPING'),
-  running('RUNNING'),
-  resizing('RESIZING'),
-  suspended('SUSPENDED'),
-  terminating('TERMINATING'),
-  terminated('TERMINATED'),
-  ;
+class InstanceFleetState {
+  static const provisioning = InstanceFleetState._('PROVISIONING');
+  static const bootstrapping = InstanceFleetState._('BOOTSTRAPPING');
+  static const running = InstanceFleetState._('RUNNING');
+  static const resizing = InstanceFleetState._('RESIZING');
+  static const suspended = InstanceFleetState._('SUSPENDED');
+  static const terminating = InstanceFleetState._('TERMINATING');
+  static const terminated = InstanceFleetState._('TERMINATED');
 
   final String value;
 
-  const InstanceFleetState(this.value);
+  const InstanceFleetState._(this.value);
 
-  static InstanceFleetState fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum InstanceFleetState'));
+  static const values = [
+    provisioning,
+    bootstrapping,
+    running,
+    resizing,
+    suspended,
+    terminating,
+    terminated
+  ];
+
+  static InstanceFleetState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => InstanceFleetState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is InstanceFleetState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Provides status change reason details for the instance fleet.
@@ -6074,21 +6274,40 @@ class InstanceFleetStateChangeReason {
   }
 }
 
-enum InstanceFleetStateChangeReasonCode {
-  internalError('INTERNAL_ERROR'),
-  validationError('VALIDATION_ERROR'),
-  instanceFailure('INSTANCE_FAILURE'),
-  clusterTerminated('CLUSTER_TERMINATED'),
-  ;
+class InstanceFleetStateChangeReasonCode {
+  static const internalError =
+      InstanceFleetStateChangeReasonCode._('INTERNAL_ERROR');
+  static const validationError =
+      InstanceFleetStateChangeReasonCode._('VALIDATION_ERROR');
+  static const instanceFailure =
+      InstanceFleetStateChangeReasonCode._('INSTANCE_FAILURE');
+  static const clusterTerminated =
+      InstanceFleetStateChangeReasonCode._('CLUSTER_TERMINATED');
 
   final String value;
 
-  const InstanceFleetStateChangeReasonCode(this.value);
+  const InstanceFleetStateChangeReasonCode._(this.value);
+
+  static const values = [
+    internalError,
+    validationError,
+    instanceFailure,
+    clusterTerminated
+  ];
 
   static InstanceFleetStateChangeReasonCode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum InstanceFleetStateChangeReasonCode'));
+          orElse: () => InstanceFleetStateChangeReasonCode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is InstanceFleetStateChangeReasonCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The status of the instance fleet.
@@ -6215,20 +6434,29 @@ class InstanceFleetTimeline {
   }
 }
 
-enum InstanceFleetType {
-  master('MASTER'),
-  core('CORE'),
-  task('TASK'),
-  ;
+class InstanceFleetType {
+  static const master = InstanceFleetType._('MASTER');
+  static const core = InstanceFleetType._('CORE');
+  static const task = InstanceFleetType._('TASK');
 
   final String value;
 
-  const InstanceFleetType(this.value);
+  const InstanceFleetType._(this.value);
+
+  static const values = [master, core, task];
 
   static InstanceFleetType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum InstanceFleetType'));
+          orElse: () => InstanceFleetType._(value));
+
+  @override
+  bool operator ==(other) => other is InstanceFleetType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// This entity represents an instance group, which is a group of instances that
@@ -6579,11 +6807,11 @@ class InstanceGroupDetail {
           nonNullableTimeStampFromJson(json['CreationDateTime'] ?? 0),
       instanceRequestCount: (json['InstanceRequestCount'] as int?) ?? 0,
       instanceRole:
-          InstanceRoleType.fromString((json['InstanceRole'] as String)),
+          InstanceRoleType.fromString((json['InstanceRole'] as String?) ?? ''),
       instanceRunningCount: (json['InstanceRunningCount'] as int?) ?? 0,
       instanceType: (json['InstanceType'] as String?) ?? '',
-      market: MarketType.fromString((json['Market'] as String)),
-      state: InstanceGroupState.fromString((json['State'] as String)),
+      market: MarketType.fromString((json['Market'] as String?) ?? ''),
+      state: InstanceGroupState.fromString((json['State'] as String?) ?? ''),
       bidPrice: json['BidPrice'] as String?,
       customAmiId: json['CustomAmiId'] as String?,
       endDateTime: timeStampFromJson(json['EndDateTime']),
@@ -6684,28 +6912,50 @@ class InstanceGroupModifyConfig {
   }
 }
 
-enum InstanceGroupState {
-  provisioning('PROVISIONING'),
-  bootstrapping('BOOTSTRAPPING'),
-  running('RUNNING'),
-  reconfiguring('RECONFIGURING'),
-  resizing('RESIZING'),
-  suspended('SUSPENDED'),
-  terminating('TERMINATING'),
-  terminated('TERMINATED'),
-  arrested('ARRESTED'),
-  shuttingDown('SHUTTING_DOWN'),
-  ended('ENDED'),
-  ;
+class InstanceGroupState {
+  static const provisioning = InstanceGroupState._('PROVISIONING');
+  static const bootstrapping = InstanceGroupState._('BOOTSTRAPPING');
+  static const running = InstanceGroupState._('RUNNING');
+  static const reconfiguring = InstanceGroupState._('RECONFIGURING');
+  static const resizing = InstanceGroupState._('RESIZING');
+  static const suspended = InstanceGroupState._('SUSPENDED');
+  static const terminating = InstanceGroupState._('TERMINATING');
+  static const terminated = InstanceGroupState._('TERMINATED');
+  static const arrested = InstanceGroupState._('ARRESTED');
+  static const shuttingDown = InstanceGroupState._('SHUTTING_DOWN');
+  static const ended = InstanceGroupState._('ENDED');
 
   final String value;
 
-  const InstanceGroupState(this.value);
+  const InstanceGroupState._(this.value);
 
-  static InstanceGroupState fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum InstanceGroupState'));
+  static const values = [
+    provisioning,
+    bootstrapping,
+    running,
+    reconfiguring,
+    resizing,
+    suspended,
+    terminating,
+    terminated,
+    arrested,
+    shuttingDown,
+    ended
+  ];
+
+  static InstanceGroupState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => InstanceGroupState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is InstanceGroupState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The status change reason details for the instance group.
@@ -6739,21 +6989,40 @@ class InstanceGroupStateChangeReason {
   }
 }
 
-enum InstanceGroupStateChangeReasonCode {
-  internalError('INTERNAL_ERROR'),
-  validationError('VALIDATION_ERROR'),
-  instanceFailure('INSTANCE_FAILURE'),
-  clusterTerminated('CLUSTER_TERMINATED'),
-  ;
+class InstanceGroupStateChangeReasonCode {
+  static const internalError =
+      InstanceGroupStateChangeReasonCode._('INTERNAL_ERROR');
+  static const validationError =
+      InstanceGroupStateChangeReasonCode._('VALIDATION_ERROR');
+  static const instanceFailure =
+      InstanceGroupStateChangeReasonCode._('INSTANCE_FAILURE');
+  static const clusterTerminated =
+      InstanceGroupStateChangeReasonCode._('CLUSTER_TERMINATED');
 
   final String value;
 
-  const InstanceGroupStateChangeReasonCode(this.value);
+  const InstanceGroupStateChangeReasonCode._(this.value);
+
+  static const values = [
+    internalError,
+    validationError,
+    instanceFailure,
+    clusterTerminated
+  ];
 
   static InstanceGroupStateChangeReasonCode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum InstanceGroupStateChangeReasonCode'));
+          orElse: () => InstanceGroupStateChangeReasonCode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is InstanceGroupStateChangeReasonCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The details of the instance group status.
@@ -6838,20 +7107,29 @@ class InstanceGroupTimeline {
   }
 }
 
-enum InstanceGroupType {
-  master('MASTER'),
-  core('CORE'),
-  task('TASK'),
-  ;
+class InstanceGroupType {
+  static const master = InstanceGroupType._('MASTER');
+  static const core = InstanceGroupType._('CORE');
+  static const task = InstanceGroupType._('TASK');
 
   final String value;
 
-  const InstanceGroupType(this.value);
+  const InstanceGroupType._(this.value);
+
+  static const values = [master, core, task];
 
   static InstanceGroupType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum InstanceGroupType'));
+          orElse: () => InstanceGroupType._(value));
+
+  @override
+  bool operator ==(other) => other is InstanceGroupType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Custom policy for requesting termination protection or termination of
@@ -6902,38 +7180,62 @@ class InstanceResizePolicy {
   }
 }
 
-enum InstanceRoleType {
-  master('MASTER'),
-  core('CORE'),
-  task('TASK'),
-  ;
+class InstanceRoleType {
+  static const master = InstanceRoleType._('MASTER');
+  static const core = InstanceRoleType._('CORE');
+  static const task = InstanceRoleType._('TASK');
 
   final String value;
 
-  const InstanceRoleType(this.value);
+  const InstanceRoleType._(this.value);
+
+  static const values = [master, core, task];
 
   static InstanceRoleType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum InstanceRoleType'));
+          orElse: () => InstanceRoleType._(value));
+
+  @override
+  bool operator ==(other) => other is InstanceRoleType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum InstanceState {
-  awaitingFulfillment('AWAITING_FULFILLMENT'),
-  provisioning('PROVISIONING'),
-  bootstrapping('BOOTSTRAPPING'),
-  running('RUNNING'),
-  terminated('TERMINATED'),
-  ;
+class InstanceState {
+  static const awaitingFulfillment = InstanceState._('AWAITING_FULFILLMENT');
+  static const provisioning = InstanceState._('PROVISIONING');
+  static const bootstrapping = InstanceState._('BOOTSTRAPPING');
+  static const running = InstanceState._('RUNNING');
+  static const terminated = InstanceState._('TERMINATED');
 
   final String value;
 
-  const InstanceState(this.value);
+  const InstanceState._(this.value);
+
+  static const values = [
+    awaitingFulfillment,
+    provisioning,
+    bootstrapping,
+    running,
+    terminated
+  ];
 
   static InstanceState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum InstanceState'));
+          orElse: () => InstanceState._(value));
+
+  @override
+  bool operator ==(other) => other is InstanceState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The details of the status change reason for the instance.
@@ -6967,22 +7269,43 @@ class InstanceStateChangeReason {
   }
 }
 
-enum InstanceStateChangeReasonCode {
-  internalError('INTERNAL_ERROR'),
-  validationError('VALIDATION_ERROR'),
-  instanceFailure('INSTANCE_FAILURE'),
-  bootstrapFailure('BOOTSTRAP_FAILURE'),
-  clusterTerminated('CLUSTER_TERMINATED'),
-  ;
+class InstanceStateChangeReasonCode {
+  static const internalError =
+      InstanceStateChangeReasonCode._('INTERNAL_ERROR');
+  static const validationError =
+      InstanceStateChangeReasonCode._('VALIDATION_ERROR');
+  static const instanceFailure =
+      InstanceStateChangeReasonCode._('INSTANCE_FAILURE');
+  static const bootstrapFailure =
+      InstanceStateChangeReasonCode._('BOOTSTRAP_FAILURE');
+  static const clusterTerminated =
+      InstanceStateChangeReasonCode._('CLUSTER_TERMINATED');
 
   final String value;
 
-  const InstanceStateChangeReasonCode(this.value);
+  const InstanceStateChangeReasonCode._(this.value);
+
+  static const values = [
+    internalError,
+    validationError,
+    instanceFailure,
+    bootstrapFailure,
+    clusterTerminated
+  ];
 
   static InstanceStateChangeReasonCode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum InstanceStateChangeReasonCode'));
+          orElse: () => InstanceStateChangeReasonCode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is InstanceStateChangeReasonCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The instance status details.
@@ -7433,25 +7756,44 @@ class JobFlowDetail {
 }
 
 /// The type of instance.
-enum JobFlowExecutionState {
-  starting('STARTING'),
-  bootstrapping('BOOTSTRAPPING'),
-  running('RUNNING'),
-  waiting('WAITING'),
-  shuttingDown('SHUTTING_DOWN'),
-  terminated('TERMINATED'),
-  completed('COMPLETED'),
-  failed('FAILED'),
-  ;
+class JobFlowExecutionState {
+  static const starting = JobFlowExecutionState._('STARTING');
+  static const bootstrapping = JobFlowExecutionState._('BOOTSTRAPPING');
+  static const running = JobFlowExecutionState._('RUNNING');
+  static const waiting = JobFlowExecutionState._('WAITING');
+  static const shuttingDown = JobFlowExecutionState._('SHUTTING_DOWN');
+  static const terminated = JobFlowExecutionState._('TERMINATED');
+  static const completed = JobFlowExecutionState._('COMPLETED');
+  static const failed = JobFlowExecutionState._('FAILED');
 
   final String value;
 
-  const JobFlowExecutionState(this.value);
+  const JobFlowExecutionState._(this.value);
 
-  static JobFlowExecutionState fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum JobFlowExecutionState'));
+  static const values = [
+    starting,
+    bootstrapping,
+    running,
+    waiting,
+    shuttingDown,
+    terminated,
+    completed,
+    failed
+  ];
+
+  static JobFlowExecutionState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => JobFlowExecutionState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is JobFlowExecutionState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes the status of the cluster (job flow).
@@ -7488,7 +7830,7 @@ class JobFlowExecutionStatusDetail {
     return JobFlowExecutionStatusDetail(
       creationDateTime:
           nonNullableTimeStampFromJson(json['CreationDateTime'] ?? 0),
-      state: JobFlowExecutionState.fromString((json['State'] as String)),
+      state: JobFlowExecutionState.fromString((json['State'] as String?) ?? ''),
       endDateTime: timeStampFromJson(json['EndDateTime']),
       lastStateChangeReason: json['LastStateChangeReason'] as String?,
       readyDateTime: timeStampFromJson(json['ReadyDateTime']),
@@ -8356,18 +8698,27 @@ class ManagedScalingPolicy {
   }
 }
 
-enum MarketType {
-  onDemand('ON_DEMAND'),
-  spot('SPOT'),
-  ;
+class MarketType {
+  static const onDemand = MarketType._('ON_DEMAND');
+  static const spot = MarketType._('SPOT');
 
   final String value;
 
-  const MarketType(this.value);
+  const MarketType._(this.value);
 
-  static MarketType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum MarketType'));
+  static const values = [onDemand, spot];
+
+  static MarketType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => MarketType._(value));
+
+  @override
+  bool operator ==(other) => other is MarketType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A CloudWatch dimension, which is specified using a <code>Key</code> (known
@@ -8641,27 +8992,48 @@ class NotebookExecution {
   }
 }
 
-enum NotebookExecutionStatus {
-  startPending('START_PENDING'),
-  starting('STARTING'),
-  running('RUNNING'),
-  finishing('FINISHING'),
-  finished('FINISHED'),
-  failing('FAILING'),
-  failed('FAILED'),
-  stopPending('STOP_PENDING'),
-  stopping('STOPPING'),
-  stopped('STOPPED'),
-  ;
+class NotebookExecutionStatus {
+  static const startPending = NotebookExecutionStatus._('START_PENDING');
+  static const starting = NotebookExecutionStatus._('STARTING');
+  static const running = NotebookExecutionStatus._('RUNNING');
+  static const finishing = NotebookExecutionStatus._('FINISHING');
+  static const finished = NotebookExecutionStatus._('FINISHED');
+  static const failing = NotebookExecutionStatus._('FAILING');
+  static const failed = NotebookExecutionStatus._('FAILED');
+  static const stopPending = NotebookExecutionStatus._('STOP_PENDING');
+  static const stopping = NotebookExecutionStatus._('STOPPING');
+  static const stopped = NotebookExecutionStatus._('STOPPED');
 
   final String value;
 
-  const NotebookExecutionStatus(this.value);
+  const NotebookExecutionStatus._(this.value);
+
+  static const values = [
+    startPending,
+    starting,
+    running,
+    finishing,
+    finished,
+    failing,
+    failed,
+    stopPending,
+    stopping,
+    stopped
+  ];
 
   static NotebookExecutionStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum NotebookExecutionStatus'));
+          orElse: () => NotebookExecutionStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is NotebookExecutionStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Details for a notebook execution. The details include information such as
@@ -8938,48 +9310,82 @@ class OnDemandCapacityReservationOptions {
   }
 }
 
-enum OnDemandCapacityReservationPreference {
-  open('open'),
-  none('none'),
-  ;
+class OnDemandCapacityReservationPreference {
+  static const open = OnDemandCapacityReservationPreference._('open');
+  static const none = OnDemandCapacityReservationPreference._('none');
 
   final String value;
 
-  const OnDemandCapacityReservationPreference(this.value);
+  const OnDemandCapacityReservationPreference._(this.value);
+
+  static const values = [open, none];
 
   static OnDemandCapacityReservationPreference fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum OnDemandCapacityReservationPreference'));
+          orElse: () => OnDemandCapacityReservationPreference._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is OnDemandCapacityReservationPreference && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum OnDemandCapacityReservationUsageStrategy {
-  useCapacityReservationsFirst('use-capacity-reservations-first'),
-  ;
+class OnDemandCapacityReservationUsageStrategy {
+  static const useCapacityReservationsFirst =
+      OnDemandCapacityReservationUsageStrategy._(
+          'use-capacity-reservations-first');
 
   final String value;
 
-  const OnDemandCapacityReservationUsageStrategy(this.value);
+  const OnDemandCapacityReservationUsageStrategy._(this.value);
+
+  static const values = [useCapacityReservationsFirst];
 
   static OnDemandCapacityReservationUsageStrategy fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum OnDemandCapacityReservationUsageStrategy'));
+          orElse: () => OnDemandCapacityReservationUsageStrategy._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is OnDemandCapacityReservationUsageStrategy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum OnDemandProvisioningAllocationStrategy {
-  lowestPrice('lowest-price'),
-  prioritized('prioritized'),
-  ;
+class OnDemandProvisioningAllocationStrategy {
+  static const lowestPrice =
+      OnDemandProvisioningAllocationStrategy._('lowest-price');
+  static const prioritized =
+      OnDemandProvisioningAllocationStrategy._('prioritized');
 
   final String value;
 
-  const OnDemandProvisioningAllocationStrategy(this.value);
+  const OnDemandProvisioningAllocationStrategy._(this.value);
+
+  static const values = [lowestPrice, prioritized];
 
   static OnDemandProvisioningAllocationStrategy fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum OnDemandProvisioningAllocationStrategy'));
+          orElse: () => OnDemandProvisioningAllocationStrategy._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is OnDemandProvisioningAllocationStrategy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The launch specification for On-Demand Instances in the instance fleet,
@@ -9011,7 +9417,7 @@ class OnDemandProvisioningSpecification {
       Map<String, dynamic> json) {
     return OnDemandProvisioningSpecification(
       allocationStrategy: OnDemandProvisioningAllocationStrategy.fromString(
-          (json['AllocationStrategy'] as String)),
+          (json['AllocationStrategy'] as String?) ?? ''),
       capacityReservationOptions: json['CapacityReservationOptions'] != null
           ? OnDemandCapacityReservationOptions.fromJson(
               json['CapacityReservationOptions'] as Map<String, dynamic>)
@@ -9061,18 +9467,28 @@ class OnDemandResizingSpecification {
   }
 }
 
-enum OutputNotebookFormat {
-  html('HTML'),
-  ;
+class OutputNotebookFormat {
+  static const html = OutputNotebookFormat._('HTML');
 
   final String value;
 
-  const OutputNotebookFormat(this.value);
+  const OutputNotebookFormat._(this.value);
 
-  static OutputNotebookFormat fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum OutputNotebookFormat'));
+  static const values = [html];
+
+  static OutputNotebookFormat fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => OutputNotebookFormat._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is OutputNotebookFormat && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The Amazon S3 location that stores the notebook execution output.
@@ -9156,7 +9572,7 @@ class PlacementGroupConfig {
   factory PlacementGroupConfig.fromJson(Map<String, dynamic> json) {
     return PlacementGroupConfig(
       instanceRole:
-          InstanceRoleType.fromString((json['InstanceRole'] as String)),
+          InstanceRoleType.fromString((json['InstanceRole'] as String?) ?? ''),
       placementStrategy: (json['PlacementStrategy'] as String?)
           ?.let(PlacementGroupStrategy.fromString),
     );
@@ -9173,21 +9589,31 @@ class PlacementGroupConfig {
   }
 }
 
-enum PlacementGroupStrategy {
-  spread('SPREAD'),
-  partition('PARTITION'),
-  cluster('CLUSTER'),
-  none('NONE'),
-  ;
+class PlacementGroupStrategy {
+  static const spread = PlacementGroupStrategy._('SPREAD');
+  static const partition = PlacementGroupStrategy._('PARTITION');
+  static const cluster = PlacementGroupStrategy._('CLUSTER');
+  static const none = PlacementGroupStrategy._('NONE');
 
   final String value;
 
-  const PlacementGroupStrategy(this.value);
+  const PlacementGroupStrategy._(this.value);
+
+  static const values = [spread, partition, cluster, none];
 
   static PlacementGroupStrategy fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum PlacementGroupStrategy'));
+          orElse: () => PlacementGroupStrategy._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is PlacementGroupStrategy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The Amazon EC2 Availability Zone configuration of the cluster (job flow).
@@ -9350,19 +9776,29 @@ class PutManagedScalingPolicyOutput {
   }
 }
 
-enum ReconfigurationType {
-  overwrite('OVERWRITE'),
-  merge('MERGE'),
-  ;
+class ReconfigurationType {
+  static const overwrite = ReconfigurationType._('OVERWRITE');
+  static const merge = ReconfigurationType._('MERGE');
 
   final String value;
 
-  const ReconfigurationType(this.value);
+  const ReconfigurationType._(this.value);
 
-  static ReconfigurationType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ReconfigurationType'));
+  static const values = [overwrite, merge];
+
+  static ReconfigurationType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ReconfigurationType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ReconfigurationType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The release label filters by application or version prefix.
@@ -9439,19 +9875,28 @@ class RemoveTagsOutput {
   }
 }
 
-enum RepoUpgradeOnBoot {
-  security('SECURITY'),
-  none('NONE'),
-  ;
+class RepoUpgradeOnBoot {
+  static const security = RepoUpgradeOnBoot._('SECURITY');
+  static const none = RepoUpgradeOnBoot._('NONE');
 
   final String value;
 
-  const RepoUpgradeOnBoot(this.value);
+  const RepoUpgradeOnBoot._(this.value);
+
+  static const values = [security, none];
 
   static RepoUpgradeOnBoot fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum RepoUpgradeOnBoot'));
+          orElse: () => RepoUpgradeOnBoot._(value));
+
+  @override
+  bool operator ==(other) => other is RepoUpgradeOnBoot && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The result of the <a>RunJobFlow</a> operation.
@@ -9484,19 +9929,30 @@ class RunJobFlowOutput {
   }
 }
 
-enum ScaleDownBehavior {
-  terminateAtInstanceHour('TERMINATE_AT_INSTANCE_HOUR'),
-  terminateAtTaskCompletion('TERMINATE_AT_TASK_COMPLETION'),
-  ;
+class ScaleDownBehavior {
+  static const terminateAtInstanceHour =
+      ScaleDownBehavior._('TERMINATE_AT_INSTANCE_HOUR');
+  static const terminateAtTaskCompletion =
+      ScaleDownBehavior._('TERMINATE_AT_TASK_COMPLETION');
 
   final String value;
 
-  const ScaleDownBehavior(this.value);
+  const ScaleDownBehavior._(this.value);
+
+  static const values = [terminateAtInstanceHour, terminateAtTaskCompletion];
 
   static ScaleDownBehavior fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ScaleDownBehavior'));
+          orElse: () => ScaleDownBehavior._(value));
+
+  @override
+  bool operator ==(other) => other is ScaleDownBehavior && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The type of adjustment the automatic scaling activity makes when triggered,
@@ -9991,22 +10447,43 @@ class SimplifiedApplication {
   }
 }
 
-enum SpotProvisioningAllocationStrategy {
-  capacityOptimized('capacity-optimized'),
-  priceCapacityOptimized('price-capacity-optimized'),
-  lowestPrice('lowest-price'),
-  diversified('diversified'),
-  capacityOptimizedPrioritized('capacity-optimized-prioritized'),
-  ;
+class SpotProvisioningAllocationStrategy {
+  static const capacityOptimized =
+      SpotProvisioningAllocationStrategy._('capacity-optimized');
+  static const priceCapacityOptimized =
+      SpotProvisioningAllocationStrategy._('price-capacity-optimized');
+  static const lowestPrice =
+      SpotProvisioningAllocationStrategy._('lowest-price');
+  static const diversified =
+      SpotProvisioningAllocationStrategy._('diversified');
+  static const capacityOptimizedPrioritized =
+      SpotProvisioningAllocationStrategy._('capacity-optimized-prioritized');
 
   final String value;
 
-  const SpotProvisioningAllocationStrategy(this.value);
+  const SpotProvisioningAllocationStrategy._(this.value);
+
+  static const values = [
+    capacityOptimized,
+    priceCapacityOptimized,
+    lowestPrice,
+    diversified,
+    capacityOptimizedPrioritized
+  ];
 
   static SpotProvisioningAllocationStrategy fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum SpotProvisioningAllocationStrategy'));
+          orElse: () => SpotProvisioningAllocationStrategy._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SpotProvisioningAllocationStrategy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The launch specification for Spot Instances in the instance fleet, which
@@ -10079,7 +10556,7 @@ class SpotProvisioningSpecification {
   factory SpotProvisioningSpecification.fromJson(Map<String, dynamic> json) {
     return SpotProvisioningSpecification(
       timeoutAction: SpotProvisioningTimeoutAction.fromString(
-          (json['TimeoutAction'] as String)),
+          (json['TimeoutAction'] as String?) ?? ''),
       timeoutDurationMinutes: (json['TimeoutDurationMinutes'] as int?) ?? 0,
       allocationStrategy: (json['AllocationStrategy'] as String?)
           ?.let(SpotProvisioningAllocationStrategy.fromString),
@@ -10103,19 +10580,31 @@ class SpotProvisioningSpecification {
   }
 }
 
-enum SpotProvisioningTimeoutAction {
-  switchToOnDemand('SWITCH_TO_ON_DEMAND'),
-  terminateCluster('TERMINATE_CLUSTER'),
-  ;
+class SpotProvisioningTimeoutAction {
+  static const switchToOnDemand =
+      SpotProvisioningTimeoutAction._('SWITCH_TO_ON_DEMAND');
+  static const terminateCluster =
+      SpotProvisioningTimeoutAction._('TERMINATE_CLUSTER');
 
   final String value;
 
-  const SpotProvisioningTimeoutAction(this.value);
+  const SpotProvisioningTimeoutAction._(this.value);
+
+  static const values = [switchToOnDemand, terminateCluster];
 
   static SpotProvisioningTimeoutAction fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum SpotProvisioningTimeoutAction'));
+          orElse: () => SpotProvisioningTimeoutAction._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SpotProvisioningTimeoutAction && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The resize specification for Spot Instances in the instance fleet, which
@@ -10172,21 +10661,30 @@ class StartNotebookExecutionOutput {
   }
 }
 
-enum Statistic {
-  sampleCount('SAMPLE_COUNT'),
-  average('AVERAGE'),
-  sum('SUM'),
-  minimum('MINIMUM'),
-  maximum('MAXIMUM'),
-  ;
+class Statistic {
+  static const sampleCount = Statistic._('SAMPLE_COUNT');
+  static const average = Statistic._('AVERAGE');
+  static const sum = Statistic._('SUM');
+  static const minimum = Statistic._('MINIMUM');
+  static const maximum = Statistic._('MAXIMUM');
 
   final String value;
 
-  const Statistic(this.value);
+  const Statistic._(this.value);
 
-  static Statistic fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum Statistic'));
+  static const values = [sampleCount, average, sum, minimum, maximum];
+
+  static Statistic fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Statistic._(value));
+
+  @override
+  bool operator ==(other) => other is Statistic && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// This represents a step in a cluster.
@@ -10277,19 +10775,29 @@ class Step {
   }
 }
 
-enum StepCancellationOption {
-  sendInterrupt('SEND_INTERRUPT'),
-  terminateProcess('TERMINATE_PROCESS'),
-  ;
+class StepCancellationOption {
+  static const sendInterrupt = StepCancellationOption._('SEND_INTERRUPT');
+  static const terminateProcess = StepCancellationOption._('TERMINATE_PROCESS');
 
   final String value;
 
-  const StepCancellationOption(this.value);
+  const StepCancellationOption._(this.value);
+
+  static const values = [sendInterrupt, terminateProcess];
 
   static StepCancellationOption fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum StepCancellationOption'));
+          orElse: () => StepCancellationOption._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is StepCancellationOption && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specification for a cluster (job flow) step.
@@ -10397,24 +10905,42 @@ class StepDetail {
   }
 }
 
-enum StepExecutionState {
-  pending('PENDING'),
-  running('RUNNING'),
-  $continue('CONTINUE'),
-  completed('COMPLETED'),
-  cancelled('CANCELLED'),
-  failed('FAILED'),
-  interrupted('INTERRUPTED'),
-  ;
+class StepExecutionState {
+  static const pending = StepExecutionState._('PENDING');
+  static const running = StepExecutionState._('RUNNING');
+  static const $continue = StepExecutionState._('CONTINUE');
+  static const completed = StepExecutionState._('COMPLETED');
+  static const cancelled = StepExecutionState._('CANCELLED');
+  static const failed = StepExecutionState._('FAILED');
+  static const interrupted = StepExecutionState._('INTERRUPTED');
 
   final String value;
 
-  const StepExecutionState(this.value);
+  const StepExecutionState._(this.value);
 
-  static StepExecutionState fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum StepExecutionState'));
+  static const values = [
+    pending,
+    running,
+    $continue,
+    completed,
+    cancelled,
+    failed,
+    interrupted
+  ];
+
+  static StepExecutionState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => StepExecutionState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is StepExecutionState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The execution state of a step.
@@ -10446,7 +10972,7 @@ class StepExecutionStatusDetail {
     return StepExecutionStatusDetail(
       creationDateTime:
           nonNullableTimeStampFromJson(json['CreationDateTime'] ?? 0),
-      state: StepExecutionState.fromString((json['State'] as String)),
+      state: StepExecutionState.fromString((json['State'] as String?) ?? ''),
       endDateTime: timeStampFromJson(json['EndDateTime']),
       lastStateChangeReason: json['LastStateChangeReason'] as String?,
       startDateTime: timeStampFromJson(json['StartDateTime']),
@@ -10471,23 +10997,40 @@ class StepExecutionStatusDetail {
   }
 }
 
-enum StepState {
-  pending('PENDING'),
-  cancelPending('CANCEL_PENDING'),
-  running('RUNNING'),
-  completed('COMPLETED'),
-  cancelled('CANCELLED'),
-  failed('FAILED'),
-  interrupted('INTERRUPTED'),
-  ;
+class StepState {
+  static const pending = StepState._('PENDING');
+  static const cancelPending = StepState._('CANCEL_PENDING');
+  static const running = StepState._('RUNNING');
+  static const completed = StepState._('COMPLETED');
+  static const cancelled = StepState._('CANCELLED');
+  static const failed = StepState._('FAILED');
+  static const interrupted = StepState._('INTERRUPTED');
 
   final String value;
 
-  const StepState(this.value);
+  const StepState._(this.value);
 
-  static StepState fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum StepState'));
+  static const values = [
+    pending,
+    cancelPending,
+    running,
+    completed,
+    cancelled,
+    failed,
+    interrupted
+  ];
+
+  static StepState fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => StepState._(value));
+
+  @override
+  bool operator ==(other) => other is StepState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The details of the step state change reason.
@@ -10522,18 +11065,28 @@ class StepStateChangeReason {
   }
 }
 
-enum StepStateChangeReasonCode {
-  none('NONE'),
-  ;
+class StepStateChangeReasonCode {
+  static const none = StepStateChangeReasonCode._('NONE');
 
   final String value;
 
-  const StepStateChangeReasonCode(this.value);
+  const StepStateChangeReasonCode._(this.value);
+
+  static const values = [none];
 
   static StepStateChangeReasonCode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum StepStateChangeReasonCode'));
+          orElse: () => StepStateChangeReasonCode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is StepStateChangeReasonCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The execution status details of the cluster step.
@@ -11125,43 +11678,80 @@ class Tag {
   }
 }
 
-enum Unit {
-  none('NONE'),
-  seconds('SECONDS'),
-  microSeconds('MICRO_SECONDS'),
-  milliSeconds('MILLI_SECONDS'),
-  bytes('BYTES'),
-  kiloBytes('KILO_BYTES'),
-  megaBytes('MEGA_BYTES'),
-  gigaBytes('GIGA_BYTES'),
-  teraBytes('TERA_BYTES'),
-  bits('BITS'),
-  kiloBits('KILO_BITS'),
-  megaBits('MEGA_BITS'),
-  gigaBits('GIGA_BITS'),
-  teraBits('TERA_BITS'),
-  percent('PERCENT'),
-  count('COUNT'),
-  bytesPerSecond('BYTES_PER_SECOND'),
-  kiloBytesPerSecond('KILO_BYTES_PER_SECOND'),
-  megaBytesPerSecond('MEGA_BYTES_PER_SECOND'),
-  gigaBytesPerSecond('GIGA_BYTES_PER_SECOND'),
-  teraBytesPerSecond('TERA_BYTES_PER_SECOND'),
-  bitsPerSecond('BITS_PER_SECOND'),
-  kiloBitsPerSecond('KILO_BITS_PER_SECOND'),
-  megaBitsPerSecond('MEGA_BITS_PER_SECOND'),
-  gigaBitsPerSecond('GIGA_BITS_PER_SECOND'),
-  teraBitsPerSecond('TERA_BITS_PER_SECOND'),
-  countPerSecond('COUNT_PER_SECOND'),
-  ;
+class Unit {
+  static const none = Unit._('NONE');
+  static const seconds = Unit._('SECONDS');
+  static const microSeconds = Unit._('MICRO_SECONDS');
+  static const milliSeconds = Unit._('MILLI_SECONDS');
+  static const bytes = Unit._('BYTES');
+  static const kiloBytes = Unit._('KILO_BYTES');
+  static const megaBytes = Unit._('MEGA_BYTES');
+  static const gigaBytes = Unit._('GIGA_BYTES');
+  static const teraBytes = Unit._('TERA_BYTES');
+  static const bits = Unit._('BITS');
+  static const kiloBits = Unit._('KILO_BITS');
+  static const megaBits = Unit._('MEGA_BITS');
+  static const gigaBits = Unit._('GIGA_BITS');
+  static const teraBits = Unit._('TERA_BITS');
+  static const percent = Unit._('PERCENT');
+  static const count = Unit._('COUNT');
+  static const bytesPerSecond = Unit._('BYTES_PER_SECOND');
+  static const kiloBytesPerSecond = Unit._('KILO_BYTES_PER_SECOND');
+  static const megaBytesPerSecond = Unit._('MEGA_BYTES_PER_SECOND');
+  static const gigaBytesPerSecond = Unit._('GIGA_BYTES_PER_SECOND');
+  static const teraBytesPerSecond = Unit._('TERA_BYTES_PER_SECOND');
+  static const bitsPerSecond = Unit._('BITS_PER_SECOND');
+  static const kiloBitsPerSecond = Unit._('KILO_BITS_PER_SECOND');
+  static const megaBitsPerSecond = Unit._('MEGA_BITS_PER_SECOND');
+  static const gigaBitsPerSecond = Unit._('GIGA_BITS_PER_SECOND');
+  static const teraBitsPerSecond = Unit._('TERA_BITS_PER_SECOND');
+  static const countPerSecond = Unit._('COUNT_PER_SECOND');
 
   final String value;
 
-  const Unit(this.value);
+  const Unit._(this.value);
+
+  static const values = [
+    none,
+    seconds,
+    microSeconds,
+    milliSeconds,
+    bytes,
+    kiloBytes,
+    megaBytes,
+    gigaBytes,
+    teraBytes,
+    bits,
+    kiloBits,
+    megaBits,
+    gigaBits,
+    teraBits,
+    percent,
+    count,
+    bytesPerSecond,
+    kiloBytesPerSecond,
+    megaBytesPerSecond,
+    gigaBytesPerSecond,
+    teraBytesPerSecond,
+    bitsPerSecond,
+    kiloBitsPerSecond,
+    megaBitsPerSecond,
+    gigaBitsPerSecond,
+    teraBitsPerSecond,
+    countPerSecond
+  ];
 
   static Unit fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum Unit'));
+      values.firstWhere((e) => e.value == value, orElse: () => Unit._(value));
+
+  @override
+  bool operator ==(other) => other is Unit && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The username and password that you use to connect to cluster endpoints.

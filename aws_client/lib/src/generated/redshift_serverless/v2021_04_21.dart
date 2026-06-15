@@ -4268,19 +4268,28 @@ class ListWorkgroupsResponse {
   }
 }
 
-enum LogExport {
-  useractivitylog('useractivitylog'),
-  userlog('userlog'),
-  connectionlog('connectionlog'),
-  ;
+class LogExport {
+  static const useractivitylog = LogExport._('useractivitylog');
+  static const userlog = LogExport._('userlog');
+  static const connectionlog = LogExport._('connectionlog');
 
   final String value;
 
-  const LogExport(this.value);
+  const LogExport._(this.value);
 
-  static LogExport fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum LogExport'));
+  static const values = [useractivitylog, userlog, connectionlog];
+
+  static LogExport fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => LogExport._(value));
+
+  @override
+  bool operator ==(other) => other is LogExport && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A collection of database objects and users.
@@ -4410,20 +4419,29 @@ class Namespace {
   }
 }
 
-enum NamespaceStatus {
-  available('AVAILABLE'),
-  modifying('MODIFYING'),
-  deleting('DELETING'),
-  ;
+class NamespaceStatus {
+  static const available = NamespaceStatus._('AVAILABLE');
+  static const modifying = NamespaceStatus._('MODIFYING');
+  static const deleting = NamespaceStatus._('DELETING');
 
   final String value;
 
-  const NamespaceStatus(this.value);
+  const NamespaceStatus._(this.value);
+
+  static const values = [available, modifying, deleting];
 
   static NamespaceStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum NamespaceStatus'));
+          orElse: () => NamespaceStatus._(value));
+
+  @override
+  bool operator ==(other) => other is NamespaceStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains information about a network interface in an Amazon Redshift
@@ -5192,37 +5210,62 @@ class SnapshotCopyConfiguration {
   }
 }
 
-enum SnapshotStatus {
-  available('AVAILABLE'),
-  creating('CREATING'),
-  deleted('DELETED'),
-  cancelled('CANCELLED'),
-  failed('FAILED'),
-  copying('COPYING'),
-  ;
+class SnapshotStatus {
+  static const available = SnapshotStatus._('AVAILABLE');
+  static const creating = SnapshotStatus._('CREATING');
+  static const deleted = SnapshotStatus._('DELETED');
+  static const cancelled = SnapshotStatus._('CANCELLED');
+  static const failed = SnapshotStatus._('FAILED');
+  static const copying = SnapshotStatus._('COPYING');
 
   final String value;
 
-  const SnapshotStatus(this.value);
+  const SnapshotStatus._(this.value);
+
+  static const values = [
+    available,
+    creating,
+    deleted,
+    cancelled,
+    failed,
+    copying
+  ];
 
   static SnapshotStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum SnapshotStatus'));
+          orElse: () => SnapshotStatus._(value));
+
+  @override
+  bool operator ==(other) => other is SnapshotStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum State {
-  active('ACTIVE'),
-  disabled('DISABLED'),
-  ;
+class State {
+  static const active = State._('ACTIVE');
+  static const disabled = State._('DISABLED');
 
   final String value;
 
-  const State(this.value);
+  const State._(this.value);
+
+  static const values = [active, disabled];
 
   static State fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum State'));
+      values.firstWhere((e) => e.value == value, orElse: () => State._(value));
+
+  @override
+  bool operator ==(other) => other is State && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains information about a table restore request.
@@ -5736,51 +5779,81 @@ class UsageLimit {
   }
 }
 
-enum UsageLimitBreachAction {
-  log('log'),
-  emitMetric('emit-metric'),
-  deactivate('deactivate'),
-  ;
+class UsageLimitBreachAction {
+  static const log = UsageLimitBreachAction._('log');
+  static const emitMetric = UsageLimitBreachAction._('emit-metric');
+  static const deactivate = UsageLimitBreachAction._('deactivate');
 
   final String value;
 
-  const UsageLimitBreachAction(this.value);
+  const UsageLimitBreachAction._(this.value);
+
+  static const values = [log, emitMetric, deactivate];
 
   static UsageLimitBreachAction fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum UsageLimitBreachAction'));
+          orElse: () => UsageLimitBreachAction._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is UsageLimitBreachAction && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum UsageLimitPeriod {
-  daily('daily'),
-  weekly('weekly'),
-  monthly('monthly'),
-  ;
+class UsageLimitPeriod {
+  static const daily = UsageLimitPeriod._('daily');
+  static const weekly = UsageLimitPeriod._('weekly');
+  static const monthly = UsageLimitPeriod._('monthly');
 
   final String value;
 
-  const UsageLimitPeriod(this.value);
+  const UsageLimitPeriod._(this.value);
+
+  static const values = [daily, weekly, monthly];
 
   static UsageLimitPeriod fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum UsageLimitPeriod'));
+          orElse: () => UsageLimitPeriod._(value));
+
+  @override
+  bool operator ==(other) => other is UsageLimitPeriod && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum UsageLimitUsageType {
-  serverlessCompute('serverless-compute'),
-  crossRegionDatasharing('cross-region-datasharing'),
-  ;
+class UsageLimitUsageType {
+  static const serverlessCompute = UsageLimitUsageType._('serverless-compute');
+  static const crossRegionDatasharing =
+      UsageLimitUsageType._('cross-region-datasharing');
 
   final String value;
 
-  const UsageLimitUsageType(this.value);
+  const UsageLimitUsageType._(this.value);
 
-  static UsageLimitUsageType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum UsageLimitUsageType'));
+  static const values = [serverlessCompute, crossRegionDatasharing];
+
+  static UsageLimitUsageType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => UsageLimitUsageType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is UsageLimitUsageType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The connection endpoint for connecting to Amazon Redshift Serverless through
@@ -6068,21 +6141,30 @@ class Workgroup {
   }
 }
 
-enum WorkgroupStatus {
-  creating('CREATING'),
-  available('AVAILABLE'),
-  modifying('MODIFYING'),
-  deleting('DELETING'),
-  ;
+class WorkgroupStatus {
+  static const creating = WorkgroupStatus._('CREATING');
+  static const available = WorkgroupStatus._('AVAILABLE');
+  static const modifying = WorkgroupStatus._('MODIFYING');
+  static const deleting = WorkgroupStatus._('DELETING');
 
   final String value;
 
-  const WorkgroupStatus(this.value);
+  const WorkgroupStatus._(this.value);
+
+  static const values = [creating, available, modifying, deleting];
 
   static WorkgroupStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum WorkgroupStatus'));
+          orElse: () => WorkgroupStatus._(value));
+
+  @override
+  bool operator ==(other) => other is WorkgroupStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class AccessDeniedException extends _s.GenericAwsException {

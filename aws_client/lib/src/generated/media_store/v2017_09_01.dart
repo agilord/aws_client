@@ -902,35 +902,54 @@ class Container {
   }
 }
 
-enum ContainerLevelMetrics {
-  enabled('ENABLED'),
-  disabled('DISABLED'),
-  ;
+class ContainerLevelMetrics {
+  static const enabled = ContainerLevelMetrics._('ENABLED');
+  static const disabled = ContainerLevelMetrics._('DISABLED');
 
   final String value;
 
-  const ContainerLevelMetrics(this.value);
+  const ContainerLevelMetrics._(this.value);
 
-  static ContainerLevelMetrics fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ContainerLevelMetrics'));
+  static const values = [enabled, disabled];
+
+  static ContainerLevelMetrics fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ContainerLevelMetrics._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ContainerLevelMetrics && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ContainerStatus {
-  active('ACTIVE'),
-  creating('CREATING'),
-  deleting('DELETING'),
-  ;
+class ContainerStatus {
+  static const active = ContainerStatus._('ACTIVE');
+  static const creating = ContainerStatus._('CREATING');
+  static const deleting = ContainerStatus._('DELETING');
 
   final String value;
 
-  const ContainerStatus(this.value);
+  const ContainerStatus._(this.value);
+
+  static const values = [active, creating, deleting];
 
   static ContainerStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ContainerStatus'));
+          orElse: () => ContainerStatus._(value));
+
+  @override
+  bool operator ==(other) => other is ContainerStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A rule for a CORS policy. You can add up to 100 rules to a CORS policy. If
@@ -1301,20 +1320,29 @@ class ListTagsForResourceOutput {
   }
 }
 
-enum MethodName {
-  put('PUT'),
-  get('GET'),
-  delete('DELETE'),
-  head('HEAD'),
-  ;
+class MethodName {
+  static const put = MethodName._('PUT');
+  static const get = MethodName._('GET');
+  static const delete = MethodName._('DELETE');
+  static const head = MethodName._('HEAD');
 
   final String value;
 
-  const MethodName(this.value);
+  const MethodName._(this.value);
 
-  static MethodName fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum MethodName'));
+  static const values = [put, get, delete, head];
+
+  static MethodName fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => MethodName._(value));
+
+  @override
+  bool operator ==(other) => other is MethodName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The metric policy that is associated with the container. A metric policy
@@ -1347,7 +1375,7 @@ class MetricPolicy {
   factory MetricPolicy.fromJson(Map<String, dynamic> json) {
     return MetricPolicy(
       containerLevelMetrics: ContainerLevelMetrics.fromString(
-          (json['ContainerLevelMetrics'] as String)),
+          (json['ContainerLevelMetrics'] as String?) ?? ''),
       metricPolicyRules: (json['MetricPolicyRules'] as List?)
           ?.nonNulls
           .map((e) => MetricPolicyRule.fromJson(e as Map<String, dynamic>))

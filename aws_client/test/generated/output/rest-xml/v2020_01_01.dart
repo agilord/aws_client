@@ -128,19 +128,28 @@ class ItemDetailShape {
   }
 }
 
-enum ItemType {
-  type1('Type1'),
-  type2('Type2'),
-  type3('Type3'),
-  ;
+class ItemType {
+  static const type1 = ItemType._('Type1');
+  static const type2 = ItemType._('Type2');
+  static const type3 = ItemType._('Type3');
 
   final String value;
 
-  const ItemType(this.value);
+  const ItemType._(this.value);
 
-  static ItemType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum ItemType'));
+  static const values = [type1, type2, type3];
+
+  static ItemType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ItemType._(value));
+
+  @override
+  bool operator ==(other) => other is ItemType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 final _exceptionFns = <String, _s.AwsExceptionFn>{};

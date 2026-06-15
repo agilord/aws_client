@@ -621,20 +621,28 @@ class ListTagsForResourceResult {
   }
 }
 
-enum LocationType {
-  region('region'),
-  availabilityZone('availability-zone'),
-  availabilityZoneId('availability-zone-id'),
-  ;
+class LocationType {
+  static const region = LocationType._('region');
+  static const availabilityZone = LocationType._('availability-zone');
+  static const availabilityZoneId = LocationType._('availability-zone-id');
 
   final String value;
 
-  const LocationType(this.value);
+  const LocationType._(this.value);
 
-  static LocationType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum LocationType'));
+  static const values = [region, availabilityZone, availabilityZoneId];
+
+  static LocationType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => LocationType._(value));
+
+  @override
+  bool operator ==(other) => other is LocationType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The memory information of an Elastic Inference Accelerator type.

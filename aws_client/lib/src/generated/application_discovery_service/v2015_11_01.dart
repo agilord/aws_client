@@ -1545,22 +1545,38 @@ class AgentNetworkInfo {
   }
 }
 
-enum AgentStatus {
-  healthy('HEALTHY'),
-  unhealthy('UNHEALTHY'),
-  running('RUNNING'),
-  unknown('UNKNOWN'),
-  blacklisted('BLACKLISTED'),
-  shutdown('SHUTDOWN'),
-  ;
+class AgentStatus {
+  static const healthy = AgentStatus._('HEALTHY');
+  static const unhealthy = AgentStatus._('UNHEALTHY');
+  static const running = AgentStatus._('RUNNING');
+  static const unknown = AgentStatus._('UNKNOWN');
+  static const blacklisted = AgentStatus._('BLACKLISTED');
+  static const shutdown = AgentStatus._('SHUTDOWN');
 
   final String value;
 
-  const AgentStatus(this.value);
+  const AgentStatus._(this.value);
 
-  static AgentStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum AgentStatus'));
+  static const values = [
+    healthy,
+    unhealthy,
+    running,
+    unknown,
+    blacklisted,
+    shutdown
+  ];
+
+  static AgentStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => AgentStatus._(value));
+
+  @override
+  bool operator ==(other) => other is AgentStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class AssociateConfigurationItemsToApplicationResponse {
@@ -1598,7 +1614,8 @@ class BatchDeleteAgentError {
   factory BatchDeleteAgentError.fromJson(Map<String, dynamic> json) {
     return BatchDeleteAgentError(
       agentId: (json['agentId'] as String?) ?? '',
-      errorCode: DeleteAgentErrorCode.fromString((json['errorCode'] as String)),
+      errorCode:
+          DeleteAgentErrorCode.fromString((json['errorCode'] as String?) ?? ''),
       errorMessage: (json['errorMessage'] as String?) ?? '',
     );
   }
@@ -1744,22 +1761,33 @@ class BatchDeleteConfigurationTask {
   }
 }
 
-enum BatchDeleteConfigurationTaskStatus {
-  initializing('INITIALIZING'),
-  validating('VALIDATING'),
-  deleting('DELETING'),
-  completed('COMPLETED'),
-  failed('FAILED'),
-  ;
+class BatchDeleteConfigurationTaskStatus {
+  static const initializing =
+      BatchDeleteConfigurationTaskStatus._('INITIALIZING');
+  static const validating = BatchDeleteConfigurationTaskStatus._('VALIDATING');
+  static const deleting = BatchDeleteConfigurationTaskStatus._('DELETING');
+  static const completed = BatchDeleteConfigurationTaskStatus._('COMPLETED');
+  static const failed = BatchDeleteConfigurationTaskStatus._('FAILED');
 
   final String value;
 
-  const BatchDeleteConfigurationTaskStatus(this.value);
+  const BatchDeleteConfigurationTaskStatus._(this.value);
+
+  static const values = [initializing, validating, deleting, completed, failed];
 
   static BatchDeleteConfigurationTaskStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum BatchDeleteConfigurationTaskStatus'));
+          orElse: () => BatchDeleteConfigurationTaskStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is BatchDeleteConfigurationTaskStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Error messages returned for each import task that you deleted as a response
@@ -1801,20 +1829,31 @@ class BatchDeleteImportDataError {
   }
 }
 
-enum BatchDeleteImportDataErrorCode {
-  notFound('NOT_FOUND'),
-  internalServerError('INTERNAL_SERVER_ERROR'),
-  overLimit('OVER_LIMIT'),
-  ;
+class BatchDeleteImportDataErrorCode {
+  static const notFound = BatchDeleteImportDataErrorCode._('NOT_FOUND');
+  static const internalServerError =
+      BatchDeleteImportDataErrorCode._('INTERNAL_SERVER_ERROR');
+  static const overLimit = BatchDeleteImportDataErrorCode._('OVER_LIMIT');
 
   final String value;
 
-  const BatchDeleteImportDataErrorCode(this.value);
+  const BatchDeleteImportDataErrorCode._(this.value);
+
+  static const values = [notFound, internalServerError, overLimit];
 
   static BatchDeleteImportDataErrorCode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum BatchDeleteImportDataErrorCode'));
+          orElse: () => BatchDeleteImportDataErrorCode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is BatchDeleteImportDataErrorCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class BatchDeleteImportDataResponse {
@@ -1844,21 +1883,31 @@ class BatchDeleteImportDataResponse {
   }
 }
 
-enum ConfigurationItemType {
-  server('SERVER'),
-  process('PROCESS'),
-  connection('CONNECTION'),
-  application('APPLICATION'),
-  ;
+class ConfigurationItemType {
+  static const server = ConfigurationItemType._('SERVER');
+  static const process = ConfigurationItemType._('PROCESS');
+  static const connection = ConfigurationItemType._('CONNECTION');
+  static const application = ConfigurationItemType._('APPLICATION');
 
   final String value;
 
-  const ConfigurationItemType(this.value);
+  const ConfigurationItemType._(this.value);
 
-  static ConfigurationItemType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ConfigurationItemType'));
+  static const values = [server, process, connection, application];
+
+  static ConfigurationItemType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ConfigurationItemType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ConfigurationItemType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Tags for a configuration item. Tags are metadata that help you categorize IT
@@ -2123,24 +2172,42 @@ class ContinuousExportDescription {
   }
 }
 
-enum ContinuousExportStatus {
-  startInProgress('START_IN_PROGRESS'),
-  startFailed('START_FAILED'),
-  active('ACTIVE'),
-  error('ERROR'),
-  stopInProgress('STOP_IN_PROGRESS'),
-  stopFailed('STOP_FAILED'),
-  inactive('INACTIVE'),
-  ;
+class ContinuousExportStatus {
+  static const startInProgress = ContinuousExportStatus._('START_IN_PROGRESS');
+  static const startFailed = ContinuousExportStatus._('START_FAILED');
+  static const active = ContinuousExportStatus._('ACTIVE');
+  static const error = ContinuousExportStatus._('ERROR');
+  static const stopInProgress = ContinuousExportStatus._('STOP_IN_PROGRESS');
+  static const stopFailed = ContinuousExportStatus._('STOP_FAILED');
+  static const inactive = ContinuousExportStatus._('INACTIVE');
 
   final String value;
 
-  const ContinuousExportStatus(this.value);
+  const ContinuousExportStatus._(this.value);
+
+  static const values = [
+    startInProgress,
+    startFailed,
+    active,
+    error,
+    stopInProgress,
+    stopFailed,
+    inactive
+  ];
 
   static ContinuousExportStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ContinuousExportStatus'));
+          orElse: () => ContinuousExportStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ContinuousExportStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class CreateApplicationResponse {
@@ -2445,17 +2512,26 @@ class CustomerMeCollectorInfo {
   }
 }
 
-enum DataSource {
-  agent('AGENT'),
-  ;
+class DataSource {
+  static const agent = DataSource._('AGENT');
 
   final String value;
 
-  const DataSource(this.value);
+  const DataSource._(this.value);
 
-  static DataSource fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum DataSource'));
+  static const values = [agent];
+
+  static DataSource fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => DataSource._(value));
+
+  @override
+  bool operator ==(other) => other is DataSource && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// An object representing the agent or data collector to be deleted along with
@@ -2486,20 +2562,31 @@ class DeleteAgent {
   }
 }
 
-enum DeleteAgentErrorCode {
-  notFound('NOT_FOUND'),
-  internalServerError('INTERNAL_SERVER_ERROR'),
-  agentInUse('AGENT_IN_USE'),
-  ;
+class DeleteAgentErrorCode {
+  static const notFound = DeleteAgentErrorCode._('NOT_FOUND');
+  static const internalServerError =
+      DeleteAgentErrorCode._('INTERNAL_SERVER_ERROR');
+  static const agentInUse = DeleteAgentErrorCode._('AGENT_IN_USE');
 
   final String value;
 
-  const DeleteAgentErrorCode(this.value);
+  const DeleteAgentErrorCode._(this.value);
 
-  static DeleteAgentErrorCode fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum DeleteAgentErrorCode'));
+  static const values = [notFound, internalServerError, agentInUse];
+
+  static DeleteAgentErrorCode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DeleteAgentErrorCode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DeleteAgentErrorCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class DeleteApplicationsResponse {
@@ -2526,18 +2613,28 @@ class DeleteTagsResponse {
   }
 }
 
-enum DeletionConfigurationItemType {
-  server('SERVER'),
-  ;
+class DeletionConfigurationItemType {
+  static const server = DeletionConfigurationItemType._('SERVER');
 
   final String value;
 
-  const DeletionConfigurationItemType(this.value);
+  const DeletionConfigurationItemType._(this.value);
+
+  static const values = [server];
 
   static DeletionConfigurationItemType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum DeletionConfigurationItemType'));
+          orElse: () => DeletionConfigurationItemType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DeletionConfigurationItemType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A configuration ID paired with a warning message.
@@ -2945,18 +3042,27 @@ class ExportConfigurationsResponse {
   }
 }
 
-enum ExportDataFormat {
-  csv('CSV'),
-  ;
+class ExportDataFormat {
+  static const csv = ExportDataFormat._('CSV');
 
   final String value;
 
-  const ExportDataFormat(this.value);
+  const ExportDataFormat._(this.value);
+
+  static const values = [csv];
 
   static ExportDataFormat fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ExportDataFormat'));
+          orElse: () => ExportDataFormat._(value));
+
+  @override
+  bool operator ==(other) => other is ExportDataFormat && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Used to select which agent's data is to be exported. A single agent ID may
@@ -3047,7 +3153,8 @@ class ExportInfo {
       exportId: (json['exportId'] as String?) ?? '',
       exportRequestTime:
           nonNullableTimeStampFromJson(json['exportRequestTime'] ?? 0),
-      exportStatus: ExportStatus.fromString((json['exportStatus'] as String)),
+      exportStatus:
+          ExportStatus.fromString((json['exportStatus'] as String?) ?? ''),
       statusMessage: (json['statusMessage'] as String?) ?? '',
       configurationsDownloadUrl: json['configurationsDownloadUrl'] as String?,
       isTruncated: json['isTruncated'] as bool?,
@@ -3104,20 +3211,28 @@ class ExportPreferences {
   }
 }
 
-enum ExportStatus {
-  failed('FAILED'),
-  succeeded('SUCCEEDED'),
-  inProgress('IN_PROGRESS'),
-  ;
+class ExportStatus {
+  static const failed = ExportStatus._('FAILED');
+  static const succeeded = ExportStatus._('SUCCEEDED');
+  static const inProgress = ExportStatus._('IN_PROGRESS');
 
   final String value;
 
-  const ExportStatus(this.value);
+  const ExportStatus._(this.value);
 
-  static ExportStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ExportStatus'));
+  static const values = [failed, succeeded, inProgress];
+
+  static ExportStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ExportStatus._(value));
+
+  @override
+  bool operator ==(other) => other is ExportStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A configuration ID paired with an error message.
@@ -3287,28 +3402,52 @@ class GetDiscoverySummaryResponse {
   }
 }
 
-enum ImportStatus {
-  importInProgress('IMPORT_IN_PROGRESS'),
-  importComplete('IMPORT_COMPLETE'),
-  importCompleteWithErrors('IMPORT_COMPLETE_WITH_ERRORS'),
-  importFailed('IMPORT_FAILED'),
-  importFailedServerLimitExceeded('IMPORT_FAILED_SERVER_LIMIT_EXCEEDED'),
-  importFailedRecordLimitExceeded('IMPORT_FAILED_RECORD_LIMIT_EXCEEDED'),
-  deleteInProgress('DELETE_IN_PROGRESS'),
-  deleteComplete('DELETE_COMPLETE'),
-  deleteFailed('DELETE_FAILED'),
-  deleteFailedLimitExceeded('DELETE_FAILED_LIMIT_EXCEEDED'),
-  internalError('INTERNAL_ERROR'),
-  ;
+class ImportStatus {
+  static const importInProgress = ImportStatus._('IMPORT_IN_PROGRESS');
+  static const importComplete = ImportStatus._('IMPORT_COMPLETE');
+  static const importCompleteWithErrors =
+      ImportStatus._('IMPORT_COMPLETE_WITH_ERRORS');
+  static const importFailed = ImportStatus._('IMPORT_FAILED');
+  static const importFailedServerLimitExceeded =
+      ImportStatus._('IMPORT_FAILED_SERVER_LIMIT_EXCEEDED');
+  static const importFailedRecordLimitExceeded =
+      ImportStatus._('IMPORT_FAILED_RECORD_LIMIT_EXCEEDED');
+  static const deleteInProgress = ImportStatus._('DELETE_IN_PROGRESS');
+  static const deleteComplete = ImportStatus._('DELETE_COMPLETE');
+  static const deleteFailed = ImportStatus._('DELETE_FAILED');
+  static const deleteFailedLimitExceeded =
+      ImportStatus._('DELETE_FAILED_LIMIT_EXCEEDED');
+  static const internalError = ImportStatus._('INTERNAL_ERROR');
 
   final String value;
 
-  const ImportStatus(this.value);
+  const ImportStatus._(this.value);
 
-  static ImportStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ImportStatus'));
+  static const values = [
+    importInProgress,
+    importComplete,
+    importCompleteWithErrors,
+    importFailed,
+    importFailedServerLimitExceeded,
+    importFailedRecordLimitExceeded,
+    deleteInProgress,
+    deleteComplete,
+    deleteFailed,
+    deleteFailedLimitExceeded,
+    internalError
+  ];
+
+  static ImportStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ImportStatus._(value));
+
+  @override
+  bool operator ==(other) => other is ImportStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// An array of information related to the import task request that includes
@@ -3487,20 +3626,30 @@ class ImportTaskFilter {
   }
 }
 
-enum ImportTaskFilterName {
-  importTaskId('IMPORT_TASK_ID'),
-  status('STATUS'),
-  name('NAME'),
-  ;
+class ImportTaskFilterName {
+  static const importTaskId = ImportTaskFilterName._('IMPORT_TASK_ID');
+  static const status = ImportTaskFilterName._('STATUS');
+  static const name = ImportTaskFilterName._('NAME');
 
   final String value;
 
-  const ImportTaskFilterName(this.value);
+  const ImportTaskFilterName._(this.value);
 
-  static ImportTaskFilterName fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ImportTaskFilterName'));
+  static const values = [importTaskId, status, name];
+
+  static ImportTaskFilterName fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ImportTaskFilterName._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ImportTaskFilterName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class ListConfigurationsResponse {
@@ -3637,19 +3786,28 @@ class NeighborConnectionDetail {
   }
 }
 
-enum OfferingClass {
-  standard('STANDARD'),
-  convertible('CONVERTIBLE'),
-  ;
+class OfferingClass {
+  static const standard = OfferingClass._('STANDARD');
+  static const convertible = OfferingClass._('CONVERTIBLE');
 
   final String value;
 
-  const OfferingClass(this.value);
+  const OfferingClass._(this.value);
+
+  static const values = [standard, convertible];
 
   static OfferingClass fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum OfferingClass'));
+          orElse: () => OfferingClass._(value));
+
+  @override
+  bool operator ==(other) => other is OfferingClass && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A field and direction for ordered output.
@@ -3675,20 +3833,29 @@ class OrderByElement {
   }
 }
 
-enum PurchasingOption {
-  allUpfront('ALL_UPFRONT'),
-  partialUpfront('PARTIAL_UPFRONT'),
-  noUpfront('NO_UPFRONT'),
-  ;
+class PurchasingOption {
+  static const allUpfront = PurchasingOption._('ALL_UPFRONT');
+  static const partialUpfront = PurchasingOption._('PARTIAL_UPFRONT');
+  static const noUpfront = PurchasingOption._('NO_UPFRONT');
 
   final String value;
 
-  const PurchasingOption(this.value);
+  const PurchasingOption._(this.value);
+
+  static const values = [allUpfront, partialUpfront, noUpfront];
 
   static PurchasingOption fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum PurchasingOption'));
+          orElse: () => PurchasingOption._(value));
+
+  @override
+  bool operator ==(other) => other is PurchasingOption && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Used to provide Reserved Instance preferences for the recommendation.
@@ -3993,32 +4160,50 @@ class TagFilter {
   }
 }
 
-enum Tenancy {
-  dedicated('DEDICATED'),
-  shared('SHARED'),
-  ;
+class Tenancy {
+  static const dedicated = Tenancy._('DEDICATED');
+  static const shared = Tenancy._('SHARED');
 
   final String value;
 
-  const Tenancy(this.value);
+  const Tenancy._(this.value);
 
-  static Tenancy fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum Tenancy'));
+  static const values = [dedicated, shared];
+
+  static Tenancy fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Tenancy._(value));
+
+  @override
+  bool operator ==(other) => other is Tenancy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum TermLength {
-  oneYear('ONE_YEAR'),
-  threeYear('THREE_YEAR'),
-  ;
+class TermLength {
+  static const oneYear = TermLength._('ONE_YEAR');
+  static const threeYear = TermLength._('THREE_YEAR');
 
   final String value;
 
-  const TermLength(this.value);
+  const TermLength._(this.value);
 
-  static TermLength fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum TermLength'));
+  static const values = [oneYear, threeYear];
+
+  static TermLength fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => TermLength._(value));
+
+  @override
+  bool operator ==(other) => other is TermLength && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class UpdateApplicationResponse {
@@ -4058,18 +4243,27 @@ class UsageMetricBasis {
   }
 }
 
-enum OrderString {
-  asc('ASC'),
-  desc('DESC'),
-  ;
+class OrderString {
+  static const asc = OrderString._('ASC');
+  static const desc = OrderString._('DESC');
 
   final String value;
 
-  const OrderString(this.value);
+  const OrderString._(this.value);
 
-  static OrderString fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum OrderString'));
+  static const values = [asc, desc];
+
+  static OrderString fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => OrderString._(value));
+
+  @override
+  bool operator ==(other) => other is OrderString && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class AuthorizationErrorException extends _s.GenericAwsException {
