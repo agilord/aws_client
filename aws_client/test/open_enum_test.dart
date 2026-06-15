@@ -8,8 +8,10 @@ void main() {
   group('open enums', () {
     test('known values round-trip and are canonical', () {
       expect(ApiCacheStatus.fromString('AVAILABLE'), ApiCacheStatus.available);
-      expect(identical(ApiCacheStatus.fromString('AVAILABLE'),
-          ApiCacheStatus.available), isTrue);
+      expect(
+          identical(
+              ApiCacheStatus.fromString('AVAILABLE'), ApiCacheStatus.available),
+          isTrue);
       expect(ApiCacheStatus.available.value, 'AVAILABLE');
     });
 
