@@ -68,20 +68,16 @@ from the downloaded models, plus the protocol conformance test suite.''';
   Future<void> run() async {
     final stopwatch = Stopwatch()..start();
 
+    final smithy = argResults!['smithy'] == true;
+    final smithyMissing = smithy && !Directory('./smithy_apis').existsSync();
+
     if (argResults!['download'] == true ||
+        smithyMissing ||
         [Directory('./apis'), _configDataFile].any((e) => !e.existsSync())) {
       final config = Config.fromJson(json.decode(
               json.encode(loadYaml(File('config.yaml').readAsStringSync())))
           as Map<String, dynamic>);
-      await DownloadCommand(config).run();
-    }
-
-    // The Smithy models are not auto-downloaded (they're large and the path is
-    // experimental); require an explicit `download --smithy` first.
-    if (argResults!['smithy'] == true &&
-        !Directory('./smithy_apis').existsSync()) {
-      throw StateError('smithy_apis/ not found. Run '
-          '`dart bin/generate.dart download --smithy` first.');
+      await DownloadCommand(config, smithy).run();
     }
 
     await _generateClasses();
