@@ -657,23 +657,26 @@ class RestXmlProtocol {
   }) async {
     final headers = <String, String>{
       if (headerBooleanList != null)
-        'X-BooleanList': headerBooleanList.toString(),
+        'X-BooleanList': headerBooleanList.map((e) => e.toString()).join(', '),
       if (headerByte != null) 'X-Byte': headerByte.toString(),
       if (headerDouble != null) 'X-Double': headerDouble.toString(),
       if (headerEnum != null) 'X-Enum': headerEnum.value,
-      if (headerEnumList != null) 'X-EnumList': headerEnumList.toString(),
+      if (headerEnumList != null)
+        'X-EnumList': headerEnumList.map((e) => e.value).join(', '),
       if (headerFalseBool != null) 'X-Boolean2': headerFalseBool.toString(),
       if (headerFloat != null) 'X-Float': headerFloat.toString(),
       if (headerInteger != null) 'X-Integer': headerInteger.toString(),
       if (headerIntegerList != null)
-        'X-IntegerList': headerIntegerList.toString(),
+        'X-IntegerList': headerIntegerList.map((e) => e.toString()).join(', '),
       if (headerLong != null) 'X-Long': headerLong.toString(),
       if (headerShort != null) 'X-Short': headerShort.toString(),
       if (headerString != null) 'X-String': headerString.toString(),
-      if (headerStringList != null) 'X-StringList': headerStringList.toString(),
-      if (headerStringSet != null) 'X-StringSet': headerStringSet.toString(),
+      if (headerStringList != null)
+        'X-StringList': _s.encodeHttpHeaderList(headerStringList),
+      if (headerStringSet != null)
+        'X-StringSet': _s.encodeHttpHeaderList(headerStringSet),
       if (headerTimestampList != null)
-        'X-TimestampList': headerTimestampList.toString(),
+        'X-TimestampList': headerTimestampList.map(_s.rfc822ToJson).join(', '),
       if (headerTrueBool != null) 'X-Boolean1': headerTrueBool.toString(),
     };
     final $result = await _protocol.sendRaw(
@@ -783,7 +786,7 @@ class RestXmlProtocol {
     final headers = <String, String>{
       if (a != null) 'X-A': a.toString(),
       if (b != null) 'X-B': b.toString(),
-      if (c != null) 'X-C': c.toString(),
+      if (c != null) 'X-C': _s.encodeHttpHeaderList(c),
     };
     final $result = await _protocol.sendRaw(
       method: 'GET',
@@ -809,7 +812,7 @@ class RestXmlProtocol {
     final headers = <String, String>{
       if (a != null) 'X-A': a.toString(),
       if (b != null) 'X-B': b.toString(),
-      if (c != null) 'X-C': c.toString(),
+      if (c != null) 'X-C': _s.encodeHttpHeaderList(c),
     };
     final $result = await _protocol.sendRaw(
       method: 'GET',
@@ -1652,14 +1655,11 @@ class FlattenedXmlMapRequest {
     final myMap = this.myMap;
     final $children = <_s.XmlNode>[
       if (myMap != null)
-        _s.XmlElement(
-            _s.XmlName.parts('myMap'),
-            [],
-            myMap.entries.map((e) =>
-                _s.XmlElement(_s.XmlName.parts('entry'), [], <_s.XmlNode>[
+        ...myMap.entries.map(
+            (e) => _s.XmlElement(_s.XmlName.parts('myMap'), [], <_s.XmlNode>[
                   _s.encodeXmlStringValue('key', e.key),
                   _s.encodeXmlStringValue('value', e.value.value)
-                ]))),
+                ])),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -1717,14 +1717,11 @@ class FlattenedXmlMapWithXmlNameRequest {
     final myMap = this.myMap;
     final $children = <_s.XmlNode>[
       if (myMap != null)
-        _s.XmlElement(
-            _s.XmlName.parts('KVP'),
-            [],
-            myMap.entries.map((e) => _s.XmlElement(
-                    _s.XmlName.parts('entry'), [], <_s.XmlNode>[
-                  _s.encodeXmlStringValue('K', e.key),
-                  _s.encodeXmlStringValue('V', e.value)
-                ]))),
+        ...myMap.entries.map((e) => _s.XmlElement(
+                _s.XmlName.parts('KVP'), [], <_s.XmlNode>[
+              _s.encodeXmlStringValue('K', e.key),
+              _s.encodeXmlStringValue('V', e.value)
+            ])),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -2150,21 +2147,18 @@ class NestedXmlMapsRequest {
                           ])))
                 ]))),
       if (flatNestedMap != null)
-        _s.XmlElement(
-            _s.XmlName.parts('flatNestedMap'),
-            [],
-            flatNestedMap.entries.map((e) =>
-                _s.XmlElement(_s.XmlName.parts('entry'), [], <_s.XmlNode>[
-                  _s.encodeXmlStringValue('key', e.key),
-                  _s.XmlElement(
-                      _s.XmlName.parts('value'),
-                      [],
-                      e.value.entries.map((e) => _s.XmlElement(
-                              _s.XmlName.parts('entry'), [], <_s.XmlNode>[
-                            _s.encodeXmlStringValue('key', e.key),
-                            _s.encodeXmlStringValue('value', e.value.value)
-                          ])))
-                ]))),
+        ...flatNestedMap.entries.map((e) =>
+            _s.XmlElement(_s.XmlName.parts('flatNestedMap'), [], <_s.XmlNode>[
+              _s.encodeXmlStringValue('key', e.key),
+              _s.XmlElement(
+                  _s.XmlName.parts('value'),
+                  [],
+                  e.value.entries.map((e) =>
+                      _s.XmlElement(_s.XmlName.parts('entry'), [], <_s.XmlNode>[
+                        _s.encodeXmlStringValue('key', e.key),
+                        _s.encodeXmlStringValue('value', e.value.value)
+                      ])))
+            ])),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,

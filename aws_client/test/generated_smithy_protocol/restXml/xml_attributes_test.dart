@@ -34,7 +34,7 @@ void main() {
       attr: "test",
       foo: "hi",
     );
-  }, skip: r'''Auto-recorded: Suite 2 vector fails today''');
+  });
 
   test('XmlAttributesWithEscaping', () async {
     final client = MockClient((request) async {
@@ -59,7 +59,7 @@ void main() {
       attr: "<test&mock>",
       foo: "hi",
     );
-  }, skip: r'''Auto-recorded: Suite 2 vector fails today''');
+  });
 
   test('XmlAttributes', () async {
     final client = MockClient((request) async {
@@ -81,5 +81,5 @@ void main() {
     final output = await service.xmlAttributes();
     expect(output.attr, "test");
     expect(output.foo, "hi");
-  }, skip: r'''Auto-recorded: Suite 2 vector fails today''');
+  });
 }

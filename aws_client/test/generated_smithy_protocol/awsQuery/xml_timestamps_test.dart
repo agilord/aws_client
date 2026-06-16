@@ -38,7 +38,7 @@ void main() {
     expect(output.epochSecondsOnTarget, isNull);
     expect(output.httpDate, isNull);
     expect(output.httpDateOnTarget, isNull);
-    expect(output.normal!.millisecondsSinceEpoch ~/ 1000, 1398796238);
+    expect(output.normal!.millisecondsSinceEpoch / 1000, 1398796238);
   });
 
   test('QueryXmlTimestampsWithDateTimeFormat', () async {
@@ -61,7 +61,7 @@ void main() {
     );
 
     final output = await service.xmlTimestamps();
-    expect(output.dateTime!.millisecondsSinceEpoch ~/ 1000, 1398796238);
+    expect(output.dateTime!.millisecondsSinceEpoch / 1000, 1398796238);
     expect(output.dateTimeOnTarget, isNull);
     expect(output.epochSeconds, isNull);
     expect(output.epochSecondsOnTarget, isNull);
@@ -91,7 +91,7 @@ void main() {
 
     final output = await service.xmlTimestamps();
     expect(output.dateTime, isNull);
-    expect(output.dateTimeOnTarget!.millisecondsSinceEpoch ~/ 1000, 1398796238);
+    expect(output.dateTimeOnTarget!.millisecondsSinceEpoch / 1000, 1398796238);
     expect(output.epochSeconds, isNull);
     expect(output.epochSecondsOnTarget, isNull);
     expect(output.httpDate, isNull);
@@ -121,7 +121,7 @@ void main() {
     final output = await service.xmlTimestamps();
     expect(output.dateTime, isNull);
     expect(output.dateTimeOnTarget, isNull);
-    expect(output.epochSeconds!.millisecondsSinceEpoch ~/ 1000, 1398796238);
+    expect(output.epochSeconds!.millisecondsSinceEpoch / 1000, 1398796238);
     expect(output.epochSecondsOnTarget, isNull);
     expect(output.httpDate, isNull);
     expect(output.httpDateOnTarget, isNull);
@@ -151,8 +151,8 @@ void main() {
     expect(output.dateTime, isNull);
     expect(output.dateTimeOnTarget, isNull);
     expect(output.epochSeconds, isNull);
-    expect(output.epochSecondsOnTarget!.millisecondsSinceEpoch ~/ 1000,
-        1398796238);
+    expect(
+        output.epochSecondsOnTarget!.millisecondsSinceEpoch / 1000, 1398796238);
     expect(output.httpDate, isNull);
     expect(output.httpDateOnTarget, isNull);
     expect(output.normal, isNull);
@@ -182,7 +182,7 @@ void main() {
     expect(output.dateTimeOnTarget, isNull);
     expect(output.epochSeconds, isNull);
     expect(output.epochSecondsOnTarget, isNull);
-    expect(output.httpDate!.millisecondsSinceEpoch ~/ 1000, 1398796238);
+    expect(output.httpDate!.millisecondsSinceEpoch / 1000, 1398796238);
     expect(output.httpDateOnTarget, isNull);
     expect(output.normal, isNull);
   });
@@ -212,7 +212,7 @@ void main() {
     expect(output.epochSeconds, isNull);
     expect(output.epochSecondsOnTarget, isNull);
     expect(output.httpDate, isNull);
-    expect(output.httpDateOnTarget!.millisecondsSinceEpoch ~/ 1000, 1398796238);
+    expect(output.httpDateOnTarget!.millisecondsSinceEpoch / 1000, 1398796238);
     expect(output.normal, isNull);
   });
 }

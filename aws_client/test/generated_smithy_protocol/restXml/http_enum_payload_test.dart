@@ -30,7 +30,7 @@ void main() {
     await service.httpEnumPayload(
       payload: StringEnum.enumvalue,
     );
-  }, skip: r'''Auto-recorded: Suite 2 vector fails today''');
+  });
 
   test('RestXmlEnumPayloadResponse', () async {
     final client = MockClient((request) async {

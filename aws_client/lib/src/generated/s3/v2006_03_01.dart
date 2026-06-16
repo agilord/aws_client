@@ -7424,7 +7424,8 @@ class S3 {
     String? versionId,
   }) async {
     final headers = <String, String>{
-      'x-amz-object-attributes': objectAttributes.toString(),
+      'x-amz-object-attributes':
+          objectAttributes.map((e) => e.value).join(', '),
       if (expectedBucketOwner != null)
         'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
       if (maxParts != null) 'x-amz-max-parts': maxParts.toString(),
@@ -9441,7 +9442,8 @@ class S3 {
       if (expectedBucketOwner != null)
         'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
       if (optionalObjectAttributes != null)
-        'x-amz-optional-object-attributes': optionalObjectAttributes.toString(),
+        'x-amz-optional-object-attributes':
+            optionalObjectAttributes.map((e) => e.value).join(', '),
       if (requestPayer != null) 'x-amz-request-payer': requestPayer.value,
     };
     final $query = <String, List<String>>{
@@ -9614,7 +9616,8 @@ class S3 {
       if (expectedBucketOwner != null)
         'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
       if (optionalObjectAttributes != null)
-        'x-amz-optional-object-attributes': optionalObjectAttributes.toString(),
+        'x-amz-optional-object-attributes':
+            optionalObjectAttributes.map((e) => e.value).join(', '),
       if (requestPayer != null) 'x-amz-request-payer': requestPayer.value,
     };
     final $query = <String, List<String>>{
@@ -9905,7 +9908,8 @@ class S3 {
       if (expectedBucketOwner != null)
         'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
       if (optionalObjectAttributes != null)
-        'x-amz-optional-object-attributes': optionalObjectAttributes.toString(),
+        'x-amz-optional-object-attributes':
+            optionalObjectAttributes.map((e) => e.value).join(', '),
       if (requestPayer != null) 'x-amz-request-payer': requestPayer.value,
     };
     final $query = <String, List<String>>{

@@ -121,7 +121,7 @@ void main() {
     expect(output.structureList?[0].b, "2");
     expect(output.structureList?[1].a, "3");
     expect(output.structureList?[1].b, "4");
-    expect(output.timestampList![0].millisecondsSinceEpoch ~/ 1000, 1398796238);
-    expect(output.timestampList![1].millisecondsSinceEpoch ~/ 1000, 1398796238);
+    expect(output.timestampList![0].millisecondsSinceEpoch / 1000, 1398796238);
+    expect(output.timestampList![1].millisecondsSinceEpoch / 1000, 1398796238);
   }, skip: r'''Auto-recorded: Suite 2 vector fails today''');
 }

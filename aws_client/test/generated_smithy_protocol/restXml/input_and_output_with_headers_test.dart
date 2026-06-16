@@ -34,7 +34,7 @@ void main() {
       headerStringList: ["a", "b", "c"],
       headerStringSet: ["a", "b", "c"],
     );
-  }, skip: r'''Auto-recorded: Suite 2 vector fails today''');
+  });
 
   test('InputAndOutputWithNumericHeaders', () async {
     final client = MockClient((request) async {
@@ -66,7 +66,7 @@ void main() {
       headerLong: 123,
       headerShort: 123,
     );
-  }, skip: r'''Auto-recorded: Suite 2 vector fails today''');
+  });
 
   test('InputAndOutputWithBooleanHeaders', () async {
     final client = MockClient((request) async {
@@ -90,7 +90,7 @@ void main() {
       headerFalseBool: false,
       headerTrueBool: true,
     );
-  }, skip: r'''Auto-recorded: Suite 2 vector fails today''');
+  });
 
   test('InputAndOutputWithTimestampHeaders', () async {
     final client = MockClient((request) async {
@@ -114,7 +114,7 @@ void main() {
         DateTime.fromMillisecondsSinceEpoch(1576540098 * 1000)
       ],
     );
-  }, skip: r'''Auto-recorded: Suite 2 vector fails today''');
+  });
 
   test('InputAndOutputWithEnumHeaders', () async {
     final client = MockClient((request) async {
@@ -136,7 +136,7 @@ void main() {
       headerEnum: FooEnum.foo,
       headerEnumList: [FooEnum.foo, FooEnum.bar, FooEnum.baz],
     );
-  }, skip: r'''Auto-recorded: Suite 2 vector fails today''');
+  });
 
   test('RestXmlSupportsNaNFloatHeaderInputs', () async {
     final client = MockClient((request) async {
@@ -241,7 +241,7 @@ void main() {
     expect(output.headerStringSet?[2], "c");
     expect(output.headerTimestampList, isNull);
     expect(output.headerTrueBool, isNull);
-  }, skip: r'''Auto-recorded: Suite 2 vector fails today''');
+  });
 
   test('InputAndOutputWithNumericHeaders', () async {
     final client = MockClient((request) async {
@@ -282,7 +282,7 @@ void main() {
     expect(output.headerStringSet, isNull);
     expect(output.headerTimestampList, isNull);
     expect(output.headerTrueBool, isNull);
-  }, skip: r'''Auto-recorded: Suite 2 vector fails today''');
+  });
 
   test('InputAndOutputWithBooleanHeaders', () async {
     final client = MockClient((request) async {
@@ -319,7 +319,7 @@ void main() {
     expect(output.headerStringSet, isNull);
     expect(output.headerTimestampList, isNull);
     expect(output.headerTrueBool, true);
-  }, skip: r'''Auto-recorded: Suite 2 vector fails today''');
+  });
 
   test('InputAndOutputWithTimestampHeaders', () async {
     final client = MockClient((request) async {
@@ -351,12 +351,12 @@ void main() {
     expect(output.headerString, isNull);
     expect(output.headerStringList, isNull);
     expect(output.headerStringSet, isNull);
-    expect(output.headerTimestampList![0].millisecondsSinceEpoch ~/ 1000,
+    expect(output.headerTimestampList![0].millisecondsSinceEpoch / 1000,
         1576540098);
-    expect(output.headerTimestampList![1].millisecondsSinceEpoch ~/ 1000,
+    expect(output.headerTimestampList![1].millisecondsSinceEpoch / 1000,
         1576540098);
     expect(output.headerTrueBool, isNull);
-  }, skip: r'''Auto-recorded: Suite 2 vector fails today''');
+  });
 
   test('InputAndOutputWithEnumHeaders', () async {
     final client = MockClient((request) async {
@@ -389,7 +389,7 @@ void main() {
     expect(output.headerStringSet, isNull);
     expect(output.headerTimestampList, isNull);
     expect(output.headerTrueBool, isNull);
-  }, skip: r'''Auto-recorded: Suite 2 vector fails today''');
+  });
 
   test('RestXmlSupportsNaNFloatHeaderOutputs', () async {
     final client = MockClient((request) async {
@@ -420,7 +420,7 @@ void main() {
     expect(output.headerStringSet, isNull);
     expect(output.headerTimestampList, isNull);
     expect(output.headerTrueBool, isNull);
-  }, skip: r'''Auto-recorded: Suite 2 vector fails today''');
+  });
 
   test('RestXmlSupportsInfinityFloatHeaderOutputs', () async {
     final client = MockClient((request) async {
@@ -451,7 +451,7 @@ void main() {
     expect(output.headerStringSet, isNull);
     expect(output.headerTimestampList, isNull);
     expect(output.headerTrueBool, isNull);
-  }, skip: r'''Auto-recorded: Suite 2 vector fails today''');
+  });
 
   test('RestXmlSupportsNegativeInfinityFloatHeaderOutputs', () async {
     final client = MockClient((request) async {
@@ -482,5 +482,5 @@ void main() {
     expect(output.headerStringSet, isNull);
     expect(output.headerTimestampList, isNull);
     expect(output.headerTrueBool, isNull);
-  }, skip: r'''Auto-recorded: Suite 2 vector fails today''');
+  });
 }

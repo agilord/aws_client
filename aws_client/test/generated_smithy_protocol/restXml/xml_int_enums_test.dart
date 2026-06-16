@@ -61,7 +61,7 @@ void main() {
       },
       intEnumSet: [1, 2],
     );
-  }, skip: r'''Auto-recorded: Suite 2 vector fails today''');
+  });
 
   test('XmlIntEnums', () async {
     final client = MockClient((request) async {
@@ -110,5 +110,5 @@ void main() {
     expect(output.intEnumMap?['b'], 2);
     expect(output.intEnumSet?[0], 1);
     expect(output.intEnumSet?[1], 2);
-  }, skip: r'''Auto-recorded: Suite 2 vector fails today''');
+  });
 }

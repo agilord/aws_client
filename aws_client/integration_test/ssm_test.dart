@@ -50,4 +50,59 @@ void main() {
     await ssm.deleteParameter(name: '$base/a');
     await ssm.deleteParameter(name: '$base/b');
   });
+
+  test('SSM (json): StringList parameter type round-trips as an enum',
+      () async {
+    final name = '/smoke/${uniqueName('list')}';
+    await ssm.putParameter(
+      name: name,
+      value: 'a,b,c',
+      type: ParameterType.stringList,
+    );
+
+    final got = await ssm.getParameter(name: name);
+    expect(got.parameter!.type, equals(ParameterType.stringList));
+    expect(got.parameter!.value, equals('a,b,c'));
+
+    await ssm.deleteParameter(name: name);
+  });
+
+  test('SSM (json): SecureString decrypts and reports its type enum', () async {
+    final name = '/smoke/${uniqueName('secure')}';
+    await ssm.putParameter(
+      name: name,
+      value: 'top-secret',
+      type: ParameterType.secureString,
+    );
+
+    final encrypted = await ssm.getParameter(name: name);
+    expect(encrypted.parameter!.type, equals(ParameterType.secureString));
+    expect(encrypted.parameter!.value, isNot(equals('top-secret')));
+
+    final decrypted = await ssm.getParameter(name: name, withDecryption: true);
+    expect(decrypted.parameter!.value, equals('top-secret'));
+
+    await ssm.deleteParameter(name: name);
+  });
+
+  test('SSM (json): parameter history reports each version type enum',
+      () async {
+    final name = '/smoke/${uniqueName('hist')}';
+    await ssm.putParameter(name: name, value: 'v1', type: ParameterType.string);
+    await ssm.putParameter(
+      name: name,
+      value: 'v2',
+      type: ParameterType.string,
+      overwrite: true,
+    );
+
+    final history = await ssm.getParameterHistory(name: name);
+    expect(history.parameters!.length, greaterThanOrEqualTo(2));
+    expect(
+      history.parameters!.map((p) => p.type),
+      everyElement(equals(ParameterType.string)),
+    );
+
+    await ssm.deleteParameter(name: name);
+  });
 }

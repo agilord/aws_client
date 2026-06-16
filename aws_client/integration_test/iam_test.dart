@@ -82,4 +82,58 @@ void main() {
     await iam.deletePolicy(policyArn: policyArn);
     await iam.deleteRole(roleName: roleName);
   });
+
+  test('IAM (query): access key status round-trips through the enum', () async {
+    final userName = uniqueName('user');
+    await iam.createUser(userName: userName);
+
+    final created = await iam.createAccessKey(userName: userName);
+    expect(created.accessKey.status, equals(StatusType.active));
+    final keyId = created.accessKey.accessKeyId;
+
+    await iam.updateAccessKey(
+      userName: userName,
+      accessKeyId: keyId,
+      status: StatusType.inactive,
+    );
+
+    final listed = await iam.listAccessKeys(userName: userName);
+    final entry =
+        listed.accessKeyMetadata.singleWhere((k) => k.accessKeyId == keyId);
+    expect(entry.status, equals(StatusType.inactive));
+
+    await iam.deleteAccessKey(userName: userName, accessKeyId: keyId);
+    await iam.deleteUser(userName: userName);
+  });
+
+  test('IAM (query): instance profile holds a role', () async {
+    final roleName = uniqueName('role');
+    final profileName = uniqueName('profile');
+    await iam.createRole(
+      roleName: roleName,
+      assumeRolePolicyDocument: _trustPolicy,
+    );
+
+    final created =
+        await iam.createInstanceProfile(instanceProfileName: profileName);
+    expect(created.instanceProfile.instanceProfileName, equals(profileName));
+
+    await iam.addRoleToInstanceProfile(
+      instanceProfileName: profileName,
+      roleName: roleName,
+    );
+
+    final got = await iam.getInstanceProfile(instanceProfileName: profileName);
+    expect(
+      got.instanceProfile.roles.map((r) => r.roleName),
+      contains(roleName),
+    );
+
+    await iam.removeRoleFromInstanceProfile(
+      instanceProfileName: profileName,
+      roleName: roleName,
+    );
+    await iam.deleteInstanceProfile(instanceProfileName: profileName);
+    await iam.deleteRole(roleName: roleName);
+  });
 }

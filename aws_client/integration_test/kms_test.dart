@@ -61,4 +61,45 @@ void main() {
       contains(aliasName),
     );
   });
+
+  test('KMS (json): key metadata exposes state and manager enums', () async {
+    final created = await kms.createKey(description: 'enum metadata key');
+    final metadata = created.keyMetadata!;
+
+    expect(metadata.keyState, equals(KeyState.enabled));
+    expect(metadata.keyManager, equals(KeyManagerType.customer));
+    expect(metadata.keyUsage, equals(KeyUsageType.encryptDecrypt));
+  });
+
+  test('KMS (json): explicit encryption algorithm round-trips', () async {
+    final created = await kms.createKey(description: 'algo key');
+    final keyId = created.keyMetadata!.keyId;
+    final plaintext = Uint8List.fromList(utf8.encode('algo-payload'));
+
+    final encrypted = await kms.encrypt(
+      keyId: keyId,
+      plaintext: plaintext,
+      encryptionAlgorithm: EncryptionAlgorithmSpec.symmetricDefault,
+    );
+    expect(
+      encrypted.encryptionAlgorithm,
+      equals(EncryptionAlgorithmSpec.symmetricDefault),
+    );
+
+    final decrypted = await kms.decrypt(
+      ciphertextBlob: encrypted.ciphertextBlob!,
+      encryptionAlgorithm: EncryptionAlgorithmSpec.symmetricDefault,
+    );
+    expect(utf8.decode(decrypted.plaintext!), equals('algo-payload'));
+  });
+
+  test('KMS (json): enable then read key rotation status', () async {
+    final created = await kms.createKey(description: 'rotating key');
+    final keyId = created.keyMetadata!.keyId;
+
+    await kms.enableKeyRotation(keyId: keyId);
+
+    final status = await kms.getKeyRotationStatus(keyId: keyId);
+    expect(status.keyRotationEnabled, isTrue);
+  });
 }

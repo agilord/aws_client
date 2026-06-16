@@ -42,7 +42,7 @@ void main() {
         "b": "B",
       },
     );
-  }, skip: r'''Auto-recorded: Suite 2 vector fails today''');
+  });
 
   test('FlattenedXmlMapWithXmlName', () async {
     final client = MockClient((request) async {
@@ -70,5 +70,5 @@ void main() {
     final output = await service.flattenedXmlMapWithXmlName();
     expect(output.myMap?['a'], "A");
     expect(output.myMap?['b'], "B");
-  }, skip: r'''Auto-recorded: Suite 2 vector fails today''');
+  });
 }

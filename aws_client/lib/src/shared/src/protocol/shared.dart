@@ -47,7 +47,7 @@ DateTime nonNullableTimeStampFromJson(dynamic date) {
           isUtc: true);
     } else if (isoRegex.hasMatch(date)) {
       // iso8601
-      return _iso8601Formatter.parseUtc(date);
+      return DateTime.parse(date).toUtc();
     } else if (rfcRegex.hasMatch(date)) {
       // rfc822
       return _rfc822Parser.parseUtc(date);
@@ -220,9 +220,9 @@ double? extractHeaderDoubleValue(Map<String, String> headers, String name) {
   return v == null ? null : num.parse(v).toDouble();
 }
 
-bool extractHeaderBoolValue(Map<String, String> headers, String name) {
+bool? extractHeaderBoolValue(Map<String, String> headers, String name) {
   final v = extractHeaderStringValue(headers, name);
-  return v?.toLowerCase() == 'true';
+  return v == null ? null : v.toLowerCase() == 'true';
 }
 
 DateTime? extractHeaderDateTimeValue(Map<String, String> headers, String name,
@@ -256,6 +256,17 @@ List<String>? extractHeaderListValues(Map<String, String> headers, String name,
   return isHttpDateList
       ? _splitHttpDateHeaderList(value)
       : _splitHeaderList(value);
+}
+
+String encodeHttpHeaderList(List<String> values) =>
+    values.map(_encodeHeaderListItem).join(', ');
+
+String _encodeHeaderListItem(String value) {
+  if (value.contains(',') || value.contains('"') || value.trim() != value) {
+    final escaped = value.replaceAll('\\', r'\\').replaceAll('"', r'\"');
+    return '"$escaped"';
+  }
+  return value;
 }
 
 List<String> _splitHeaderList(String value) {

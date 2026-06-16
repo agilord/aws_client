@@ -35,6 +35,6 @@ void main() {
     expect(output.requiredLong, 0);
     expect(output.requiredShort, 0);
     expect(output.requiredString, "");
-    expect(output.requiredTimestamp.millisecondsSinceEpoch ~/ 1000, 0);
-  }, skip: r'''client error-correction for required members not implemented''');
+    expect(output.requiredTimestamp.millisecondsSinceEpoch / 1000, 0);
+  });
 }

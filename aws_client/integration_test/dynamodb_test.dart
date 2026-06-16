@@ -295,4 +295,115 @@ void main() {
 
     await dynamo.deleteTable(tableName: tableName);
   });
+
+  test('DynamoDB (json): time-to-live status round-trips as an enum', () async {
+    final tableName = uniqueName();
+    await createTable(tableName);
+
+    await dynamo.updateTimeToLive(
+      tableName: tableName,
+      timeToLiveSpecification:
+          TimeToLiveSpecification(attributeName: 'ttl', enabled: true),
+    );
+
+    final described = await dynamo.describeTimeToLive(tableName: tableName);
+    final status = described.timeToLiveDescription!.timeToLiveStatus;
+    expect(
+      status,
+      anyOf(TimeToLiveStatus.enabled, TimeToLiveStatus.enabling),
+    );
+
+    await dynamo.deleteTable(tableName: tableName);
+  });
+
+  test('DynamoDB (json): pay-per-request table reports billing and status',
+      () async {
+    final tableName = uniqueName();
+    await dynamo.createTable(
+      tableName: tableName,
+      billingMode: BillingMode.payPerRequest,
+      attributeDefinitions: [
+        AttributeDefinition(
+            attributeName: 'id', attributeType: ScalarAttributeType.s),
+      ],
+      keySchema: [
+        KeySchemaElement(attributeName: 'id', keyType: KeyType.hash),
+      ],
+    );
+
+    final described = await dynamo.describeTable(tableName: tableName);
+    final table = described.table!;
+    expect(
+      table.tableStatus,
+      anyOf(TableStatus.active, TableStatus.creating),
+    );
+    final mode = table.billingModeSummary?.billingMode;
+    if (mode != null) {
+      expect(mode, equals(BillingMode.payPerRequest));
+    }
+
+    await dynamo.deleteTable(tableName: tableName);
+  });
+
+  test('DynamoDB (json): global secondary index reports projection and status',
+      () async {
+    final tableName = uniqueName();
+    await dynamo.createTable(
+      tableName: tableName,
+      billingMode: BillingMode.payPerRequest,
+      attributeDefinitions: [
+        AttributeDefinition(
+            attributeName: 'id', attributeType: ScalarAttributeType.s),
+        AttributeDefinition(
+            attributeName: 'gsiKey', attributeType: ScalarAttributeType.s),
+      ],
+      keySchema: [
+        KeySchemaElement(attributeName: 'id', keyType: KeyType.hash),
+      ],
+      globalSecondaryIndexes: [
+        GlobalSecondaryIndex(
+          indexName: 'gsi1',
+          keySchema: [
+            KeySchemaElement(attributeName: 'gsiKey', keyType: KeyType.hash),
+          ],
+          projection: Projection(projectionType: ProjectionType.all),
+        ),
+      ],
+    );
+
+    final described = await dynamo.describeTable(tableName: tableName);
+    final gsi = described.table!.globalSecondaryIndexes!.single;
+    expect(gsi.indexName, equals('gsi1'));
+    expect(gsi.projection!.projectionType, equals(ProjectionType.all));
+    expect(IndexStatus.values, contains(gsi.indexStatus));
+
+    await dynamo.deleteTable(tableName: tableName);
+  });
+
+  test('DynamoDB (json): stream specification reports the view-type enum',
+      () async {
+    final tableName = uniqueName();
+    await dynamo.createTable(
+      tableName: tableName,
+      billingMode: BillingMode.payPerRequest,
+      attributeDefinitions: [
+        AttributeDefinition(
+            attributeName: 'id', attributeType: ScalarAttributeType.s),
+      ],
+      keySchema: [
+        KeySchemaElement(attributeName: 'id', keyType: KeyType.hash),
+      ],
+      streamSpecification: StreamSpecification(
+        streamEnabled: true,
+        streamViewType: StreamViewType.newAndOldImages,
+      ),
+    );
+
+    final described = await dynamo.describeTable(tableName: tableName);
+    final spec = described.table!.streamSpecification!;
+    expect(spec.streamEnabled, isTrue);
+    expect(spec.streamViewType, equals(StreamViewType.newAndOldImages));
+
+    await dynamo.deleteTable(tableName: tableName);
+  });
 }

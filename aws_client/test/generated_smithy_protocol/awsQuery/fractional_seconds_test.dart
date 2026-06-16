@@ -32,6 +32,6 @@ void main() {
     );
 
     final output = await service.fractionalSeconds();
-    expect(output.datetime!.millisecondsSinceEpoch ~/ 1000, 946845296.123);
-  }, skip: r'''Auto-recorded: Suite 2 vector fails today''');
+    expect(output.datetime!.millisecondsSinceEpoch / 1000, 946845296.123);
+  });
 }
