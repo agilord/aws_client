@@ -1,8 +1,52 @@
-# High-level APIs for Amazon Web Services (AWS) in Dart
+# AWS Client for Dart
 
-## Usage
+[![pub package](https://img.shields.io/pub/v/aws_client.svg)](https://pub.dev/packages/aws_client)
+[![package publisher](https://img.shields.io/pub/publisher/aws_client.svg)](https://pub.dev/packages/aws_client/publisher)
+[![likes](https://img.shields.io/pub/likes/aws_client)](https://pub.dev/packages/aws_client/score)
+[![pub points](https://img.shields.io/pub/points/aws_client)](https://pub.dev/packages/aws_client/score)
 
-A simple usage example:
+High-level, strongly-typed Dart client libraries for 400+ Amazon Web Services
+(AWS) APIs, including S3, DynamoDB, Lambda, SQS, SES, Cognito and IAM. The
+libraries are generated from the official AWS service definitions and run on the
+Dart VM, Flutter and the web.
+
+## Features
+
+- Coverage of 400+ AWS services, each exposed as a separate library.
+- Typed request and response models, removing the need to hand-craft XML or JSON
+  payloads.
+- Built-in SigV4 request signing with credential resolution from environment
+  variables, the shared profile, EC2/ECS instance metadata, STS or a custom
+  provider.
+- One API surface that runs on the Dart VM, Flutter and the web.
+
+## Credentials
+
+By default the client resolves credentials from the standard AWS sources
+(environment variables, the shared `~/.aws/credentials` profile, EC2/ECS
+instance metadata, and so on). They can also be passed explicitly:
+
+```dart
+final s3 = S3(
+  region: 'us-west-1',
+  credentials: AwsClientCredentials(
+    accessKey: '...',
+    secretKey: '...',
+  ),
+);
+```
+
+Credentials can also be loaded from a named profile in the shared
+`~/.aws/credentials` file:
+
+```dart
+final s3 = S3(
+  region: 'us-west-1',
+  credentials: AwsClientCredentials.fromProfileFile(profile: 'my-profile'),
+);
+```
+
+## Usage examples
 
 ##### S3
 ```dart
@@ -133,25 +177,10 @@ void main() async {
 }
 ```
 
-## How to contribute
+## Contributing
 
-This library is not an official library from Amazon or Google.
-It is developed by best effort, in the motto of _"Scratch your own itch!"_,
-meaning we have APIs here that we care about. Looking for contributions:
-
-- tests:
-
-  - never put AWS credentials inside the code
-  - read AWS credentials from environment variables in the beginning
-  - provide description what setup it needs upfront
-
-- API documentation
-
-- New API contribution:
-
-  - please open an issue ticket first about what you are planning to implement
-  - take a look at the implementation of the others, most of the API calls will be similar
-  - always include a link to AWS API docs
+This is not an official library from Amazon or Google. It is developed on a
+best-effort basis; issues and pull requests are welcome.
 
 ## Links
 
